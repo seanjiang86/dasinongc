@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="@color/color_33AB33" >
+
+    <LinearLayout
+        android:id="@+id/layout_topbar_left"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/button_topbar_bg_selector"
+        >
+
+        <ImageView
+            android:id="@+id/imageview_topbar_left_backImage"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/topbar_back"
+            />
+        <!--
+             <ImageView
+            android:id="@+id/imageview_topbar_left_menu"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/main_menu" 
+            />
+        -->
+
+
+        <!-- <TextView
+            android:id="@+id/textview_topbar_left_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/topbar_back"
+            android:text="返回"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/sp_16" 
+            android:visibility="gone"
+            /> -->
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textview_topbar_center_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="病虫草害"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_18" 
+        android:singleLine="true"
+        android:maxWidth="150dp"
+        android:ellipsize="end"
+        />
+    
+    <!-- <ImageView
+        android:id="@+id/imageview_topbar_center_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:padding="5dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:src="@drawable/logo_guayu"
+        /> -->
+
+    <!-- <ImageView
+        android:id="@+id/imageview_message"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+        android:src="@drawable/navbar_msg2x"
+        android:background="@drawable/button_topbar_bg_selector"
+        /> -->
+    
+    <TextView
+        android:id="@+id/textview_topbar_right_text"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:src="@drawable/topbar_back"
+        android:text="查看全部"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_16" 
+        android:background="@drawable/button_topbar_bg_selector"
+        />
+
+    <!-- <View 
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="@color/color_E3E3E3"
+        android:layout_alignParentBottom="true"
+        /> -->
+    
+</RelativeLayout>
