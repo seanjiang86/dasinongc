@@ -1,6 +1,5 @@
 package com.dasinong.app.utils;
 
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -67,7 +66,6 @@ public class Logger {
 	}
 
 	private static void debug(String tag, String content, int level, boolean isToFile, boolean isToLagcat) {
-
 
 		if (!isLogCatEnabled) {
 			if (!isFileEnabled) {
@@ -227,8 +225,17 @@ public class Logger {
 	}
 
 	private static String getAppLogDirectory() {
-		String logPath = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED) ? DsnApplication.getContext()
-				.getExternalFilesDir("") + File.separator + "log" + File.separator : "dasinong" + File.separator + "log" + File.separator;
+
+		String logPath = "";
+		try {
+			logPath = Environment.getExternalStorageState().equals(android.os.Environment.MEDIA_MOUNTED) ? DsnApplication
+					.getContext().getExternalFilesDir("") + File.separator + "log" + File.separator : "dasinong" + File.separator
+					+ "log" + File.separator;
+		} catch (Exception e) {
+			logPath = "dasinong" + File.separator + "log" + File.separator;
+			Logger.e("getAppLogDirectory", Log.getStackTraceString(e));
+		}
+
 		if (!isDirExist(logPath)) {
 			File file = new File(logPath);
 			file.mkdirs();

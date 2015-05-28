@@ -62,11 +62,13 @@ public final class R {
         public static final int textview_topbar_right_text=0x7f090007;
     }
     public static final class layout {
-        public static final int activity_main_tab=0x7f030000;
-        public static final int activity_main_tab_layout=0x7f030001;
-        public static final int layout_loadingdialog=0x7f030002;
-        public static final int topbar=0x7f030003;
-        public static final int view_main_tab_item=0x7f030004;
+        public static final int activity_login=0x7f030000;
+        public static final int activity_main_tab=0x7f030001;
+        public static final int activity_main_tab_layout=0x7f030002;
+        public static final int activity_register=0x7f030003;
+        public static final int layout_loadingdialog=0x7f030004;
+        public static final int topbar=0x7f030005;
+        public static final int view_main_tab_item=0x7f030006;
     }
     public static final class string {
         public static final int app_name=0x7f070000;
