@@ -6,10 +6,56 @@
     android:orientation="vertical" >
     
 	<com.dasinong.app.ui.view.TopbarView
+	    android:id="@+id/topbar"
 	    android:layout_width="match_parent"
     	android:layout_height="wrap_content"
 	    ></com.dasinong.app.ui.view.TopbarView>
 
+	<EditText 
+	    android:id="@+id/edittext_username"
+	    android:layout_width="match_parent"
+    	android:layout_height="45dp"
+    	android:layout_marginLeft="20dp"
+   	android:layout_marginRight="20dp"
+    	android:hint="用户名"
+	    />
 	
+	<EditText 
+	    android:id="@+id/edittext_password"
+	    android:layout_width="match_parent"
+    	android:layout_height="45dp"
+    	android:layout_marginLeft="20dp"
+   	android:layout_marginRight="20dp"
+    	android:hint="密码"
+    	android:inputType="textPassword"
+	    />
+	
+	<EditText 
+	    android:id="@+id/edittext_phone"
+	    android:layout_width="match_parent"
+    	android:layout_height="45dp"
+    	android:layout_marginLeft="20dp"
+   	android:layout_marginRight="20dp"
+    	android:hint="手机号"
+	    />
+	
+	<EditText 
+	    android:id="@+id/edittext_address"
+	    android:layout_width="match_parent"
+    	android:layout_height="45dp"
+    	android:layout_marginLeft="20dp"
+   	android:layout_marginRight="20dp"
+    	android:hint="地址"
+	    />
+	
+	<Button 
+	    android:id="@+id/button_register"
+	    android:layout_width="match_parent"
+    	android:layout_height="45dp"
+    	android:layout_marginLeft="20dp"
+   	android:layout_marginRight="20dp"
+    	android:layout_marginTop="20dp"
+    	android:text="注册"
+	    />
 	
 </LinearLayout>

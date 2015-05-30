@@ -22,8 +22,8 @@ public class BaseActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 	}
 	
-	protected void initView(){}
-	protected void setView(){}
+//	protected void initView(){}
+//	protected void setView(){}
 
 	
 	public void startActivity(Intent intent) {
