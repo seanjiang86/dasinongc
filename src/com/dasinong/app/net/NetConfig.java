@@ -22,14 +22,14 @@ import android.text.TextUtils;
  */
 public class NetConfig {
 
-	public static final String BASE_URL = "http://106.2.182.182:8802/server/";
+	public static final String BASE_URL = "http://115.29.111.179/ploughHelper-1.0.0/";
 	private static final String KEY_REQUEST = "UHTN90SPOLKIRT6131NM0SEWGLPALczmf";
 
 	private static final String FLAG = "=";
 
 	public static class SubUrl {
-		/** 登录 */
-		public static final String LOGIN = "dologin/";
+		/** 注册 */
+		public static final String LOGIN = "regUser/";
 	}
 
 	public static String getRequestUrl(String subUrl) {
@@ -41,7 +41,10 @@ public class NetConfig {
 		public static final String stamp = "stamp";
 		public static final String sign = "sign";
 		public static final String username = "username";
-		public static final String userpwd = "userpwd";
+		public static final String userName = "userName";
+		public static final String password = "password";
+		public static final String cellPhone = "cellPhone";
+		public static final String address = "address";
 	}
 
 	public static class ResponseCode {
@@ -50,14 +53,19 @@ public class NetConfig {
 	}
 	
 	
-	public static Map<String, String> getMobileCode(String phone, String stype) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, phone));
-//		paramsMap.put(Params.phone, phone);// 手机号
-//		paramsMap.put(Params.stype, stype);// 手机号
+	public static Map<String, String> getRegisterParams(String userName,String password, String cellPhone,String address) {
+		Map<String, String> paramsMap = getBaseParams(false
+				, getTokenParams(Params.username, userName)
+				, getTokenParams(Params.password, password)
+				, getTokenParams(Params.cellPhone, cellPhone)
+				, getTokenParams(Params.address, address)
+				);
+		paramsMap.put(Params.userName, userName);
+		paramsMap.put(Params.password, password);
+		paramsMap.put(Params.cellPhone, cellPhone);
+		paramsMap.put(Params.address, address);
 		return paramsMap;
 	}
-
-	
 
 	private static String getCheckToken(String stampToken, boolean isNeedAuthToken, String authToken, String... strs) {
 		String[] array = null;
@@ -97,8 +105,8 @@ public class NetConfig {
 		String stamp = System.currentTimeMillis() + "";
 		String sign = getCheckToken(getTokenParams(Params.stamp, stamp), isNeedAuthToken, getTokenParams(Params.token, token), strs);
 
-		paramsMap.put(Params.stamp, stamp);
-		paramsMap.put(Params.sign, sign);
+//		paramsMap.put(Params.stamp, stamp);
+//		paramsMap.put(Params.sign, sign);
 		return paramsMap;
 	}
 

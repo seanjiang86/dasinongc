@@ -110,12 +110,12 @@ public class NetRequest {
 		get(url, clazz, null, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
 	}
 
-	public <T> void get(String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
+	private <T> void get(String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
 	/* final Map<String, String> map, */final RequestListener callback) {
 		get(url, clazz, header, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
 	}
 
-	public <T> void get(String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
+	private <T> void get(String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
 	/* final Map<String, String> map, */final RequestListener callback, RetryPolicy retryPolicy) {
 		get(url, clazz, header, callback, Priority.NORMAL, retryPolicy);
 	}

@@ -25,9 +25,9 @@ public class RequestService {
 		}
 		return mInstance;
 	}
-
-	public void register(Context context,String phone,String stype, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		 Map<String, String> params = NetConfig.getMobileCode(phone, stype);
-		 new NetRequest(context).requestPost(params, SubUrl.LOGIN, callBack,clazz);
+//	userName=testadmin3&password=11111111&cellPhone=12112345678&address=beijing
+	public void register(Context context,String userName,String password, String cellPhone,String address,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		 Map<String, String> params = NetConfig.getRegisterParams(userName, password,cellPhone,address);
+		 new NetRequest(context).request(params, SubUrl.LOGIN, callBack,clazz);
 	}
 }
