@@ -46,7 +46,7 @@ public class NetConfig {
 		public static final String cellPhone = "cellPhone";
 		public static final String address = "address";
 	}
-
+	
 	public static class ResponseCode {
 		public static final String OK = "OK";
 		public static final String NG = "NO";

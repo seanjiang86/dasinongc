@@ -3,6 +3,7 @@ package com.dasinong.app.ui;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestCode;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.view.TopbarView;
 
@@ -80,17 +81,15 @@ public class RegisterActivity extends BaseActivity {
 			return;
 		}
 		
-		RequestService.getInstance().register(this, username, password, phont, address, BaseEntity.class, new RequestListener() {
+		RequestService.getInstance().register(this,RequestCode.REGISTER, username, password, phont, address, BaseEntity.class, new RequestListener() {
 			
 			@Override
-			public void onSuccess(BaseEntity resultData) {
-				// TODO Auto-generated method stub
+			public void onSuccess(int requestCode,BaseEntity resultData) {
 				
 			}
 			
 			@Override
-			public void onFailed(Exception error, String msg) {
-				// TODO Auto-generated method stub
+			public void onFailed(int requestCode,Exception error, String msg) {
 				
 			}
 		});

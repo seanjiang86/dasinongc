@@ -78,9 +78,9 @@ public class NetRequest {
 	}
 
 	public interface RequestListener {
-		void onSuccess(BaseEntity resultData);
+		void onSuccess(int requestCode,BaseEntity resultData);
 
-		void onFailed(Exception error, String msg);
+		void onFailed(int requestCode,Exception error, String msg);
 	}
 
 	// -----------------------
@@ -91,11 +91,11 @@ public class NetRequest {
 	public static final int ERROR_NO_NET = -2;
 	public static final int ERROR_TIME_OUT = -3;
 
-	public <T> void request(Map<String, String> map, String subUrl, final RequestListener callback,
+	public <T> void request(int requestCode,Map<String, String> map, String subUrl, final RequestListener callback,
 			final Class<? extends BaseEntity> clazz) {
 
 		if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
-			callback.onFailed(new Exception(), "无网络连接");
+			callback.onFailed(requestCode,new Exception(), "无网络连接");
 			return;
 		}
 
@@ -107,20 +107,20 @@ public class NetRequest {
 
 		Logger.d1("NetRequest", url);
 
-		get(url, clazz, null, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
+		get(requestCode,url, clazz, null, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
 	}
 
-	private <T> void get(String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
+	private <T> void get(int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
 	/* final Map<String, String> map, */final RequestListener callback) {
-		get(url, clazz, header, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
+		get(requestCode,url, clazz, header, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
 	}
 
-	private <T> void get(String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
+	private <T> void get(int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
 	/* final Map<String, String> map, */final RequestListener callback, RetryPolicy retryPolicy) {
-		get(url, clazz, header, callback, Priority.NORMAL, retryPolicy);
+		get(requestCode,url, clazz, header, callback, Priority.NORMAL, retryPolicy);
 	}
 
-	private <T> void get(String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
+	private <T> void get(final int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
 			final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
 		StringRequest req = new StringRequest(Method.GET, url, new Response.Listener<String>() {
 			@Override
@@ -130,7 +130,7 @@ public class NetRequest {
 				try {
 					BaseEntity result = new Gson().fromJson(response, clazz);
 					if(result == null){
-						callback.onFailed(new NullPointerException(), "data:"+response);
+						callback.onFailed(requestCode,new NullPointerException(), "data:"+response);
 						return;
 					}
 					
@@ -145,9 +145,9 @@ public class NetRequest {
 					
 					
 					
-					callback.onSuccess(result);
+					callback.onSuccess(requestCode,result);
 				} catch (Exception e) {
-					callback.onFailed(e, e.getClass().toString());
+					callback.onFailed(requestCode,e, e.getClass().toString());
 				}
 
 			}
@@ -155,7 +155,7 @@ public class NetRequest {
 			@Override
 			public void onErrorResponse(VolleyError error) {
 				Logger.e1(tag, error);
-				callback.onFailed(error, "");
+				callback.onFailed(requestCode,error, "");
 			}
 		}) {
 
@@ -189,11 +189,11 @@ public class NetRequest {
 		Volley.newRequestQueue(context).add(req);
 	}
 	
-	public <T> void requestPost(Map<String, String> map, String subUrl, final RequestListener callback,
+	public <T> void requestPost(int requestCode,Map<String, String> map, String subUrl, final RequestListener callback,
 			final Class<? extends BaseEntity> clazz) {
 
 		if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
-			callback.onFailed(new Exception(), "无网络连接");
+			callback.onFailed(requestCode,new Exception(), "无网络连接");
 			return;
 		}
 
@@ -205,22 +205,22 @@ public class NetRequest {
 
 		Logger.d1("NetRequest", url);
 
-		post(url, clazz, null,map, callback);
+		post(requestCode,url, clazz, null,map, callback);
 	}
 	
 	
-    private <T> void post(String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
+    private <T> void post(int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
             final Map<String, String> map, final RequestListener callback) {
     	
     	if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
-			callback.onFailed(new Exception(), "无网络连接");
+			callback.onFailed(requestCode,new Exception(), "无网络连接");
 			return;
 		}
     	
-        post(url, clazz, header, map, callback, Priority.NORMAL, new DefaultRetryPolicy(10*1000, 0, 1));
+        post(requestCode,url, clazz, header, map, callback, Priority.NORMAL, new DefaultRetryPolicy(10*1000, 0, 1));
     }
 
-    private <T> void post(final String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
+    private <T> void post(final int requestCode,final String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
             final Map<String, String> map, final RequestListener callback, final Priority priority,
  RetryPolicy retryPolicy) {
 		StringRequest req = new StringRequest(Method.POST, url, new Response.Listener<String>() {
@@ -232,7 +232,7 @@ public class NetRequest {
 				try {
 					BaseEntity result = new Gson().fromJson(response, clazz);
 					if (result == null) {
-						callback.onFailed(new NullPointerException(), "data:" + response);
+						callback.onFailed(requestCode,new NullPointerException(), "data:" + response);
 						return;
 					}
 
@@ -245,9 +245,9 @@ public class NetRequest {
 					// AccountManager.logout(context);
 					// }
 
-					callback.onSuccess(result);
+					callback.onSuccess(requestCode,result);
 				} catch (Exception e) {
-					callback.onFailed(e, e.getClass().toString());
+					callback.onFailed(requestCode,e, e.getClass().toString());
 				}
 
 			}
@@ -255,7 +255,7 @@ public class NetRequest {
 			@Override
 			public void onErrorResponse(VolleyError error) {
 				Logger.e1(tag, error);
-				callback.onFailed(error, "");
+				callback.onFailed(requestCode,error, "");
 			}
 		}) {
 			@Override
