@@ -18,11 +18,11 @@ public class LoginActivity extends BaseActivity {
 		startLoadingDialog();
 		
 		initView();
-		setView();
+		setView();  
 	}
 
 	private void setView() {
-//		mTopbarView = this.findViewById(R.id.topba)
+//		mTopbarView = this.findViewById(R.id.topbar)
 	}
 
 	private void initView() {
