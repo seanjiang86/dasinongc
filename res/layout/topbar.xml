@@ -10,8 +10,8 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:background="@drawable/button_topbar_bg_selector"
         >
+<!--         android:background="@drawable/button_topbar_bg_selector" -->
 
         <ImageView
             android:id="@+id/imageview_topbar_left_backImage"
@@ -22,7 +22,7 @@
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/topbar_back"
+            android:src="@drawable/topbar_back_icon_selecter"
             />
         <!--
              <ImageView
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="病虫草害"
+        android:text="填写手机号"
         android:textColor="@android:color/white"
         android:textSize="@dimen/sp_18" 
         android:singleLine="true"
