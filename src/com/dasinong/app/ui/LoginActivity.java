@@ -20,6 +20,9 @@ public class LoginActivity extends BaseActivity {
 		initView();
 		setView();  
 	}
+	
+	private void test() {
+	}
 
 	private void setView() {
 //		mTopbarView = this.findViewById(R.id.topbar)
