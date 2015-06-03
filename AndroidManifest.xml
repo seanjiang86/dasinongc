@@ -55,7 +55,11 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         -->
-
+		
+		 <activity android:name="com.dasinong.app.ui.HarmListActivity" />
+        <activity android:name="com.dasinong.app.ui.HarmDetialsActivity" />
+        <activity android:name="com.dasinong.app.ui.CureDetialActivity" />
+		
         <activity
             android:name="com.dasinong.app.ui.RegisterActivity"
             android:screenOrientation="portrait" >

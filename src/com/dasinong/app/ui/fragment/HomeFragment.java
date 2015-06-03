@@ -1,5 +1,7 @@
 package com.dasinong.app.ui.fragment;
 
+import com.dasinong.app.ui.HarmDetialsActivity;
+import com.dasinong.app.ui.HarmListActivity;
 import com.dasinong.app.ui.RegisterActivity;
 
 import android.content.Intent;
@@ -33,6 +35,9 @@ public class HomeFragment extends Fragment {
 			public void onClick(View v) {
 				Intent intent = new Intent(getActivity(),RegisterActivity.class);
 				getActivity().startActivity(intent);
+				
+//				Intent intent = new Intent(getActivity(), HarmListActivity.class);
+//				getActivity().startActivity(intent);
 			}
 		});
 		

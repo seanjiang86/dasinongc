@@ -44,7 +44,7 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
 
 
     public List<T> query(String sql) {
-        List<T> result = new ArrayList<>();
+        List<T> result = new ArrayList<T>();
         Cursor cursor = sqLiteDatabase.getWritableDatabase().rawQuery(sql.toString(), null);
         convertVo(result, cursor);
         return result;
@@ -53,7 +53,7 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
 
     public List<T> query(String[] selection, String[] selectionArgs) {
 
-        List<T> result = new ArrayList<>();
+        List<T> result = new ArrayList<T>();
         StringBuffer sql = new StringBuffer();
         buildSQL(selection, selectionArgs, sql);
         Log.d("TAG","sql:"+sql.toString());

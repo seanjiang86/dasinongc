@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp" >
+
+        <TextView
+            android:id="@+id/tv_harm_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="稻瘟病"
+            android:textColor="@color/color_333333"
+            android:textSize="20sp" />
+
+        <RatingBar
+            android:id="@+id/rb_harm_grade"
+            style="@style/CustomRatingBar"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:isIndicator="true"
+            android:numStars="5"
+            android:rating="5"
+            android:stepSize="1" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_harm_des"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="25dp"
+        android:text="我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，"
+        android:textColor="@color/color_333333"
+        android:textSize="16sp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_pic"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <LinearLayout
+                android:id="@+id/ll_point"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </RelativeLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_rapid_diagnosis"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rapid_diagnosis_bg"
+        android:gravity="center" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="快速诊断"
+            android:textColor="@color/color_1768BE"
+            android:textSize="16dp" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/color_E9E9E9" />
+
+</LinearLayout>
