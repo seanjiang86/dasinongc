@@ -23,6 +23,11 @@
 | 认证注册 |  authRegLog | cellphone(R)  | 200 | 注册成功，初始密码手机后６位　|    User(包括fieldList)      |
 |          |          |               | 200 | 用户已存在，登陆　　　　　　　|    User(包括fieldList)      |
 |          |          |               | 200 | 用户已登陆　　　　　　　|    User(包括fieldList)      |
+|  首页    |  home    |   userId(R)   | 200 | 获取消息成功            |Field(包括相关petDisSpec,natDisSpec,Task等)，Weather|
+|          |          |               | 110 | 用户不存在              |                             |
+|          |  taskUpdate |  taskId(R),status（R) | 200 |  任务状态更新成功 |                        |      
+|          |  taskListUpdate |  tasks,status     | 200 |  任务状态列表跟新成功|                        |
+
 
 ## 待开发接口
 
