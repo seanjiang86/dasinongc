@@ -25,9 +25,21 @@ public class RequestService {
 		}
 		return mInstance;
 	}
-//	userName=testadmin3&password=11111111&cellPhone=12112345678&address=beijing
-	public void register(Context context,int requestCode,String userName,String password, String cellPhone,String address,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+	
+	public void register(Context context,String userName,String password, String cellPhone,String address,Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		 Map<String, String> params = NetConfig.getRegisterParams(userName, password,cellPhone,address);
-		 new NetRequest(context).request(requestCode,params, SubUrl.LOGIN, callBack,clazz);
+		 new NetRequest(context).get(RequestCode.REGISTER_BY_PASSWORD,params, SubUrl.REGISTER_BY_PASSWORD, callBack,clazz);
+	}
+	public void authcodeLoginReg(Context context,String cellphone,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getRegisterLoginParams(cellphone);
+		new NetRequest(context).get(RequestCode.LOGIN_REGISTER,params, SubUrl.LOGIN_REGISTER, callBack,clazz);
+	}
+	public void loginByPwd(Context context,String userName,String password,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getLoginParams(userName, password);
+		new NetRequest(context).get(RequestCode.LOGIN_BY_PASSWORD,params, SubUrl.LOGIN_BY_PASSWORD, callBack,clazz);
+	}
+	public void checkUser(Context context,String cellPhone,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getCheckUserParams(cellPhone);
+		new NetRequest(context).get(RequestCode.CHECK_USER,params, SubUrl.CHECK_USER, callBack,clazz);
 	}
 }

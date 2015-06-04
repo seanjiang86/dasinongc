@@ -2,19 +2,17 @@ package com.dasinong.app.entity;
 
 import com.dasinong.app.net.NetConfig;
 
-
 public class BaseEntity {
 
 	private String respCode;
-	private String respDesc;
-	private String respNo;
+	private String message;
 
-	public String getRespNo() {
-		return respNo;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setRespNo(String respNo) {
-		this.respNo = respNo;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public String getRespCode() {
@@ -26,14 +24,6 @@ public class BaseEntity {
 
 	}
 
-	public String getRespDesc() {
-		return respDesc;
-	}
-
-	public void setRespDesc(String respDesc) {
-		this.respDesc = respDesc;
-	}
-
 	public boolean isOk() {
 		if (respCode != null && respCode.equals(NetConfig.ResponseCode.OK)) {
 			return true;
@@ -41,13 +31,24 @@ public class BaseEntity {
 			return false;
 		}
 	}
-
-	public boolean isAuthTokenInvalid() {
-		if ("1039".equals(respNo)) {
+	
+	
+	public boolean isCode(String code) {
+		if (respCode != null && respCode.equals(code)) {
 			return true;
 		} else {
 			return false;
 		}
 	}
+	
+	
+
+	// public boolean isAuthTokenInvalid() {
+	// if ("1039".equals(respNo)) {
+	// return true;
+	// } else {
+	// return false;
+	// }
+	// }
 
 }

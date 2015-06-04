@@ -22,14 +22,21 @@ import android.text.TextUtils;
  */
 public class NetConfig {
 
-	public static final String BASE_URL = "http://115.29.111.179/ploughHelper-1.0.0/";
+	public static final String BASE_URL = "http://115.29.111.179/ploughHelper/";
+
 	private static final String KEY_REQUEST = "UHTN90SPOLKIRT6131NM0SEWGLPALczmf";
 
 	private static final String FLAG = "=";
 
 	public static class SubUrl {
 		/** 注册 */
-		public static final String LOGIN = "regUser/";
+		public static final String REGISTER_BY_PASSWORD = "regUser";
+		/** 登录 */
+		public static final String LOGIN_BY_PASSWORD = "login";
+		/** 验证码注册登录 */
+		public static final String LOGIN_REGISTER = "authRegLog";
+		/** 检测用户是否已注册 */
+		public static final String CHECK_USER = "checkUser";
 	}
 
 	public static String getRequestUrl(String subUrl) {
@@ -43,27 +50,53 @@ public class NetConfig {
 		public static final String username = "username";
 		public static final String userName = "userName";
 		public static final String password = "password";
+		public static final String cellphone = "cellphone";
 		public static final String cellPhone = "cellPhone";
 		public static final String address = "address";
 	}
-	
+
 	public static class ResponseCode {
-		public static final String OK = "OK";
-		public static final String NG = "NO";
+		public static final String OK = "200";
+		public static final String CODE_100 = "100";
+//		public static final String NG = "NO";
 	}
-	
-	
-	public static Map<String, String> getRegisterParams(String userName,String password, String cellPhone,String address) {
-		Map<String, String> paramsMap = getBaseParams(false
-				, getTokenParams(Params.username, userName)
-				, getTokenParams(Params.password, password)
-				, getTokenParams(Params.cellPhone, cellPhone)
-				, getTokenParams(Params.address, address)
-				);
+
+	/**
+	 * @param userName
+	 * @param password
+	 * @param cellPhone
+	 * @param address
+	 * @return 注册
+	 */
+	public static Map<String, String> getRegisterParams(String userName, String password, String cellPhone, String address) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName),
+				getTokenParams(Params.password, password), getTokenParams(Params.cellPhone, cellPhone),
+				getTokenParams(Params.address, address));
 		paramsMap.put(Params.userName, userName);
 		paramsMap.put(Params.password, password);
 		paramsMap.put(Params.cellPhone, cellPhone);
 		paramsMap.put(Params.address, address);
+		return paramsMap;
+	}
+
+	public static Map<String, String> getRegisterLoginParams(String cellphone) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.cellphone, cellphone));
+		paramsMap.put(Params.cellphone, cellphone);
+		return paramsMap;
+	}
+	
+	public static Map<String, String> getLoginParams(String userName,String password) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.userName, userName)
+				, getTokenParams(Params.password, password));
+		paramsMap.put(Params.userName, userName);
+		paramsMap.put(Params.cellphone, userName);
+		paramsMap.put(Params.password, password);
+		return paramsMap;
+	}
+	
+	public static Map<String, String> getCheckUserParams(String cellPhone) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.cellPhone, cellPhone));
+		paramsMap.put(Params.cellPhone, cellPhone);
 		return paramsMap;
 	}
 
@@ -103,10 +136,11 @@ public class NetConfig {
 			token = null;
 		}
 		String stamp = System.currentTimeMillis() + "";
-		String sign = getCheckToken(getTokenParams(Params.stamp, stamp), isNeedAuthToken, getTokenParams(Params.token, token), strs);
+		String sign = getCheckToken(getTokenParams(Params.stamp, stamp), isNeedAuthToken, getTokenParams(Params.token, token),
+				strs);
 
-//		paramsMap.put(Params.stamp, stamp);
-//		paramsMap.put(Params.sign, sign);
+		// paramsMap.put(Params.stamp, stamp);
+		// paramsMap.put(Params.sign, sign);
 		return paramsMap;
 	}
 

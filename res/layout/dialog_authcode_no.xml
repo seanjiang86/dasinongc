@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@android:color/white"
+        android:layout_centerInParent="true" >
+
+        
+        <Button
+            android:id="@+id/button_get_code_again"
+            android:layout_below="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:textColor="@color/color_1E6ABB"
+            android:textSize="@dimen/sp_16"
+            android:gravity="center"
+            android:text="重新获取验证码"
+            android:background="@drawable/button_white_bg_selector"
+            />
+        
+        
+        <View
+            android:id="@+id/line"
+	            android:layout_width="match_parent"
+	            android:layout_height="0.5dp"
+	            android:layout_below="@+id/button_get_code_again"
+	            android:background="@color/color_DCE3E6"/>
+        
+        <Button
+            android:id="@+id/button_skip_auth"
+            android:layout_below="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:textColor="@color/color_1E6ABB"
+            android:textSize="@dimen/sp_14"
+            android:gravity="center"
+            android:background="@drawable/button_white_bg_selector"
+            android:text="跳过验证"
+            />
+        
+    </RelativeLayout>
+
+</RelativeLayout>

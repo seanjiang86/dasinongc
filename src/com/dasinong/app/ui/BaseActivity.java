@@ -63,7 +63,7 @@ public class BaseActivity extends FragmentActivity {
 	}
 
 	public void startLoadingDialog() {
-		startLoadingDialog(R.string.please_wait, true);
+		startLoadingDialog("", true);
 	}
 
 	public void startLoadingDialog(int resId, boolean outeSiteCanceled) {

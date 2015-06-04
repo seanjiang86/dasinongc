@@ -23,10 +23,14 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
 
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    
     <application
         android:name="com.dasinong.app.DsnApplication"
         android:allowBackup="true"
@@ -55,7 +59,9 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         -->
-
+ <activity android:name="com.dasinong.app.ui.HarmListActivity" />
+        <activity android:name="com.dasinong.app.ui.HarmDetialsActivity" />
+        <activity android:name="com.dasinong.app.ui.CureDetialActivity" />
         <activity
             android:name="com.dasinong.app.ui.RegisterActivity"
             android:screenOrientation="portrait" >
@@ -64,6 +70,24 @@
             android:name="com.dasinong.app.ui.LoginActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.dasinong.app.ui.RegisterPhoneActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.dasinong.app.ui.AuthCodeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.dasinong.app.ui.RegisterPasswordActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        
+        <activity
+            android:name="com.mob.tools.MobUIShell"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         
         <service
             android:name="com.baidu.location.f"

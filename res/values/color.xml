@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <color name="color_FAFAFA">#FAFAFA</color>
     <color name="color_33AB33">#33AB33</color>
     <color name="color_555555">#555555</color>
@@ -8,5 +8,14 @@
     <color name="color_333333">#333333</color>
     <color name="color_666666">#666666</color>
     <color name="color_7A7A7A">#7A7A7A</color>
-    
+    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="color_2BAD29"> #2BAD29 </color>
+    <color name="color_F0F0F0"> #F0F0F0 </color>
+    <color name="color_1768BE"> #1768BE </color>
+    <color name="color_E9E9E9"> #E9E9E9 </color>
+    <color name="color_999999"> #999999 </color>
+    <color name="color_33AB34"> #33AB34 </color>
+    <color name="color_f2f2f2"> #f2f2f2 </color>
+    <color name="color_1E6ABB"> #1E6ABB </color>
+
 </resources>

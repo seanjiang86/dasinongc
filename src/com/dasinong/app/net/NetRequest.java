@@ -1,6 +1,7 @@
 package com.dasinong.app.net;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.Iterator;
@@ -8,19 +9,24 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import org.json.JSONObject;
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.ParseError;
 import com.android.volley.Request.Method;
 import com.android.volley.Request.Priority;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Response;
 import com.android.volley.RetryPolicy;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dasinong.app.DsnApplication;
@@ -91,7 +97,7 @@ public class NetRequest {
 	public static final int ERROR_NO_NET = -2;
 	public static final int ERROR_TIME_OUT = -3;
 
-	public <T> void request(int requestCode,Map<String, String> map, String subUrl, final RequestListener callback,
+	public <T> void get(int requestCode,Map<String, String> map, String subUrl, final RequestListener callback,
 			final Class<? extends BaseEntity> clazz) {
 
 		if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
@@ -126,8 +132,11 @@ public class NetRequest {
 			@Override
 			public void onResponse(String response) {
 
-				Logger.d1(tag, response);
 				try {
+					Logger.d1(tag, response);
+					
+					Toast.makeText(DsnApplication.getContext(), response, 0).show();
+					
 					BaseEntity result = new Gson().fromJson(response, clazz);
 					if(result == null){
 						callback.onFailed(requestCode,new NullPointerException(), "data:"+response);
@@ -151,6 +160,8 @@ public class NetRequest {
 				}
 
 			}
+			
+			
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
@@ -182,6 +193,18 @@ public class NetRequest {
 				}
 				return Priority.NORMAL;
 			}
+			
+			@Override
+			protected Response<String> parseNetworkResponse(NetworkResponse response) {
+				try {
+					return Response.success(new String(response.data, "UTF-8"), HttpHeaderParser.parseCacheHeaders(response));
+				} catch (UnsupportedEncodingException e) {
+					return Response.error(new ParseError(e));
+				} catch (Exception je) {
+					return Response.error(new ParseError(je));
+				}
+			}
+			
 		};
 		if (retryPolicy != null) {
 			req.setRetryPolicy(retryPolicy);
@@ -227,9 +250,11 @@ public class NetRequest {
 			@Override
 			public void onResponse(String response) {
 
-				Logger.d1(tag, response);
 
 				try {
+					response = URLDecoder.decode(response, "UTF-8");
+					Logger.d1(tag, response);
+					
 					BaseEntity result = new Gson().fromJson(response, clazz);
 					if (result == null) {
 						callback.onFailed(requestCode,new NullPointerException(), "data:" + response);
@@ -287,6 +312,18 @@ public class NetRequest {
 				}
 				return Priority.NORMAL;
 			}
+			
+			@Override
+			protected Response<String> parseNetworkResponse(NetworkResponse response) {
+				try {
+					return Response.success(new String(response.data, "UTF-8"), HttpHeaderParser.parseCacheHeaders(response));
+				} catch (UnsupportedEncodingException e) {
+					return Response.error(new ParseError(e));
+				} catch (Exception je) {
+					return Response.error(new ParseError(je));
+				}
+			}
+			
 		};
 		if (retryPolicy != null) {
 			req.setRetryPolicy(retryPolicy);

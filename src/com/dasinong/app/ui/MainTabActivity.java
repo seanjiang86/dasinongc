@@ -34,10 +34,9 @@ public class MainTabActivity extends BaseActivity {
 
 	private Class fragmentArray[] = { HomeFragment.class, EncyclopediaFragment.class, MeFragment.class };
 
-	// private int mImageViewArray[] =
-	// {R.drawable.main_tab1_selector,R.drawable.main_tab2_selector,R.drawable.main_tab3_selector,
+	private int mImageViewArray[] = {R.drawable.main_tab1_selector,R.drawable.main_tab2_selector,R.drawable.main_tab3_selector};
 
-	private String mTextviewArray[] = { "大司农", "农事百科", "更多" };
+	private String mTextviewArray[] = {"大司农", "农事百科", "更多"};
 
 	private int index;
 
@@ -100,7 +99,7 @@ public class MainTabActivity extends BaseActivity {
 		View view = layoutInflater.inflate(R.layout.view_main_tab_item, null);
 
 		ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
-		// imageView.setImageResource(mImageViewArray[index]);
+		imageView.setImageResource(mImageViewArray[index]);
 
 		TextView textView = (TextView) view.findViewById(R.id.textview);
 		textView.setText(mTextviewArray[index]);

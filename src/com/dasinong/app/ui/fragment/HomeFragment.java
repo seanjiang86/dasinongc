@@ -1,6 +1,14 @@
 package com.dasinong.app.ui.fragment;
 
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.net.NetConfig.ResponseCode;
+import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestService;
+import com.dasinong.app.ui.BaseActivity;
+import com.dasinong.app.ui.HarmDetialsActivity;
+import com.dasinong.app.ui.HarmListActivity;
 import com.dasinong.app.ui.RegisterActivity;
+import com.dasinong.app.ui.RegisterPasswordActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,17 +34,9 @@ public class HomeFragment extends Fragment {
 		tv.setText("首页");
 		tv.setTextSize(50);
 		
-		
-		tv.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(),RegisterActivity.class);
-				getActivity().startActivity(intent);
-			}
-		});
-		
 		return tv ;
 	}
+	
+	
 	
 }
