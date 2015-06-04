@@ -58,6 +58,8 @@ public class RegisterActivity extends BaseActivity {
 		mNextButton = (Button) this.findViewById(R.id.button_next);
 //		mUsernameEdit = (EditText) this.findViewById(R.id.edittext_username);
 //		mPasswordEdit = (EditText) this.findViewById(R.id.edittext_password);
+//		mUsernameEdit = (EditText) this.findViewById(R.id.edittext_username);
+//		mPasswordEdit = (EditText) this.findViewById(R.id.edittext_password);
 //		mPhoneEdit = (EditText) this.findViewById(R.id.edittext_phone);
 //		mAddressEdit = (EditText) this.findViewById(R.id.edittext_address);
 		
