@@ -37,6 +37,13 @@
     <dimen name="sp_28">28sp</dimen>
     <dimen name="sp_30">30sp</dimen>
     <dimen name="sp_32">32sp</dimen>
+    <dimen name="row_between_row_10">5dp</dimen>
+    <dimen name="row_between_row_15">8dp</dimen>
+    <dimen name="row_between_row_20">10dp</dimen>
+    <dimen name="row_between_row_30">15dp</dimen>
+    <dimen name="row_between_row_35">17dp</dimen>
+    <dimen name="row_between_row_40">20dp</dimen>
+    <dimen name="row_between_row_50">25dp</dimen>
+    <dimen name="row_between_row_70">35dp</dimen>
 
-    
 </resources>

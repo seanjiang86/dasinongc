@@ -5,7 +5,7 @@
 
     <!-- dialog -->
     <style name="CommonDialog" parent="@android:style/Theme.Dialog">
-        <item name="android:windowBackground">@drawable/smssdk_dialog_bg</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 </resources>
