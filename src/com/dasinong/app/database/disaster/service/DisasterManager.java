@@ -53,10 +53,11 @@ public class DisasterManager {
     }
 
     /**
-     * 根据类型得到灾害
-     * @param type
-     * @return
+     *
+     * @param type 类型
+     * @return 根据类型得到灾害
      */
+
     public List<PetDisspec> getDisease(String type){
 
         return mPetDisspecDao.queryDisasterByType(type);
@@ -66,7 +67,7 @@ public class DisasterManager {
     /**
      * 得到自然灾害
      *
-     * @return
+     * @return 得到自然灾害
      */
     public List<NatDisspec> getNatDisease(){
 
@@ -74,8 +75,9 @@ public class DisasterManager {
     }
 
     /**
-     * 病虫草的id所有的治疗方案
-     * @return
+     * @param petDisSpecId 病虫草的id
+     *
+     * @return 病虫草的id所有的治疗方案
      */
     public  List<PetSolu> getCureSolution(int petDisSpecId ){
 
@@ -84,8 +86,9 @@ public class DisasterManager {
 
 
     /**
-     * 病虫草的id所有的治疗方案
-     * @return
+     *
+     * @param petDisSpecId 病虫草的id
+     * @return 病虫草的id所有的治疗方案
      */
     public  List<PetSolu> getPreventSolution(int petDisSpecId ){
 
@@ -93,9 +96,9 @@ public class DisasterManager {
     }
 
     /**
-     * 根据防治方案的id所有的相关的药
+     *
      * @param petSoluId 防治方案的id
-     * @return
+     * @return 根据防治方案的id所有的相关的药
      */
     public List<CPProduct> getAllDrug(int petSoluId){
 

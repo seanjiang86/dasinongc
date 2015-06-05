@@ -14,10 +14,6 @@ public class LocalDataBaseHelper extends SQLiteAssetHelper {
     public LocalDataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
 
-
-
-
-
     }
 
 }
