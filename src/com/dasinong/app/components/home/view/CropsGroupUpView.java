@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.dasinong.app.R;
 
 /**农作物成长状况View--用于首页上部绿色背景中部的显示
@@ -20,6 +19,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     private View normalParentView,addCropViewParent;
     //标记当前是否有作物
     private int hasCrop=0;//默认有作物
+    //添加农作物
+    private MyAddCropOnClickListener onAddCropClickListener;
     public CropsGroupUpView(Context context) {
         super(context);
         init(context);
@@ -76,9 +77,25 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.add_crop_parent:
-                //TODO 添加作物
+                // 添加作物
+                if (null != onAddCropClickListener) {
+                    onAddCropClickListener.onAddCropClick();
+                }
                 break;
         }
+    }
 
+    /**
+     * 添加农作物
+     *
+     * @param onAddCropClickListener --监听器
+     */
+    public void setOnAddCropClickListener(MyAddCropOnClickListener onAddCropClickListener) {
+        this.onAddCropClickListener = onAddCropClickListener;
+    }
+
+    //添加农作物
+    public interface MyAddCropOnClickListener {
+        void onAddCropClick();
     }
 }
