@@ -11,46 +11,27 @@ import android.widget.TextView;
 
 import com.dasinong.app.R;
 
-import butterknife.InjectView;
-
 
 /**
  * Created by sczhang on 15/6/5.
  */
 public class HomeWeatherView extends LinearLayout implements View.OnClickListener {
-    @InjectView(R.id.ivHomeWicon)
     ImageView ivHomeWicon;
-    @InjectView(R.id.lyWeather)
     LinearLayout lyWeather;
-    @InjectView(R.id.lyTemp)
     LinearLayout lyTemp;
-    @InjectView(R.id.tvTemperature)
     TextView tvTemperature;
-    @InjectView(R.id.ivWind)
     ImageView ivWind;
-    @InjectView(R.id.tvWind)
     TextView tvWind;
-    @InjectView(R.id.ivRainfall)
     ImageView ivRainfall;
-    @InjectView(R.id.tvRainfall)
     TextView tvRainfall;
-    @InjectView(R.id.lyWind)
     LinearLayout lyWind;
-    @InjectView(R.id.ivLine)
     View ivLine;
-    @InjectView(R.id.lyHumidity)
     LinearLayout lyHumidity;
-    @InjectView(R.id.ivLine2)
     View ivLine2;
-    @InjectView(R.id.lyTimeTemp)
     LinearLayout lyTimeTemp;
-    @InjectView(R.id.hcTimeTemp)
     HorizontalScrollView hcTimeTemp;
-    @InjectView(R.id.ivLine3)
     View ivLine3;
-    @InjectView(R.id.lyWeekWeather)
     LinearLayout lyWeekWeather;
-    @InjectView(R.id.tvCloseWeekTemp)
     TextView tvCloseWeekTemp;
     private View mRoot;
     private boolean mIsWeekWeatherShow = false;
