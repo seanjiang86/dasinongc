@@ -14,7 +14,7 @@ import android.os.Environment;
 import android.util.Log;
 
 public class DsnApplication extends Application {
-	public static Context mContext;
+	private static Context mContext;
 
 	@Override
 	public void onCreate() {
