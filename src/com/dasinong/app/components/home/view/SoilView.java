@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.dasinong.app.R;
 
-import butterknife.InjectView;
 
 /**
  * Created by liuningning on 15/6/5.
