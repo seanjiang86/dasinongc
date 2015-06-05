@@ -1,5 +1,6 @@
 package com.dasinong.app.database.disaster.service;
 
+import android.app.Application;
 import android.content.Context;
 
 import com.dasinong.app.database.disaster.dao.CPProductDao;
@@ -30,6 +31,10 @@ public class DisasterManager {
 
     private static DisasterManager instance;
     private DisasterManager(Context context) {
+
+        if(!(context instanceof Application)){
+            context = context.getApplicationContext();
+        }
 
         mCpproductDao = new CPProductDaoImpl(context);
         mNatDisspecDao = new NatDisspecDaoImpl(context);
