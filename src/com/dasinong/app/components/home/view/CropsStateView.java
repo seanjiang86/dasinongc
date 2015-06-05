@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.dasinong.app.R;
+
 import java.util.List;
 
 /**
@@ -40,7 +42,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     }
 
     private void init(Context context) {
-        View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top, this);
+        View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top,this);
         fieldView = (TextView) rootView.findViewById(R.id.field);
         addFieldView = (ImageView) rootView.findViewById(R.id.add_field);
         fieldStateView = (CropsGroupUpView) rootView.findViewById(R.id.field_state);

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.dasinong.app.R;
 
 /**农作物成长状况View--用于首页上部绿色背景中部的显示
