@@ -34,8 +34,7 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
-//           jni mulu
-//            http://xiaodongdong.blog.51cto.com/7049299/1608495
+
             jniLibs.srcDirs = ['jniLibs']
 
         }

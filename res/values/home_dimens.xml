@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="home_dimen_10">5dp</dimen>
+
+
+
     <dimen name="home_dimen_line_height_1">1dp</dimen>
     <dimen name="home_dimen_5">2.5dp</dimen>
+    <dimen name="home_dimen_10">5dp</dimen>
     <dimen name="home_dimen_15">7.5dp</dimen>
+
     <dimen name="home_dimen_20">10dp</dimen>
     <dimen name="home_dimen_25">12.5dp</dimen>
     <dimen name="home_dimen_29">14.5dp</dimen>
