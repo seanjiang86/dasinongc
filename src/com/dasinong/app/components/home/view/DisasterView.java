@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,9 +19,10 @@ import static android.util.TypedValue.*;
 
 
 /**
- * Created by liuningning on 15/6/5.
+ * disaster item view
+ * Created by lxn on 15/6/5.
  */
-public class DisasterView extends LinearLayout {
+public class DisasterView extends LinearLayout implements View.OnClickListener {
 
     private TextView mDisasterType;
     private TextView mDisasterName;
@@ -62,6 +64,11 @@ public class DisasterView extends LinearLayout {
         mDisasterPrevent = (TextView) findViewById(R.id.disaster_prevent);
         mDisasterCure = (TextView) findViewById(R.id.disaster_cure);
 
+        /**set event*/
+
+        mDisasterPrevent.setOnClickListener(this);
+        mDisasterCure.setOnClickListener(this);
+
     }
 
 
@@ -77,5 +84,31 @@ public class DisasterView extends LinearLayout {
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.disaster_cure:
+
+                //TODO:我要治疗
+
+                break;
+            case R.id.disaster_prevent:
+                //TODO:我要预防
+
+                break;
+
+            default:
+                break;
+        }
+
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        mDisasterPrevent.setOnClickListener(null);
+        mDisasterCure.setOnClickListener(null);
+
+    }
 }
  
