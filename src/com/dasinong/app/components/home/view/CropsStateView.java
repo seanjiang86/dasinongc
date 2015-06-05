@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.dasinong.app.R;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -65,6 +67,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 }
             }
         });
+        List<String
+> list=new ArrayList<String>();
+        for(int i=0;i<5;i++){
+            list.add("水分很好");
+        }
+        setWorkContent(list);
     }
 
     /**

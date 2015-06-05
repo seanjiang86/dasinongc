@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.dasinong.app.components.home.view.HomeWeatherView;
+import com.dasinong.app.R;
+
 
 public class HomeFragment extends Fragment {
 
@@ -25,7 +26,7 @@ public class HomeFragment extends Fragment {
         tv.setText("首页");
         tv.setTextSize(50);
 
-        return new HomeWeatherView(getActivity());
+        return inflater.inflate(R.layout.fragment_home,container,false);
     }
 
 

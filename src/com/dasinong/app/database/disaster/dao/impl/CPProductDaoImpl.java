@@ -22,7 +22,7 @@ public class CPProductDaoImpl extends DaoSupportImpl<CPProduct> implements CPPro
      * @param petSoluId
      * @return
      */
-    public List<CPProduct> queryAll(int petSoluId){
+    public List<CPProduct> queryAllCpProduct(int petSoluId){
         StringBuffer sql =new StringBuffer();
         sql.append("select cpproduct.* from ")
             .append("cpproduct,petsolu_cpproduct ")

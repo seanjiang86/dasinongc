@@ -35,14 +35,6 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
 
     }
 
-
-    @Override
-    public List<T> query() {
-
-        return query(null, null);
-    }
-
-
     public List<T> query(String sql) {
         List<T> result = new ArrayList<T>();
         Cursor cursor = sqLiteDatabase.getWritableDatabase().rawQuery(sql.toString(), null);

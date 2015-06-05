@@ -27,6 +27,7 @@
                 android:textColor="#333333"
                 android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:text="红色土壤"
                 tools:text="红色土壤" />
 
             <TextView
@@ -37,6 +38,7 @@
                 android:gravity="center"
                 android:textColor="#999999"
                 android:textSize="@dimen/home_text_size_26"
+                android:text="土质土壤"
                 tools:text="土质土壤" />
 
         </LinearLayout>
@@ -59,6 +61,7 @@
                 android:textColor="#333333"
                 android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:text="中等"
                 tools:text="中等" />
 
             <TextView
@@ -68,6 +71,7 @@
                 android:gravity="center"
                 android:textColor="#999999"
                 android:textSize="@dimen/home_text_size_26"
+                android:text="肥力自评"
                 tools:text="肥力自评" />
         </LinearLayout>
 
@@ -89,6 +93,8 @@
                 android:textColor="#333333"
                 android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:text="34％"
+
                 tools:text="34％" />
 
             <TextView
@@ -98,6 +104,7 @@
                 android:gravity="center"
                 android:textColor="#999999"
                 android:textSize="@dimen/home_text_size_26"
+                android:text="根茎层 土壤温度"
                 tools:text="根茎层 土壤温度" />
 
         </LinearLayout>
@@ -132,6 +139,7 @@
                 android:textColor="#333333"
                 android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:text="－－"
                 tools:text="－－" />
 
             <TextView
@@ -141,6 +149,7 @@
                 android:gravity="center"
                 android:textColor="#999999"
                 android:textSize="@dimen/home_text_size_26"
+                android:text="氮  Ｎ"
                 tools:text="氮  Ｎ" />
 
         </LinearLayout>
@@ -163,6 +172,7 @@
                 android:textColor="#333333"
                 android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:text="－－"
                 tools:text="－－" />
 
             <TextView
@@ -172,6 +182,7 @@
                 android:gravity="center"
                 android:textColor="#999999"
                 android:textSize="@dimen/home_text_size_26"
+                android:text="磷  Ｐ"
                 tools:text="磷  Ｐ" />
         </LinearLayout>
 
@@ -193,6 +204,7 @@
                 android:textColor="#333333"
                 android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:text="－－"
                 tools:text="－－" />
 
             <TextView
@@ -202,6 +214,7 @@
                 android:gravity="center"
                 android:textColor="#999999"
                 android:textSize="@dimen/home_text_size_26"
+                android:text="钾  Ｋ"
                 tools:text="钾  Ｋ" />
 
         </LinearLayout>
@@ -222,6 +235,7 @@
         android:padding="@dimen/home_dimen_60"
         android:textColor="#1768bc"
         android:textSize="@dimen/home_text_size_32"
+        android:text="申请测土"
         tools:text="申请测土" />
 
 

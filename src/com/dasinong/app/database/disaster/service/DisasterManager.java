@@ -31,7 +31,6 @@ public class DisasterManager {
     private static DisasterManager instance;
     private DisasterManager(Context context) {
 
-
         mCpproductDao = new CPProductDaoImpl(context);
         mNatDisspecDao = new NatDisspecDaoImpl(context);
         mPetDisspecDao = new PetDisspecDaoImpl(context);
@@ -60,7 +59,7 @@ public class DisasterManager {
      */
     public List<PetDisspec> getDisease(String type){
 
-        return mPetDisspecDao.queryByType(type);
+        return mPetDisspecDao.queryDisasterByType(type);
     }
 
 
@@ -71,7 +70,7 @@ public class DisasterManager {
      */
     public List<NatDisspec> getNatDisease(){
 
-        return mNatDisspecDao.queryAllNatDispec();
+        return mNatDisspecDao.queryAllNatDisaster();
     }
 
     /**
@@ -80,7 +79,7 @@ public class DisasterManager {
      */
     public  List<PetSolu> getCureSolution(int petDisSpecId ){
 
-        return mPetSolutionDao.QueryIsCure(petDisSpecId);
+        return mPetSolutionDao.QuerySolutionIsCure(petDisSpecId);
     }
 
 
@@ -90,7 +89,7 @@ public class DisasterManager {
      */
     public  List<PetSolu> getPreventSolution(int petDisSpecId ){
 
-        return mPetSolutionDao.QueryIsPrevent(petDisSpecId);
+        return mPetSolutionDao.QuerySolutionIsPrevent(petDisSpecId);
     }
 
     /**
@@ -100,7 +99,7 @@ public class DisasterManager {
      */
     public List<CPProduct> getAllDrug(int petSoluId){
 
-        return mCpproductDao.queryAll(petSoluId);
+        return mCpproductDao.queryAllCpProduct(petSoluId);
     }
 
 }
