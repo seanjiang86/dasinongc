@@ -1,4 +1,4 @@
-package com.dasinong.app.components;
+package com.dasinong.app.components.home.view;
 
 import android.content.Context;
 import android.text.TextUtils;

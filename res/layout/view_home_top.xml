@@ -27,7 +27,7 @@
             android:layout_alignParentRight="true" />
     </RelativeLayout>
     <!--农村作物的成长情况-->
-    <com.dasinong.app.components.CropsGroupUpView
+    <com.dasinong.app.components.home.view.CropsGroupUpView
         android:id="@+id/field_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
