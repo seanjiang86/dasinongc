@@ -2,12 +2,15 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:orientation="vertical">
 
 
     <!-- 左侧按钮 -->
     <RelativeLayout
+        android:paddingLeft="@dimen/row_between_row_30"
+        android:paddingRight="@dimen/row_between_row_35"
         android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -19,8 +22,7 @@
             android:layout_centerVertical="true"
             android:clickable="true"
             android:focusable="true"
-            android:paddingLeft="@dimen/row_between_row_30"
-            android:paddingRight="@dimen/row_between_row_35">
+           >
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -42,6 +44,7 @@
             android:textSize="16dp" />
         <ImageView
             android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
             android:src="@drawable/right_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
@@ -49,6 +52,7 @@
     <View
         android:id="@+id/line"
         android:background="#159e13"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="1.2dp"/>
 

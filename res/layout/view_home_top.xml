@@ -19,10 +19,11 @@
             android:text="天地"
             android:textColor="@android:color/white" />
 
-        <TextView
+        <ImageView
             android:id="@+id/add_field"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/add_field"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
     <!--农村作物的成长情况-->
@@ -103,13 +104,14 @@
 
     </LinearLayout>
     <View
-        android:layout_marginBottom="10dp"
+
         android:layout_marginTop="@dimen/row_between_row_30"
         android:background="#159e13"
         android:layout_width="match_parent"
         android:layout_height="1.2dp"/>
 
     <LinearLayout
+        android:layout_marginTop="10dp"
         android:id="@+id/campaign"
         android:orientation="vertical"
         android:layout_width="match_parent"

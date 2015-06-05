@@ -3,8 +3,10 @@ package com.dasinong.app.components;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.dasinong.app.R;
@@ -18,26 +20,30 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private View rootView;
     private LinearLayout campaignView;//添加农作物活动的View
     private CropsGroupUpView fieldStateView;//成长状态
+    private ImageView addFieldView;
     //田地名称，添加，日期，星期几，天气，左边状态，右边状态
-    private TextView fieldView, addFieldView, dayView, weekView, wealthView, leftStateView, rightStateView;
+    private TextView fieldView,dayView, weekView, wealthView, leftStateView, rightStateView;
     //田地名称是否可以点击--其判断应该是根据接口传值
     private boolean fieldNameCanClick;
     //目前的农田的名称--用于区别点击的是否是当前；
     private String currentFieldValue;
+    private Context context;
     public CropsStateView(Context context) {
         super(context);
+        this.context=context;
         init(context);
     }
 
     public CropsStateView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context=context;
         init(context);
     }
 
     private void init(Context context) {
         View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top, this);
         fieldView = (TextView) rootView.findViewById(R.id.field);
-        addFieldView = (TextView) rootView.findViewById(R.id.add_field);
+        addFieldView = (ImageView) rootView.findViewById(R.id.add_field);
         fieldStateView = (CropsGroupUpView) rootView.findViewById(R.id.field_state);
         dayView = (TextView) rootView.findViewById(R.id.day);
         weekView = (TextView) rootView.findViewById(R.id.week);
@@ -94,16 +100,22 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     public void setWorkContent(List<String> contents, boolean isFirstLoad) {
         //TODO
         if(null==contents||contents.size()==0)return;
+        campaignView.setOrientation(LinearLayout.VERTICAL);
         for(int i=0;i<contents.size();i++){
-            View view=LayoutInflater.from(getContext()).inflate(R.layout.view_home_top_work_content,campaignView);
-            campaignView.setOrientation(LinearLayout.VERTICAL);
+            View view=LayoutInflater.from(context).inflate(R.layout.view_home_work_content, null);
             TextView contentView= (TextView) view.findViewById(R.id.work_content);
             View lineView=view.findViewById(R.id.line);
-            LinearLayout checkedView= (LinearLayout) view.findViewById(R.id.iv_check);
+            final LinearLayout checkedView= (LinearLayout) view.findViewById(R.id.iv_check);
             contentView.setText(contents.get(i));
             if(i==contents.size()-1){
                 lineView.setVisibility(View.GONE);
             }
+            checkedView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    checkedView.setSelected(!checkedView.isSelected());
+                }
+            });
             campaignView.addView(view);
         }
 

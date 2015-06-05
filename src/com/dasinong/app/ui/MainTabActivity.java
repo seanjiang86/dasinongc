@@ -7,9 +7,12 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
 import com.dasinong.app.R;
+import com.dasinong.app.entity.LocationResult;
 import com.dasinong.app.ui.fragment.EncyclopediaFragment;
 import com.dasinong.app.ui.fragment.HomeFragment;
 import com.dasinong.app.ui.fragment.MeFragment;
+import com.dasinong.app.utils.LocationUtils;
+import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
 
 import android.content.Intent;
@@ -21,6 +24,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @ClassName MainTabActivity
@@ -119,69 +123,21 @@ public class MainTabActivity extends BaseActivity {
 
 	@Override
 	protected void onStop() {
-		// TODO Auto-generated method stub
-		mLocationClient.stop();
+		LocationUtils.getInstance().unRegisterLocationListener();
 		super.onStop();
 	}
 
-	public LocationClient mLocationClient;
-	public GeofenceClient mGeofenceClient;
-	public MyLocationListener mMyLocationListener;
-
-	private static final LocationMode tempMode = LocationMode.Hight_Accuracy;
-	private static final String tempcoor = "gcj02";
-	private static final int span = 5000;
-
 	private void initLocation() {
-		mLocationClient = new LocationClient(this.getApplicationContext());
-		mMyLocationListener = new MyLocationListener();
-		mLocationClient.registerLocationListener(mMyLocationListener);
-		mGeofenceClient = new GeofenceClient(getApplicationContext());
-
-		LocationClientOption option = new LocationClientOption();
-		option.setLocationMode(tempMode);
-		option.setCoorType(tempcoor);
-		option.setScanSpan(span);
-		option.setIsNeedAddress(true);
-		mLocationClient.setLocOption(option);
-		
-		mLocationClient.start();
-	}
-
-	public class MyLocationListener implements BDLocationListener {
-
-		@Override
-		public void onReceiveLocation(BDLocation location) {
-			// Receive Location
-			StringBuffer sb = new StringBuffer(256);
-			sb.append("time : ");
-			sb.append(location.getTime());
-			sb.append("\nerror code : ");
-			sb.append(location.getLocType());
-			sb.append("\nlatitude : ");
-			sb.append(location.getLatitude());
-			sb.append("\nlontitude : ");
-			sb.append(location.getLongitude());
-			sb.append("\nradius : ");
-			sb.append(location.getRadius());
-			if (location.getLocType() == BDLocation.TypeGpsLocation) {
-				sb.append("\nspeed : ");
-				sb.append(location.getSpeed());
-				sb.append("\nsatellite : ");
-				sb.append(location.getSatelliteNumber());
-				sb.append("\ndirection : ");
-				sb.append("\naddr : ");
-				sb.append(location.getAddrStr());
-				sb.append(location.getDirection());
-			} else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
-				sb.append("\naddr : ");
-				sb.append(location.getAddrStr());
-				// 运营商信息
-				sb.append("\noperationers : ");
-				sb.append(location.getOperators());
+		LocationUtils.getInstance().registerLocationListener(new LocationListener() {
+			
+			@Override
+			public void locationNotify(LocationResult result) {
+				
+				Toast.makeText(MainTabActivity.this, result.getLatitude()+" -- "+result.getLongitude(), 0).show();
+				
 			}
-			Logger.d1("BaiduLocationApiDem", sb.toString());
-		}
+		});
 	}
+
 
 }
