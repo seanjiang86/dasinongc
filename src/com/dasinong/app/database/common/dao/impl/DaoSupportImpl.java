@@ -2,9 +2,8 @@ package com.dasinong.app.database.common.dao.impl;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
-import com.dasinong.app.database.LocalDataBaseHelper;
+import com.dasinong.app.database.common.LocalDataBaseHelper;
 import com.dasinong.app.database.common.dao.DaoSupport;
 import com.dasinong.app.utils.Logger;
 

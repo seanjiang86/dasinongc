@@ -1,4 +1,4 @@
-package com.dasinong.app.database;
+package com.dasinong.app.database.common;
 
 import android.content.Context;
 
