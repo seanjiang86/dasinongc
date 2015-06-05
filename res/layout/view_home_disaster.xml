@@ -12,9 +12,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/home_dimen_30"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -29,9 +28,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="#ff0000"
-                    android:padding="5dp"
+                    android:padding="@dimen/home_dimen_5"
                     android:textColor="#ffffff"
-                    android:textSize="13sp"
+                    android:textSize="@dimen/home_text_size_26"
                     tools:text="病害预警" />
 
                 <TextView
@@ -41,7 +40,7 @@
                     android:layout_marginTop="10dp"
                     android:includeFontPadding="false"
                     android:textColor="#333333"
-                    android:textSize="35sp"
+                    android:textSize="@dimen/home_text_size_60"
                     tools:text="稻瘟病" />
 
             </LinearLayout>
@@ -60,9 +59,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:lineSpacingExtra="10dp"
+            android:lineSpacingExtra="@dimen/home_dimen_10"
             android:textColor="#333333"
-            android:textSize="16sp"
+            android:textSize="@dimen/home_text_size_32"
             tools:text="稻瘟病是水稻重要病害之一 可引起大幅度减产，严重时减产40%～50%，甚至颗粒无收。世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多，发生后可造成不同程度减产可造成白穗以致绝产。" />
 
         <LinearLayout
@@ -76,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#1768bc"
-                android:textSize="16sp"
+                android:textSize="@dimen/home_text_size_32"
                 tools:text="我要预防"
                 tools:visibility="visible" />
 
@@ -84,9 +83,9 @@
                 android:id="@+id/disaster_cure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="40dp"
+                android:layout_marginLeft="@dimen/home_dimen_80"
                 android:textColor="#1768bc"
-                android:textSize="16sp"
+                android:textSize="@dimen/home_text_size_32"
                 tools:text="我要治疗" />
 
 
@@ -97,8 +96,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="@dimen/home_dimen_line_height_1"
+        android:layout_marginTop="@dimen/home_dimen_40"
         android:background="#dbe3e5" />
 
 </merge>
