@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:paddingLeft="@dimen/row_between_row_30"
-    android:paddingRight="@dimen/row_between_row_30">
+    android:paddingLeft="@dimen/home_dimen_30"
+    android:paddingRight="@dimen/home_dimen_30">
 
     <LinearLayout
         android:id="@+id/normal_state"
@@ -23,7 +23,7 @@
                 android:gravity="center"
                 android:text="离收获还有130天"
                 android:textColor="@android:color/white"
-                android:textSize="18dp" />
+                android:textSize="@dimen/home_text_size_32" />
 
             <TextView
                 android:id="@+id/right_state"
@@ -33,7 +33,7 @@
                 android:gravity="center"
                 android:text="水稻分页器期8页"
                 android:textColor="@android:color/white"
-                android:textSize="18dp" />
+                android:textSize="@dimen/home_text_size_32" />
 
         </RelativeLayout>
 

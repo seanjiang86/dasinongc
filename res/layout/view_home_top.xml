@@ -6,34 +6,40 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:paddingLeft="@dimen/row_between_row_30"
+        android:paddingLeft="@dimen/home_dimen_30"
+        android:paddingRight="@dimen/home_dimen_30"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/row_between_row_30">
+        android:layout_marginTop="@dimen/home_dimen_30">
 
         <TextView
             android:id="@+id/field"
-            android:textSize="23dp"
+            android:textSize="@dimen/home_text_size_40"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="天地"
+            android:layout_centerVertical="true"
+            android:text="暂无田地"
             android:textColor="@android:color/white" />
 
-        <TextView
+        <ImageView
             android:id="@+id/add_field"
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@drawable/add_field"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
     <!--农村作物的成长情况-->
-    <com.dasinong.app.components.CropsGroupUpView
+    <com.dasinong.app.components.home.view.CropsGroupUpView
         android:id="@+id/field_state"
+        android:layout_marginTop="@dimen/home_dimen_50"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <LinearLayout
-        android:layout_marginTop="@dimen/row_between_row_70"
-        android:paddingLeft="@dimen/row_between_row_30"
+        android:layout_marginTop="@dimen/home_dimen_70"
+        android:layout_marginBottom="@dimen/home_dimen_30"
+        android:layout_marginLeft="@dimen/home_dimen_30"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -41,14 +47,14 @@
         <TextView
             android:id="@+id/day"
             android:textColor="@android:color/white"
-            android:textSize="45dp"
+            android:textSize="@dimen/home_text_size_80"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:text="10" />
 
         <LinearLayout
-            android:layout_marginLeft="@dimen/row_between_row_15"
+            android:layout_marginLeft="@dimen/home_dimen_15"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,7 +62,7 @@
 
             <TextView
                 android:id="@+id/week"
-                android:textSize="16dp"
+                android:textSize="@dimen/home_text_size_28"
                 android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,16 +70,16 @@
 
             <TextView
                 android:id="@+id/wealth"
-                android:layout_marginTop="@dimen/row_between_row_10"
-                android:textSize="16dp"
+                android:layout_marginTop="@dimen/home_dimen_10"
+                android:textSize="@dimen/home_text_size_28"
                 android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="大学" />
+                android:text="大雪" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_marginLeft="25dp"
+            android:layout_marginLeft="@dimen/home_dimen_40"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,7 +87,7 @@
 
             <TextView
                 android:id="@+id/left_state"
-                android:textSize="17dp"
+                android:textSize="@dimen/home_text_size_30"
                 android:gravity="center"
                 android:background="@drawable/view_home_top_white_bg"
                 android:textColor="@color/color_view_home_top_bg"
@@ -91,29 +97,29 @@
 
             <TextView
                 android:id="@+id/right_state"
-                android:textSize="17dp"
+                android:textSize="@dimen/home_text_size_30"
                 android:gravity="center"
                 android:background="@drawable/view_home_top_red_bg"
                 android:textColor="@android:color/white"
                 android:layout_width="100dp"
                 android:layout_height="40dp"
-                android:layout_marginLeft="10dip"
+                android:layout_marginLeft="@dimen/home_dimen_20"
                 android:text="不宜打药" />
         </LinearLayout>
 
     </LinearLayout>
     <View
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="@dimen/row_between_row_30"
         android:background="#159e13"
         android:layout_width="match_parent"
-        android:layout_height="1.2dp"/>
+        android:layout_height="@dimen/home_dimen_line_height_1"/>
 
     <LinearLayout
         android:id="@+id/campaign"
+        android:layout_marginLeft="@dimen/home_dimen_30"
+        android:layout_marginRight="@dimen/home_dimen_30"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
