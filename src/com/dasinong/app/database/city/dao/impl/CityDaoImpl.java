@@ -3,8 +3,7 @@ package com.dasinong.app.database.city.dao.impl;
 import android.content.Context;
 
 import com.dasinong.app.database.city.dao.CityDao;
-import com.dasinong.app.database.city.domain.City;
-import com.dasinong.app.database.common.dao.DaoSupport;
+
 import com.dasinong.app.database.common.dao.impl.DaoSupportImpl;
 import com.dasinong.app.utils.Logger;
 
