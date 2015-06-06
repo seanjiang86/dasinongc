@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
+import com.dasinong.app.database.disaster.service.DisasterManager;
 import com.dasinong.app.ui.adapter.MyBaseAdapter;
 import com.dasinong.app.utils.GraphicUtils;
 
@@ -82,11 +83,8 @@ public class HarmDetialsActivity extends BaseActivity {
 	}
 
 	private void initData() {
-		dataList.add("1");
-		dataList.add("1");
-		dataList.add("1");
-		dataList.add("1");
-		dataList.add("1");
+		DisasterManager manager = DisasterManager.getInstance(this);
+		
 	}
 
 	/*
@@ -194,7 +192,7 @@ public class HarmDetialsActivity extends BaseActivity {
 				holder.small_line.setVisibility(View.GONE);
 				holder.big_line.setVisibility(View.GONE);
 			}
-
+			
 			return view;
 		}
 	}

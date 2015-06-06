@@ -61,6 +61,10 @@
         <activity android:name="com.dasinong.app.ui.HarmListActivity" />
         <activity android:name="com.dasinong.app.ui.HarmDetialsActivity" />
         <activity android:name="com.dasinong.app.ui.CureDetialActivity" />
+        <activity android:name="com.dasinong.app.ui.AddFieldActivity1" />
+        <activity android:name="com.dasinong.app.ui.AddFieldActivity2" />
+        <activity android:name="com.dasinong.app.ui.AddFieldActivity3" />
+        <activity android:name="com.dasinong.app.ui.AddFieldActivity4" />
         <activity
             android:name="com.dasinong.app.ui.RegisterActivity"
             android:screenOrientation="portrait" >

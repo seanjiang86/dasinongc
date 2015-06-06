@@ -42,4 +42,24 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getCheckUserParams(cellPhone);
 		new NetRequest(context).get(RequestCode.CHECK_USER,params, SubUrl.CHECK_USER, callBack,clazz);
 	}
+	public void sendNoInLocation(Context context,String latitude,String longitude,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getLocationInfoParams(latitude, longitude);
+		new NetRequest(context).get(RequestCode.SEND_NO_IN_LOCATION,params, SubUrl.SEND_NO_IN_LOCATION, callBack,clazz);
+	}
+	public void sendInLocation(Context context,String latitude,String longitude,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getLocationInfoParams(latitude, longitude);
+		new NetRequest(context).get(RequestCode.SEND_IN_LOCATION,params, SubUrl.SEND_IN_LOCATION, callBack,clazz);
+	}
+	public void getCrop(Context context,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetCropParams();
+		new NetRequest(context).get(RequestCode.GET_CROP,params, SubUrl.GET_CROP, callBack,clazz);
+	}
+	public void getCropName(Context context,String cropId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetCropNameParams(cropId);
+		new NetRequest(context).get(RequestCode.GET_CROP_NAME,params, SubUrl.GET_CROP_NAME, callBack,clazz);
+	}
+	public void getCropNumber(Context context,String cropNameId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetCropNumberParams(cropNameId);
+		new NetRequest(context).get(RequestCode.GET_CROP_NUMBER,params, SubUrl.GET_CROP_NUMBER, callBack,clazz);
+	}
 }

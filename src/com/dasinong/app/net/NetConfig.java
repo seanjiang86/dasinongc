@@ -37,6 +37,16 @@ public class NetConfig {
 		public static final String LOGIN_REGISTER = "authRegLog";
 		/** 检测用户是否已注册 */
 		public static final String CHECK_USER = "checkUser";
+		/** 发送不在田地时的经纬度信息 */
+		public static final String SEND_NO_IN_LOCATION = "sendNoInLocation";
+		/** 发送在田地时的经纬度信息 */
+		public static final String SEND_IN_LOCATION = "sendInLocation";
+		/** 获取植物列表 */
+		public static final String GET_CROP = "getCrop";
+		/** 获取品种名列表 */
+		public static final String GET_CROP_NAME = "getCropName";
+		/** 获取品种编号列表 */
+		public static final String GET_CROP_NUMBER = "getCropNumber";
 	}
 
 	public static String getRequestUrl(String subUrl) {
@@ -53,12 +63,16 @@ public class NetConfig {
 		public static final String cellphone = "cellphone";
 		public static final String cellPhone = "cellPhone";
 		public static final String address = "address";
+		public static final String latitude = "latitude";
+		public static final String longitude = "longitude";
+		public static final String cropId = "cropId";
+		public static final String cropNameId = "cropNameId";
 	}
 
 	public static class ResponseCode {
 		public static final String OK = "200";
 		public static final String CODE_100 = "100";
-//		public static final String NG = "NO";
+		// public static final String NG = "NO";
 	}
 
 	/**
@@ -69,9 +83,8 @@ public class NetConfig {
 	 * @return 注册
 	 */
 	public static Map<String, String> getRegisterParams(String userName, String password, String cellPhone, String address) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName),
-				getTokenParams(Params.password, password), getTokenParams(Params.cellPhone, cellPhone),
-				getTokenParams(Params.address, address));
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName), getTokenParams(Params.password, password),
+				getTokenParams(Params.cellPhone, cellPhone), getTokenParams(Params.address, address));
 		paramsMap.put(Params.userName, userName);
 		paramsMap.put(Params.password, password);
 		paramsMap.put(Params.cellPhone, cellPhone);
@@ -84,16 +97,15 @@ public class NetConfig {
 		paramsMap.put(Params.cellphone, cellphone);
 		return paramsMap;
 	}
-	
-	public static Map<String, String> getLoginParams(String userName,String password) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.userName, userName)
-				, getTokenParams(Params.password, password));
+
+	public static Map<String, String> getLoginParams(String userName, String password) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.userName, userName), getTokenParams(Params.password, password));
 		paramsMap.put(Params.userName, userName);
 		paramsMap.put(Params.cellphone, userName);
 		paramsMap.put(Params.password, password);
 		return paramsMap;
 	}
-	
+
 	public static Map<String, String> getCheckUserParams(String cellPhone) {
 		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.cellPhone, cellPhone));
 		paramsMap.put(Params.cellPhone, cellPhone);
@@ -136,8 +148,7 @@ public class NetConfig {
 			token = null;
 		}
 		String stamp = System.currentTimeMillis() + "";
-		String sign = getCheckToken(getTokenParams(Params.stamp, stamp), isNeedAuthToken, getTokenParams(Params.token, token),
-				strs);
+		String sign = getCheckToken(getTokenParams(Params.stamp, stamp), isNeedAuthToken, getTokenParams(Params.token, token), strs);
 
 		// paramsMap.put(Params.stamp, stamp);
 		// paramsMap.put(Params.sign, sign);
@@ -158,4 +169,24 @@ public class NetConfig {
 		return name + FLAG + value;
 	}
 
+	public static Map<String, String> getLocationInfoParams(String latitude, String longitude) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.latitude, latitude), getTokenParams(Params.longitude, longitude));
+		paramsMap.put(Params.latitude, latitude);
+		paramsMap.put(Params.longitude, longitude);
+		return paramsMap;
+	}
+	public static Map<String, String> getGetCropParams() {
+		Map<String, String> paramsMap = getBaseParams(false);
+		return paramsMap;
+	}
+	public static Map<String, String> getGetCropNameParams(String cropId) {
+		Map<String, String> paramsMap = getBaseParams(false,getTokenParams(Params.cropId , cropId));
+		paramsMap.put(Params.cropId, cropId);
+		return paramsMap;
+	}
+	public static Map<String, String> getGetCropNumberParams(String cropNameId) {
+		Map<String, String> paramsMap = getBaseParams(false,getTokenParams(Params.cropNameId , cropNameId));
+		paramsMap.put(Params.cropNameId, cropNameId);
+		return paramsMap;
+	}
 }
