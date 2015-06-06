@@ -111,7 +111,7 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 				@Override
 				public void onFailed(int requestCode, Exception error, String msg) {
 					// TODO 待统一
-
+					
 				}
 			});
 			break;
