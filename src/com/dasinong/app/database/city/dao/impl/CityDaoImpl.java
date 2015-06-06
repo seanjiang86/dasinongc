@@ -2,6 +2,7 @@ package com.dasinong.app.database.city.dao.impl;
 
 import android.content.Context;
 
+import com.dasinong.app.database.city.dao.CityDao;
 import com.dasinong.app.database.city.domain.City;
 import com.dasinong.app.database.common.dao.DaoSupport;
 import com.dasinong.app.database.common.dao.impl.DaoSupportImpl;
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * Created by liuningning on 15/6/6.
  */
-public class CityDaoImpl extends DaoSupportImpl<String> {
+public class CityDaoImpl extends DaoSupportImpl<String> implements CityDao{
 
     private static  final  String  TAG="CityDaoImpl";
     public CityDaoImpl(Context context) {
