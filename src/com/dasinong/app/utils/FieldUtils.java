@@ -17,7 +17,7 @@ public class FieldUtils {
      */
     public HashMap<String, String> convertToHashMap(Object obj) {
 
-        HashMap<String, String> map = new HashMap<>(16, 0.75F);
+        HashMap<String, String> map = new HashMap<String, String>(16, 0.75F);
 
         Field[] fields = obj.getClass().getDeclaredFields();
 

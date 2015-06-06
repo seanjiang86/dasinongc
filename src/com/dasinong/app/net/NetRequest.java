@@ -13,6 +13,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.Logger;
 import com.google.gson.Gson;
@@ -116,19 +119,19 @@ public class NetRequest {
 		get(requestCode,url, clazz, null, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
 	}
 
-	private <T> void get(int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
-	/* final Map<String, String> map, */final RequestListener callback) {
-		get(requestCode,url, clazz, header, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
-	}
-
-	private <T> void get(int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
-	/* final Map<String, String> map, */final RequestListener callback, RetryPolicy retryPolicy) {
-		get(requestCode,url, clazz, header, callback, Priority.NORMAL, retryPolicy);
-	}
+//	private <T> void get(int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
+//	/* final Map<String, String> map, */final RequestListener callback) {
+//		get(requestCode,url, clazz, header, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
+//	}
+//
+//	private <T> void get(int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
+//	/* final Map<String, String> map, */final RequestListener callback, RetryPolicy retryPolicy) {
+//		get(requestCode,url, clazz, header, callback, Priority.NORMAL, retryPolicy);
+//	}
 
 	private <T> void get(final int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
 			final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
-		StringRequest req = new StringRequest(Method.GET, url, new Response.Listener<String>() {
+		StringGetRequest req = new StringGetRequest( url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 
@@ -194,21 +197,29 @@ public class NetRequest {
 				return Priority.NORMAL;
 			}
 			
-			@Override
-			protected Response<String> parseNetworkResponse(NetworkResponse response) {
-				try {
-					return Response.success(new String(response.data, "UTF-8"), HttpHeaderParser.parseCacheHeaders(response));
-				} catch (UnsupportedEncodingException e) {
-					return Response.error(new ParseError(e));
-				} catch (Exception je) {
-					return Response.error(new ParseError(je));
-				}
-			}
+//			@Override
+//			protected Response<String> parseNetworkResponse(NetworkResponse response) {
+//				try {
+//					return Response.success(new String(response.data, "UTF-8"), HttpHeaderParser.parseCacheHeaders(response));
+//				} catch (UnsupportedEncodingException e) {
+//					return Response.error(new ParseError(e));
+//				} catch (Exception je) {
+//					return Response.error(new ParseError(je));
+//				}
+//			}
 			
 		};
 		if (retryPolicy != null) {
 			req.setRetryPolicy(retryPolicy);
 		}
+		
+		String cookie = SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "")/*.replace("JSESSIONID=", "")*/;
+//		Logger.d1(tag, "------------------cookie:" + string);
+		if(!TextUtils.isEmpty(cookie)){
+//			req.setSendCookie("JSESSIONID="+SharedPreferencesHelper.getString(context, Field.SESSIONID, ""));
+			req.setSendCookie(cookie);
+		}
+		
 		Volley.newRequestQueue(context).add(req);
 	}
 	
@@ -246,10 +257,9 @@ public class NetRequest {
     private <T> void post(final int requestCode,final String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
             final Map<String, String> map, final RequestListener callback, final Priority priority,
  RetryPolicy retryPolicy) {
-		StringRequest req = new StringRequest(Method.POST, url, new Response.Listener<String>() {
+		StringPostRequest req = new StringPostRequest(url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
-
 
 				try {
 					response = URLDecoder.decode(response, "UTF-8");
@@ -313,21 +323,29 @@ public class NetRequest {
 				return Priority.NORMAL;
 			}
 			
-			@Override
-			protected Response<String> parseNetworkResponse(NetworkResponse response) {
-				try {
-					return Response.success(new String(response.data, "UTF-8"), HttpHeaderParser.parseCacheHeaders(response));
-				} catch (UnsupportedEncodingException e) {
-					return Response.error(new ParseError(e));
-				} catch (Exception je) {
-					return Response.error(new ParseError(je));
-				}
-			}
+//			@Override
+//			protected Response<String> parseNetworkResponse(NetworkResponse response) {
+//				try {
+//					return Response.success(new String(response.data, "UTF-8"), HttpHeaderParser.parseCacheHeaders(response));
+//				} catch (UnsupportedEncodingException e) {
+//					return Response.error(new ParseError(e));
+//				} catch (Exception je) {
+//					return Response.error(new ParseError(je));
+//				}
+//			}
 			
 		};
 		if (retryPolicy != null) {
 			req.setRetryPolicy(retryPolicy);
 		}
+		
+		String cookie = SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "")/*.replace("JSESSIONID=", "")*/;
+//		Logger.d1(tag, "------------------cookie:" + string);
+		if(!TextUtils.isEmpty(cookie)){
+//			req.setSendCookie("JSESSIONID="+SharedPreferencesHelper.getString(context, Field.SESSIONID, ""));
+			req.setSendCookie(cookie);
+		}
+		
 		Volley.newRequestQueue(context).add(req);
 	}
 

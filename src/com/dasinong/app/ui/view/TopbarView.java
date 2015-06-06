@@ -85,6 +85,15 @@ public class TopbarView extends RelativeLayout {
 		mCenterText.setVisibility(View.VISIBLE);
 		mCenterText.setText(res);
 	}
+	public void setRightText(String text){
+		mRightText.setVisibility(View.VISIBLE);
+		mCenterText.setText(text);
+	}
+	
+	public void setRightText(int res){
+		mRightText.setVisibility(View.VISIBLE);
+		mRightText.setText(res);
+	}
 	
 	public void setRightVisible(boolean visible){
 		if(visible){

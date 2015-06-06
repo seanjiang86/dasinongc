@@ -1,44 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent" 
     >
 
     <RelativeLayout
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:gravity="center">
-        <RelativeLayout android:id="@+id/layout_icon"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:gravity="center"
-	        android:layout_centerHorizontal="true">
-	        <ProgressBar
-	            android:id="@+id/loading_bar"
-	            style="@android:style/Widget.ProgressBar.Inverse"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:visibility="visible"/>
-	        
-		</RelativeLayout>
-		
+        android:layout_centerInParent="true"
+        android:gravity="center" >
+
+        <RelativeLayout
+            android:id="@+id/layout_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:gravity="center" >
+
+            <ProgressBar
+                android:id="@+id/loading_bar"
+                style="@android:style/Widget.ProgressBar.Inverse"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:visibility="visible" />
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/loading_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_below="@+id/layout_icon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:ellipsize="end"
+            android:gravity="center"
             android:maxLines="2"
             android:text="请稍等"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="10dp"
             android:textColor="@android:color/darker_gray"
             android:textSize="16dp"
-            android:gravity="center"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
     </RelativeLayout>
 
 </RelativeLayout>
