@@ -2,15 +2,16 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:orientation="horizontal">
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
 
 
     <!-- 左侧按钮 -->
     <RelativeLayout
-        android:layout_gravity="center_vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
 
         <LinearLayout
             android:id="@+id/iv_check"
@@ -19,8 +20,9 @@
             android:layout_centerVertical="true"
             android:clickable="true"
             android:focusable="true"
-            android:paddingLeft="@dimen/row_between_row_30"
-            android:paddingRight="@dimen/row_between_row_35">
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:paddingRight="@dimen/home_dimen_35"
+            android:paddingTop="@dimen/home_dimen_40">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -28,29 +30,39 @@
                 android:src="@drawable/check_box_bg_select" />
         </LinearLayout>
 
-
-        <TextView
+        <RelativeLayout
+            android:id="@+id/right_view"
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:paddingTop="@dimen/home_dimen_40"
             android:layout_toRightOf="@id/iv_check"
-            android:id="@+id/work_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:gravity="top|left"
-            android:singleLine="true"
-            android:text="保持水分"
-            android:textColor="#ffffff"
-            android:textSize="16dp" />
-        <ImageView
-            android:layout_alignParentRight="true"
-            android:src="@drawable/right_arrow"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/work_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="top|left"
+                android:singleLine="true"
+                android:text="保持水分"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/home_text_size_32" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/right_arrow" />
+        </RelativeLayout>
     </RelativeLayout>
+
     <View
         android:id="@+id/line"
-        android:background="#159e13"
         android:layout_width="match_parent"
-        android:layout_height="1.2dp"/>
-
+        android:layout_height="@dimen/home_dimen_line_height_1"
+        android:background="#1ca41c" />
 
 </LinearLayout>

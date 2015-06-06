@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="weather_update">更新于%d分钟前</string>
+    <string name="weather_dafeng">大风</string>
+    <string name="weather_qingzhuanduoyun">晴转多云</string>
+
+</resources>

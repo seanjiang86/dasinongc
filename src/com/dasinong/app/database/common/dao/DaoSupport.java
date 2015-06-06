@@ -6,11 +6,6 @@ import java.util.List;
  * Created by liuningning on 15/6/2.
  */
 public interface DaoSupport<T> {
-    /**
-     *
-     * @return 返回数据库中所有的数据
-     */
-    public List<T> query();
 
     /**
      *

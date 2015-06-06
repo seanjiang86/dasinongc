@@ -32,7 +32,7 @@ public class SMSReceiver extends BroadcastReceiver {
 	public SMSReceiver() {
 		String msg = "Please dynamically register an instance of this class with Context.registerReceiver."
 				+"\r\nIf not, the SMSSDK.VerifyCodeReadListener will be null!";
-		Log.w("cn.smssdk.gui.SMSReceiver", msg);
+		Log.w("MSReceiver", msg);
 	}
 
 	@Override

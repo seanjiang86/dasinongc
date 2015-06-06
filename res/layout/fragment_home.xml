@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:fillViewport="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.dasinong.app.components.home.view.CropsStateView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.dasinong.app.components.home.view.BannerView
+        android:layout_width="@dimen/home_dimen_10"
+        android:layout_height="wrap_content"/>
+    <com.dasinong.app.components.home.view.HomeWeatherView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.dasinong.app.components.home.view.DisasterView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <com.dasinong.app.components.home.view.SoilView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+</LinearLayout>
+
+</ScrollView>

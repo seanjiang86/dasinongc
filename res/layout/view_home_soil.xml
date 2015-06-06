@@ -25,17 +25,20 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="#333333"
-                android:textSize="17sp"
+                android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:text="红色土壤"
                 tools:text="红色土壤" />
 
             <TextView
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/home_dimen_30"
                 android:gravity="center"
                 android:textColor="#999999"
-                android:textSize="13sp"
+                android:textSize="@dimen/home_text_size_26"
+                android:text="土质土壤"
                 tools:text="土质土壤" />
 
         </LinearLayout>
@@ -56,17 +59,19 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="#333333"
-                android:textSize="17sp"
+                android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:text="中等"
                 tools:text="中等" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/home_dimen_30"
                 android:gravity="center"
                 android:textColor="#999999"
-                android:textSize="13sp"
+                android:textSize="@dimen/home_text_size_26"
+                android:text="肥力自评"
                 tools:text="肥力自评" />
         </LinearLayout>
 
@@ -86,17 +91,20 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="#333333"
-                android:textSize="17sp"
+                android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:text="34％"
+
                 tools:text="34％" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/home_dimen_30"
                 android:gravity="center"
                 android:textColor="#999999"
-                android:textSize="13sp"
+                android:textSize="@dimen/home_text_size_26"
+                android:text="根茎层 土壤温度"
                 tools:text="根茎层 土壤温度" />
 
         </LinearLayout>
@@ -106,7 +114,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/home_dimen_line_height_1"
         android:background="#dbe3e5" />
 
 
@@ -114,8 +122,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingTop="35dp"
-        android:paddingBottom="12dp">
+        android:paddingBottom="12dp"
+        android:paddingTop="35dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -129,17 +137,19 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="#333333"
-                android:textSize="17sp"
+                android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:text="－－"
                 tools:text="－－" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/home_dimen_30"
                 android:gravity="center"
                 android:textColor="#999999"
-                android:textSize="13sp"
+                android:textSize="@dimen/home_text_size_26"
+                android:text="氮  Ｎ"
                 tools:text="氮  Ｎ" />
 
         </LinearLayout>
@@ -160,17 +170,19 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="#333333"
-                android:textSize="17sp"
+                android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:text="－－"
                 tools:text="－－" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/home_dimen_30"
                 android:gravity="center"
                 android:textColor="#999999"
-                android:textSize="13sp"
+                android:textSize="@dimen/home_text_size_26"
+                android:text="磷  Ｐ"
                 tools:text="磷  Ｐ" />
         </LinearLayout>
 
@@ -190,17 +202,19 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="#333333"
-                android:textSize="17sp"
+                android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:text="－－"
                 tools:text="－－" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="@dimen/home_dimen_30"
                 android:gravity="center"
                 android:textColor="#999999"
-                android:textSize="13sp"
+                android:textSize="@dimen/home_text_size_26"
+                android:text="钾  Ｋ"
                 tools:text="钾  Ｋ" />
 
         </LinearLayout>
@@ -210,16 +224,18 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/home_dimen_line_height_1"
         android:background="#ededed" />
 
     <TextView
+        android:id="@+id/soil_check"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="30dp"
+        android:padding="@dimen/home_dimen_60"
         android:textColor="#1768bc"
-        android:textSize="16sp"
+        android:textSize="@dimen/home_text_size_32"
+        android:text="申请测土"
         tools:text="申请测土" />
 
 

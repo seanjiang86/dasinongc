@@ -141,6 +141,30 @@ public class NetConfig {
 		// paramsMap.put(Params.sign, sign);
 		return paramsMap;
 	}
+	public static Map<String, String> getBaseParams(boolean isNeedAuthToken, Map<String,String> params) {
+
+		String[] strs = new String[params.size()];
+		int index = 0;
+		for(Map.Entry<String,String> entry: params.entrySet()){
+			strs[index] = getTokenParams(entry.getKey(),entry.getValue());
+		}
+
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		String token = null;
+		if (isNeedAuthToken) {
+			token = AccountManager.getAuthToken(DsnApplication.getContext());
+			paramsMap.put(Params.token, token);
+		} else {
+			token = null;
+		}
+		String stamp = System.currentTimeMillis() + "";
+		String sign = getCheckToken(getTokenParams(Params.stamp, stamp), isNeedAuthToken, getTokenParams(Params.token, token),
+				strs);
+
+		// paramsMap.put(Params.stamp, stamp);
+		// paramsMap.put(Params.sign, sign);
+		return paramsMap;
+	}
 
 	public static Map<String, String> getDefaultParams() {
 		Map<String, String> paramsMap = getBaseParams(false);

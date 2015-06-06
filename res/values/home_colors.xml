@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="home_w_white" >@android:color/white</color>
+    <color name="home_w_c8c8c8" >#c8c8c8</color>
+    <color name="home_w_666666" >#666666</color>
+    <color name="home_w_86a4ff" >#86a4ff</color>
+    <color name="home_w_black" >@android:color/black</color>
+
+</resources>
