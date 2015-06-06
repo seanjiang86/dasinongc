@@ -53,7 +53,7 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
             Cursor cursor = sqLiteDatabase.getWritableDatabase().rawQuery(sql,null);
 
             if (cursor != null) {
-                String item ;
+                cursor.moveToFirst();
                 while (cursor.moveToNext()) {
                     result.add(cursor.getString(0));
                 }
@@ -112,6 +112,7 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
 
         if (cursor != null) {
             T item ;
+            cursor.moveToFirst();
             while (cursor.moveToNext()) {
                 try {
                     item = mClass.newInstance();
