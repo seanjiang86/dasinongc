@@ -1,13 +1,15 @@
 package com.dasinong.app.entity;
 
+
 public class User {
 
+	
 	private String userId;
 	private String cellPhone;
 	private String userName;
 	private String password;
 	private String address;
-	private UserFields fields;
+	private java.util.List<UserFields> fields;
 
 	public String getUserId() {
 		return userId;
@@ -47,14 +49,6 @@ public class User {
 
 	public void setAddress(String address) {
 		this.address = address;
-	}
-
-	public UserFields getFields() {
-		return fields;
-	}
-
-	public void setFields(UserFields fields) {
-		this.fields = fields;
 	}
 
 }

@@ -1,6 +1,8 @@
 package com.dasinong.app.ui.manager;
 
 import com.dasinong.app.entity.AccountEntity;
+import com.dasinong.app.entity.User;
+import com.dasinong.app.ui.RegisterPhoneActivity;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 
 import android.content.Context;
@@ -31,13 +33,15 @@ public class AccountManager {
 		return result;
 	}
 	
-//	public static void saveAccount(Context context,LoginResponse user){
-//		
-//	}
-	
-//	public static void saveAccount(Context context, AccountEntity accountEntity) {
-//		SharedPreferencesHelper.setString(context, Field.USER_NAME, accountEntity.getUname());
-//	}
+	public static void saveAccount(Context context, User user) {
+		SharedPreferencesHelper.setString(context, Field.USER_NAME, user.getUserName());
+		SharedPreferencesHelper.setString(context, Field.USER_ID, user.getUserId());
+		SharedPreferencesHelper.setString(context, Field.USER_PHONE, user.getCellPhone());
+		SharedPreferencesHelper.setString(context, Field.USER_ADDRESS, user.getAddress());
+		
+		//save db | user fields
+		
+	}
 	
 	public static String getAuthToken(Context context){
 		return SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "");
@@ -48,18 +52,18 @@ public class AccountManager {
 	}
 	
 	
-//	public static boolean checkLogin(Context context){
-//		if(isLogin(context)){
-//			return true;
-//		}else{
-//			try {
-//				Intent intent = new Intent(context ,LoginActivity.class);
-//				context.startActivity(intent);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			return false;
-//		}
-//	}
+	public static boolean checkLogin(Context context){
+		if(isLogin(context)){
+			return true;
+		}else{
+			try {
+				Intent intent = new Intent(context ,RegisterPhoneActivity.class);
+				context.startActivity(intent);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return false;
+		}
+	}
 
 }

@@ -58,10 +58,8 @@ public class NetConfig {
 		public static final String stamp = "stamp";
 		public static final String sign = "sign";
 		public static final String username = "username";
-		public static final String userName = "userName";
 		public static final String password = "password";
 		public static final String cellphone = "cellphone";
-		public static final String cellPhone = "cellPhone";
 		public static final String address = "address";
 		public static final String latitude = "latitude";
 		public static final String longitude = "longitude";
@@ -83,11 +81,12 @@ public class NetConfig {
 	 * @return 注册
 	 */
 	public static Map<String, String> getRegisterParams(String userName, String password, String cellPhone, String address) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName), getTokenParams(Params.password, password),
-				getTokenParams(Params.cellPhone, cellPhone), getTokenParams(Params.address, address));
-		paramsMap.put(Params.userName, userName);
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName),
+				getTokenParams(Params.password, password), getTokenParams(Params.cellphone, cellPhone),
+				getTokenParams(Params.address, address));
+		paramsMap.put(Params.username, userName);
 		paramsMap.put(Params.password, password);
-		paramsMap.put(Params.cellPhone, cellPhone);
+		paramsMap.put(Params.cellphone, cellPhone);
 		paramsMap.put(Params.address, address);
 		return paramsMap;
 	}
@@ -97,18 +96,19 @@ public class NetConfig {
 		paramsMap.put(Params.cellphone, cellphone);
 		return paramsMap;
 	}
-
-	public static Map<String, String> getLoginParams(String userName, String password) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.userName, userName), getTokenParams(Params.password, password));
-		paramsMap.put(Params.userName, userName);
+	
+	public static Map<String, String> getLoginParams(String userName,String password) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName)
+				, getTokenParams(Params.password, password));
+		paramsMap.put(Params.username, userName);
 		paramsMap.put(Params.cellphone, userName);
 		paramsMap.put(Params.password, password);
 		return paramsMap;
 	}
 
 	public static Map<String, String> getCheckUserParams(String cellPhone) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.cellPhone, cellPhone));
-		paramsMap.put(Params.cellPhone, cellPhone);
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.cellphone, cellPhone));
+		paramsMap.put(Params.cellphone, cellPhone);
 		return paramsMap;
 	}
 
@@ -149,6 +149,30 @@ public class NetConfig {
 		}
 		String stamp = System.currentTimeMillis() + "";
 		String sign = getCheckToken(getTokenParams(Params.stamp, stamp), isNeedAuthToken, getTokenParams(Params.token, token), strs);
+
+		// paramsMap.put(Params.stamp, stamp);
+		// paramsMap.put(Params.sign, sign);
+		return paramsMap;
+	}
+	public static Map<String, String> getBaseParams(boolean isNeedAuthToken, Map<String,String> params) {
+
+		String[] strs = new String[params.size()];
+		int index = 0;
+		for(Map.Entry<String,String> entry: params.entrySet()){
+			strs[index] = getTokenParams(entry.getKey(),entry.getValue());
+		}
+
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		String token = null;
+		if (isNeedAuthToken) {
+			token = AccountManager.getAuthToken(DsnApplication.getContext());
+			paramsMap.put(Params.token, token);
+		} else {
+			token = null;
+		}
+		String stamp = System.currentTimeMillis() + "";
+		String sign = getCheckToken(getTokenParams(Params.stamp, stamp), isNeedAuthToken, getTokenParams(Params.token, token),
+				strs);
 
 		// paramsMap.put(Params.stamp, stamp);
 		// paramsMap.put(Params.sign, sign);
