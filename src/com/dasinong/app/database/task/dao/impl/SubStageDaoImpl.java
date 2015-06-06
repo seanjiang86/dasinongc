@@ -41,7 +41,6 @@ public class SubStageDaoImpl extends DaoSupportImpl<SubStage> {
     {
 
         StringBuffer sb = new StringBuffer();
-
         sb.append("select distinct stageName ")
                 .append("from ")
                 .append("substage");
