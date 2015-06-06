@@ -14,10 +14,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="#ffffff"
-        android:orientation="vertical"
-        android:paddingLeft="16dip"
-        android:paddingRight="16dip" >
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/tv_identify_notify"
@@ -26,71 +26,59 @@
             android:layout_marginTop="20dip"
             android:gravity="center"
             android:text="@string/smssdk_make_sure_mobile_detail"
-            android:textColor="#999999"
-            android:textSize="15sp" />
+            android:textColor="@color/color_7A7A7A"
+            android:textSize="@dimen/sp_16" />
 
         <TextView
             android:id="@+id/tv_phone"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="27dip"
-            android:gravity="center"
-            android:textColor="#353535"
-            android:textSize="19sp"
-            android:textStyle="bold" />
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:text="12341315"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_30" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="41dip"
-            android:layout_marginTop="19dip"
-            android:background="@color/color_DCE3E6"
-            android:orientation="horizontal" >
+            android:layout_height="55dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical" >
 
-            <EditText
-                android:id="@+id/et_put_identify"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="4dip"
-                android:background="#ffffff"
-                android:hint="@string/smssdk_write_identify_code"
-                android:singleLine="true"
-                android:inputType="number" />
-
-            <ImageView
-                android:id="@+id/iv_clear"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignRight="@+id/et_put_identify"
-                android:layout_centerVertical="true"
-                android:background="@drawable/smssdk_clear_search"
-                android:scaleType="fitCenter"
-                android:visibility="gone"/>
+                android:text="验证码："
+                android:textColor="@color/color_555555"
+                android:textSize="@dimen/sp_16" />
 
-            <!-- <Button
-                android:id="@+id/btn_sounds"
-                android:layout_width="wrap_content"
-                android:layout_height="50dip"
-                android:layout_alignParentBottom="true"
-                android:text="点击发送语音验证"
-                android:textSize="12sp"
-                android:textColor="@color/smssdk_white"
-                android:background="@drawable/smssdk_btn_disenable"
-                android:padding="10dip"
-                android:layout_alignRight="@+id/et_put_identify"
-                android:visibility="gone" /> -->
+            <EditText
+                android:id="@+id/edittext_authcode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:background="@android:color/transparent"
+                android:inputType="number"
+                android:text=""
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_30" />
+        </LinearLayout>
 
-</RelativeLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/color_DCE3E6" />
 
         <TextView
             android:id="@+id/tv_unreceive_identify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="18dip"
-            android:layout_marginTop="20dip"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="@string/smssdk_receive_msg"
-            android:textColor="#5c5c5c"
-            android:textSize="13sp" />
+            android:textColor="@color/color_7A7A7A"
+            android:textSize="@dimen/sp_16" />
 
         <Button
             android:id="@+id/btn_submit"

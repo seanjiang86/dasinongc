@@ -48,10 +48,8 @@ public class NetConfig {
 		public static final String stamp = "stamp";
 		public static final String sign = "sign";
 		public static final String username = "username";
-		public static final String userName = "userName";
 		public static final String password = "password";
 		public static final String cellphone = "cellphone";
-		public static final String cellPhone = "cellPhone";
 		public static final String address = "address";
 	}
 
@@ -70,11 +68,11 @@ public class NetConfig {
 	 */
 	public static Map<String, String> getRegisterParams(String userName, String password, String cellPhone, String address) {
 		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName),
-				getTokenParams(Params.password, password), getTokenParams(Params.cellPhone, cellPhone),
+				getTokenParams(Params.password, password), getTokenParams(Params.cellphone, cellPhone),
 				getTokenParams(Params.address, address));
-		paramsMap.put(Params.userName, userName);
+		paramsMap.put(Params.username, userName);
 		paramsMap.put(Params.password, password);
-		paramsMap.put(Params.cellPhone, cellPhone);
+		paramsMap.put(Params.cellphone, cellPhone);
 		paramsMap.put(Params.address, address);
 		return paramsMap;
 	}
@@ -86,17 +84,17 @@ public class NetConfig {
 	}
 	
 	public static Map<String, String> getLoginParams(String userName,String password) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.userName, userName)
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName)
 				, getTokenParams(Params.password, password));
-		paramsMap.put(Params.userName, userName);
+		paramsMap.put(Params.username, userName);
 		paramsMap.put(Params.cellphone, userName);
 		paramsMap.put(Params.password, password);
 		return paramsMap;
 	}
 	
 	public static Map<String, String> getCheckUserParams(String cellPhone) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.cellPhone, cellPhone));
-		paramsMap.put(Params.cellPhone, cellPhone);
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.cellphone, cellPhone));
+		paramsMap.put(Params.cellphone, cellPhone);
 		return paramsMap;
 	}
 

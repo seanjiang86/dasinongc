@@ -11,7 +11,7 @@
         android:layout_height="wrap_content" >
     </com.dasinong.app.ui.view.TopbarView>
 
-    <LinearLayout
+    <!-- <LinearLayout
         android:id="@+id/rl_country"
         android:layout_width="match_parent"
         android:layout_height="46dp"
@@ -108,6 +108,6 @@
         android:background="@drawable/button_green_bg_selector"
         android:text="下一步"
         android:textColor="#ffffff"
-        android:textSize="15sp" />
+        android:textSize="15sp" /> -->
 
 </LinearLayout>

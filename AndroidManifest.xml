@@ -82,6 +82,14 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.dasinong.app.ui.TaskDetailsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.dasinong.app.ui.TaskListActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar"
