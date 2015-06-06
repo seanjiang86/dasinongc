@@ -22,6 +22,7 @@ import com.dasinong.app.net.RequestCode;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
+import com.dasinong.app.utils.Logger;
 
 import android.content.Intent;
 import android.database.DataSetObserver;
@@ -34,6 +35,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
@@ -46,6 +48,8 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener, 
 	private List<Crop> cropList = new ArrayList<Crop>();
 	private List<CropName> cropNameList = new ArrayList<CropName>();
 	private List<CropNumber> cropNumberList = new ArrayList<CropNumber>();
+	private ImageView iv_one;
+	private View view_one;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -55,7 +59,13 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener, 
 		spn_crop = (Spinner) findViewById(R.id.spn_crop);
 		spn_variety_name = (Spinner) findViewById(R.id.spn_variety_name);
 		spn_variety_number = (Spinner) findViewById(R.id.spn_variety_number);
-
+		view_one = findViewById(R.id.view_one);
+		iv_one = (ImageView) findViewById(R.id.iv_one);
+		
+		
+		view_one.setBackgroundResource(R.color.color_2BAD29);
+		iv_one.setImageResource(R.drawable.green_round);
+		spn_crop.setAdapter(new ArrayAdapter<Crop>(this, R.layout.spinner_checked_text, cropList));
 		RequestService.getInstance().getCrop(this, CropList.class, new NetRequest.RequestListener() {
 
 			@Override
@@ -63,7 +73,7 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener, 
 
 				if (resultData.isOk()) {
 					cropList = ((CropList) resultData).getList();
-
+					
 				} else {
 					showToast(resultData.getMessage());
 				}
@@ -74,11 +84,6 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener, 
 
 			}
 		});
-
-		if (cropList != null && cropList.size() != 0) {
-			spn_crop.setAdapter(new ArrayAdapter<Crop>(this, R.layout.spinner_checked_text, cropList));
-		}
-
 	}
 
 	@Override

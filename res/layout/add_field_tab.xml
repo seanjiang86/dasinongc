@@ -25,31 +25,37 @@
                 android:src="@drawable/green_round" />
 
             <View
+                android:id="@+id/view_one"
                 android:layout_width="80.0dip"
                 android:layout_height="3.0dip"
                 android:background="@color/color_E9E9E9" />
 
             <ImageView
+                android:id="@+id/iv_one"
                 android:layout_width="15.0dip"
                 android:layout_height="15.0dip"
                 android:src="@drawable/gray_round" />
 
             <View
+                android:id="@+id/view_two"
                 android:layout_width="80.0dip"
                 android:layout_height="3.0dip"
                 android:background="@color/color_E9E9E9" />
 
             <ImageView
+                android:id="@+id/iv_two"
                 android:layout_width="15.0dip"
                 android:layout_height="15.0dip"
                 android:src="@drawable/gray_round" />
 
             <View
+                android:id="@+id/view_three"
                 android:layout_width="80.0dip"
                 android:layout_height="3.0dip"
                 android:background="@color/color_E9E9E9" />
 
             <ImageView
+                android:id="@+id/iv_three"
                 android:layout_width="15.0dip"
                 android:layout_height="15.0dip"
                 android:src="@drawable/gray_round" />
