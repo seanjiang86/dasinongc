@@ -10,10 +10,13 @@
 
 | 接口   | 接口路径  | 输入参数 |　返回码 | 返回描述    |　　返回内容  |
 |--------|-----------|----------|---------|-------------|------------------|
-|  首页    |  home    |   userId(R)   | 200 | 获取消息成功            |Field(包括相关petDisSpec,natDisSpec,Task等)，Weather|
-|          |          |               | 110 | 用户不存在              |                             |
-|          |  taskUpdate |  taskId(R),status（R) | 200 |  任务状态更新成功 |                        |      
-|          |  taskListUpdate |  tasks,status     | 200 |  任务状态列表跟新成功|                        |
+|  首页    |  home    |   fieldId     | 200 | 获取消息成功            |Field(包括相关petDisSpec,natDisSpec,Task等)，Weather|
+|          |          |               | 110 | 用户没有田地            |                             |
+|          |          |               | 100 | 用户未登陆         |                             |
+|          |          |               | 120 | 用户id不存在         |                             |
+|          |  updateTask |  fieldId(R) | 200 |  任务状态更新成功 |                        |      
+|          |        |  taskId,taskStatus|| taskIds,taskStatus | 200 | 任务状态列表跟新成功  |                        |    
+|          |   |  taskIds,taskStatuss     | 300 |  |                        |
 
 
 ## 待开发接口
