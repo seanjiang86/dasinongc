@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.dasinong.app.database.city.dao.CityDao;
 
+import com.dasinong.app.database.city.domain.City;
 import com.dasinong.app.database.common.dao.impl.DaoSupportImpl;
 import com.dasinong.app.utils.Logger;
 
@@ -12,7 +13,7 @@ import java.util.List;
 /**
  * Created by liuningning on 15/6/6.
  */
-public class CityDaoImpl extends DaoSupportImpl<String> implements CityDao{
+public class CityDaoImpl extends DaoSupportImpl<City> implements CityDao{
 
     private static  final  String  TAG="CityDaoImpl";
     public CityDaoImpl(Context context) {
@@ -29,7 +30,8 @@ public class CityDaoImpl extends DaoSupportImpl<String> implements CityDao{
         StringBuilder sb = new StringBuilder();
         sb.append("select DISTINCT province from ")
                 .append("city");
-        return query(sb.toString());
+        Logger.d(TAG, sb.toString());
+        return querySingleColumn(sb.toString());
     }
 
     /**
@@ -46,7 +48,7 @@ public class CityDaoImpl extends DaoSupportImpl<String> implements CityDao{
                 .append(province)
                 .append("'");
         Logger.d(TAG,sb.toString());
-        return query(sb.toString());
+        return querySingleColumn(sb.toString());
 
     }
 
@@ -65,7 +67,7 @@ public class CityDaoImpl extends DaoSupportImpl<String> implements CityDao{
                 .append(city)
                 .append("'");
         Logger.d(TAG,sb.toString());
-        return query(sb.toString());
+        return querySingleColumn(sb.toString());
 
     }
 
@@ -86,7 +88,7 @@ public class CityDaoImpl extends DaoSupportImpl<String> implements CityDao{
                 .append(county)
                 .append("'");
         Logger.d(TAG, sb.toString());
-        return query(sb.toString());
+        return querySingleColumn(sb.toString());
     }
 
 }

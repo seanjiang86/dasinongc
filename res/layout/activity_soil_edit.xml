@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            tools:text="基本信息"
+            android:textColor="#333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+
+  <View
+      android:background="#bde3e5"
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/home_dimen_line_height_1"/>
+
+    <LinearLayout
+        tools:visibility="gone"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/home_dimen_15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            tools:text="土质类型"
+            android:textColor="#333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:layout_marginRight="@dimen/home_dimen_45"
+            android:layout_marginLeft="@dimen/home_dimen_30"
+            android:layout_width="match_parent"
+            android:background="#ff0000"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        tools:visibility="gone"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/home_dimen_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            tools:text="        土质"
+            android:textColor="#333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:layout_marginRight="@dimen/home_dimen_45"
+            android:layout_marginLeft="@dimen/home_dimen_30"
+            android:layout_width="match_parent"
+            android:background="#ff0000"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/home_dimen_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            tools:text="肥力自评"
+            android:textColor="#333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:layout_marginRight="@dimen/home_dimen_45"
+            android:layout_marginLeft="@dimen/home_dimen_30"
+            android:layout_width="match_parent"
+            android:background="#ff0000"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/home_dimen_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            tools:text="土壤湿度"
+            android:textColor="#333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:layout_marginRight="@dimen/home_dimen_45"
+            android:layout_marginLeft="@dimen/home_dimen_30"
+            android:layout_width="match_parent"
+            tools:text="土壤湿度有什么用"
+            android:textColor="#1768bc"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:background="#e9e9e9"
+        android:layout_height="@dimen/home_dimen_20"/>
+
+
+
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/home_dimen_20"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            tools:text="测土报告录入"
+            android:textColor="#333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:layout_marginRight="@dimen/home_dimen_45"
+            android:layout_marginLeft="@dimen/home_dimen_30"
+            android:layout_width="match_parent"
+            tools:text="全部报告"
+            android:gravity="right"
+            android:textColor="#1768bc"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <View
+        android:background="#bde3e5"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_dimen_line_height_1"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/home_dimen_15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            tools:text="测试时间"
+            android:textColor="#333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:layout_marginRight="@dimen/home_dimen_45"
+            android:layout_marginLeft="@dimen/home_dimen_30"
+            android:layout_width="match_parent"
+            android:background="#ff0000"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/home_dimen_15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            tools:text="酸碱度PH"
+            android:textColor="#333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:layout_marginRight="@dimen/home_dimen_45"
+            android:layout_marginLeft="@dimen/home_dimen_30"
+            android:layout_width="match_parent"
+            android:background="#ff0000"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/home_dimen_15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:text="有机质"
+            android:textColor="#333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:layout_marginRight="@dimen/home_dimen_45"
+            android:layout_marginLeft="@dimen/home_dimen_30"
+            android:layout_width="match_parent"
+            android:background="#ff0000"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/home_dimen_15"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:text="全氮"
+            android:textColor="#333"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:paddingLeft="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_40"
+            android:layout_marginRight="@dimen/home_dimen_45"
+            android:layout_marginLeft="@dimen/home_dimen_30"
+            android:layout_width="match_parent"
+            android:background="#ff0000"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</LinearLayout>

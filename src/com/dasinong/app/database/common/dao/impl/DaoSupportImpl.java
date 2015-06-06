@@ -44,6 +44,28 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
 
     }
 
+    @Override
+    public List<String> querySingleColumn(String sql) {
+
+
+            List<String > result = new ArrayList<>();
+
+            Cursor cursor = sqLiteDatabase.getWritableDatabase().rawQuery(sql,null);
+
+            if (cursor != null) {
+                String item ;
+                while (cursor.moveToNext()) {
+                    result.add(cursor.getString(0));
+                }
+
+                cursor.close();
+
+            }
+
+
+        return result;
+    }
+
     public List<T> query(String[] selection, String[] selectionArgs) {
 
         List<T> result = new ArrayList<T>();
@@ -145,5 +167,11 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
         return "get" + typeName.substring(0, 1).toUpperCase() + typeName.substring(1);
 
     }
+
+
+
+
+
+
 
 }

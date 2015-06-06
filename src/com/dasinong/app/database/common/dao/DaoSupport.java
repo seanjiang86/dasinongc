@@ -21,4 +21,15 @@ public interface DaoSupport<T> {
      * @return 返回数据库中所有符合的数据
      */
     public List<T> query(String sql);
+
+
+
+
+
+    /**
+     *
+     * @param sql
+     * @return 返回数据库单列的数据集合
+     */
+    public List<String> querySingleColumn(String sql);
 }

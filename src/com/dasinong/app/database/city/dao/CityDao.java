@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by liuningning on 15/6/6.
  */
-public interface CityDao extends DaoSupport<String> {
+public interface CityDao extends DaoSupport {
 
     /**
      * 查询所有的省
