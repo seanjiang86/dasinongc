@@ -5,6 +5,7 @@ import android.content.Context;
 import com.dasinong.app.database.common.dao.impl.DaoSupportImpl;
 import com.dasinong.app.database.disaster.dao.CPProductDao;
 import com.dasinong.app.database.disaster.domain.CPProduct;
+import com.dasinong.app.utils.Logger;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class CPProductDaoImpl extends DaoSupportImpl<CPProduct> implements CPPro
             .append(String.valueOf(petSoluId))
             .append(" and ")
             .append("petsolu_cpproduct.cPProductId =cpproduct.cPProductId");
+        Logger.d("CPProductDaoImpl",sql.toString());
         return query(sql.toString());
     }
 

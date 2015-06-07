@@ -91,7 +91,7 @@ public class DisasterManager {
 
 
     /**
-     *
+     *病虫草的id所有的治疗方案
      * @param petDisSpecId 病虫草的id
      * @return 病虫草的id所有的治疗方案
      */
@@ -101,7 +101,7 @@ public class DisasterManager {
     }
 
     /**
-     *
+     *根据防治方案的id所有的相关的药
      * @param petSoluId 防治方案的id
      * @return 根据防治方案的id所有的相关的药
      */
