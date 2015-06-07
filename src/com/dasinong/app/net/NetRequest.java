@@ -109,7 +109,8 @@ public class NetRequest {
 		}
 
 		String url = NetConfig.getRequestUrl(subUrl);
-		if (map != null) {
+		Logger.d("TAG",url);
+		if (map != null&&!map.isEmpty()) {
 			checkNull(map);
 			url = url + encodeParameters(map);
 		}

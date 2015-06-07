@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="soil_information_full_divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#dbe3e5</item>
+    </style>
+
+    <style name="soil_information_middle_divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#ededed</item>
+    </style>
+
+    <style name="soil_information_item_container">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:paddingLeft">@dimen/home_dimen_30</item>
+        <item name="android:paddingRight">@dimen/home_dimen_30</item>
+    </style>
+
+    <style name="soil_information_item_container_left_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/home_dimen_20</item>
+        <item name="android:paddingRight">@dimen/home_dimen_30</item>
+        <item name="android:paddingBottom">@dimen/home_dimen_20</item>
+        <item name="android:textColor">#333</item>
+        <item name="android:textSize">@dimen/home_text_size_32</item>
+
+
+    </style>
+
+
+    <style name="soil_information_item_container_right_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:paddingRight">@dimen/home_dimen_30</item>
+        <item name="android:paddingTop">@dimen/home_dimen_20</item>
+        <item name="android:paddingBottom">@dimen/home_dimen_20</item>
+        <item name="android:textColor">#666</item>
+        <item name="android:textSize">@dimen/home_text_size_40</item>
+        <item name="android:layout_alignParentRight">true</item>
+
+
+    </style>
+
+    <style name="soil_information_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/home_dimen_20</item>
+
+
+        <item name="android:paddingBottom">@dimen/home_dimen_20</item>
+
+        <item name="android:paddingLeft">@dimen/home_dimen_30</item>
+        <item name="android:textColor">#666</item>
+        <item name="android:textSize">@dimen/home_text_size_32</item>
+
+
+
+    </style>
+
+</resources>

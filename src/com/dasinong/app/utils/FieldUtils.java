@@ -15,9 +15,15 @@ public class FieldUtils {
      * @param obj domain
      * @return hashMap
      */
-    public HashMap<String, String> convertToHashMap(Object obj) {
+    public static HashMap<String, String> convertToHashMap(Object obj) {
+
+
 
         HashMap<String, String> map = new HashMap<String, String>(16, 0.75F);
+
+        if(obj==null){
+            return map;
+        }
 
         Field[] fields = obj.getClass().getDeclaredFields();
 

@@ -5,6 +5,7 @@ import java.util.Map;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.net.NetConfig.SubUrl;
 import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.utils.FieldUtils;
 
 import android.content.Context;
 
@@ -61,5 +62,19 @@ public class RequestService {
 	public void getCropNumber(Context context,String cropNameId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getGetCropNumberParams(cropNameId);
 		new NetRequest(context).get(RequestCode.GET_CROP_NUMBER,params, SubUrl.GET_CROP_NUMBER, callBack,clazz);
+	}
+
+
+
+	public void sendRequestWithToken(Context context,Class<? extends BaseEntity> clazz,int requestCode,String url,Object param,RequestListener callBack) {
+		Map<String,String> map = FieldUtils.convertToHashMap(param);
+		Map<String, String> params = NetConfig.getBaseParams(true, map);
+		new NetRequest(context).get(requestCode,params, url, callBack,clazz);
+	}
+
+	public void sendRequestWithOutToken(Context context,Class<? extends BaseEntity> clazz,int requestCode,String url,Object param,RequestListener callBack) {
+		Map<String,String> map = FieldUtils.convertToHashMap(param);
+		Map<String, String> params = NetConfig.getBaseParams(false,map);
+		new NetRequest(context).get(requestCode,params, url, callBack,clazz);
 	}
 }

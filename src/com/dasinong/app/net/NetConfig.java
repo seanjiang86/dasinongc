@@ -47,6 +47,10 @@ public class NetConfig {
 		public static final String GET_CROP_NAME = "getCropName";
 		/** 获取品种编号列表 */
 		public static final String GET_CROP_NUMBER = "getCropNumber";
+		/*获取首页的的task*/
+		public static final String GET_HOME_TASK ="home";
+		/**测土的详情页*/
+		public static final String GET_SOIL_DETAIL ="";
 	}
 
 	public static String getRequestUrl(String subUrl) {
