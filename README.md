@@ -11,20 +11,16 @@
 
 | 接口   | 接口路径  | 输入参数 |　返回码 | 返回描述    |　　返回内容  |
 |--------|-----------|----------|---------|-------------|------------------|
-|  首页    |  home    |   fieldId     | 200 | 获取消息成功            |Field(包括相关petDisSpec,natDisSpec,Task等)，Weather|
-|          |          |               | 110 | 用户没有田地            |                             |
-|          |          |               | 100 | 用户未登陆         |                             |
-|          |          |               | 120 | 用户id不存在         |                             |
-|          |  updateTask |  fieldId(R) | 200 |  任务状态更新成功 |                        |      
-|          |        |  taskId,taskStatus|| taskIds,taskStatus | 200 | 任务状态列表跟新成功  |                        |    
-|          |   |  taskIds,taskStatuss     | 300 |  |                        |
-
+| 注册田地 |  createField   |  fieldName,isActive，        |  200       |   创建成功          |     field 相关信息      |
+|          |                |  seedingortransplant,area,   |            |                     |                         |
+|          |                |  startDate,locationId,  |             |               |                      |
+|          |                |  varietyId,currentStageID  |          |               |                      |
+| 选择品种 |  getVarietyList | cropName||cropId(推荐）,  |  200   |  获取品种列表成功  | 小品种名列表，对应编号和品种id|                  
 
 ## 待开发接口
 | 接口   | 接口路径  | 输入参数 |　返回码 | 返回描述    |　　返回内容  |
 |--------|-----------|----------|---------|-------------|------------------|
-|  通用    |  checkUser    |  cellphone(R) |  200   | 用户存在　　|          |
-| 　　　   |  　　　　　   |  　　　　　　|  110   | 用户不存在　　|          |
+
 
 
 
@@ -43,3 +39,12 @@
 | 认证注册 |  authRegLog | cellphone(R)  | 200 | 注册成功，初始密码手机后６位　|    User(包括fieldList)      |
 |          |          |               | 200 | 用户已存在，登陆　　　　　　　|    User(包括fieldList)      |
 |          |          |               | 200 | 用户已登陆　　　　　　　|    User(包括fieldList)      |
+|  通用    |  checkUser    |  cellphone(R) |  200   | 用户存在　　|          |
+| 　　　   |  　　　　　   |  　　　　　　|  110   | 用户不存在　　|          |
+|  首页    |  home    |   fieldId     | 200 | 获取消息成功            |Field(包括相关petDisSpec,natDisSpec,Task等)，Weather|
+|          |          |               | 110 | 用户没有田地            |                             |
+|          |          |               | 100 | 用户未登陆         |                             |
+|          |          |               | 120 | 用户id不存在         |                             |
+|          |  updateTask |  fieldId(R) | 200 |  任务状态更新成功 |                        |      
+|          |        |  taskId,taskStatus|| taskIds,taskStatus | 200 | 任务状态列表跟新成功  |                        |    
+|          |   |  taskIds,taskStatuss     | 300 |  |                        |
