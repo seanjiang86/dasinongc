@@ -16,7 +16,7 @@
 |          |                |  startDate,locationId,  |             |               |                      |
 |          |                |  varietyId,currentStageID  |          |               |                      |
 | 选择品种 |  getVarietyList | cropName或cropId(推荐）  |  200   |  获取品种列表成功  | 小品种名列表，对应编号和品种id|      
-|          |                 | locationId(推荐）或province   |   300    | 缺少参数 |     List<Map<subId,varietyId>>    |
+|          |                 | locationId(推荐）或province   |   300    | 缺少参数 |     List（Map（subId,varietyId））    |
 
 ## 待开发接口
 | 接口   | 接口路径  | 输入参数 |　返回码 | 返回描述    |　　返回内容  |
