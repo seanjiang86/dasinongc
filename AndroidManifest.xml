@@ -116,7 +116,13 @@
             android:value="e6fcf845d134fe3da528098e61435a35" />
 
         <activity
+            android:screenOrientation="landscape"
             android:name=".ui.soil.SoilInformationActivity"
+            android:label="@string/title_activity_soil_information" >
+        </activity>
+        <activity
+            android:screenOrientation="landscape"
+            android:name=".ui.soil.SoilEditorActivity"
             android:label="@string/title_activity_soil_information" >
         </activity>
     </application>

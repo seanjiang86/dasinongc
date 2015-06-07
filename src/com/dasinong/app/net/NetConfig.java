@@ -51,6 +51,8 @@ public class NetConfig {
 		public static final String GET_HOME_TASK ="home";
 		/**测土的详情页*/
 		public static final String GET_SOIL_DETAIL ="";
+		/**提交测土信息*/
+		public static final String GET_SOIL_POST ="";
 	}
 
 	public static String getRequestUrl(String subUrl) {
