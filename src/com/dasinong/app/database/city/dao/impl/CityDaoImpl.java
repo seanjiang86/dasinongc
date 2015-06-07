@@ -41,7 +41,7 @@ public class CityDaoImpl extends DaoSupportImpl<City> implements CityDao{
      */
     public List<String> getCity(String province) {
         StringBuilder sb = new StringBuilder();
-        sb.append("select DISTINCT city from city ")
+        sb.append("select DISTINCT city from  ")
                 .append("city ")
                 .append("where ")
                 .append("province = '")
