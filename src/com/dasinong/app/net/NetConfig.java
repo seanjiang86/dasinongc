@@ -42,9 +42,9 @@ public class NetConfig {
 		/** 发送在田地时的经纬度信息 */
 		public static final String SEND_IN_LOCATION = "sendInLocation";
 		/** 获取植物列表 */
-		public static final String GET_CROP = "getCrop";
+		public static final String GET_CROP = "getVarietyList";
 		/** 获取品种名列表 */
-		public static final String GET_CROP_NAME = "getCropName";
+		public static final String GET_CROP_NAME = "getVarietyList";
 		/** 获取品种编号列表 */
 		public static final String GET_CROP_NUMBER = "getCropNumber";
 		/*获取首页的的task*/
@@ -214,6 +214,7 @@ public class NetConfig {
 	public static Map<String, String> getGetCropNameParams(String cropId) {
 		Map<String, String> paramsMap = getBaseParams(false,getTokenParams(Params.cropId , cropId));
 		paramsMap.put(Params.cropId, cropId);
+		paramsMap.put("locationId", "10000");
 		return paramsMap;
 	}
 	public static Map<String, String> getGetCropNumberParams(String cropNameId) {
