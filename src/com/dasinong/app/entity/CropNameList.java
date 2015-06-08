@@ -1,25 +1,11 @@
 package com.dasinong.app.entity;
 
-import java.util.List;
+
+import java.util.Map;
 
 public class CropNameList extends BaseEntity {
-	private List<CropName> list;
+	
+	public Map<String,Map<String,Integer>> data;
 
-	public class CropName {
-		private String name;
-		private String id;
-
-		public String getName() {
-			return name;
-		}
-
-		public String getId() {
-			return id;
-		}
-	}
-
-	public List<CropName> getList() {
-		return list;
-	}
-
+	
 }

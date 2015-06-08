@@ -130,15 +130,17 @@ public class NetRequest {
 //		get(requestCode,url, clazz, header, callback, Priority.NORMAL, retryPolicy);
 //	}
 
-	private <T> void get(final int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
+	private <T> void get(final int requestCode,final String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
 			final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
+		Log.d("TAG", "url:"+url);
 		StringGetRequest req = new StringGetRequest( url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 
+				Log.d("TAG", "url:"+url);
 				try {
-					Logger.d1(tag, response);
-					
+					//Logger.d1(tag, response);
+				
 					Toast.makeText(DsnApplication.getContext(), response, 0).show();
 					
 					BaseEntity result = new Gson().fromJson(response, clazz);

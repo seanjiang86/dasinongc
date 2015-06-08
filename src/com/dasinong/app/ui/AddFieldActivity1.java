@@ -1,15 +1,20 @@
 package com.dasinong.app.ui;
 
+import java.util.logging.LogRecord;
+
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LocationResult;
+import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.entity.NearbyUser;
 import com.dasinong.app.entity.VillageInfoList;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestCode;
 import com.dasinong.app.net.RequestService;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.utils.LocationUtils;
+import com.dasinong.app.utils.Logger;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 
 import android.content.Intent;
@@ -47,6 +52,7 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+//		login();
 		setContentView(R.layout.activity_add_field_1);
 
 		btn_no_in_field = (Button) findViewById(R.id.btn_no_in_field);
@@ -155,4 +161,32 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 		Intent intent = new Intent(DsnApplication.getContext(), AddFieldActivity3.class);
 		startActivity(intent);
 	}
+	
+	
+	
+//	private void login() {
+//
+//	    RequestService.getInstance().authcodeLoginReg(this, "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
+//
+//	        @Override
+//	        public void onSuccess(int requestCode, BaseEntity resultData) {
+//
+//	            if(resultData.isOk()){
+//	                LoginRegEntity entity = (LoginRegEntity) resultData;
+//
+//	                AccountManager.saveAccount(AddFieldActivity1.this, entity.getData());
+//
+//
+//	            }else{
+//	                Logger.d("TAG", resultData.getMessage());
+//	            }
+//	        }
+//
+//	        @Override
+//	        public void onFailed(int requestCode, Exception error, String msg) {
+//
+//	            Logger.d("TAG","msg"+msg);
+//	        }
+//	    });
+//	}
 }
