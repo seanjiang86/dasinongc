@@ -1,285 +1,457 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:background="#ffffff"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fillViewport="true">
 
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            tools:text="基本信息"
-            android:textColor="#333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-
-
-  <View
-      android:background="#bde3e5"
-      android:layout_width="match_parent"
-      android:layout_height="@dimen/home_dimen_line_height_1"/>
-
-    <LinearLayout
-        tools:visibility="gone"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/home_dimen_15"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="vertical">
 
         <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            tools:text="土质类型"
-            android:textColor="#333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            style="@style/soil_information_title"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:text="@string/soil_base_info" />
 
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            android:layout_marginRight="@dimen/home_dimen_45"
-            android:layout_marginLeft="@dimen/home_dimen_30"
+        <View style="@style/soil_information_full_divider" />
+
+        <LinearLayout style="@style/soil_information_item_container">
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+
+                    android:text="@string/soil_type" />
+
+                <TextView
+                    android:id="@+id/soil_type"
+
+                    style="@style/soil_editor_item_container_drop_menu"
+                    android:text="" />
+
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+                    android:text="@string/soil_color"
+
+                    />
+
+                <TextView
+
+                    android:id="@+id/soil_color"
+
+                    style="@style/soil_editor_item_container_drop_menu"
+
+                    />
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+
+                    android:text="@string/soil_rating" />
+
+                <TextView
+                    android:id="@+id/soil_rating"
+
+                    style="@style/soil_editor_item_container_drop_menu" />
+            </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+               android:paddingTop="@dimen/home_dimen_10"
+                android:paddingBottom="@dimen/home_dimen_10"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/soil_tem_text"
+                    style="@style/soil_information_item_container_left_text"
+                    android:text="@string/soil_tem" />
+
+                <TextView
+                    android:id="@+id/soil_tem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:text="@string/soil_effect"
+                    android:textColor="#1768be"
+                    android:textSize="@dimen/home_text_size_32" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
             android:layout_width="match_parent"
-            android:background="#ff0000"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="@dimen/home_dimen_20"
+            android:background="#ededed" />
 
 
-    <LinearLayout
-        tools:visibility="gone"
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/home_dimen_20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            tools:text="        土质"
-            android:textColor="#333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            android:layout_marginRight="@dimen/home_dimen_45"
-            android:layout_marginLeft="@dimen/home_dimen_30"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:background="#ff0000"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:paddingTop="10dp"
+            android:paddingBottom="5dp"
+            android:layout_height="wrap_content">
+
+            <TextView
+                style="@style/soil_information_title"
+                android:text="@string/soil_report" />
 
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/home_dimen_20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <TextView
+                android:id="soil_all_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingBottom="@dimen/home_dimen_20"
+                android:paddingLeft="@dimen/home_dimen_30"
+                android:textColor="#1768be"
+                android:text="@string/soil_all_report"
+                android:paddingRight="@dimen/home_dimen_30"
+                android:paddingTop="@dimen/home_dimen_20"
 
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            tools:text="肥力自评"
-            android:textColor="#333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+                android:textSize="@dimen/home_text_size_32" />
+        </RelativeLayout>
 
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            android:layout_marginRight="@dimen/home_dimen_45"
-            android:layout_marginLeft="@dimen/home_dimen_30"
+        <View style="@style/soil_information_middle_divider" />
+
+
+        <LinearLayout style="@style/soil_information_item_container">
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+
+                    android:text="@string/soil_time"
+
+                    />
+
+                <EditText
+                    android:id="@+id/soil_time"
+                    style="@style/soil_editor_item_container_no_unit" />
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+                    android:layout_alignBottom="@+id/soil_ph"
+
+                    android:text="@string/soil_ph" />
+
+                <EditText
+                    android:id="@+id/soil_ph"
+                    style="@style/soil_editor_item_container_unit" />
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+
+
+                    android:layout_alignBottom="@+id/soil_organics"
+
+                    android:text="@string/soil_organics" />
+
+                <LinearLayout style="@style/soil_editor_item_unit_container">
+
+                    <EditText
+                        android:id="@+id/soil_organics"
+                        style="@style/soil_editor_item_container_unit" />
+
+                    <TextView
+                        style="@style/soil_editor_item_unit_txt"
+                        android:text="@string/unit_g" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+
+                    style="@style/soil_editor_item_container_left_text"
+
+                    android:text="@string/soil_n" />
+
+                <LinearLayout style="@style/soil_editor_item_unit_container">
+
+                    <EditText
+                        android:id="@+id/soil_n"
+                        style="@style/soil_editor_item_container_unit"
+
+                        />
+
+                    <TextView
+                        style="@style/soil_editor_item_unit_txt"
+
+                        android:text="@string/unit_g" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+
+                    style="@style/soil_editor_item_container_left_text"
+                    android:layout_alignBottom="@+id/soil_moisture"
+                    android:text="@string/soil_moisture" />
+
+                <LinearLayout style="@style/soil_editor_item_unit_container">
+
+                    <EditText
+                        android:id="@+id/soil_moisture"
+                        style="@style/soil_editor_item_container_unit" />
+
+                    <TextView
+                        style="@style/soil_editor_item_unit_txt"
+                        android:text="@string/unit_mg" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+
+                    android:text="@string/soil_k" />
+
+                <LinearLayout style="@style/soil_editor_item_unit_container">
+
+                    <EditText
+                        android:id="@+id/soil_K"
+                        style="@style/soil_editor_item_container_unit" />
+
+                    <TextView
+                        style="@style/soil_editor_item_unit_txt"
+                        android:text="@string/unit_mg" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+
+                    android:layout_alignBottom="@+id/soil_K_slow"
+
+                    android:text="@string/soil_k_slow" />
+
+                <LinearLayout style="@style/soil_editor_item_unit_container">
+
+
+                    <LinearLayout style="@style/soil_editor_item_unit_container">
+
+                        <EditText
+                            android:id="@+id/soil_K_slow"
+                            style="@style/soil_editor_item_container_unit" />
+
+                        <TextView
+                            style="@style/soil_editor_item_unit_txt"
+                            android:text="@string/unit_mg" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <View style="@style/soil_information_full_divider" />
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:background="#ff0000"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/home_dimen_20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <TextView
+                style="@style/soil_information_title"
+                android:layout_alignBottom="@+id/soil_other"
+                android:text="@string/soil_other" />
+
+            <TextView
+                android:id="@+id/soil_other"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:paddingBottom="@dimen/home_dimen_20"
+                android:paddingLeft="@dimen/home_dimen_30"
+                android:paddingRight="@dimen/home_dimen_30"
+                android:paddingTop="@dimen/home_dimen_20"
+                android:text=""
+                android:textColor="#666"
+                android:textSize="@dimen/home_text_size_40" />
+        </RelativeLayout>
+
+
+        <LinearLayout style="@style/soil_information_item_container">
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+                    android:layout_alignBottom="@+id/soil_s"
+                    android:text="@string/soil_s" />
+
+                <LinearLayout style="@style/soil_editor_item_unit_container">
+
+                    <EditText
+                        android:id="@+id/soil_s"
+                        style="@style/soil_editor_item_container_unit" />
+
+                    <TextView
+                        style="@style/soil_editor_item_unit_txt"
+                        android:text="@string/unit_mg" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+
+                    android:text="@string/soil_fe" />
+
+
+                <LinearLayout style="@style/soil_editor_item_unit_container">
+
+                    <EditText
+                        android:id="@+id/soil_FE"
+                        style="@style/soil_editor_item_container_unit" />
+
+                    <TextView
+                        style="@style/soil_editor_item_unit_txt"
+                        android:text="@string/unit_mg" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+                    android:layout_alignBottom="@+id/soil_mn"
+
+                    android:text="@string/soil_mn" />
+
+
+                <LinearLayout style="@style/soil_editor_item_unit_container">
+
+                    <EditText
+                        android:id="@+id/soil_mn"
+                        style="@style/soil_editor_item_container_unit" />
+
+                    <TextView
+                        style="@style/soil_editor_item_unit_txt"
+                        android:text="@string/unit_mg" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+
+                    android:text="@string/soil_cu" />
+
+                <LinearLayout style="@style/soil_editor_item_unit_container">
+
+                    <EditText
+                        android:id="@+id/soil_cu"
+                        style="@style/soil_editor_item_container_unit" />
+
+                    <TextView
+                        style="@style/soil_editor_item_unit_txt"
+                        android:text="@string/unit_mg" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+
+                    android:text="@string/soil_zn" />
+
+                <LinearLayout style="@style/soil_editor_item_unit_container">
+
+                    <EditText
+                        android:id="@+id/soil_ZN"
+                        style="@style/soil_editor_item_container_unit" />
+
+                    <TextView
+                        style="@style/soil_editor_item_unit_txt"
+                        android:text="@string/unit_mg" />
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout style="@style/soil_editor_item_container_item">
+
+                <TextView
+                    style="@style/soil_editor_item_container_left_text"
+
+                    android:text="@string/soil_p" />
+
+                <LinearLayout style="@style/soil_editor_item_unit_container">
+
+                    <EditText
+                        android:id="@+id/soil_P"
+                        style="@style/soil_editor_item_container_unit" />
+
+                    <TextView
+                        style="@style/soil_editor_item_unit_txt"
+                        android:text="@string/unit_mg" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <View style="@style/soil_information_full_divider" />
 
         <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            tools:text="土壤湿度"
-            android:textColor="#333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            android:layout_marginRight="@dimen/home_dimen_45"
-            android:layout_marginLeft="@dimen/home_dimen_30"
+            android:id="@+id/soil_check"
             android:layout_width="match_parent"
-            tools:text="土壤湿度有什么用"
-            android:textColor="#1768bc"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="@dimen/home_dimen_35"
+            android:paddingTop="@dimen/home_dimen_35"
+            android:text="如何解读测土报告?"
+            android:textColor="#1768be" />
+
     </LinearLayout>
-
-
-    <View
-        android:layout_width="match_parent"
-        android:background="#e9e9e9"
-        android:layout_height="@dimen/home_dimen_20"/>
-
-
-
-
-
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/home_dimen_20"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            tools:text="测土报告录入"
-            android:textColor="#333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            android:layout_marginRight="@dimen/home_dimen_45"
-            android:layout_marginLeft="@dimen/home_dimen_30"
-            android:layout_width="match_parent"
-            tools:text="全部报告"
-            android:gravity="right"
-            android:textColor="#1768bc"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-
-    <View
-        android:background="#bde3e5"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/home_dimen_line_height_1"/>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/home_dimen_15"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            tools:text="测试时间"
-            android:textColor="#333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            android:layout_marginRight="@dimen/home_dimen_45"
-            android:layout_marginLeft="@dimen/home_dimen_30"
-            android:layout_width="match_parent"
-            android:background="#ff0000"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/home_dimen_15"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            tools:text="酸碱度PH"
-            android:textColor="#333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            android:layout_marginRight="@dimen/home_dimen_45"
-            android:layout_marginLeft="@dimen/home_dimen_30"
-            android:layout_width="match_parent"
-            android:background="#ff0000"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/home_dimen_15"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            android:text="有机质"
-            android:textColor="#333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            android:layout_marginRight="@dimen/home_dimen_45"
-            android:layout_marginLeft="@dimen/home_dimen_30"
-            android:layout_width="match_parent"
-            android:background="#ff0000"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:paddingTop="@dimen/home_dimen_15"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            android:text="全氮"
-            android:textColor="#333"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:paddingLeft="@dimen/home_dimen_30"
-            android:paddingTop="@dimen/home_dimen_40"
-            android:paddingBottom="@dimen/home_dimen_40"
-            android:layout_marginRight="@dimen/home_dimen_45"
-            android:layout_marginLeft="@dimen/home_dimen_30"
-            android:layout_width="match_parent"
-            android:background="#ff0000"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

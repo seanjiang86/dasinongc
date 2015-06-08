@@ -25,12 +25,14 @@ public class SoilInEditorActivity extends BaseActivity implements  NetRequest.Re
         super.onCreate(savedInstanceState);
         RequestService.getInstance().sendRequestWithToken(
                 this,
-                SoilDetail.class,
+                BaseEntity.class,
                 REQUEST_CODE,
                 NetConfig.SubUrl.GET_SOIL_POST,
                 null,
                 this);
         setContentView(R.layout.activity_soil_edit);
+
+
 
 
     }
