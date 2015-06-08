@@ -95,6 +95,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.SearchResultActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar"

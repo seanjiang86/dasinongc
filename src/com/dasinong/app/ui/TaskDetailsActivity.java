@@ -1,6 +1,11 @@
 package com.dasinong.app.ui;
 
+import java.util.List;
+
 import com.dasinong.app.R;
+import com.dasinong.app.database.task.dao.impl.SubStageDaoImpl;
+import com.dasinong.app.database.task.dao.impl.TaskSpecDaoImpl;
+import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.ui.view.TopbarView;
 
 import android.content.Intent;
@@ -25,7 +30,6 @@ public class TaskDetailsActivity extends BaseActivity {
 	}
 
 	private void initData() {
-		// TODO Auto-generated method stub
 		
 	}
 
