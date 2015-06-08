@@ -24,4 +24,11 @@
     <string name="unit_mg">mg/km</string>
     <string name="soil_effect">土壤湿度有什么用?</string>
     <string name="soil_all_report">全部报告</string>
+    <array name="soil_list">
+        <item>为什么要测土？</item>
+        <item>应该多久测一次土？</item>
+        <item>哪里可以测土？</item>
+        <item>测土前准备</item>
+        <item>采样须知</item>
+    </array>
 </resources>

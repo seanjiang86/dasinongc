@@ -20,6 +20,7 @@ import com.dasinong.app.entity.SoilDetail;
 import com.dasinong.app.ui.AddFieldActivity1;
 import com.dasinong.app.ui.AddFieldActivity4;
 import com.dasinong.app.ui.soil.SoilInformationActivity;
+import com.dasinong.app.ui.soil.SoilListActivity;
 
 import java.util.List;
 
@@ -49,8 +50,9 @@ public class HomeFragment extends Fragment {
                 //startActivity(intent);
                 // queryCity();
                 // queryDisaster();
-                Intent intent = new Intent(getActivity(), SoilInformationActivity.class);
+                Intent intent = new Intent(getActivity(), SoilListActivity.class);
                 startActivity(intent);
+
                 // queryCity();
                 Log.d("TAG", "HomeFragment");
 

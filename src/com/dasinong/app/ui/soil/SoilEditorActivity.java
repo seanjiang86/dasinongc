@@ -13,7 +13,7 @@ import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.BaseActivity;
 
-public class SoilInEditorActivity extends BaseActivity implements  NetRequest.RequestListener {
+public class SoilEditorActivity extends BaseActivity implements  NetRequest.RequestListener {
 
     private static final  int REQUEST_CODE = 101;
 
