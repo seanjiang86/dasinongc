@@ -278,6 +278,7 @@
             </RelativeLayout>
         </LinearLayout>
 
+
         <View style="@style/soil_information_full_divider" />
 
         <RelativeLayout
