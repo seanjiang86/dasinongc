@@ -209,7 +209,7 @@ public class AddFieldActivity2 extends BaseActivity {
 				fl_select_location.setVisibility(View.GONE);
 				tv_country_district.setText(country + "-" + district);
 				
-				RequestService.getInstance().getVillageInfo(DsnApplication.getContext(), , VillageInfoList.class, new RequestListener() {
+				RequestService.getInstance().getVillageInfo(DsnApplication.getContext(),null , VillageInfoList.class, new RequestListener() {
 					
 					@Override
 					public void onSuccess(int requestCode, BaseEntity resultData) {
