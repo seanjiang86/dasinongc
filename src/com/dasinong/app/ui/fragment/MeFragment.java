@@ -21,6 +21,8 @@ public class MeFragment extends Fragment {
 		tv.setText("个人信息");
 		tv.setTextSize(50);
 		
+		
+		
 		return tv ;
 	}
 	
