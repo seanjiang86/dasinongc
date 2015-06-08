@@ -1,4 +1,4 @@
-package com.dasinong.app.components;
+package com.dasinong.app.components.home.view;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -19,6 +19,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     private View normalParentView,addCropViewParent;
     //标记当前是否有作物
     private int hasCrop=0;//默认有作物
+    //添加农作物
+    private MyAddCropOnClickListener onAddCropClickListener;
     public CropsGroupUpView(Context context) {
         super(context);
         init(context);
@@ -75,9 +77,25 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.add_crop_parent:
-                //TODO 添加作物
+                // 添加作物
+                if (null != onAddCropClickListener) {
+                    onAddCropClickListener.onAddCropClick();
+                }
                 break;
         }
+    }
 
+    /**
+     * 添加农作物
+     *
+     * @param onAddCropClickListener --监听器
+     */
+    public void setOnAddCropClickListener(MyAddCropOnClickListener onAddCropClickListener) {
+        this.onAddCropClickListener = onAddCropClickListener;
+    }
+
+    //添加农作物
+    public interface MyAddCropOnClickListener {
+        void onAddCropClick();
     }
 }

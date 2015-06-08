@@ -1,5 +1,6 @@
 package com.dasinong.app.database.disaster.service;
 
+import android.app.Application;
 import android.content.Context;
 
 import com.dasinong.app.database.disaster.dao.CPProductDao;
@@ -31,6 +32,9 @@ public class DisasterManager {
     private static DisasterManager instance;
     private DisasterManager(Context context) {
 
+        if(!(context instanceof Application)){
+            context = context.getApplicationContext();
+        }
 
         mCpproductDao = new CPProductDaoImpl(context);
         mNatDisspecDao = new NatDisspecDaoImpl(context);
@@ -54,53 +58,56 @@ public class DisasterManager {
     }
 
     /**
-     * 根据类型得到灾害
-     * @param type
-     * @return
+     *
+     * @param type 类型
+     * @return 根据类型得到灾害
      */
+
     public List<PetDisspec> getDisease(String type){
 
-        return mPetDisspecDao.queryByType(type);
+        return mPetDisspecDao.queryDisasterByType(type);
     }
 
 
     /**
      * 得到自然灾害
      *
-     * @return
+     * @return 得到自然灾害
      */
     public List<NatDisspec> getNatDisease(){
 
-        return mNatDisspecDao.queryAllNatDispec();
+        return mNatDisspecDao.queryAllNatDisaster();
     }
 
     /**
-     * 病虫草的id所有的治疗方案
-     * @return
+     * @param petDisSpecId 病虫草的id
+     *
+     * @return 病虫草的id所有的治疗方案
      */
     public  List<PetSolu> getCureSolution(int petDisSpecId ){
 
-        return mPetSolutionDao.QueryIsCure(petDisSpecId);
+        return mPetSolutionDao.QuerySolutionIsCure(petDisSpecId);
     }
 
 
     /**
-     * 病虫草的id所有的治疗方案
-     * @return
+     *病虫草的id所有的治疗方案
+     * @param petDisSpecId 病虫草的id
+     * @return 病虫草的id所有的治疗方案
      */
     public  List<PetSolu> getPreventSolution(int petDisSpecId ){
 
-        return mPetSolutionDao.QueryIsPrevent(petDisSpecId);
+        return mPetSolutionDao.QuerySolutionIsPrevent(petDisSpecId);
     }
 
     /**
-     * 根据防治方案的id所有的相关的药
+     *根据防治方案的id所有的相关的药
      * @param petSoluId 防治方案的id
-     * @return
+     * @return 根据防治方案的id所有的相关的药
      */
     public List<CPProduct> getAllDrug(int petSoluId){
 
-        return mCpproductDao.queryAll(petSoluId);
+        return mCpproductDao.queryAllCpProduct(petSoluId);
     }
 
 }

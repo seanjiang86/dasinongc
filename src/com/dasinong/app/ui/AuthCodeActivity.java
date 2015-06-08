@@ -52,6 +52,8 @@ import com.dasinong.app.net.NetConfig.ResponseCode;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestCode;
 import com.dasinong.app.net.RequestService;
+import com.dasinong.app.ui.manager.AccountManager;
+import com.dasinong.app.ui.view.TopbarView;
 import com.mob.tools.FakeActivity;
 
 /** 验证码输入页面 */
@@ -65,17 +67,21 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	private EventHandler handler;
 	private Handler mHandler = new Handler();
 
+	private TopbarView mTopbarView;
+	
 	private EditText etIdentifyNum;
 	// private TextView tvTitle;
 	private TextView tvPhone;
 	private TextView tvIdentifyNotify;
 	private TextView tvUnreceiveIdentify;
-	private ImageView ivClear;
+//	private ImageView ivClear;
 	private Button btnSubmit;
 	// private Button btnSounds;
 	private BroadcastReceiver smsReceiver;
 	private int SHOWDIALOGTYPE = 1;
-
+	
+	private int mFailedCount = 0;
+	
 	public void setPhone(String phone, String code, String formatedPhone) {
 		this.phone = phone;
 		this.code = code;
@@ -99,24 +105,28 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 		initData();
 		
+		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
+		mTopbarView.setCenterText("填写验证码");
+		mTopbarView.setLeftView(true, true);
+		
 		btnSubmit = (Button) findViewById(R.id.btn_submit);
 		btnSubmit.setOnClickListener(this);
 		btnSubmit.setEnabled(false);
 
-		etIdentifyNum = (EditText) findViewById(R.id.et_put_identify);
+		etIdentifyNum = (EditText) findViewById(R.id.edittext_authcode);
 		etIdentifyNum.addTextChangedListener(this);
 		tvIdentifyNotify = (TextView) findViewById(R.id.tv_identify_notify);
 		String text = getString(R.string.smssdk_send_mobile_detail);
 		tvIdentifyNotify.setText(Html.fromHtml(text));
 		tvPhone = (TextView) findViewById(R.id.tv_phone);
-		tvPhone.setText(formatedPhone);
+		tvPhone.setText(phone);
 		tvUnreceiveIdentify = (TextView) findViewById(R.id.tv_unreceive_identify);
 		String unReceive = getString(R.string.smssdk_receive_msg, time);
 		tvUnreceiveIdentify.setText(Html.fromHtml(unReceive));
 		tvUnreceiveIdentify.setOnClickListener(this);
 		tvUnreceiveIdentify.setEnabled(false);
-		ivClear = (ImageView) findViewById(R.id.iv_clear);
-		ivClear.setOnClickListener(this);
+//		ivClear = (ImageView) findViewById(R.id.iv_clear);
+//		ivClear.setOnClickListener(this);
 		// resId = getIdRes(activity, "btn_sounds");
 		// btnSounds = (Button) findViewById(resId);
 		// btnSounds.setOnClickListener(this);
@@ -145,6 +155,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					@Override
 					public void run() {
 						etIdentifyNum.setText(verifyCode);
+						onClick(btnSubmit);
 					}
 				});
 			}
@@ -305,14 +316,14 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		// 如果输入框木有，就隐藏delbtn
 		if (s.length() > 0) {
 			btnSubmit.setEnabled(true);
-			ivClear.setVisibility(View.VISIBLE);
+//			ivClear.setVisibility(View.VISIBLE);
 			// int resId = getBitmapRes(activity, "smssdk_btn_enable");
 			// if (resId > 0) {
 			// btnSubmit.setBackgroundResource(resId);
 			// }
 		} else {
 			btnSubmit.setEnabled(false);
-			ivClear.setVisibility(View.GONE);
+//			ivClear.setVisibility(View.GONE);
 			// int resId = getBitmapRes(activity, "smssdk_btn_disenable");
 			// if (resId > 0) {
 			// btnSubmit.setBackgroundResource(resId);
@@ -332,27 +343,27 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 		switch (v.getId()) {
 		case R.id.btn_submit:
-//			// 提交验证码
-//			String verificationCode = etIdentifyNum.getText().toString().trim();
-//			if (!TextUtils.isEmpty(code)) {
-//				startLoadingDialog();
-//				SMSSDK.submitVerificationCode(code, phone, verificationCode);
-//			} else {
-//				// int resId = getStringRes(activity,
-//				// "smssdk_write_identify_code");
-//				// if (resId > 0) {
-//				// Toast.makeText(getContext(), resId,
-//				// Toast.LENGTH_SHORT).show();
-//				// }
-//				showToast(R.string.smssdk_write_identify_code);
-//			}
+			// 提交验证码
+			String verificationCode = etIdentifyNum.getText().toString().trim();
+			if (!TextUtils.isEmpty(code)) {
+				startLoadingDialog();
+				SMSSDK.submitVerificationCode(code, phone, verificationCode);
+			} else {
+				// int resId = getStringRes(activity,
+				// "smssdk_write_identify_code");
+				// if (resId > 0) {
+				// Toast.makeText(getContext(), resId,
+				// Toast.LENGTH_SHORT).show();
+				// }
+				showToast(R.string.smssdk_write_identify_code);
+			}
 			
-			loginRegister(phone);
+//			loginRegister(phone);
 			
 			break;
-		case R.id.iv_clear:
-			etIdentifyNum.getText().clear();
-			break;
+//		case R.id.iv_clear:
+//			etIdentifyNum.getText().clear();
+//			break;
 		case R.id.tv_unreceive_identify:
 			SHOWDIALOGTYPE = 1;
 			// 没有接收到短信
@@ -446,6 +457,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 				public void onClick(View v) {
 //					Intent intent = new Intent(AuthCodeActivity.this,RegisterPasswordActivity.class);
 //					startActivity(intent);
+					dialog.dismiss();
 					checkUser(phone);
 //					finish();
 				}
@@ -554,7 +566,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 //					finish();
 					
 					loginRegister((String) phoneMap.get("phone"));
-					
 				} else {
 					((Throwable) data).printStackTrace();
 					// 验证码不正确
@@ -565,6 +576,13 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					// Toast.LENGTH_SHORT).show();
 					// }
 					showToast(R.string.smssdk_virificaition_code_wrong);
+					
+					mFailedCount  ++ ;
+					
+					if(mFailedCount>=3){
+						checkUser(phone); 
+					}
+					
 				}
 			}
 		});
@@ -579,8 +597,15 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 				dismissLoadingDialog();
 				if(resultData.isOk()){
 					LoginRegEntity entity = (LoginRegEntity) resultData;
-				}else{
 					
+					AccountManager.saveAccount(AuthCodeActivity.this, entity.getData());
+					
+					Intent intent = new Intent(AuthCodeActivity.this,MainTabActivity.class);
+					startActivity(intent);
+					
+					finish();
+				}else{
+					showToast(resultData.getMessage());
 				}
 			}
 			
@@ -698,14 +723,13 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
 		tv.setText(R.string.smssdk_close_identify_page_dialog);
 		Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
-		waitBtn.setText("等会好不咯");
 		waitBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				dialog.dismiss();
 			}
 		});
-		Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
-		backBtn.setText(R.string.smssdk_back);
+		Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_cancel);
+//		backBtn.setText(R.string.smssdk_back);
 		backBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 				dialog.dismiss();

@@ -16,7 +16,7 @@ public interface PetSolutionDao extends DaoSupport<PetSolu> {
      * @param petDisSpecId 病虫草的id
      * @return
      */
-    public List<PetSolu> QueryIsCure(int petDisSpecId);
+    public List<PetSolu> QuerySolutionIsCure(int petDisSpecId);
 
     /**
      * 病虫草的id所有的预防方案
@@ -24,5 +24,5 @@ public interface PetSolutionDao extends DaoSupport<PetSolu> {
      * @param petDisSpecId 病虫草的id
      * @return
      */
-    public List<PetSolu> QueryIsPrevent(int petDisSpecId);
+    public List<PetSolu> QuerySolutionIsPrevent(int petDisSpecId);
 }

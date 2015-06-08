@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+
+
+    <dimen name="home_dimen_line_height_1">1dp</dimen>
+    <dimen name="home_dimen_5">2.5dp</dimen>
+    <dimen name="home_dimen_10">5dp</dimen>
+    <dimen name="home_dimen_15">7.5dp</dimen>
+
     <dimen name="home_dimen_20">10dp</dimen>
     <dimen name="home_dimen_25">12.5dp</dimen>
     <dimen name="home_dimen_29">14.5dp</dimen>
@@ -14,6 +22,15 @@
     <dimen name="home_dimen_70">35dp</dimen>
     <dimen name="home_dimen_75">37.5dp</dimen>
     <dimen name="home_dimen_80">40dp</dimen>
+    <dimen name="home_dimen_85">42.5dp</dimen>
+    <dimen name="home_dimen_90">45dp</dimen>
+    <dimen name="home_dimen_95">47.5dp</dimen>
+    <dimen name="home_dimen_100">50dp</dimen>
+    <dimen name="home_dimen_105">52.5dp</dimen>
+    <dimen name="home_dimen_110">55dp</dimen>
+    <dimen name="home_dimen_155">77.5dp</dimen>
+
+
 
     <dimen name="home_text_size_23">11.5sp</dimen>
     <dimen name="home_text_size_24">12sp</dimen>
@@ -21,8 +38,13 @@
     <dimen name="home_text_size_28">14sp</dimen>
     <dimen name="home_text_size_30">15sp</dimen>
     <dimen name="home_text_size_32">16sp</dimen>
+    <dimen name="home_text_size_34">17sp</dimen>
     <dimen name="home_text_size_36">18sp</dimen>
     <dimen name="home_text_size_40">20sp</dimen>
+    <dimen name="home_text_size_60">30sp</dimen>
     <dimen name="home_text_size_42">22sp</dimen>
     <dimen name="home_text_size_80">40sp</dimen>
+    <dimen name="home_text_size_100">50sp</dimen>
+    <dimen name="home_text_size_120">60sp</dimen>
+    <dimen name="home_text_size_200">100sp</dimen>
 </resources>

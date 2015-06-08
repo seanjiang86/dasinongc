@@ -13,7 +13,11 @@ public final class SharedPreferencesHelper {
 
     public enum Field {
     	USER_NAME,
+    	USER_ID,
     	USER_AUTH_TOKEN,
+    	USER_ADDRESS,
+    	USER_PHONE,
+//    	SESSIONID,
     };
     
     public static int getInt(Context context, Field field, int defaultValue) {

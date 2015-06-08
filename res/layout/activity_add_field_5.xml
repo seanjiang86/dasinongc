@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <include layout="@layout/add_field_tab" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="95.0dip"
+        android:layout_marginLeft="30.0dip"
+        android:layout_marginTop="45.0dip" >
+
+        <ImageView
+            android:layout_width="95.0dip"
+            android:layout_height="95.0dip"
+            android:src="@drawable/old_man_head" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="25.0dip"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="这可是我的拿手活,现"
+                android:textColor="@color/color_333333"
+                android:textSize="16.0dip" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="在长到什么阶段了?"
+                android:textColor="@color/color_333333"
+                android:textSize="16.0dip" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp" >
+
+        <Spinner
+            android:id="@+id/spn_province"
+            android:layout_width="145dp"
+            android:layout_height="45dp"
+            android:background="@drawable/text_bg" />
+
+        <Spinner
+            android:id="@+id/spn_city"
+            android:layout_width="145dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/text_bg" />
+        
+    </LinearLayout>
+
+        <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30.0dip"
+        android:layout_marginRight="30.0dip"
+        android:layout_marginTop="40.0dip" >
+
+        <Button
+            android:layout_width="145.0dip"
+            android:layout_height="45.0dip"
+            android:background="@drawable/gray_button_selector"
+            android:text="我不确定"
+            android:textColor="@color/color_666666"
+            android:textSize="16sp" />
+
+        <Button
+            android:layout_width="145.0dip"
+            android:layout_height="45.0dip"
+            android:layout_marginLeft="10.0dip"
+            android:background="@drawable/green_button_selector"
+            android:text="确定"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>

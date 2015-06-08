@@ -100,10 +100,10 @@
         android:paddingRight="10dp"
         android:src="@drawable/topbar_back"
         android:text="查看全部"
-        android:textColor="@android:color/white"
+        android:textColor="@drawable/topbar_text_selector"
         android:textSize="@dimen/sp_16" 
-        android:background="@drawable/button_topbar_bg_selector"
         />
+<!--         android:background="@drawable/button_topbar_bg_selector" -->
 
     <!-- <View 
         android:layout_width="match_parent"

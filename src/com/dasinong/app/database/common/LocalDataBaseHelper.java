@@ -1,4 +1,4 @@
-package com.dasinong.app.database;
+package com.dasinong.app.database.common;
 
 import android.content.Context;
 
@@ -13,10 +13,6 @@ public class LocalDataBaseHelper extends SQLiteAssetHelper {
 
     public LocalDataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
-
-
-
 
     }
 

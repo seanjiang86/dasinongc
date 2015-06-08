@@ -2,13 +2,14 @@ package com.dasinong.app.database.common.dao.impl;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
-import com.dasinong.app.database.LocalDataBaseHelper;
+import com.dasinong.app.database.common.LocalDataBaseHelper;
 import com.dasinong.app.database.common.dao.DaoSupport;
+import com.dasinong.app.utils.Logger;
 
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -35,14 +36,6 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
 
     }
 
-
-    @Override
-    public List<T> query() {
-
-        return query(null, null);
-    }
-
-
     public List<T> query(String sql) {
         List<T> result = new ArrayList<T>();
         Cursor cursor = sqLiteDatabase.getWritableDatabase().rawQuery(sql.toString(), null);
@@ -51,23 +44,42 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
 
     }
 
+    @Override
+    public List<String> querySingleColumn(String sql) {
+
+
+            List<String > result = new ArrayList<>();
+
+            Cursor cursor = sqLiteDatabase.getWritableDatabase().rawQuery(sql,null);
+
+            if (cursor != null) {
+                while (cursor.moveToNext()) {
+                    result.add(cursor.getString(0));
+                }
+
+                cursor.close();
+
+            }
+
+
+        return result;
+    }
+
     public List<T> query(String[] selection, String[] selectionArgs) {
 
         List<T> result = new ArrayList<T>();
         StringBuffer sql = new StringBuffer();
         buildSQL(selection, selectionArgs, sql);
-        Log.d("TAG","sql:"+sql.toString());
-        if(selection==null||selectionArgs==null||selection.length==0){
+        Logger.d(TAG, sql.toString());
+        if (selection == null || selectionArgs == null || selection.length == 0) {
             selectionArgs = null;
-        }else {
-            for(int i =0;i<selectionArgs.length;i++) {
-                Log.d("TAG", selectionArgs[i]);
-            }
         }
         Cursor cursor = sqLiteDatabase.getWritableDatabase().rawQuery(sql.toString(), selectionArgs);
 
         convertVo(result, cursor);
-
+        if (cursor != null) {
+            cursor.close();
+        }
 
         return result;
 
@@ -98,48 +110,67 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
     private void convertVo(List<T> result, Cursor cursor) {
 
         if (cursor != null) {
-            T item =null;
+            T item ;
             while (cursor.moveToNext()) {
                 try {
                     item = mClass.newInstance();
+
                     Field[] fields = mClass.getDeclaredFields();
                     String fieldName = "";
                     String methodName = "";
-                    String fieldValue = "";
+
                     String typeName = "";
                     int index = -1;
 
                     for (Field field : fields) {
-
                         fieldName = field.getName();
                         index = cursor.getColumnIndex(fieldName);
-                        // /先构造出方法的名字
                         typeName = field.getType().getSimpleName();
-                        // /int --> Int,doble--->Double
-                        methodName = "get" + typeName.substring(0, 1).toUpperCase() + typeName.substring(1);
-
+                        methodName = getMethodName(typeName);
                         if (index >= 0) {
-                            Method method = cursor.getClass().getMethod(methodName, int.class);
-
-                            Object retValue = method.invoke(cursor, index);
-                            field.setAccessible(true);
-                            field.set(item, retValue);
-
+                            setFieldValue(cursor, item, methodName, index, field);
                         }
 
                     }
                     result.add(item);
 
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    Logger.d(TAG, e.toString());
 
                 }
 
             }
 
-            cursor.close();
 
         }
     }
+
+    /**
+     * @param cursor     cursor
+     * @param item       instance
+     * @param methodName methodName
+     * @param index      cursor index
+     * @param field      field
+     * @throws NoSuchMethodException
+     * @throws IllegalAccessException
+     * @throws InvocationTargetException
+     */
+    private void setFieldValue(Cursor cursor, T item, String methodName, int index, Field field) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Method method = cursor.getClass().getMethod(methodName, int.class);
+        Object retValue = method.invoke(cursor, index);
+        field.setAccessible(true);
+        field.set(item, retValue);
+    }
+
+    private String getMethodName(String typeName) {
+        return "get" + typeName.substring(0, 1).toUpperCase() + typeName.substring(1);
+
+    }
+
+
+
+
+
+
 
 }

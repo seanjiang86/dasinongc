@@ -15,5 +15,5 @@ public interface NatDisspecDao extends DaoSupport<NatDisspec> {
      *
      * @return 返回所有的自然灾害
      */
-    public List<NatDisspec> queryAllNatDispec();
+    public List<NatDisspec> queryAllNatDisaster();
 }

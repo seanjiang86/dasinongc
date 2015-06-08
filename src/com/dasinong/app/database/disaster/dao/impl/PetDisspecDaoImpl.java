@@ -23,7 +23,7 @@ public class PetDisspecDaoImpl extends DaoSupportImpl<PetDisspec>  implements Pe
      * @param typeValue 类型的值
      * @return 根据类型得所有的数据
      */
-    public  List<PetDisspec> queryByType(String typeValue){
+    public  List<PetDisspec> queryDisasterByType(String typeValue){
 
         return  query(new String[]{"type"},new String[]{typeValue});
     }

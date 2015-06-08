@@ -24,8 +24,8 @@ public class NatDisspecDaoImpl extends DaoSupportImpl<NatDisspec> implements Nat
      */
 
     @Override
-    public List<NatDisspec> queryAllNatDispec() {
-        return query();
+    public List<NatDisspec> queryAllNatDisaster() {
+        return query(null,null);
     }
 }
 

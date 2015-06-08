@@ -15,5 +15,5 @@ public interface CPProductDao  extends DaoSupport<CPProduct> {
      * @param petSoluId
      * @return
      */
-    public List<CPProduct> queryAll(int petSoluId);
+    public List<CPProduct> queryAllCpProduct(int petSoluId);
 }
