@@ -38,5 +38,9 @@ public final class RequestCode {
 	 * 获取品种编号列表
 	 */
 	public static final int GET_CROP_NUMBER = GET_CROP_NAME + 1;
+	/**
+	 * 获取村子的信息列表
+	 */
+	public static final int GET_VILLAGE_INFO = GET_CROP_NUMBER + 1;
 	
 }

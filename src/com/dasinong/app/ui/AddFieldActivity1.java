@@ -13,12 +13,12 @@ import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 
 import android.content.Intent;
-import android.graphics.DashPathEffect;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 
@@ -29,6 +29,20 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 	private double longitude = 0;
 	private Button btn_in_field;
 	private Button btn_no_in_field;
+	private RunnableTask task = new RunnableTask();
+	private static final int MAX_DELAY_COUNT = 3;
+	private int count = 0;
+	
+	private Handler handler = new Handler(){
+		
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			count++;
+			locationUtils.requestLocation();
+		}
+	};
+
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +62,9 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 				longitude = result.getLongitude();
 			}
 		});
+		
+		btn_in_field.setOnClickListener(this);
+		btn_no_in_field.setOnClickListener(this);
 
 	}
 
@@ -55,39 +72,39 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 
 		int id = v.getId();
-		if (latitude == 0 || longitude == 0) {
-			// TODO 获取不到信息， handler 发送延时消息，重新获取定位信息，
-
-			if (latitude == 0 || longitude == 0) {
-				Intent intent = new Intent(DsnApplication.getContext(), AddFieldActivity2.class);
-				startActivity(intent);
-				return;
-			}
+		if ((latitude == 0 || longitude == 0) && count < MAX_DELAY_COUNT) {
+			showToast("定位失败，请重试");
+			handler.postDelayed(new RunnableTask(), 500);
+			return ;
+		} else if ((latitude == 0 || longitude == 0) && count >= MAX_DELAY_COUNT) {
+			handler.removeCallbacks(task);
+			Intent intent = new Intent(this, AddFieldActivity2.class);
+			startActivity(intent);
 		}
+		
+		
 		
 		 String latitudeText = String.valueOf(latitude);
 		 String longitudeText =String.valueOf(longitude);
 
 		switch (id) {
 		case R.id.btn_no_in_field:
-
 			RequestService.getInstance().sendNoInLocation(this, latitudeText, longitudeText, VillageInfoList.class, new NetRequest.RequestListener() {
 
 				@Override
 				public void onSuccess(int requestCode, BaseEntity resultData) {
 
 					if (resultData.isOk()) {
-						Intent intent = new Intent(DsnApplication.getContext(), AddFieldActivity2.class);
-						startActivity(intent);
+						goToTwo();
 					}else{
 						showToast(resultData.getMessage());
 					}
 				}
-
+				
 				@Override
 				public void onFailed(int requestCode, Exception error, String msg) {
 					// TODO 待统一
-
+					goToTwo();
 //					showToast(text)
 					
 				}
@@ -100,8 +117,7 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 				public void onSuccess(int requestCode, BaseEntity resultData) {
 					
 					if(resultData.isOk()){
-						Intent intent = new Intent(DsnApplication.getContext(), AddFieldActivity3.class);
-						startActivity(intent);
+						goToThree();
 					} else {
 						showToast(resultData.getMessage());
 					}
@@ -111,10 +127,32 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 				@Override
 				public void onFailed(int requestCode, Exception error, String msg) {
 					// TODO 待统一
-					
+					goToThree();
 				}
 			});
 			break;
 		}
+	}
+	
+	class RunnableTask implements Runnable{
+
+		@Override
+		public void run() {
+			
+				handler.sendEmptyMessage(0);
+			
+		}
+		
+	}
+	
+	private void goToTwo(){
+		
+		Intent intent = new Intent(DsnApplication.getContext(), AddFieldActivity2.class);
+		startActivity(intent);
+	}
+	
+	private void goToThree(){
+		Intent intent = new Intent(DsnApplication.getContext(), AddFieldActivity3.class);
+		startActivity(intent);
 	}
 }

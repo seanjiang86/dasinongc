@@ -53,6 +53,8 @@ public class NetConfig {
 		public static final String GET_SOIL_DETAIL ="";
 		/**提交测土信息*/
 		public static final String GET_SOIL_POST ="";
+		/**提交测土信息*/
+		public static final String GET_VILLAGE_INFO ="";
 	}
 
 	public static String getRequestUrl(String subUrl) {

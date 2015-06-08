@@ -48,7 +48,7 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
     public List<String> querySingleColumn(String sql) {
 
 
-            List<String > result = new ArrayList<>();
+            List<String > result = new ArrayList<String>();
 
             Cursor cursor = sqLiteDatabase.getWritableDatabase().rawQuery(sql,null);
 
