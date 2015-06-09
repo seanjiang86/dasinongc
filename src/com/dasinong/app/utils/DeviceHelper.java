@@ -18,6 +18,8 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.telephony.TelephonyManager;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 public class DeviceHelper {
 
@@ -61,20 +63,31 @@ public class DeviceHelper {
 		String ip = intToIp(ipAdd);
 		return ip;
 	}
-	
+
 	public static String getPhoneNumber(Context context) {
 
 		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 
 		String phoneId = tm.getLine1Number();
-		
+
 		return phoneId;
 	}
-	
-	
+
 	private static String intToIp(int i) {
 		return (i & 0xFF) + "." + ((i >> 8) & 0xFF) + "." + ((i >> 16) & 0xFF) + "." + (i >> 24 & 0xFF);
 	}
 
+	public final static void hideIME(View v) {
+		if (v == null) {
+			return;
+		}
+		InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+	}
+	public final static void showIME(View v) {
+		v.requestFocus();
+		InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.showSoftInput(v, 0);
+	}
 
 }

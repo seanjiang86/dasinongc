@@ -18,6 +18,7 @@ import com.dasinong.app.database.disaster.domain.PetSolu;
 import com.dasinong.app.database.disaster.service.DisasterManager;
 import com.dasinong.app.entity.SoilDetail;
 import com.dasinong.app.ui.AddFieldActivity1;
+import com.dasinong.app.ui.AddFieldActivity2;
 import com.dasinong.app.ui.AddFieldActivity4;
 import com.dasinong.app.ui.soil.SoilInformationActivity;
 import com.dasinong.app.ui.soil.SoilListActivity;
@@ -50,7 +51,9 @@ public class HomeFragment extends Fragment {
                 //startActivity(intent);
                 // queryCity();
                 // queryDisaster();
-                Intent intent = new Intent(getActivity(), SoilListActivity.class);
+
+                Intent intent = new Intent(getActivity(), AddFieldActivity1.class);
+
                 startActivity(intent);
 
                 // queryCity();

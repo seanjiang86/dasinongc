@@ -16,7 +16,7 @@
 |          |                |  startDate,locationId,  |             |               |                      |
 |          |                |  varietyId,currentStageID(allR)  |          |               |                      |
 | 选择品种 |  getVarietyList | cropName或cropId(推荐）  |  200   |  获取品种列表成功  | 小品种名列表，对应编号和品种id|      
-|          |                 | locationId(推荐）或province   |   300    | 缺少参数 |     List（Map（subId,varietyId））    |
+|          |                 | locationId(推荐）或province   |   300    | 缺少参数 |     Map（Map（subId,varietyId））    |
 | 选择地址 |  getLocation   | province(R),city(R),country(R),district(R) |  200 | 获取成功 |   Map(community,locationId) |
 |         |                 |                                  | 300 | 缺少参数 ||
 |搜索附近用户 | searchNearUser | lat(R),lon(R) |200 | 找到附近农户 | 农户数 |
@@ -26,7 +26,11 @@
 | 接口   | 接口路径  | 输入参数 |　返回码 | 返回描述    |　　返回内容  |
 |--------|-----------|----------|---------|-------------|------------------|
 |获得地址| getLocbygeo | lat(R),lon(R)    |200  | 找到最近田  | location内容 |
-
+|百科搜索|  |    keywords |200  |   | search result |
+|个人信息编辑提交|  |     |  |   |  |
+|个人信息获取|  |     |  |   |  |
+|短信订阅设置提交|  |     |  |   |  |
+|app检测更新|  |     |  |   |  |
 
 
 

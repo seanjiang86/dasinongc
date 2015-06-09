@@ -12,7 +12,7 @@
     <color name="color_666666">#666666</color>
     <color name="color_7A7A7A">#7A7A7A</color>
     <color name="background_tab_pressed">#6633B5E5</color>
-    <color name="color_2BAD29"> #2BAD29 </color>
+    <color name="color_2BAD2A"> #2BAD2A </color>
     <color name="color_F0F0F0"> #F0F0F0 </color>
     <color name="color_1768BE"> #1768BE </color>
     <color name="color_E9E9E9"> #E9E9E9 </color>
@@ -22,5 +22,6 @@
     <color name="color_1E6ABB"> #1E6ABB </color>
     <color name="color_cecece"> #cecece </color>
 	<color name="color_FFFFFF"> #FFFFFF </color>
+	<color name="color_harf_transparent"> #e0000000 </color>
     
 </resources>

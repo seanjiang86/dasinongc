@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/add_field_tab" />
+    <com.dasinong.app.ui.view.AddFieldTabView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        dsn:tvLocationColor="@color/color_2BAD2A" >
+    </com.dasinong.app.ui.view.AddFieldTabView>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -55,27 +60,31 @@
             android:text="你的农田有多大?"
             android:textColor="@color/color_333333"
             android:textSize="16.0dip" />
-        
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:layout_marginTop="10dp" >
+
             <EditText
+                android:id="@+id/et_field_size"
                 android:layout_width="278dp"
                 android:layout_height="45dp"
+                android:background="@drawable/text_bg"
                 android:hint="农田多大呀?例如100"
-                android:inputType="number"
-                android:background="@drawable/text_bg" />
+                android:inputType="numberDecimal" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:textSize="20sp"
-                android:text="亩" />
+                android:text="亩"
+                android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_sure_size"
         android:layout_width="match_parent"
         android:layout_height="45.0dip"
         android:layout_marginLeft="30dp"

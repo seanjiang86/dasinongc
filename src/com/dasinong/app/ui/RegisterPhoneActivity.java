@@ -76,6 +76,10 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	private HashMap<String, String> countryRules;
 	private OnSendMessageHandler osmHandler;
 
+//	80424b5493c0
+//	3c1b73e6af8f059c2e6b25f7065d77a3
+
+	
 	// 填写从短信SDK应用后台注册得到的APPKEY
 	private static String APPKEY = "7ddca5c23518";
 	// 填写从短信SDK应用后台注册得到的APPSECRET

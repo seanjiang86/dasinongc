@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/add_field_tab" />
+    <com.dasinong.app.ui.view.AddFieldTabView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        dsn:ivOneColor="@drawable/green_round"
+        dsn:ivThreeColor="@drawable/green_round"
+        dsn:ivTwoColor="@drawable/green_round"
+        dsn:tvLocationColor="@color/color_2BAD2A"
+        dsn:tvVarietyColor="@color/color_2BAD2A"
+        dsn:tvInfoColor="@color/color_2BAD2A"
+        dsn:tvDataColor="@color/color_2BAD2A"
+        dsn:viewOneColor="@color/color_2BAD2A"
+        dsn:viewThreeColor="@color/color_2BAD2A"
+        dsn:viewTwoColor="@color/color_2BAD2A" >
+    </com.dasinong.app.ui.view.AddFieldTabView>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -30,16 +44,17 @@
                 android:text="哪天移植(播种)的?"
                 android:textColor="@color/color_333333"
                 android:textSize="16.0dip" />
-
         </LinearLayout>
     </LinearLayout>
-    
+
     <DatePicker
+        android:id="@+id/dp_date"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="20dp"
+        android:calendarViewShown="false" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -49,6 +64,7 @@
         android:layout_marginTop="40.0dip" >
 
         <Button
+            android:id="@+id/btn_no_date"
             android:layout_width="145.0dip"
             android:layout_height="45.0dip"
             android:background="@drawable/gray_button_selector"
@@ -57,6 +73,7 @@
             android:textSize="16sp" />
 
         <Button
+            android:id="@+id/btn_sure_date"
             android:layout_width="145.0dip"
             android:layout_height="45.0dip"
             android:layout_marginLeft="10.0dip"

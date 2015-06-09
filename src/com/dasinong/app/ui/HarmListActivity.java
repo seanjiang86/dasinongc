@@ -26,7 +26,7 @@ public class HarmListActivity extends BaseActivity {
         setContentView(R.layout.activity_harm_list);
         
         tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        tabs.setIndicatorColorResource(R.color.color_2BAD29);
+        tabs.setIndicatorColorResource(R.color.color_2BAD2A);
         
         initData();
         
@@ -47,7 +47,7 @@ public class HarmListActivity extends BaseActivity {
         
         tabs.setTextSize(GraphicUtils.dip2px(this, 16));
         
-        tabs.setSelectedTextColorResource(R.color.color_2BAD29);
+        tabs.setSelectedTextColorResource(R.color.color_2BAD2A);
         
         tabs.setSelectedTextSize(GraphicUtils.dip2px(this, 16));
         
