@@ -115,4 +115,9 @@ public class FieldEntity extends BaseEntity {
 
         }
     }
+
+
+    public static  class Param{
+        public String fieldId;
+    }
 }
