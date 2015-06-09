@@ -63,7 +63,10 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getGetCropNumberParams(cropNameId);
 		new NetRequest(context).get(RequestCode.GET_CROP_NUMBER,params, SubUrl.GET_CROP_NUMBER, callBack,clazz);
 	}
-
+	public void getVillageInfo(Context context,String currentCountry, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetCropNumberParams(currentCountry);
+		new NetRequest(context).get(RequestCode.GET_VILLAGE_INFO,params, SubUrl.GET_VILLAGE_INFO, callBack,clazz);
+	}
 
 
 	public void sendRequestWithToken(Context context,Class<? extends BaseEntity> clazz,int requestCode,String url,Object param,RequestListener callBack) {

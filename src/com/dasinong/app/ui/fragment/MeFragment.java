@@ -1,6 +1,7 @@
 package com.dasinong.app.ui.fragment;
 
 import com.dasinong.app.ui.RegisterPhoneActivity;
+import com.dasinong.app.ui.TaskDetailsActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,16 +26,16 @@ public class MeFragment extends Fragment {
 		tv.setText("个人信息");
 		tv.setTextSize(50);
 		
-		tv.setOnClickListener(new OnClickListener() {
-          
-          @Override
-          public void onClick(View v) {
-            
-            Intent intent = new Intent(getActivity(),RegisterPhoneActivity.class);
-            startActivity(intent);
-            
-          }
-        });
+//		tv.setOnClickListener(new OnClickListener() {
+//          
+//          @Override
+//          public void onClick(View v) {
+//            
+//            Intent intent = new Intent(getActivity(),RegisterPhoneActivity.class);
+//            startActivity(intent);
+//            
+//          }
+//        });
 		
 		return tv ;
 	}

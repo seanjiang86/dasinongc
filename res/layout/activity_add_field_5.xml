@@ -48,13 +48,13 @@
         android:layout_marginTop="20dp" >
 
         <Spinner
-            android:id="@+id/spn_province"
+            android:id="@+id/spn"
             android:layout_width="145dp"
             android:layout_height="45dp"
             android:background="@drawable/text_bg" />
 
         <Spinner
-            android:id="@+id/spn_city"
+            android:id="@+id/spn_1"
             android:layout_width="145dp"
             android:layout_height="45dp"
             android:layout_marginLeft="10dp"
