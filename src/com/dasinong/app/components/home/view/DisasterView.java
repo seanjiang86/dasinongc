@@ -2,6 +2,7 @@ package com.dasinong.app.components.home.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
@@ -41,6 +42,11 @@ public class DisasterView extends LinearLayout {
 
     private BottomClickListener mBottomClickListener;
 
+
+    private View mTopView;
+
+    private LinearLayout.LayoutParams mTopLayoutParam;
+
     public DisasterView(Context context) {
         super(context);
         initView();
@@ -62,9 +68,18 @@ public class DisasterView extends LinearLayout {
 
         mLayoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+        initTopView();
+
         initBottomView();
 
         updateView(null, null);
+
+    }
+
+    private void initTopView() {
+        mTopView = new View(this.getContext());
+        mTopLayoutParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.home_dimen_20));
+        mTopView.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ededed")));
 
     }
 
@@ -85,9 +100,22 @@ public class DisasterView extends LinearLayout {
 
     public void updateView(List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> natdiswsEntityList, List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
         this.removeAllViews();
+        addTopView();
         updatePetView(petdiswsEntities);
         updateNatView(natdiswsEntityList);
-        this.addBottomView();
+        addBottomView();
+
+    }
+
+    private void addTopView() {
+
+        ViewParent parent = mBottomView.getParent();
+        if (parent != null) {
+            ViewGroup container = (ViewGroup) parent;
+            container.removeView(mBottomView);
+        }
+
+        this.addView(mTopView, 0,mTopLayoutParam);
 
     }
 
