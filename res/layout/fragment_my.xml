@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_E9E9E9"
+    android:orientation="vertical" >
+
+    <com.dasinong.app.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.dasinong.app.ui.view.TopbarView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" 
+            android:paddingBottom="30dp"
+            >
+
+            <RelativeLayout
+                android:id="@+id/layout_my_info"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="0.5dp"
+                android:background="@drawable/button_white_bg_selector"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="个人信息"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_more" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_scancode"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_white_bg_selector"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="扫一扫"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_more" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_recommend"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="0.5dp"
+                android:background="@drawable/button_white_bg_selector"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="有奖推荐"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_more" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_sms_setting"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="0.5dp"
+                android:background="@drawable/button_white_bg_selector"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="免费短信订阅"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_more" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_help_center"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_white_bg_selector"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="帮助中心"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_more" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_use"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="0.5dp"
+                android:background="@drawable/button_white_bg_selector"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="使用教程"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_more" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_contact_us"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_white_bg_selector"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="联系我们"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_more" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/layout_check_update"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_white_bg_selector"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="检查更新"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_16" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_more" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

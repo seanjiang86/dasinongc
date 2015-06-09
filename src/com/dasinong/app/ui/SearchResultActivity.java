@@ -2,6 +2,7 @@ package com.dasinong.app.ui;
 
 import com.dasinong.app.R;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.DeviceHelper;
 
 import android.os.Bundle;
 import android.widget.EditText;
@@ -44,7 +45,8 @@ public class SearchResultActivity extends BaseActivity {
 		
 		mSearchEdit.setText(keywords);
 		mSearchEdit.setSelection(mSearchEdit.getText().length());
-		mResultListview.requestFocus();
+		
+		mSearchEdit.setFocusable(false);
 	}
 	
 }

@@ -28,6 +28,12 @@ import android.widget.TextView;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
 
+/**
+ * @ClassName EncyclopediaFragment
+ * @author linmu
+ * @Decription 百科
+ * @2015-6-9 下午10:30:08
+ */
 public class EncyclopediaFragment extends Fragment implements OnClickListener{
 
 	private View mContentView;
@@ -81,21 +87,21 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 			
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
-//				if(keyCode == KeyEvent.KEYCODE_ENTER){
-//					
-//					DeviceHelper.hideIME(mSearchEdit);
-//					
-//					String keywords = mSearchEdit.getText().toString().trim();
-//					if(TextUtils.isEmpty(keywords)){
-//						Toast.makeText(getActivity(), "请输入要搜索的内容", 0).show();
-//						return false;
-//					}
-//					
-//					Intent intent = new Intent(getActivity(),SearchResultActivity.class);
-//					intent.putExtra("keywords", keywords);
-//					getActivity().startActivity(intent);
-//					return true;
-//				}
+				if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP){
+					
+					DeviceHelper.hideIME(mSearchEdit);
+					
+					String keywords = mSearchEdit.getText().toString().trim();
+					if(TextUtils.isEmpty(keywords)){
+						Toast.makeText(getActivity(), "请输入要搜索的内容", 0).show();
+						return false;
+					}
+					
+					Intent intent = new Intent(getActivity(),SearchResultActivity.class);
+					intent.putExtra("keywords", keywords);
+					getActivity().startActivity(intent);
+					return true;
+				}
 				return false;
 			}
 		});
@@ -106,7 +112,9 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_ask_for:
-			
+			Intent intent = new Intent(getActivity(),SearchResultActivity.class);
+			intent.putExtra("keywords", "llgfj");
+			getActivity().startActivity(intent);
 			break;
 		case R.id.layout_intelligent:
 			
@@ -114,9 +122,4 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 		}
 	}
 
-	
-	protected void checkUpdate() {
-		
-	}
-	
 }

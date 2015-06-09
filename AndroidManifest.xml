@@ -103,6 +103,18 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.MyInfoActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.SmsSettingActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.SmsSubscribeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar"

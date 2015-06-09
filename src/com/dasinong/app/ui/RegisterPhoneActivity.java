@@ -75,18 +75,13 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	// 国家号码规则
 	private HashMap<String, String> countryRules;
 	private OnSendMessageHandler osmHandler;
-
-//	80424b5493c0
-//	3c1b73e6af8f059c2e6b25f7065d77a3
-
 	
-	// 填写从短信SDK应用后台注册得到的APPKEY
-	private static String APPKEY = "7ddca5c23518";
-	// 填写从短信SDK应用后台注册得到的APPSECRET
-	private static String APPSECRET = "674b27af7f64b70e317f147098bc782b";
+//	private static String APPKEY = "7ddca5c23518";
+//	private static String APPSECRET = "674b27af7f64b70e317f147098bc782b";
+	private static String APPKEY = "80424b5493c0";
+	private static String APPSECRET = "3c1b73e6af8f059c2e6b25f7065d77a3";
 
 	private void initSDK() {
-		// 初始化短信SDK
 		SMSSDK.initSDK(this, APPKEY, APPSECRET);
 		final Handler handler = new Handler();
 		EventHandler eventHandler = new EventHandler() {

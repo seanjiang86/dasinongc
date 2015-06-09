@@ -101,7 +101,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.smssdk_input_identify_num_page);
+		setContentView(R.layout.activity_register_login_authcode);
 
 		initData();
 		
