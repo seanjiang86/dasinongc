@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/add_field_tab" />
+    <com.dasinong.app.ui.view.AddFieldTabView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        dsn:ivOneColor="@drawable/green_round"
+        dsn:ivThreeColor="@drawable/green_round"
+        dsn:ivTwoColor="@drawable/green_round"
+        dsn:tvDataColor="@color/color_2BAD2A"
+        dsn:tvInfoColor="@color/color_2BAD2A"
+        dsn:tvLocationColor="@color/color_2BAD2A"
+        dsn:tvVarietyColor="@color/color_2BAD2A"
+        dsn:viewOneColor="@color/color_2BAD2A"
+        dsn:viewThreeColor="@color/color_2BAD2A"
+        dsn:viewTwoColor="@color/color_2BAD2A" >
+    </com.dasinong.app.ui.view.AddFieldTabView>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -41,25 +55,29 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="45dp"
         android:orientation="horizontal" >
-		
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="本季目标产量:"/>
-    	<EditText
-    	    android:layout_width="158dp"
-    	    android:layout_height="45dp"
-    	    android:layout_marginLeft="20dp"
-    	    android:background="@drawable/text_bg" />
-    	<TextView
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="wrap_content"
-    	    android:layout_marginLeft="5dp"
-    	    android:text="斤" />
-        
+            android:text="本季目标产量:" />
+
+        <EditText
+            android:id="@+id/et_target_production"
+            android:layout_width="158dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/text_bg"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="斤" />
     </LinearLayout>
 
     <Button
+        android:id="@+id/btn_finish_add_field"
         android:layout_width="match_parent"
         android:layout_height="45.0dip"
         android:layout_marginLeft="30dp"

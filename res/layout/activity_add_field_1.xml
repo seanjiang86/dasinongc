@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/add_field_tab" />
+    <com.dasinong.app.ui.view.AddFieldTabView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        dsn:tvLocationColor="@color/color_2BAD2A" >
+    </com.dasinong.app.ui.view.AddFieldTabView>
 
     <LinearLayout
         android:layout_width="fill_parent"

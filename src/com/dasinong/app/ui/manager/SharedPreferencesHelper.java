@@ -18,6 +18,12 @@ public final class SharedPreferencesHelper {
     	USER_ADDRESS,
     	USER_PHONE,
 //    	SESSIONID,
+    	VILLAGE_ID,
+    	LATITUDE,
+    	LONGITUDE,
+    	FIELD_SIZE,
+    	VARIETY_ID,
+    	SUBSTAGE_ID,
     };
     
     public static int getInt(Context context, Field field, int defaultValue) {

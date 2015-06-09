@@ -66,6 +66,10 @@
         <activity android:name=".ui.AddFieldActivity2" />
         <activity android:name=".ui.AddFieldActivity3" />
         <activity android:name=".ui.AddFieldActivity4" />
+        <activity android:name=".ui.AddFieldActivity5" />
+        <activity android:name=".ui.AddFieldActivity6"
+            android:theme="@style/AppBaseTheme" />
+        <activity android:name=".ui.AddFieldActivity7" />
         <activity
             android:name=".ui.RegisterActivity"
             android:screenOrientation="portrait" >
@@ -116,21 +120,20 @@
             android:value="e6fcf845d134fe3da528098e61435a35" />
 
         <activity
-            android:screenOrientation="portrait"
             android:name=".ui.soil.SoilInformationActivity"
-            android:label="@string/title_activity_soil_information" >
+            android:label="@string/title_activity_soil_information"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".ui.soil.SoilEditorActivity"
-            android:label="@string/title_activity_soil_information" >
+            android:label="@string/title_activity_soil_information"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:screenOrientation="portrait"
             android:name=".ui.soil.SoilListActivity"
-            android:label="@string/title_activity_soil_information" >
+            android:label="@string/title_activity_soil_information"
+            android:screenOrientation="portrait" >
         </activity>
-
     </application>
 
 </manifest>

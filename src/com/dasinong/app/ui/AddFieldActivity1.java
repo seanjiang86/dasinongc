@@ -8,11 +8,13 @@ import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LocationResult;
 import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.entity.NearbyUser;
-import com.dasinong.app.entity.VillageInfoList;
+import com.dasinong.app.entity.VillageInfo;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestCode;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.AccountManager;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.Logger;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
@@ -79,7 +81,7 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 
 		int id = v.getId();
 		if ((latitude == 0 || longitude == 0) && count < MAX_DELAY_COUNT) {
-			showToast("定位失败，请重试");
+			showToast("定位失败，请重新点击按钮");
 			handler.postDelayed(new RunnableTask(), 500);
 			return ;
 		} else if ((latitude == 0 || longitude == 0) && count >= MAX_DELAY_COUNT) {
@@ -92,10 +94,12 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 		
 		 String latitudeText = String.valueOf(latitude);
 		 String longitudeText =String.valueOf(longitude);
+		 SharedPreferencesHelper.setString(this, Field.LATITUDE, latitudeText);
+		 SharedPreferencesHelper.setString(this, Field.LONGITUDE, longitudeText);
 
 		switch (id) {
 		case R.id.btn_no_in_field:
-			RequestService.getInstance().sendNoInLocation(this, latitudeText, longitudeText, VillageInfoList.class, new NetRequest.RequestListener() {
+			RequestService.getInstance().sendNoInLocation(this, latitudeText, longitudeText, VillageInfo.class, new NetRequest.RequestListener() {
 
 				@Override
 				public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -109,7 +113,7 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 				
 				@Override
 				public void onFailed(int requestCode, Exception error, String msg) {
-					// TODO 待统一
+					// TODO Ming:待统一
 					goToTwo();
 //					showToast(text)
 					
@@ -127,12 +131,11 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 					} else {
 						showToast(resultData.getMessage());
 					}
-
 				}
 
 				@Override
 				public void onFailed(int requestCode, Exception error, String msg) {
-					// TODO 待统一
+					// TODO Ming:待统一
 					goToThree();
 				}
 			});

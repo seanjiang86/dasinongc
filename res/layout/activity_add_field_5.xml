@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/add_field_tab" />
+    <com.dasinong.app.ui.view.AddFieldTabView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        dsn:ivOneColor="@drawable/green_round"
+        dsn:ivTwoColor="@drawable/green_round"
+        dsn:tvInfoColor="@color/color_2BAD2A"
+        dsn:tvLocationColor="@color/color_2BAD2A"
+        dsn:tvVarietyColor="@color/color_2BAD2A"
+        dsn:viewOneColor="@color/color_2BAD2A"
+        dsn:viewTwoColor="@color/color_2BAD2A" >
+    </com.dasinong.app.ui.view.AddFieldTabView>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -40,51 +51,93 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp" >
-
-        <Spinner
-            android:id="@+id/spn"
-            android:layout_width="145dp"
-            android:layout_height="45dp"
-            android:background="@drawable/text_bg" />
-
-        <Spinner
-            android:id="@+id/spn_1"
-            android:layout_width="145dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/text_bg" />
-        
-    </LinearLayout>
+        android:layout_height="match_parent" >
 
         <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30.0dip"
-        android:layout_marginRight="30.0dip"
-        android:layout_marginTop="40.0dip" >
+            android:id="@+id/substage_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
 
-        <Button
-            android:layout_width="145.0dip"
-            android:layout_height="45.0dip"
-            android:background="@drawable/gray_button_selector"
-            android:text="我不确定"
-            android:textColor="@color/color_666666"
-            android:textSize="16sp" />
+            <TextView
+                android:id="@+id/tv_big_substage"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_weight="1"
+                android:background="@drawable/text_bg"
+                android:gravity="center"
+                android:lines="2"
+                android:text="生长期选择" />
 
-        <Button
-            android:layout_width="145.0dip"
-            android:layout_height="45.0dip"
-            android:layout_marginLeft="10.0dip"
-            android:background="@drawable/green_button_selector"
-            android:text="确定"
-            android:textColor="@color/color_FFFFFF"
-            android:textSize="16sp" />
-    </LinearLayout>
+            <TextView
+                android:id="@+id/tv_small_substage"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/text_bg"
+                android:gravity="center"
+                android:lines="2"
+                android:text="小生长期" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/substage_container"
+            android:layout_marginLeft="30.0dip"
+            android:layout_marginRight="30.0dip"
+            android:layout_marginTop="40.0dip" >
+
+            <Button
+                android:id="@+id/btn_no_sure_substage"
+                android:layout_width="145.0dip"
+                android:layout_height="45.0dip"
+                android:background="@drawable/gray_button_selector"
+                android:text="我不确定"
+                android:textColor="@color/color_666666"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btn_sure_substage"
+                android:layout_width="145.0dip"
+                android:layout_height="45.0dip"
+                android:layout_marginLeft="10.0dip"
+                android:background="@drawable/green_button_selector"
+                android:text="确定"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_select_substage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/crop_container"
+            android:background="@color/color_harf_transparent"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:orientation="horizontal" >
+
+                <ListView
+                    android:id="@+id/lv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/white"
+                    android:dividerHeight="0dp" />
+            </LinearLayout>
+        </FrameLayout>
+    </RelativeLayout>
 
 </LinearLayout>

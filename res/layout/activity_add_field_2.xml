@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-    <include layout="@layout/add_field_tab" />
+    <com.dasinong.app.ui.view.AddFieldTabView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        dsn:tvLocationColor="@color/color_2BAD2A" >
+    </com.dasinong.app.ui.view.AddFieldTabView>
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -51,39 +56,40 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:gravity="center_vertical" >
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
 
             <TextView
                 android:id="@+id/tv_privace_city"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_weight="2"
-                android:lines="2"
                 android:background="@drawable/text_bg"
-                android:text="省-市"
-                android:gravity="center" />
+                android:gravity="center"
+                android:lines="2"
+                android:text="省-市" />
 
             <TextView
                 android:id="@+id/tv_country_district"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
-                android:layout_weight="2"
-                android:lines="2"
-                android:background="@drawable/text_bg"
-                android:text="县-镇"
                 android:layout_marginLeft="8dp"
-                android:gravity="center" />
+                android:layout_weight="2"
+                android:background="@drawable/text_bg"
+                android:gravity="center"
+                android:lines="2"
+                android:text="县-镇" />
 
             <TextView
                 android:id="@+id/tv_village"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
+                android:layout_marginLeft="7dp"
                 android:layout_weight="1"
-                android:lines="2"
                 android:background="@drawable/text_bg"
-                android:text="北京-北京"
-                android:layout_marginLeft="7dp" />
+                android:gravity="center"
+                android:lines="2"
+                android:text="村" />
         </LinearLayout>
 
         <Button
@@ -104,8 +110,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/city_container"
-            android:visibility="gone"
-            android:background="@color/color_harf_transparent" >
+            android:background="@color/color_harf_transparent"
+            android:visibility="gone" >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -119,14 +125,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:background="@android:color/white" />
+                    android:background="@android:color/white"
+                    android:dividerHeight="0dp" />
 
                 <ListView
                     android:id="@+id/lv_small_area"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                     android:background="@android:color/white" />
+                    android:background="@android:color/white"
+                    android:dividerHeight="0dp" />
             </LinearLayout>
         </FrameLayout>
     </RelativeLayout>

@@ -52,7 +52,7 @@ public class HomeFragment extends Fragment {
                 // queryCity();
                 // queryDisaster();
 
-                Intent intent = new Intent(getActivity(), AddFieldActivity4.class);
+                Intent intent = new Intent(getActivity(), AddFieldActivity1.class);
 
                 startActivity(intent);
 

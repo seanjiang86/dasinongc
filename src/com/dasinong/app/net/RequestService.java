@@ -51,24 +51,27 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getLocationInfoParams(latitude, longitude);
 		new NetRequest(context).get(RequestCode.SEND_IN_LOCATION,params, SubUrl.SEND_IN_LOCATION, callBack,clazz);
 	}
-	public void getCrop(Context context,Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetCropParams();
-		new NetRequest(context).get(RequestCode.GET_CROP,params, SubUrl.GET_CROP, callBack,clazz);
+	public void getCropList(Context context,String locationId,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetCropListParams(locationId);
+		new NetRequest(context).get(RequestCode.GET_CROP_LIST,params, SubUrl.GET_CROP_LIST, callBack,clazz);
 	}
-	public void getCropName(Context context,String cropId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetCropNameParams(cropId);
-		new NetRequest(context).get(RequestCode.GET_CROP_NAME,params, SubUrl.GET_CROP_NAME, callBack,clazz);
+	public void getVarietyList(Context context,String cropId, String locationId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetVarietyListParams(cropId,locationId);
+		new NetRequest(context).get(RequestCode.GET_VARIETY_LIST,params, SubUrl.GET_VARIETY_LIST, callBack,clazz);
 	}
-	public void getCropNumber(Context context,String cropNameId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetCropNumberParams(cropNameId);
-		new NetRequest(context).get(RequestCode.GET_CROP_NUMBER,params, SubUrl.GET_CROP_NUMBER, callBack,clazz);
+	public void getLocation(Context context,String province,String city,String country,String district, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetLocationParams(province,city,country,district);
+		new NetRequest(context).get(RequestCode.GET_LOCATION,params, SubUrl.GET_LOCATION, callBack,clazz);
 	}
-	public void getVillageInfo(Context context,String currentCountry, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetCropNumberParams(currentCountry);
-		new NetRequest(context).get(RequestCode.GET_VILLAGE_INFO,params, SubUrl.GET_VILLAGE_INFO, callBack,clazz);
+	public void searchNearUser(Context context,String latitude,String longitude, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getSearchNearUserParams(latitude,longitude);
+		new NetRequest(context).get(RequestCode.SEARCH_NEAR_USER,params, SubUrl.SEARCH_NEAR_USER, callBack,clazz);
 	}
-
-
+	public void getSubStage(Context context,String varietyId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetSubStageParams(varietyId);
+		new NetRequest(context).get(RequestCode.GET_SUB_STAGE,params, SubUrl.GET_SUB_STAGE, callBack,clazz);
+	}
+	
 	public void sendRequestWithToken(Context context,Class<? extends BaseEntity> clazz,int requestCode,String url,Object param,RequestListener callBack) {
 		Map<String,String> map = FieldUtils.convertToHashMap(param);
 		Map<String, String> params = NetConfig.getBaseParams(true, map);
