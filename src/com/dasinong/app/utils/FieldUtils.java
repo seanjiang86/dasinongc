@@ -18,17 +18,14 @@ public class FieldUtils {
     public static HashMap<String, String> convertToHashMap(Object obj) {
 
 
-
         HashMap<String, String> map = new HashMap<String, String>(16, 0.75F);
 
-        if(obj==null){
+        if (obj == null) {
             return map;
         }
-
         Field[] fields = obj.getClass().getDeclaredFields();
 
         for (Field field : fields) {
-
 
 
             field.setAccessible(true);
@@ -36,9 +33,11 @@ public class FieldUtils {
                 String key = field.getName();
                 Object value = field.get(obj);
                 if (value.getClass() == String.class) {
-                    map.put(key, (String) value);
-                }else{
-                    map.put(key,String.valueOf(value));
+                    if (value != null && !"".equalsIgnoreCase((String) value)) {
+                        map.put(key, (String) value);
+                    }
+                } else {
+                    map.put(key, String.valueOf(value));
                 }
 
             } catch (IllegalAccessException e) {

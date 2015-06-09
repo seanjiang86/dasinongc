@@ -4,6 +4,10 @@
     android:layout_height="fill_parent"
     android:background="#ffffff"
     android:orientation="vertical" >
+    <com.dasinong.app.ui.view.TopbarView
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 
     <ListView

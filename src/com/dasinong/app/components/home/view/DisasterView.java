@@ -4,34 +4,42 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dasinong.app.R;
+import com.dasinong.app.entity.FieldEntity;
 
+import java.util.List;
 
-import static android.util.TypedValue.*;
+import static android.util.TypedValue.COMPLEX_UNIT_DIP;
+import static android.util.TypedValue.applyDimension;
 
 
 /**
  * disaster item view
  * Created by lxn on 15/6/5.
  */
-public class DisasterView extends LinearLayout implements View.OnClickListener {
+public class DisasterView extends LinearLayout {
 
-    private TextView mDisasterType;
-    private TextView mDisasterName;
-    private TextView mDisasterDesc;
-    private TextView mDisasterPrevent;
-    private TextView mDisasterCure;
-    private ImageView mDisasterIcon;
 
     private int mDefaultBottomPadding = 2;
+
+    private LayoutInflater mLayoutInflater;
+
+    private TextView mBottomView;
+
+    private LinearLayout.LayoutParams mBottomLayoutParam;
+
+    private BottomClickListener mBottomClickListener;
 
     public DisasterView(Context context) {
         super(context);
@@ -52,63 +60,105 @@ public class DisasterView extends LinearLayout implements View.OnClickListener {
         windowManager.getDefaultDisplay().getMetrics(displayMetrics);
         mDefaultBottomPadding = (int) applyDimension(COMPLEX_UNIT_DIP, mDefaultBottomPadding, displayMetrics);
 
-        /**set bottomPadding*/
-        this.setPadding(0, 0, 0, mDefaultBottomPadding);
-        LayoutInflater.from(getContext()).inflate(R.layout.view_home_disaster, this, true);
+        mLayoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        /**find all view*/
-        mDisasterType = (TextView) findViewById(R.id.disaster_type);
-        mDisasterName = (TextView) findViewById(R.id.disaster_name);
-        mDisasterIcon = (ImageView) findViewById(R.id.disaster_icon);
-        mDisasterDesc = (TextView) findViewById(R.id.disaster_desc);
-        mDisasterPrevent = (TextView) findViewById(R.id.disaster_prevent);
-        mDisasterCure = (TextView) findViewById(R.id.disaster_cure);
+        initBottomView();
 
-        /**set event*/
+        updateView(null, null);
 
-        mDisasterPrevent.setOnClickListener(this);
-        mDisasterCure.setOnClickListener(this);
+    }
+
+    private void initBottomView() {
+        int padding = (int) getResources().getDimension(R.dimen.home_dimen_30);
+        mBottomView = new TextView(this.getContext());
+        mBottomView.setPadding(padding, padding, padding, padding);
+        mBottomView.setText(R.string.disaster_show);
+        mBottomView.setGravity(Gravity.CENTER);
+        mBottomView.setTextColor(Color.parseColor("#1768bc"));
+        mBottomLayoutParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        //set event
+        mBottomClickListener = new BottomClickListener();
+        mBottomView.setOnClickListener(mBottomClickListener);
 
     }
 
 
-    public void updateView() {
+    public void updateView(List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> natdiswsEntityList, List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
+        this.removeAllViews();
+        updatePetView(petdiswsEntities);
+        updateNatView(natdiswsEntityList);
+        this.addBottomView();
 
-        mDisasterType.setText("病害预警");
-        mDisasterName.setText("稻瘟病");
-        mDisasterDesc.setText("稻瘟病是水稻重要病害之一 可引起大幅度减产，严重时减产40%～50%" +
-                "，甚至颗粒无收。世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多" +
-                "，发生后可造成不同程度减产可造成白穗以致绝产。");
+    }
 
+    private void updateNatView(List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> natdiswsEntityList) {
+        View View = createView();
+        this.addView(View);
+
+    }
+
+    private void updatePetView(List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
+        View child = createView();
+        this.addView(child);
+    }
+
+    private View createView() {
+
+        View child = mLayoutInflater.inflate(R.layout.view_home_disaster, this, false);
+
+        TextView disasterdesc = (TextView) child.findViewById(R.id.disaster_desc);
+        ImageView disastericon = (ImageView) child.findViewById(R.id.disaster_icon);
+        TextView disastername = (TextView) child.findViewById(R.id.disaster_name);
+        TextView disastertype = (TextView) child.findViewById(R.id.disaster_type);
+
+        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener());
+        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener());
+        return child;
 
     }
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.disaster_cure:
-
-                //TODO:我要治疗
-
-                break;
-            case R.id.disaster_prevent:
-                //TODO:我要预防
-
-                break;
-
-            default:
-                break;
+    private void addBottomView() {
+        ViewParent parent = mBottomView.getParent();
+        if (parent != null) {
+            ViewGroup container = (ViewGroup) parent;
+            container.removeView(mBottomView);
         }
 
+        this.addView(mBottomView, -1, mBottomLayoutParam);
     }
+
 
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        mDisasterPrevent.setOnClickListener(null);
-        mDisasterCure.setOnClickListener(null);
 
+
+    }
+
+
+    class BottomClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+
+            Toast.makeText(v.getContext(), "open all", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    class PreVentClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+
+            Toast.makeText(v.getContext(), "open prev", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    class CureClickListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+
+            Toast.makeText(v.getContext(), "open cur", Toast.LENGTH_SHORT).show();
+        }
     }
 }
  

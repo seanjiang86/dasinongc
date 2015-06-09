@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dasinong.app.R;
 
@@ -17,6 +18,7 @@ import com.dasinong.app.R;
 public class SoilView extends LinearLayout implements View.OnClickListener {
 
     private TextView mSoilCheck;
+    private OnSoilCickListenr mListener;
 
     public SoilView(Context context) {
         super(context);
@@ -40,13 +42,28 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case  R.id.soil_check:
-                //TODO:申请测土
+        switch (v.getId()) {
+            case R.id.soil_check:
+
+                Toast.makeText(this.getContext(),"soil click",Toast.LENGTH_SHORT).show();
+                if(mListener!=null){
+                    mListener.onSoilCheck();
+                }
+
                 break;
             default:
                 break;
         }
 
+    }
+
+    public void setOnSoilListener(OnSoilCickListenr l) {
+
+        this.mListener = l;
+    }
+
+
+    public interface OnSoilCickListenr {
+        public void onSoilCheck();
     }
 }

@@ -60,8 +60,7 @@ public class FieldEntity extends BaseEntity {
         public int varietyId;
         //自然
         public List<NatdiswsEntity> natdisws;
-        //台风
-        public String natDisSpecName;
+
         //not show
         public int fieldId;
         //当前田的名称

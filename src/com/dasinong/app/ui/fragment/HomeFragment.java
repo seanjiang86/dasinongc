@@ -9,25 +9,38 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
+import com.android.volley.toolbox.Volley;
 import com.dasinong.app.R;
+import com.dasinong.app.components.home.view.SoilView;
 import com.dasinong.app.database.city.dao.impl.CityDaoImpl;
 import com.dasinong.app.database.disaster.domain.CPProduct;
 import com.dasinong.app.database.disaster.domain.PetDisspec;
 import com.dasinong.app.database.disaster.domain.PetSolu;
 import com.dasinong.app.database.disaster.service.DisasterManager;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.FieldEntity;
+import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.entity.SoilDetail;
+import com.dasinong.app.net.NetConfig;
+import com.dasinong.app.net.NetRequest;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.AddFieldActivity1;
 import com.dasinong.app.ui.AddFieldActivity2;
 import com.dasinong.app.ui.AddFieldActivity4;
+import com.dasinong.app.ui.MainTabActivity;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.soil.SoilInformationActivity;
 import com.dasinong.app.ui.soil.SoilListActivity;
+import com.dasinong.app.utils.Logger;
 
 import java.util.List;
 
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements NetRequest.RequestListener,SoilView.OnSoilCickListenr {
 
+    private static final int REQUST_CODE_HOME_TASk = 130;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,24 +50,57 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        //Volley.newRequestQueue(this.getActivity()).add(null).getCacheEntry();
+        //
+        //first loading
+
+        //step1
+        //online
+        //read cache
+        //loadFromServer()
+
+        LinearLayout ll = new LinearLayout(this.getActivity());
+        ll.setOrientation(LinearLayout.VERTICAL);
+
+        Button login = new Button(getActivity());
+
+        login.setTextSize(50);
+        login.setText("login");
+
+
         Button tv = new Button(getActivity());
+
+        ll.addView(login);
+        ll.addView(tv);
         tv.setText("首页");
         tv.setTextSize(50);
 
+        tv.setOnClickListener(new View.OnClickListener() {
 
-        tv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadDataFrom("");
+            }
+        });
+
+        login.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
+
+
+                login();
                 // TODO Auto-generated method stub
                 //Intent intent = new Intent(getActivity(), AddFieldActivity4.class);
                 //startActivity(intent);
                 // queryCity();
                 // queryDisaster();
 
+
                 Intent intent = new Intent(getActivity(), AddFieldActivity1.class);
 
                 startActivity(intent);
+
 
                 // queryCity();
                 Log.d("TAG", "HomeFragment");
@@ -65,7 +111,36 @@ public class HomeFragment extends Fragment {
 
         });
 
-        return tv;//inflater.inflate(R.layout.fragment_home,container,false);
+        View view =inflater.inflate(R.layout.fragment_home, container, false);
+        SoilView  soilView = (SoilView) view.findViewById(R.id.home_soilview);
+        soilView.setOnSoilListener(this);
+        return view;
+    }
+
+    private void login() {
+
+        RequestService.getInstance().authcodeLoginReg(this.getActivity(), "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
+
+            @Override
+            public void onSuccess(int requestCode, BaseEntity resultData) {
+
+                if(resultData.isOk()){
+                    LoginRegEntity entity = (LoginRegEntity) resultData;
+
+                    AccountManager.saveAccount(HomeFragment.this.getActivity(), entity.getData());
+
+
+                }else{
+                    Logger.d("TAG", resultData.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailed(int requestCode, Exception error, String msg) {
+
+                Logger.d("TAG","msg"+msg);
+            }
+        });
     }
 
     /**
@@ -97,5 +172,38 @@ public class HomeFragment extends Fragment {
         List<CPProduct> allDrug = manager.getAllDrug(10);
 
         Log.d("TAG", "---");
+    }
+
+    public void loadDataFrom(String fiedlId){
+
+        FieldEntity.Param param = new FieldEntity.Param();
+        param.fieldId = fiedlId;
+        RequestService.getInstance().sendRequestWithOutToken(this.getActivity(),
+                FieldEntity.class,
+                REQUST_CODE_HOME_TASk,
+                NetConfig.SubUrl.GET_HOME_TASK,
+                param,
+                this
+        );
+
+    }
+
+    @Override
+    public void onSuccess(int requestCode, BaseEntity resultData) {
+
+        Log.d("TAG","home success");
+    }
+
+    @Override
+    public void onFailed(int requestCode, Exception error, String msg) {
+
+        Log.d("TAG","home failed");
+
+    }
+
+    @Override
+    public void onSoilCheck() {
+        Intent intent = new Intent(this.getActivity(),SoilListActivity.class);
+        startActivity(intent);
     }
 }

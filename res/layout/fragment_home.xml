@@ -21,6 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <com.dasinong.app.components.home.view.SoilView
+        android:id="@+id/home_soilview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

@@ -7,6 +7,10 @@
     android:orientation="vertical">
 
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/home_dimen_20"
+        android:background="#ededed"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -232,10 +236,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="@dimen/home_dimen_60"
+        android:padding="@dimen/home_dimen_30"
         android:textColor="#1768bc"
         android:textSize="@dimen/home_text_size_32"
-        android:text="申请测土"
+        android:text="@string/soil_check"
         tools:text="申请测土" />
 
 

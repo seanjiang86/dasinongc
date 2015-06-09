@@ -15,6 +15,7 @@ import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.BaseActivity;
+import com.dasinong.app.ui.view.TopbarView;
 
 public class SoilListActivity extends BaseActivity implements AdapterView.OnItemClickListener {
 
@@ -27,6 +28,9 @@ public class SoilListActivity extends BaseActivity implements AdapterView.OnItem
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_soil_list);
+        TopbarView topbarView = (TopbarView) findViewById(R.id.top_bar);
+        topbarView.setLeftView(true, true);
+        topbarView.setCenterText(R.string.soil_check);
         mListView = (ListView) findViewById(R.id.list_view);
         mListView.setAdapter(new ArrayAdapter<String>(this, R.layout.soil_list_item, R.id.soil_item_text, getResources().getStringArray(R.array.soil_list)));
 
