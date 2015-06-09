@@ -32,7 +32,10 @@ public class FieldEntity extends BaseEntity {
          * active : false
          * endDate : null
          * varietyId : 10
-         * natdisws : [{"natDisId":10,"natDisSpecId":10,"natDisStatus":false,"fieldId":10,"natDisSpecName":"台风"}]
+         * natdisws : [{"natDisId":10,"natDisSpecId":10,
+         * "natDisStatus":false,
+         * "fieldId":10,
+         * "natDisSpecName":"台风"}]
          * fieldId : 10
          * fieldName : 测试田
          */
@@ -57,6 +60,8 @@ public class FieldEntity extends BaseEntity {
         public int varietyId;
         //自然
         public List<NatdiswsEntity> natdisws;
+        //台风
+        public String natDisSpecName;
         //not show
         public int fieldId;
         //当前田的名称
