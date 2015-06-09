@@ -57,7 +57,7 @@ public class NetConfig {
 		public static final String SEARCH_NEAR_USER ="searchNearUser";
 		/**获取生长周期*/
 		public static final String GET_SUB_STAGE ="getSubStage";
-		
+
 	}
 
 	public static String getRequestUrl(String subUrl) {
@@ -81,7 +81,7 @@ public class NetConfig {
 		public static final String district = "district";
 		public static final String locationId = "locationId";
 		public static final String varietyId = "varietyId";
-		
+
 	}
 
 	public static class ResponseCode {
@@ -246,6 +246,6 @@ public class NetConfig {
 		paramsMap.put(Params.varietyId, varietyId);
 		return paramsMap;
 	}
-	
+
 }
 
