@@ -1,6 +1,7 @@
 package com.dasinong.app.components.home.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
@@ -16,8 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
+import com.dasinong.app.database.disaster.service.DisasterManager;
 import com.dasinong.app.entity.FieldEntity;
+import com.dasinong.app.ui.HarmListActivity;
 
 import java.util.List;
 
@@ -169,7 +173,9 @@ public class DisasterView extends LinearLayout {
         @Override
         public void onClick(View v) {
 
-            Toast.makeText(v.getContext(), "open all", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(v.getContext(), "open all", Toast.LENGTH_SHORT).show();
+        	Intent intent = new Intent(v.getContext(), HarmListActivity.class);
+        	v.getContext().startActivity(intent);
         }
     }
 

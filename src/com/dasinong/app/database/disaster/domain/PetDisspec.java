@@ -1,9 +1,11 @@
 package com.dasinong.app.database.disaster.domain;
 
+import java.io.Serializable;
+
 /**
  * Created by liuningning on 15/6/2.
  */
-public class PetDisspec {
+public class PetDisspec implements Serializable{
 
     public int petDisSpecId;
     public String petDisSpecName;

@@ -70,6 +70,7 @@
         <activity android:name=".ui.AddFieldActivity6"
             android:theme="@style/AppBaseTheme" />
         <activity android:name=".ui.AddFieldActivity7" />
+        <activity android:name=".ui.ReportHarmActivity"></activity>
         <activity
             android:name=".ui.RegisterActivity"
             android:screenOrientation="portrait" >

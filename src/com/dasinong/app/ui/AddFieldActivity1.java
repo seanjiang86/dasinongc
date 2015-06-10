@@ -88,6 +88,7 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 			handler.removeCallbacks(task);
 			Intent intent = new Intent(this, AddFieldActivity2.class);
 			startActivity(intent);
+			return;
 		}
 		
 		
