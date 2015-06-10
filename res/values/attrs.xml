@@ -12,11 +12,11 @@
         <attr name="pstsScrollOffset" format="dimension" />
         <attr name="pstsTabBackground" format="reference" />
         <attr name="pstsShouldExpand" format="boolean" />
-        <attr name="pstsTextAllCaps"  format="boolean" />
-         <attr name="zmsTabTextSize"   format="dimension" />
-         <attr name="zmsTabTextColor"  format="color" />
-             <attr name="zmsSelectedTabTextSize"   format="dimension" />
-          <attr name="zmsSelectedTabTextColor" format="color" />
+        <attr name="pstsTextAllCaps" format="boolean" />
+        <attr name="zmsTabTextSize" format="dimension" />
+        <attr name="zmsTabTextColor" format="color" />
+        <attr name="zmsSelectedTabTextSize" format="dimension" />
+        <attr name="zmsSelectedTabTextColor" format="color" />
     </declare-styleable>
 
 </resources>

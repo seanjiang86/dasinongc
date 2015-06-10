@@ -46,4 +46,8 @@ public final class RequestCode {
 	 * 获取生长周期
 	 */
 	public static final int GET_SUB_STAGE = SEARCH_NEAR_USER + 1;
+	/**
+	 * 获取全部任务
+	 */
+	public static final int GET_ALL_TASK = GET_SUB_STAGE + 1;
 }

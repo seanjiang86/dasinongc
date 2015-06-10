@@ -2,11 +2,13 @@ package com.dasinong.app.ui.adapter;
 
 
 
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.ui.fragment.HarmFragment;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.widget.Toast;
 
 /**
  * 

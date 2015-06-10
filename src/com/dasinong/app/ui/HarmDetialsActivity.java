@@ -6,6 +6,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -19,12 +20,19 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
+import com.dasinong.app.database.disaster.domain.NatDisspec;
+import com.dasinong.app.database.disaster.domain.PetDisspec;
+import com.dasinong.app.database.disaster.domain.PetSolu;
 import com.dasinong.app.database.disaster.service.DisasterManager;
+import com.dasinong.app.ui.adapter.HarmDetialAdapter;
 import com.dasinong.app.ui.adapter.MyBaseAdapter;
+import com.dasinong.app.ui.fragment.HarmFragment;
 import com.dasinong.app.utils.GraphicUtils;
+import com.dasinong.app.utils.Logger;
 
 /**
  * @author Ming 此类为显示病虫草害详情的页面
@@ -47,44 +55,89 @@ public class HarmDetialsActivity extends BaseActivity {
 	// 快速诊断按钮
 	private LinearLayout ll_rapid_diagnosis;
 	// 用来存放图片链接的集合
-	private List<String> dataList = new ArrayList<String>();
+	private List<PetSolu> dataList = new ArrayList<PetSolu>();
 	private ImageView imageView;
-	private ImageView [] imageViews;
+	private ImageView[] imageViews;
+	private String type;
+	private List<PetSolu> petSoluList;
+	private List<PetSolu> petPreventList;
+
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			initListView();
+		};
+	};
+	private NatDisspec nat;
+	private PetDisspec pet;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_harm_detials);
 
+		type = getIntent().getExtras().getString("type");
+
+		if (HarmFragment.TYPE_NAT.equals(type)) {
+			nat = (NatDisspec) getIntent().getExtras().getSerializable("nat");
+		} else if (HarmFragment.TYPE_PET.equals(type)) {
+			pet = (PetDisspec) getIntent().getExtras().getSerializable("pet");
+			int petDisSpecId = pet.petDisSpecId;
+			initData(petDisSpecId);
+		}
+
 		lv_detial = (ListView) findViewById(R.id.lv_detial);
 
-		header = View.inflate(DsnApplication.getContext(),
-				R.layout.harm_detials_header, null);
-
-		initData();
+		header = View.inflate(DsnApplication.getContext(), R.layout.harm_detials_header, null);
 
 		initHeader();
 
 		lv_detial.addHeaderView(header);
+	}
 
-		lv_detial.setAdapter(new HarmDetialAdapter(this, dataList, true));
+	private void initListView() {
+		lv_detial.setAdapter(new HarmDetialAdapter(this, dataList, petSoluList.size(), true));
 
 		lv_detial.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				
-				Intent intent = new Intent(DsnApplication.getContext(),
-						CureDetialActivity.class);
+				PetSolu solu = dataList.get(position -1);
+				Intent intent = new Intent(DsnApplication.getContext(), CureDetialActivity.class);
+
+				Bundle bundle = new Bundle();
+				bundle.putSerializable("solu", solu);
+				intent.putExtras(bundle);
+
 				startActivity(intent);
 			}
 		});
 	}
 
-	private void initData() {
+	private void initData(int petDisSpecId) {
+		Logger.d("MING", "加载数据执行");
+
 		DisasterManager manager = DisasterManager.getInstance(this);
-		
+		if (HarmFragment.TYPE_PET.equals(type)) {
+			// 获取治疗方案
+			petSoluList = manager.getCureSolution(petDisSpecId);
+			// 获取预防方案
+			petPreventList = manager.getPreventSolution(petDisSpecId);
+			
+			if(petSoluList != null && petSoluList.size() != 0){
+				dataList.addAll(petSoluList);
+			}
+			if(petPreventList != null && petPreventList.size() != 0){
+				dataList.addAll(petPreventList);
+			}
+			
+
+			Logger.d("MING", "加载数据完成");
+
+			// TODO MING:待确定是否需要handler发送消息
+
+			handler.sendEmptyMessage(0);
+		}
 	}
 
 	/*
@@ -96,25 +149,32 @@ public class HarmDetialsActivity extends BaseActivity {
 		tv_harm_des = (TextView) header.findViewById(R.id.tv_harm_des);
 		vp_pic = (ViewPager) header.findViewById(R.id.vp_pic);
 		ll_point = (LinearLayout) header.findViewById(R.id.ll_point);
-		
-		
-		imageViews = new ImageView[dataList.size()];
+
+		if (HarmFragment.TYPE_PET.equals(type)) {
+			tv_harm_name.setText(pet.petDisSpecName);
+			rb_harm_grade.setRating(pet.severity);
+			tv_harm_des.setText(pet.description);
+		} else if (HarmFragment.TYPE_NAT.equals(type)) {
+			// TODO MING:待补充
+			tv_harm_name.setText(nat.natDisSpecName);
+		}
+
+		imageViews = new ImageView[4];
 		int px = GraphicUtils.dip2px(this, 8);
-		for (int i = 0; i < dataList.size(); i++) {
+		for (int i = 0; i < 4; i++) {
 			imageView = new ImageView(this);
-			imageView.setLayoutParams(new LayoutParams( px,px ));
-			
+			imageView.setLayoutParams(new LayoutParams(px, px));
+
 			imageViews[i] = imageView;
-			
-			if(i == 0){
+
+			if (i == 0) {
 				imageView.setBackgroundResource(R.drawable.selected_point);
-			}else{
+			} else {
 				imageView.setBackgroundResource(R.drawable.unselect_point);
 			}
-			
+
 			ll_point.addView(imageView);
 		}
-		
 
 		ll_rapid_diagnosis = (LinearLayout) header.findViewById(R.id.ll_rapid_diagnosis);
 
@@ -141,69 +201,9 @@ public class HarmDetialsActivity extends BaseActivity {
 			}
 
 			@Override
-			public void destroyItem(ViewGroup container, int position,
-					Object object) {
+			public void destroyItem(ViewGroup container, int position, Object object) {
 				container.removeView((View) object);
 			}
 		});
-	}
-
-	class HarmDetialAdapter extends MyBaseAdapter<String> {
-
-		public HarmDetialAdapter(Context ctx, List<String> list, boolean flag) {
-			super(ctx, list, flag);
-		}
-
-		@Override
-		public View getView(int pos, View view, ViewGroup group) {
-			ViewHolder holder = null;
-			if (view == null) {
-				holder = new ViewHolder();
-				view = View.inflate(context, R.layout.treatment_item, null);
-
-				holder.ll_title = (LinearLayout) view
-						.findViewById(R.id.ll_title);
-				holder.small_line = view.findViewById(R.id.small_line);
-				holder.tv_method_name = (TextView) view
-						.findViewById(R.id.tv_method_name);
-				holder.tv_crop_stage = (TextView) view
-						.findViewById(R.id.tv_crop_stage);
-				holder.tv_procider = (TextView) view
-						.findViewById(R.id.tv_procider);
-				holder.tv_content = (TextView) view
-						.findViewById(R.id.tv_content);
-				holder.big_line = view.findViewById(R.id.big_line);
-
-				view.setTag(holder);
-
-			} else {
-				holder = (ViewHolder) view.getTag();
-			}
-
-			if (pos == 0) {
-				holder.big_line.setVisibility(View.GONE);
-			} else if (pos == 2) {
-				holder.ll_title.setVisibility(View.GONE);
-				holder.small_line.setVisibility(View.GONE);
-			} else if (pos == 3) {
-				holder.big_line.setVisibility(View.GONE);
-			} else {
-				holder.ll_title.setVisibility(View.GONE);
-				holder.small_line.setVisibility(View.GONE);
-				holder.big_line.setVisibility(View.GONE);
-			}
-			
-			return view;
-		}
-	}
-
-	public static class ViewHolder {
-		LinearLayout ll_title;
-		View small_line;
-		TextView tv_method_name;
-		TextView tv_crop_stage;
-		TextView tv_procider;
-		TextView tv_content;
-		View big_line;
 	}
 }

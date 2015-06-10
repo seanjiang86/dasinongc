@@ -1,5 +1,6 @@
 package com.dasinong.app.net;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -9,6 +10,10 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.http.Header;
+import org.apache.http.HeaderElement;
+import org.apache.http.ParseException;
+import org.apache.http.client.CookieStore;
 import org.json.JSONObject;
 
 import android.content.Context;
@@ -38,6 +43,12 @@ import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.Logger;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.lidroid.xutils.HttpUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 
 /**
  * @ClassName: NetRequestManager
@@ -87,9 +98,9 @@ public class NetRequest {
 	}
 
 	public interface RequestListener {
-		void onSuccess(int requestCode,BaseEntity resultData);
+		void onSuccess(int requestCode, BaseEntity resultData);
 
-		void onFailed(int requestCode,Exception error, String msg);
+		void onFailed(int requestCode, Exception error, String msg);
 	}
 
 	// -----------------------
@@ -100,79 +111,82 @@ public class NetRequest {
 	public static final int ERROR_NO_NET = -2;
 	public static final int ERROR_TIME_OUT = -3;
 
-	public <T> void get(int requestCode,Map<String, String> map, String subUrl, final RequestListener callback,
+	public <T> void get(int requestCode, Map<String, String> map, String subUrl, final RequestListener callback,
 			final Class<? extends BaseEntity> clazz) {
 
 		if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
-			callback.onFailed(requestCode,new Exception(), "无网络连接");
+			callback.onFailed(requestCode, new Exception(), "无网络连接");
 			return;
 		}
 
 		String url = NetConfig.getRequestUrl(subUrl);
-		Logger.d("TAG",url);
-		if (map != null&&!map.isEmpty()) {
+		Logger.d("TAG", url);
+		if (map != null && !map.isEmpty()) {
 			checkNull(map);
 			url = url + encodeParameters(map);
 		}
 
 		Logger.d1("NetRequest", url);
 
-		get(requestCode,url, clazz, null, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
+		get(requestCode, url, clazz, null, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
 	}
 
-//	private <T> void get(int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
-//	/* final Map<String, String> map, */final RequestListener callback) {
-//		get(requestCode,url, clazz, header, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
-//	}
-//
-//	private <T> void get(int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
-//	/* final Map<String, String> map, */final RequestListener callback, RetryPolicy retryPolicy) {
-//		get(requestCode,url, clazz, header, callback, Priority.NORMAL, retryPolicy);
-//	}
+	// private <T> void get(int requestCode,String url, final Class<? extends
+	// BaseEntity> clazz, final Map<String, String> header,
+	// /* final Map<String, String> map, */final RequestListener callback) {
+	// get(requestCode,url, clazz, header, callback, Priority.NORMAL, new
+	// DefaultRetryPolicy(10 * 1000, 0, 1));
+	// }
+	//
+	// private <T> void get(int requestCode,String url, final Class<? extends
+	// BaseEntity> clazz, final Map<String, String> header,
+	// /* final Map<String, String> map, */final RequestListener callback,
+	// RetryPolicy retryPolicy) {
+	// get(requestCode,url, clazz, header, callback, Priority.NORMAL,
+	// retryPolicy);
+	// }
 
-	private <T> void get(final int requestCode,final String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
-			final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
-		Log.d("TAG", "url:"+url);
-		StringGetRequest req = new StringGetRequest( url, new Response.Listener<String>() {
+	private <T> void get(final int requestCode, final String url, final Class<? extends BaseEntity> clazz,
+			final Map<String, String> header, final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
+		Log.d("TAG", "url:" + url);
+		StringGetRequest req = new StringGetRequest(url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 
-				Log.d("TAG", "url:"+url);
+				Log.d("TAG", "url:" + url);
 				try {
-					//Logger.d1(tag, response);
-				
+					// Logger.d1(tag, response);
+
 					Toast.makeText(DsnApplication.getContext(), response, 0).show();
-					
+
 					BaseEntity result = new Gson().fromJson(response, clazz);
-					if(result == null){
-						callback.onFailed(requestCode,new NullPointerException(), "data:"+response);
+					if (result == null) {
+						callback.onFailed(requestCode, new NullPointerException(), "data:" + response);
 						return;
 					}
-					
-					
-					//TODO token 失效  login
-//					if ("1007".equals(result.getRespNo())) {
-//						Intent intent = new Intent(context, LoginActivity.class);
-//						// intent.putExtra(AccountManager.CHECK_LOGIN, true);
-//						context.startActivity(intent);
-//						AccountManager.logout(context);
-//					}
-					
-					
-					
-					callback.onSuccess(requestCode,result);
+
+					// TODO token 失效 login
+					// if ("1007".equals(result.getRespNo())) {
+					// Intent intent = new Intent(context,
+					// LoginActivity.class);
+					// // intent.putExtra(AccountManager.CHECK_LOGIN,
+					// true);
+					// context.startActivity(intent);
+					// AccountManager.logout(context);
+					// }
+
+					callback.onSuccess(requestCode, result);
 				} catch (Exception e) {
-					callback.onFailed(requestCode,e, e.getClass().toString());
+					callback.onFailed(requestCode, e, e.getClass().toString());
 				}
 
 			}
-			
-			
+
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
 				Logger.e1(tag, error);
-				callback.onFailed(requestCode,error, "");
+				callback.onFailed(requestCode, error, "");
 			}
 		}) {
 
@@ -199,67 +213,77 @@ public class NetRequest {
 				}
 				return Priority.NORMAL;
 			}
-			
-//			@Override
-//			protected Response<String> parseNetworkResponse(NetworkResponse response) {
-//				try {
-//					return Response.success(new String(response.data, "UTF-8"), HttpHeaderParser.parseCacheHeaders(response));
-//				} catch (UnsupportedEncodingException e) {
-//					return Response.error(new ParseError(e));
-//				} catch (Exception je) {
-//					return Response.error(new ParseError(je));
-//				}
-//			}
-			
+
+			// @Override
+			// protected Response<String> parseNetworkResponse(NetworkResponse
+			// response) {
+			// try {
+			// return Response.success(new String(response.data, "UTF-8"),
+			// HttpHeaderParser.parseCacheHeaders(response));
+			// } catch (UnsupportedEncodingException e) {
+			// return Response.error(new ParseError(e));
+			// } catch (Exception je) {
+			// return Response.error(new ParseError(je));
+			// }
+			// }
+
 		};
 		if (retryPolicy != null) {
 			req.setRetryPolicy(retryPolicy);
 		}
-		
-		String cookie = SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "")/*.replace("JSESSIONID=", "")*/;
-//		Logger.d1(tag, "------------------cookie:" + string);
-		if(!TextUtils.isEmpty(cookie)){
-//			req.setSendCookie("JSESSIONID="+SharedPreferencesHelper.getString(context, Field.SESSIONID, ""));
+
+		String cookie = SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "")/*
+																							 * .
+																							 * replace
+																							 * (
+																							 * "JSESSIONID="
+																							 * ,
+																							 * ""
+																							 * )
+																							 */;
+		// Logger.d1(tag, "------------------cookie:" + string);
+		if (!TextUtils.isEmpty(cookie)) {
+			// req.setSendCookie("JSESSIONID="+SharedPreferencesHelper.getString(context,
+			// Field.SESSIONID, ""));
 			req.setSendCookie(cookie);
 		}
-		
+
 		Volley.newRequestQueue(context).add(req);
 	}
-	
-	public <T> void requestPost(int requestCode,Map<String, String> map, String subUrl, final RequestListener callback,
+
+	public <T> void requestPost(int requestCode, Map<String, String> map, String subUrl, final RequestListener callback,
 			final Class<? extends BaseEntity> clazz) {
 
 		if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
-			callback.onFailed(requestCode,new Exception(), "无网络连接");
+			callback.onFailed(requestCode, new Exception(), "无网络连接");
 			return;
 		}
 
 		String url = NetConfig.getRequestUrl(subUrl);
-//		if (map != null) {
-//			checkNull(map);
-//			url = url + encodeParameters(map);
-//		}
+		// if (map != null) {
+		// checkNull(map);
+		// url = url + encodeParameters(map);
+		// }
 
 		Logger.d1("NetRequest", url);
 
-		post(requestCode,url, clazz, null,map, callback);
+		post(requestCode, url, clazz, null, map, callback);
 	}
-	
-	
-    private <T> void post(int requestCode,String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
-            final Map<String, String> map, final RequestListener callback) {
-    	
-    	if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
-			callback.onFailed(requestCode,new Exception(), "无网络连接");
+
+	private <T> void post(int requestCode, String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
+			final Map<String, String> map, final RequestListener callback) {
+
+		if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
+			callback.onFailed(requestCode, new Exception(), "无网络连接");
 			return;
 		}
-    	
-        post(requestCode,url, clazz, header, map, callback, Priority.NORMAL, new DefaultRetryPolicy(10*1000, 0, 1));
-    }
 
-    private <T> void post(final int requestCode,final String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
-            final Map<String, String> map, final RequestListener callback, final Priority priority,
- RetryPolicy retryPolicy) {
+		post(requestCode, url, clazz, header, map, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
+	}
+
+	private <T> void post(final int requestCode, final String url, final Class<? extends BaseEntity> clazz,
+			final Map<String, String> header, final Map<String, String> map, final RequestListener callback,
+			final Priority priority, RetryPolicy retryPolicy) {
 		StringPostRequest req = new StringPostRequest(url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
@@ -267,25 +291,27 @@ public class NetRequest {
 				try {
 					response = URLDecoder.decode(response, "UTF-8");
 					Logger.d1(tag, response);
-					
+
 					BaseEntity result = new Gson().fromJson(response, clazz);
 					if (result == null) {
-						callback.onFailed(requestCode,new NullPointerException(), "data:" + response);
+						callback.onFailed(requestCode, new NullPointerException(), "data:" + response);
 						return;
 					}
 
 					// TODO token 失效 login
 
 					// if ("1007".equals(result.getRespNo())) {
-					// Intent intent = new Intent(context, LoginActivity.class);
-					// // intent.putExtra(AccountManager.CHECK_LOGIN, true);
+					// Intent intent = new Intent(context,
+					// LoginActivity.class);
+					// // intent.putExtra(AccountManager.CHECK_LOGIN,
+					// true);
 					// context.startActivity(intent);
 					// AccountManager.logout(context);
 					// }
 
-					callback.onSuccess(requestCode,result);
+					callback.onSuccess(requestCode, result);
 				} catch (Exception e) {
-					callback.onFailed(requestCode,e, e.getClass().toString());
+					callback.onFailed(requestCode, e, e.getClass().toString());
 				}
 
 			}
@@ -293,7 +319,7 @@ public class NetRequest {
 			@Override
 			public void onErrorResponse(VolleyError error) {
 				Logger.e1(tag, error);
-				callback.onFailed(requestCode,error, "");
+				callback.onFailed(requestCode, error, "");
 			}
 		}) {
 			@Override
@@ -325,31 +351,83 @@ public class NetRequest {
 				}
 				return Priority.NORMAL;
 			}
-			
-//			@Override
-//			protected Response<String> parseNetworkResponse(NetworkResponse response) {
-//				try {
-//					return Response.success(new String(response.data, "UTF-8"), HttpHeaderParser.parseCacheHeaders(response));
-//				} catch (UnsupportedEncodingException e) {
-//					return Response.error(new ParseError(e));
-//				} catch (Exception je) {
-//					return Response.error(new ParseError(je));
-//				}
-//			}
-			
+
+			// @Override
+			// protected Response<String> parseNetworkResponse(NetworkResponse
+			// response) {
+			// try {
+			// return Response.success(new String(response.data, "UTF-8"),
+			// HttpHeaderParser.parseCacheHeaders(response));
+			// } catch (UnsupportedEncodingException e) {
+			// return Response.error(new ParseError(e));
+			// } catch (Exception je) {
+			// return Response.error(new ParseError(je));
+			// }
+			// }
+
 		};
 		if (retryPolicy != null) {
 			req.setRetryPolicy(retryPolicy);
 		}
-		
-		String cookie = SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "")/*.replace("JSESSIONID=", "")*/;
-//		Logger.d1(tag, "------------------cookie:" + string);
-		if(!TextUtils.isEmpty(cookie)){
-//			req.setSendCookie("JSESSIONID="+SharedPreferencesHelper.getString(context, Field.SESSIONID, ""));
+
+		String cookie = SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "")/*
+																							 * .
+																							 * replace
+																							 * (
+																							 * "JSESSIONID="
+																							 * ,
+																							 * ""
+																							 * )
+																							 */;
+		// Logger.d1(tag, "------------------cookie:" + string);
+		if (!TextUtils.isEmpty(cookie)) {
+			// req.setSendCookie("JSESSIONID="+SharedPreferencesHelper.getString(context,
+			// Field.SESSIONID, ""));
 			req.setSendCookie(cookie);
 		}
-		
+
 		Volley.newRequestQueue(context).add(req);
 	}
 
+	public <T> void upload(int requestCode, String url, final Class<? extends BaseEntity> clazz,
+			final Map<String, String> header, final Map<String, String> map, final RequestListener callback) {
+		RequestParams params = new RequestParams();
+
+		// params.setHeader(new Header);
+
+		params.addHeader("name", "value");
+		params.addQueryStringParameter("name", "value");
+
+		// 只包含字符串参数时默认使用BodyParamsEntity，
+		// 类似于UrlEncodedFormEntity（"application/x-www-form-urlencoded"）。
+		params.addBodyParameter("name", "value");
+
+		// 加入文件参数后默认使用MultipartEntity（"multipart/form-data"），
+		// 如需"multipart/related"，xUtils中提供的MultipartEntity支持设置subType为"related"。
+		// 使用params.setBodyEntity(httpEntity)可设置更多类型的HttpEntity（如：
+		// MultipartEntity,BodyParamsEntity,FileUploadEntity,InputStreamUploadEntity,StringEntity）。
+		// 例如发送json参数：params.setBodyEntity(new StringEntity(jsonStr,charset));
+		params.addBodyParameter("file", new File("path"));
+
+		HttpUtils http = new HttpUtils();
+		// http.configCookieStore(new cooki)
+		http.send(HttpMethod.POST, "uploadUrl....", params, new RequestCallBack<String>() {
+
+			@Override
+			public void onStart() {
+			}
+
+			@Override
+			public void onLoading(long total, long current, boolean isUploading) {
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo) {
+			}
+
+			@Override
+			public void onFailure(HttpException error, String msg) {
+			}
+		});
+	}
 }

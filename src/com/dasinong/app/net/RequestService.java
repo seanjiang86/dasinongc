@@ -83,4 +83,10 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getBaseParams(false,map);
 		new NetRequest(context).get(requestCode,params, url, callBack,clazz);
 	}
+	
+	public void getAllTask(Context context,String fieldId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getAllTaskParams(fieldId);
+		new NetRequest(context).get(RequestCode.GET_ALL_TASK,params, SubUrl.GET_All_TASK, callBack,clazz);
+	}
+	
 }
