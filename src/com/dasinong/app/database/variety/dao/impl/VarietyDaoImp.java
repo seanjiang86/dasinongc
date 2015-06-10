@@ -24,9 +24,9 @@ public class VarietyDaoImp extends DaoSupportImpl<Variety> {
         sql.append("select * from ")
                 .append("variety ")
                 .append("where region like '%")
-                .append("queryKey")
+                .append(queryKey)
                 .append("%'");
-        Logger.d("CPProductDaoImpl", sql.toString());
+        Logger.d("VarietyDaoImp", sql.toString());
         List<Variety> varieties = query(sql.toString());
         Variety tem ;
         List<String> result = new ArrayList<>(12);
