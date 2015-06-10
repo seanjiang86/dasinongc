@@ -36,7 +36,9 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.NoTitleBar" >
+        android:supportsRtl="true"
+        android:theme="@android:style/Theme.NoTitleBar" 
+        >
         <activity
             android:name=".ui.MainTabActivity"
             android:excludeFromRecents="false"
@@ -113,6 +115,11 @@
         </activity>
         <activity
             android:name=".ui.SmsSubscribeActivity"
+            android:theme="@style/AppV7Theme"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.MyInfoSetActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity

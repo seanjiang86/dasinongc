@@ -11,6 +11,10 @@
             backward-compatibility can go here.
         -->
     </style>
+    
+    <style name="AppV7Theme" parent="android:Theme.Holo.Light">
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
     <!-- Application theme. -->
     <!-- <style name="AppTheme" parent="AppBaseTheme"> -->

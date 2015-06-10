@@ -57,6 +57,8 @@ public class NetConfig {
 		public static final String SEARCH_NEAR_USER ="searchNearUser";
 		/**获取生长周期*/
 		public static final String GET_SUB_STAGE ="getSubStage";
+		/**获取全部任务 */
+		public static final String GET_All_TASK ="getAllTask";
 
 	}
 
@@ -81,6 +83,7 @@ public class NetConfig {
 		public static final String district = "district";
 		public static final String locationId = "locationId";
 		public static final String varietyId = "varietyId";
+		public static final String fieldId = "fieldId";
 
 	}
 
@@ -244,6 +247,11 @@ public class NetConfig {
 	public static Map<String, String> getGetSubStageParams(String varietyId) {
 		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.varietyId, varietyId));
 		paramsMap.put(Params.varietyId, varietyId);
+		return paramsMap;
+	}
+	public static Map<String, String> getAllTaskParams(String fieldId) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.fieldId, fieldId));
+		paramsMap.put(Params.fieldId, fieldId);
 		return paramsMap;
 	}
 
