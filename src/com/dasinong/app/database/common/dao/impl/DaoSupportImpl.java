@@ -32,7 +32,8 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
         mClass = (Class<T>) type.getActualTypeArguments()[0];
 
         mTableName = mClass.getSimpleName().toLowerCase();
-        sqLiteDatabase = new LocalDataBaseHelper(context);
+
+        sqLiteDatabase = new LocalDataBaseHelper(context.getApplicationContext());
 
     }
 
