@@ -92,5 +92,9 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getAllTaskParams(fieldId);
 		new NetRequest(context).get(RequestCode.GET_ALL_TASK,params, SubUrl.GET_All_TASK, callBack,clazz);
 	}
+	public void getMyInfo(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.GET_MY_INFO,params, SubUrl.GET_MY_INFO, callBack,clazz);
+	}
 	
 }

@@ -37,7 +37,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@android:style/Theme.NoTitleBar" 
+        android:theme="@style/AppV7Theme" 
         >
         <activity
             android:name=".ui.MainTabActivity"
@@ -120,6 +120,10 @@
         </activity>
         <activity
             android:name=".ui.MyInfoSetActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.MainActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity

@@ -50,4 +50,8 @@ public final class RequestCode {
 	 * 获取全部任务
 	 */
 	public static final int GET_ALL_TASK = GET_SUB_STAGE + 1;
+	/**
+	 * 获取个人信息
+	 */
+	public static final int GET_MY_INFO = GET_ALL_TASK + 1;
 }

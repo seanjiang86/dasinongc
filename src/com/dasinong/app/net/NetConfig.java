@@ -59,6 +59,8 @@ public class NetConfig {
 		public static final String GET_SUB_STAGE ="getSubStage";
 		/**获取全部任务 */
 		public static final String GET_All_TASK ="getAllTask";
+		/**个人信息 */
+		public static final String GET_MY_INFO ="loadUserProfile";
 
 	}
 

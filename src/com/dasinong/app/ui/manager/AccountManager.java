@@ -49,6 +49,10 @@ public class AccountManager {
 	
 	public static void logout(Context context){
 		SharedPreferencesHelper.setString(context, Field.USER_NAME, "");
+		SharedPreferencesHelper.setString(context, Field.USER_ID, "");
+		SharedPreferencesHelper.setString(context, Field.USER_PHONE, "");
+		SharedPreferencesHelper.setString(context, Field.USER_ADDRESS, "");
+		SharedPreferencesHelper.setString(context, Field.USER_AUTH_TOKEN, "");
 	}
 	
 	

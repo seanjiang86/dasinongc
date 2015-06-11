@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
         ll.addView(tv);
         tv.setText("首页");
         tv.setTextSize(50);
-
         tv.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -89,7 +88,7 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
             public void onClick(View arg0) {
 
 
-                login();
+//                login();
                 // TODO Auto-generated method stub
                 //Intent intent = new Intent(getActivity(), AddFieldActivity4.class);
                 //startActivity(intent);
@@ -117,31 +116,7 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
         return view;
     }
 
-    private void login() {
-
-        RequestService.getInstance().authcodeLoginReg(this.getActivity(), "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
-
-            @Override
-            public void onSuccess(int requestCode, BaseEntity resultData) {
-
-                if(resultData.isOk()){
-                    LoginRegEntity entity = (LoginRegEntity) resultData;
-
-                    AccountManager.saveAccount(HomeFragment.this.getActivity(), entity.getData());
-
-
-                }else{
-                    Logger.d("TAG", resultData.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailed(int requestCode, Exception error, String msg) {
-
-                Logger.d("TAG","msg"+msg);
-            }
-        });
-    }
+    
 
     /**
      * 城市的查询

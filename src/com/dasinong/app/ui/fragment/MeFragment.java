@@ -118,7 +118,8 @@ public class MeFragment extends Fragment implements OnClickListener {
 
 			break;
 		case R.id.layout_check_update:// 检查更新
-
+			Intent taskIntent = new Intent(getActivity(),TaskDetailsActivity.class);
+			getActivity().startActivity(taskIntent);
 			break;
 		}
 	}

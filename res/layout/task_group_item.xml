@@ -2,16 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingRight="10dp"
-    android:paddingLeft="40dp">
-
+    android:orientation="horizontal"
+    >
+    
     <TextView
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
         android:id="@+id/textTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:textColor="#656565"
+        android:text="第一阶段"
+    	android:background="@color/color_F3F3F3"
+        android:gravity="center_vertical"
+        android:paddingLeft="40dp"
+         android:textSize="@dimen/sp_16"
+        />
 
 </LinearLayout>
