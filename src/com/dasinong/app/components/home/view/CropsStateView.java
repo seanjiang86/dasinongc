@@ -1,6 +1,7 @@
 package com.dasinong.app.components.home.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.FieldEntity;
+import com.dasinong.app.ui.AddFieldActivity1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -296,6 +298,11 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 if (null != onAddFieldClickListener) {
                     onAddFieldClickListener.onRightTopViewClick();
                 }
+                
+                //TODO MING:测试添加田地 正式上线需要修改
+                Intent intent = new Intent(getContext(), AddFieldActivity1.class);
+                getContext().startActivity(intent);
+                
                 break;
         }
     }

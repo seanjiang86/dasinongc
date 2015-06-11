@@ -5,6 +5,12 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <com.dasinong.app.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.dasinong.app.ui.view.TopbarView>
+
     <com.dasinong.app.ui.view.AddFieldTabView
         android:layout_width="match_parent"
         android:layout_height="90dp"

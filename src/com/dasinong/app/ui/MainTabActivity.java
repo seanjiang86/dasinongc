@@ -134,7 +134,6 @@ public class MainTabActivity extends BaseActivity {
 			public void locationNotify(LocationResult result) {
 				
 				Toast.makeText(MainTabActivity.this, result.getLatitude()+" -- "+result.getLongitude(), 0).show();
-				
 			}
 		});
 	}

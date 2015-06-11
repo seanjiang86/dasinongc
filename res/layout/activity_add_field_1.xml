@@ -3,7 +3,14 @@
     xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@color/color_FFFFFF" >
+
+    <com.dasinong.app.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.dasinong.app.ui.view.TopbarView>
 
     <com.dasinong.app.ui.view.AddFieldTabView
         android:layout_width="match_parent"

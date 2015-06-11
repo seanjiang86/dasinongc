@@ -101,8 +101,8 @@ public class HarmDetialsActivity extends BaseActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				
-				PetSolu solu = dataList.get(position -1);
+
+				PetSolu solu = dataList.get(position - 1);
 				Intent intent = new Intent(DsnApplication.getContext(), CureDetialActivity.class);
 
 				Bundle bundle = new Bundle();
@@ -115,7 +115,6 @@ public class HarmDetialsActivity extends BaseActivity {
 	}
 
 	private void initData(int petDisSpecId) {
-		Logger.d("MING", "加载数据执行");
 
 		DisasterManager manager = DisasterManager.getInstance(this);
 		if (HarmFragment.TYPE_PET.equals(type)) {
@@ -123,16 +122,13 @@ public class HarmDetialsActivity extends BaseActivity {
 			petSoluList = manager.getCureSolution(petDisSpecId);
 			// 获取预防方案
 			petPreventList = manager.getPreventSolution(petDisSpecId);
-			
-			if(petSoluList != null && petSoluList.size() != 0){
+
+			if (petSoluList != null && petSoluList.size() != 0) {
 				dataList.addAll(petSoluList);
 			}
-			if(petPreventList != null && petPreventList.size() != 0){
+			if (petPreventList != null && petPreventList.size() != 0) {
 				dataList.addAll(petPreventList);
 			}
-			
-
-			Logger.d("MING", "加载数据完成");
 
 			// TODO MING:待确定是否需要handler发送消息
 
@@ -205,5 +201,24 @@ public class HarmDetialsActivity extends BaseActivity {
 				container.removeView((View) object);
 			}
 		});
+	}
+
+	/**
+	 * 
+	 * @param petDisSpecId 病虫草害中petDisSpec中的 petDisSpecId
+	 * @param petSoluId 数据库中 petSolu表中的petSoluId字段
+	 * @param flag 标记，需要标明你是点击防治，预防，还是该条item跳进来的
+	 * @param context
+	 * @param clazz HarmDetialsActivity类对应的class对象
+	 * @return
+	 */
+	
+
+	public static Intent getMyParameters(int petDisSpecId, int petSoluId, String flag, Context context, Class clazz) {
+		Intent intent = new Intent(context, clazz);
+		intent.putExtra("petDisSpecId", petDisSpecId);
+		intent.putExtra("petSoluId", petSoluId);
+		intent.putExtra("flag", flag);
+		return intent;
 	}
 }

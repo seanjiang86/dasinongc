@@ -5,16 +5,22 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <com.dasinong.app.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.dasinong.app.ui.view.TopbarView>
+
     <com.dasinong.app.ui.view.AddFieldTabView
         android:layout_width="match_parent"
         android:layout_height="90dp"
         dsn:ivOneColor="@drawable/green_round"
         dsn:ivThreeColor="@drawable/green_round"
         dsn:ivTwoColor="@drawable/green_round"
+        dsn:tvDataColor="@color/color_2BAD2A"
+        dsn:tvInfoColor="@color/color_2BAD2A"
         dsn:tvLocationColor="@color/color_2BAD2A"
         dsn:tvVarietyColor="@color/color_2BAD2A"
-        dsn:tvInfoColor="@color/color_2BAD2A"
-        dsn:tvDataColor="@color/color_2BAD2A"
         dsn:viewOneColor="@color/color_2BAD2A"
         dsn:viewThreeColor="@color/color_2BAD2A"
         dsn:viewTwoColor="@color/color_2BAD2A" >

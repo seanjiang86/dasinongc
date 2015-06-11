@@ -43,13 +43,17 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getCheckUserParams(cellPhone);
 		new NetRequest(context).get(RequestCode.CHECK_USER,params, SubUrl.CHECK_USER, callBack,clazz);
 	}
+	// TODO MING:不在田里发送的请求
 	public void sendNoInLocation(Context context,String latitude,String longitude,Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getLocationInfoParams(latitude, longitude);
 		new NetRequest(context).get(RequestCode.SEND_NO_IN_LOCATION,params, SubUrl.SEND_NO_IN_LOCATION, callBack,clazz);
 	}
-	public void sendInLocation(Context context,String latitude,String longitude,Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getLocationInfoParams(latitude, longitude);
-		new NetRequest(context).get(RequestCode.SEND_IN_LOCATION,params, SubUrl.SEND_IN_LOCATION, callBack,clazz);
+	/**
+	 * 在田里是发送的请求
+	 */
+	public void searchLocation(Context context,String latitude,String longitude,String mprovince,String mcity,String mdistrict,String mstreet,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getSearchLocationParams(latitude, longitude, mprovince, mcity, mdistrict, mstreet);
+		new NetRequest(context).get(RequestCode.SEARCH_LOCATION,params, SubUrl.SEARCH_LOCATION, callBack,clazz);
 	}
 	public void getCropList(Context context,String locationId,Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getGetCropListParams(locationId);
@@ -59,8 +63,8 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getGetVarietyListParams(cropId,locationId);
 		new NetRequest(context).get(RequestCode.GET_VARIETY_LIST,params, SubUrl.GET_VARIETY_LIST, callBack,clazz);
 	}
-	public void getLocation(Context context,String province,String city,String country,String district, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetLocationParams(province,city,country,district);
+	public void getLocation(Context context,String province,String city,String county,String district, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetLocationParams(province,city,county,district);
 		new NetRequest(context).get(RequestCode.GET_LOCATION,params, SubUrl.GET_LOCATION, callBack,clazz);
 	}
 	public void searchNearUser(Context context,String latitude,String longitude, Class<? extends BaseEntity> clazz, RequestListener callBack) {
