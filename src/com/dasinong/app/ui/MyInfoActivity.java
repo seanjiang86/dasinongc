@@ -9,6 +9,10 @@ import org.hybridsquad.android.library.CropParams;
 import cn.smssdk.SMSSDK;
 
 import com.dasinong.app.R;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.LoginRegEntity;
+import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.GraphicUtils;
 import com.dasinong.app.utils.Logger;
@@ -78,6 +82,35 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 
 		initView();
 		setUpView();
+		
+		requestInfo();
+	}
+
+	private void requestInfo() {
+		startLoadingDialog();
+		RequestService.getInstance().getMyInfo(this, LoginRegEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				if(resultData.isOk()){
+					LoginRegEntity entity = (LoginRegEntity) resultData;
+					updateUi(entity);
+				}else{
+					showToast(resultData.getMessage());
+				}
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+				showToast(R.string.please_check_netword);
+			}
+		});
+	}
+
+	protected void updateUi(LoginRegEntity entity) {
+		
 	}
 
 	private void initView() {

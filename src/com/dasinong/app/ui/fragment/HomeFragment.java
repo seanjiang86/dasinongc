@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
         ll.addView(tv);
         tv.setText("首页");
         tv.setTextSize(50);
-
         tv.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -89,7 +88,7 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
             public void onClick(View arg0) {
 
 
-                login();
+//                login();
                 // TODO Auto-generated method stub
                 //Intent intent = new Intent(getActivity(), AddFieldActivity4.class);
                 //startActivity(intent);
@@ -227,6 +226,7 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
             }
         });
     }
+
 
     /**
      * 城市的查询

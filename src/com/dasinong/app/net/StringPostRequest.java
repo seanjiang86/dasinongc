@@ -39,10 +39,10 @@ public class StringPostRequest extends Request<String> {
 	@Override
 	protected Response<String> parseNetworkResponse(NetworkResponse response) {
 		try {
-			// String jsonString =
-			// new String(response.data,
-			// HttpHeaderParser.parseCharset(response.headers));
-			String jsonString = new String(response.data, "UTF-8");
+			 String jsonString =
+			 new String(response.data,
+			 HttpHeaderParser.parseCharset(response.headers));
+//			String jsonString = new String(response.data, "UTF-8");
 			mHeader = response.headers.toString();
 			mHeader = response.headers.toString();
 			Log.w("LOG", "get headers in parseNetworkResponse " + response.headers.toString());
@@ -78,6 +78,7 @@ public class StringPostRequest extends Request<String> {
 	}
 
 	public void setSendCookie(String cookie) {
+		cookie = cookie.replace("JSESSIONID=", "");
 		Logger.d1("yyyyy", "------------------cookie:" + cookie);
 		sendHeader.put("Cookie", cookie);
 	}

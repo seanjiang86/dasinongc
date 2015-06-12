@@ -40,7 +40,7 @@ public class NetConfig {
 		/** 发送不在田地时的经纬度信息 */
 		public static final String SEND_NO_IN_LOCATION = "sendNoInLocation";
 		/** 发送在田地时的经纬度信息 */
-		public static final String SEND_IN_LOCATION = "sendInLocation";
+		public static final String SEARCH_LOCATION = "searchLocation";
 		/** 获取植物列表 */
 		public static final String GET_CROP_LIST = "getCropList";
 		/** 获取品种名列表 */
@@ -59,6 +59,8 @@ public class NetConfig {
 		public static final String GET_SUB_STAGE ="getSubStage";
 		/**获取全部任务 */
 		public static final String GET_All_TASK ="getAllTask";
+		/**个人信息 */
+		public static final String GET_MY_INFO ="loadUserProfile";
 
 	}
 
@@ -76,10 +78,14 @@ public class NetConfig {
 		public static final String address = "address";
 		public static final String latitude = "latitude";
 		public static final String longitude = "longitude";
+		public static final String mprovince = "mprovince";
+		public static final String mcity = "mcity";
+		public static final String mdistrict = "mdistrict";
+		public static final String mstreet = "mstreet";
 		public static final String cropId = "cropId";
 		public static final String province = "province";
 		public static final String city = "city";
-		public static final String country = "country";
+		public static final String county = "county";
 		public static final String district = "district";
 		public static final String locationId = "locationId";
 		public static final String varietyId = "varietyId";
@@ -212,11 +218,22 @@ public class NetConfig {
 	private static String getTokenParams(String name, String value) {
 		return name + FLAG + value;
 	}
-
+	// TODO MING:该接口待确定
 	public static Map<String, String> getLocationInfoParams(String latitude, String longitude) {
 		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.latitude, latitude), getTokenParams(Params.longitude, longitude));
 		paramsMap.put(Params.latitude, latitude);
 		paramsMap.put(Params.longitude, longitude);
+		return paramsMap;
+	}
+
+	public static Map<String, String> getSearchLocationParams(String latitude, String longitude,String mprovince,String mcity,String mdistrict,String mstreet) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.latitude, latitude), getTokenParams(Params.longitude, longitude), getTokenParams(Params.mprovince, mprovince), getTokenParams(Params.mcity, mcity), getTokenParams(Params.mdistrict, mdistrict), getTokenParams(Params.mstreet, mstreet));
+		paramsMap.put(Params.latitude, latitude);
+		paramsMap.put(Params.longitude, longitude);
+		paramsMap.put(Params.mprovince, mprovince);
+		paramsMap.put(Params.mcity, mcity);
+		paramsMap.put(Params.mdistrict, mdistrict);
+		paramsMap.put(Params.mstreet, mstreet);
 		return paramsMap;
 	}
 	public static Map<String, String> getGetCropListParams(String locationId) {
@@ -230,11 +247,11 @@ public class NetConfig {
 		paramsMap.put(Params.locationId, locationId);
 		return paramsMap;
 	}
-	public static Map<String, String> getGetLocationParams(String province,String city,String country,String district) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.province, province), getTokenParams(Params.city, city),getTokenParams(Params.country, country),getTokenParams(Params.district, district));
+	public static Map<String, String> getGetLocationParams(String province,String city,String county,String district) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.province, province), getTokenParams(Params.city, city),getTokenParams(Params.county, county),getTokenParams(Params.district, district));
 		paramsMap.put(Params.province, province);
 		paramsMap.put(Params.city, city);
-		paramsMap.put(Params.country, country);
+		paramsMap.put(Params.county, county);
 		paramsMap.put(Params.district, district);
 		return paramsMap;
 	}

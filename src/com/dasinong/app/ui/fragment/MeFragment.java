@@ -1,24 +1,17 @@
 package com.dasinong.app.ui.fragment;
 
-import com.dasinong.app.R;
-import com.dasinong.app.ui.MyInfoActivity;
-import com.dasinong.app.ui.RegisterPhoneActivity;
-import com.dasinong.app.ui.SmsSubscribeActivity;
-import com.dasinong.app.ui.TaskDetailsActivity;
-import com.dasinong.app.ui.view.TopbarView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import com.dasinong.app.R;
+import com.dasinong.app.ui.TaskDetailsActivity;
+import com.dasinong.app.ui.view.TopbarView;
 
 /**
  * @ClassName MeFragment
@@ -118,7 +111,8 @@ public class MeFragment extends Fragment implements OnClickListener {
 
 			break;
 		case R.id.layout_check_update:// 检查更新
-
+			Intent taskIntent = new Intent(getActivity(),TaskDetailsActivity.class);
+			getActivity().startActivity(taskIntent);
 			break;
 		}
 	}
