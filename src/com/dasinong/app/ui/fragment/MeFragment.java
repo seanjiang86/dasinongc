@@ -13,15 +13,15 @@ import com.dasinong.app.ui.view.TopbarView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import com.dasinong.app.R;
+import com.dasinong.app.ui.TaskDetailsActivity;
+import com.dasinong.app.ui.view.TopbarView;
 
 /**
  * @ClassName MeFragment
