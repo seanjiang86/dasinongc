@@ -61,6 +61,10 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 
 	private CityAdapter frontAdapter;
 	private CityAdapter behindAdapter;
+	private String mstreet;
+	private String mdistrict;
+	private String mcity;
+	private String mprovince;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,15 +83,17 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 		lv_small_area = (ListView) findViewById(R.id.lv_small_area);
 		btn_sure_location = (Button) findViewById(R.id.btn_sure_location);
 
-		String mprovince = getIntent().getStringExtra("mprovince");
-		String mcity = getIntent().getStringExtra("mcity");
-		String mdistrict = getIntent().getStringExtra("mdistrict");
-		String mstreet = getIntent().getStringExtra("mstreet");
+		mprovince = getIntent().getStringExtra("mprovince");
+		mcity = getIntent().getStringExtra("mcity");
+		mdistrict = getIntent().getStringExtra("mdistrict");
+		mstreet = getIntent().getStringExtra("mstreet");
 		if (TextUtils.isEmpty(mprovince) || TextUtils.isEmpty(mcity) || TextUtils.isEmpty(mdistrict) || TextUtils.isEmpty(mstreet)) {
 
 		} else {
 			tv_privace_city.setText(mprovince + "-" + mcity);
 			tv_county_district.setText(mdistrict + "-" + mstreet);
+			
+			queryVillage(mprovince, mcity, mstreet, mdistrict);
 
 		}
 
@@ -139,7 +145,7 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 				behindAdapter.notifyDataSetChanged();
 			}
 
-			if (TextUtils.isEmpty(city)) {
+			if (TextUtils.isEmpty(city) && TextUtils.isEmpty(mcity)) {
 				showToast("请先选择省市");
 				return;
 			}
@@ -155,12 +161,12 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 
 			break;
 		case R.id.tv_village:
-			
-			if (TextUtils.isEmpty(district)) {
+
+			if (TextUtils.isEmpty(district) && TextUtils.isEmpty(mstreet)) {
 				showToast("请先选择省市县乡");
 				return;
 			}
-			
+
 			if (villageList != null && villageList.size() != 0) {
 				if (villageIsGone) {
 					fl_select_location.setVisibility(View.VISIBLE);
@@ -168,7 +174,6 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 					fl_select_location.setVisibility(View.GONE);
 				}
 				villageIsGone = !villageIsGone;
-				initVillage();
 
 			} else {
 				return;
@@ -196,6 +201,10 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 			frontAdapter.notifyDataSetInvalidated();
 		}
 
+		if (lv_small_area.getVisibility() == View.GONE) {
+			lv_small_area.setVisibility(View.VISIBLE);
+		}
+
 		lv_big_area.setAdapter(frontAdapter);
 
 		lv_big_area.setOnItemClickListener(new ProvinceOnItemClickListener());
@@ -206,6 +215,11 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 	private void initCounty() {
 		countyList = cityDaoImpl.getCounty(city);
 		frontAdapter.setData(countyList);
+
+		if (lv_small_area.getVisibility() == View.GONE) {
+			lv_small_area.setVisibility(View.VISIBLE);
+		}
+
 		lv_big_area.setAdapter(frontAdapter);
 		frontAdapter.notifyDataSetChanged();
 
@@ -218,6 +232,9 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 
 		frontAdapter.setData(villageList);
 		lv_big_area.setAdapter(frontAdapter);
+		if (lv_small_area.getVisibility() == View.VISIBLE) {
+			lv_small_area.setVisibility(View.GONE);
+		}
 		frontAdapter.notifyDataSetChanged();
 
 		lv_big_area.setOnItemClickListener(new VillageOnItemClickListener());
@@ -295,7 +312,12 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 					public void onSuccess(int requestCode, BaseEntity resultData) {
 						if (resultData.isOk()) {
 							villageMap = ((VillageInfo) resultData).data;
+							if (villageList != null) {
+								villageList.clear();
+							}
 							villageList = new ArrayList<String>(villageMap.keySet());
+
+							initVillage();
 						}
 					}
 
@@ -312,6 +334,11 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			village = villageList.get(position);
 			villageId = villageMap.get(village);
+			tv_village.setText(village);
+
+			fl_select_location.setVisibility(View.GONE);
+
+			villageIsGone = !villageIsGone;
 		}
 
 	}
