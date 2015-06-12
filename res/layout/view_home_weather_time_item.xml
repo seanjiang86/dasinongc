@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/home_w_white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/home_dimen_40"
+        android:textSize="@dimen/home_text_size_28"
+        tool:text="11点" />
+
+    <ImageView
+        android:id="@+id/ivTime"
+        android:layout_width="@dimen/home_dimen_64"
+        android:layout_height="@dimen/home_dimen_64"
+        android:layout_marginTop="@dimen/home_dimen_30"
+        android:background="@drawable/ic_weather_dafeng" />
+
+    <TextView
+        android:id="@+id/tvTimeHTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/home_dimen_30"
+        android:textColor="#666666"
+        android:textSize="@dimen/home_text_size_30"
+        tool:text="30℃" />
+
+    <TextView
+        android:id="@+id/tvTimeLTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/home_dimen_40"
+        android:layout_marginTop="@dimen/home_dimen_30"
+        android:textColor="#86a4ff"
+        android:textSize="@dimen/home_text_size_32"
+        tool:text="20℃" />
+
+</LinearLayout>

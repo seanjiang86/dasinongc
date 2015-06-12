@@ -1,32 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    android:layout_height="match_parent"
+<cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_modulename_refresh"
     android:layout_width="match_parent"
-    android:fillViewport="true"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/home_w_white">
 
-    <com.dasinong.app.components.home.view.CropsStateView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <com.dasinong.app.components.home.view.BannerView
-        android:layout_width="@dimen/home_dimen_10"
-        android:layout_height="wrap_content"/>
-    <com.dasinong.app.components.home.view.HomeWeatherView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <com.dasinong.app.components.home.view.DisasterView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <com.dasinong.app.components.home.view.SoilView
-        android:id="@+id/home_soilview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <com.dasinong.app.components.home.view.CropsStateView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
-</LinearLayout>
+            <com.dasinong.app.components.home.view.BannerView
+                android:layout_width="@dimen/home_dimen_10"
+                android:layout_height="wrap_content" />
 
-</ScrollView>
+            <com.dasinong.app.components.home.view.HomeWeatherView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.dasinong.app.components.home.view.DisasterView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <com.dasinong.app.components.home.view.SoilView
+                android:id="@+id/home_soilview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</cn.bingoogolapple.refreshlayout.BGARefreshLayout>
