@@ -12,7 +12,7 @@
         -->
     </style>
     
-    <style name="AppV7Theme" parent="android:Theme.Holo.Light">
+    <style name="AppV7Theme" parent="AppBaseTheme">
         <item name="android:windowNoTitle">true</item>
     </style>
 

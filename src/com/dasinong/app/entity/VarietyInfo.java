@@ -5,7 +5,6 @@ import java.util.Map;
 
 public class VarietyInfo extends BaseEntity {
 	
-	public Map<String,Map<String,String>> variety;
+	public Map<String,Map<String,String>> data;
 
-	
 }

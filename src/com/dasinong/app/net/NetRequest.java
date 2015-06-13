@@ -37,6 +37,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.utils.DeviceHelper;
@@ -128,7 +129,7 @@ public class NetRequest {
 
 		Logger.d1("NetRequest", url);
 
-		get(requestCode, url, clazz, null, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
+		get(requestCode, url, clazz, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
 	}
 
 	// private <T> void get(int requestCode,String url, final Class<? extends
@@ -147,7 +148,7 @@ public class NetRequest {
 	// }
 
 	private <T> void get(final int requestCode, final String url, final Class<? extends BaseEntity> clazz,
-			final Map<String, String> header, final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
+	/* final Map<String, String> header, */final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
 		Log.d("TAG", "url:" + url);
 		StringGetRequest req = new StringGetRequest(url, new Response.Listener<String>() {
 			@Override
@@ -155,10 +156,8 @@ public class NetRequest {
 
 				Log.d("TAG", "url:" + url);
 				try {
-					// Logger.d1(tag, response);
-
-					Toast.makeText(DsnApplication.getContext(), response, 0).show();
-
+					 Logger.d1(tag, response);
+//					Toast.makeText(DsnApplication.getContext(), response, 0).show();
 					BaseEntity result = new Gson().fromJson(response, clazz);
 					if (result == null) {
 						callback.onFailed(requestCode, new NullPointerException(), "data:" + response);
@@ -166,14 +165,13 @@ public class NetRequest {
 					}
 
 					// TODO token 失效 login
-					// if ("1007".equals(result.getRespNo())) {
-					// Intent intent = new Intent(context,
-					// LoginActivity.class);
-					// // intent.putExtra(AccountManager.CHECK_LOGIN,
-					// true);
-					// context.startActivity(intent);
-					// AccountManager.logout(context);
-					// }
+					if ("100".equals(result.getRespCode())) {
+						// Intent intent = new
+						// Intent(context,LoginActivity.class);
+						// // intent.putExtra(AccountManager.CHECK_LOGIN,true);
+						// context.startActivity(intent);
+						AccountManager.logout(context);
+					}
 
 					callback.onSuccess(requestCode, result);
 				} catch (Exception e) {
@@ -190,15 +188,15 @@ public class NetRequest {
 			}
 		}) {
 
-			@Override
-			public Map<String, String> getHeaders() throws AuthFailureError {
-				if (header != null) {
-					checkNull(header);
-					return header;
-				} else {
-					return Collections.emptyMap();
-				}
-			}
+			// @Override
+			// public Map<String, String> getHeaders() throws AuthFailureError {
+			// if (header != null) {
+			// checkNull(header);
+			// return header;
+			// } else {
+			// return Collections.emptyMap();
+			// }
+			// }
 
 			@Override
 			public Priority getPriority() {
@@ -267,22 +265,22 @@ public class NetRequest {
 
 		Logger.d1("NetRequest", url);
 
-		post(requestCode, url, clazz, null, map, callback);
+		post(requestCode, url, clazz, map, callback);
 	}
 
-	private <T> void post(int requestCode, String url, final Class<? extends BaseEntity> clazz, final Map<String, String> header,
-			final Map<String, String> map, final RequestListener callback) {
+	private <T> void post(int requestCode, String url, final Class<? extends BaseEntity> clazz, final Map<String, String> map,
+			final RequestListener callback) {
 
 		if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
 			callback.onFailed(requestCode, new Exception(), "无网络连接");
 			return;
 		}
 
-		post(requestCode, url, clazz, header, map, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
+		post(requestCode, url, clazz, map, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
 	}
 
 	private <T> void post(final int requestCode, final String url, final Class<? extends BaseEntity> clazz,
-			final Map<String, String> header, final Map<String, String> map, final RequestListener callback,
+	/* final Map<String, String> header, */final Map<String, String> map, final RequestListener callback,
 			final Priority priority, RetryPolicy retryPolicy) {
 		StringPostRequest req = new StringPostRequest(url, new Response.Listener<String>() {
 			@Override
@@ -328,15 +326,15 @@ public class NetRequest {
 				return map;
 			}
 
-			@Override
-			public Map<String, String> getHeaders() throws AuthFailureError {
-				if (header != null) {
-					checkNull(header);
-					return header;
-				} else {
-					return Collections.emptyMap();
-				}
-			}
+			// @Override
+			// public Map<String, String> getHeaders() throws AuthFailureError {
+			// if (header != null) {
+			// checkNull(header);
+			// return header;
+			// } else {
+			// return Collections.emptyMap();
+			// }
+			// }
 
 			@Override
 			public Priority getPriority() {

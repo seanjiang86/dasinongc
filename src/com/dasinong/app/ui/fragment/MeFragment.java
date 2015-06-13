@@ -1,8 +1,11 @@
 package com.dasinong.app.ui.fragment;
 
 import com.dasinong.app.R;
+import com.dasinong.app.ui.CaptureActivity;
 import com.dasinong.app.ui.MyInfoActivity;
+import com.dasinong.app.ui.RecommendActivity;
 import com.dasinong.app.ui.RegisterPhoneActivity;
+import com.dasinong.app.ui.ScanQRCoderActivity;
 import com.dasinong.app.ui.SmsSubscribeActivity;
 import com.dasinong.app.ui.TaskDetailsActivity;
 import com.dasinong.app.ui.view.TopbarView;
@@ -10,15 +13,15 @@ import com.dasinong.app.ui.view.TopbarView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import com.dasinong.app.R;
+import com.dasinong.app.ui.TaskDetailsActivity;
+import com.dasinong.app.ui.view.TopbarView;
 
 /**
  * @ClassName MeFragment
@@ -95,18 +98,22 @@ public class MeFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_my_info:// 个人信息
-//			Intent myInfoIntent = new Intent(getActivity(),MyInfoActivity.class);
-//			getActivity().startActivity(myInfoIntent);
+			// Intent myInfoIntent = new
+			// Intent(getActivity(),MyInfoActivity.class);
+			// getActivity().startActivity(myInfoIntent);
 			break;
 		case R.id.layout_scancode:// 扫一扫
-
+			Intent scanIntent = new Intent(getActivity(), CaptureActivity.class);
+			getActivity().startActivityForResult(scanIntent, 0);
 			break;
 		case R.id.layout_recommend:// 有奖推荐
-
+			Intent intent = new Intent(getActivity(), RecommendActivity.class);
+			getActivity().startActivity(intent);
 			break;
 		case R.id.layout_sms_setting:// 短信订阅设置
-//			Intent smsIntent = new Intent(getActivity(),SmsSubscribeActivity.class);
-//			getActivity().startActivity(smsIntent);
+			// Intent smsIntent = new
+			// Intent(getActivity(),SmsSubscribeActivity.class);
+			// getActivity().startActivity(smsIntent);
 			break;
 		case R.id.layout_help_center:// 帮助中心
 
@@ -118,7 +125,8 @@ public class MeFragment extends Fragment implements OnClickListener {
 
 			break;
 		case R.id.layout_check_update:// 检查更新
-
+			Intent taskIntent = new Intent(getActivity(), TaskDetailsActivity.class);
+			getActivity().startActivity(taskIntent);
 			break;
 		}
 	}

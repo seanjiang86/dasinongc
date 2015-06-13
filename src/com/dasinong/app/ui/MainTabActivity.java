@@ -7,10 +7,15 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.LocationClientOption.LocationMode;
 import com.dasinong.app.R;
+import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LocationResult;
+import com.dasinong.app.entity.LoginRegEntity;
+import com.dasinong.app.net.NetRequest;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.fragment.EncyclopediaFragment;
 import com.dasinong.app.ui.fragment.HomeFragment;
 import com.dasinong.app.ui.fragment.MeFragment;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
@@ -60,6 +65,32 @@ public class MainTabActivity extends BaseActivity {
 		// }
 	}
 
+	private void login() {
+    	if(AccountManager.isLogin(MainTabActivity.this)){
+    		return;
+    	}
+        RequestService.getInstance().authcodeLoginReg(MainTabActivity.this, "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
+
+            @Override
+            public void onSuccess(int requestCode, BaseEntity resultData) {
+
+                if(resultData.isOk()){
+                    LoginRegEntity entity = (LoginRegEntity) resultData;
+                    AccountManager.saveAccount(MainTabActivity.this, entity.getData());
+                    showToast("登录成功");
+                }else{
+                    Logger.d("TAG", resultData.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailed(int requestCode, Exception error, String msg) {
+
+                Logger.d("TAG","msg"+msg);
+            }
+        });
+    }
+	
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
@@ -95,8 +126,13 @@ public class MainTabActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-		super.onActivityResult(arg0, arg1, arg2);
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			Bundle bundle = data.getExtras();
+			String result = bundle.getString("result");
+			showToast(result+"请求服务器");
+		} 
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	private View getTabItemView(int index) {
@@ -114,6 +150,7 @@ public class MainTabActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
+		login();
 	}
 
 	@Override
@@ -126,15 +163,15 @@ public class MainTabActivity extends BaseActivity {
 		LocationUtils.getInstance().unRegisterLocationListener();
 		super.onStop();
 	}
-
+	
+	
 	private void initLocation() {
 		LocationUtils.getInstance().registerLocationListener(new LocationListener() {
 			
 			@Override
 			public void locationNotify(LocationResult result) {
 				
-				Toast.makeText(MainTabActivity.this, result.getLatitude()+" -- "+result.getLongitude(), 0).show();
-				
+//				Toast.makeText(MainTabActivity.this, result.getLatitude()+" -- "+result.getLongitude(), 0).show();
 			}
 		});
 	}

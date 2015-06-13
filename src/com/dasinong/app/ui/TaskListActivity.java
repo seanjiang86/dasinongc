@@ -8,6 +8,9 @@ import com.dasinong.app.database.task.dao.impl.SubStageDaoImpl;
 import com.dasinong.app.database.task.dao.impl.TaskSpecDaoImpl;
 import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.database.task.domain.TaskSpec;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.view.AnimatedExpandableListView;
 import com.dasinong.app.ui.view.AnimatedExpandableListView.AnimatedExpandableListAdapter;
 import com.dasinong.app.ui.view.TopbarView;
@@ -39,30 +42,17 @@ public class TaskListActivity extends BaseActivity {
 		initView();
 		setUpView();
 
-//
-//		// Populate our list with groups and it's children
-//		for (int i = 1; i < 100; i++) {
-//			GroupItem item = new GroupItem();
-//
-//			item.title = "Group " + i;
-//
-//			for (int j = 0; j < i; j++) {
-//				ChildItem child = new ChildItem();
-//				child.title = "Awesome item " + j;
-//				child.hint = "Too awesome";
-//
-//				item.items.add(child);
-//			}
-//
-//			items.add(item);
-//		}
-
+		requestData();
+		
 		adapter = new ExampleAdapter(this);
 		adapter.setData(taskDataList);
 
 		listView = (AnimatedExpandableListView) findViewById(R.id.listView);
 		listView.setAdapter(adapter);
 
+//		if(listView.getChildCount()>0)
+		listView.expandGroup(0);
+		
 		// In order to show animations, we need to use a custom click handler
 		// for our ExpandableListView.
 		listView.setOnGroupClickListener(new OnGroupClickListener() {
@@ -73,26 +63,43 @@ public class TaskListActivity extends BaseActivity {
 				// expandGroupWithAnimation(int) to animate group
 				// expansion/collapse.
 				if (listView.isGroupExpanded(groupPosition)) {
-					listView.collapseGroupWithAnimation(groupPosition);
+//					listView.collapseGroupWithAnimation(groupPosition);
+					listView.collapseGroup(groupPosition);
 				} else {
-					listView.expandGroupWithAnimation(groupPosition);
+//					listView.expandGroupWithAnimation(groupPosition);
+					listView.expandGroup(groupPosition);
 				}
 				return true;
 			}
 
 		});
-
+		
 		listView.setOnChildClickListener(new OnChildClickListener() {
 
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-				adapter.getChild(groupPosition, childPosition);
-
+				TaskSpec child = adapter.getChild(groupPosition, childPosition);
+				showToast(child.taskSpecName);
 				return false;
 			}
 		});
 
+	}
+
+	private void requestData() {
+		RequestService.getInstance().getAllTask(this, "10", BaseEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				
+			}
+		});
 	}
 
 	private void initData() {
@@ -125,14 +132,10 @@ public class TaskListActivity extends BaseActivity {
 		List<TaskSpec> items = new ArrayList<TaskSpec>();
 	}
 
-	private static class ChildItem {
-		String title;
-		String hint;
-	}
 
 	private static class ChildHolder {
 		TextView title;
-		TextView hint;
+//		TextView hint;
 	}
 
 	private static class GroupHolder {
@@ -173,14 +176,14 @@ public class TaskListActivity extends BaseActivity {
 				holder = new ChildHolder();
 				convertView = inflater.inflate(R.layout.task_list_item, parent, false);
 				holder.title = (TextView) convertView.findViewById(R.id.textTitle);
-				holder.hint = (TextView) convertView.findViewById(R.id.textHint);
+//				holder.hint = (TextView) convertView.findViewById(R.id.textHint);
 				convertView.setTag(holder);
 			} else {
 				holder = (ChildHolder) convertView.getTag();
 			}
 
 			holder.title.setText(item.taskSpecName);
-			holder.hint.setText(item.type);
+//			holder.hint.setText(item.type);
 
 			return convertView;
 		}

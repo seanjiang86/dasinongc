@@ -32,7 +32,7 @@ public class SmsSubscribeActivity extends BaseActivity {
 		mTopbarView.setLeftView(true, true);
 		
 		spinner = (Spinner) this.findViewById(R.id.spinner);
-		spinner.setAdapter(new ArrayAdapter<>(this, R.layout.textview, new  String[]{"sdf","fsdgsfdg","fgsdgs","sdf","fsdgsfdg","fgsdgs"}));
+		spinner.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, new  String[]{"sdf","fsdgsfdg","fgsdgs","sdf","fsdgsfdg","fgsdgs"}));
 		
 	}
 	

@@ -52,18 +52,17 @@ public class StringGetRequest extends Request<String> {
 //		}
     	
         try {
-//            String jsonString =
-//                    new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             String jsonString =
-            		new String(response.data, "UTF-8");
-            Log.d("TAG","result:"+jsonString);
+                    new String(response.data, HttpHeaderParser.parseCharset(response.headers));
+//            String jsonString =
+//            		new String(response.data, "UTF-8");
             mHeader = response.headers.toString();
             Log.w("LOG","get headers in parseNetworkResponse "+response.headers.toString());
             Pattern pattern=Pattern.compile("Set-Cookie.*?;");
             Matcher m=pattern.matcher(mHeader);
             if(m.find()){
                 cookieFromResponse =m.group();
-                Log.w("LOG","cookie from server "+ cookieFromResponse);
+                Logger.d("LOG","cookie from server "+ cookieFromResponse);
             }
             JSONObject jsonObject = new JSONObject(jsonString);
             if(!TextUtils.isEmpty(cookieFromResponse)){
@@ -90,7 +89,8 @@ public class StringGetRequest extends Request<String> {
         return sendHeader;
     }
     public void setSendCookie(String cookie){
-    	Logger.d1("yyyyy", "------------------cookie:" + cookie);
+//    	cookie = cookie.replace("JSESSIONID=", "");
+    	Logger.d1("yyyyy", "------------------Cookie:" + cookie);
         sendHeader.put("Cookie",cookie);
     }
 }

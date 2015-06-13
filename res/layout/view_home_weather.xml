@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tool="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/home_w_white">
@@ -353,32 +354,32 @@
         android:background="#dbe3e6" />
 
     <HorizontalScrollView
-        android:id="@+id/hcTimeTemp"
+        android:scrollbars="none"
+        android:id="@+id/horHumView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivLine2">
 
-        <LinearLayout
-            android:id="@+id/lyTimeTemp"
+        <com.dasinong.app.components.home.view.HumidityView
+            android:id="@+id/humView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal" />
+            android:layout_height="wrap_content" />
     </HorizontalScrollView>
 
     <View
         android:id="@+id/ivLine3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@id/hcTimeTemp"
+        android:layout_below="@id/horHumView"
         android:background="#dbe3e6" />
 
     <LinearLayout
-        android:layout_marginLeft="@dimen/home_dimen_45"
-        android:layout_marginRight="@dimen/home_dimen_45"
         android:id="@+id/lyWeekWeather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivLine3"
+        android:layout_marginLeft="@dimen/home_dimen_45"
+        android:layout_marginRight="@dimen/home_dimen_45"
         android:orientation="vertical" />
 
     <TextView
@@ -387,8 +388,8 @@
         android:layout_height="@dimen/home_dimen_110"
         android:layout_below="@id/lyWeekWeather"
         android:gravity="center"
+        tool:text="@string/weather_close_one_week"
         android:textColor="#1768be"
-        android:textSize="@dimen/home_text_size_32"
-        android:text="收起未来7天" />
+        android:textSize="@dimen/home_text_size_32" />
 
 </RelativeLayout>

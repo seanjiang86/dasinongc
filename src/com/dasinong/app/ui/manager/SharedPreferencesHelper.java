@@ -24,6 +24,11 @@ public final class SharedPreferencesHelper {
     	FIELD_SIZE,
     	VARIETY_ID,
     	SUBSTAGE_ID,
+    	PROVINCE,
+    	CITY,
+    	COUNTY,
+    	SEEDING_METHOD,
+
     };
     
     public static int getInt(Context context, Field field, int defaultValue) {

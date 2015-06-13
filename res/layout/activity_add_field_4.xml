@@ -5,6 +5,12 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <com.dasinong.app.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.dasinong.app.ui.view.TopbarView>
+
     <com.dasinong.app.ui.view.AddFieldTabView
         android:layout_width="match_parent"
         android:layout_height="90dp"
@@ -73,7 +79,7 @@
                 android:text="植物" />
 
             <TextView
-                android:id="@+id/tv_variety"
+                android:id="@+id/tv_variety_name"
                 android:layout_width="0dp"
                 android:layout_height="45dp"
                 android:layout_marginLeft="8dp"
