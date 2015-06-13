@@ -28,7 +28,6 @@ import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.AddFieldActivity1;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.soil.SoilEditorActivity;
-import com.dasinong.app.ui.soil.SoilInformationActivity;
 import com.dasinong.app.ui.soil.SoilListActivity;
 import com.dasinong.app.utils.Logger;
 
@@ -128,7 +127,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-       mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rl_modulename_refresh);
+        mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rl_modulename_refresh);
 
         SoilView soilView = (SoilView) view.findViewById(R.id.home_soilview);
         soilView.setOnSoilListener(this);
@@ -141,26 +140,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
         // 为BGARefreshLayout设置代理
         mRefreshLayout.setDelegate(this);
 
- // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
- BGARefreshViewHolder refreshViewHolder = new BGAStickinessRefreshViewHolder(getActivity(), false);
- // 设置下拉刷新和上拉加载更多的风格
- mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
-
+        // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
+        BGARefreshViewHolder refreshViewHolder = new BGAStickinessRefreshViewHolder(getActivity(), false);
+        // 设置下拉刷新和上拉加载更多的风格
+        mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
 
 
         // 为了增加下拉刷新头部和加载更多的通用性，提供了以下可选配置选项  -------------START
         // 设置正在加载更多时的文本
-       //refreshViewHolder.setLoadingMoreText(loadingMoreText);
+        //refreshViewHolder.setLoadingMoreText(loadingMoreText);
         // 设置整个加载更多控件的背景颜色资源id
-       //refreshViewHolder.setLoadMoreBackgroundColorRes(loadMoreBackgroundColorRes);
+        //refreshViewHolder.setLoadMoreBackgroundColorRes(loadMoreBackgroundColorRes);
         // 设置整个加载更多控件的背景drawable资源id
-      //refreshViewHolder.setLoadMoreBackgroundDrawableRes(loadMoreBackgroundDrawableRes);
+        //refreshViewHolder.setLoadMoreBackgroundDrawableRes(loadMoreBackgroundDrawableRes);
         // 设置下拉刷新控件的背景颜色资源id
-       //refreshViewHolder.setRefreshViewBackgroundColorRes(refreshViewBackgroundColorRes);
+        //refreshViewHolder.setRefreshViewBackgroundColorRes(refreshViewBackgroundColorRes);
         // 设置下拉刷新控件的背景drawable资源id
         //refreshViewHolder.setRefreshViewBackgroundDrawableRes(refreshViewBackgroundDrawableRes);
         // 设置自定义头部视图（也可以不用设置）     参数1：自定义头部视图（例如广告位）， 参数2：上拉加载更多是否可用
-       //mRefreshLayout.setCustomHeaderView(mBanner, false);
+        //mRefreshLayout.setCustomHeaderView(mBanner, false);
         // 可选配置  -------------END
     }
 
@@ -199,7 +197,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 // 加载完毕后在UI线程结束下拉刷新
-//                mRefreshLayout.endRefreshing();
+              mRefreshLayout.endRefreshing();
             }
         }.execute();
 
