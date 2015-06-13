@@ -56,6 +56,7 @@ public class StringGetRequest extends Request<String> {
 //                    new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             String jsonString =
             		new String(response.data, "UTF-8");
+            Log.d("TAG","result:"+jsonString);
             mHeader = response.headers.toString();
             Log.w("LOG","get headers in parseNetworkResponse "+response.headers.toString());
             Pattern pattern=Pattern.compile("Set-Cookie.*?;");

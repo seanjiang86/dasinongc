@@ -6,16 +6,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dasinong.app.R;
+import com.dasinong.app.components.net.INetRequest;
+import com.dasinong.app.components.net.NetError;
+import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.SoilDetail;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.BaseActivity;
+import com.dasinong.app.ui.soil.domain.SoilAllEntity;
+import com.dasinong.app.ui.soil.domain.SoilInformationEntity;
+import com.dasinong.app.ui.view.TopbarView;
 
-public class SoilInformationActivity extends BaseActivity implements View.OnClickListener, NetRequest.RequestListener {
+/**
+ * 测土的详情页面
+ */
+public class SoilInformationActivity extends BaseActivity implements View.OnClickListener, INetRequest<SoilInformationEntity> {
 
-    private static final  int REQUEST_CODE = 100;
+    private static final int REQUEST_CODE = 100;
+    private static final int REQUEST_CODE_SOIL_INFORMATION = 145;
+    private static final String URL = NetConfig.BASE_URL;
 
     private TextView soiltype;
     private TextView soilcolor;
@@ -40,14 +51,27 @@ public class SoilInformationActivity extends BaseActivity implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        RequestService.getInstance().sendRequestWithToken(
-                this,
-                SoilDetail.class,
-                REQUEST_CODE,
-                NetConfig.SubUrl.GET_SOIL_DETAIL,
-                null,
-                this);
         setContentView(R.layout.activity_soil_information);
+
+        initTopBar();
+        initView();
+
+
+        loadDataFromServer();
+
+    }
+
+
+    private void initTopBar() {
+
+        TopbarView topBar = (TopbarView) findViewById(R.id.top_bar);
+        topBar.setLeftView(true, true);
+        topBar.setCenterText(R.string.soil_all_report);
+    }
+
+    private void initView() {
+
+
         this.soilcheck = (TextView) findViewById(R.id.soil_check);
         this.soilP = (TextView) findViewById(R.id.soil_P);
         this.soilZN = (TextView) findViewById(R.id.soil_ZN);
@@ -72,7 +96,19 @@ public class SoilInformationActivity extends BaseActivity implements View.OnClic
     }
 
 
-    private void updateView() {
+    private void loadDataFromServer() {
+        SoilInformationEntity.Param param = new SoilInformationEntity.Param();
+        VolleyManager.getInstance().addGetRequestWithNoCache(
+                REQUEST_CODE_SOIL_INFORMATION,
+                URL,
+                param,
+                SoilInformationEntity.class,
+                this
+        );
+    }
+
+
+    private void updateView(SoilInformationEntity response) {
 
         soiltype.setText("type");
         soilcolor.setText("color");
@@ -99,17 +135,25 @@ public class SoilInformationActivity extends BaseActivity implements View.OnClic
     @Override
     public void onClick(View v) {
 
-        Toast.makeText(this,"show soil",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "show soil", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onTaskSuccess(int requestCode, SoilInformationEntity response) {
+
+
+        updateView(response);
+
     }
 
     @Override
-    public void onSuccess(int requestCode, BaseEntity resultData) {
+    public void onTaskFailedSuccess(int requestCode, NetError error) {
 
-        updateView();
     }
 
     @Override
-    public void onFailed(int requestCode, Exception error, String msg) {
+    public void onCache(int requestCode, SoilInformationEntity response) {
 
     }
 }

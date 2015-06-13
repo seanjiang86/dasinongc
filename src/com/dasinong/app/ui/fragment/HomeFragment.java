@@ -31,6 +31,7 @@ import com.dasinong.app.ui.AddFieldActivity2;
 import com.dasinong.app.ui.AddFieldActivity4;
 import com.dasinong.app.ui.MainTabActivity;
 import com.dasinong.app.ui.manager.AccountManager;
+import com.dasinong.app.ui.soil.SoilEditorActivity;
 import com.dasinong.app.ui.soil.SoilInformationActivity;
 import com.dasinong.app.ui.soil.SoilListActivity;
 import com.dasinong.app.utils.Logger;
@@ -38,7 +39,7 @@ import com.dasinong.app.utils.Logger;
 import java.util.List;
 
 
-public class HomeFragment extends Fragment implements NetRequest.RequestListener,SoilView.OnSoilCickListenr {
+public class HomeFragment extends Fragment implements View.OnClickListener, NetRequest.RequestListener,SoilView.OnSoilCickListenr {
 
     private static final int REQUST_CODE_HOME_TASk = 130;
 
@@ -114,6 +115,7 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
         View view =inflater.inflate(R.layout.fragment_home, container, false);
         SoilView  soilView = (SoilView) view.findViewById(R.id.home_soilview);
         soilView.setOnSoilListener(this);
+        soilView.setOnClickListener(this);
         return view;
     }
 
@@ -205,5 +207,16 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
     public void onSoilCheck() {
         Intent intent = new Intent(this.getActivity(),SoilListActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+
+            case R.id.home_soilview:
+                Intent intent = new Intent(this.getActivity(),SoilEditorActivity.class);
+                startActivity(intent);
+                break;
+        }
     }
 }
