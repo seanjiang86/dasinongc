@@ -11,7 +11,57 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-        <!--此处应该还有一个水平可以滑动的view-->
+        <!--叶子view-->
+        <RelativeLayout
+            android:background="#ff0000"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/home_dimen_100">
+
+            <ImageView
+                android:id="@+id/left_arrow"
+                android:layout_centerVertical="true"
+                android:paddingLeft="@dimen/home_dimen_30"
+                android:src="@drawable/left_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/right_arrow"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:src="@drawable/right_arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:layout_toRightOf="@id/left_arrow"
+                android:layout_toLeftOf="@id/right_arrow"
+                android:layout_marginLeft="@dimen/home_dimen_30"
+                android:layout_marginRight="@dimen/home_dimen_30"
+                android:layout_centerVertical="true"
+                android:orientation="horizontal"
+                android:background="#f015ee"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/leaf"
+                    android:src="@drawable/leafe"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_marginLeft="@dimen/home_dimen_10"
+                    android:id="@+id/leaf_content"
+                    android:text="nihao "
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -38,7 +88,7 @@
         </RelativeLayout>
 
     </LinearLayout>
-
+    <!--没有作物的view-->
     <LinearLayout
         android:layout_centerHorizontal="true"
         android:id="@+id/add_crop_parent"
