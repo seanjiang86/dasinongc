@@ -48,4 +48,7 @@
     <dimen name="home_text_size_100">50sp</dimen>
     <dimen name="home_text_size_120">60sp</dimen>
     <dimen name="home_text_size_200">100sp</dimen>
+
+    <!-- 下拉选择中item高度 -->
+    <dimen name="select_pop_item_height">48dp</dimen>
 </resources>
