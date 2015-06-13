@@ -133,6 +133,14 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 	private void setUpView() {
 		mTopbarView.setCenterText("个人信息");
 		mTopbarView.setLeftView(true, true);
+		mTopbarView.setRightText("提交");
+		mTopbarView.setRightClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				uploadInfo();
+			}
+		});
 
 		mHeadviewLayout.setOnClickListener(this);
 		mPhoneLayout.setOnClickListener(this);
@@ -142,6 +150,10 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		mAddressLayout.setOnClickListener(this);
 		mHomephoneLayout.setOnClickListener(this);
 
+	}
+
+	protected void uploadInfo() {
+		
 	}
 
 	@Override
