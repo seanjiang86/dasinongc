@@ -108,10 +108,10 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     }
 
     private void showConfirmDialog() {
+        if (null == activity) {
+            return;
+        }
         if (null == confirmDialog) {
-            if (null == activity) {
-                return;
-            }
             confirmDialog = new ConfirmDialog(activity);
             confirmDialog.setTitle("确认切换状态");
             confirmDialog.setMessage("您真的确认要切换当前作物的状态吗");
@@ -129,8 +129,9 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     }
                 }
             });
-            confirmDialog.show();
         }
+        confirmDialog.show();
+
     }
 
     public void setActivity(Activity activity) {

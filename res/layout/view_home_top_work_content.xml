@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content" />
 
             <ImageView
+                android:paddingRight="@dimen/home_dimen_30"
                 android:id="@+id/right_arrow"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
@@ -63,6 +64,7 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:layout_marginTop="@dimen/home_dimen_30"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

@@ -17,6 +17,7 @@
             android:orientation="vertical">
 
             <com.dasinong.app.components.home.view.CropsStateView
+                android:id="@+id/stateView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

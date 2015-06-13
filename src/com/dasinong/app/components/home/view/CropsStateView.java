@@ -99,8 +99,10 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      * @param entity
      */
     public void updateView(FieldEntity entity) {
+        Log.d("dding", "entity-->>:" + entity);
         if (null == entity)
             return;
+        Log.d("dding", "entity-currentField->>:" + entity.currentField);
         //设置田地的名称
         if (null != entity.currentField) {
             String fieldName = entity.currentField.fieldName;
@@ -114,8 +116,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             String rightStateInfo = "";
             setCropStateInfo(harvestDay, rightStateInfo);
         }
-
+        Log.d("dding", "entity-fieldList->>:" + entity.fieldList.size());
         if (null != entity.fieldList) {
+            Log.d("dding", "entity-fieldList->>:" + entity.fieldList.size());
             Map<String, Long> maps = entity.fieldList;
             if (maps.size() != 0) {
                 //有田地
@@ -126,10 +129,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                         list.add(key);
                     }
                 }
+                Log.d("dding", "entity-list->>:" + list.size());
                 //记住田地数据集合的内容--用以点击展开popouwindow
                 setFieldList(list);
             }
         } else {
+            Log.d("dding", "当前没有田地:");
             //当前没有田地--
             setCurrentState(1);
         }
@@ -306,6 +311,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             fieldView.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.down_arrow), null);
             fieldView.setPadding(0, 0, 20, 0);
         }
+        fieldView.setText(list.get(0));
+
 
     }
 
