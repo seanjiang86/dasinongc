@@ -7,10 +7,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.dasinong.app.R;
 import com.dasinong.app.components.home.view.SoilView;
@@ -25,7 +22,6 @@ import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
-import com.dasinong.app.ui.AddFieldActivity1;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.soil.SoilEditorActivity;
 import com.dasinong.app.ui.soil.SoilListActivity;
@@ -33,15 +29,15 @@ import com.dasinong.app.utils.Logger;
 
 import java.util.List;
 
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
+
 /**
  * 报错注释 06.12 Ming
  *
  * @author Ming
  */
-
-import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
-import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
-import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 
 /**
  * 报错注释 06.12 Ming  此处注释掉一个借口
@@ -65,65 +61,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        //Volley.newRequestQueue(this.getActivity()).add(null).getCacheEntry();
-        //
+
         //first loading
 
-        //step1
-        //online
-        //read cache
-        //loadFromServer()
+        loadDataFromWithCache();
 
-        LinearLayout ll = new LinearLayout(this.getActivity());
-        ll.setOrientation(LinearLayout.VERTICAL);
-
-        Button login = new Button(getActivity());
-
-        login.setTextSize(50);
-        login.setText("login");
-
-
-        Button tv = new Button(getActivity());
-
-        ll.addView(login);
-        ll.addView(tv);
-        tv.setText("首页");
-        tv.setTextSize(50);
-        tv.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                loadDataFrom("");
-            }
-        });
-
-        login.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-
-
-//                login();
-                // TODO Auto-generated method stub
-                //Intent intent = new Intent(getActivity(), AddFieldActivity4.class);
-                //startActivity(intent);
-                // queryCity();
-                // queryDisaster();
-
-
-                Intent intent = new Intent(getActivity(), AddFieldActivity1.class);
-
-                startActivity(intent);
-
-
-                // queryCity();
-                Log.d("TAG", "HomeFragment");
-
-
-            }
-
-
-        });
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
@@ -134,6 +76,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
         initRefreshLayout();
         soilView.setOnClickListener(this);
         return view;
+    }
+
+    private void loadDataFromWithCache() {
+
     }
 
     private void initRefreshLayout() {
@@ -197,7 +143,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 // 加载完毕后在UI线程结束下拉刷新
-              mRefreshLayout.endRefreshing();
+                mRefreshLayout.endRefreshing();
             }
         }.execute();
 
@@ -221,33 +167,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
     public void beginLoadingMore() {
         mRefreshLayout.beginLoadingMore();
         onBGARefreshLayoutBeginLoadingMore(mRefreshLayout);
-    }
-
-
-    private void login() {
-
-        RequestService.getInstance().authcodeLoginReg(this.getActivity(), "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
-
-            @Override
-            public void onSuccess(int requestCode, BaseEntity resultData) {
-
-                if (resultData.isOk()) {
-                    LoginRegEntity entity = (LoginRegEntity) resultData;
-
-                    AccountManager.saveAccount(HomeFragment.this.getActivity(), entity.getData());
-
-
-                } else {
-                    Logger.d("TAG", resultData.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailed(int requestCode, Exception error, String msg) {
-
-                Logger.d("TAG", "msg" + msg);
-            }
-        });
     }
 
 
@@ -324,6 +243,33 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
                 startActivity(intent);
                 break;
         }
+    }
+
+
+    private void login() {
+
+        RequestService.getInstance().authcodeLoginReg(this.getActivity(), "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
+
+            @Override
+            public void onSuccess(int requestCode, BaseEntity resultData) {
+
+                if (resultData.isOk()) {
+                    LoginRegEntity entity = (LoginRegEntity) resultData;
+
+                    AccountManager.saveAccount(HomeFragment.this.getActivity(), entity.getData());
+
+
+                } else {
+                    Logger.d("TAG", resultData.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailed(int requestCode, Exception error, String msg) {
+
+                Logger.d("TAG", "msg" + msg);
+            }
+        });
     }
 
 }
