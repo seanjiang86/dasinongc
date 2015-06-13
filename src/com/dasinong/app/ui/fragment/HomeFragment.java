@@ -36,27 +36,27 @@ import java.util.List;
 
 /**
  * 报错注释 06.12 Ming
- * @author Ming
  *
+ * @author Ming
  */
 
-//import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
-//import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
-//import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
-public class HomeFragment extends Fragment implements View.OnClickListener, NetRequest.RequestListener,SoilView.OnSoilCickListenr {
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 
 /**
  * 报错注释 06.12 Ming  此处注释掉一个借口
- * @author Ming
  *
+ * @author Ming
  */
 
-public class HomeFragment extends Fragment implements NetRequest.RequestListener, SoilView.OnSoilCickListenr/*, BGARefreshLayout.BGARefreshLayoutDelegate*/ {
+public class HomeFragment extends Fragment implements View.OnClickListener, NetRequest.RequestListener, SoilView.OnSoilCickListenr, BGARefreshLayout.BGARefreshLayoutDelegate {
 
     private static final int REQUST_CODE_HOME_TASk = 130;
-/**
- *     private BGARefreshLayout mRefreshLayout;
- */
+
+
+    private BGARefreshLayout mRefreshLayout;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -127,9 +127,9 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
         });
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-/**
- *         mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rl_modulename_refresh);
- */
+
+       mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rl_modulename_refresh);
+
         SoilView soilView = (SoilView) view.findViewById(R.id.home_soilview);
         soilView.setOnSoilListener(this);
         initRefreshLayout();
@@ -139,41 +139,39 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
 
     private void initRefreshLayout() {
         // 为BGARefreshLayout设置代理
-/**
- *        mRefreshLayout.setDelegate(this);
-        // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
-        BGARefreshViewHolder refreshViewHolder = new BGAStickinessRefreshViewHolder(getActivity(), false);
-        // 设置下拉刷新和上拉加载更多的风格
-        mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
-*/
+        mRefreshLayout.setDelegate(this);
+
+ // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
+ BGARefreshViewHolder refreshViewHolder = new BGAStickinessRefreshViewHolder(getActivity(), false);
+ // 设置下拉刷新和上拉加载更多的风格
+ mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
+
 
 
         // 为了增加下拉刷新头部和加载更多的通用性，提供了以下可选配置选项  -------------START
         // 设置正在加载更多时的文本
-//        refreshViewHolder.setLoadingMoreText(loadingMoreText);
+       //refreshViewHolder.setLoadingMoreText(loadingMoreText);
         // 设置整个加载更多控件的背景颜色资源id
-//        refreshViewHolder.setLoadMoreBackgroundColorRes(loadMoreBackgroundColorRes);
+       //refreshViewHolder.setLoadMoreBackgroundColorRes(loadMoreBackgroundColorRes);
         // 设置整个加载更多控件的背景drawable资源id
-//        refreshViewHolder.setLoadMoreBackgroundDrawableRes(loadMoreBackgroundDrawableRes);
+      //refreshViewHolder.setLoadMoreBackgroundDrawableRes(loadMoreBackgroundDrawableRes);
         // 设置下拉刷新控件的背景颜色资源id
-//        refreshViewHolder.setRefreshViewBackgroundColorRes(refreshViewBackgroundColorRes);
+       //refreshViewHolder.setRefreshViewBackgroundColorRes(refreshViewBackgroundColorRes);
         // 设置下拉刷新控件的背景drawable资源id
-//        refreshViewHolder.setRefreshViewBackgroundDrawableRes(refreshViewBackgroundDrawableRes);
+        //refreshViewHolder.setRefreshViewBackgroundDrawableRes(refreshViewBackgroundDrawableRes);
         // 设置自定义头部视图（也可以不用设置）     参数1：自定义头部视图（例如广告位）， 参数2：上拉加载更多是否可用
-//        mRefreshLayout.setCustomHeaderView(mBanner, false);
+       //mRefreshLayout.setCustomHeaderView(mBanner, false);
         // 可选配置  -------------END
     }
 
-  /*
-   * 报错注释 06.12 Ming
-   * @author Ming
-   * 
-   * 
+
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         // 在这里加载最新数据
         new AsyncTask<Void, Void, Void>() {
-            *//**
+
+
+            /**
              * Override this method to perform a computation on a background thread. The
              * specified parameters are the parameters passed to {@link #execute}
              * by the caller of this task.
@@ -186,7 +184,7 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
              * @see #onPreExecute()
              * @see #onPostExecute
              * @see #publishProgress
-             *//*
+             */
             @Override
             protected Void doInBackground(Void... params) {
                 try {
@@ -226,8 +224,8 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
         mRefreshLayout.beginLoadingMore();
         onBGARefreshLayoutBeginLoadingMore(mRefreshLayout);
     }
-    
-*/
+
+
     private void login() {
 
         RequestService.getInstance().authcodeLoginReg(this.getActivity(), "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
@@ -321,14 +319,16 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
 
             case R.id.home_soilview:
-                Intent intent = new Intent(this.getActivity(),SoilEditorActivity.class);
+                Intent intent = new Intent(this.getActivity(), SoilEditorActivity.class);
                 startActivity(intent);
                 break;
         }
     }
 
-
 }
+
+
+
