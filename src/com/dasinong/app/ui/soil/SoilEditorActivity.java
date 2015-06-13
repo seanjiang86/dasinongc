@@ -16,14 +16,13 @@ import com.dasinong.app.ui.soil.domain.SoilAllEntity;
 import com.dasinong.app.ui.soil.domain.SoilPostEntity;
 import com.dasinong.app.ui.view.TopbarView;
 
-public class SoilEditorActivity extends BaseActivity implements View.OnClickListener,INetRequest<SoilPostEntity> {
+public class SoilEditorActivity extends BaseActivity implements View.OnClickListener, INetRequest<SoilPostEntity> {
 
     private static final int REQUEST_CODE = 101;
-    private static final int REQUEST_CODE_SOIL_POST =  139;
+    private static final int REQUEST_CODE_SOIL_POST = 139;
     private static final String URL = NetConfig.BASE_URL;
 
 
-    private TopbarView topbar;
     private TextView soiltype;
     private TextView soilcolor;
     private TextView soilrating;
@@ -47,7 +46,6 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
     private TextView soilcheck;
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -60,7 +58,6 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
         initView();
 
         initEvent();
-
 
 
     }
@@ -104,7 +101,7 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
     }
 
 
-    private void initEvent(){
+    private void initEvent() {
 
         soilallreport.setOnClickListener(this);
     }
@@ -125,12 +122,12 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.soil_all_report:
 
-                Intent intent = new Intent(this,SoilAllListActivity.class);
+                Intent intent = new Intent(this, SoilAllListActivity.class);
                 startActivity(intent);
                 break;
 
             case R.id.textview_topbar_right_text:
-                SoilPostEntity.Param param  = new SoilPostEntity.Param();
+                SoilPostEntity.Param param = new SoilPostEntity.Param();
                 postSoilInformation(param);
                 break;
         }
