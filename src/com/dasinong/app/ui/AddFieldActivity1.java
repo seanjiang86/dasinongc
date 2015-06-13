@@ -71,7 +71,7 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 		topbar = (TopbarView) findViewById(R.id.topbar);
 
 		initLocation();
-		
+
 		initTopBar();
 
 		btn_in_field.setOnClickListener(this);
@@ -105,7 +105,7 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 			goToTwo();
 			break;
 		case R.id.btn_in_field:
-			RequestService.getInstance().searchLocation(this, latitudeText, longitudeText, mprovince, mcity, mdistrict, mstreet, VillageId.class,
+			RequestService.getInstance().searchLocation(this, latitudeText, longitudeText, mprovince, mcity, mdistrict, VillageId.class,
 					new NetRequest.RequestListener() {
 
 						@Override
@@ -130,7 +130,7 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 	}
 
 	private void initLocation() {
-		
+
 		Logger.d("MING", "进入定位方法");
 
 		LocationUtils.getInstance().registerLocationListener(new LocationListener() {
@@ -153,8 +153,7 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 				Logger.d("addFieldLocation", "city  =====  " + mcity);
 				Logger.d("addFieldLocation", "district  =====  " + mdistrict);
 				Logger.d("addFieldLocation", "street  =====  " + mstreet);
-				
-				
+
 				Logger.d("MING", "定位结束");
 			}
 		});
@@ -189,7 +188,7 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 		SharedPreferencesHelper.setString(this, Field.VILLAGE_ID, villageId.villageId);
 		SharedPreferencesHelper.setString(this, Field.PROVINCE, mprovince);
 		SharedPreferencesHelper.setString(this, Field.CITY, mcity);
-		SharedPreferencesHelper.setString(this, Field.COUNTY,mdistrict);
+		SharedPreferencesHelper.setString(this, Field.COUNTY, mdistrict);
 		Intent intent = new Intent(DsnApplication.getContext(), AddFieldActivity3.class);
 		startActivity(intent);
 	}

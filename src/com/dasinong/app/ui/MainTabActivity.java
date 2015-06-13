@@ -126,8 +126,13 @@ public class MainTabActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
-		super.onActivityResult(arg0, arg1, arg2);
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			Bundle bundle = data.getExtras();
+			String result = bundle.getString("result");
+			showToast(result+"请求服务器");
+		} 
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	private View getTabItemView(int index) {
@@ -158,7 +163,8 @@ public class MainTabActivity extends BaseActivity {
 		LocationUtils.getInstance().unRegisterLocationListener();
 		super.onStop();
 	}
-
+	
+	
 	private void initLocation() {
 		LocationUtils.getInstance().registerLocationListener(new LocationListener() {
 			

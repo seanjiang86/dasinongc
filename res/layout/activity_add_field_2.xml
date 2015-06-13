@@ -116,7 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/city_container"
-            android:background="@color/color_harf_transparent"
+            android:background="@color/color_FFFFFF"
             android:visibility="gone" >
 
             <LinearLayout

@@ -76,16 +76,17 @@ public class NetConfig {
 		public static final String password = "password";
 		public static final String cellphone = "cellphone";
 		public static final String address = "address";
-		public static final String latitude = "latitude";
-		public static final String longitude = "longitude";
-		public static final String mprovince = "mprovince";
-		public static final String mcity = "mcity";
-		public static final String mdistrict = "mdistrict";
-		public static final String mstreet = "mstreet";
-		public static final String cropId = "cropId";
+		public static final String latitude = "lat";
+		public static final String longitude = "lon";
+		public static final String mprovince = "province";
+		public static final String mcity = "city";
+		public static final String mdistrict = "country";
+		// TODO MING:正式上线之后要修改为 cropName
+		public static final String cropName = "cropId";
+//		public static final String cropId = "cropId";
 		public static final String province = "province";
 		public static final String city = "city";
-		public static final String county = "county";
+		public static final String county = "country";
 		public static final String district = "district";
 		public static final String locationId = "locationId";
 		public static final String varietyId = "varietyId";
@@ -226,14 +227,13 @@ public class NetConfig {
 		return paramsMap;
 	}
 
-	public static Map<String, String> getSearchLocationParams(String latitude, String longitude,String mprovince,String mcity,String mdistrict,String mstreet) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.latitude, latitude), getTokenParams(Params.longitude, longitude), getTokenParams(Params.mprovince, mprovince), getTokenParams(Params.mcity, mcity), getTokenParams(Params.mdistrict, mdistrict), getTokenParams(Params.mstreet, mstreet));
+	public static Map<String, String> getSearchLocationParams(String latitude, String longitude,String mprovince,String mcity,String mdistrict) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.latitude, latitude), getTokenParams(Params.longitude, longitude), getTokenParams(Params.mprovince, mprovince), getTokenParams(Params.mcity, mcity), getTokenParams(Params.mdistrict, mdistrict));
 		paramsMap.put(Params.latitude, latitude);
 		paramsMap.put(Params.longitude, longitude);
 		paramsMap.put(Params.mprovince, mprovince);
 		paramsMap.put(Params.mcity, mcity);
 		paramsMap.put(Params.mdistrict, mdistrict);
-		paramsMap.put(Params.mstreet, mstreet);
 		return paramsMap;
 	}
 	public static Map<String, String> getGetCropListParams(String locationId) {
@@ -241,9 +241,9 @@ public class NetConfig {
 		paramsMap.put(Params.locationId, locationId);
 		return paramsMap;
 	}
-	public static Map<String, String> getGetVarietyListParams(String cropId,String locationId) {
-		Map<String, String> paramsMap = getBaseParams(false,getTokenParams(Params.cropId , cropId),getTokenParams(Params.locationId , locationId));
-		paramsMap.put(Params.cropId, cropId);
+	public static Map<String, String> getGetVarietyListParams(String cropName,String locationId) {
+		Map<String, String> paramsMap = getBaseParams(false,getTokenParams(Params.cropName , cropName),getTokenParams(Params.locationId , locationId));
+		paramsMap.put(Params.cropName, cropName);
 		paramsMap.put(Params.locationId, locationId);
 		return paramsMap;
 	}

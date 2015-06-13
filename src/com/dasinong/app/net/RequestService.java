@@ -26,75 +26,91 @@ public class RequestService {
 		}
 		return mInstance;
 	}
-	
-	public void register(Context context,String userName,String password, String cellPhone,String address,Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		 Map<String, String> params = NetConfig.getRegisterParams(userName, password,cellPhone,address);
-		 new NetRequest(context).get(RequestCode.REGISTER_BY_PASSWORD,params, SubUrl.REGISTER_BY_PASSWORD, callBack,clazz);
+
+	public void register(Context context, String userName, String password, String cellPhone, String address, Class<? extends BaseEntity> clazz,
+			RequestListener callBack) {
+		Map<String, String> params = NetConfig.getRegisterParams(userName, password, cellPhone, address);
+		new NetRequest(context).get(RequestCode.REGISTER_BY_PASSWORD, params, SubUrl.REGISTER_BY_PASSWORD, callBack, clazz);
 	}
-	public void authcodeLoginReg(Context context,String cellphone,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+
+	public void authcodeLoginReg(Context context, String cellphone, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getRegisterLoginParams(cellphone);
-		new NetRequest(context).get(RequestCode.LOGIN_REGISTER,params, SubUrl.LOGIN_REGISTER, callBack,clazz);
+		new NetRequest(context).get(RequestCode.LOGIN_REGISTER, params, SubUrl.LOGIN_REGISTER, callBack, clazz);
 	}
-	public void loginByPwd(Context context,String userName,String password,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+
+	public void loginByPwd(Context context, String userName, String password, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getLoginParams(userName, password);
-		new NetRequest(context).get(RequestCode.LOGIN_BY_PASSWORD,params, SubUrl.LOGIN_BY_PASSWORD, callBack,clazz);
+		new NetRequest(context).get(RequestCode.LOGIN_BY_PASSWORD, params, SubUrl.LOGIN_BY_PASSWORD, callBack, clazz);
 	}
-	public void checkUser(Context context,String cellPhone,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+
+	public void checkUser(Context context, String cellPhone, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getCheckUserParams(cellPhone);
-		new NetRequest(context).get(RequestCode.CHECK_USER,params, SubUrl.CHECK_USER, callBack,clazz);
+		new NetRequest(context).get(RequestCode.CHECK_USER, params, SubUrl.CHECK_USER, callBack, clazz);
 	}
+
 	// TODO MING:不在田里发送的请求
-	public void sendNoInLocation(Context context,String latitude,String longitude,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+	public void sendNoInLocation(Context context, String latitude, String longitude, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getLocationInfoParams(latitude, longitude);
-		new NetRequest(context).get(RequestCode.SEND_NO_IN_LOCATION,params, SubUrl.SEND_NO_IN_LOCATION, callBack,clazz);
+		new NetRequest(context).get(RequestCode.SEND_NO_IN_LOCATION, params, SubUrl.SEND_NO_IN_LOCATION, callBack, clazz);
 	}
+
 	/**
 	 * 在田里是发送的请求
 	 */
-	public void searchLocation(Context context,String latitude,String longitude,String mprovince,String mcity,String mdistrict,String mstreet,Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getSearchLocationParams(latitude, longitude, mprovince, mcity, mdistrict, mstreet);
-		new NetRequest(context).get(RequestCode.SEARCH_LOCATION,params, SubUrl.SEARCH_LOCATION, callBack,clazz);
-	}
-	public void getCropList(Context context,String locationId,Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetCropListParams(locationId);
-		new NetRequest(context).get(RequestCode.GET_CROP_LIST,params, SubUrl.GET_CROP_LIST, callBack,clazz);
-	}
-	public void getVarietyList(Context context,String cropId, String locationId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetVarietyListParams(cropId,locationId);
-		new NetRequest(context).get(RequestCode.GET_VARIETY_LIST,params, SubUrl.GET_VARIETY_LIST, callBack,clazz);
-	}
-	public void getLocation(Context context,String province,String city,String county,String district, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetLocationParams(province,city,county,district);
-		new NetRequest(context).get(RequestCode.GET_LOCATION,params, SubUrl.GET_LOCATION, callBack,clazz);
-	}
-	public void searchNearUser(Context context,String latitude,String longitude, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getSearchNearUserParams(latitude,longitude);
-		new NetRequest(context).get(RequestCode.SEARCH_NEAR_USER,params, SubUrl.SEARCH_NEAR_USER, callBack,clazz);
-	}
-	public void getSubStage(Context context,String varietyId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetSubStageParams(varietyId);
-		new NetRequest(context).get(RequestCode.GET_SUB_STAGE,params, SubUrl.GET_SUB_STAGE, callBack,clazz);
-	}
-	
-	public void sendRequestWithToken(Context context,Class<? extends BaseEntity> clazz,int requestCode,String url,Object param,RequestListener callBack) {
-		Map<String,String> map = FieldUtils.convertToHashMap(param);
-		Map<String, String> params = NetConfig.getBaseParams(true, map);
-		new NetRequest(context).get(requestCode,params, url, callBack,clazz);
+	public void searchLocation(Context context, String latitude, String longitude, String mprovince, String mcity, String mdistrict,
+			Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getSearchLocationParams(latitude, longitude, mprovince, mcity, mdistrict);
+		new NetRequest(context).get(RequestCode.SEARCH_LOCATION, params, SubUrl.SEARCH_LOCATION, callBack, clazz);
 	}
 
-	public void sendRequestWithOutToken(Context context,Class<? extends BaseEntity> clazz,int requestCode,String url,Object param,RequestListener callBack) {
-		Map<String,String> map = FieldUtils.convertToHashMap(param);
-		Map<String, String> params = NetConfig.getBaseParams(false,map);
-		new NetRequest(context).get(requestCode,params, url, callBack,clazz);
+	public void getCropList(Context context, String locationId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetCropListParams(locationId);
+		new NetRequest(context).get(RequestCode.GET_CROP_LIST, params, SubUrl.GET_CROP_LIST, callBack, clazz);
 	}
-	
-	public void getAllTask(Context context,String fieldId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+
+	public void getVarietyList(Context context, String cropName, String locationId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetVarietyListParams(cropName, locationId);
+		new NetRequest(context).get(RequestCode.GET_VARIETY_LIST, params, SubUrl.GET_VARIETY_LIST, callBack, clazz);
+	}
+
+	public void getLocation(Context context, String province, String city, String county, String district, Class<? extends BaseEntity> clazz,
+			RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetLocationParams(province, city, county, district);
+		new NetRequest(context).get(RequestCode.GET_LOCATION, params, SubUrl.GET_LOCATION, callBack, clazz);
+	}
+
+	public void searchNearUser(Context context, String latitude, String longitude, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getSearchNearUserParams(latitude, longitude);
+		new NetRequest(context).get(RequestCode.SEARCH_NEAR_USER, params, SubUrl.SEARCH_NEAR_USER, callBack, clazz);
+	}
+
+	public void getSubStage(Context context, String varietyId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetSubStageParams(varietyId);
+		new NetRequest(context).get(RequestCode.GET_SUB_STAGE, params, SubUrl.GET_SUB_STAGE, callBack, clazz);
+	}
+
+	public void sendRequestWithToken(Context context, Class<? extends BaseEntity> clazz, int requestCode, String url, Object param,
+			RequestListener callBack) {
+		Map<String, String> map = FieldUtils.convertToHashMap(param);
+		Map<String, String> params = NetConfig.getBaseParams(true, map);
+		new NetRequest(context).get(requestCode, params, url, callBack, clazz);
+	}
+
+	public void sendRequestWithOutToken(Context context, Class<? extends BaseEntity> clazz, int requestCode, String url, Object param,
+			RequestListener callBack) {
+		Map<String, String> map = FieldUtils.convertToHashMap(param);
+		Map<String, String> params = NetConfig.getBaseParams(false, map);
+		new NetRequest(context).get(requestCode, params, url, callBack, clazz);
+	}
+
+	public void getAllTask(Context context, String fieldId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getAllTaskParams(fieldId);
-		new NetRequest(context).get(RequestCode.GET_ALL_TASK,params, SubUrl.GET_All_TASK, callBack,clazz);
+		new NetRequest(context).get(RequestCode.GET_ALL_TASK, params, SubUrl.GET_All_TASK, callBack, clazz);
 	}
+
 	public void getMyInfo(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getDefaultParams();
-		new NetRequest(context).get(RequestCode.GET_MY_INFO,params, SubUrl.GET_MY_INFO, callBack,clazz);
+		new NetRequest(context).get(RequestCode.GET_MY_INFO, params, SubUrl.GET_MY_INFO, callBack, clazz);
 	}
-	
+
 }

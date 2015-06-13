@@ -1,0 +1,2 @@
+configurations.create("default")
+artifacts.add("default", file('bga-refreshlayout-1.0.2.aar'))
