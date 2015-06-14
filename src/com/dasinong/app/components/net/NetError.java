@@ -14,14 +14,14 @@ public class NetError extends Exception {
     public static final NetErrorStatus PARSE_ERROR = NetErrorStatus.PARSE_ERROR;
     public static final NetErrorStatus UNKNOW_ERROR = NetErrorStatus.UNKNOW_ERROR;
     public NetErrorStatus netWorkCode;
-    public String errorMessage;
+
 
     public NetError(NetErrorStatus netWorkCode) {
         this.netWorkCode = netWorkCode;
 
     }
 
-    private enum NetErrorStatus
+    public enum NetErrorStatus
 
     {
         NETWORK_UNAVAILABLEE, NET_TIMEOUT, NET_AUTHFAILURE, NET_ERROR,

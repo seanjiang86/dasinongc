@@ -17,33 +17,33 @@ import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.view.TopbarView;
 
-public class SoilListActivity extends BaseActivity implements AdapterView.OnItemClickListener {
+public class SoilListActivity extends SoilBaseActivity implements AdapterView.OnItemClickListener {
 
 
     private ListView mListView;
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_soil_list);
-        initTopBar();
-        initListView();
-
+    protected int getMainResourceId() {
+        return R.layout.activity_soil_list;
     }
 
-    private void initListView() {
+    @Override
+    protected void initView() {
         mListView = (ListView) findViewById(R.id.list_view);
         mListView.setAdapter(new ArrayAdapter<String>(this, R.layout.soil_list_item, R.id.soil_item_text, getResources().getStringArray(R.array.soil_list)));
 
+
+    }
+
+    @Override
+    protected void initEvent() {
         mListView.setOnItemClickListener(this);
     }
 
-    private void initTopBar() {
-        TopbarView topbarView = (TopbarView) findViewById(R.id.top_bar);
-        topbarView.setLeftView(true, true);
-        topbarView.setCenterText(R.string.soil_check);
+    @Override
+    public int getTitleText() {
+        return R.string.soil_check;
     }
 
 
@@ -74,5 +74,11 @@ public class SoilListActivity extends BaseActivity implements AdapterView.OnItem
         }
 
         Toast.makeText(this, "open url", Toast.LENGTH_SHORT).show();
+    }
+
+
+    @Override
+    public void onTaskSuccess(int requestCode, Object response) {
+
     }
 }

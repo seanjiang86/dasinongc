@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,6 +93,7 @@ public class DisasterView extends LinearLayout {
         int padding = (int) getResources().getDimension(R.dimen.home_dimen_30);
         mBottomView = new TextView(this.getContext());
         mBottomView.setPadding(padding, padding, padding, padding);
+        mBottomView.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
         mBottomView.setText(R.string.disaster_show);
         mBottomView.setGravity(Gravity.CENTER);
         mBottomView.setTextColor(Color.parseColor("#1768bc"));

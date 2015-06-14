@@ -19,7 +19,7 @@ import com.dasinong.app.ui.soil.domain.SoilAllEntity;
 import com.dasinong.app.ui.soil.domain.SoilPostEntity;
 import com.dasinong.app.ui.view.TopbarView;
 
-public class SoilEditorActivity extends BaseActivity implements View.OnClickListener, INetRequest {
+public class SoilEditorActivity extends SoilBaseActivity implements View.OnClickListener {
 
     private static final int REQUEST_CODE = 101;
     private static final int REQUEST_CODE_SOIL_POST = 139;
@@ -49,8 +49,7 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
     private TextView soilcheck;
 
 
-
-    private CommSelectPopWindow  mTypePopuWindow;
+    private CommSelectPopWindow mTypePopuWindow;
 
 
     @Override
@@ -58,29 +57,17 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
 
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_soil_edit);
+        setRightText(R.string.soil_editor_post);
+        mTopBarView.setRightClickListener(this);
+    }
 
-        initTopView();
-
-        initView();
-
-        initEvent();
-
-
+    @Override
+    protected int getMainResourceId() {
+        return R.layout.activity_soil_edit;
     }
 
 
-    private void initTopView() {
-
-        TopbarView topbarView = (TopbarView) findViewById(R.id.top_bar);
-        topbarView.setCenterText(R.string.soil_editor_title);
-        topbarView.setRightText(R.string.soil_editor_post);
-        topbarView.setLeftView(true, true);
-        topbarView.setRightClickListener(this);
-    }
-
-
-    private void initView() {
+    protected void initView() {
 
         this.soilcheck = (TextView) findViewById(R.id.soil_check);
         this.soilP = (EditText) findViewById(R.id.soil_P);
@@ -108,7 +95,7 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
     }
 
 
-    private void initEvent() {
+    protected void initEvent() {
 
         soiltype.setOnClickListener(this);
 
@@ -142,9 +129,9 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
                 postSoilInformation(param);
                 break;
 
-            case  R.id.soil_type:
+            case R.id.soil_type:
 
-                if(mTypePopuWindow==null){
+                if (mTypePopuWindow == null) {
                     mTypePopuWindow = new CommSelectPopWindow(this);
                 }
                 mTypePopuWindow.setDatas(getResources().getStringArray(R.array.soil_type));
@@ -160,14 +147,14 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
                 break;
 
 
-            case  R.id.soil_tem:
+            case R.id.soil_tem:
                 //TODO:H5 土壤湿度
-                Toast.makeText(this,"H5 open",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "H5 open", Toast.LENGTH_SHORT).show();
                 break;
 
-            case  R.id.soil_check:
+            case R.id.soil_check:
                 //TODO:H5(possible) 解读测土报告
-                Toast.makeText(this,"h5 report",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "h5 report", Toast.LENGTH_SHORT).show();
                 break;
 
             default:
@@ -189,7 +176,9 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void onCache(int requestCode, Object response) {
-
+    public int getTitleText() {
+        return R.string.soil_editor_title;
     }
+
+
 }

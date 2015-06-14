@@ -1,6 +1,7 @@
 package com.dasinong.app.ui.soil;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,7 +17,7 @@ import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.soil.domain.SoilAllEntity;
 import com.dasinong.app.ui.view.TopbarView;
 
-public class SoilAllListActivity extends BaseActivity implements AdapterView.OnItemClickListener, INetRequest {
+public class SoilAllListActivity extends SoilBaseActivity implements AdapterView.OnItemClickListener {
 
 
     private ListView mListView;
@@ -28,16 +29,24 @@ public class SoilAllListActivity extends BaseActivity implements AdapterView.OnI
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_soil_all_list);
-        TopbarView topbarView = (TopbarView) findViewById(R.id.top_bar);
-        topbarView.setLeftView(true, true);
-        topbarView.setCenterText(R.string.soil_all_list_title);
-        mListView = (ListView) findViewById(R.id.list_view);
-
-        mListView.setOnItemClickListener(this);
-
         loadDataFromServer();
 
+    }
+
+    @Override
+    protected int getMainResourceId() {
+        return R.layout.activity_soil_all_list;
+    }
+
+    @Override
+    protected void initView() {
+        mListView = (ListView) findViewById(R.id.list_view);
+    }
+
+    @Override
+    protected void initEvent() {
+
+        mListView.setOnItemClickListener(this);
     }
 
     private void loadDataFromServer() {
@@ -69,13 +78,11 @@ public class SoilAllListActivity extends BaseActivity implements AdapterView.OnI
         mListView.setAdapter(new ArrayAdapter<String>(this, R.layout.soil_list_item, R.id.soil_item_text, getResources().getStringArray(R.array.soil_list)));
     }
 
-    @Override
-    public void onTaskFailedSuccess(int requestCode, NetError error) {
-
-    }
 
     @Override
-    public void onCache(int requestCode, Object response) {
-
+    public int getTitleText() {
+        return R.string.soil_all_list_title;
     }
+
+
 }

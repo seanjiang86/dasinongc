@@ -56,7 +56,7 @@ public class FieldEntity extends BaseResponse {
         public String endDate;
         //品种(id select substage)
         public int varietyId;
-        //自然
+        //自然（如果不是空，则是Banner的信息。如果是空，则加载Banner)
         public List<NatdiswsEntity> natdisws;
 
         //not show

@@ -22,7 +22,7 @@ import com.dasinong.app.ui.view.TopbarView;
 /**
  * 测土的详情页面
  */
-public class SoilInformationActivity extends BaseActivity implements View.OnClickListener, INetRequest {
+public class SoilInformationActivity extends SoilBaseActivity implements View.OnClickListener {
 
     private static final int REQUEST_CODE = 100;
     private static final int REQUEST_CODE_SOIL_INFORMATION = 145;
@@ -51,10 +51,6 @@ public class SoilInformationActivity extends BaseActivity implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_soil_information);
-
-        initTopBar();
-        initView();
 
 
         loadDataFromServer();
@@ -62,14 +58,12 @@ public class SoilInformationActivity extends BaseActivity implements View.OnClic
     }
 
 
-    private void initTopBar() {
-
-        TopbarView topBar = (TopbarView) findViewById(R.id.top_bar);
-        topBar.setLeftView(true, true);
-        topBar.setCenterText(R.string.soil_all_report);
+    @Override
+    protected int getMainResourceId() {
+        return R.layout.activity_soil_information;
     }
 
-    private void initView() {
+    protected void initView() {
 
 
         this.soilcheck = (TextView) findViewById(R.id.soil_check);
@@ -92,6 +86,11 @@ public class SoilInformationActivity extends BaseActivity implements View.OnClic
         this.soiltype = (TextView) findViewById(R.id.soil_type);
 
         this.soilcheck.setOnClickListener(this);
+
+    }
+
+    @Override
+    protected void initEvent() {
 
     }
 
@@ -147,13 +146,9 @@ public class SoilInformationActivity extends BaseActivity implements View.OnClic
 
     }
 
-    @Override
-    public void onTaskFailedSuccess(int requestCode, NetError error) {
-
-    }
 
     @Override
-    public void onCache(int requestCode, Object response) {
-
+    public int getTitleText() {
+        return R.string.soil_all_report;
     }
 }
