@@ -217,7 +217,7 @@ public class HarmDetialsActivity extends BaseActivity {
 	 * @return
 	 */
 
-	public static Intent getMyParameters(int petDisSpecId, String flag, Context context, Class clazz) {
+	public static Intent createIntent(int petDisSpecId, String flag, Context context, Class clazz) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra("petDisSpecId", petDisSpecId);
 		intent.putExtra("flag", flag);
