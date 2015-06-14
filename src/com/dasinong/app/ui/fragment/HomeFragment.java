@@ -68,9 +68,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
         if (mRoot != null) {
             ViewGroup parent = (ViewGroup) mRoot.getParent();
 
-            parent.removeView(mRoot);
+            if (parent != null) {
+
+                parent.removeView(mRoot);
+            }
+
             return mRoot;
         }
+
+
         mRoot = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
 
         mRefreshLayout = (BGARefreshLayout) mRoot.findViewById(R.id.rl_modulename_refresh);
@@ -79,6 +85,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
         initRefreshLayout();
         soilView.setOnClickListener(this);
+
+
         return mRoot;
     }
 
