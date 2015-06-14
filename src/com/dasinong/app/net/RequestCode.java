@@ -54,4 +54,12 @@ public final class RequestCode {
 	 * 获取个人信息
 	 */
 	public static final int GET_MY_INFO = GET_ALL_TASK + 1;
+	/**
+	 * 上传个人信息
+	 */
+	public static final int UPLOAD_MY_INFO = GET_MY_INFO + 1;
+	/**
+	 * 更新任务信息
+	 */
+	public static final int UPLOAD_MY_TASK = UPLOAD_MY_INFO + 1;
 }

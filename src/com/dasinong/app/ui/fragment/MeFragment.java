@@ -98,9 +98,8 @@ public class MeFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_my_info:// 个人信息
-			// Intent myInfoIntent = new
-			// Intent(getActivity(),MyInfoActivity.class);
-			// getActivity().startActivity(myInfoIntent);
+			Intent myInfoIntent = new Intent(getActivity(), MyInfoActivity.class);
+			getActivity().startActivity(myInfoIntent);
 			break;
 		case R.id.layout_scancode:// 扫一扫
 			Intent scanIntent = new Intent(getActivity(), CaptureActivity.class);
@@ -111,9 +110,8 @@ public class MeFragment extends Fragment implements OnClickListener {
 			getActivity().startActivity(intent);
 			break;
 		case R.id.layout_sms_setting:// 短信订阅设置
-			// Intent smsIntent = new
-			// Intent(getActivity(),SmsSubscribeActivity.class);
-			// getActivity().startActivity(smsIntent);
+			Intent smsIntent = new Intent(getActivity(), SmsSubscribeActivity.class);
+			getActivity().startActivity(smsIntent);
 			break;
 		case R.id.layout_help_center:// 帮助中心
 

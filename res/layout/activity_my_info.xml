@@ -93,12 +93,13 @@
                 <Button
                     android:id="@+id/button_auth_phone"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="35dp"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/textview_phone_number"
                     android:background="@drawable/button_green_bg_selector"
-                    android:padding="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:text="验证手机"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/sp_14" />

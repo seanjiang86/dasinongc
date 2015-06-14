@@ -125,6 +125,32 @@ public class TaskListActivity extends BaseActivity {
 	private void setUpView() {
 		mTopbarView.setCenterText("全部农事");
 		mTopbarView.setLeftView(true, true);
+		mTopbarView.setRightText("提交");
+		mTopbarView.setRightClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				updateTaskStates();
+			}
+		});
+	}
+
+	protected void updateTaskStates() {
+		startLoadingDialog();
+		RequestService.getInstance().updateTask(this, "10", "2,3,4", "true,true,true", BaseEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+				
+			}
+		});
 	}
 
 	private static class GroupItem {
