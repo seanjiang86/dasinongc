@@ -110,4 +110,17 @@ public class DisasterManager {
         return mCpproductDao.queryAllCpProduct(petSoluId);
     }
 
+
+    /**
+     *
+     * @param id id
+     * @return 根据id得到灾害
+     */
+
+    public PetDisspec getDisease(int id){
+
+        return mPetDisspecDao.queryDisasterById(id);
+    }
+
+
 }

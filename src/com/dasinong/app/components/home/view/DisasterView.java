@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.dasinong.app.R;
 
 import com.dasinong.app.components.domain.FieldEntity;
+import com.dasinong.app.database.disaster.domain.PetDisspec;
 import com.dasinong.app.ui.CureDetialActivity;
 import com.dasinong.app.ui.HarmDetialsActivity;
 import com.dasinong.app.ui.HarmListActivity;
@@ -143,8 +144,8 @@ public class DisasterView extends LinearLayout {
         TextView disastername = (TextView) child.findViewById(R.id.disaster_name);
         TextView disastertype = (TextView) child.findViewById(R.id.disaster_type);
 
-        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener());
-        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener());
+        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(0));
+        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(0));
         return child;
 
     }
@@ -178,29 +179,32 @@ public class DisasterView extends LinearLayout {
     }
 
     class PreVentClickListener implements View.OnClickListener {
-        public PreVentClickListener(){
+
+        private int petDisspecId;
+        public PreVentClickListener(int petDisspecId){
+            this.petDisspecId = petDisspecId;
 
         }
         @Override
         public void onClick(View v) {
             //需要标明你是点击防治，预防，还是该条item跳进来的
-            Intent intent = new Intent(v.getContext(), HarmListActivity.class);
+            Intent intent = HarmDetialsActivity.createIntent(petDisspecId,HarmDetialsActivity.FLAG_PREVENT,getContext());
             v.getContext().startActivity(intent);
 
         }
     }
 
     class CureClickListener implements View.OnClickListener {
-
-        public CureClickListener(){
+        private int petDisspecId;
+        public CureClickListener(int petDisspecId){
+            this.petDisspecId = petDisspecId;
 
         }
         @Override
         public void onClick(View v) {
 
-            //TODO: Harm
-//            HarmDetialsActivity.class;
-//            getContext().startActivity();
+            Intent intent = HarmDetialsActivity.createIntent(petDisspecId,HarmDetialsActivity.FLAG_CURE,getContext());
+            v.getContext().startActivity(intent);
         }
     }
 }
