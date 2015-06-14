@@ -180,10 +180,13 @@ public class DisasterView extends LinearLayout {
     }
 
     class PreVentClickListener implements View.OnClickListener {
+        public PreVentClickListener(){
+
+        }
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getContext(), CureDetialActivity.class);
-            getContext().startActivity(intent);
+            //需要标明你是点击防治，预防，还是该条item跳进来的
+
 
         }
     }
