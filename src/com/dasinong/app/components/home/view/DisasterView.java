@@ -172,23 +172,29 @@ public class DisasterView extends LinearLayout {
     class BottomClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
-            //Toast.makeText(v.getContext(), "open all", Toast.LENGTH_SHORT).show();
         	Intent intent = new Intent(v.getContext(), HarmListActivity.class);
         	v.getContext().startActivity(intent);
         }
     }
 
     class PreVentClickListener implements View.OnClickListener {
+        public PreVentClickListener(){
+
+        }
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(getContext(), CureDetialActivity.class);
-            getContext().startActivity(intent);
+            //需要标明你是点击防治，预防，还是该条item跳进来的
+            Intent intent = new Intent(v.getContext(), HarmListActivity.class);
+            v.getContext().startActivity(intent);
 
         }
     }
 
     class CureClickListener implements View.OnClickListener {
+
+        public CureClickListener(){
+
+        }
         @Override
         public void onClick(View v) {
 

@@ -8,7 +8,9 @@ import com.dasinong.app.database.variety.domain.Variety;
 import com.dasinong.app.utils.Logger;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by liuningning on 15/6/11.
@@ -25,25 +27,39 @@ public class VarietyDaoImp extends DaoSupportImpl<Variety> {
 		Logger.d("VarietyDaoImp", sql.toString());
 		List<Variety> varieties = query(sql.toString());
 		Variety tem;
-		List<String> result = new ArrayList<String>(12);
+		List<String> result = new ArrayList<>(12);
 		if (!varieties.isEmpty()) {
 			int len = varieties.size();
 			for (int i = 0; i < len; i++) {
 				tem = varieties.get(i);
-				result.add(tem.cropOne);
-				result.add(tem.cropTwo);
-				result.add(tem.cropThree);
-				result.add(tem.cropFour);
-				result.add(tem.cropFive);
-				result.add(tem.cropSix);
-				result.add(tem.cropSeven);
-				result.add(tem.cropEight);
-				result.add(tem.cropNine);
-				result.add(tem.cropTen);
-				result.add(tem.cropEleven);
-				result.add(tem.cropTwelve);
+
+				duplicate(tem.cropOne,result);
+				duplicate(tem.cropTwo,result);
+				duplicate(tem.cropThree,result);
+				duplicate(tem.cropFour,result);
+				duplicate(tem.cropFive,result);
+				duplicate(tem.cropSix,result);
+				duplicate(tem.cropSeven,result);
+				duplicate(tem.cropEight,result);
+				duplicate(tem.cropNine,result);
+				duplicate(tem.cropTen,result);
+				duplicate(tem.cropEleven,result);
+				duplicate(tem.cropTwelve,result);
+
 			}
 		}
+
+
 		return result;
+	}
+
+
+	private void duplicate(String text,List<String> result){
+
+		if(!result.contains(text.trim())){
+			result.add(text);
+		}
+
+
 	}
 }

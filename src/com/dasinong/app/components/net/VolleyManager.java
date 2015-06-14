@@ -156,6 +156,8 @@ public class VolleyManager {
         //disabel volley cache
         request.setShouldCache(false);
 
+
+
         if (needCache) {
             executeReadCache(requestCode, clazz, finalUrl, weakReference);
 
