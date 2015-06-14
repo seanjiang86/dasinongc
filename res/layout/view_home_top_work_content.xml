@@ -13,7 +13,7 @@
         android:orientation="vertical">
         <!--叶子view-->
         <RelativeLayout
-            android:background="#ff0000"
+            android:background="@drawable/leaf_bg"
             android:layout_width="match_parent"
             android:layout_height="@dimen/home_dimen_100">
 
@@ -42,7 +42,7 @@
                 android:layout_marginRight="@dimen/home_dimen_30"
                 android:layout_centerVertical="true"
                 android:orientation="horizontal"
-                android:background="#f015ee"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
