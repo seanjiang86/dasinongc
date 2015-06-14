@@ -26,7 +26,7 @@
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/add_field"
+            android:background="@drawable/field_add_selector"
             android:layout_alignParentRight="true" />
     </RelativeLayout>
     <!--农村作物的成长情况-->
