@@ -16,4 +16,11 @@ public interface PetDisspecDao extends DaoSupport<PetDisspec> {
      * @return 根据类型得所有的数据
      */
     public  List<PetDisspec> queryDisasterByType(String typeValue);
+
+    /**
+     * 根据id得所有的数据
+     * @param id 类型的值
+     * @return 根据类型得所有的数据
+     */
+    public  PetDisspec queryDisasterById(int typeValue);
 }
