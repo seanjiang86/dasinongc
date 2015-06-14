@@ -44,7 +44,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
     private static final int REQUEST_CODE_HOME_FIELD = 130;
     private static final int REQUEST_CODE_HOME_WEATHER = 131;
-    private static final String URL_FIELD = NetConfig.BASE_URL;
+    private static final String URL_FIELD = NetConfig.BASE_URL +"home";
     private static final String URL_WEATHER = NetConfig.BASE_URL;
 
 
@@ -60,7 +60,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 
-        loadDataFromWithCache();
+
 
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -77,7 +77,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     private void loadDataFromWithCache() {
 
         loadFieldData("10");
-        loadWeatherData();
+        //loadWeatherData();
 
     }
 
@@ -172,7 +172,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     public void loadFieldData(String fiedlId) {
     FieldEntity.Param param = new FieldEntity.Param();
         param.fieldId = fiedlId;
-        VolleyManager.getInstance().addPostRequest(
+        VolleyManager.getInstance().addGetRequestWithNoCache(
                 REQUEST_CODE_HOME_FIELD,
                 URL_FIELD,
                 param,
@@ -183,7 +183,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     }
 
     public void loadWeatherData() {
-        VolleyManager.getInstance().addPostRequest(
+        VolleyManager.getInstance().addGetRequestWithCache(
                 REQUEST_CODE_HOME_WEATHER,
                 URL_WEATHER,
                 null,
@@ -255,19 +255,29 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
                 if (resultData.isOk()) {
                     LoginRegEntity entity = (LoginRegEntity) resultData;
 
+                    Logger.d("Home1", resultData.getMessage());
                     AccountManager.saveAccount(HomeFragment.this.getActivity(), entity.getData());
-
+                    loadDataFromWithCache();
 
                 } else {
-                    Logger.d("TAG", resultData.getMessage());
+                    Logger.d("Home", resultData.getMessage());
                 }
             }
 
             @Override
             public void onFailed(int requestCode, Exception error, String msg) {
 
-                Logger.d("TAG", "msg" + msg);
+                Logger.d("Home", "msg" + msg);
+                loadDataFromWithCache();
             }
         });
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        login();
+
     }
 }

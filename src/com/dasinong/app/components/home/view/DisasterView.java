@@ -114,10 +114,10 @@ public class DisasterView extends LinearLayout {
 
     private void addTopView() {
 
-        ViewParent parent = mBottomView.getParent();
+        ViewParent parent = mTopView.getParent();
         if (parent != null) {
             ViewGroup container = (ViewGroup) parent;
-            container.removeView(mBottomView);
+            container.removeView(mTopView);
         }
 
         this.addView(mTopView, 0,mTopLayoutParam);

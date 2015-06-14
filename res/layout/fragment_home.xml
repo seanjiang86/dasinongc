@@ -22,7 +22,9 @@
                 android:layout_height="wrap_content" />
 
             <com.dasinong.app.components.home.view.BannerView
-                android:layout_width="@dimen/home_dimen_10"
+                android:layout_width="match_parent"
+                android:background="#FFFEDA"
+
                 android:layout_height="wrap_content" />
 
             <com.dasinong.app.components.home.view.HomeWeatherView

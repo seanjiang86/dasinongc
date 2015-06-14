@@ -2,11 +2,14 @@ package com.dasinong.app.ui.soil;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dasinong.app.R;
+import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
 import com.dasinong.app.components.net.INetRequest;
 import com.dasinong.app.components.net.NetError;
 import com.dasinong.app.components.net.VolleyManager;
@@ -44,6 +47,10 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
     private EditText soilZN;
     private EditText soilP;
     private TextView soilcheck;
+
+
+
+    private CommSelectPopWindow  mTypePopuWindow;
 
 
     @Override
@@ -103,7 +110,11 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
 
     private void initEvent() {
 
+        soiltype.setOnClickListener(this);
+
         soilallreport.setOnClickListener(this);
+        soiltem.setOnClickListener(this);
+        soilcheck.setOnClickListener(this);
     }
 
     private void postSoilInformation(SoilPostEntity.Param param) {
@@ -130,6 +141,38 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
                 SoilPostEntity.Param param = new SoilPostEntity.Param();
                 postSoilInformation(param);
                 break;
+
+            case  R.id.soil_type:
+
+                if(mTypePopuWindow==null){
+                    mTypePopuWindow = new CommSelectPopWindow(this);
+                }
+                mTypePopuWindow.setDatas(getResources().getStringArray(R.array.soil_type));
+                mTypePopuWindow.setPopWidth(v.getMeasuredWidth());
+                mTypePopuWindow.setmPopItemSelectListener(new CommSelectPopWindow.PopItemSelectListener() {
+                    @Override
+                    public void itemSelected(CommSelectPopWindow window, int position, CharSequence tag) {
+
+
+                    }
+                });
+                mTypePopuWindow.showAsDropDown(v);
+                break;
+
+
+            case  R.id.soil_tem:
+                //TODO:H5 土壤湿度
+                Toast.makeText(this,"H5 open",Toast.LENGTH_SHORT).show();
+                break;
+
+            case  R.id.soil_check:
+                //TODO:H5(possible) 解读测土报告
+                Toast.makeText(this,"h5 report",Toast.LENGTH_SHORT).show();
+                break;
+
+            default:
+                break;
+
         }
     }
 

@@ -81,13 +81,13 @@ public class CommSelectPopWindow {
             //向上弹出
             resetListHeight(up);
             mPopWindow.setWidth(popWidth + 15);
-            rootView.setBackgroundResource(R.drawable.pop_arraow_up);
+           // rootView.setBackgroundResource(R.drawable.pop_arraow_up);
             rootView.setPadding(5, 10, 5, 10);
             mPopWindow.showAsDropDown(anchor, xoff - 8, -(height + tmpHeight + 15));
         } else {
             //向下弹出
             resetListHeight(down);
-            rootView.setBackgroundResource(R.drawable.select_pop_bg);
+           // rootView.setBackgroundResource(R.drawable.select_pop_bg);
             rootView.setPadding(1, 10, 1, 5);
             mPopWindow.showAsDropDown(anchor, xoff, yoff);
         }

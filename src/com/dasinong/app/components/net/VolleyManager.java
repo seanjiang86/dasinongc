@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -148,7 +149,6 @@ public class VolleyManager {
         final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
         final Response.Listener<T> successListener = createSuccessListener(requestCode, finalUrl, weakReference);
 
-
         final Response.ErrorListener errorListener = createErrorListener(requestCode, weakReference);
 
 
@@ -203,9 +203,11 @@ public class VolleyManager {
 
         StringBuilder urlWithParm = new StringBuilder(url);
         if (param != null) {
-            urlWithParm.append(encodeParameters(FieldUtils.convertToHashMap(param)));
+            String positionParam = encodeParameters(FieldUtils.convertToHashMap(param));
+
+            urlWithParm.append(positionParam);
         }
-        return url.toString();
+        return urlWithParm.toString();
     }
 
 

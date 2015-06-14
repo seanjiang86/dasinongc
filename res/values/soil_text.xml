@@ -36,4 +36,14 @@
     <string name="soil_editor_title">编辑土壤信息</string>
     <string name="soil_editor_post">保存</string>
     <string name="soil_all_list_title">全部测土</string>
+
+
+
+
+    <array name="soil_type">
+        <item>红色</item>
+        <item>绿色</item>
+        <item>白色</item>
+
+    </array>
 </resources>
