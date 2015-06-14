@@ -4,8 +4,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:1.1.0'
-//        compile 'com.jakewharton:butterknife:6.1.0.+'
-//        compile 'com.jakewharton:butterknife:6.1.0'
 
 
     }
@@ -13,14 +11,7 @@ buildscript {
 apply plugin: 'android'
 
 dependencies {
-    compile fileTree(include: '*.jar', dir: 'libs')
-    //    compile 'com.jakewharton:butterknife:6.1.0'
-    // 记得添加nineoldandroids
-//    compile 'com.nineoldandroids:library:2.4.0'
-    compile 'com.android.support:recyclerview-v7:22.2.0'
-//    compile 'cn.bingoogolapple:bga-refreshlayout:1.0.2'
-
-    compile project(':bga-refreshlayout-1.0.2')
+    compile fileTree(dir: 'libs', include: '*.jar')
 
 }
 

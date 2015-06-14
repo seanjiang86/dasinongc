@@ -52,10 +52,10 @@
     <style name="soil_information_title">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/home_dimen_20</item>
+        <item name="android:paddingTop">@dimen/home_dimen_10</item>
 
 
-        <item name="android:paddingBottom">@dimen/home_dimen_20</item>
+        <item name="android:paddingBottom">@dimen/home_dimen_10</item>
 
         <item name="android:paddingLeft">@dimen/home_dimen_30</item>
         <item name="android:textColor">#666</item>
@@ -74,7 +74,7 @@
     <style name="soil_editor_item_container_left_text">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">0.5</item>
+        <item name="android:layout_weight">1</item>
         <item name="android:paddingTop">@dimen/home_dimen_20</item>
         <item name="android:paddingRight">@dimen/home_dimen_30</item>
         <item name="android:paddingBottom">@dimen/home_dimen_20</item>
@@ -155,11 +155,9 @@
     <style name="soil_editor_item_unit_txt">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">0.5</item>
+        <item name="android:layout_weight">0.8</item>
         <item name="android:layout_marginLeft">@dimen/home_dimen_20</item>
-
-
-
+        <item name="android:singleLine">true</item>
 
     </style>
 

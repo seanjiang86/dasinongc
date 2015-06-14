@@ -281,23 +281,20 @@ public class NetConfig {
 		return paramsMap;
 	}
 	public static Map<String, String> getUploadInfoParams(String userName,
-			String cellphone,String password,String address,String telephone,String pictureId) {
+			String cellphone,String address,String telephone) {
 		Map<String, String> paramsMap = getBaseParams(false, 
-				getTokenParams(Params.userName, userName),
+				getTokenParams(Params.username, userName),
 				getTokenParams(Params.cellphone, cellphone),
-				getTokenParams(Params.password, password),
 				getTokenParams(Params.address, address),
-				getTokenParams(Params.telephone, telephone),
-				getTokenParams(Params.pictureId, pictureId)
+				getTokenParams(Params.telephone, telephone)
 				);
-		paramsMap.put(Params.userName, userName);
+		paramsMap.put(Params.username, userName);
 		paramsMap.put(Params.cellphone, cellphone);
-		paramsMap.put(Params.password, password);
 		paramsMap.put(Params.address, address);
 		paramsMap.put(Params.telephone, telephone);
-		paramsMap.put(Params.pictureId, pictureId);
 		return paramsMap;
 	}
+	
 	public static Map<String, String> getUploadTaskParams(String fieldId,String taskIds,String taskStatuss) {
 		Map<String, String> paramsMap = getBaseParams(false, 
 				getTokenParams(Params.fieldId, fieldId),

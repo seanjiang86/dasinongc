@@ -230,19 +230,8 @@ public class NetRequest {
 			req.setRetryPolicy(retryPolicy);
 		}
 
-		String cookie = SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "")/*
-																							 * .
-																							 * replace
-																							 * (
-																							 * "JSESSIONID="
-																							 * ,
-																							 * ""
-																							 * )
-																							 */;
-		// Logger.d1(tag, "------------------cookie:" + string);
+		String cookie = SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "");
 		if (!TextUtils.isEmpty(cookie)) {
-			// req.setSendCookie("JSESSIONID="+SharedPreferencesHelper.getString(context,
-			// Field.SESSIONID, ""));
 			req.setSendCookie(cookie);
 		}
 
@@ -258,10 +247,6 @@ public class NetRequest {
 		}
 
 		String url = NetConfig.getRequestUrl(subUrl);
-		// if (map != null) {
-		// checkNull(map);
-		// url = url + encodeParameters(map);
-		// }
 
 		Logger.d1("NetRequest", url);
 
@@ -326,15 +311,6 @@ public class NetRequest {
 				return map;
 			}
 
-			// @Override
-			// public Map<String, String> getHeaders() throws AuthFailureError {
-			// if (header != null) {
-			// checkNull(header);
-			// return header;
-			// } else {
-			// return Collections.emptyMap();
-			// }
-			// }
 
 			@Override
 			public Priority getPriority() {
@@ -368,19 +344,8 @@ public class NetRequest {
 			req.setRetryPolicy(retryPolicy);
 		}
 
-		String cookie = SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "")/*
-																							 * .
-																							 * replace
-																							 * (
-																							 * "JSESSIONID="
-																							 * ,
-																							 * ""
-																							 * )
-																							 */;
-		// Logger.d1(tag, "------------------cookie:" + string);
+		String cookie = SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "");
 		if (!TextUtils.isEmpty(cookie)) {
-			// req.setSendCookie("JSESSIONID="+SharedPreferencesHelper.getString(context,
-			// Field.SESSIONID, ""));
 			req.setSendCookie(cookie);
 		}
 

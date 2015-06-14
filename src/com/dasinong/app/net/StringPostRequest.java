@@ -74,8 +74,11 @@ public class StringPostRequest extends Request<String> {
 
 	@Override
 	public Map<String, String> getHeaders() throws AuthFailureError {
+		Log.d("TAG header",sendHeader.toString());
 		return sendHeader;
 	}
+
+
 
 	public void setSendCookie(String cookie) {
 		cookie = cookie.replace("JSESSIONID=", "");

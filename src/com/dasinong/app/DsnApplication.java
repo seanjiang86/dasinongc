@@ -2,6 +2,7 @@ package com.dasinong.app;
 
 import java.io.File;
 
+import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.ui.manager.CrashHandler;
 import com.dasinong.app.utils.Logger;
 
@@ -21,7 +22,7 @@ public class DsnApplication extends Application {
 		// TODO Auto-generated method stub
 		super.onCreate();
 		mContext = DsnApplication.this;
-
+		VolleyManager.getInstance().init(this);
 		initExceptionCrash();
 
 	}

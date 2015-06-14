@@ -40,15 +40,15 @@ public class CureDetialActivity extends BaseActivity {
 		tv_cure_provider = (TextView) findViewById(R.id.tv_cure_provider);
 		tv_cure_content = (TextView) findViewById(R.id.tv_cure_content);
 
-		PetSolu solu = (PetSolu) getIntent().getExtras().getSerializable("solu");
+		//PetSolu solu = (PetSolu) getIntent().getExtras().getSerializable("solu");
 		
 		//TODO MING:等待数据
 		tv_cure_name.setText("防治方案A");
 		tv_cure_stage.setText("种子阶段 等待数据");
 		tv_cure_provider.setText("提供者  等待数据");
-		tv_cure_content.setText(solu.petSoluDes);
+		//tv_cure_content.setText(solu.petSoluDes);
 		
-		initData(solu.petSoluId);
+		//initData(solu.petSoluId);
 	}
 
 	private void initData(int petSoluId) {

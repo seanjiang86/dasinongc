@@ -1,16 +1,20 @@
 package com.dasinong.app.components.home.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.dasinong.app.R;
-import com.dasinong.app.entity.FieldEntity;
+import com.dasinong.app.components.domain.FieldEntity;
+import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
+
 import com.dasinong.app.ui.AddFieldActivity1;
 
 import java.util.ArrayList;
@@ -70,6 +74,13 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                     onAddFieldClickListener.onAddCroupClick();
                 }
             }
+
+            @Override
+            public void onRightArrowViewClick() {
+                if (null != onAddFieldClickListener) {
+                    onAddFieldClickListener.onLeafViewConfirmClick();
+                }
+            }
         });
 
     }
@@ -89,8 +100,10 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      * @param entity
      */
     public void updateView(FieldEntity entity) {
+        Log.d("dding", "entity-->>:" + entity);
         if (null == entity)
             return;
+        Log.d("dding", "entity-currentField->>:" + entity.currentField);
         //设置田地的名称
         if (null != entity.currentField) {
             String fieldName = entity.currentField.fieldName;
@@ -106,6 +119,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         }
 
         if (null != entity.fieldList) {
+
             Map<String, Long> maps = entity.fieldList;
             if (maps.size() != 0) {
                 //有田地
@@ -116,10 +130,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                         list.add(key);
                     }
                 }
+
                 //记住田地数据集合的内容--用以点击展开popouwindow
                 setFieldList(list);
             }
         } else {
+
             //当前没有田地--
             setCurrentState(1);
         }
@@ -133,6 +149,30 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         //设置任务的内容
         setWorkContent(entity.currentField);
 
+    }
+
+    /**
+     * 设置农活任务(活动任务)的显示实体
+     *
+     * @param entity --农活实体model
+     */
+    public void setWorkContent(FieldEntity entity) {
+        if (null == entity || null == entity.currentField) {
+            return;
+        }
+        setWorkContent(entity.currentField);
+    }
+
+
+
+    /**
+     * 设置叶子view的资源图片和叶子内容的值
+     *
+     * @param resId
+     * @param leafContentValue
+     */
+    public void setLeafViewAndLeafContent(int resId, String leafContentValue) {
+        fieldStateView.setLeafViewAndLeafContent(resId, leafContentValue);
     }
 
     private String getHarvestDay(FieldEntity.CurrentFieldEntity innerEntity) {
@@ -216,6 +256,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         if (null == innerEntity.taskws || innerEntity.taskws.size() == 0) return;
         List<FieldEntity.CurrentFieldEntity.TaskwsEntity> tasks = innerEntity.taskws;
         campaignView.setOrientation(LinearLayout.VERTICAL);
+        campaignView.removeAllViews();
         for (int i = 0; i < tasks.size(); i++) {
             final int tempPos=i;
             View view=LayoutInflater.from(context).inflate(R.layout.view_home_work_content, null);
@@ -262,6 +303,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             fieldView.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.down_arrow), null);
             fieldView.setPadding(0, 0, 20, 0);
         }
+        fieldView.setText(list.get(0));
+
 
     }
 
@@ -291,6 +334,26 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 }
 
                 //TODO 弹出window,回显，刷新界面
+                final CommSelectPopWindow popWindow = new CommSelectPopWindow(context);
+                popWindow.setDatas(fieldList);
+                popWindow.setPopWidth(fieldView.getMeasuredWidth());
+                popWindow.setmPopItemSelectListener(new CommSelectPopWindow.PopItemSelectListener() {
+                    @Override
+                    public void itemSelected(CommSelectPopWindow window, int position, CharSequence tag) {
+                        Log.d("dding", "当前选择的pos--:tag--:" + position + "," + tag);
+                        if (tag.toString().equalsIgnoreCase(currentFieldValue)) {
+                            //点击的位置和当前显示的一样--不请求网络
+                            return;
+                        }
+                        fieldView.setText(tag);
+                        popWindow.disMiss();
+                        if (null != onAddFieldClickListener) {
+                            onAddFieldClickListener.onPopWindowItemClick();
+                        }
+
+                    }
+                });
+                popWindow.showAsDropDown(fieldView);
 
                 break;
             case R.id.add_field:
@@ -325,6 +388,16 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
          * 右上角view("+")点击事件
          */
         void onRightTopViewClick();
+
+        /**
+         * 点击叶子view旁边左右箭头的弹出dialog的确认按钮监听
+         */
+        void onLeafViewConfirmClick();
+
+        /**
+         * popwindow的item点击事件
+         */
+        void onPopWindowItemClick();
 
     }
 }

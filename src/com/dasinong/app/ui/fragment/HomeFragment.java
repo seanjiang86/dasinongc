@@ -4,56 +4,52 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.dasinong.app.R;
+import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.home.view.SoilView;
-import com.dasinong.app.database.city.dao.impl.CityDaoImpl;
-import com.dasinong.app.database.disaster.domain.CPProduct;
-import com.dasinong.app.database.disaster.domain.PetDisspec;
-import com.dasinong.app.database.disaster.domain.PetSolu;
-import com.dasinong.app.database.disaster.service.DisasterManager;
+import com.dasinong.app.components.net.INetRequest;
+import com.dasinong.app.components.net.NetError;
+import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.entity.BaseEntity;
-import com.dasinong.app.entity.FieldEntity;
 import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
-import com.dasinong.app.ui.AddFieldActivity1;
 import com.dasinong.app.ui.manager.AccountManager;
-import com.dasinong.app.ui.soil.SoilListActivity;
+import com.dasinong.app.ui.soil.SoilEditorActivity;
+
 import com.dasinong.app.utils.Logger;
 
-import java.util.List;
+import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
+import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
+import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 
 /**
  * 报错注释 06.12 Ming
- * @author Ming
  *
+ * @author Ming
  */
-
-//import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
-//import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
-//import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 
 /**
  * 报错注释 06.12 Ming  此处注释掉一个借口
- * @author Ming
  *
+ * @author Ming
  */
 
-public class HomeFragment extends Fragment implements NetRequest.RequestListener, SoilView.OnSoilCickListenr/*, BGARefreshLayout.BGARefreshLayoutDelegate*/ {
+public class HomeFragment extends Fragment implements View.OnClickListener, INetRequest,  BGARefreshLayout.BGARefreshLayoutDelegate {
 
-    private static final int REQUST_CODE_HOME_TASk = 130;
-/**
- *     private BGARefreshLayout mRefreshLayout;
- */
+    private static final int REQUEST_CODE_HOME_FIELD = 130;
+    private static final int REQUEST_CODE_HOME_WEATHER = 131;
+    private static final String URL_FIELD = NetConfig.BASE_URL;
+    private static final String URL_WEATHER = NetConfig.BASE_URL;
+
+
+    private BGARefreshLayout mRefreshLayout;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,113 +59,62 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        //Volley.newRequestQueue(this.getActivity()).add(null).getCacheEntry();
-        //
-        //first loading
 
-        //step1
-        //online
-        //read cache
-        //loadFromServer()
-
-//        LinearLayout ll = new LinearLayout(this.getActivity());
-//        ll.setOrientation(LinearLayout.VERTICAL);
-
-        Button login = new Button(getActivity());
-
-        login.setTextSize(50);
-        login.setText("login");
+        loadDataFromWithCache();
 
 
-        Button tv = new Button(getActivity());
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-//        ll.addView(login);
-//        ll.addView(tv);
-        tv.setText("首页");
-        tv.setTextSize(50);
-        tv.setOnClickListener(new View.OnClickListener() {
+        mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rl_modulename_refresh);
 
-            @Override
-            public void onClick(View v) {
-                loadDataFrom("");
-            }
-        });
+        SoilView soilView = (SoilView) view.findViewById(R.id.home_soilview);
 
-        login.setOnClickListener(new OnClickListener() {
+        initRefreshLayout();
+        soilView.setOnClickListener(this);
+        return view;
+    }
 
-            @Override
-            public void onClick(View arg0) {
+    private void loadDataFromWithCache() {
 
+        loadFieldData("10");
+        loadWeatherData();
 
-//                login();
-                // TODO Auto-generated method stub
-                //Intent intent = new Intent(getActivity(), AddFieldActivity4.class);
-                //startActivity(intent);
-                // queryCity();
-                // queryDisaster();
-
-
-                Intent intent = new Intent(getActivity(), AddFieldActivity1.class);
-
-                startActivity(intent);
-
-
-                // queryCity();
-                Log.d("TAG", "HomeFragment");
-
-
-            }
-
-
-        });
-
-//        View view = inflater.inflate(R.layout.fragment_home, container, false);
-/**
- *         mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rl_modulename_refresh);
- */
-//        SoilView soilView = (SoilView) view.findViewById(R.id.home_soilview);
-//        soilView.setOnSoilListener(this);
-//        initRefreshLayout();
-        return tv;
     }
 
     private void initRefreshLayout() {
         // 为BGARefreshLayout设置代理
-/**
- *        mRefreshLayout.setDelegate(this);
+        mRefreshLayout.setDelegate(this);
+
         // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
         BGARefreshViewHolder refreshViewHolder = new BGAStickinessRefreshViewHolder(getActivity(), false);
         // 设置下拉刷新和上拉加载更多的风格
         mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
-*/
 
 
         // 为了增加下拉刷新头部和加载更多的通用性，提供了以下可选配置选项  -------------START
         // 设置正在加载更多时的文本
-//        refreshViewHolder.setLoadingMoreText(loadingMoreText);
+        //refreshViewHolder.setLoadingMoreText(loadingMoreText);
         // 设置整个加载更多控件的背景颜色资源id
-//        refreshViewHolder.setLoadMoreBackgroundColorRes(loadMoreBackgroundColorRes);
+        //refreshViewHolder.setLoadMoreBackgroundColorRes(loadMoreBackgroundColorRes);
         // 设置整个加载更多控件的背景drawable资源id
-//        refreshViewHolder.setLoadMoreBackgroundDrawableRes(loadMoreBackgroundDrawableRes);
+        //refreshViewHolder.setLoadMoreBackgroundDrawableRes(loadMoreBackgroundDrawableRes);
         // 设置下拉刷新控件的背景颜色资源id
-//        refreshViewHolder.setRefreshViewBackgroundColorRes(refreshViewBackgroundColorRes);
+        //refreshViewHolder.setRefreshViewBackgroundColorRes(refreshViewBackgroundColorRes);
         // 设置下拉刷新控件的背景drawable资源id
-//        refreshViewHolder.setRefreshViewBackgroundDrawableRes(refreshViewBackgroundDrawableRes);
+        //refreshViewHolder.setRefreshViewBackgroundDrawableRes(refreshViewBackgroundDrawableRes);
         // 设置自定义头部视图（也可以不用设置）     参数1：自定义头部视图（例如广告位）， 参数2：上拉加载更多是否可用
-//        mRefreshLayout.setCustomHeaderView(mBanner, false);
+        //mRefreshLayout.setCustomHeaderView(mBanner, false);
         // 可选配置  -------------END
     }
 
-  /*
-   * 报错注释 06.12 Ming
-   * @author Ming
-   * 
-   * 
+
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
         // 在这里加载最新数据
         new AsyncTask<Void, Void, Void>() {
-            *//**
+
+
+            /**
              * Override this method to perform a computation on a background thread. The
              * specified parameters are the parameters passed to {@link #execute}
              * by the caller of this task.
@@ -182,7 +127,7 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
              * @see #onPreExecute()
              * @see #onPostExecute
              * @see #publishProgress
-             *//*
+             */
             @Override
             protected Void doInBackground(Void... params) {
                 try {
@@ -197,7 +142,7 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
             protected void onPostExecute(Void aVoid) {
                 super.onPostExecute(aVoid);
                 // 加载完毕后在UI线程结束下拉刷新
-//                mRefreshLayout.endRefreshing();
+                mRefreshLayout.endRefreshing();
             }
         }.execute();
 
@@ -222,8 +167,84 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
         mRefreshLayout.beginLoadingMore();
         onBGARefreshLayoutBeginLoadingMore(mRefreshLayout);
     }
-    
-*/
+
+
+    public void loadFieldData(String fiedlId) {
+    FieldEntity.Param param = new FieldEntity.Param();
+        param.fieldId = fiedlId;
+        VolleyManager.getInstance().addPostRequest(
+                REQUEST_CODE_HOME_FIELD,
+                URL_FIELD,
+                param,
+                FieldEntity.class,
+                this
+        );
+
+    }
+
+    public void loadWeatherData() {
+        VolleyManager.getInstance().addPostRequest(
+                REQUEST_CODE_HOME_WEATHER,
+                URL_WEATHER,
+                null,
+                null,
+                this
+        );
+
+    }
+
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+
+            case R.id.home_soilview:
+                Intent intent = new Intent(this.getActivity(), SoilEditorActivity.class);
+                startActivity(intent);
+                break;
+        }
+    }
+
+
+
+
+    @Override
+    public void onTaskSuccess(int requestCode, Object response) {
+
+        switch (requestCode){
+            case REQUEST_CODE_HOME_FIELD:
+                break;
+            case REQUEST_CODE_HOME_WEATHER:
+                break;
+            default:
+                break;
+
+        }
+
+    }
+
+    @Override
+    public void onTaskFailedSuccess(int requestCode, NetError error) {
+
+    }
+
+    @Override
+    public void onCache(int requestCode, Object response) {
+        switch (requestCode){
+            case REQUEST_CODE_HOME_FIELD:
+                break;
+            case REQUEST_CODE_HOME_WEATHER:
+                break;
+            default:
+                break;
+
+        }
+
+    }
+
+
+
     private void login() {
 
         RequestService.getInstance().authcodeLoginReg(this.getActivity(), "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
@@ -249,71 +270,4 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
             }
         });
     }
-
-
-    /**
-     * 城市的查询
-     */
-    private void queryCity() {
-        CityDaoImpl dao = new CityDaoImpl(HomeFragment.this.getActivity());
-        List<String> province = dao.getProvince();
-
-        List<String> city = dao.getCity(province.get(3));
-        List<String> county = dao.getCounty(city.get(0));
-        List<String> district = dao.getDistrict(county.get(0));
-    }
-
-    /**
-     * 病虫草的查询
-     */
-    private void queryDisaster() {
-        DisasterManager manager = DisasterManager.getInstance(this.getActivity());
-        //列表
-        List<PetDisspec> disease = manager.getDisease("病害");
-        //防治方案
-        List<PetSolu> cureSolution = manager.getCureSolution(disease.get(0).petDisSpecId);
-
-        // 冶疗方案
-        List<PetSolu> preventSolution = manager.getPreventSolution(disease.get(0).petDisSpecId);
-
-        //药
-        List<CPProduct> allDrug = manager.getAllDrug(10);
-
-        Log.d("TAG", "---");
-    }
-
-    public void loadDataFrom(String fiedlId) {
-
-        FieldEntity.Param param = new FieldEntity.Param();
-        param.fieldId = fiedlId;
-        RequestService.getInstance().sendRequestWithOutToken(this.getActivity(),
-                FieldEntity.class,
-                REQUST_CODE_HOME_TASk,
-                NetConfig.SubUrl.GET_HOME_TASK,
-                param,
-                this
-        );
-
-    }
-
-    @Override
-    public void onSuccess(int requestCode, BaseEntity resultData) {
-
-        Log.d("TAG", "home success");
-    }
-
-    @Override
-    public void onFailed(int requestCode, Exception error, String msg) {
-
-        Log.d("TAG", "home failed");
-
-    }
-
-    @Override
-    public void onSoilCheck() {
-        Intent intent = new Intent(this.getActivity(), SoilListActivity.class);
-        startActivity(intent);
-    }
-
-
 }

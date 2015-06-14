@@ -6,4 +6,8 @@
     <color name="home_w_86a4ff" >#86a4ff</color>
     <color name="home_w_black" >@android:color/black</color>
 
+
+    <color name="table_listview_bg_1">#efefef</color>
+    <color name="table_listview_bg_2">#f9f9f9</color>
+
 </resources>

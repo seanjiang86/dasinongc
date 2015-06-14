@@ -158,7 +158,6 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		String cellphone = mPhoneText.getText().toString().trim();
 		String address = mAddressText.getText().toString().trim();
 		String telephone = mHomephoneText.getText().toString().trim();
-		String pictureId = mNameText.getText().toString().trim();
 		
 		if(TextUtils.isEmpty(userName)){
 			Toast.makeText(this, "请输入用户名", 0).show();
@@ -171,7 +170,7 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		
 		startLoadingDialog();
 		
-		RequestService.getInstance().uploadInfo(this, userName, cellphone, password, address, telephone, pictureId, BaseEntity.class, new RequestListener() {
+		RequestService.getInstance().uploadInfo(this, userName, cellphone, address, telephone, BaseEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {

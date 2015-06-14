@@ -114,8 +114,8 @@ public class RequestService {
 	}
 	
 	public void uploadInfo(Context context,String userName,
-			String cellphone,String password,String address,String telephone,String pictureId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getUploadInfoParams(userName, cellphone, password, address, telephone, pictureId);
+			String cellphone,String address,String telephone, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getUploadInfoParams(userName, cellphone, address, telephone);
 		new NetRequest(context).get(RequestCode.UPLOAD_MY_INFO, params, SubUrl.UPLOAD_MY_INFO, callBack, clazz);
 	}
 

@@ -94,6 +94,10 @@
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
             android:text="30°"
+
+            android:minHeight="0dp"
+
+            android:padding="0dp"
             android:textColor="@color/home_w_black"
             android:textSize="90sp" />
 

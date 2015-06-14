@@ -172,10 +172,16 @@
         <activity
             android:name=".ui.soil.SoilEditorActivity"
             android:label="@string/title_activity_soil_information"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".ui.soil.SoilListActivity"
+            android:label="@string/title_activity_soil_information"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.soil.SoilAllListActivity"
             android:label="@string/title_activity_soil_information"
             android:screenOrientation="portrait" >
         </activity>
