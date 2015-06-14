@@ -112,5 +112,17 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getDefaultParams();
 		new NetRequest(context).get(RequestCode.GET_MY_INFO, params, SubUrl.GET_MY_INFO, callBack, clazz);
 	}
+	
+	public void uploadInfo(Context context,String userName,
+			String cellphone,String password,String address,String telephone,String pictureId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getUploadInfoParams(userName, cellphone, password, address, telephone, pictureId);
+		new NetRequest(context).get(RequestCode.UPLOAD_MY_INFO, params, SubUrl.UPLOAD_MY_INFO, callBack, clazz);
+	}
+
+	public void updateTask(Context context,String fieldId,
+			String taskIds,String taskStatuss, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getUploadTaskParams(fieldId, taskIds, taskStatuss);
+		new NetRequest(context).get(RequestCode.UPLOAD_MY_TASK, params, SubUrl.UPLOAD_MY_TASK, callBack, clazz);
+	}
 
 }

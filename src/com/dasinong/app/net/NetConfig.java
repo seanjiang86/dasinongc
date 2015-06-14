@@ -61,6 +61,10 @@ public class NetConfig {
 		public static final String GET_All_TASK ="getAllTask";
 		/**个人信息 */
 		public static final String GET_MY_INFO ="loadUserProfile";
+		/**上传个人信息 */
+		public static final String UPLOAD_MY_INFO ="updateProfile";
+		/**提交任务状态 */
+		public static final String UPLOAD_MY_TASK ="updateTask";
 
 	}
 
@@ -75,6 +79,7 @@ public class NetConfig {
 		public static final String username = "username";
 		public static final String password = "password";
 		public static final String cellphone = "cellphone";
+		public static final String userName = "userName";
 		public static final String address = "address";
 		public static final String latitude = "lat";
 		public static final String longitude = "lon";
@@ -91,6 +96,10 @@ public class NetConfig {
 		public static final String locationId = "locationId";
 		public static final String varietyId = "varietyId";
 		public static final String fieldId = "fieldId";
+		public static final String telephone = "telephone";
+		public static final String pictureId = "pictureId";
+		public static final String taskIds = "taskIds";
+		public static final String taskStatuss = "taskStatuss";
 
 	}
 
@@ -271,6 +280,35 @@ public class NetConfig {
 		paramsMap.put(Params.fieldId, fieldId);
 		return paramsMap;
 	}
-
+	public static Map<String, String> getUploadInfoParams(String userName,
+			String cellphone,String password,String address,String telephone,String pictureId) {
+		Map<String, String> paramsMap = getBaseParams(false, 
+				getTokenParams(Params.userName, userName),
+				getTokenParams(Params.cellphone, cellphone),
+				getTokenParams(Params.password, password),
+				getTokenParams(Params.address, address),
+				getTokenParams(Params.telephone, telephone),
+				getTokenParams(Params.pictureId, pictureId)
+				);
+		paramsMap.put(Params.userName, userName);
+		paramsMap.put(Params.cellphone, cellphone);
+		paramsMap.put(Params.password, password);
+		paramsMap.put(Params.address, address);
+		paramsMap.put(Params.telephone, telephone);
+		paramsMap.put(Params.pictureId, pictureId);
+		return paramsMap;
+	}
+	public static Map<String, String> getUploadTaskParams(String fieldId,String taskIds,String taskStatuss) {
+		Map<String, String> paramsMap = getBaseParams(false, 
+				getTokenParams(Params.fieldId, fieldId),
+				getTokenParams(Params.taskIds, taskIds),
+				getTokenParams(Params.taskStatuss, taskStatuss)
+				);
+		paramsMap.put(Params.fieldId, fieldId);
+		paramsMap.put(Params.taskIds, taskIds);
+		paramsMap.put(Params.taskStatuss, taskStatuss);
+		return paramsMap;
+	}
+	
 }
 

@@ -72,8 +72,8 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
         //read cache
         //loadFromServer()
 
-        LinearLayout ll = new LinearLayout(this.getActivity());
-        ll.setOrientation(LinearLayout.VERTICAL);
+//        LinearLayout ll = new LinearLayout(this.getActivity());
+//        ll.setOrientation(LinearLayout.VERTICAL);
 
         Button login = new Button(getActivity());
 
@@ -83,8 +83,8 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
 
         Button tv = new Button(getActivity());
 
-        ll.addView(login);
-        ll.addView(tv);
+//        ll.addView(login);
+//        ll.addView(tv);
         tv.setText("首页");
         tv.setTextSize(50);
         tv.setOnClickListener(new View.OnClickListener() {
@@ -123,14 +123,14 @@ public class HomeFragment extends Fragment implements NetRequest.RequestListener
 
         });
 
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+//        View view = inflater.inflate(R.layout.fragment_home, container, false);
 /**
  *         mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rl_modulename_refresh);
  */
-        SoilView soilView = (SoilView) view.findViewById(R.id.home_soilview);
-        soilView.setOnSoilListener(this);
-        initRefreshLayout();
-        return view;
+//        SoilView soilView = (SoilView) view.findViewById(R.id.home_soilview);
+//        soilView.setOnSoilListener(this);
+//        initRefreshLayout();
+        return tv;
     }
 
     private void initRefreshLayout() {
