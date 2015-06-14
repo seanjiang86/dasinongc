@@ -1,6 +1,7 @@
 package com.dasinong.app.components.home.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dasinong.app.R;
+import com.dasinong.app.ui.soil.SoilListActivity;
 
 
 /**
@@ -18,7 +20,7 @@ import com.dasinong.app.R;
 public class SoilView extends LinearLayout implements View.OnClickListener {
 
     private TextView mSoilCheck;
-    private OnSoilCickListenr mListener;
+
 
     public SoilView(Context context) {
         super(context);
@@ -45,10 +47,8 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.soil_check:
 
-                Toast.makeText(this.getContext(),"soil click",Toast.LENGTH_SHORT).show();
-                if(mListener!=null){
-                    mListener.onSoilCheck();
-                }
+                getContext().startActivity(new Intent(getContext(), SoilListActivity.class));
+
 
                 break;
             default:
@@ -57,13 +57,6 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
 
     }
 
-    public void setOnSoilListener(OnSoilCickListenr l) {
-
-        this.mListener = l;
-    }
 
 
-    public interface OnSoilCickListenr {
-        public void onSoilCheck();
-    }
 }

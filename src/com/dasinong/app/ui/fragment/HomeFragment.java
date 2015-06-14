@@ -21,7 +21,7 @@ import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.soil.SoilEditorActivity;
-import com.dasinong.app.ui.soil.SoilListActivity;
+
 import com.dasinong.app.utils.Logger;
 
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -40,7 +40,7 @@ import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
  * @author Ming
  */
 
-public class HomeFragment extends Fragment implements View.OnClickListener, INetRequest, SoilView.OnSoilCickListenr, BGARefreshLayout.BGARefreshLayoutDelegate {
+public class HomeFragment extends Fragment implements View.OnClickListener, INetRequest,  BGARefreshLayout.BGARefreshLayoutDelegate {
 
     private static final int REQUEST_CODE_HOME_FIELD = 130;
     private static final int REQUEST_CODE_HOME_WEATHER = 131;
@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
         mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rl_modulename_refresh);
 
         SoilView soilView = (SoilView) view.findViewById(R.id.home_soilview);
-        soilView.setOnSoilListener(this);
+
         initRefreshLayout();
         soilView.setOnClickListener(this);
         return view;
@@ -182,7 +182,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
     }
 
-
     public void loadWeatherData() {
         VolleyManager.getInstance().addPostRequest(
                 REQUEST_CODE_HOME_WEATHER,
@@ -195,11 +194,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     }
 
 
-    @Override
-    public void onSoilCheck() {
-        Intent intent = new Intent(this.getActivity(), SoilListActivity.class);
-        startActivity(intent);
-    }
 
     @Override
     public void onClick(View v) {
