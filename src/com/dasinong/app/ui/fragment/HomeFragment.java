@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroupOverlay;
 
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
@@ -41,13 +42,14 @@ import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
  * @author Ming
  */
 
-public class HomeFragment extends Fragment implements View.OnClickListener, INetRequest,  BGARefreshLayout.BGARefreshLayoutDelegate {
+public class HomeFragment extends Fragment implements View.OnClickListener, INetRequest, BGARefreshLayout.BGARefreshLayoutDelegate {
 
     private static final int REQUEST_CODE_HOME_FIELD = 130;
     private static final int REQUEST_CODE_HOME_WEATHER = 131;
-    private static final String URL_FIELD = NetConfig.BASE_URL +"home";
+    private static final String URL_FIELD = NetConfig.BASE_URL + "home";
     private static final String URL_WEATHER = NetConfig.BASE_URL;
 
+    private ViewGroup mRoot;
 
     private BGARefreshLayout mRefreshLayout;
 
@@ -60,10 +62,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        Log.d("HomeFragment", "oncreateView");
 
 
+        if (mRoot != null) {
+            ViewGroup parent = (ViewGroup) mRoot.getParent();
 
-
+            parent.removeView(mRoot);
+            return mRoot;
+        }
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rl_modulename_refresh);
@@ -171,7 +178,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
 
     public void loadFieldData(String fiedlId) {
-    FieldEntity.Param param = new FieldEntity.Param();
+        FieldEntity.Param param = new FieldEntity.Param();
         param.fieldId = fiedlId;
         VolleyManager.getInstance().addGetRequestWithNoCache(
                 REQUEST_CODE_HOME_FIELD,
@@ -195,7 +202,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     }
 
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -208,12 +214,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     }
 
 
-
-
     @Override
     public void onTaskSuccess(int requestCode, Object response) {
 
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
                 break;
             case REQUEST_CODE_HOME_WEATHER:
@@ -228,12 +232,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     @Override
     public void onTaskFailedSuccess(int requestCode, NetError error) {
 
-        Log.d("HOMeTassk",String.valueOf(error.netWorkCode.ordinal()));
+        Log.d("HOMeTassk", String.valueOf(error.netWorkCode.ordinal()));
     }
 
     @Override
     public void onCache(int requestCode, Object response) {
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
                 break;
             case REQUEST_CODE_HOME_WEATHER:
@@ -244,7 +248,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
         }
 
     }
-
 
 
     private void login() {
@@ -281,5 +284,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
         super.onResume();
         login();
 
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("HomeFragment", "onDestroy");
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        Log.d("HomeFragment", "onDestroyView");
     }
 }
