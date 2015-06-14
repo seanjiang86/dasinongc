@@ -205,19 +205,21 @@ public class HarmDetialsActivity extends BaseActivity {
 
 	/**
 	 * 
-	 * @param petDisSpecId 病虫草害中petDisSpec中的 petDisSpecId
-	 * @param petSoluId 数据库中 petSolu表中的petSoluId字段
-	 * @param flag 标记，需要标明你是点击防治，预防，还是该条item跳进来的
+	 * @param petDisSpecId
+	 *            病虫草害中petDisSpec中的 petDisSpecId
+	 * @param petSoluId
+	 *            数据库中 petSolu表中的petSoluId字段
+	 * @param flag
+	 *            标记，需要标明你是点击防治，预防，还是该条item跳进来的
 	 * @param context
-	 * @param clazz HarmDetialsActivity类对应的class对象
+	 * @param clazz
+	 *            HarmDetialsActivity类对应的class对象
 	 * @return
 	 */
-	
 
-	public static Intent getMyParameters(int petDisSpecId, int petSoluId, String flag, Context context, Class clazz) {
+	public static Intent getMyParameters(int petDisSpecId, String flag, Context context, Class clazz) {
 		Intent intent = new Intent(context, clazz);
 		intent.putExtra("petDisSpecId", petDisSpecId);
-		intent.putExtra("petSoluId", petSoluId);
 		intent.putExtra("flag", flag);
 		return intent;
 	}
