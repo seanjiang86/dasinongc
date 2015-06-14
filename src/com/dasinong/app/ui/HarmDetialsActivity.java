@@ -207,11 +207,11 @@ public class HarmDetialsActivity extends BaseActivity {
 	 * 
 	 * @param petDisSpecId
 	 *            病虫草害中petDisSpec中的 petDisSpecId
-	 *
+	 * 
 	 * @param flag
 	 *            标记，需要标明你是点击防治，预防，还是该条item跳进来的
 	 * @param context
-	 *
+	 * 
 	 * @return
 	 */
 
