@@ -27,7 +27,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     private MyAddCropOnClickListener onAddCropClickListener;
     private ImageView leftArrowView, leafView, rightArrowView;
     private ConfirmDialog confirmDialog;
-    private Activity activity;
+
 
     public CropsGroupUpView(Context context) {
         super(context);
@@ -108,11 +108,11 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     }
 
     private void showConfirmDialog() {
-        if (null == activity) {
-            return;
-        }
+//        if (null == activity) {
+//            return;
+//        }
         if (null == confirmDialog) {
-            confirmDialog = new ConfirmDialog(activity);
+            confirmDialog = new ConfirmDialog(getContext());
             confirmDialog.setTitle("确认切换状态");
             confirmDialog.setMessage("您真的确认要切换当前作物的状态吗");
             confirmDialog.setButtonClickListener(new ConfirmDialog.ButtonClickListener() {
@@ -134,9 +134,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     }
 
-    public void setActivity(Activity activity) {
-        this.activity = activity;
-    }
+
 
     public void setLeafViewAndLeafContent(int resId, String leafContentValue) {
         leftArrowView.setBackgroundResource(resId);

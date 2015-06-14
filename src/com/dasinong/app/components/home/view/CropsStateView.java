@@ -117,9 +117,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             String rightStateInfo = "";
             setCropStateInfo(harvestDay, rightStateInfo);
         }
-        Log.d("dding", "entity-fieldList->>:" + entity.fieldList.size());
+
         if (null != entity.fieldList) {
-            Log.d("dding", "entity-fieldList->>:" + entity.fieldList.size());
+
             Map<String, Long> maps = entity.fieldList;
             if (maps.size() != 0) {
                 //有田地
@@ -130,12 +130,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                         list.add(key);
                     }
                 }
-                Log.d("dding", "entity-list->>:" + list.size());
+
                 //记住田地数据集合的内容--用以点击展开popouwindow
                 setFieldList(list);
             }
         } else {
-            Log.d("dding", "当前没有田地:");
+
             //当前没有田地--
             setCurrentState(1);
         }
@@ -163,16 +163,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         setWorkContent(entity.currentField);
     }
 
-    /**
-     * 农作物view设置activity，---用以弹出dialog
-     *
-     * @param activity
-     */
-    public void setActivity(Activity activity) {
-        if (null != activity) {
-            fieldStateView.setActivity(activity);
-        }
-    }
+
 
     /**
      * 设置叶子view的资源图片和叶子内容的值
