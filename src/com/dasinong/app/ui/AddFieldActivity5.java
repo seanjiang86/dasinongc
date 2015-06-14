@@ -11,6 +11,7 @@ import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.adapter.SubStageAdapter;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.ui.view.TopbarView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 	private ListView lv_content;
 	private String bigSubStage;
 	private String subStageId;
-
+	private TopbarView topbar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -53,10 +54,13 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 		btn_no_sure_substage = (Button) findViewById(R.id.btn_no_sure_substage);
 		btn_sure_substage = (Button) findViewById(R.id.btn_sure_substage);
 		lv_content = (ListView) findViewById(R.id.lv_content);
+		topbar = (TopbarView) findViewById(R.id.topbar);
 
 		varietyId = SharedPreferencesHelper.getString(this, Field.VARIETY_ID, "");
 		querySubStage();
-		
+
+		initTopBar();
+
 		tv_big_substage.setOnClickListener(this);
 		tv_small_substage.setOnClickListener(this);
 		btn_no_sure_substage.setOnClickListener(this);
@@ -95,6 +99,11 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 			goToNext();
 			break;
 		}
+	}
+
+	private void initTopBar() {
+		topbar.setCenterText("种植方式");
+		topbar.setLeftView(true, true);
 	}
 
 	/**
@@ -153,9 +162,9 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 		}
 		subStageAdapter.setData(smallSubStageList);
 		subStageAdapter.notifyDataSetChanged();
-		
+
 		lv_content.setAdapter(subStageAdapter);
-		
+
 		lv_content.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -165,9 +174,10 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 			}
 		});
 	}
-	
+
 	private void goToNext() {
 		Intent intent = new Intent(this, AddFieldActivity6.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
 	}
 

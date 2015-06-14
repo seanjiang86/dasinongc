@@ -5,6 +5,12 @@
     android:background="@color/color_FFFFFF"
     android:orientation="vertical" >
 
+    <com.dasinong.app.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.dasinong.app.ui.view.TopbarView>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent" >

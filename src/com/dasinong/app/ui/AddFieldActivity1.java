@@ -27,7 +27,7 @@ import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
 
-public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
+public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener {
 
 	// private LocationUtils locationUtils;
 	// 纬度
@@ -160,7 +160,8 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 	}
 
 	private void initTopBar() {
-		topbar.setCenterText("田地信息");
+		topbar.setCenterText("农田信息");
+		topbar.setLeftView(true, true);
 	}
 
 	class RunnableTask implements Runnable {
@@ -181,6 +182,7 @@ public class AddFieldActivity1 extends BaseActivity implements OnClickListener {
 		intent.putExtra("mcity", mcity);
 		intent.putExtra("mdistrict", mdistrict);
 		intent.putExtra("mstreet", mstreet);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
 	}
 

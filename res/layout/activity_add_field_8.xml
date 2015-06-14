@@ -15,7 +15,13 @@
     <com.dasinong.app.ui.view.AddFieldTabView
         android:layout_width="match_parent"
         android:layout_height="90dp"
-        dsn:tvLocationColor="@color/color_2BAD2A" >
+        dsn:ivOneColor="@drawable/green_round"
+        dsn:ivTwoColor="@drawable/green_round"
+        dsn:tvInfoColor="@color/color_2BAD2A"
+        dsn:tvLocationColor="@color/color_2BAD2A"
+        dsn:tvVarietyColor="@color/color_2BAD2A"
+        dsn:viewOneColor="@color/color_2BAD2A"
+        dsn:viewTwoColor="@color/color_2BAD2A" >
     </com.dasinong.app.ui.view.AddFieldTabView>
 
     <LinearLayout
@@ -38,7 +44,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="您的种植方式是？"
+                android:text="你的种植方式是？"
                 android:textColor="@color/color_333333"
                 android:textSize="16.0dip" />
         </RelativeLayout>

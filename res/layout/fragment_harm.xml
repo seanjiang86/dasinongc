@@ -11,19 +11,5 @@
         android:layout_weight="1"
         android:divider="@color/color_DBE3E5"
         android:dividerHeight="1px" />
-    
-    <LinearLayout 
-        android:id="@+id/ll_report"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:gravity="center" >
-        <TextView
-            android:id="@+id/tv_not_found"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/color_1768BE"
-            android:layout_gravity="center"
-            android:text="找不到？请你来举报" />
-    </LinearLayout>
+
 </LinearLayout>

@@ -4,15 +4,39 @@
     android:layout_height="match_parent"
     tools:context="com.liu.mainpagerdemo.HarmListActivity" >
 
-   <com.dasinong.app.ui.view.PagerSlidingTabStrip
-       android:id="@+id/tabs"
-       android:layout_width="match_parent"
-       android:layout_height="45dp" />
-   
-  <com.dasinong.app.ui.view.MyViewPager
+    <com.dasinong.app.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.dasinong.app.ui.view.TopbarView>
+
+    <com.dasinong.app.ui.view.PagerSlidingTabStrip
+        android:id="@+id/tabs"
+        android:layout_below="@id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="45dp" />
+
+    <com.dasinong.app.ui.view.MyViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tabs" />
+
+    <LinearLayout
+        android:id="@+id/ll_report"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/tv_not_found"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="找不到？请你来举报"
+            android:textColor="@color/color_1768BE"
+            android:textSize="16sp" />
+    </LinearLayout>
 
 </RelativeLayout>

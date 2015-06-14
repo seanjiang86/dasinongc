@@ -11,6 +11,7 @@ import com.dasinong.app.database.disaster.domain.PetSolu;
 import com.dasinong.app.database.disaster.service.DisasterManager;
 import com.dasinong.app.ui.adapter.CureAdapter;
 import com.dasinong.app.ui.adapter.MyBaseAdapter;
+import com.dasinong.app.ui.view.TopbarView;
 
 import android.os.Bundle;
 import android.view.View;
@@ -28,6 +29,7 @@ public class CureDetialActivity extends BaseActivity {
 	private TextView tv_cure_provider;
 	private TextView tv_cure_content;
 	private List<CPProduct> drugList;
+	private TopbarView topbar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,10 @@ public class CureDetialActivity extends BaseActivity {
 		tv_cure_stage = (TextView) findViewById(R.id.tv_cure_stage);
 		tv_cure_provider = (TextView) findViewById(R.id.tv_cure_provider);
 		tv_cure_content = (TextView) findViewById(R.id.tv_cure_content);
-
+		topbar = (TopbarView) findViewById(R.id.topbar);
+		
+		initTopBar();
+		
 		//PetSolu solu = (PetSolu) getIntent().getExtras().getSerializable("solu");
 		
 		//TODO MING:等待数据
@@ -50,7 +55,12 @@ public class CureDetialActivity extends BaseActivity {
 		
 		//initData(solu.petSoluId);
 	}
-
+	
+	private void initTopBar() {
+		topbar.setCenterText("防治方案详情");
+		topbar.setLeftView(true, true);
+	}
+	
 	private void initData(int petSoluId) {
 		drugList = DisasterManager.getInstance(this).getAllDrug(petSoluId);
 		initListView();

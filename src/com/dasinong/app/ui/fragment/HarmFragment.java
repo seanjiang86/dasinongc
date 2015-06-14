@@ -59,7 +59,7 @@ public class HarmFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		View view = View.inflate(getActivity(), R.layout.fragment_harm, null);
-		LinearLayout ll_report = (LinearLayout) view.findViewById(R.id.ll_report);
+//		LinearLayout ll_report = (LinearLayout) view.findViewById(R.id.ll_report);
 		ListView lv_harm = (ListView) view.findViewById(R.id.lv_harm);
 
 		lv_harm.setAdapter(new HarmAdapter<NatDisspec>(getActivity(), list, fragmentPosition, false));
@@ -89,14 +89,14 @@ public class HarmFragment extends Fragment {
 		
 		
 		//找不到请举报 跳转
-		ll_report.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), ReportHarmActivity.class);
-				startActivity(intent);
-			}
-		});
+//		ll_report.setOnClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				Intent intent = new Intent(getActivity(), ReportHarmActivity.class);
+//				startActivity(intent);
+//			}
+//		});
 
 		return view;
 	}

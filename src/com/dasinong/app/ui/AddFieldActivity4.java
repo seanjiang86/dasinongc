@@ -32,9 +32,10 @@ import com.dasinong.app.ui.adapter.CropAdapter;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.Logger;
 
-public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
+public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener {
 
 	// private List<Crop> cropList = new ArrayList<Crop>();
 	// private List<CropName> cropNameList = new ArrayList<CropName>();
@@ -59,6 +60,7 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 	// private String cropId;
 	private String varietyId;
 	private Button btn_sure_crop;
+	private TopbarView topbar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 		fl_select_crop = (FrameLayout) findViewById(R.id.fl_select_crop);
 		lv_content = (ListView) findViewById(R.id.lv_content);
 		btn_sure_crop = (Button) findViewById(R.id.btn_sure_crop);
+		topbar = (TopbarView) findViewById(R.id.topbar);
 
 		// TODO MING:此处默认值如何设置
 		locationId = SharedPreferencesHelper.getString(this, Field.VILLAGE_ID, "");
@@ -81,6 +84,8 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 
 		queryCrop(county);
 
+		initTopBar();
+		
 		tv_crop.setOnClickListener(this);
 		tv_variety.setOnClickListener(this);
 		tv_variety_num.setOnClickListener(this);
@@ -125,6 +130,11 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 			goToNext();
 			break;
 		}
+	}
+	
+	private void initTopBar() {
+		topbar.setCenterText("作物信息");
+		topbar.setLeftView(true, true);
 	}
 
 	/**
@@ -293,6 +303,7 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 		SharedPreferencesHelper.setString(this, Field.VARIETY_ID, varietyId);
 
 		Intent intent = new Intent(this, AddFieldActivity8.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
 	}
 
