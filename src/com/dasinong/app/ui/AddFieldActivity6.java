@@ -3,6 +3,7 @@ package com.dasinong.app.ui;
 import java.util.Calendar;
 
 import com.dasinong.app.R;
+import com.dasinong.app.ui.view.TopbarView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ public class AddFieldActivity6 extends BaseActivity implements OnClickListener{
 	private DatePicker dp_date;
 	private Button btn_no_date;
 	private Button btn_sure_date;
+	private TopbarView topbar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -24,10 +26,12 @@ public class AddFieldActivity6 extends BaseActivity implements OnClickListener{
 		requestWindowFeature(Window.FEATURE_NO_TITLE);//去掉标题栏
 		setContentView(R.layout.activity_add_field_6);
 		
-		
 		dp_date = (DatePicker) findViewById(R.id.dp_date);
 		btn_no_date = (Button) findViewById(R.id.btn_no_date);
 		btn_sure_date = (Button) findViewById(R.id.btn_sure_date);
+		topbar = (TopbarView) findViewById(R.id.topbar);
+		
+		initTopBar();
 		
 		btn_no_date.setOnClickListener(this);
 		btn_sure_date.setOnClickListener(this);
@@ -51,9 +55,15 @@ public class AddFieldActivity6 extends BaseActivity implements OnClickListener{
 			break;
 		}
 	}
-
+	
+	private void initTopBar() {
+		topbar.setCenterText("种植周期");
+		topbar.setLeftView(true, true);
+	}
+	
 	private void goToNext() {
 		Intent intent = new Intent(this, AddFieldActivity7.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
 	}
 }

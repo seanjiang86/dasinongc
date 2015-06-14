@@ -2,8 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/color_FFFFFF" >
+    android:background="@color/color_FFFFFF"
+    android:orientation="vertical" >
+
+    <com.dasinong.app.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.dasinong.app.ui.view.TopbarView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -80,14 +86,15 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="查看全部"
-            android:textSize="16sp"
-            android:textColor="@color/color_1768BE" />
+            android:textColor="@color/color_1768BE"
+            android:textSize="16sp" />
     </RelativeLayout>
-    
+
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/color_E9E9E9" />
+
     <ListView
         android:id="@+id/lv_medicine"
         android:layout_width="match_parent"

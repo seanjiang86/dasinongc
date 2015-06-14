@@ -80,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="46.0dip"
-                android:text="作物品种"
+                android:text="作物信息"
                 android:textSize="12.0sp" />
 
             <TextView
@@ -88,7 +88,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="46.0dip"
-                android:text="作物信息"
+                android:text="种植方式"
                 android:textSize="12.0sp" />
 
             <TextView

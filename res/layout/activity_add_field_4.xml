@@ -76,7 +76,7 @@
                 android:background="@drawable/text_bg"
                 android:gravity="center"
                 android:lines="2"
-                android:text="植物" />
+                android:text="作物" />
 
             <TextView
                 android:id="@+id/tv_variety_name"

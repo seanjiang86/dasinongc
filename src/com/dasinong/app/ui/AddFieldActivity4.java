@@ -13,13 +13,10 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dasinong.app.DsnApplication;
@@ -27,21 +24,18 @@ import com.dasinong.app.R;
 import com.dasinong.app.database.variety.dao.impl.VarietyDaoImp;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.CropInfo;
-import com.dasinong.app.entity.VarietyInfo;
-
-import com.dasinong.app.entity.CropNumberList.CropNumber;
 import com.dasinong.app.entity.LoginRegEntity;
+import com.dasinong.app.entity.VarietyInfo;
 import com.dasinong.app.net.NetRequest;
-import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.adapter.CropAdapter;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.Logger;
-import com.liam.imageload.LoadUtils;
 
-public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
+public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener {
 
 	// private List<Crop> cropList = new ArrayList<Crop>();
 	// private List<CropName> cropNameList = new ArrayList<CropName>();
@@ -63,9 +57,10 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 	private ListView lv_content;
 	private CropAdapter cropAdapter;
 	private String locationId;
-//	private String cropId;
+	// private String cropId;
 	private String varietyId;
 	private Button btn_sure_crop;
+	private TopbarView topbar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,16 +72,19 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 		fl_select_crop = (FrameLayout) findViewById(R.id.fl_select_crop);
 		lv_content = (ListView) findViewById(R.id.lv_content);
 		btn_sure_crop = (Button) findViewById(R.id.btn_sure_crop);
-		
+		topbar = (TopbarView) findViewById(R.id.topbar);
+
 		// TODO MING:此处默认值如何设置
 		locationId = SharedPreferencesHelper.getString(this, Field.VILLAGE_ID, "");
 		String county = SharedPreferencesHelper.getString(this, Field.COUNTY, "");
-		
-		county = county.substring(0, county.length()-1);
-		
+
+		county = county.substring(0, county.length() - 1);
+
 		Logger.d("MING", county);
-		
+
 		queryCrop(county);
+
+		initTopBar();
 		
 		tv_crop.setOnClickListener(this);
 		tv_variety.setOnClickListener(this);
@@ -116,7 +114,7 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 				fl_select_crop.setVisibility(View.GONE);
 			}
 			varietyIsGone = !varietyIsGone;
-			
+
 			initVariety();
 			break;
 		case R.id.tv_variety_num:
@@ -133,18 +131,23 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 			break;
 		}
 	}
+	
+	private void initTopBar() {
+		topbar.setCenterText("作物信息");
+		topbar.setLeftView(true, true);
+	}
 
 	/**
 	 * 获取植物种类
 	 */
 	private void queryCrop(String key) {
-		
+
 		// 本地查询
 		VarietyDaoImp dao = new VarietyDaoImp(this);
 		cropList = dao.getVariety(key);
-		
+
 		// TODO MING:此处如果没有数据添加什么样的数据 待定
-		if(cropList == null || cropList.size() == 0){
+		if (cropList == null || cropList.size() == 0) {
 			cropList.add("水稻");
 			cropList.add("还是水稻");
 			cropList.add("你一定要种水稻");
@@ -152,35 +155,32 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 			cropList.add("种水稻呀");
 			cropList.add("就是种水稻");
 		} else {
-			if(cropList.contains("水稻")){
+			if (cropList.contains("水稻")) {
 				cropList.remove("水稻");
 				cropList.add(0, "水稻");
-			}else{
-				cropList.add(0,"水稻");
+			} else {
+				cropList.add(0, "水稻");
 			}
 		}
-		
-		
-		
 
-		// TODO MING:以下为网络查询过程，不可删除 
-//		RequestService.getInstance().getCropList(this, locationId, CropInfo.class, new RequestListener() {
-//
-//			@Override
-//			public void onSuccess(int requestCode, BaseEntity resultData) {
-//				if (resultData.isOk()) {
-//					cropInfo = (CropInfo) resultData;
-//					cropList = new ArrayList<String>(cropInfo.crop.keySet());
-//				}
-//			}
-//
-//			@Override
-//			public void onFailed(int requestCode, Exception error, String msg) {
-//
-//			}
-//		});
+		// TODO MING:以下为网络查询过程，不可删除
+		// RequestService.getInstance().getCropList(this, locationId,
+		// CropInfo.class, new RequestListener() {
+		//
+		// @Override
+		// public void onSuccess(int requestCode, BaseEntity resultData) {
+		// if (resultData.isOk()) {
+		// cropInfo = (CropInfo) resultData;
+		// cropList = new ArrayList<String>(cropInfo.crop.keySet());
+		// }
+		// }
+		//
+		// @Override
+		// public void onFailed(int requestCode, Exception error, String msg) {
+		//
+		// }
+		// });
 	}
-
 
 	/**
 	 * 填充植物信息
@@ -205,12 +205,12 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 				tv_crop.setText(cropName);
 				fl_select_crop.setVisibility(View.GONE);
 				cropIsGone = !cropIsGone;
-				
+
 				queryVariety(cropName);
 			}
 		});
 	}
-	
+
 	/**
 	 * 获取品种信息
 	 */
@@ -220,33 +220,32 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 			return;
 		}
 		// TODO MING:此处参数为假参数 需要修改
-		RequestService.getInstance().getVarietyList(DsnApplication.getContext(), "190", "10000", VarietyInfo.class,
-				new NetRequest.RequestListener() {
+		RequestService.getInstance().getVarietyList(DsnApplication.getContext(), "190", "10000", VarietyInfo.class, new NetRequest.RequestListener() {
 
-					@Override
-					public void onSuccess(int requestCode, BaseEntity resultData) {
-						if (resultData.isOk()) {
-							Log.d("TAG..........", ((VarietyInfo) resultData).data.toString());
-							varietyInfo = (VarietyInfo) resultData;
-							
-							varietyList = new ArrayList<String>(varietyInfo.data.keySet());
-							
-						}
-					}
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				if (resultData.isOk()) {
+					Log.d("TAG..........", ((VarietyInfo) resultData).data.toString());
+					varietyInfo = (VarietyInfo) resultData;
 
-					@Override
-					public void onFailed(int requestCode, Exception error, String msg) {
-						Logger.d("MING", "msg =============== " + msg);
-					}
+					varietyList = new ArrayList<String>(varietyInfo.data.keySet());
 
-				});
+				}
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				Logger.d("MING", "msg =============== " + msg);
+			}
+
+		});
 	}
-	
+
 	/**
 	 * 填充品种信息
 	 */
 	private void initVariety() {
-		
+
 		if (varietyList == null || varietyList.size() == 0) {
 			lv_content.setVisibility(View.GONE);
 			return;
@@ -265,7 +264,7 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 				varietyNumMap = varietyInfo.data.get(varietyName);
 				varietyNumList = new ArrayList<String>(varietyNumMap.keySet());
 				tv_variety.setText(varietyName);
-				if(!varietyIsGone){
+				if (!varietyIsGone) {
 					fl_select_crop.setVisibility(View.GONE);
 					varietyIsGone = !varietyIsGone;
 				}
@@ -290,9 +289,9 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 				String varietyNumName = varietyNumList.get(position);
 
 				varietyId = varietyNumMap.get(varietyNumName);
-				
+
 				tv_variety_num.setText(varietyNumName);
-				if(!numIsGone){
+				if (!numIsGone) {
 					fl_select_crop.setVisibility(View.GONE);
 					numIsGone = !numIsGone;
 				}
@@ -304,6 +303,7 @@ public class AddFieldActivity4 extends BaseActivity implements OnClickListener {
 		SharedPreferencesHelper.setString(this, Field.VARIETY_ID, varietyId);
 
 		Intent intent = new Intent(this, AddFieldActivity8.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
 	}
 

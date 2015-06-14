@@ -4,11 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import android.app.DownloadManager.Query;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -31,9 +29,10 @@ import com.dasinong.app.ui.adapter.CityAdapter;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.Logger;
 
-public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
+public class AddFieldActivity2 extends MyBaseActivity implements OnClickListener {
 
 	private CityDaoImpl cityDaoImpl;
 	private String province;
@@ -65,6 +64,7 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 	private String mdistrict;
 	private String mcity;
 	private String mprovince;
+	private TopbarView topbar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,20 +82,25 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 		lv_big_area = (ListView) findViewById(R.id.lv_big_area);
 		lv_small_area = (ListView) findViewById(R.id.lv_small_area);
 		btn_sure_location = (Button) findViewById(R.id.btn_sure_location);
+		topbar = (TopbarView) findViewById(R.id.topbar);
 
 		mprovince = getIntent().getStringExtra("mprovince");
 		mcity = getIntent().getStringExtra("mcity");
 		mdistrict = getIntent().getStringExtra("mdistrict");
 		mstreet = getIntent().getStringExtra("mstreet");
 		if (TextUtils.isEmpty(mprovince) || TextUtils.isEmpty(mcity) || TextUtils.isEmpty(mdistrict) || TextUtils.isEmpty(mstreet)) {
-
+			
 		} else {
 			tv_privace_city.setText(mprovince + "-" + mcity);
 			tv_county_district.setText(mdistrict + "-" + mstreet);
 			
+			//TODO 显示默认选中条目
+			
 			queryVillage(mprovince, mcity, mstreet, mdistrict);
 
 		}
+		
+		initTopBar();
 
 		tv_privace_city.setOnClickListener(this);
 		tv_county_district.setOnClickListener(this);
@@ -188,6 +193,11 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 			gotoThree();
 			break;
 		}
+	}
+	
+	private void initTopBar() {
+		topbar.setCenterText("农田信息");
+		topbar.setLeftView(true, true);
 	}
 
 	private void initProvince() {
@@ -349,6 +359,7 @@ public class AddFieldActivity2 extends BaseActivity implements OnClickListener {
 		SharedPreferencesHelper.setString(this, Field.CITY, city);
 		SharedPreferencesHelper.setString(this, Field.COUNTY, county);
 		Intent intent = new Intent(this, AddFieldActivity3.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
 	}
 

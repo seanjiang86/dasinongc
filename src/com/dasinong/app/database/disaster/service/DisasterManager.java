@@ -68,7 +68,7 @@ public class DisasterManager {
         return mPetDisspecDao.queryDisasterByType(type);
     }
 
-
+    
     /**
      * 得到自然灾害
      *
