@@ -33,6 +33,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -133,6 +134,14 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 	private void setUpView() {
 		mTopbarView.setCenterText("个人信息");
 		mTopbarView.setLeftView(true, true);
+		mTopbarView.setRightText("提交");
+		mTopbarView.setRightClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				uploadInfo();
+			}
+		});
 
 		mHeadviewLayout.setOnClickListener(this);
 		mPhoneLayout.setOnClickListener(this);
@@ -142,6 +151,42 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		mAddressLayout.setOnClickListener(this);
 		mHomephoneLayout.setOnClickListener(this);
 
+	}
+
+	protected void uploadInfo() {
+		String userName = mNameText.getText().toString().trim();
+		String cellphone = mPhoneText.getText().toString().trim();
+		String address = mAddressText.getText().toString().trim();
+		String telephone = mHomephoneText.getText().toString().trim();
+		
+		if(TextUtils.isEmpty(userName)){
+			Toast.makeText(this, "请输入用户名", 0).show();
+			return;
+		}
+		if(TextUtils.isEmpty(cellphone)){
+			Toast.makeText(this, "请输入手机号", 0).show();
+			return;
+		}
+		
+		startLoadingDialog();
+		
+		RequestService.getInstance().uploadInfo(this, userName, cellphone, address, telephone, BaseEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				if(resultData.isOk()){
+					showToast("个人信息更新成功");
+				}else{
+					showToast(resultData.getMessage());
+				}
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+			}
+		});
 	}
 
 	@Override
@@ -154,7 +199,7 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			editInfo(MyInfoSetActivity.EDIT_PHONE);
 			break;
 		case R.id.button_auth_phone:
-
+			authPhone();
 			break;
 		case R.id.layout_reset_password:
 			editInfo(MyInfoSetActivity.EDIT_PASSWORD);
@@ -173,6 +218,10 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 
 			break;
 		}
+	}
+
+	private void authPhone() {
+//		RequestService.getInstance().authcodeLoginReg(context, cellphone, clazz, callBack)
 	}
 
 	private void showHeadViewDialog() {

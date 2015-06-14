@@ -144,8 +144,8 @@ public class DisasterView extends LinearLayout {
         TextView disastername = (TextView) child.findViewById(R.id.disaster_name);
         TextView disastertype = (TextView) child.findViewById(R.id.disaster_type);
 
-        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(0));
-        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(0));
+        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
+        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
         return child;
 
     }

@@ -2,11 +2,14 @@ package com.dasinong.app.entity;
 
 public class User {
 
+	
 	private String userId;
 	private String cellPhone;
 	private String userName;
 	private String password;
 	private String address;
+	private String pictureId;
+	private boolean authenticated;
 	private int[] fields;
 
 	public String getUserId() {
