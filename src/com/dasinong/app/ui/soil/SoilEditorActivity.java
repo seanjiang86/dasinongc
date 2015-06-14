@@ -16,7 +16,7 @@ import com.dasinong.app.ui.soil.domain.SoilAllEntity;
 import com.dasinong.app.ui.soil.domain.SoilPostEntity;
 import com.dasinong.app.ui.view.TopbarView;
 
-public class SoilEditorActivity extends BaseActivity implements View.OnClickListener, INetRequest<SoilPostEntity> {
+public class SoilEditorActivity extends BaseActivity implements View.OnClickListener, INetRequest {
 
     private static final int REQUEST_CODE = 101;
     private static final int REQUEST_CODE_SOIL_POST = 139;
@@ -134,7 +134,9 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void onTaskSuccess(int requestCode, SoilPostEntity response) {
+    public void onTaskSuccess(int requestCode, Object response) {
+
+        SoilPostEntity entity = (SoilPostEntity) response;
 
     }
 
@@ -144,7 +146,7 @@ public class SoilEditorActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
-    public void onCache(int requestCode, SoilPostEntity response) {
+    public void onCache(int requestCode, Object response) {
 
     }
 }

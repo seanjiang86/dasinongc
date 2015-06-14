@@ -1,14 +1,12 @@
-package com.dasinong.app.entity;
+package com.dasinong.app.components.domain;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * Created by liuningning on 15/6/6.
- * home field entity
+ * Created by liuningning on 15/6/14.
  */
-public class FieldEntity extends BaseEntity {
-
+public class FieldEntity extends BaseResponse {
 
 
 

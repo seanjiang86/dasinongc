@@ -22,7 +22,7 @@ import com.dasinong.app.ui.view.TopbarView;
 /**
  * 测土的详情页面
  */
-public class SoilInformationActivity extends BaseActivity implements View.OnClickListener, INetRequest<SoilInformationEntity> {
+public class SoilInformationActivity extends BaseActivity implements View.OnClickListener, INetRequest {
 
     private static final int REQUEST_CODE = 100;
     private static final int REQUEST_CODE_SOIL_INFORMATION = 145;
@@ -140,10 +140,10 @@ public class SoilInformationActivity extends BaseActivity implements View.OnClic
 
 
     @Override
-    public void onTaskSuccess(int requestCode, SoilInformationEntity response) {
+    public void onTaskSuccess(int requestCode, Object response) {
 
 
-        updateView(response);
+        updateView((SoilInformationEntity) response);
 
     }
 
@@ -153,7 +153,7 @@ public class SoilInformationActivity extends BaseActivity implements View.OnClic
     }
 
     @Override
-    public void onCache(int requestCode, SoilInformationEntity response) {
+    public void onCache(int requestCode, Object response) {
 
     }
 }

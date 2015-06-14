@@ -16,7 +16,7 @@ import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.soil.domain.SoilAllEntity;
 import com.dasinong.app.ui.view.TopbarView;
 
-public class SoilAllListActivity extends BaseActivity implements AdapterView.OnItemClickListener, INetRequest<SoilAllEntity> {
+public class SoilAllListActivity extends BaseActivity implements AdapterView.OnItemClickListener, INetRequest {
 
 
     private ListView mListView;
@@ -64,7 +64,7 @@ public class SoilAllListActivity extends BaseActivity implements AdapterView.OnI
     }
 
     @Override
-    public void onTaskSuccess(int requestCode, SoilAllEntity response) {
+    public void onTaskSuccess(int requestCode, Object response) {
 
         mListView.setAdapter(new ArrayAdapter<String>(this, R.layout.soil_list_item, R.id.soil_item_text, getResources().getStringArray(R.array.soil_list)));
     }
@@ -75,7 +75,7 @@ public class SoilAllListActivity extends BaseActivity implements AdapterView.OnI
     }
 
     @Override
-    public void onCache(int requestCode, SoilAllEntity response) {
+    public void onCache(int requestCode, Object response) {
 
     }
 }

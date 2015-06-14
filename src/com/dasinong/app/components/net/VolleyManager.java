@@ -84,20 +84,20 @@ public class VolleyManager {
         }
     }
 
-    public <T extends BaseResponse> void addGetRequestWithNoCache(final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest<T> netRequest) {
+    public <T extends BaseResponse> void addGetRequestWithNoCache(final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest netRequest) {
 
         addGetRequest(false, requestCode, url, param, clazz, netRequest);
 
     }
 
-    public <T extends BaseResponse> void addGetRequestWithCache(final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest<T> netRequest) {
+    public <T extends BaseResponse> void addGetRequestWithCache(final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest netRequest) {
 
         addGetRequest(true, requestCode, url, param, clazz, netRequest);
 
     }
 
 
-    public <T extends BaseResponse> void addPostRequest(int requestCode, String url, Object param, Class<? extends BaseResponse> clazz, final INetRequest<T> netReqeust) {
+    public <T extends BaseResponse> void addPostRequest(int requestCode, String url, Object param, Class<? extends BaseResponse> clazz, final INetRequest netReqeust) {
         final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
         final Response.Listener<T> successListener = createSuccessListener(requestCode, url, weakReference);
 
@@ -142,7 +142,7 @@ public class VolleyManager {
     }
 
 
-    private <T extends BaseResponse> void addGetRequest(boolean needCache, final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest<T> netReqeust) {
+    private <T extends BaseResponse> void addGetRequest(boolean needCache, final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest netReqeust) {
         final String finalUrl = createUrl(url, param);
 
         final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
@@ -181,7 +181,7 @@ public class VolleyManager {
 
             @Override
             protected void onPostExecute(T result) {
-                INetRequest<T> tem = weakReference.get();
+                INetRequest tem = weakReference.get();
                 if (tem != null && result != null) {
                     tem.onCache(requestCode, result);
                 }
@@ -320,7 +320,7 @@ public class VolleyManager {
             @Override
             public void onResponse(T response) {
                 saveEntity(finalUrl, response);
-                INetRequest<T> tem = weakReference.get();
+                INetRequest tem = weakReference.get();
                 if (tem != null) {
                     tem.onTaskSuccess(requestCode, response);
                 }

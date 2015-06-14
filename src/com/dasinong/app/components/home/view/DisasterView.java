@@ -15,12 +15,10 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
-import com.dasinong.app.database.disaster.service.DisasterManager;
 import com.dasinong.app.entity.FieldEntity;
+import com.dasinong.app.ui.CureDetialActivity;
 import com.dasinong.app.ui.HarmListActivity;
 
 import java.util.List;
@@ -182,8 +180,9 @@ public class DisasterView extends LinearLayout {
     class PreVentClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
-            Toast.makeText(v.getContext(), "open prev", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getContext(), CureDetialActivity.class);
+            getContext().startActivity(intent);
+            //Toast.makeText(v.getContext(), "open prev", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -191,7 +190,8 @@ public class DisasterView extends LinearLayout {
         @Override
         public void onClick(View v) {
 
-            Toast.makeText(v.getContext(), "open cur", Toast.LENGTH_SHORT).show();
+            //getContext().startActivity();
+            //Toast.makeText(v.getContext(), "open cur", Toast.LENGTH_SHORT).show();
         }
     }
 }

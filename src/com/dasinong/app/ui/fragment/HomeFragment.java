@@ -4,20 +4,17 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.dasinong.app.R;
+import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.home.view.SoilView;
-import com.dasinong.app.database.city.dao.impl.CityDaoImpl;
-import com.dasinong.app.database.disaster.domain.CPProduct;
-import com.dasinong.app.database.disaster.domain.PetDisspec;
-import com.dasinong.app.database.disaster.domain.PetSolu;
-import com.dasinong.app.database.disaster.service.DisasterManager;
+import com.dasinong.app.components.net.INetRequest;
+import com.dasinong.app.components.net.NetError;
+import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.entity.BaseEntity;
-import com.dasinong.app.entity.FieldEntity;
 import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.NetRequest;
@@ -26,8 +23,6 @@ import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.soil.SoilEditorActivity;
 import com.dasinong.app.ui.soil.SoilListActivity;
 import com.dasinong.app.utils.Logger;
-
-import java.util.List;
 
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
@@ -45,9 +40,12 @@ import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
  * @author Ming
  */
 
-public class HomeFragment extends Fragment implements View.OnClickListener, NetRequest.RequestListener, SoilView.OnSoilCickListenr, BGARefreshLayout.BGARefreshLayoutDelegate {
+public class HomeFragment extends Fragment implements View.OnClickListener, INetRequest, SoilView.OnSoilCickListenr, BGARefreshLayout.BGARefreshLayoutDelegate {
 
-    private static final int REQUST_CODE_HOME_TASk = 130;
+    private static final int REQUEST_CODE_HOME_FIELD = 130;
+    private static final int REQUEST_CODE_HOME_WEATHER = 131;
+    private static final String URL_FIELD = NetConfig.BASE_URL;
+    private static final String URL_WEATHER = NetConfig.BASE_URL;
 
 
     private BGARefreshLayout mRefreshLayout;
@@ -61,8 +59,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-
-        //first loading
 
         loadDataFromWithCache();
 
@@ -79,6 +75,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
     }
 
     private void loadDataFromWithCache() {
+
+        loadFieldData("10");
+        loadWeatherData();
 
     }
 
@@ -170,63 +169,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
     }
 
 
-    /**
-     * 城市的查询
-     */
-    private void queryCity() {
-        CityDaoImpl dao = new CityDaoImpl(HomeFragment.this.getActivity());
-        List<String> province = dao.getProvince();
-
-        List<String> city = dao.getCity(province.get(3));
-        List<String> county = dao.getCounty(city.get(0));
-        List<String> district = dao.getDistrict(county.get(0));
-    }
-
-    /**
-     * 病虫草的查询
-     */
-    private void queryDisaster() {
-        DisasterManager manager = DisasterManager.getInstance(this.getActivity());
-        //列表
-        List<PetDisspec> disease = manager.getDisease("病害");
-        //防治方案
-        List<PetSolu> cureSolution = manager.getCureSolution(disease.get(0).petDisSpecId);
-
-        // 冶疗方案
-        List<PetSolu> preventSolution = manager.getPreventSolution(disease.get(0).petDisSpecId);
-
-        //药
-        List<CPProduct> allDrug = manager.getAllDrug(10);
-
-        Log.d("TAG", "---");
-    }
-
-    public void loadDataFrom(String fiedlId) {
-
-        FieldEntity.Param param = new FieldEntity.Param();
+    public void loadFieldData(String fiedlId) {
+    FieldEntity.Param param = new FieldEntity.Param();
         param.fieldId = fiedlId;
-        RequestService.getInstance().sendRequestWithOutToken(this.getActivity(),
-                FieldEntity.class,
-                REQUST_CODE_HOME_TASk,
-                NetConfig.SubUrl.GET_HOME_TASK,
+        VolleyManager.getInstance().addPostRequest(
+                REQUEST_CODE_HOME_FIELD,
+                URL_FIELD,
                 param,
+                FieldEntity.class,
                 this
         );
 
     }
 
-    @Override
-    public void onSuccess(int requestCode, BaseEntity resultData) {
 
-        Log.d("TAG", "home success");
+    public void loadWeatherData() {
+        VolleyManager.getInstance().addPostRequest(
+                REQUEST_CODE_HOME_WEATHER,
+                URL_WEATHER,
+                null,
+                null,
+                this
+        );
+
     }
 
-    @Override
-    public void onFailed(int requestCode, Exception error, String msg) {
-
-        Log.d("TAG", "home failed");
-
-    }
 
     @Override
     public void onSoilCheck() {
@@ -244,6 +211,44 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
                 break;
         }
     }
+
+
+
+
+    @Override
+    public void onTaskSuccess(int requestCode, Object response) {
+
+        switch (requestCode){
+            case REQUEST_CODE_HOME_FIELD:
+                break;
+            case REQUEST_CODE_HOME_WEATHER:
+                break;
+            default:
+                break;
+
+        }
+
+    }
+
+    @Override
+    public void onTaskFailedSuccess(int requestCode, NetError error) {
+
+    }
+
+    @Override
+    public void onCache(int requestCode, Object response) {
+        switch (requestCode){
+            case REQUEST_CODE_HOME_FIELD:
+                break;
+            case REQUEST_CODE_HOME_WEATHER:
+                break;
+            default:
+                break;
+
+        }
+
+    }
+
 
 
     private void login() {
@@ -271,7 +276,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, NetR
             }
         });
     }
-
 }
 
 
