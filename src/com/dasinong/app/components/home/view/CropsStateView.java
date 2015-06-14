@@ -12,8 +12,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.dasinong.app.R;
+import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
-import com.dasinong.app.entity.FieldEntity;
+
 import com.dasinong.app.ui.AddFieldActivity1;
 
 import java.util.ArrayList;

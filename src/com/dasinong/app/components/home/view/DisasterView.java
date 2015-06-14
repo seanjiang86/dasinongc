@@ -17,7 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dasinong.app.R;
-import com.dasinong.app.entity.FieldEntity;
+
+import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.ui.CureDetialActivity;
 import com.dasinong.app.ui.HarmListActivity;
 
