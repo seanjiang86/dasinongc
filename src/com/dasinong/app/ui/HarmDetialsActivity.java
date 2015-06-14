@@ -40,185 +40,186 @@ import com.dasinong.app.utils.Logger;
 
 public class HarmDetialsActivity extends BaseActivity {
 
-	private ListView lv_detial;
-	private View header;
-	// 病害名
-	private TextView tv_harm_name;
-	// 病害描述
-	private TextView tv_harm_des;
-	// 病害等级
-	private RatingBar rb_harm_grade;
-	// 病害图片展示
-	private ViewPager vp_pic;
-	// 每张图片对应的点
-	private LinearLayout ll_point;
-	// 快速诊断按钮
-	private LinearLayout ll_rapid_diagnosis;
-	// 用来存放图片链接的集合
-	private List<PetSolu> dataList = new ArrayList<PetSolu>();
-	private ImageView imageView;
-	private ImageView[] imageViews;
-	private String type;
-	private List<PetSolu> petSoluList;
-	private List<PetSolu> petPreventList;
+    public static final String FLAG_PREVENT = "prevent";
+    public static final String FLAG_CURE = "cure";
 
-	private Handler handler = new Handler() {
-		public void handleMessage(android.os.Message msg) {
-			initListView();
-		};
-	};
-	private NatDisspec nat;
-	private PetDisspec pet;
+    private ListView lv_detial;
+    private View header;
+    // 病害名
+    private TextView tv_harm_name;
+    // 病害描述
+    private TextView tv_harm_des;
+    // 病害等级
+    private RatingBar rb_harm_grade;
+    // 病害图片展示
+    private ViewPager vp_pic;
+    // 每张图片对应的点
+    private LinearLayout ll_point;
+    // 快速诊断按钮
+    private LinearLayout ll_rapid_diagnosis;
+    // 用来存放图片链接的集合
+    private List<PetSolu> dataList = new ArrayList<PetSolu>();
+    private ImageView imageView;
+    private ImageView[] imageViews;
+    private String type;
+    private List<PetSolu> petSoluList;
+    private List<PetSolu> petPreventList;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_harm_detials);
+    private Handler handler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            initListView();
+        }
 
-		type = getIntent().getExtras().getString("type");
+        ;
+    };
+    private NatDisspec nat;
+    private PetDisspec pet;
 
-		if (HarmFragment.TYPE_NAT.equals(type)) {
-			nat = (NatDisspec) getIntent().getExtras().getSerializable("nat");
-		} else if (HarmFragment.TYPE_PET.equals(type)) {
-			pet = (PetDisspec) getIntent().getExtras().getSerializable("pet");
-			int petDisSpecId = pet.petDisSpecId;
-			initData(petDisSpecId);
-		}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_harm_detials);
 
-		lv_detial = (ListView) findViewById(R.id.lv_detial);
+        type = getIntent().getExtras().getString("type");
 
-		header = View.inflate(DsnApplication.getContext(), R.layout.harm_detials_header, null);
+        if (HarmFragment.TYPE_NAT.equals(type)) {
+            nat = (NatDisspec) getIntent().getExtras().getSerializable("nat");
+        } else if (HarmFragment.TYPE_PET.equals(type)) {
+            pet = (PetDisspec) getIntent().getExtras().getSerializable("pet");
+            int petDisSpecId = pet.petDisSpecId;
+            initData(petDisSpecId);
+        }
 
-		initHeader();
+        lv_detial = (ListView) findViewById(R.id.lv_detial);
 
-		lv_detial.addHeaderView(header);
-	}
+        header = View.inflate(DsnApplication.getContext(), R.layout.harm_detials_header, null);
 
-	private void initListView() {
-		lv_detial.setAdapter(new HarmDetialAdapter(this, dataList, petSoluList.size(), true));
+        initHeader();
 
-		lv_detial.setOnItemClickListener(new OnItemClickListener() {
+        lv_detial.addHeaderView(header);
+    }
 
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+    private void initListView() {
+        lv_detial.setAdapter(new HarmDetialAdapter(this, dataList, petSoluList.size(), true));
 
-				PetSolu solu = dataList.get(position - 1);
-				Intent intent = new Intent(DsnApplication.getContext(), CureDetialActivity.class);
+        lv_detial.setOnItemClickListener(new OnItemClickListener() {
 
-				Bundle bundle = new Bundle();
-				bundle.putSerializable("solu", solu);
-				intent.putExtras(bundle);
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-				startActivity(intent);
-			}
-		});
-	}
+                PetSolu solu = dataList.get(position - 1);
+                Intent intent = new Intent(DsnApplication.getContext(), CureDetialActivity.class);
 
-	private void initData(int petDisSpecId) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("solu", solu);
+                intent.putExtras(bundle);
 
-		DisasterManager manager = DisasterManager.getInstance(this);
-		if (HarmFragment.TYPE_PET.equals(type)) {
-			// 获取治疗方案
-			petSoluList = manager.getCureSolution(petDisSpecId);
-			// 获取预防方案
-			petPreventList = manager.getPreventSolution(petDisSpecId);
+                startActivity(intent);
+            }
+        });
+    }
 
-			if (petSoluList != null && petSoluList.size() != 0) {
-				dataList.addAll(petSoluList);
-			}
-			if (petPreventList != null && petPreventList.size() != 0) {
-				dataList.addAll(petPreventList);
-			}
+    private void initData(int petDisSpecId) {
 
-			// TODO MING:待确定是否需要handler发送消息
+        DisasterManager manager = DisasterManager.getInstance(this);
+        if (HarmFragment.TYPE_PET.equals(type)) {
+            // 获取治疗方案
+            petSoluList = manager.getCureSolution(petDisSpecId);
+            // 获取预防方案
+            petPreventList = manager.getPreventSolution(petDisSpecId);
 
-			handler.sendEmptyMessage(0);
-		}
-	}
+            if (petSoluList != null && petSoluList.size() != 0) {
+                dataList.addAll(petSoluList);
+            }
+            if (petPreventList != null && petPreventList.size() != 0) {
+                dataList.addAll(petPreventList);
+            }
 
-	/*
-	 * 填充listview的头的信息
-	 */
-	private void initHeader() {
-		tv_harm_name = (TextView) header.findViewById(R.id.tv_harm_name);
-		rb_harm_grade = (RatingBar) header.findViewById(R.id.rb_harm_grade);
-		tv_harm_des = (TextView) header.findViewById(R.id.tv_harm_des);
-		vp_pic = (ViewPager) header.findViewById(R.id.vp_pic);
-		ll_point = (LinearLayout) header.findViewById(R.id.ll_point);
+            // TODO MING:待确定是否需要handler发送消息
 
-		if (HarmFragment.TYPE_PET.equals(type)) {
-			tv_harm_name.setText(pet.petDisSpecName);
-			rb_harm_grade.setRating(pet.severity);
-			tv_harm_des.setText(pet.description);
-		} else if (HarmFragment.TYPE_NAT.equals(type)) {
-			// TODO MING:待补充
-			tv_harm_name.setText(nat.natDisSpecName);
-		}
+            handler.sendEmptyMessage(0);
+        }
+    }
 
-		imageViews = new ImageView[4];
-		int px = GraphicUtils.dip2px(this, 8);
-		for (int i = 0; i < 4; i++) {
-			imageView = new ImageView(this);
-			imageView.setLayoutParams(new LayoutParams(px, px));
+    /*
+     * 填充listview的头的信息
+     */
+    private void initHeader() {
+        tv_harm_name = (TextView) header.findViewById(R.id.tv_harm_name);
+        rb_harm_grade = (RatingBar) header.findViewById(R.id.rb_harm_grade);
+        tv_harm_des = (TextView) header.findViewById(R.id.tv_harm_des);
+        vp_pic = (ViewPager) header.findViewById(R.id.vp_pic);
+        ll_point = (LinearLayout) header.findViewById(R.id.ll_point);
 
-			imageViews[i] = imageView;
+        if (HarmFragment.TYPE_PET.equals(type)) {
+            tv_harm_name.setText(pet.petDisSpecName);
+            rb_harm_grade.setRating(pet.severity);
+            tv_harm_des.setText(pet.description);
+        } else if (HarmFragment.TYPE_NAT.equals(type)) {
+            // TODO MING:待补充
+            tv_harm_name.setText(nat.natDisSpecName);
+        }
 
-			if (i == 0) {
-				imageView.setBackgroundResource(R.drawable.selected_point);
-			} else {
-				imageView.setBackgroundResource(R.drawable.unselect_point);
-			}
+        imageViews = new ImageView[4];
+        int px = GraphicUtils.dip2px(this, 8);
+        for (int i = 0; i < 4; i++) {
+            imageView = new ImageView(this);
+            imageView.setLayoutParams(new LayoutParams(px, px));
 
-			ll_point.addView(imageView);
-		}
+            imageViews[i] = imageView;
 
-		ll_rapid_diagnosis = (LinearLayout) header.findViewById(R.id.ll_rapid_diagnosis);
+            if (i == 0) {
+                imageView.setBackgroundResource(R.drawable.selected_point);
+            } else {
+                imageView.setBackgroundResource(R.drawable.unselect_point);
+            }
 
-		vp_pic.setAdapter(new PagerAdapter() {
+            ll_point.addView(imageView);
+        }
 
-			@Override
-			public int getCount() {
-				return 5;
-			}
+        ll_rapid_diagnosis = (LinearLayout) header.findViewById(R.id.ll_rapid_diagnosis);
 
-			@Override
-			public boolean isViewFromObject(View arg0, Object arg1) {
-				return arg0 == arg1;
-			}
+        vp_pic.setAdapter(new PagerAdapter() {
 
-			@Override
-			public Object instantiateItem(ViewGroup container, int position) {
-				TextView tv = new TextView(getApplicationContext());
-				tv.setText("我是第" + position + "张图片");
-				tv.setTextSize(50);
+            @Override
+            public int getCount() {
+                return 5;
+            }
 
-				container.addView(tv);
-				return tv;
-			}
+            @Override
+            public boolean isViewFromObject(View arg0, Object arg1) {
+                return arg0 == arg1;
+            }
 
-			@Override
-			public void destroyItem(ViewGroup container, int position, Object object) {
-				container.removeView((View) object);
-			}
-		});
-	}
+            @Override
+            public Object instantiateItem(ViewGroup container, int position) {
+                TextView tv = new TextView(getApplicationContext());
+                tv.setText("我是第" + position + "张图片");
+                tv.setTextSize(50);
 
-	/**
-	 * 
-	 * @param petDisSpecId
-	 *            病虫草害中petDisSpec中的 petDisSpecId
-	 * 
-	 * @param flag
-	 *            标记，需要标明你是点击防治，预防，还是该条item跳进来的
-	 * @param context
-	 * 
-	 * @return
-	 */
+                container.addView(tv);
+                return tv;
+            }
 
-	public static Intent createIntent(int petDisSpecId, String flag, Context context) {
-		Intent intent = new Intent(context, HarmDetialsActivity.class);
-		intent.putExtra("petDisSpecId", petDisSpecId);
-		intent.putExtra("flag", flag);
-		return intent;
-	}
+
+            @Override
+            public void destroyItem(ViewGroup container, int position, Object object) {
+                container.removeView((View) object);
+            }
+        });
+    }
+
+    /**
+     * @param petDisSpecId 病虫草害中petDisSpec中的 petDisSpecId
+     * @param flag         标记，需要标明你是点击防治，预防，还是该条item跳进来的
+     * @param context
+     * @return
+     */
+
+    public static Intent createIntent(int petDisSpecId, String flag, Context context) {
+        Intent intent = new Intent(context, HarmDetialsActivity.class);
+        intent.putExtra("petDisSpecId", petDisSpecId);
+        intent.putExtra("flag", flag);
+        return intent;
+    }
 }
