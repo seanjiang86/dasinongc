@@ -71,15 +71,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
             parent.removeView(mRoot);
             return mRoot;
         }
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        mRoot = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
 
-        mRefreshLayout = (BGARefreshLayout) view.findViewById(R.id.rl_modulename_refresh);
+        mRefreshLayout = (BGARefreshLayout) mRoot.findViewById(R.id.rl_modulename_refresh);
 
-        SoilView soilView = (SoilView) view.findViewById(R.id.home_soilview);
+        SoilView soilView = (SoilView) mRoot.findViewById(R.id.home_soilview);
 
         initRefreshLayout();
         soilView.setOnClickListener(this);
-        return view;
+        return mRoot;
     }
 
     private void loadDataFromWithCache() {
