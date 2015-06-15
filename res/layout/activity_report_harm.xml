@@ -194,7 +194,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="40dp"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -221,7 +221,7 @@
                         style="@style/CustomRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="23dp"
                         android:paddingLeft="4dp"
                         android:text="近几天逐渐爆发"
                         android:textColor="@color/color_333333" />
@@ -230,7 +230,7 @@
                         style="@style/CustomRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="23dp"
                         android:paddingLeft="4dp"
                         android:text="之前爆发过的，是复发"
                         android:textColor="@color/color_333333" />
@@ -241,7 +241,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -268,7 +268,7 @@
                         style="@style/CustomRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="15dp"
+                        android:layout_marginTop="23dp"
                         android:paddingLeft="4dp"
                         android:text="田里不规则爆发"
                         android:textColor="@color/color_333333" />
@@ -280,7 +280,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="30dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -291,30 +293,23 @@
                     android:textColor="@color/color_666666"
                     android:textSize="16sp" />
 
-                <LinearLayout
+                <EditText
+                    android:id="@+id/et_des"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:orientation="vertical" >
+                    android:lines="6"
+                    android:background="@drawable/text_bg"
+                    android:textColorHint="@color/color_CCCCCC"
+                    android:textSize="16sp"
+                    android:hint="  近期打药或施肥情况"
+                    android:gravity="top" />
 
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@drawable/text_bg"
-                        android:hint="   近期打药" />
-
-                    <EditText
-                        android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:background="@drawable/text_bg"
-                        android:hint="   近期施肥" />
-                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="18dp"
                 android:orientation="horizontal" >

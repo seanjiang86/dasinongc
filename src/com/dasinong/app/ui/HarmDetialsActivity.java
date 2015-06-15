@@ -6,14 +6,11 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.ViewParent;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
@@ -21,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
@@ -30,11 +26,9 @@ import com.dasinong.app.database.disaster.domain.PetDisspec;
 import com.dasinong.app.database.disaster.domain.PetSolu;
 import com.dasinong.app.database.disaster.service.DisasterManager;
 import com.dasinong.app.ui.adapter.HarmDetialAdapter;
-import com.dasinong.app.ui.adapter.MyBaseAdapter;
 import com.dasinong.app.ui.fragment.HarmFragment;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.GraphicUtils;
-import com.dasinong.app.utils.Logger;
 
 /**
  * @author Ming 此类为显示病虫草害详情的页面
@@ -71,7 +65,6 @@ public class HarmDetialsActivity extends BaseActivity {
 	private DisasterManager manager;
 	private TopbarView topbar;
 
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,9 +74,7 @@ public class HarmDetialsActivity extends BaseActivity {
 
 		type = getIntent().getExtras().getString("type");
 
-		if (HarmFragment.TYPE_NAT.equals(type)) {
-			nat = (NatDisspec) getIntent().getExtras().getSerializable("nat");
-		} else if (HarmFragment.TYPE_PET.equals(type)) {
+		if (HarmFragment.TYPE_PET.equals(type)) {
 			pet = (PetDisspec) getIntent().getExtras().getSerializable("pet");
 		} else if (FLAG_PREVENT.equals(type) || FLAG_CURE.equals(type)) {
 			if (getIntent().hasExtra("petDisSpecId")) {
@@ -97,15 +88,15 @@ public class HarmDetialsActivity extends BaseActivity {
 
 		lv_detial = (ListView) findViewById(R.id.lv_detial);
 		topbar = (TopbarView) findViewById(R.id.topbar);
-		
+
 		initTopBar();
-		
+
 		header = View.inflate(DsnApplication.getContext(), R.layout.harm_detials_header, null);
-		
+
 		initData(pet.petDisSpecId);
 
 	}
-	
+
 	private void initTopBar() {
 		topbar.setCenterText(pet.petDisSpecName);
 		topbar.setLeftView(true, true);
@@ -139,25 +130,21 @@ public class HarmDetialsActivity extends BaseActivity {
 
 	private void initData(int petDisSpecId) {
 
-		if (HarmFragment.TYPE_NAT.equals(type)) {
-			// TODO MING:天气灾害
-		} else {
-			// 获取治疗方案
-			petSoluList = manager.getCureSolution(petDisSpecId);
-			// 获取预防方案
-			petPreventList = manager.getPreventSolution(petDisSpecId);
+		// 获取治疗方案
+		petSoluList = manager.getCureSolution(petDisSpecId);
+		// 获取预防方案
+		petPreventList = manager.getPreventSolution(petDisSpecId);
 
-			if (petSoluList != null && petSoluList.size() != 0) {
-				dataList.addAll(petSoluList);
-			}
-			if (petPreventList != null && petPreventList.size() != 0) {
-				dataList.addAll(petPreventList);
-			}
-			
-			initHeader();
-			
-			initListView();
+		if (petSoluList != null && petSoluList.size() != 0) {
+			dataList.addAll(petSoluList);
 		}
+		if (petPreventList != null && petPreventList.size() != 0) {
+			dataList.addAll(petPreventList);
+		}
+
+		initHeader();
+
+		initListView();
 	}
 
 	/*
@@ -170,14 +157,9 @@ public class HarmDetialsActivity extends BaseActivity {
 		vp_pic = (ViewPager) header.findViewById(R.id.vp_pic);
 		ll_point = (LinearLayout) header.findViewById(R.id.ll_point);
 
-		if (HarmFragment.TYPE_NAT.equals(type)) {
-			// TODO MING:待补充
-			tv_harm_name.setText(nat.natDisSpecName);
-		} else {
-			tv_harm_name.setText(pet.petDisSpecName);
-			rb_harm_grade.setRating(pet.severity);
-			tv_harm_des.setText(pet.description);
-		}
+		tv_harm_name.setText(pet.petDisSpecName);
+		rb_harm_grade.setRating(pet.severity);
+		tv_harm_des.setText(pet.description);
 
 		imageViews = new ImageView[4];
 		int px = GraphicUtils.dip2px(this, 8);
@@ -225,7 +207,7 @@ public class HarmDetialsActivity extends BaseActivity {
 				container.removeView((View) object);
 			}
 		});
-		
+
 		lv_detial.addHeaderView(header);
 	}
 

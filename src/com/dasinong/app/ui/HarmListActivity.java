@@ -44,6 +44,7 @@ public class HarmListActivity extends BaseActivity {
 		tabs.setTextSize(GraphicUtils.dip2px(this, 16));
 		tabs.setSelectedTextColorResource(R.color.color_2BAD2A);
 		tabs.setSelectedTextSize(GraphicUtils.dip2px(this, 16));
+		tabs.setTabPaddingLeftRight(GraphicUtils.dip2px(this, 44));
 
 		HarmFragmentPagerAdapter adapter = new HarmFragmentPagerAdapter(getSupportFragmentManager());
 

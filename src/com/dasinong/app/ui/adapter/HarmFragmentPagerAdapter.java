@@ -2,13 +2,11 @@ package com.dasinong.app.ui.adapter;
 
 
 
-import com.dasinong.app.DsnApplication;
-import com.dasinong.app.ui.fragment.HarmFragment;
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.widget.Toast;
+
+import com.dasinong.app.ui.fragment.HarmFragment;
 
 /**
  * 
@@ -18,7 +16,7 @@ import android.widget.Toast;
 
 public class HarmFragmentPagerAdapter extends FragmentPagerAdapter {
 	
-	private final String [] TITLES = {"病害","虫害","草害","自然灾害"};
+	private final String [] TITLES = {"病害","虫害","草害"};
 	
 	public HarmFragmentPagerAdapter(FragmentManager fm) {
 		super(fm);
@@ -37,7 +35,7 @@ public class HarmFragmentPagerAdapter extends FragmentPagerAdapter {
 	
 	@Override
 	public Fragment getItem(int position) {
-		return new HarmFragment().newInstance(position);
+		return HarmFragment.newInstance(position);
 	}
 	
 }

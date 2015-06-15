@@ -29,7 +29,6 @@ import com.dasinong.app.utils.Logger;
 
 public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener {
 
-	// private LocationUtils locationUtils;
 	// 纬度
 	private double latitude;
 	// 经度
@@ -47,7 +46,7 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 	private Button btn_no_in_field;
 	private TopbarView topbar;
 	private RunnableTask task = new RunnableTask();
-	private static final int MAX_DELAY_COUNT = 3;
+	private static final int MAX_DELAY_COUNT = 2;
 	private int count = 0;
 
 	private Handler handler = new Handler() {
@@ -90,6 +89,7 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 		} else if ((latitude == 0 || longitude == 0) && count >= MAX_DELAY_COUNT) {
 			handler.removeCallbacks(task);
 			Intent intent = new Intent(this, AddFieldActivity2.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			startActivity(intent);
 			return;
 		}
@@ -160,7 +160,7 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 	}
 
 	private void initTopBar() {
-		topbar.setCenterText("农田信息");
+		topbar.setCenterText("添加农田");
 		topbar.setLeftView(true, true);
 	}
 

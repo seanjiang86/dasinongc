@@ -3,8 +3,8 @@
     xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="@color/color_FFFFFF" >
+    android:background="@color/color_FFFFFF"
+    android:orientation="vertical" >
 
     <com.dasinong.app.ui.view.TopbarView
         android:id="@+id/topbar"
@@ -59,22 +59,22 @@
         android:layout_marginTop="40.0dip" >
 
         <Button
-            android:id="@+id/btn_no_in_field"
-            android:layout_width="145.0dip"
-            android:layout_height="45.0dip"
-            android:background="@drawable/green_button_selector"
-            android:text="我不在田附近"
-            android:textColor="@color/color_FFFFFF"
-            android:textSize="16sp" />
-
-        <Button
             android:id="@+id/btn_in_field"
             android:layout_width="145.0dip"
             android:layout_height="45.0dip"
-            android:layout_marginLeft="10.0dip"
             android:background="@drawable/gray_button_selector"
             android:text="我在田附近"
             android:textColor="@color/color_666666"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_no_in_field"
+            android:layout_width="145.0dip"
+            android:layout_height="45.0dip"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/green_button_selector"
+            android:text="我不在田附近"
+            android:textColor="@color/color_FFFFFF"
             android:textSize="16sp" />
     </LinearLayout>
 
