@@ -11,6 +11,7 @@
 
 Issue to confirm:
 Shall we use long for all date? currently input is yyyy/mm/dd, output is long.
+测土相关api还未上传到server，宁宁调试前和希遥对一下状态。
 
 Note,请先用authReg?cellphone=13112345678
 登陆获得默认用户。
