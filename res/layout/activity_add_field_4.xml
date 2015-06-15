@@ -3,8 +3,8 @@
     xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" 
-    android:background="@color/color_FFFFFF" >
+    android:background="@color/color_FFFFFF"
+    android:orientation="vertical" >
 
     <com.dasinong.app.ui.view.TopbarView
         android:id="@+id/topbar"
@@ -55,98 +55,60 @@
         </LinearLayout>
     </LinearLayout>
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/crop_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
 
-        <LinearLayout
-            android:id="@+id/crop_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="20dp"
+        <Spinner
+            android:id="@+id/spn_crop"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:background="@drawable/edittext_style"
             android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:padding="1dp"
+            android:spinnerMode="dropdown" />
 
-            <TextView
-                android:id="@+id/tv_crop"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_weight="1"
-                android:background="@drawable/text_bg"
-                android:gravity="center"
-                android:lines="2"
-                android:text="作物" />
+        <Spinner
+            android:id="@+id/spn_variety_name"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="8dp"
+            android:layout_weight="1"
+            android:background="@drawable/edittext_style"
+            android:gravity="center_vertical"
+            android:padding="1dp"
+            android:spinnerMode="dropdown" />
 
-            <TextView
-                android:id="@+id/tv_variety_name"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="8dp"
-                android:layout_weight="1"
-                android:background="@drawable/text_bg"
-                android:gravity="center"
-                android:lines="2"
-                android:text="品种" />
+        <Spinner
+            android:id="@+id/spn_variety_num"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="7dp"
+            android:layout_weight="1"
+            android:background="@drawable/edittext_style"
+            android:gravity="center_vertical"
+            android:padding="1dp"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_variety_num"
-                android:layout_width="0dp"
-                android:layout_height="45dp"
-                android:layout_marginLeft="7dp"
-                android:layout_weight="1"
-                android:background="@drawable/text_bg"
-                android:gravity="center"
-                android:lines="2"
-                android:text="品种编号" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_sure_crop"
-            android:layout_width="match_parent"
-            android:layout_height="45.0dip"
-            android:layout_below="@id/crop_container"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_marginTop="40dp"
-            android:background="@drawable/green_button_selector"
-            android:text="确定"
-            android:textColor="@color/color_FFFFFF"
-            android:textSize="16sp" />
-
-        <FrameLayout
-            android:id="@+id/fl_select_crop"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/crop_container"
-            android:background="@color/color_harf_transparent"
-            android:visibility="gone" >
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:orientation="horizontal" >
-
-                <ListView
-                    android:id="@+id/lv_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@android:color/white"
-                    android:dividerHeight="0dp" />
-            </LinearLayout>
-        </FrameLayout>
-
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/btn_sure_location"
-            android:layout_alignParentBottom="true"
-            android:onClick="login"
-            android:text="login" />
-    </RelativeLayout>
+    <Button
+        android:id="@+id/btn_sure_crop"
+        android:layout_width="match_parent"
+        android:layout_height="45.0dip"
+        android:layout_below="@id/crop_container"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/green_button_selector"
+        android:text="确定"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="16sp" />
 
 </LinearLayout>

@@ -23,8 +23,8 @@ public class CropAdapter extends MyBaseAdapter<String> {
 		ViewHolder holder;
 		if(view == null){
 			holder = new ViewHolder();
-			view = View.inflate(context, R.layout.spinner_checked_text, null);
-			holder.tv = (TextView) view.findViewById(R.id.tv);
+			view = View.inflate(context, R.layout.textview, null);
+			holder.tv = (TextView) view.findViewById(R.id.textview);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
