@@ -9,6 +9,9 @@
 用户未登陆(或session失效) 一律返回100
 缺少参数/参数异常 3++
 
+Issue to confirm:
+Shall we use long for all date? currently input is yyyy/mm/dd, output is long.
+
 Note,请先用authReg?cellphone=13112345678
 登陆获得默认用户。
 fieldId=10有相关任务
@@ -16,15 +19,13 @@ fieldId=10有相关任务
 ## 开发(等待测试)中借口
 | 接口   | 接口路径  | 输入参数 |　返回码 | 返回描述    |　　返回内容  |
 |--------|-----------|----------|---------|-------------|------------------|
-|获得地址| searchLocation | lat(R),lon(R),province(R)，city（R）,country(R)    |200  | 找到最近田  | location内容 |
-|获得所有任务| getAllTask | fieldId(R) | 200 | 获取任务成功 | 任务列表 |
-|个人信息获取| loadUserProfile |     | 200  | 获取成功  | user内容 |
 |提交用户手机验证状态 |isAuth|  | 200  | ||
 |    |  |  | 120  |尚未验证 ||
 |个人信息编辑提交| updateProfile |userName,cellphone,password,address,pictureId,telephone  |  200   | 更新成功 |   | 
+|测土列表|loadReports|fieldId| 200| 检索成功| 默认用户全部测土报告或当前天地测土报告|
+|测土提交|insertSoilReport| see sample. testDate can not be null.|200|更新成功||
 
-
-
+insertSoilReport?userId=15&fieldId=10&type=type&color=red&fertility=fertility&humidity=30.5&testDate=2015/04/01&phValue=6.7&organic=organic&an=12.1&qn=10.2&p=100&qK=12&sK=1.2&fe=3.0&mn=12&cu=21.0&zn=1&b=90&mo=12.0&ca=1.0&s=0.1&si=45&mg=2.3
 ## 待开发接口
 | 接口   | 接口路径  | 输入参数 |　返回码 | 返回描述    |　　返回内容  |
 |--------|-----------|----------|---------|-------------|------------------|
@@ -36,8 +37,6 @@ fieldId=10有相关任务
 |获取用户短信订阅列表 ||||||
 |首页天气 ||||||
 |首页测土||||||
-|测土列表||||||
-|测土提交||||||
 |测土修改||||||
 |修改个人信息（手机号、密码、姓名、地址、家庭电话）||||||
 |短信订阅删除||||||
@@ -80,3 +79,6 @@ fieldId=10有相关任务
 | 选择地址 |  getLocation   | province(R),city(R),country(R),district(R) |  200 | 获取成功 |   Map(community,locationId) |
 |         |                 |                                  | 300 | 缺少参数 ||
 |搜索附近用户 | searchNearUser | lat(R),lon(R) |200 | 找到附近农户 | 农户数 |
+|获得地址| searchLocation | lat(R),lon(R),province(R)，city（R）,country(R)    |200  | 找到最近田  | location内容 |
+|获得所有任务| getAllTask | fieldId(R) | 200 | 获取任务成功 | 任务列表 |
+|个人信息获取| loadUserProfile |     | 200  | 获取成功  | user内容 |
