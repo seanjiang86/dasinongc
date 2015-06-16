@@ -1,6 +1,5 @@
 # dasinongc
 
-20150527 网络层等基础代码提交，慢慢完善中...    --liam
 
 # 此处暂时用来记录restful api 相关文档
 115.29.111.179/ploughHelper/
@@ -43,8 +42,6 @@ insertSoilReport?userId=15&fieldId=10&type=type&color=red&fertility=fertility&hu
 |短信订阅删除||||||
 |短信订阅编辑||||||
 
-## 待加字段
-1.个人信息获取	loadUserProfile  添加： 手机号 isAuth  头像url
 
 
 ## 完成借口
