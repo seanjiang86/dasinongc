@@ -62,4 +62,5 @@ public final class RequestCode {
 	 * 更新任务信息
 	 */
 	public static final int UPLOAD_MY_TASK = UPLOAD_MY_INFO + 1;
+	public static final int UPLOAD_PHONE_AUTH_STATE = UPLOAD_MY_TASK + 1;
 }

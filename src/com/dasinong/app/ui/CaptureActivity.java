@@ -58,45 +58,55 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		setContentView(R.layout.activity_scan_qrcoder);
 		// ViewUtil.addTopView(getApplicationContext(), this,
 		// R.string.scan_card);
-		CameraManager.init(getApplication());
-		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
-		cancelScanButton = (Button) this.findViewById(R.id.btn_cancel_scan);
-		topbar = (TopbarView) findViewById(R.id.topbar);
-		topbar.setCenterText("扫描二维码");
-		hasSurface = false;
-		inactivityTimer = new InactivityTimer(this);
+		
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
-		SurfaceHolder surfaceHolder = surfaceView.getHolder();
-		if (hasSurface) {
-			initCamera(surfaceHolder);
-		} else {
-			surfaceHolder.addCallback(this);
-			surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-		}
-		decodeFormats = null;
-		characterSet = null;
-
-		playBeep = true;
-		AudioManager audioService = (AudioManager) getSystemService(AUDIO_SERVICE);
-		if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
-			playBeep = false;
-		}
-		initBeepSound();
-		vibrate = true;
-
-		// quit the scan view
-		cancelScanButton.setOnClickListener(new OnClickListener() {
-
+		new Handler().post(new Runnable() {
+			
 			@Override
-			public void onClick(View v) {
-				CaptureActivity.this.finish();
+			public void run() {
+				
+				CameraManager.init(getApplication());
+				viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
+				cancelScanButton = (Button) findViewById(R.id.btn_cancel_scan);
+				topbar = (TopbarView) findViewById(R.id.topbar);
+				topbar.setCenterText("扫描二维码");
+				hasSurface = false;
+				inactivityTimer = new InactivityTimer(CaptureActivity.this);
+				
+				SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
+				SurfaceHolder surfaceHolder = surfaceView.getHolder();
+				if (hasSurface) {
+					initCamera(surfaceHolder);
+				} else {
+					surfaceHolder.addCallback(CaptureActivity.this);
+					surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+				}
+				decodeFormats = null;
+				characterSet = null;
+
+				playBeep = true;
+				AudioManager audioService = (AudioManager) getSystemService(AUDIO_SERVICE);
+				if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
+					playBeep = false;
+				}
+				initBeepSound();
+				vibrate = true;
+
+				// quit the scan view
+				cancelScanButton.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						CaptureActivity.this.finish();
+					}
+				});
 			}
 		});
+		
 	}
 
 	@Override

@@ -2,15 +2,38 @@ package com.dasinong.app.entity;
 
 public class User {
 
-	
+	private String userName;
+	private boolean authenticated;
 	private String userId;
 	private String cellPhone;
-	private String userName;
-	private String password;
-	private String address;
 	private String pictureId;
-	private boolean authenticated;
+	private String telephone;
+	private String address;
 	private int[] fields;
+
+	public String getTelephone() {
+		return telephone;
+	}
+
+	public void setTelephone(String telephone) {
+		this.telephone = telephone;
+	}
+
+	public String getPictureId() {
+		return pictureId;
+	}
+
+	public void setPictureId(String pictureId) {
+		this.pictureId = pictureId;
+	}
+
+	public boolean isAuthenticated() {
+		return authenticated;
+	}
+
+	public void setAuthenticated(boolean authenticated) {
+		this.authenticated = authenticated;
+	}
 
 	public String getUserId() {
 		return userId;
@@ -34,14 +57,6 @@ public class User {
 
 	public void setUserName(String userName) {
 		this.userName = userName;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getAddress() {

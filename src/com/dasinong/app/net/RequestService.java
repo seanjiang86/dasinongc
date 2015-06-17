@@ -125,4 +125,9 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.UPLOAD_MY_TASK, params, SubUrl.UPLOAD_MY_TASK, callBack, clazz);
 	}
 
+	public void setPhoneAuthState(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.UPLOAD_PHONE_AUTH_STATE, params, SubUrl.UPLOAD_PHONE_AUTH_STATE, callBack, clazz);
+	}
+	
 }

@@ -78,9 +78,11 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	private Button btnSubmit;
 	// private Button btnSounds;
 	private BroadcastReceiver smsReceiver;
-	private int SHOWDIALOGTYPE = 1;
+//	private int SHOWDIALOGTYPE = 1;
 	
 	private int mFailedCount = 0;
+	
+	private boolean isAuthPhone = false;
 	
 	public void setPhone(String phone, String code, String formatedPhone) {
 		this.phone = phone;
@@ -95,6 +97,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		phone = getIntent().getStringExtra("phone");
 		code = getIntent().getStringExtra("code");
 		formatedPhone = getIntent().getStringExtra("formatedPhone");
+		isAuthPhone = getIntent().getBooleanExtra("isAuthPhone", false);
 	}
 
 	@Override
@@ -365,7 +368,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 //			etIdentifyNum.getText().clear();
 //			break;
 		case R.id.tv_unreceive_identify:
-			SHOWDIALOGTYPE = 1;
+//			SHOWDIALOGTYPE = 1;
 			// 没有接收到短信
 			showDialog1();
 			break;
@@ -549,15 +552,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 //					res.put("phone", data);
 //					setResult(res);
 					
-					Intent intent = new Intent();
-					intent.putExtra("res", true);
-					intent.putExtra("page", 2);
-					
-					@SuppressWarnings("unchecked")
-					HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
-					
-					intent.putExtra("country", (String) phoneMap.get("country"));
-					intent.putExtra("phone", (String) phoneMap.get("phone"));
 					
 //					intent.putExtra("phone", data);
 					
@@ -565,7 +559,22 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					
 //					finish();
 					
-					loginRegister((String) phoneMap.get("phone"));
+					if(isAuthPhone){
+						setResult(RESULT_OK);
+						finish();
+					}else{
+						Intent intent = new Intent();
+						intent.putExtra("res", true);
+						intent.putExtra("page", 2);
+						
+						@SuppressWarnings("unchecked")
+						HashMap<String, Object> phoneMap = (HashMap<String, Object>) data;
+						
+						intent.putExtra("country", (String) phoneMap.get("country"));
+						intent.putExtra("phone", (String) phoneMap.get("phone"));
+						loginRegister((String) phoneMap.get("phone"));
+					}
+					
 				} else {
 					((Throwable) data).printStackTrace();
 					// 验证码不正确

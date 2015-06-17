@@ -25,7 +25,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 	@Override
 	public void uncaughtException(Thread thread, Throwable ex) {
 
-		Logger.e("MoFangException", "dasinong_" + Log.getStackTraceString(ex));
+		Logger.e("DasinongException", "dasinong_" + Log.getStackTraceString(ex));
 
 		PrintStream printStream = null;
 		try {

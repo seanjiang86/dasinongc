@@ -81,6 +81,9 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	private static String APPKEY = "80424b5493c0";
 	private static String APPSECRET = "3c1b73e6af8f059c2e6b25f7065d77a3";
 
+	private String phone;
+	private boolean isAuthPhone = false;
+	
 	private void initSDK() {
 		SMSSDK.initSDK(this, APPKEY, APPSECRET);
 		final Handler handler = new Handler();
@@ -119,6 +122,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 		setContentView(R.layout.activity_register);
 
+		initData();
 		initSDK();
 		initView();
 
@@ -233,118 +237,18 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		}
 		
 		mNextButton.setOnClickListener(this);
+		
+		mPhoneEdit.setText(phone);
+		if(isAuthPhone){
+			onClick(mNextButton);
+		}
+	}
+	
+	private void initData() {
+		phone = getIntent().getStringExtra("phone");
+		isAuthPhone = getIntent().getBooleanExtra("isAuthPhone", false);
 	}
 
-	public void onCreate() {
-		// int resId = getLayoutRes(activity, "smssdk_regist_page");
-		// if (resId > 0) {
-		// activity.setContentView(resId);
-		// currentId = DEFAULT_COUNTRY_ID;
-
-		// resId = getIdRes(activity, "ll_back");
-		// View llBack = activity.findViewById(resId);
-		// resId = getIdRes(activity, "tv_title");
-		// TextView tv = (TextView) activity.findViewById(resId);
-		// resId = getStringRes(activity, "smssdk_regist");
-		// if (resId > 0) {
-		// tv.setText(resId);
-		// }
-		// resId = getIdRes(activity, "rl_country");
-		// View viewCountry = activity.findViewById(resId);
-		// resId = getIdRes(activity, "btn_next");
-		// btnNext = (Button) activity.findViewById(resId);
-		//
-		// resId = getIdRes(activity, "tv_country");
-		// tvCountry = (TextView) activity.findViewById(resId);
-		//
-		// String[] country = getCurrentCountry();
-		// // String[] country = SMSSDK.getCountry(currentId);
-		// if (country != null) {
-		// currentCode = country[1];
-		// tvCountry.setText(country[0]);
-		// }
-		// resId = getIdRes(activity, "tv_country_num");
-		// tvCountryNum = (TextView) activity.findViewById(resId);
-		// tvCountryNum.setText("+" + currentCode);
-		//
-		// resId = getIdRes(activity, "et_write_phone");
-		// etPhoneNum = (EditText) activity.findViewById(resId);
-		// etPhoneNum.setText("");
-		// etPhoneNum.addTextChangedListener(this);
-		// etPhoneNum.requestFocus();
-		// if (etPhoneNum.getText().length() > 0) {
-		// btnNext.setEnabled(true);
-		// resId = getIdRes(activity, "iv_clear");
-		// ivClear = (ImageView) activity.findViewById(resId);
-		// ivClear.setVisibility(View.VISIBLE);
-		// resId = getBitmapRes(activity, "smssdk_btn_enable");
-		// if (resId > 0) {
-		// btnNext.setBackgroundResource(resId);
-		// }
-		// }
-		//
-		// resId = getIdRes(activity, "iv_clear");
-		// ivClear = (ImageView) activity.findViewById(resId);
-		//
-		// // llBack.setOnClickListener(this);
-		// btnNext.setOnClickListener(this);
-		// ivClear.setOnClickListener(this);
-		// viewCountry.setOnClickListener(this);
-
-		// handler = new EventHandler() {
-		// @SuppressWarnings("unchecked")
-		// public void afterEvent(final int event, final int result,
-		// final Object data) {
-		// runOnUIThread(new Runnable() {
-		// public void run() {
-		// if (pd != null && pd.isShowing()) {
-		// pd.dismiss();
-		// }
-		// if (result == SMSSDK.RESULT_COMPLETE) {
-		// if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
-		// // 请求支持国家列表
-		// onCountryListGot((ArrayList<HashMap<String, Object>>) data);
-		// } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-		// // 请求验证码后，跳转到验证码填写页面
-		// afterVerificationCodeRequested();
-		// }
-		// } else {
-		// if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE
-		// && data != null
-		// && (data instanceof UserInterruptException)) {
-		// // 由于此处是开发者自己决定要中断发送的，因此什么都不用做
-		// return;
-		// }
-		//
-		// // 根据服务器返回的网络错误，给toast提示
-		// try {
-		// ((Throwable) data).printStackTrace();
-		// Throwable throwable = (Throwable) data;
-		//
-		// JSONObject object = new JSONObject(
-		// throwable.getMessage());
-		// String des = object.optString("detail");
-		// if (!TextUtils.isEmpty(des)) {
-		// Toast.makeText(activity, des, Toast.LENGTH_SHORT).show();
-		// return;
-		// }
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-		// // 如果木有找到资源，默认提示
-		// int resId = getStringRes(activity,
-		// "smssdk_network_error");
-		// if (resId > 0) {
-		// Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show();
-		// }
-		// }
-		// }
-		// });
-		// }
-		// };
-		// }
-
-	}
 
 	private String[] getCurrentCountry() {
 		String mcc = getMCC();
@@ -701,7 +605,14 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		intent.putExtra("phone", phone);
 		intent.putExtra("code", code);
 		intent.putExtra("formatedPhone", formatedPhone);
-		startActivityForResult(intent, 0);
+		intent.putExtra("isAuthPhone", isAuthPhone);
+		if(isAuthPhone){
+			intent.setFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
+			startActivity(intent);
+			finish();
+		}else{
+			startActivityForResult(intent, 0);
+		}
 	}
 
 	@Override

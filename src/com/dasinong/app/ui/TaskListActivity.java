@@ -22,6 +22,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 import android.widget.ExpandableListView.OnChildClickListener;
@@ -33,6 +36,8 @@ public class TaskListActivity extends BaseActivity {
 	private ExampleAdapter adapter;
 	List<GroupItem> taskDataList = new ArrayList<GroupItem>();
 
+	private List<TaskSpec> mSelectTask = new ArrayList<TaskSpec>();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,16 +48,16 @@ public class TaskListActivity extends BaseActivity {
 		setUpView();
 
 		requestData();
-		
+
 		adapter = new ExampleAdapter(this);
 		adapter.setData(taskDataList);
 
 		listView = (AnimatedExpandableListView) findViewById(R.id.listView);
 		listView.setAdapter(adapter);
 
-//		if(listView.getChildCount()>0)
+		// if(listView.getChildCount()>0)
 		listView.expandGroup(0);
-		
+
 		// In order to show animations, we need to use a custom click handler
 		// for our ExpandableListView.
 		listView.setOnGroupClickListener(new OnGroupClickListener() {
@@ -63,17 +68,17 @@ public class TaskListActivity extends BaseActivity {
 				// expandGroupWithAnimation(int) to animate group
 				// expansion/collapse.
 				if (listView.isGroupExpanded(groupPosition)) {
-//					listView.collapseGroupWithAnimation(groupPosition);
+					// listView.collapseGroupWithAnimation(groupPosition);
 					listView.collapseGroup(groupPosition);
 				} else {
-//					listView.expandGroupWithAnimation(groupPosition);
+					// listView.expandGroupWithAnimation(groupPosition);
 					listView.expandGroup(groupPosition);
 				}
 				return true;
 			}
 
 		});
-		
+
 		listView.setOnChildClickListener(new OnChildClickListener() {
 
 			@Override
@@ -81,6 +86,7 @@ public class TaskListActivity extends BaseActivity {
 
 				TaskSpec child = adapter.getChild(groupPosition, childPosition);
 				showToast(child.taskSpecName);
+
 				return false;
 			}
 		});
@@ -89,15 +95,15 @@ public class TaskListActivity extends BaseActivity {
 
 	private void requestData() {
 		RequestService.getInstance().getAllTask(this, "10", BaseEntity.class, new RequestListener() {
-			
+
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
-				
+
 			}
-			
+
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				
+
 			}
 		});
 	}
@@ -106,16 +112,16 @@ public class TaskListActivity extends BaseActivity {
 		SubStageDaoImpl dao = new SubStageDaoImpl(this);
 		List<String> queryStageCategory = dao.queryStageCategory();
 		List<SubStage> queryStageSubCategory = dao.queryStageSubCategory(queryStageCategory.get(0));
-		
+
 		TaskSpecDaoImpl dao1 = new TaskSpecDaoImpl(this);
-		for(SubStage subStage:queryStageSubCategory){
+		for (SubStage subStage : queryStageSubCategory) {
 			GroupItem item = new GroupItem();
 			item.subStage = subStage;
 			List<TaskSpec> queryTaskSpecWithSubStage = dao1.queryTaskSpecWithSubStage(subStage.subStageId);
 			item.items = queryTaskSpecWithSubStage;
 			taskDataList.add(item);
 		}
-		
+
 	}
 
 	private void initView() {
@@ -127,7 +133,7 @@ public class TaskListActivity extends BaseActivity {
 		mTopbarView.setLeftView(true, true);
 		mTopbarView.setRightText("提交");
 		mTopbarView.setRightClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				updateTaskStates();
@@ -136,19 +142,34 @@ public class TaskListActivity extends BaseActivity {
 	}
 
 	protected void updateTaskStates() {
+
+		if (mSelectTask.size() <= 0) {
+			return;
+		}
+
+		showToast("选择任务：" + mSelectTask.size());
+
+		String taskIds = "";
+		String taskStatuss = "";
+
+		for (TaskSpec task : mSelectTask) {
+			taskIds = taskIds + task.taskSpecId + ",";
+			taskStatuss = taskStatuss + true + ",";
+		}
+
 		startLoadingDialog();
-		RequestService.getInstance().updateTask(this, "10", "2,3,4", "true,true,true", BaseEntity.class, new RequestListener() {
-			
+		RequestService.getInstance().updateTask(this, "10", taskIds, taskStatuss, BaseEntity.class, new RequestListener() {
+
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				dismissLoadingDialog();
-				
+
 			}
-			
+
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				
+
 			}
 		});
 	}
@@ -158,10 +179,10 @@ public class TaskListActivity extends BaseActivity {
 		List<TaskSpec> items = new ArrayList<TaskSpec>();
 	}
 
-
 	private static class ChildHolder {
 		TextView title;
-//		TextView hint;
+		CheckBox state;
+		// TextView hint;
 	}
 
 	private static class GroupHolder {
@@ -197,19 +218,35 @@ public class TaskListActivity extends BaseActivity {
 		@Override
 		public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 			ChildHolder holder;
-			TaskSpec item = getChild(groupPosition, childPosition);
+			final TaskSpec item = getChild(groupPosition, childPosition);
 			if (convertView == null) {
 				holder = new ChildHolder();
 				convertView = inflater.inflate(R.layout.task_list_item, parent, false);
 				holder.title = (TextView) convertView.findViewById(R.id.textTitle);
-//				holder.hint = (TextView) convertView.findViewById(R.id.textHint);
+				holder.state = (CheckBox) convertView.findViewById(R.id.cb_state);
 				convertView.setTag(holder);
 			} else {
 				holder = (ChildHolder) convertView.getTag();
 			}
 
 			holder.title.setText(item.taskSpecName);
-//			holder.hint.setText(item.type);
+			// holder.hint.setText(item.type);
+
+			holder.state.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+
+				@Override
+				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+					if (isChecked) {
+						if (!mSelectTask.contains(item)) {
+							mSelectTask.add(item);
+						}
+					} else {
+						if (mSelectTask.contains(item)) {
+							mSelectTask.remove(item);
+						}
+					}
+				}
+			});
 
 			return convertView;
 		}

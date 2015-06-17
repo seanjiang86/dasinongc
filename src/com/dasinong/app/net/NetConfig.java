@@ -65,6 +65,8 @@ public class NetConfig {
 		public static final String UPLOAD_MY_INFO ="updateProfile";
 		/**提交任务状态 */
 		public static final String UPLOAD_MY_TASK ="updateTask";
+		/**提交手机验证状态 */
+		public static final String UPLOAD_PHONE_AUTH_STATE ="isAuth";
 
 	}
 
