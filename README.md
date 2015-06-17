@@ -2,7 +2,8 @@
 
 
 # 此处暂时用来记录restful api 相关文档
-115.29.111.179/ploughHelper/
+http://182.254.129.101/ploughHelper/
+
 参数后的(R)表示此字段必填。有疑问字段和返回码用（?）标注
 底层错误一律返回码500加描述。
 用户未登陆(或session失效) 一律返回100
@@ -12,7 +13,7 @@ Issue to confirm:
 Shall we use long for all date? currently input is yyyy/mm/dd, output is long.
 测土相关api还未上传到server，宁宁调试前和希遥对一下状态。
 
-Note,请先用authReg?cellphone=13112345678
+Note,请先用authReg?cellphone=13999999191
 登陆获得默认用户。
 fieldId=10有相关任务
 
