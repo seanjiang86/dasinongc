@@ -63,11 +63,6 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.SEARCH_LOCATION, params, SubUrl.SEARCH_LOCATION, callBack, clazz);
 	}
 
-	public void getCropList(Context context, String locationId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetCropListParams(locationId);
-		new NetRequest(context).get(RequestCode.GET_CROP_LIST, params, SubUrl.GET_CROP_LIST, callBack, clazz);
-	}
-
 	public void getVarietyList(Context context, String cropName, String locationId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getGetVarietyListParams(cropName, locationId);
 		new NetRequest(context).get(RequestCode.GET_VARIETY_LIST, params, SubUrl.GET_VARIETY_LIST, callBack, clazz);
@@ -82,11 +77,6 @@ public class RequestService {
 	public void searchNearUser(Context context, String latitude, String longitude, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getSearchNearUserParams(latitude, longitude);
 		new NetRequest(context).get(RequestCode.SEARCH_NEAR_USER, params, SubUrl.SEARCH_NEAR_USER, callBack, clazz);
-	}
-
-	public void getSubStage(Context context, String varietyId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetSubStageParams(varietyId);
-		new NetRequest(context).get(RequestCode.GET_SUB_STAGE, params, SubUrl.GET_SUB_STAGE, callBack, clazz);
 	}
 
 	public void sendRequestWithToken(Context context, Class<? extends BaseEntity> clazz, int requestCode, String url, Object param,

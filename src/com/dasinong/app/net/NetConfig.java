@@ -41,8 +41,6 @@ public class NetConfig {
 		public static final String SEND_NO_IN_LOCATION = "sendNoInLocation";
 		/** 发送在田地时的经纬度信息 */
 		public static final String SEARCH_LOCATION = "searchLocation";
-		/** 获取植物列表 */
-		public static final String GET_CROP_LIST = "getCropList";
 		/** 获取品种名列表 */
 		public static final String GET_VARIETY_LIST = "getVarietyList";
 		/*获取首页的的task*/
@@ -55,8 +53,6 @@ public class NetConfig {
 		public static final String GET_LOCATION ="getLocation";
 		/**获取附近用户*/
 		public static final String SEARCH_NEAR_USER ="searchNearUser";
-		/**获取生长周期*/
-		public static final String GET_SUB_STAGE ="getSubStage";
 		/**获取全部任务 */
 		public static final String GET_All_TASK ="getAllTask";
 		/**个人信息 */
@@ -86,8 +82,9 @@ public class NetConfig {
 		public static final String mprovince = "province";
 		public static final String mcity = "city";
 		public static final String mdistrict = "country";
-		// TODO MING:正式上线之后要修改为 cropName
+		// TODO MING:正式上线修改为cropName
 		public static final String cropName = "cropId";
+		// TODO MING:cropId备用，具体使用什么来查询
 //		public static final String cropId = "cropId";
 		public static final String province = "province";
 		public static final String city = "city";
@@ -245,11 +242,6 @@ public class NetConfig {
 		paramsMap.put(Params.mdistrict, mdistrict);
 		return paramsMap;
 	}
-	public static Map<String, String> getGetCropListParams(String locationId) {
-		Map<String, String> paramsMap = getBaseParams(false,getTokenParams(Params.locationId, locationId));
-		paramsMap.put(Params.locationId, locationId);
-		return paramsMap;
-	}
 	public static Map<String, String> getGetVarietyListParams(String cropName,String locationId) {
 		Map<String, String> paramsMap = getBaseParams(false,getTokenParams(Params.cropName , cropName),getTokenParams(Params.locationId , locationId));
 		paramsMap.put(Params.cropName, cropName);
@@ -268,11 +260,6 @@ public class NetConfig {
 		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.latitude, latitude), getTokenParams(Params.longitude, longitude));
 		paramsMap.put(Params.latitude, latitude);
 		paramsMap.put(Params.longitude, longitude);
-		return paramsMap;
-	}
-	public static Map<String, String> getGetSubStageParams(String varietyId) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.varietyId, varietyId));
-		paramsMap.put(Params.varietyId, varietyId);
 		return paramsMap;
 	}
 	public static Map<String, String> getAllTaskParams(String fieldId) {

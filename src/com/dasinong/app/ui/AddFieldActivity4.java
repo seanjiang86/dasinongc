@@ -8,18 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.dasinong.app.DsnApplication;
@@ -27,69 +20,164 @@ import com.dasinong.app.R;
 import com.dasinong.app.database.variety.dao.impl.VarietyDaoImp;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.CropInfo;
-import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.entity.VarietyInfo;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
-import com.dasinong.app.ui.adapter.CropAdapter;
-import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.ui.view.PPCPopMenu;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.Logger;
 
 public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener {
 
-	// private List<Crop> cropList = new ArrayList<Crop>();
-	// private List<CropName> cropNameList = new ArrayList<CropName>();
 	private List<String> cropList;
 	private List<String> varietyList;
 	private List<String> varietyNumList;
 	private Map<String, String> varietyNumMap;
 	private CropInfo cropInfo;
 	private VarietyInfo varietyInfo;
-	private CropAdapter cropAdapter;
 	private String locationId;
 	private String varietyId;
 	private Button btn_sure_crop;
 	private TopbarView topbar;
-	private Spinner spn_crop;
-	private Spinner spn_variety_name;
-	private Spinner spn_variety_num;
-	private CropAdapter nameAdapter;
+	private TextView tv_crop;
+	private TextView tv_variety_name;
+	private TextView tv_variety_num;
+	private static boolean isHasData = true;
+	private PPCPopMenu cropMenu;
+	private PPCPopMenu varietyNameMenu;
+	private PPCPopMenu varietyNumMenu;
+	private String currentCrop;
+	private String lastCrop;
+	private String variety;
+
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
+			if (varietyList == null || varietyList.size() == 0) {
+				isHasData = false;
+			} else {
+				isHasData = true;
+			}
 			initVariety();
 		};
 	};
-	private CropAdapter numAdapter;
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_field_4);
-		spn_crop = (Spinner) findViewById(R.id.spn_crop);
-		spn_variety_name = (Spinner) findViewById(R.id.spn_variety_name);
-		spn_variety_num = (Spinner) findViewById(R.id.spn_variety_num);
+		tv_crop = (TextView) findViewById(R.id.tv_crop);
+		tv_variety_name = (TextView) findViewById(R.id.tv_variety_name);
+		tv_variety_num = (TextView) findViewById(R.id.tv_variety_num);
 		btn_sure_crop = (Button) findViewById(R.id.btn_sure_crop);
 		topbar = (TopbarView) findViewById(R.id.topbar);
 
 		// TODO MING:此处默认值如何设置
 		locationId = SharedPreferencesHelper.getString(this, Field.VILLAGE_ID, "");
 		String county = SharedPreferencesHelper.getString(this, Field.COUNTY, "");
-
+		// TODO MING:此处在修改数据库之后需要重新查询
 		county = county.substring(0, county.length() - 1);
 		queryCrop(county);
 
+		cropMenu = new PPCPopMenu(this);
+		varietyNameMenu = new PPCPopMenu(this);
+		varietyNumMenu = new PPCPopMenu(this);
+
 		initTopBar();
+
+		tv_crop.setOnClickListener(this);
+		tv_variety_name.setOnClickListener(this);
+		tv_variety_num.setOnClickListener(this);
 		btn_sure_crop.setOnClickListener(this);
 
 	}
 
 	@Override
 	public void onClick(View v) {
-		goToNext();
+		int id = v.getId();
+		switch (id) {
+		case R.id.tv_crop:
+			initCrop();
+			cropMenu.showAsDropDown(tv_crop);
+			cropMenu.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					currentCrop = cropList.get(position);
+					if (!currentCrop.equals(lastCrop)) {
+						tv_crop.setText(currentCrop);
+						tv_variety_name.setText("品种");
+						tv_variety_num.setText("编号");
+						variety = null;
+						if (varietyList != null) {
+							varietyList.clear();
+							varietyNameMenu.addItems(varietyList);
+						}
+						if (varietyNumList != null) {
+							varietyNumList.clear();
+							varietyNumMenu.addItems(varietyNumList);
+						}
+						lastCrop = currentCrop;
+					}
+					// TODO MING:正式上线取消该判断
+					if ("水稻".equals(currentCrop)) {
+						currentCrop = "稻";
+					}
+
+					queryVariety(currentCrop);
+
+					cropMenu.dismiss();
+				}
+			});
+			break;
+		case R.id.tv_variety_name:
+			if (TextUtils.isEmpty(currentCrop)) {
+				showToast("请先选择作物");
+				return;
+			}
+			if (isHasData) {
+				varietyNameMenu.showAsDropDown(tv_variety_name);
+				varietyNameMenu.setOnItemClickListener(new OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+						variety = varietyList.get(position);
+
+						varietyNumMap = varietyInfo.data.get(variety);
+						varietyNumList = new ArrayList<String>(varietyNumMap.keySet());
+						initVarietyNum();
+						tv_variety_name.setText(variety);
+						varietyNameMenu.dismiss();
+					}
+				});
+			} else {
+				showToast("更多作物正在完善，敬请期待");
+			}
+			break;
+		case R.id.tv_variety_num:
+			if (TextUtils.isEmpty(variety)) {
+				showToast("请先选择品种");
+				return;
+			}
+			if (isHasData) {
+				varietyNumMenu.showAsDropDown(tv_variety_num);
+				varietyNumMenu.setOnItemClickListener(new OnItemClickListener() {
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+						String varietyNum = varietyNumList.get(position);
+						String varietyId = varietyNumMap.get(varietyNum);
+						System.out.println(varietyId);
+						tv_variety_num.setText(varietyNum);
+						varietyNumMenu.dismiss();
+					}
+				});
+			} else {
+				showToast("更多作物正在完善，敬请期待");
+			}
+			break;
+		case R.id.btn_sure_crop:
+			goToNext();
+			break;
+		}
 	}
 
 	private void initTopBar() {
@@ -98,10 +186,9 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	}
 
 	/**
-	 * 获取植物种类
+	 * 获取作物
 	 */
 	private void queryCrop(String county) {
-
 		// 本地查询
 		VarietyDaoImp dao = new VarietyDaoImp(this);
 		cropList = dao.getVariety(county);
@@ -143,19 +230,10 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		// }
 		// });
 
-		initCrop();
 	}
 
-	/**
-	 * 填充植物信息
-	 */
 	private void initCrop() {
-		if (cropList == null || cropList.size() == 0) {
-			return;
-		}
-		spn_crop.setAdapter(new CropAdapter(this, cropList, false));
-
-		spn_crop.setOnItemSelectedListener(new MyOnItemSelectedListener());
+		cropMenu.addItems(cropList);
 	}
 
 	/**
@@ -163,41 +241,38 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	 */
 	private void queryVariety(String cropName) {
 		// TODO MING:此处参数为假参数 需要修改
-		RequestService.getInstance().getVarietyList(DsnApplication.getContext(), "190", "10000", VarietyInfo.class, new NetRequest.RequestListener() {
+		RequestService.getInstance().getVarietyList(DsnApplication.getContext(), "223", "10000", VarietyInfo.class,
+				new NetRequest.RequestListener() {
 
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
-				if (resultData.isOk()) {
-					varietyInfo = (VarietyInfo) resultData;
-					varietyList = new ArrayList<String>(varietyInfo.data.keySet());
-					handler.sendEmptyMessage(0);
-				}
-			}
+					@Override
+					public void onSuccess(int requestCode, BaseEntity resultData) {
+						if (resultData.isOk()) {
+							varietyInfo = (VarietyInfo) resultData;
+							varietyList = new ArrayList<String>(varietyInfo.data.keySet());
+							handler.sendEmptyMessage(0);
+						}
+					}
 
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
-				Logger.d("MING", "msg =============== " + msg);
-			}
+					@Override
+					public void onFailed(int requestCode, Exception error, String msg) {
+						Logger.d("MING", "msg =============== " + msg);
+					}
 
-		});
+				});
 	}
 
 	/**
 	 * 填充品种信息
 	 */
 	private void initVariety() {
-		nameAdapter = new CropAdapter(this, varietyList, false);
-		spn_variety_name.setAdapter(nameAdapter);
-		spn_variety_name.setOnItemSelectedListener(new MyOnItemSelectedListener());
+		varietyNameMenu.addItems(varietyList);
 	}
 
 	/**
 	 * 填充品种编号信息
 	 */
 	private void initVarietyNum() {
-		numAdapter = new CropAdapter(this, varietyNumList, false);
-		spn_variety_num.setAdapter(numAdapter);
-		spn_variety_num.setOnItemSelectedListener(new MyOnItemSelectedListener());
+		varietyNumMenu.addItems(varietyNumList);
 	}
 
 	private void goToNext() {
@@ -206,46 +281,6 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		Intent intent = new Intent(this, AddFieldActivity8.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
-	}
-
-	class MyOnItemSelectedListener implements OnItemSelectedListener {
-
-		@Override
-		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-			int spnId = parent.getId();
-			switch (spnId) {
-			case R.id.spn_crop:
-				String crop = cropList.get(position);
-				if ("水稻".equals(crop)) {
-					queryVariety(crop);
-				} else {
-					varietyList.clear();
-					varietyNumList.clear();
-					nameAdapter.setData(varietyList);
-					nameAdapter.notifyDataSetChanged();
-					
-					numAdapter.setData(varietyNumList);
-					numAdapter.notifyDataSetChanged();
-				}
-				break;
-			case R.id.spn_variety_name:
-				String varietyName = varietyList.get(position);
-				varietyNumMap = varietyInfo.data.get(varietyName);
-				varietyNumList = new ArrayList<String>(varietyNumMap.keySet());
-				initVarietyNum();
-				break;
-			case R.id.spn_variety_num:
-				String varietyNum = varietyNumList.get(position);
-				varietyId = varietyNumMap.get(varietyNum);
-				break;
-			}
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> parent) {
-
-		}
-
 	}
 
 	// private void initCropName(int position) {

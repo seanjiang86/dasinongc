@@ -65,37 +65,39 @@
         android:gravity="center_vertical"
         android:orientation="horizontal" >
 
-        <Spinner
-            android:id="@+id/spn_crop"
+        <TextView
+            android:id="@+id/tv_crop"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="1"
-            android:background="@drawable/edittext_style"
-            android:gravity="center_vertical"
-            android:padding="1dp"
-            android:spinnerMode="dropdown" />
+            android:gravity="center"
+            android:lines="2"
+            android:text="作物"
+            android:textColor="@color/color_999999"
+            android:textSize="16sp" />
 
-        <Spinner
-            android:id="@+id/spn_variety_name"
+        <TextView
+            android:id="@+id/tv_variety_name"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginLeft="8dp"
             android:layout_weight="1"
-            android:background="@drawable/edittext_style"
-            android:gravity="center_vertical"
-            android:padding="1dp"
-            android:spinnerMode="dropdown" />
+            android:gravity="center"
+            android:lines="2"
+            android:text="品种"
+            android:textColor="@color/color_999999"
+            android:textSize="16sp" />
 
-        <Spinner
-            android:id="@+id/spn_variety_num"
+        <TextView
+            android:id="@+id/tv_variety_num"
             android:layout_width="0dp"
             android:layout_height="45dp"
-            android:layout_marginLeft="7dp"
             android:layout_weight="1"
-            android:background="@drawable/edittext_style"
-            android:gravity="center_vertical"
-            android:padding="1dp"
-            android:spinnerMode="dropdown" />
+            android:gravity="center"
+            android:lines="2"
+            android:text="编号"
+            android:textColor="@color/color_999999"
+            android:textSize="16sp" />
+
     </LinearLayout>
 
     <Button

@@ -27,13 +27,9 @@ public final class RequestCode {
 	 */
 	public static final int SEARCH_LOCATION = SEND_NO_IN_LOCATION + 1;
 	/**
-	 * 获取植物种类列表
-	 */
-	public static final int GET_CROP_LIST = SEARCH_LOCATION + 1;
-	/**
 	 * 获取品种名列表
 	 */
-	public static final int GET_VARIETY_LIST = GET_CROP_LIST + 1;
+	public static final int GET_VARIETY_LIST = SEARCH_LOCATION + 1;
 	/**
 	 * 获取村子的信息列表
 	 */
@@ -43,13 +39,9 @@ public final class RequestCode {
 	 */
 	public static final int SEARCH_NEAR_USER = GET_LOCATION + 1;
 	/**
-	 * 获取生长周期
-	 */
-	public static final int GET_SUB_STAGE = SEARCH_NEAR_USER + 1;
-	/**
 	 * 获取全部任务
 	 */
-	public static final int GET_ALL_TASK = GET_SUB_STAGE + 1;
+	public static final int GET_ALL_TASK = SEARCH_NEAR_USER + 1;
 	/**
 	 * 获取个人信息
 	 */

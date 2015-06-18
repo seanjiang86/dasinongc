@@ -65,7 +65,7 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
 
         return result;
     }
-
+    
     public List<T> query(String[] selection, String[] selectionArgs) {
 
         List<T> result = new ArrayList<T>();
