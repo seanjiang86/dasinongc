@@ -205,7 +205,7 @@ public class BGAStickinessRefreshView extends View {
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                mCurrentBottomHeight = (int) animation.getAnimatedValue();
+                mCurrentBottomHeight = (Integer) animation.getAnimatedValue();
                 postInvalidate();
             }
         });
@@ -265,7 +265,7 @@ public class BGAStickinessRefreshView extends View {
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                mCurrentBottomHeight = (int) animation.getAnimatedValue();
+                mCurrentBottomHeight = (Integer) animation.getAnimatedValue();
                 postInvalidate();
             }
         });

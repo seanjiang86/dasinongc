@@ -2,18 +2,17 @@ package com.dasinong.app.net;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.params.HttpParams;
+import java.util.Set;
 
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.utils.Logger;
 import com.dasinong.app.utils.StringHelper;
-
-import android.text.TextUtils;
 
 /**
  * @ClassName NetConfig
@@ -22,7 +21,8 @@ import android.text.TextUtils;
  */
 public class NetConfig {
 
-	public static final String BASE_URL = "http://115.29.111.179/ploughHelper/";
+//	public static final String BASE_URL = "http://115.29.111.179/ploughHelper/";
+	public static final String BASE_URL = "http://182.254.129.101:8080/ploughHelper/";
 
 	private static final String KEY_REQUEST = "UHTN90SPOLKIRT6131NM0SEWGLPALczmf";
 
@@ -67,9 +67,11 @@ public class NetConfig {
 		public static final String UPLOAD_MY_TASK ="updateTask";
 		/**提交手机验证状态 */
 		public static final String UPLOAD_PHONE_AUTH_STATE ="isAuth";
+		/**短信订阅 */
+		public static final String SMS_SUBSCRIBE ="insertSubScribeList";
 
 	}
-
+	
 	public static String getRequestUrl(String subUrl) {
 		return NetConfig.BASE_URL + subUrl;
 	}
@@ -102,9 +104,15 @@ public class NetConfig {
 		public static final String pictureId = "pictureId";
 		public static final String taskIds = "taskIds";
 		public static final String taskStatuss = "taskStatuss";
-
+		public static final String targetName = "targetName";
+		public static final String country = "country";
+		public static final String area = "area";
+		public static final String cropId = "cropId";
+		public static final String isAgriWeather = "isAgriWeather";
+		public static final String isNatAlter = "isNatAlter";
+		public static final String isRiceHelper = "isRiceHelper";
 	}
-
+	
 	public static class ResponseCode {
 		public static final String OK = "200";
 		public static final String CODE_100 = "100";
@@ -150,7 +158,7 @@ public class NetConfig {
 		return paramsMap;
 	}
 
-	private static String getCheckToken(String stampToken, boolean isNeedAuthToken, String authToken, String... strs) {
+	private static String getCheckToken(String stampToken,boolean isNeedAuthToken, String authToken, String... strs) {
 		String[] array = null;
 		if (isNeedAuthToken) {
 			array = new String[strs.length + 2];
@@ -174,7 +182,30 @@ public class NetConfig {
 		Logger.d1("checkToken-toMD5", checkToken);
 		return checkToken;
 	}
-
+	
+	private static String getSignToken(Map<String,String> paramsMap) {
+		StringBuilder builder = null;
+		Set<String> keySet = paramsMap.keySet();
+        List<String> keyList = new ArrayList<String>();
+        for (String key : keySet) {
+            keyList.add(key);
+        }
+        Collections.sort(keyList, new Comparator<String>() {
+            @Override
+            public int compare(String lhs, String rhs) {
+                return lhs.compareTo(rhs);
+            }           
+        });
+        builder.append(KEY_REQUEST);
+        for (String key : keyList) {
+        	builder.append(key).append(paramsMap.get(key));
+        }
+        Logger.d1("checkToken", builder.toString());
+		String sign = StringHelper.toMD5(builder.toString());
+		Logger.d1("checkToken-toMD5", sign);
+		return sign;
+	}
+	
 	public static Map<String, String> getBaseParams(boolean isNeedAuthToken, String... strs) {
 
 		Map<String, String> paramsMap = new HashMap<String, String>();
@@ -192,28 +223,20 @@ public class NetConfig {
 		// paramsMap.put(Params.sign, sign);
 		return paramsMap;
 	}
-	public static Map<String, String> getBaseParams(boolean isNeedAuthToken, Map<String,String> params) {
+	public static Map<String, String> getBaseParams(boolean isNeedAuthToken, Map<String,String> paramsMap) {
 
-		String[] strs = new String[params.size()];
-		int index = 0;
-		for(Map.Entry<String,String> entry: params.entrySet()){
-			strs[index] = getTokenParams(entry.getKey(),entry.getValue());
-		}
-
-		Map<String, String> paramsMap = new HashMap<String, String>();
+		
 		String token = null;
 		if (isNeedAuthToken) {
 			token = AccountManager.getAuthToken(DsnApplication.getContext());
 			paramsMap.put(Params.token, token);
 		} else {
-			token = null;
 		}
-		String stamp = System.currentTimeMillis() + "";
-		String sign = getCheckToken(getTokenParams(Params.stamp, stamp), isNeedAuthToken, getTokenParams(Params.token, token),
-				strs);
-
-		// paramsMap.put(Params.stamp, stamp);
-		// paramsMap.put(Params.sign, sign);
+		
+//		String stamp = System.currentTimeMillis() + "";
+//		paramsMap.put(Params.stamp, stamp);
+//		String sign = getCheckToken(strs);
+//		paramsMap.put(Params.sign, getSignToken(paramsMap));
 		return paramsMap;
 	}
 
@@ -307,6 +330,26 @@ public class NetConfig {
 		paramsMap.put(Params.taskIds, taskIds);
 		paramsMap.put(Params.taskStatuss, taskStatuss);
 		return paramsMap;
+	}
+	
+	public static Map<String, String> getSmsSubParams(
+			String targetName,String cellphone,String province
+			,String city,String country,String district
+			,String area,String cropId,Boolean isAgriWeather
+			,Boolean isNatAlter,Boolean isRiceHelper) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.targetName, targetName);
+		paramsMap.put(Params.cellphone, cellphone);
+		paramsMap.put(Params.province, province);
+		paramsMap.put(Params.city, city);
+		paramsMap.put(Params.country, country);
+		paramsMap.put(Params.district, district);
+		paramsMap.put(Params.area, area);
+		paramsMap.put(Params.cropId, cropId);
+		paramsMap.put(Params.isAgriWeather, String.valueOf(isAgriWeather));
+		paramsMap.put(Params.isNatAlter, String.valueOf(isNatAlter));
+		paramsMap.put(Params.isRiceHelper, String.valueOf(isRiceHelper));
+		return getBaseParams(false, paramsMap);
 	}
 	
 }

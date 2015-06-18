@@ -25,6 +25,12 @@ public class Logger {
 	private static final SimpleDateFormat mDataFormat = new SimpleDateFormat("MM/dd_HH:mm:ss");
 	private static HashMap<String, File> mLogFileMap = null;
 
+	public class LogTag {
+		public static final String HTTP = "HTTP";
+		public static final String DB = "DB";
+		public static final String UI = "UI";
+	}
+
 	public static void d(Object tag, Object content) {
 		debug(String.valueOf(tag), String.valueOf(content), Log.DEBUG, false, true);
 	}
@@ -252,14 +258,14 @@ public class Logger {
 	}
 
 	public static void d1(String tag, Object content) {
-		debug("YSL", String.valueOf(tag + "__" + content), Log.DEBUG, true, true);
+		debug("Tag1", String.valueOf(tag + "__" + content), Log.DEBUG, true, true);
 	}
 
 	public static void e1(String tag, Throwable e) {
-		debug("YSL", Log.getStackTraceString(e), Log.ERROR, true, true);
+		debug("Tag1", Log.getStackTraceString(e), Log.ERROR, true, true);
 	}
 
 	public static void e1(String tag, String e) {
-		debug("YSL", e, Log.ERROR, true, true);
+		debug("Tag1", e, Log.ERROR, true, true);
 	}
 }

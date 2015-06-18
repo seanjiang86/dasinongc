@@ -18,11 +18,12 @@
             android:layout_centerHorizontal="true"
             android:gravity="center" >
 
-            <ProgressBar
+<!--                 style="@android:style/Widget.ProgressBar.Inverse" -->
+            <android.support.v4.widget.ContentLoadingProgressBar
                 android:id="@+id/loading_bar"
-                style="@android:style/Widget.ProgressBar.Inverse"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
+        style="?android:attr/progressBarStyleLargeInverse"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:visibility="visible" />
         </RelativeLayout>
 

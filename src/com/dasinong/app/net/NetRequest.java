@@ -42,6 +42,7 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.Logger;
+import com.dasinong.app.utils.Logger.LogTag;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.lidroid.xutils.HttpUtils;
@@ -65,53 +66,6 @@ public class NetRequest {
 		this.context = context;
 	}
 
-	private static Map<String, String> checkNull(Map<String, String> map) {
-		if (map != null && map.size() >= 0) {
-			Set<String> set = map.keySet();
-			LinkedList<String> list = new LinkedList<String>();
-			for (Iterator<String> iterator = set.iterator(); iterator.hasNext();) {
-				String key = (String) iterator.next();
-				String value = map.get(key);
-				if (value == null || value.equals("null")) {
-					list.add(key);
-				}
-			}
-			for (String key : list) {
-				map.remove(key);
-			}
-		}
-		return map;
-	}
-
-	private static String encodeParameters(Map<String, String> params) {
-		StringBuilder encodedParams = new StringBuilder("?");
-		try {
-			for (Map.Entry<String, String> entry : params.entrySet()) {
-				encodedParams.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-				encodedParams.append('=');
-				encodedParams.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-				encodedParams.append('&');
-			}
-			return encodedParams.toString();
-		} catch (UnsupportedEncodingException uee) {
-			throw new RuntimeException("Encoding not supported: " + "UTF-8", uee);
-		}
-	}
-
-	public interface RequestListener {
-		void onSuccess(int requestCode, BaseEntity resultData);
-
-		void onFailed(int requestCode, Exception error, String msg);
-	}
-
-	// -----------------------
-
-	public static final int SUCCESS = 0;
-	public static final int ERROR = 1;
-	public static final int ERROR_PASE_JSON = -1;
-	public static final int ERROR_NO_NET = -2;
-	public static final int ERROR_TIME_OUT = -3;
-
 	public <T> void get(int requestCode, Map<String, String> map, String subUrl, final RequestListener callback,
 			final Class<? extends BaseEntity> clazz) {
 
@@ -121,51 +75,31 @@ public class NetRequest {
 		}
 
 		String url = NetConfig.getRequestUrl(subUrl);
-		Logger.d("TAG", url);
 		if (map != null && !map.isEmpty()) {
 			checkNull(map);
 			url = url + encodeParameters(map);
 		}
 
-		Logger.d1("NetRequest", url);
+		Logger.d(LogTag.HTTP, url);
 
 		get(requestCode, url, clazz, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
 	}
 
-	// private <T> void get(int requestCode,String url, final Class<? extends
-	// BaseEntity> clazz, final Map<String, String> header,
-	// /* final Map<String, String> map, */final RequestListener callback) {
-	// get(requestCode,url, clazz, header, callback, Priority.NORMAL, new
-	// DefaultRetryPolicy(10 * 1000, 0, 1));
-	// }
-	//
-	// private <T> void get(int requestCode,String url, final Class<? extends
-	// BaseEntity> clazz, final Map<String, String> header,
-	// /* final Map<String, String> map, */final RequestListener callback,
-	// RetryPolicy retryPolicy) {
-	// get(requestCode,url, clazz, header, callback, Priority.NORMAL,
-	// retryPolicy);
-	// }
-
 	private <T> void get(final int requestCode, final String url, final Class<? extends BaseEntity> clazz,
-	/* final Map<String, String> header, */final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
-		Log.d("TAG", "url:" + url);
+			final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
 		StringGetRequest req = new StringGetRequest(url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 
-				Log.d("TAG", "url:" + url);
 				try {
-					 Logger.d1(tag, response);
-//					Toast.makeText(DsnApplication.getContext(), response, 0).show();
+					Logger.d(LogTag.HTTP, response);
 					BaseEntity result = new Gson().fromJson(response, clazz);
 					if (result == null) {
 						callback.onFailed(requestCode, new NullPointerException(), "data:" + response);
 						return;
 					}
 
-					// TODO token 失效 login
-					if ("100".equals(result.getRespCode())) {
+					if (result.isAuthTokenInvalid()) {
 						// Intent intent = new
 						// Intent(context,LoginActivity.class);
 						// // intent.putExtra(AccountManager.CHECK_LOGIN,true);
@@ -183,20 +117,10 @@ public class NetRequest {
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Logger.e1(tag, error);
-				callback.onFailed(requestCode, error, "");
+				Logger.e(LogTag.HTTP, Log.getStackTraceString(error));
+				callback.onFailed(requestCode, error, error.getMessage());
 			}
 		}) {
-
-			// @Override
-			// public Map<String, String> getHeaders() throws AuthFailureError {
-			// if (header != null) {
-			// checkNull(header);
-			// return header;
-			// } else {
-			// return Collections.emptyMap();
-			// }
-			// }
 
 			@Override
 			public Priority getPriority() {
@@ -212,27 +136,9 @@ public class NetRequest {
 				return Priority.NORMAL;
 			}
 
-			// @Override
-			// protected Response<String> parseNetworkResponse(NetworkResponse
-			// response) {
-			// try {
-			// return Response.success(new String(response.data, "UTF-8"),
-			// HttpHeaderParser.parseCacheHeaders(response));
-			// } catch (UnsupportedEncodingException e) {
-			// return Response.error(new ParseError(e));
-			// } catch (Exception je) {
-			// return Response.error(new ParseError(je));
-			// }
-			// }
-
 		};
 		if (retryPolicy != null) {
 			req.setRetryPolicy(retryPolicy);
-		}
-
-		String cookie = SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "");
-		if (!TextUtils.isEmpty(cookie)) {
-			req.setSendCookie(cookie);
 		}
 
 		Volley.newRequestQueue(context).add(req);
@@ -248,32 +154,24 @@ public class NetRequest {
 
 		String url = NetConfig.getRequestUrl(subUrl);
 
-		Logger.d1("NetRequest", url);
+		Logger.d(LogTag.HTTP, url);
 
 		post(requestCode, url, clazz, map, callback);
 	}
 
 	private <T> void post(int requestCode, String url, final Class<? extends BaseEntity> clazz, final Map<String, String> map,
 			final RequestListener callback) {
-
-		if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
-			callback.onFailed(requestCode, new Exception(), "无网络连接");
-			return;
-		}
-
 		post(requestCode, url, clazz, map, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
 	}
 
 	private <T> void post(final int requestCode, final String url, final Class<? extends BaseEntity> clazz,
-	/* final Map<String, String> header, */final Map<String, String> map, final RequestListener callback,
-			final Priority priority, RetryPolicy retryPolicy) {
+			final Map<String, String> map, final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
 		StringPostRequest req = new StringPostRequest(url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
 
 				try {
-					response = URLDecoder.decode(response, "UTF-8");
-					Logger.d1(tag, response);
+					Logger.d(LogTag.HTTP, response);
 
 					BaseEntity result = new Gson().fromJson(response, clazz);
 					if (result == null) {
@@ -281,16 +179,13 @@ public class NetRequest {
 						return;
 					}
 
-					// TODO token 失效 login
-
-					// if ("1007".equals(result.getRespNo())) {
-					// Intent intent = new Intent(context,
-					// LoginActivity.class);
-					// // intent.putExtra(AccountManager.CHECK_LOGIN,
-					// true);
-					// context.startActivity(intent);
-					// AccountManager.logout(context);
-					// }
+					if (result.isAuthTokenInvalid()) {
+						// Intent intent = new
+						// Intent(context,LoginActivity.class);
+						// // intent.putExtra(AccountManager.CHECK_LOGIN,true);
+						// context.startActivity(intent);
+						AccountManager.logout(context);
+					}
 
 					callback.onSuccess(requestCode, result);
 				} catch (Exception e) {
@@ -301,8 +196,8 @@ public class NetRequest {
 		}, new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-				Logger.e1(tag, error);
-				callback.onFailed(requestCode, error, "");
+				Logger.e(LogTag.HTTP, Log.getStackTraceString(error));
+				callback.onFailed(requestCode, error, error.getMessage());
 			}
 		}) {
 			@Override
@@ -310,7 +205,6 @@ public class NetRequest {
 				checkNull(map);
 				return map;
 			}
-
 
 			@Override
 			public Priority getPriority() {
@@ -325,28 +219,9 @@ public class NetRequest {
 				}
 				return Priority.NORMAL;
 			}
-
-			// @Override
-			// protected Response<String> parseNetworkResponse(NetworkResponse
-			// response) {
-			// try {
-			// return Response.success(new String(response.data, "UTF-8"),
-			// HttpHeaderParser.parseCacheHeaders(response));
-			// } catch (UnsupportedEncodingException e) {
-			// return Response.error(new ParseError(e));
-			// } catch (Exception je) {
-			// return Response.error(new ParseError(je));
-			// }
-			// }
-
 		};
 		if (retryPolicy != null) {
 			req.setRetryPolicy(retryPolicy);
-		}
-
-		String cookie = SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "");
-		if (!TextUtils.isEmpty(cookie)) {
-			req.setSendCookie(cookie);
 		}
 
 		Volley.newRequestQueue(context).add(req);
@@ -393,4 +268,44 @@ public class NetRequest {
 			}
 		});
 	}
+
+	private static Map<String, String> checkNull(Map<String, String> map) {
+		if (map != null && map.size() >= 0) {
+			Set<String> set = map.keySet();
+			LinkedList<String> list = new LinkedList<String>();
+			for (Iterator<String> iterator = set.iterator(); iterator.hasNext();) {
+				String key = (String) iterator.next();
+				String value = map.get(key);
+				if (value == null || value.equals("null")) {
+					list.add(key);
+				}
+			}
+			for (String key : list) {
+				map.remove(key);
+			}
+		}
+		return map;
+	}
+
+	private static String encodeParameters(Map<String, String> params) {
+		StringBuilder encodedParams = new StringBuilder("?");
+		try {
+			for (Map.Entry<String, String> entry : params.entrySet()) {
+				encodedParams.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+				encodedParams.append('=');
+				encodedParams.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+				encodedParams.append('&');
+			}
+			return encodedParams.toString();
+		} catch (UnsupportedEncodingException uee) {
+			throw new RuntimeException("Encoding not supported: " + "UTF-8", uee);
+		}
+	}
+
+	public interface RequestListener {
+		void onSuccess(int requestCode, BaseEntity resultData);
+
+		void onFailed(int requestCode, Exception error, String msg);
+	}
+
 }

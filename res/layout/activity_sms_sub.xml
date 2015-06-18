@@ -39,6 +39,7 @@
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
+                    android:id="@+id/edittext_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
@@ -65,12 +66,14 @@
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
+                    android:id="@+id/edittext_phone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/edittext_style"
                     android:hint="11位手机号码"
                     android:padding="5dp"
+                    android:inputType="phone"
                     android:singleLine="true" />
             </LinearLayout>
 
@@ -252,11 +255,13 @@
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
+                    android:id="@+id/edittext_area"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/edittext_style"
                     android:hint="亩数"
+                    android:inputType="numberDecimal"
                     android:padding="5dp"
                     android:singleLine="true" />
             </LinearLayout>
@@ -321,14 +326,16 @@
                 android:text="选择短信服务"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_16" />
-
-            <RadioGroup
+                
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp" >
-
-                <RadioButton
+                android:layout_marginRight="20dp" 
+                android:orientation="vertical"
+                >
+                <CheckBox
+                    android:id="@+id/rb_isAgriWeather"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -338,7 +345,8 @@
                     android:textColor="@color/color_666666"
                     android:textSize="@dimen/sp_16" />
 
-                <RadioButton
+                <CheckBox
+                    android:id="@+id/rb_isNatAlter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -348,7 +356,8 @@
                     android:textColor="@color/color_666666"
                     android:textSize="@dimen/sp_16" />
 
-                <RadioButton
+                <CheckBox
+                    android:id="@+id/rb_isRiceHelper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -357,7 +366,7 @@
                     android:text="水稻助手"
                     android:textColor="@color/color_666666"
                     android:textSize="@dimen/sp_16" />
-            </RadioGroup>
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -378,6 +387,7 @@
                     android:background="@android:color/white" />
 
                 <Button
+                    android:id="@+id/button_cancel"
                     android:layout_width="0dp"
                     android:layout_height="45dp"
                     android:layout_weight="1"
@@ -388,6 +398,7 @@
                     android:textSize="@dimen/sp_16" />
 
                 <Button
+                    android:id="@+id/button_save"
                     android:layout_width="0dp"
                     android:layout_height="45dp"
                     android:layout_marginLeft="10dp"

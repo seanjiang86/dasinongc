@@ -74,7 +74,7 @@ public class GsonRequest<T> extends Request<T> {
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError {
         String cookie = SharedPreferencesHelper.getString(DsnApplication.getContext(), SharedPreferencesHelper.Field.USER_AUTH_TOKEN, "");
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, String> map = new HashMap<String, String>();
         map.put("Cookie", cookie);
         return map;
     }

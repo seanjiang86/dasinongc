@@ -149,16 +149,18 @@ public class TaskListActivity extends BaseActivity {
 
 		showToast("选择任务：" + mSelectTask.size());
 
-		String taskIds = "";
-		String taskStatuss = "";
+		StringBuilder taskIds = new StringBuilder();
+		StringBuilder taskStatuss = new StringBuilder();
 
 		for (TaskSpec task : mSelectTask) {
-			taskIds = taskIds + task.taskSpecId + ",";
-			taskStatuss = taskStatuss + true + ",";
+			taskIds.append(task.taskSpecId + ",");
+			taskStatuss.append(true + ",");
+//			taskIds = taskIds + task.taskSpecId + ",";
+//			taskStatuss = taskStatuss + true + ",";
 		}
 
 		startLoadingDialog();
-		RequestService.getInstance().updateTask(this, "10", taskIds, taskStatuss, BaseEntity.class, new RequestListener() {
+		RequestService.getInstance().updateTask(this, "10", taskIds.toString(), taskStatuss.toString(), BaseEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
