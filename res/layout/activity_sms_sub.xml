@@ -39,6 +39,7 @@
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
+                    android:id="@+id/edittext_name"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
@@ -65,18 +66,20 @@
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
+                    android:id="@+id/edittext_phone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/edittext_style"
                     android:hint="11位手机号码"
                     android:padding="5dp"
+                    android:inputType="phone"
                     android:singleLine="true" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
@@ -85,7 +88,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="10dp"
                     android:text="选择地区"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/sp_16" />
@@ -97,7 +100,142 @@
                     android:background="@drawable/edittext_style"
                     android:hint="地区"
                     android:padding="5dp"
-                    android:singleLine="true" />
+                    android:singleLine="true"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical" >
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/edittext_style" >
+
+                        <Spinner
+                            android:id="@+id/spinner_province"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@android:color/transparent"
+                            android:gravity="center_vertical"
+                            android:padding="1dp"
+                            android:prompt="@string/please_check_netword"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/drop_down" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_style" >
+
+                        <Spinner
+                            android:id="@+id/spinner_city"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:background="@android:color/transparent"
+                            android:padding="1dp"
+                            android:prompt="@string/please_check_netword"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/drop_down" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_style" >
+
+                        <Spinner
+                            android:id="@+id/spinner_area"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:background="@android:color/transparent"
+                            android:padding="1dp"
+                            android:prompt="@string/please_check_netword"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/drop_down" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_style" >
+
+                        <Spinner
+                            android:id="@+id/spinner_towns"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:background="@android:color/transparent"
+                            android:padding="1dp"
+                            android:prompt="@string/please_check_netword"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/drop_down" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_style" 
+                        android:visibility="gone"
+                        >
+
+                        <Spinner
+                            android:id="@+id/spinner_village"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:background="@android:color/transparent"
+                            android:padding="1dp"
+                            android:prompt="@string/please_check_netword"
+                            android:spinnerMode="dropdown" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/drop_down" />
+                    </RelativeLayout>
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -117,11 +255,13 @@
                     android:textSize="@dimen/sp_16" />
 
                 <EditText
+                    android:id="@+id/edittext_area"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:background="@drawable/edittext_style"
                     android:hint="亩数"
+                    android:inputType="numberDecimal"
                     android:padding="5dp"
                     android:singleLine="true" />
             </LinearLayout>
@@ -149,23 +289,33 @@
                     android:background="@drawable/edittext_style"
                     android:hint="农作物信息"
                     android:padding="5dp"
-                    android:singleLine="true" 
-                    android:visibility="gone"
-                    />
-                <Spinner 
-                    android:id="@+id/spinner"
+                    android:singleLine="true"
+                    android:visibility="gone" />
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
-                    android:padding="1dp"
-                    android:background="@drawable/edittext_style"
-                    android:gravity="center_vertical"
-                    android:spinnerMode="dropdown"
-                    />
+                    android:background="@drawable/edittext_style" >
+
+                    <Spinner
+                        android:id="@+id/spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:padding="1dp"
+                        android:spinnerMode="dropdown" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:src="@drawable/drop_down" />
+                </RelativeLayout>
             </LinearLayout>
 
-            
-            
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -176,44 +326,47 @@
                 android:text="选择短信服务"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_16" />
-
-            <RadioGroup
+                
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp" 
+                android:orientation="vertical"
                 >
-
-                <RadioButton
+                <CheckBox
+                    android:id="@+id/rb_isAgriWeather"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:button="@drawable/sms_sub_radiobutton_selector"
                     android:paddingLeft="10dp"
-                    android:textSize="@dimen/sp_16"
                     android:text="每日农业天气"
-                    android:textColor="@color/color_666666" />
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/sp_16" />
 
-                <RadioButton
+                <CheckBox
+                    android:id="@+id/rb_isNatAlter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:button="@drawable/sms_sub_radiobutton_selector"
                     android:paddingLeft="10dp"
-                    android:textSize="@dimen/sp_16"
                     android:text="气象预警早知道"
-                    android:textColor="@color/color_666666" />
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/sp_16" />
 
-                <RadioButton
+                <CheckBox
+                    android:id="@+id/rb_isRiceHelper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:button="@drawable/sms_sub_radiobutton_selector"
                     android:paddingLeft="10dp"
-                    android:textSize="@dimen/sp_16"
                     android:text="水稻助手"
-                    android:textColor="@color/color_666666" />
-            </RadioGroup>
+                    android:textColor="@color/color_666666"
+                    android:textSize="@dimen/sp_16" />
+            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
@@ -221,43 +374,41 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:background="@color/color_DCE3E6" />
-            
-            <LinearLayout 
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:orientation="horizontal"
-                >
-                
-                <Button 
+                android:orientation="horizontal" >
+
+                <Button
                     android:layout_width="0dp"
+                    android:layout_height="45dp"
                     android:layout_weight="1.5"
-                android:layout_height="45dp"
-                android:background="@android:color/white"
-                    />
-                <Button 
+                    android:background="@android:color/white" />
+
+                <Button
+                    android:id="@+id/button_cancel"
                     android:layout_width="0dp"
+                    android:layout_height="45dp"
                     android:layout_weight="1"
-                android:layout_height="45dp"
-                android:text="取消"
-                android:textSize="@dimen/sp_16"
-                android:textColor="@color/color_333333"
-                android:background="@drawable/button_edit_bg_selector"
-                android:padding="1dp"
-                    />
-                <Button 
+                    android:background="@drawable/button_edit_bg_selector"
+                    android:padding="1dp"
+                    android:text="取消"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_16" />
+
+                <Button
+                    android:id="@+id/button_save"
                     android:layout_width="0dp"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
-                android:layout_height="45dp"
-                android:text="保存"
-                android:textSize="@dimen/sp_16"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:textColor="@android:color/white"
-                android:background="@drawable/button_green_bg_selector"
-                    />
-                
+                    android:background="@drawable/button_green_bg_selector"
+                    android:text="保存"
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/sp_16" />
             </LinearLayout>
-            
         </LinearLayout>
     </ScrollView>
 

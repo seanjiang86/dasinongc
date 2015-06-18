@@ -115,4 +115,19 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.UPLOAD_MY_TASK, params, SubUrl.UPLOAD_MY_TASK, callBack, clazz);
 	}
 
+	public void setPhoneAuthState(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.UPLOAD_PHONE_AUTH_STATE, params, SubUrl.UPLOAD_PHONE_AUTH_STATE, callBack, clazz);
+	}
+	
+	public void smsSubscribe(Context context, 
+			String targetName,String cellphone,String province
+			,String city,String country,String district
+			,String area,String cropId,boolean isAgriWeather
+			,boolean isNatAlter,boolean isRiceHelper,
+			Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getSmsSubParams(targetName, cellphone, province, city, country, district, area, cropId, isAgriWeather, isNatAlter, isRiceHelper);
+		new NetRequest(context).get(RequestCode.SMS_SUBSCRIBE, params, SubUrl.SMS_SUBSCRIBE, callBack, clazz);
+	}
+	
 }

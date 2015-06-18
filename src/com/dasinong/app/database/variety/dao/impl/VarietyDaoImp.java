@@ -27,7 +27,7 @@ public class VarietyDaoImp extends DaoSupportImpl<Variety> {
 		Logger.d("VarietyDaoImp", sql.toString());
 		List<Variety> varieties = query(sql.toString());
 		Variety tem;
-		List<String> result = new ArrayList<>(12);
+		List<String> result = new ArrayList<String>(12);
 		if (!varieties.isEmpty()) {
 			int len = varieties.size();
 			for (int i = 0; i < len; i++) {

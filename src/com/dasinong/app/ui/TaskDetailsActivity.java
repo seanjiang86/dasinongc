@@ -6,17 +6,26 @@ import com.dasinong.app.R;
 import com.dasinong.app.database.task.dao.impl.SubStageDaoImpl;
 import com.dasinong.app.database.task.dao.impl.TaskSpecDaoImpl;
 import com.dasinong.app.database.task.domain.SubStage;
+import com.dasinong.app.database.task.domain.TaskSpec;
 import com.dasinong.app.ui.view.TopbarView;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ListView;
 
 public class TaskDetailsActivity extends BaseActivity {
 
+	public static final String TASK_ID = "task_id";
+	
 	private TopbarView mTopbarView;
 	
+	private ListView mListView;
+
+	private Object taskSpecs;
+	
+	private int taskId;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -30,11 +39,15 @@ public class TaskDetailsActivity extends BaseActivity {
 	}
 
 	private void initData() {
+		taskId = getIntent().getIntExtra(TASK_ID, 14);
 		
+		TaskSpecDaoImpl dao1 = new TaskSpecDaoImpl(this);
+		taskSpecs = dao1.queryTaskSpecWithSubStage(taskId);
 	}
 
 	private void initView() {
 		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
+		mListView = (ListView) this.findViewById(R.id.list_task_detail_list);
 	}
 
 	private void setUpView() {
@@ -49,6 +62,9 @@ public class TaskDetailsActivity extends BaseActivity {
 				startActivity(intent);
 			}
 		});
+		
+//		mListView
+		
 	}
 	
 }

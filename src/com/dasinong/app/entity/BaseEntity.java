@@ -31,8 +31,7 @@ public class BaseEntity {
 			return false;
 		}
 	}
-	
-	
+
 	public boolean isCode(String code) {
 		if (respCode != null && respCode.equals(code)) {
 			return true;
@@ -40,15 +39,13 @@ public class BaseEntity {
 			return false;
 		}
 	}
-	
-	
 
-	// public boolean isAuthTokenInvalid() {
-	// if ("1039".equals(respNo)) {
-	// return true;
-	// } else {
-	// return false;
-	// }
-	// }
+	public boolean isAuthTokenInvalid() {
+		if ("100".equals(respCode)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }

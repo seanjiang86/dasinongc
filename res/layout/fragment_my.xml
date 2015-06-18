@@ -26,7 +26,7 @@
             <RelativeLayout
                 android:id="@+id/layout_my_info"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="0.5dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"
@@ -51,7 +51,7 @@
             <RelativeLayout
                 android:id="@+id/layout_scancode"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"
@@ -76,7 +76,7 @@
             <RelativeLayout
                 android:id="@+id/layout_recommend"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="0.5dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"
@@ -101,7 +101,7 @@
             <RelativeLayout
                 android:id="@+id/layout_sms_setting"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="0.5dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"
@@ -126,7 +126,7 @@
             <RelativeLayout
                 android:id="@+id/layout_help_center"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"
@@ -151,7 +151,7 @@
             <RelativeLayout
                 android:id="@+id/layout_use"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="0.5dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"
@@ -176,7 +176,7 @@
             <RelativeLayout
                 android:id="@+id/layout_contact_us"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"
@@ -201,7 +201,7 @@
             <RelativeLayout
                 android:id="@+id/layout_check_update"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"

@@ -74,15 +74,11 @@ public class StringPostRequest extends Request<String> {
 
 	@Override
 	public Map<String, String> getHeaders() throws AuthFailureError {
-		Log.d("TAG header",sendHeader.toString());
+		String cookie = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.USER_AUTH_TOKEN, "");
+		Logger.d1("Cookie", "--"+cookie);
+		if (!TextUtils.isEmpty(cookie)) {
+			sendHeader.put("Cookie", cookie);
+		}
 		return sendHeader;
-	}
-
-
-
-	public void setSendCookie(String cookie) {
-		cookie = cookie.replace("JSESSIONID=", "");
-		Logger.d1("yyyyy", "------------------cookie:" + cookie);
-		sendHeader.put("Cookie", cookie);
 	}
 }

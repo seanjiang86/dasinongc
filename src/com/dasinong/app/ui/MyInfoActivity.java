@@ -11,6 +11,7 @@ import cn.smssdk.SMSSDK;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LoginRegEntity;
+import com.dasinong.app.entity.User;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.view.TopbarView;
@@ -31,6 +32,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -111,7 +113,23 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 	}
 
 	protected void updateUi(LoginRegEntity entity) {
-		
+		User user = entity.getData();
+		if(user != null){
+			mPhoneText.setText(user.getCellPhone());
+			mNameText.setText(user.getUserName());
+			if(TextUtils.isEmpty(user.getAddress())){
+				mAddressText.setTextColor(Color.RED);
+			}else{
+				mAddressText.setTextColor(Color.parseColor("#999999"));
+			}
+			mAddressText.setText(user.getAddress());
+			mHomephoneText.setText(user.getTelephone());
+			if(user.isAuthenticated()){
+				mAuthPhoneButton.setVisibility(View.VISIBLE);
+			}else{
+				mAuthPhoneButton.setVisibility(View.VISIBLE);
+			}
+		}
 	}
 
 	private void initView() {
@@ -177,6 +195,7 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 				dismissLoadingDialog();
 				if(resultData.isOk()){
 					showToast("个人信息更新成功");
+					finish();
 				}else{
 					showToast(resultData.getMessage());
 				}
@@ -199,11 +218,10 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			editInfo(MyInfoSetActivity.EDIT_PHONE);
 			break;
 		case R.id.button_auth_phone:
-			authPhone();
+			authPhoneCode();
 			break;
 		case R.id.layout_reset_password:
 			editInfo(MyInfoSetActivity.EDIT_PASSWORD);
-
 			break;
 		case R.id.layout_name:
 			editInfo(MyInfoSetActivity.EDIT_NAME);
@@ -220,10 +238,21 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		}
 	}
 
-	private void authPhone() {
-//		RequestService.getInstance().authcodeLoginReg(context, cellphone, clazz, callBack)
+	private void authPhoneCode() {
+		
+		String phone = mPhoneText.getText().toString().trim();
+		
+		if(TextUtils.isEmpty(phone)){
+			showToast("请填写您的手机号");
+			return;
+		}
+		
+		Intent intent = new Intent(this,RegisterPhoneActivity.class);
+		intent.putExtra("isAuthPhone", true);
+		intent.putExtra("phone", phone);
+		startActivityForResult(intent, MyInfoSetActivity.EDIT_AUTH_PHONE);
 	}
-
+	
 	private void showHeadViewDialog() {
 
 		final Dialog dialog = new Dialog(this, R.style.CommonDialog);
@@ -251,7 +280,6 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 				startActivityForResult(intent, CropHelper.REQUEST_CAMERA);
 
 				dialog.dismiss();
-
 			}
 		});
 
@@ -392,9 +420,35 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 				String info4 = data.getStringExtra("info");
 				mHomephoneText.setText(info4);
 				break;
+			case MyInfoSetActivity.EDIT_AUTH_PHONE:
+				authPhone();
+				break;
 			}
 		}
 
+	}
+
+	private void authPhone() {
+		startLoadingDialog();
+		RequestService.getInstance().setPhoneAuthState(this, BaseEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				if(resultData.isOk()){
+					showToast("手机验证成功");
+					mAuthPhoneButton.setVisibility(View.GONE);
+				}else{
+					showToast(resultData.getMessage());
+				}
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+				showToast(R.string.please_check_netword);
+			}
+		});
 	}
 
 	@Override

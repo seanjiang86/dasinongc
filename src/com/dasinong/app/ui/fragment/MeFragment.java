@@ -6,6 +6,7 @@ import com.dasinong.app.ui.MyInfoActivity;
 import com.dasinong.app.ui.RecommendActivity;
 import com.dasinong.app.ui.RegisterPhoneActivity;
 import com.dasinong.app.ui.ScanQRCoderActivity;
+import com.dasinong.app.ui.SmsSettingActivity;
 import com.dasinong.app.ui.SmsSubscribeActivity;
 import com.dasinong.app.ui.TaskDetailsActivity;
 import com.dasinong.app.ui.view.TopbarView;
@@ -110,11 +111,12 @@ public class MeFragment extends Fragment implements OnClickListener {
 			getActivity().startActivity(intent);
 			break;
 		case R.id.layout_sms_setting:// 短信订阅设置
-			Intent smsIntent = new Intent(getActivity(), SmsSubscribeActivity.class);
+			Intent smsIntent = new Intent(getActivity(), SmsSettingActivity.class);
 			getActivity().startActivity(smsIntent);
 			break;
 		case R.id.layout_help_center:// 帮助中心
-
+			Intent loginIntent = new Intent(getActivity(),RegisterPhoneActivity.class);
+			getActivity().startActivity(loginIntent);
 			break;
 		case R.id.layout_use:// 使用教程
 
