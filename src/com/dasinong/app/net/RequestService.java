@@ -104,8 +104,8 @@ public class RequestService {
 	}
 	
 	public void uploadInfo(Context context,String userName,
-			String cellphone,String address,String telephone, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getUploadInfoParams(userName, cellphone, address, telephone);
+			String cellphone,String password,String address,String telephone, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getUploadInfoParams(userName, cellphone,password,address, telephone);
 		new NetRequest(context).get(RequestCode.UPLOAD_MY_INFO, params, SubUrl.UPLOAD_MY_INFO, callBack, clazz);
 	}
 
@@ -130,8 +130,13 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.SMS_SUBSCRIBE, params, SubUrl.SMS_SUBSCRIBE, callBack, clazz);
 	}
 	
-	public void uploadHeadImage(Context context,String filePath,RequestListener callBack){
-		new NetRequest(context).upload(0, NetConfig.BASE_URL+"uploadPicture",filePath, BaseEntity.class, callBack);
+	public void getSubScribeLists(Context context, 
+			Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.GET_SUBSCRIBE_LIST, params, SubUrl.GET_SUBSCRIBE_LIST, callBack, clazz);
 	}
 	
+	public void uploadHeadImage(Context context,String filePath,RequestListener callBack){
+		new NetRequest(context).upload(0, NetConfig.BASE_URL+"uploadAvater",filePath, BaseEntity.class, callBack);
+	}
 }

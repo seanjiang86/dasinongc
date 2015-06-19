@@ -51,6 +51,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+import com.lidroid.xutils.http.client.entity.FileUploadEntity;
 
 /**
  * @ClassName: NetRequestManager
@@ -227,13 +228,18 @@ public class NetRequest {
 		Volley.newRequestQueue(context).add(req);
 	}
 
-	public <T> void upload(int requestCode, String url, String filePath,final Class<? extends BaseEntity> clazz,
+	public <T> void upload(final int requestCode, String url, String filePath,final Class<? extends BaseEntity> clazz,
 			final RequestListener callback) {
 		RequestParams params = new RequestParams();
 
+		Logger.e(LogTag.HTTP, "uploadPath:"+filePath+"\r\n"+"url:"+url);
+		
 		// params.setHeader(new Header);
-
-//		params.addHeader("name", "value");
+		String cookie = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.USER_AUTH_TOKEN, "");
+		Logger.e(LogTag.HTTP, "--"+cookie);
+		if (!TextUtils.isEmpty(cookie)) {
+			params.addHeader("Cookie", cookie);
+		}
 //		params.addQueryStringParameter("name", "value");
 
 		// 只包含字符串参数时默认使用BodyParamsEntity，
@@ -246,29 +252,54 @@ public class NetRequest {
 		// MultipartEntity,BodyParamsEntity,FileUploadEntity,InputStreamUploadEntity,StringEntity）。
 		// 例如发送json参数：params.setBodyEntity(new StringEntity(jsonStr,charset));
 		params.addBodyParameter("file", new File(filePath));
-
+//		FileUploadEntity entity = new FileUploadEntity(file, contentType)
+//		params.setBodyEntity(bodyEntity)
 		HttpUtils http = new HttpUtils();
-		// http.configCookieStore(new cooki)
+//		 http.configCookieStore(cookieStore)
 		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
 			@Override
 			public void onStart() {
-				Toast.makeText(DsnApplication.getContext(), "onStart", 0).show();
+				Logger.d(LogTag.HTTP, "upload  onStart");
 			}
 
 			@Override
 			public void onLoading(long total, long current, boolean isUploading) {
-				Toast.makeText(DsnApplication.getContext(), "onStart", 0).show();
+//				Toast.makeText(DsnApplication.getContext(), "onLoading", 0).show();
+				Logger.d(LogTag.HTTP, "total:"+total+"--current:"+current+"--isUploading:"+isUploading);
 			}
 
 			@Override
 			public void onSuccess(ResponseInfo<String> responseInfo) {
-				Toast.makeText(DsnApplication.getContext(), "onSuccess", 0).show();
+				Logger.d(LogTag.HTTP, "total:"+responseInfo.result);
+				String response = responseInfo.result;
+				try {
+					Logger.d(LogTag.HTTP, response);
+
+					BaseEntity result = new Gson().fromJson(response, clazz);
+					if (result == null) {
+						callback.onFailed(requestCode, new NullPointerException(), "data:" + response);
+						return;
+					}
+
+					if (result.isAuthTokenInvalid()) {
+						// Intent intent = new
+						// Intent(context,LoginActivity.class);
+						// // intent.putExtra(AccountManager.CHECK_LOGIN,true);
+						// context.startActivity(intent);
+						AccountManager.logout(context);
+					}
+
+					callback.onSuccess(requestCode, result);
+				} catch (Exception e) {
+					callback.onFailed(requestCode, e, e.getClass().toString());
+				}
 			}
 
 			@Override
 			public void onFailure(HttpException error, String msg) {
-				Toast.makeText(DsnApplication.getContext(), "onFailure", 0).show();
+				Logger.d(LogTag.HTTP, "error:"+Log.getStackTraceString(error)+"--msg:"+msg);
+				callback.onFailed(requestCode, error, msg);
 			}
 		});
 	}

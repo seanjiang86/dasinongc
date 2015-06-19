@@ -14,6 +14,7 @@ import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.entity.User;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.GraphicUtils;
 import com.dasinong.app.utils.Logger;
@@ -69,6 +70,8 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 	private RelativeLayout mHomephoneLayout;
 	private TextView mHomephoneText;
 
+	private View mLogoutLayout;
+	
 	private String password;
 
 	protected String mPhotoPath;
@@ -119,11 +122,18 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			mNameText.setText(user.getUserName());
 			if(TextUtils.isEmpty(user.getAddress())){
 				mAddressText.setTextColor(Color.RED);
+				mAddressText.setText("未添加");
 			}else{
 				mAddressText.setTextColor(Color.parseColor("#999999"));
+				mAddressText.setText(user.getAddress());
 			}
-			mAddressText.setText(user.getAddress());
-			mHomephoneText.setText(user.getTelephone());
+			if(TextUtils.isEmpty(user.getTelephone())){
+				mHomephoneText.setTextColor(Color.RED);
+				mHomephoneText.setText("未添加");
+			}else{
+				mHomephoneText.setTextColor(Color.parseColor("#999999"));
+				mHomephoneText.setText(user.getTelephone());
+			}
 			if(user.isAuthenticated()){
 				mAuthPhoneButton.setVisibility(View.VISIBLE);
 			}else{
@@ -146,20 +156,22 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		mAddressText = (TextView) this.findViewById(R.id.textview_address);
 		mHomephoneLayout = (RelativeLayout) this.findViewById(R.id.layout_home_phone);
 		mHomephoneText = (TextView) this.findViewById(R.id.textview_home_phone);
+		
+		mLogoutLayout = this.findViewById(R.id.layout_logout);
 
 	}
 
 	private void setUpView() {
 		mTopbarView.setCenterText("个人信息");
 		mTopbarView.setLeftView(true, true);
-		mTopbarView.setRightText("提交");
-		mTopbarView.setRightClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				uploadInfo();
-			}
-		});
+//		mTopbarView.setRightText("提交");
+//		mTopbarView.setRightClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				uploadInfo();
+//			}
+//		});
 
 		mHeadviewLayout.setOnClickListener(this);
 		mPhoneLayout.setOnClickListener(this);
@@ -168,34 +180,58 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		mNameLayout.setOnClickListener(this);
 		mAddressLayout.setOnClickListener(this);
 		mHomephoneLayout.setOnClickListener(this);
+		mLogoutLayout.setOnClickListener(this);
 
 	}
 
 	protected void uploadInfo() {
-		String userName = mNameText.getText().toString().trim();
-		String cellphone = mPhoneText.getText().toString().trim();
-		String address = mAddressText.getText().toString().trim();
-		String telephone = mHomephoneText.getText().toString().trim();
-		
-		if(TextUtils.isEmpty(userName)){
-			Toast.makeText(this, "请输入用户名", 0).show();
-			return;
-		}
-		if(TextUtils.isEmpty(cellphone)){
-			Toast.makeText(this, "请输入手机号", 0).show();
+//		String userName = mNameText.getText().toString().trim();
+//		String cellphone = mPhoneText.getText().toString().trim();
+//		String address = mAddressText.getText().toString().trim();
+//		String telephone = mHomephoneText.getText().toString().trim();
+//		
+//		if(TextUtils.isEmpty(userName)){
+//			Toast.makeText(this, "请输入用户名", 0).show();
+//			return;
+//		}
+//		if(TextUtils.isEmpty(cellphone)){
+//			Toast.makeText(this, "请输入手机号", 0).show();
+//			return;
+//		}
+//		
+//		startLoadingDialog();
+//		
+//		RequestService.getInstance().uploadInfo(this, userName, cellphone,password, address, telephone, BaseEntity.class, new RequestListener() {
+//			
+//			@Override
+//			public void onSuccess(int requestCode, BaseEntity resultData) {
+//				dismissLoadingDialog();
+//				if(resultData.isOk()){
+//					showToast("个人信息更新成功");
+//					finish();
+//				}else{
+//					showToast(resultData.getMessage());
+//				}
+//			}
+//			
+//			@Override
+//			public void onFailed(int requestCode, Exception error, String msg) {
+//				dismissLoadingDialog();
+//			}
+//		});
+		if(mCropParams == null || mCropParams.uri == null ){
+			showToast("请选择图片");
 			return;
 		}
 		
 		startLoadingDialog();
-		
-		RequestService.getInstance().uploadInfo(this, userName, cellphone, address, telephone, BaseEntity.class, new RequestListener() {
+		RequestService.getInstance().uploadHeadImage(this, mCropParams.uri.getPath(), new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				dismissLoadingDialog();
 				if(resultData.isOk()){
-					showToast("个人信息更新成功");
-					finish();
+					showToast("头像更新成功");
 				}else{
 					showToast(resultData.getMessage());
 				}
@@ -204,8 +240,10 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
+				showToast(msg);
 			}
 		});
+		
 	}
 
 	@Override
@@ -225,17 +263,43 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			break;
 		case R.id.layout_name:
 			editInfo(MyInfoSetActivity.EDIT_NAME);
-
 			break;
 		case R.id.layout_address:
 			editInfo(MyInfoSetActivity.EDIT_ADDRESS);
-
 			break;
 		case R.id.layout_home_phone:
 			editInfo(MyInfoSetActivity.EDIT_HOME_PHONE);
-
+			break;
+		case R.id.layout_logout:
+			showLogoutDialog();
 			break;
 		}
+	}
+	
+	private void showLogoutDialog() {
+		final Dialog dialog = new Dialog(this, R.style.CommonDialog);
+		dialog.setContentView(R.layout.smssdk_back_verify_dialog);
+		TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
+		tv.setText("确定退出?");
+		tv.setTextSize(18);
+		Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
+		waitBtn.setText("取消");
+		waitBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_cancel);
+		backBtn.setText("确定");
+		backBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				AccountManager.logout(MyInfoActivity.this);
+				dialog.dismiss();
+				finish();
+			}
+		});
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
 	}
 
 	private void authPhoneCode() {
@@ -415,10 +479,12 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			case MyInfoSetActivity.EDIT_ADDRESS:
 				String info3 = data.getStringExtra("info");
 				mAddressText.setText(info3);
+				mAddressText.setTextColor(Color.parseColor("#999999"));
 				break;
 			case MyInfoSetActivity.EDIT_HOME_PHONE:
 				String info4 = data.getStringExtra("info");
 				mHomephoneText.setText(info4);
+				mHomephoneText.setTextColor(Color.parseColor("#999999"));
 				break;
 			case MyInfoSetActivity.EDIT_AUTH_PHONE:
 				authPhone();
@@ -461,6 +527,7 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		Logger.d("MyInfoActivity", "Crop Uri in path: " + uri.getPath());
 		// Toast.makeText(this, "Photo cropped!", Toast.LENGTH_LONG).show();
 		mHeadviewImage.setImageBitmap(CropHelper.decodeUriAsBitmap(this, mCropParams.uri));
+		uploadInfo();
 	}
 
 	@Override

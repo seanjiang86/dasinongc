@@ -65,6 +65,8 @@ public class NetConfig {
 		public static final String UPLOAD_PHONE_AUTH_STATE ="isAuth";
 		/**短信订阅 */
 		public static final String SMS_SUBSCRIBE ="insertSubScribeList";
+		/**短信订阅列表 */
+		public static final String GET_SUBSCRIBE_LIST ="getSubScribeLists";
 
 	}
 	
@@ -209,7 +211,7 @@ public class NetConfig {
 		String token = null;
 		if (isNeedAuthToken) {
 			token = AccountManager.getAuthToken(DsnApplication.getContext());
-			paramsMap.put(Params.token, token);
+//			paramsMap.put(Params.token, token);
 		} else {
 			token = null;
 		}
@@ -293,15 +295,17 @@ public class NetConfig {
 		return paramsMap;
 	}
 	public static Map<String, String> getUploadInfoParams(String userName,
-			String cellphone,String address,String telephone) {
+			String cellphone,String password,String address,String telephone) {
 		Map<String, String> paramsMap = getBaseParams(false, 
 				getTokenParams(Params.username, userName),
 				getTokenParams(Params.cellphone, cellphone),
 				getTokenParams(Params.address, address),
+				getTokenParams(Params.password, password),
 				getTokenParams(Params.telephone, telephone)
 				);
 		paramsMap.put(Params.username, userName);
 		paramsMap.put(Params.cellphone, cellphone);
+		paramsMap.put(Params.password, password);
 		paramsMap.put(Params.address, address);
 		paramsMap.put(Params.telephone, telephone);
 		return paramsMap;

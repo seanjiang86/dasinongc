@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.dasinong.app.R;
 import com.dasinong.app.database.city.dao.impl.CityDaoImpl;
+import com.dasinong.app.database.variety.dao.impl.VarietyDaoImp;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
@@ -45,6 +46,7 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 	
 	private List<String> province;
 	private CityDaoImpl dao;
+	protected VarietyDaoImp varietyDaoImp;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,7 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 	private void initProvince() {
 		new Thread() {
 			public void run() {
+				varietyDaoImp = new VarietyDaoImp(SmsSubscribeActivity.this);
 				dao = new CityDaoImpl(SmsSubscribeActivity.this);
 				province = dao.getProvince();
 				province.add(0, "请选择省");
@@ -91,6 +94,7 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 		mIsAgriWeatherRb = (CheckBox) this.findViewById(R.id.rb_isAgriWeather);
 		mIsNatAlterRb = (CheckBox) this.findViewById(R.id.rb_isNatAlter);
 		mIsRiceHelperRb = (CheckBox) this.findViewById(R.id.rb_isRiceHelper);
+		spinner = (Spinner) this.findViewById(R.id.spinner);
 		
 		mCancelButton = (Button) this.findViewById(R.id.button_cancel);
 		mSaveButton = (Button) this.findViewById(R.id.button_save);
@@ -100,10 +104,6 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 		mTopbarView.setCenterText("免费短信订阅");
 		mTopbarView.setLeftView(true, true);
 
-		spinner = (Spinner) this.findViewById(R.id.spinner);
-		spinner.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, new String[] { "sdf", "fsdgsfdg", "fgsdgs", "sdf",
-				"fsdgsfdg", "fgsdgs" }));
-		
 		mCancelButton.setOnClickListener(this);
 		mSaveButton.setOnClickListener(this);
 	}
@@ -141,11 +141,18 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 					@Override
 					public void onSuccess(int requestCode, BaseEntity resultData) {
 						dismissLoadingDialog();
+						if(resultData.isOk()){
+							showToast("订阅成功");
+							finish();
+						}else{
+							showToast(resultData.getMessage());
+						}
 					}
 					
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
 						dismissLoadingDialog();
+						showToast(R.string.please_check_netword);
 					}
 				});
 	}
@@ -200,6 +207,8 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String area = (String) mAreaSp.getSelectedItem();
 				setTowns(area);
+				
+				setCrop(area);
 			}
 
 			@Override
@@ -208,6 +217,12 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 			}
 		});
 		// mTownsSp.setAdapter(null);
+	}
+
+	protected void setCrop(String area) {
+		List<String> variety = varietyDaoImp.getVariety(area);
+		variety.add(0, "请选择作物");
+		spinner.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, variety));
 	}
 
 	protected void setTowns(String area) {

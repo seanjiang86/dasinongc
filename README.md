@@ -23,15 +23,22 @@ fieldId=10有相关任务
 |提交用户手机验证状态 |isAuth|  | 200  | ||
 |    |  |  | 120  |尚未验证 ||
 |个人信息编辑提交| updateProfile |userName,cellphone,password,address,pictureId,telephone  |  200   | 更新成功 |   | 
+|修改个人信息（手机号、密码、姓名、地址、家庭电话）|updateProfile| 参数未出现部分不会被更新| 200 |更新成功||
 |测土列表|loadReports|fieldId| 200| 检索成功| 默认用户全部测土报告或当前天地测土报告|
 |测土提交|insertSoilReport| see sample. testDate can not be null.|200|更新成功||
+| 短信订阅设置提交 | insertSubScribeList | see sample     | 200  |  成功         |           |
+| 短信订阅清单获取      |   getSubScribeLists    |  | 200  | 成功  |   Map<订阅条目，条目编号〉     |
+| 短信订阅获取 |  loadSubScribeList       | id  | 200  |成功　|  订阅内容    | 
+| 短信订阅更改 |  updateSubScribeList    | id+insert sample   |  200 | 成功  |          |
+| 短信订阅删除 |  deleteSubScribeList(还未上传）  | id  |  200 | 成功|   |  
+/insertSubScribeList?targetName=小张&cellphone=12112345678&province=北京&city=北京&country=朝阳区&district=某某街道&area=15.1&cropId=223&isAgriWeather=true&isNatAlter=false&isRiceHelper=false
 
 insertSoilReport?userId=15&fieldId=10&type=type&color=red&fertility=fertility&humidity=30.5&testDate=2015/04/01&phValue=6.7&organic=organic&an=12.1&qn=10.2&p=100&qK=12&sK=1.2&fe=3.0&mn=12&cu=21.0&zn=1&b=90&mo=12.0&ca=1.0&s=0.1&si=45&mg=2.3
+
 ## 待开发接口
 | 接口   | 接口路径  | 输入参数 |　返回码 | 返回描述    |　　返回内容  |
 |--------|-----------|----------|---------|-------------|------------------|
 |百科搜索|  |    keywords |200  |   | search result |
-|短信订阅设置提交|  |     |  |   |  |
 |app检测更新|  |     |  |   |  |
 |首页返回 种地，打药，日历|  |     |  |   |  |
 |编辑用户头像 ||||||
@@ -39,9 +46,6 @@ insertSoilReport?userId=15&fieldId=10&type=type&color=red&fertility=fertility&hu
 |首页天气 ||||||
 |首页测土||||||
 |测土修改||||||
-|修改个人信息（手机号、密码、姓名、地址、家庭电话）||||||
-|短信订阅删除||||||
-|短信订阅编辑||||||
 
 
 

@@ -1,6 +1,9 @@
 package com.dasinong.app.ui;
 
 import com.dasinong.app.R;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.view.TopbarView;
 
 import android.content.Intent;
@@ -26,7 +29,23 @@ public class SmsSettingActivity extends BaseActivity {
 		
 		initView();
 		setUpView();
-		
+		getSubScribeLists();
+	}
+
+	private void getSubScribeLists() {
+		startLoadingDialog();
+		RequestService.getInstance().getSubScribeLists(this, BaseEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+			}
+		});
 	}
 
 	private void initView() {
@@ -37,17 +56,20 @@ public class SmsSettingActivity extends BaseActivity {
 	private void setUpView() {
 		mTopbarView.setCenterText("免费短信订阅");
 		mTopbarView.setLeftView(true, true);
-		mTopbarView.setRightText("添加");
+		mTopbarView.setRightText("编辑");
 		mTopbarView.setRightClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(SmsSettingActivity.this,SmsSubscribeActivity.class);
-				startActivity(intent);
+//				Intent intent = new Intent(SmsSettingActivity.this,SmsSubscribeActivity.class);
+//				startActivity(intent);
+				
+				
+				
 			}
 		});
 		
-		mSmsList.setAdapter(new ArrayAdapter<String>(this, R.layout.textview));
+		mSmsList.setAdapter(new ArrayAdapter<>(this, R.layout.textview, new String[]{"sfdsf","dsfsdfs"}));
 		
 		View view = View.inflate(this, R.layout.layout_sms_sub_list_footer, null);
 		Button button = (Button) view.findViewById(R.id.button_sms_sub);

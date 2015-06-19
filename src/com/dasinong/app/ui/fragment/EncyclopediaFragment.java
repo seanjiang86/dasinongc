@@ -1,11 +1,13 @@
 package com.dasinong.app.ui.fragment;
 
 import com.dasinong.app.R;
+import com.dasinong.app.ui.ReportHarmActivity;
 import com.dasinong.app.ui.SearchResultActivity;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.DeviceHelper;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -112,14 +115,35 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_ask_for:
-			Intent intent = new Intent(getActivity(),SearchResultActivity.class);
-			intent.putExtra("keywords", "llgfj");
+			Intent intent = new Intent(getActivity(),ReportHarmActivity.class);
 			getActivity().startActivity(intent);
 			break;
 		case R.id.layout_intelligent:
-			
+			showNotifyDialog();
 			break;
 		}
+	}
+	
+	private void showNotifyDialog() {
+		final Dialog dialog = new Dialog(getActivity(), R.style.CommonDialog);
+		dialog.setContentView(R.layout.smssdk_back_verify_dialog);
+		TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
+		tv.setText("此功能稍后推出,敬请期待...");
+		tv.setTextSize(18);
+		Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
+		waitBtn.setText("知道了");
+		waitBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		
+		View lineView = dialog.findViewById(R.id.view_line);
+		lineView.setVisibility(View.GONE);
+		Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_cancel);
+		backBtn.setVisibility(View.GONE);
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
 	}
 
 }
