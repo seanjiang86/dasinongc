@@ -58,7 +58,7 @@
             <RelativeLayout
                 android:id="@+id/layout_phoneNumber"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"
@@ -108,7 +108,7 @@
             <RelativeLayout
                 android:id="@+id/layout_reset_password"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="0.5dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"
@@ -133,7 +133,7 @@
             <RelativeLayout
                 android:id="@+id/layout_name"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"
@@ -162,6 +162,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="25dp"
                     android:text="张三"
+                    android:maxWidth="200dp"
+                    android:singleLine="true"
                     android:textColor="@color/color_999999"
                     android:textSize="@dimen/sp_16" />
             </RelativeLayout>
@@ -169,7 +171,7 @@
             <RelativeLayout
                 android:id="@+id/layout_address"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="0.5dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"
@@ -198,6 +200,8 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="25dp"
                     android:text="未添加"
+                    android:maxWidth="200dp"
+                    android:singleLine="true"
                     android:textColor="@color/color_FF5722"
                     android:textSize="@dimen/sp_16" />
             </RelativeLayout>
@@ -205,7 +209,7 @@
             <RelativeLayout
                 android:id="@+id/layout_home_phone"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="0.5dp"
                 android:background="@drawable/button_white_bg_selector"
                 android:paddingLeft="20dp"
@@ -234,9 +238,31 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="25dp"
                     android:text="未添加"
+                    android:maxWidth="200dp"
+                    android:singleLine="true"
                     android:textColor="@color/color_FF5722"
                     android:textSize="@dimen/sp_16" />
             </RelativeLayout>
+            
+            <RelativeLayout
+                android:id="@+id/layout_logout"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/button_white_bg_selector"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" 
+                android:layout_marginTop="20dp"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="25dp"
+                    android:text="退出登录"
+                    android:textColor="@color/color_333333"
+                    android:textSize="@dimen/sp_16" />
+            </RelativeLayout>
+            
         </LinearLayout>
     </ScrollView>
 

@@ -1,6 +1,9 @@
 package com.dasinong.app.ui;
 
 import com.dasinong.app.R;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.view.TopbarView;
 
 import android.content.Intent;
@@ -26,7 +29,23 @@ public class SmsSettingActivity extends BaseActivity {
 		
 		initView();
 		setUpView();
-		
+		getSubScribeLists();
+	}
+
+	private void getSubScribeLists() {
+		startLoadingDialog();
+		RequestService.getInstance().getSubScribeLists(this, BaseEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+			}
+		});
 	}
 
 	private void initView() {

@@ -14,6 +14,7 @@ import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.entity.User;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.GraphicUtils;
 import com.dasinong.app.utils.Logger;
@@ -69,6 +70,8 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 	private RelativeLayout mHomephoneLayout;
 	private TextView mHomephoneText;
 
+	private View mLogoutLayout;
+	
 	private String password;
 
 	protected String mPhotoPath;
@@ -119,11 +122,18 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			mNameText.setText(user.getUserName());
 			if(TextUtils.isEmpty(user.getAddress())){
 				mAddressText.setTextColor(Color.RED);
+				mAddressText.setText("未添加");
 			}else{
 				mAddressText.setTextColor(Color.parseColor("#999999"));
+				mAddressText.setText(user.getAddress());
 			}
-			mAddressText.setText(user.getAddress());
-			mHomephoneText.setText(user.getTelephone());
+			if(TextUtils.isEmpty(user.getTelephone())){
+				mHomephoneText.setTextColor(Color.RED);
+				mHomephoneText.setText("未添加");
+			}else{
+				mHomephoneText.setTextColor(Color.parseColor("#999999"));
+				mHomephoneText.setText(user.getTelephone());
+			}
 			if(user.isAuthenticated()){
 				mAuthPhoneButton.setVisibility(View.VISIBLE);
 			}else{
@@ -146,20 +156,22 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		mAddressText = (TextView) this.findViewById(R.id.textview_address);
 		mHomephoneLayout = (RelativeLayout) this.findViewById(R.id.layout_home_phone);
 		mHomephoneText = (TextView) this.findViewById(R.id.textview_home_phone);
+		
+		mLogoutLayout = this.findViewById(R.id.layout_logout);
 
 	}
 
 	private void setUpView() {
 		mTopbarView.setCenterText("个人信息");
 		mTopbarView.setLeftView(true, true);
-		mTopbarView.setRightText("提交");
-		mTopbarView.setRightClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				uploadInfo();
-			}
-		});
+//		mTopbarView.setRightText("提交");
+//		mTopbarView.setRightClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				uploadInfo();
+//			}
+//		});
 
 		mHeadviewLayout.setOnClickListener(this);
 		mPhoneLayout.setOnClickListener(this);
@@ -168,6 +180,7 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		mNameLayout.setOnClickListener(this);
 		mAddressLayout.setOnClickListener(this);
 		mHomephoneLayout.setOnClickListener(this);
+		mLogoutLayout.setOnClickListener(this);
 
 	}
 
@@ -188,7 +201,7 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		
 		startLoadingDialog();
 		
-		RequestService.getInstance().uploadInfo(this, userName, cellphone, address, telephone, BaseEntity.class, new RequestListener() {
+		RequestService.getInstance().uploadInfo(this, userName, cellphone,password, address, telephone, BaseEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -225,17 +238,43 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			break;
 		case R.id.layout_name:
 			editInfo(MyInfoSetActivity.EDIT_NAME);
-
 			break;
 		case R.id.layout_address:
 			editInfo(MyInfoSetActivity.EDIT_ADDRESS);
-
 			break;
 		case R.id.layout_home_phone:
 			editInfo(MyInfoSetActivity.EDIT_HOME_PHONE);
-
+			break;
+		case R.id.layout_logout:
+			showLogoutDialog();
 			break;
 		}
+	}
+	
+	private void showLogoutDialog() {
+		final Dialog dialog = new Dialog(this, R.style.CommonDialog);
+		dialog.setContentView(R.layout.smssdk_back_verify_dialog);
+		TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
+		tv.setText("确定退出?");
+		tv.setTextSize(18);
+		Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
+		waitBtn.setText("取消");
+		waitBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_cancel);
+		backBtn.setText("确定");
+		backBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				AccountManager.logout(MyInfoActivity.this);
+				dialog.dismiss();
+				finish();
+			}
+		});
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
 	}
 
 	private void authPhoneCode() {
@@ -415,10 +454,12 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			case MyInfoSetActivity.EDIT_ADDRESS:
 				String info3 = data.getStringExtra("info");
 				mAddressText.setText(info3);
+				mHomephoneText.setTextColor(Color.parseColor("#999999"));
 				break;
 			case MyInfoSetActivity.EDIT_HOME_PHONE:
 				String info4 = data.getStringExtra("info");
 				mHomephoneText.setText(info4);
+				mHomephoneText.setTextColor(Color.parseColor("#999999"));
 				break;
 			case MyInfoSetActivity.EDIT_AUTH_PHONE:
 				authPhone();

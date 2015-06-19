@@ -162,7 +162,7 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 			showToast("请先选择大生长期");
 			return;
 		}
-		smallSubStageList = new ArrayList<>(smallSubStageMap.keySet());
+		smallSubStageList = new ArrayList<String>(smallSubStageMap.keySet());
 		smallStageMenu.addItems(smallSubStageList);
 	}
 

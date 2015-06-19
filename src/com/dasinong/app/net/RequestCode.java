@@ -56,4 +56,5 @@ public final class RequestCode {
 	public static final int UPLOAD_MY_TASK = UPLOAD_MY_INFO + 1;
 	public static final int UPLOAD_PHONE_AUTH_STATE = UPLOAD_MY_TASK + 1;
 	public static final int SMS_SUBSCRIBE = UPLOAD_PHONE_AUTH_STATE + 1;
+	public static final int GET_SUBSCRIBE_LIST = SMS_SUBSCRIBE + 1;
 }

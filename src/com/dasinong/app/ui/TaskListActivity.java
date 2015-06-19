@@ -152,12 +152,20 @@ public class TaskListActivity extends BaseActivity {
 		StringBuilder taskIds = new StringBuilder();
 		StringBuilder taskStatuss = new StringBuilder();
 
-		for (TaskSpec task : mSelectTask) {
-			taskIds.append(task.taskSpecId + ",");
-			taskStatuss.append(true + ",");
-//			taskIds = taskIds + task.taskSpecId + ",";
-//			taskStatuss = taskStatuss + true + ",";
+		for (int i = 0; i < mSelectTask.size(); i++) {
+			TaskSpec task = mSelectTask.get(i);
+			if(i == mSelectTask.size()-1){
+				taskIds.append(task.taskSpecId);
+				taskStatuss.append(true+"");
+			}else{
+				taskIds.append(task.taskSpecId + ",");
+				taskStatuss.append(true + ",");
+			}
 		}
+//		for (TaskSpec task : mSelectTask) {
+//			taskIds.append(task.taskSpecId + ",");
+//			taskStatuss.append(true + ",");
+//		}
 
 		startLoadingDialog();
 		RequestService.getInstance().updateTask(this, "10", taskIds.toString(), taskStatuss.toString(), BaseEntity.class, new RequestListener() {

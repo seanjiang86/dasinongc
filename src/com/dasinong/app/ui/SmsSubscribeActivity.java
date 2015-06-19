@@ -141,11 +141,18 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 					@Override
 					public void onSuccess(int requestCode, BaseEntity resultData) {
 						dismissLoadingDialog();
+						if(resultData.isOk()){
+							showToast("订阅成功");
+							finish();
+						}else{
+							showToast(resultData.getMessage());
+						}
 					}
 					
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
 						dismissLoadingDialog();
+						showToast(R.string.please_check_netword);
 					}
 				});
 	}
