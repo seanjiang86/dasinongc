@@ -227,44 +227,48 @@ public class NetRequest {
 		Volley.newRequestQueue(context).add(req);
 	}
 
-	public <T> void upload(int requestCode, String url, final Class<? extends BaseEntity> clazz,
-			final Map<String, String> header, final Map<String, String> map, final RequestListener callback) {
+	public <T> void upload(int requestCode, String url, String filePath,final Class<? extends BaseEntity> clazz,
+			final RequestListener callback) {
 		RequestParams params = new RequestParams();
 
 		// params.setHeader(new Header);
 
-		params.addHeader("name", "value");
-		params.addQueryStringParameter("name", "value");
+//		params.addHeader("name", "value");
+//		params.addQueryStringParameter("name", "value");
 
 		// 只包含字符串参数时默认使用BodyParamsEntity，
 		// 类似于UrlEncodedFormEntity（"application/x-www-form-urlencoded"）。
-		params.addBodyParameter("name", "value");
+//		params.addBodyParameter("name", "value");
 
 		// 加入文件参数后默认使用MultipartEntity（"multipart/form-data"），
 		// 如需"multipart/related"，xUtils中提供的MultipartEntity支持设置subType为"related"。
 		// 使用params.setBodyEntity(httpEntity)可设置更多类型的HttpEntity（如：
 		// MultipartEntity,BodyParamsEntity,FileUploadEntity,InputStreamUploadEntity,StringEntity）。
 		// 例如发送json参数：params.setBodyEntity(new StringEntity(jsonStr,charset));
-		params.addBodyParameter("file", new File("path"));
+		params.addBodyParameter("file", new File(filePath));
 
 		HttpUtils http = new HttpUtils();
 		// http.configCookieStore(new cooki)
-		http.send(HttpMethod.POST, "uploadUrl....", params, new RequestCallBack<String>() {
+		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
 			@Override
 			public void onStart() {
+				Toast.makeText(DsnApplication.getContext(), "onStart", 0).show();
 			}
 
 			@Override
 			public void onLoading(long total, long current, boolean isUploading) {
+				Toast.makeText(DsnApplication.getContext(), "onStart", 0).show();
 			}
 
 			@Override
 			public void onSuccess(ResponseInfo<String> responseInfo) {
+				Toast.makeText(DsnApplication.getContext(), "onSuccess", 0).show();
 			}
 
 			@Override
 			public void onFailure(HttpException error, String msg) {
+				Toast.makeText(DsnApplication.getContext(), "onFailure", 0).show();
 			}
 		});
 	}

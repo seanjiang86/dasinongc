@@ -130,4 +130,8 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.SMS_SUBSCRIBE, params, SubUrl.SMS_SUBSCRIBE, callBack, clazz);
 	}
 	
+	public void uploadHeadImage(Context context,String filePath,RequestListener callBack){
+		new NetRequest(context).upload(0, NetConfig.BASE_URL+"uploadPicture",filePath, BaseEntity.class, callBack);
+	}
+	
 }
