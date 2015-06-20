@@ -20,8 +20,7 @@ import android.widget.TextView;
 import com.dasinong.app.R;
 
 import com.dasinong.app.components.domain.FieldEntity;
-import com.dasinong.app.database.disaster.domain.PetDisspec;
-import com.dasinong.app.ui.CureDetialActivity;
+
 import com.dasinong.app.ui.HarmDetialsActivity;
 import com.dasinong.app.ui.HarmListActivity;
 
@@ -127,17 +126,29 @@ public class DisasterView extends LinearLayout {
     }
 
     private void updateNatView(List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> natdiswsEntityList) {
-        View View = createView();
-        this.addView(View);
+        View child;
+        if(natdiswsEntityList!=null&&!natdiswsEntityList.isEmpty()){
+            for (FieldEntity.CurrentFieldEntity.NatdiswsEntity item:natdiswsEntityList) {
+                child = createNatView(item);
+                this.addView(child);
+            }
+        }
+
 
     }
 
     private void updatePetView(List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
-        View child = createView();
-        this.addView(child);
+        View child ;
+        if(petdiswsEntities!=null&&!petdiswsEntities.isEmpty()){
+            for (FieldEntity.CurrentFieldEntity.PetdiswsEntity item:petdiswsEntities) {
+                child = createPetView(item);
+                this.addView(child);
+            }
+        }
+
     }
 
-    private View createView() {
+    private View createPetView(FieldEntity.CurrentFieldEntity.PetdiswsEntity item) {
 
         View child = mLayoutInflater.inflate(R.layout.view_home_disaster, this, false);
 
@@ -146,6 +157,25 @@ public class DisasterView extends LinearLayout {
         TextView disastername = (TextView) child.findViewById(R.id.disaster_name);
         TextView disastertype = (TextView) child.findViewById(R.id.disaster_type);
 
+        disastername.setText(item.petDisSpecName);
+
+        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
+        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
+        return child;
+
+    }
+
+
+
+    private View createNatView(FieldEntity.CurrentFieldEntity.NatdiswsEntity item) {
+
+        View child = mLayoutInflater.inflate(R.layout.view_home_disaster, this, false);
+
+        TextView disasterdesc = (TextView) child.findViewById(R.id.disaster_desc);
+        ImageView disastericon = (ImageView) child.findViewById(R.id.disaster_icon);
+        TextView disastername = (TextView) child.findViewById(R.id.disaster_name);
+        TextView disastertype = (TextView) child.findViewById(R.id.disaster_type);
+        disastername.setText(item.natDisSpecName);
         child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
         child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
         return child;

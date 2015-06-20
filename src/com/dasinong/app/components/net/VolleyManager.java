@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.http.AndroidHttpClient;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.Cache;
 import com.android.volley.NetworkError;
 import com.android.volley.ParseError;
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.ServerError;
@@ -25,8 +26,7 @@ import com.dasinong.app.DsnApplication;
 import com.dasinong.app.components.domain.BaseResponse;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.FieldUtils;
-import com.dasinong.app.utils.FileUtils;
-import com.dasinong.app.utils.MD5Utils;
+import com.google.gson.Gson;
 
 
 import java.io.File;
@@ -42,6 +42,7 @@ import java.util.Map;
  */
 public class VolleyManager {
 
+    private static final String TAG = "VolleyManager";
     private volatile static VolleyManager instance;
     private RequestQueue mRequestQueue;
 
@@ -100,14 +101,14 @@ public class VolleyManager {
 
     public <T extends BaseResponse> void addPostRequest(int requestCode, String url, Object param, Class<? extends BaseResponse> clazz, final INetRequest netReqeust) {
         final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
-        final Response.Listener<T> successListener = createSuccessListener(requestCode, url, weakReference);
+        final Response.Listener<T> successListener = createSuccessListener( requestCode, weakReference);
 
 
         final Response.ErrorListener errorListener = createErrorListener(requestCode, weakReference);
         HashMap<String, String> map = FieldUtils.convertToHashMap(param);
 
         final GsonRequest<T> request = new GsonRequest(url, map, clazz, successListener, errorListener);
-        //disabel volley cache
+
         request.setShouldCache(false);
 
         mRequestQueue.add(request);
@@ -116,6 +117,10 @@ public class VolleyManager {
 
     private RequestQueue createRequestQueue() {
         File cacheDir = new File(mContext.getCacheDir(), "network");
+
+        if (!cacheDir.exists()) {
+            cacheDir.mkdirs();
+        }
 
         String userAgent = "";
 
@@ -136,7 +141,7 @@ public class VolleyManager {
 
         BasicNetwork network = new BasicNetwork(stack);
         RequestQueue queue = new RequestQueue(new DiskBasedCache(cacheDir), network);
-        mCacheDir = cacheDir.getAbsolutePath();
+
         queue.start();
         return queue;
 
@@ -147,57 +152,40 @@ public class VolleyManager {
         final String finalUrl = createUrl(url, param);
 
         final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
-        final Response.Listener<T> successListener = createSuccessListener(requestCode, finalUrl, weakReference);
+        final Response.Listener<T> successListener = createSuccessListener( requestCode, weakReference);
 
         final Response.ErrorListener errorListener = createErrorListener(requestCode, weakReference);
 
 
         final GsonRequest<T> request = new GsonRequest(finalUrl, clazz, successListener, errorListener);
         //disabel volley cache
-        request.setShouldCache(false);
 
+        request.setShouldCache(needCache);
 
 
         if (needCache) {
-            executeReadCache(requestCode, clazz, finalUrl, weakReference);
+            Cache.Entry entry = getCache(request);
+            Log.d("TAG",entry==null?"null":"not null");
+            if (entry != null) {
+                INetRequest tem = weakReference.get();
+                String result = new String(entry.data);
+                Log.d(TAG,"result:"+result);
+                tem.onCache(requestCode, new Gson().fromJson(result, clazz));
 
+            }
         }
-
-
         if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
             netReqeust.onTaskFailedSuccess(requestCode, new NetError(NetError.NETWORK_UNAVAILABLEE));
             return;
         } else {
             mRequestQueue.add(request);
+
         }
 
     }
 
 
-    private <T extends BaseResponse> void executeReadCache(final int requestCode, final Class<T> clazz, final String finalUrl, final WeakReference<INetRequest> weakReference) {
-        AsyncTask<String, Void, T> task = new AsyncTask<String, Void, T>() {
-            @Override
-            protected T doInBackground(String... params) {
-                return readEntitySync(finalUrl, clazz);
-            }
 
-            @Override
-            protected void onPostExecute(T result) {
-                INetRequest tem = weakReference.get();
-                if (tem != null && result != null) {
-                    tem.onCache(requestCode, result);
-                }
-            }
-        };
-
-        if (task != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-                task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-            } else {
-                task.execute();
-            }
-        }
-    }
 
     private String buildUrl(String url, Object param) {
 
@@ -211,50 +199,8 @@ public class VolleyManager {
     }
 
 
-    private <T> T readEntitySync(final String url, final Class type) {
-        String entityKey = createEntityKey(url);
-        String cacheFilePath = new File(mCacheDir, entityKey).getAbsolutePath();
-
-        return (T) FileUtils.readEntity(type, cacheFilePath);
-    }
 
 
-    /**
-     * 从URL中生成Entity的key
-     *
-     * @param url
-     * @return
-     */
-    private String createEntityKey(String url) {
-        return MD5Utils.md5(url);
-    }
-
-
-    /**
-     * @param url
-     * @param entity
-     */
-    private void saveEntity(final String url, final Object entity) {
-        AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
-            @Override
-            protected Void doInBackground(Void... params) {
-                String entityKey = createEntityKey(url);
-                String cacheFilePath = new File(mCacheDir, entityKey).getAbsolutePath();
-                if (entity != null) {
-                    FileUtils.writeEntity(entity, cacheFilePath);
-
-                }
-
-                return null;
-            }
-        };
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
-        } else {
-            task.execute();
-        }
-
-    }
 
 
     private String encodeParameters(Map<String, String> params) {
@@ -319,11 +265,11 @@ public class VolleyManager {
         };
     }
 
-    private <T extends BaseResponse> Response.Listener<T> createSuccessListener(final int requestCode, final String finalUrl, final WeakReference<INetRequest> weakReference) {
+    private <T extends BaseResponse> Response.Listener<T> createSuccessListener( final int requestCode,  final WeakReference<INetRequest> weakReference) {
         return new Response.Listener<T>() {
             @Override
             public void onResponse(T response) {
-                saveEntity(finalUrl, response);
+
                 INetRequest tem = weakReference.get();
                 if (tem != null) {
                     tem.onTaskSuccess(requestCode, response);
@@ -331,6 +277,12 @@ public class VolleyManager {
             }
 
         };
+    }
+
+
+    private Cache.Entry getCache(Request request) {
+        Log.d(TAG,"url:"+request.getUrl());
+        return mRequestQueue.getCache().get(request.getUrl());
     }
 
 }

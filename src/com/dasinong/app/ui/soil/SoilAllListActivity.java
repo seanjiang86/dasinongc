@@ -23,7 +23,7 @@ public class SoilAllListActivity extends SoilBaseActivity implements AdapterView
     private ListView mListView;
     private static final int REQUEST_CODE_SOIL_LIST = 190;
 
-    private static final String URL = NetConfig.BASE_URL + "";
+    private static final String URL = NetConfig.BASE_URL + "loadReports";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

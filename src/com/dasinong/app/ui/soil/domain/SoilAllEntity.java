@@ -9,6 +9,8 @@ public class SoilAllEntity extends BaseResponse {
 
     public static  class Param {
 
+        public String fieldId = "10";
+
     }
 
     public  static class  Result{

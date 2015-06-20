@@ -23,7 +23,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
     private static final int REQUEST_CODE = 101;
     private static final int REQUEST_CODE_SOIL_POST = 139;
-    private static final String URL = NetConfig.BASE_URL;
+    private static final String URL = NetConfig.BASE_URL + "insertSoilReport";
 
 
     private TextView soiltype;

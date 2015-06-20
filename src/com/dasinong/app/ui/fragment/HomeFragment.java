@@ -12,6 +12,7 @@ import android.view.ViewGroupOverlay;
 
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
+import com.dasinong.app.components.home.view.DisasterView;
 import com.dasinong.app.components.home.view.SoilView;
 import com.dasinong.app.components.net.INetRequest;
 import com.dasinong.app.components.net.NetError;
@@ -53,6 +54,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
     private BGARefreshLayout mRefreshLayout;
 
+    private  SoilView mSoilView;
+
+    private DisasterView mDisasterView;
+
+    private static final String TAG = "HomeFragment";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,10 +88,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
         mRefreshLayout = (BGARefreshLayout) mRoot.findViewById(R.id.rl_modulename_refresh);
 
-        SoilView soilView = (SoilView) mRoot.findViewById(R.id.home_soilview);
+        mSoilView = (SoilView) mRoot.findViewById(R.id.home_soilview);
 
+        mDisasterView  = (DisasterView) mRoot.findViewById(R.id.home_disaster);
         initRefreshLayout();
-        soilView.setOnClickListener(this);
+        mSoilView.setOnClickListener(this);
 
 
         return mRoot;
@@ -130,20 +138,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
         new AsyncTask<Void, Void, Void>() {
 
 
-            /**
-             * Override this method to perform a computation on a background thread. The
-             * specified parameters are the parameters passed to {@link #execute}
-             * by the caller of this task.
-             * <p/>
-             * This method can call {@link #publishProgress} to publish updates
-             * on the UI thread.
-             *
-             * @param params The parameters of the task.
-             * @return A result, defined by the subclass of this task.
-             * @see #onPreExecute()
-             * @see #onPostExecute
-             * @see #publishProgress
-             */
             @Override
             protected Void doInBackground(Void... params) {
                 try {
@@ -188,7 +182,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     public void loadFieldData(String fiedlId) {
         FieldEntity.Param param = new FieldEntity.Param();
         param.fieldId = fiedlId;
-        VolleyManager.getInstance().addGetRequestWithNoCache(
+
+        VolleyManager.getInstance().addGetRequestWithCache(
                 REQUEST_CODE_HOME_FIELD,
                 URL_FIELD,
                 param,
@@ -227,6 +222,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
         switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
+                FieldEntity entity = (FieldEntity) response;
+                mDisasterView.updateView(entity.currentField.natdisws,entity.currentField.petdisws);
                 break;
             case REQUEST_CODE_HOME_WEATHER:
                 break;
@@ -247,6 +244,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     public void onCache(int requestCode, Object response) {
         switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
+
+                onTaskSuccess(requestCode,response);
                 break;
             case REQUEST_CODE_HOME_WEATHER:
                 break;

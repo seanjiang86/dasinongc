@@ -33,6 +33,7 @@
 
             <com.dasinong.app.components.home.view.DisasterView
                 android:layout_width="match_parent"
+                android:id="@+id/home_disaster"
                 android:layout_height="wrap_content" />
 
             <com.dasinong.app.components.home.view.SoilView
