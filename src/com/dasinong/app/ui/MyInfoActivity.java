@@ -72,8 +72,6 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 
 	private View mLogoutLayout;
 	
-	private String password;
-
 	protected String mPhotoPath;
 	private String mCropPath;
 
@@ -473,8 +471,6 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 				mNameText.setText(info1);
 				break;
 			case MyInfoSetActivity.EDIT_PASSWORD:
-				String info2 = data.getStringExtra("info");
-				password = info2;
 				break;
 			case MyInfoSetActivity.EDIT_ADDRESS:
 				String info3 = data.getStringExtra("info");

@@ -182,13 +182,32 @@ public class MyInfoSetActivity extends BaseActivity {
 			
 			return;
 		case EDIT_PASSWORD:
-			info = mEditText.getText().toString().trim();
-			if (TextUtils.isEmpty(info)) {
-				showToast("请输入密码");
+			String oPassword = mEditText.getText().toString().trim();
+			if (TextUtils.isEmpty(oPassword)) {
+				showToast("请输入原密码");
 				return;
 			}
-			password = info;
-			break;
+			String nPassword = mPwdEdit.getText().toString().trim();
+			if(TextUtils.isEmpty(nPassword)){
+				showToast("请输入新密码");
+				return;
+			}
+			String surePwd = mSurePwdEdit.getText().toString().trim();
+			if(TextUtils.isEmpty(surePwd)){
+				showToast("请确认新密码");
+				return;
+			}
+			if(!nPassword.equals(surePwd)){
+				showToast("两次密码不一致");
+				return;
+			}
+			if(!StringHelper.isPassword(nPassword)){
+				showToast("新密码不合格");
+				return;
+			}
+//			password = info;
+			resetPwd(oPassword,nPassword);
+			return;
 		case EDIT_NAME:
 			info = mEditText.getText().toString().trim();
 			if (TextUtils.isEmpty(info)) {
@@ -235,6 +254,32 @@ public class MyInfoSetActivity extends BaseActivity {
 		}
 
 		requestUpload(userName, "", password, address, telephone);
+	}
+
+	private void resetPwd(String oPassword, String nPassword) {
+		startLoadingDialog();
+		RequestService.getInstance().resetPwd(this, oPassword, nPassword, BaseEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				if(resultData.isOk()){
+					showToast("密码更改成功");
+					Intent intent = new Intent();
+					intent.putExtra("info", info);
+					setResult(RESULT_OK, intent);
+					finish();
+				}else{
+					showToast(resultData.getMessage());
+				}
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+				showToast(msg);
+			}
+		});
 	}
 
 	private void requestUpload(String userName, String cellphone, String password, String address, String telephone) {

@@ -9,6 +9,7 @@ import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.StringHelper;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -33,17 +34,17 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 	private Spinner mAreaSp;
 	private Spinner mTownsSp;
 	private Spinner mVillageSp;
-	
+
 	private EditText mNameEdit;
 	private EditText mPhoneEdit;
 	private EditText mAreaEdit;
 	private CheckBox mIsAgriWeatherRb;
 	private CheckBox mIsNatAlterRb;
 	private CheckBox mIsRiceHelperRb;
-	
+
 	private Button mSaveButton;
 	private Button mCancelButton;
-	
+
 	private List<String> province;
 	private CityDaoImpl dao;
 	protected VarietyDaoImp varietyDaoImp;
@@ -61,7 +62,7 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 	}
 
 	private void initData() {
-		
+
 	}
 
 	private void initProvince() {
@@ -95,7 +96,7 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 		mIsNatAlterRb = (CheckBox) this.findViewById(R.id.rb_isNatAlter);
 		mIsRiceHelperRb = (CheckBox) this.findViewById(R.id.rb_isRiceHelper);
 		spinner = (Spinner) this.findViewById(R.id.spinner);
-		
+
 		mCancelButton = (Button) this.findViewById(R.id.button_cancel);
 		mSaveButton = (Button) this.findViewById(R.id.button_save);
 	}
@@ -107,7 +108,7 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 		mCancelButton.setOnClickListener(this);
 		mSaveButton.setOnClickListener(this);
 	}
-	
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
@@ -122,37 +123,81 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 
 	private void subscribe() {
 		String targetName = mNameEdit.getText().toString().trim();
+
+		if (TextUtils.isEmpty(targetName)) {
+			showToast("请输入对方姓名");
+			return;
+		}
 		String cellphone = mPhoneEdit.getText().toString().trim();
+
+		if (TextUtils.isEmpty(cellphone) || !StringHelper.isPhoneNumber(cellphone)) {
+			showToast("请输入合格的订阅手机号");
+			return;
+		}
+
+		if (mProvinceSp.getSelectedItemPosition() == 0) {
+			showToast("请选择省");
+			return;
+		}
+		if (mCitySp.getSelectedItemPosition() == 0) {
+			showToast("请选择市");
+			return;
+		}
+		if (mAreaSp.getSelectedItemPosition() == 0) {
+			showToast("请选择区");
+			return;
+		}
+		
 		String province = (String) mProvinceSp.getSelectedItem();
 		String city = (String) mCitySp.getSelectedItem();
 		String country = (String) mAreaSp.getSelectedItem();
-		String district = (String) mTownsSp.getSelectedItem();
+		
+		String district = "";
+		if (mTownsSp.getSelectedItemPosition() > 0) {
+			district = (String) mTownsSp.getSelectedItem();
+		}
+		
 		String area = mAreaEdit.getText().toString().trim();
+
+		if (TextUtils.isEmpty(area)) {
+			showToast("请输入农田大小");
+			return;
+		}
 		String cropId = (String) spinner.getSelectedItem();
+
+		if (spinner.getSelectedItemPosition() == 0) {
+			showToast("请选择作物");
+			return;
+		}
 		boolean isAgriWeather = mIsAgriWeatherRb.isChecked();
 		boolean isNatAlter = mIsNatAlterRb.isChecked();
 		boolean isRiceHelper = mIsRiceHelperRb.isChecked();
-		
+
+		if (!isAgriWeather && !isNatAlter && !isRiceHelper) {
+			showToast("请至少选择一项短信服务");
+			return;
+		}
+
 		startLoadingDialog();
-		RequestService.getInstance().smsSubscribe(this, targetName, cellphone, province, 
-				city, country, district, area, cropId, 
-				isAgriWeather, isNatAlter, isRiceHelper, BaseEntity.class, new RequestListener() {
-					
+		RequestService.getInstance().smsSubscribe(this, null, targetName, cellphone, province, city, country, district, area,
+				cropId, isAgriWeather, isNatAlter, isRiceHelper, BaseEntity.class, new RequestListener() {
+
 					@Override
 					public void onSuccess(int requestCode, BaseEntity resultData) {
 						dismissLoadingDialog();
-						if(resultData.isOk()){
+						if (resultData.isOk()) {
 							showToast("订阅成功");
+							setResult(RESULT_OK);
 							finish();
-						}else{
+						} else {
 							showToast(resultData.getMessage());
 						}
 					}
-					
+
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
 						dismissLoadingDialog();
-						showToast(R.string.please_check_netword);
+						showToast(msg);
 					}
 				});
 	}
@@ -207,7 +252,7 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String area = (String) mAreaSp.getSelectedItem();
 				setTowns(area);
-				
+
 				setCrop(area);
 			}
 

@@ -7,14 +7,6 @@
  */
 package com.dasinong.app.ui;
 
-import static com.mob.tools.utils.R.dipToPx;
-import static com.mob.tools.utils.R.getBitmapRes;
-import static com.mob.tools.utils.R.getColorRes;
-import static com.mob.tools.utils.R.getIdRes;
-import static com.mob.tools.utils.R.getLayoutRes;
-import static com.mob.tools.utils.R.getStringRes;
-import static com.mob.tools.utils.R.getStyleRes;
-
 import java.util.HashMap;
 
 import org.json.JSONException;
@@ -56,7 +48,6 @@ import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.view.TopbarView;
 import com.mob.tools.FakeActivity;
 
-/** 验证码输入页面 */
 public class AuthCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
 
 	private static final int RETRY_INTERVAL = 10;
@@ -110,7 +101,17 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		
 		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
 		mTopbarView.setCenterText("填写验证码");
-		mTopbarView.setLeftView(true, true);
+		mTopbarView.setLeftClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				runOnUiThread(new Runnable() {
+					public void run() {
+						showNotifyDialog();
+					}
+				});
+			}
+		});
 		
 		btnSubmit = (Button) findViewById(R.id.btn_submit);
 		btnSubmit.setOnClickListener(this);
@@ -137,13 +138,10 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		handler = new EventHandler() {
 			public void afterEvent(int event, int result, Object data) {
 				if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-					/** 提交验证码 */
 					afterSubmit(result, data);
 				} else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-					/** 获取验证码成功后的执行动作 */
 					afterGet(result, data);
 				} else if (event == SMSSDK.EVENT_GET_VOICE_VERIFICATION_CODE) {
-					/** 获取语音版验证码成功后的执行动作 */
 					afterGetVoice(result, data);
 				}
 			}

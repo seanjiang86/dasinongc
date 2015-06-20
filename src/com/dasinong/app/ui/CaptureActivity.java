@@ -64,10 +64,10 @@ public class CaptureActivity extends BaseActivity implements Callback {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		new Handler().post(new Runnable() {
-			
-			@Override
-			public void run() {
+//		new Handler().post(new Runnable() {
+//			
+//			@Override
+//			public void run() {
 				
 				CameraManager.init(getApplication());
 				viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
@@ -104,8 +104,8 @@ public class CaptureActivity extends BaseActivity implements Callback {
 						CaptureActivity.this.finish();
 					}
 				});
-			}
-		});
+//			}
+//		});
 		
 	}
 

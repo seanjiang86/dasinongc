@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import android.text.TextUtils;
+
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.utils.Logger;
@@ -67,6 +69,14 @@ public class NetConfig {
 		public static final String SMS_SUBSCRIBE ="insertSubScribeList";
 		/**短信订阅列表 */
 		public static final String GET_SUBSCRIBE_LIST ="getSubScribeLists";
+		/**修改密码*/
+		public static final String RESET_PWSSWORD ="updatePassword";
+		/**刪除短信訂閱*/
+		public static final String DELETE_SMS_SUBSCRIBE ="deleteSubScribeList";
+		/**更改短信訂閱*/
+		public static final String MODIFI_SMS_SUBSCRIBE ="updateSubScribeList";
+		/**获取短信订阅详情*/
+		public static final String SMS_SUBSCRIBE_DETAIL ="loadSubScribeList";
 
 	}
 	
@@ -110,6 +120,9 @@ public class NetConfig {
 		public static final String isAgriWeather = "isAgriWeather";
 		public static final String isNatAlter = "isNatAlter";
 		public static final String isRiceHelper = "isRiceHelper";
+		public static final String oPassword = "oPassword";
+		public static final String nPassword = "nPassword";
+		public static final String id = "id";
 	}
 	
 	public static class ResponseCode {
@@ -323,13 +336,15 @@ public class NetConfig {
 		return paramsMap;
 	}
 	
-	public static Map<String, String> getSmsSubParams(
+	public static Map<String, String> getSmsSubParams(String id,
 			String targetName,String cellphone,String province
 			,String city,String country,String district
 			,String area,String cropId,Boolean isAgriWeather
 			,Boolean isNatAlter,Boolean isRiceHelper) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
-		paramsMap.put(Params.targetName, targetName);
+		if(!TextUtils.isEmpty(id)){
+			paramsMap.put(Params.id, id);
+		}
 		paramsMap.put(Params.cellphone, cellphone);
 		paramsMap.put(Params.province, province);
 		paramsMap.put(Params.city, city);
@@ -343,5 +358,17 @@ public class NetConfig {
 		return getBaseParams(false, paramsMap);
 	}
 	
+	public static Map<String, String> getResetPwdParams(String oPassword,String nPassword) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.oPassword, oPassword);
+		paramsMap.put(Params.nPassword, nPassword);
+		return getBaseParams(false, paramsMap);
+	}
+	
+	public static Map<String, String> getDeleteSmsSubParams(String id) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.id, id);
+		return getBaseParams(false, paramsMap);
+	}
 }
 
