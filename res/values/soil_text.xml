@@ -43,4 +43,7 @@
         <item>白色</item>
 
     </array>
+
+
+    <string name="soil_report_title">测土报告</string>
 </resources>

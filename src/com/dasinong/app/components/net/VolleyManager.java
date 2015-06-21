@@ -22,6 +22,7 @@ import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HttpClientStack;
 import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
+import com.dasinong.app.BuildConfig;
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.components.domain.BaseResponse;
 import com.dasinong.app.utils.DeviceHelper;
@@ -165,11 +166,11 @@ public class VolleyManager {
 
         if (needCache) {
             Cache.Entry entry = getCache(request);
-            Log.d("TAG",entry==null?"null":"not null");
+
             if (entry != null) {
                 INetRequest tem = weakReference.get();
                 String result = new String(entry.data);
-                Log.d(TAG,"result:"+result);
+                DEBUG(result);
                 tem.onCache(requestCode, new Gson().fromJson(result, clazz));
 
             }
@@ -281,10 +282,16 @@ public class VolleyManager {
 
 
     private Cache.Entry getCache(Request request) {
-        Log.d(TAG,"url:"+request.getUrl());
+
         return mRequestQueue.getCache().get(request.getUrl());
     }
 
+
+    private  void DEBUG(String msg){
+        if(BuildConfig.DEBUG) {
+            Log.d(TAG, msg);
+        }
+    }
 }
 
 

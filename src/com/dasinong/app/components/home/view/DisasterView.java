@@ -52,6 +52,9 @@ public class DisasterView extends LinearLayout {
 
     private LinearLayout.LayoutParams mTopLayoutParam;
 
+    private int mNatDisasterRes;
+    private int mPetDisasterRes;
+
     public DisasterView(Context context) {
         super(context);
         initView();
@@ -72,6 +75,9 @@ public class DisasterView extends LinearLayout {
         mDefaultBottomPadding = (int) applyDimension(COMPLEX_UNIT_DIP, mDefaultBottomPadding, displayMetrics);
 
         mLayoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+        mNatDisasterRes = R.drawable.natdisaster_bg;
+        mPetDisasterRes = R.drawable.disaster_bg;
 
         initTopView();
 
@@ -158,7 +164,12 @@ public class DisasterView extends LinearLayout {
         TextView disastertype = (TextView) child.findViewById(R.id.disaster_type);
 
         disastername.setText(item.petDisSpecName);
+        disastertype.setBackgroundResource(mPetDisasterRes);
 
+        disastertype.setText("病害预警");
+
+        disasterdesc.setText("稻瘟病是水稻重要病害之一 可引起大幅度减产，严重时减产40%～50%，甚至颗粒无收。" +
+                "世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多，发生后可造成不同程度减产可造成白穗以致绝产");
         child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
         child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
         return child;
@@ -176,6 +187,11 @@ public class DisasterView extends LinearLayout {
         TextView disastername = (TextView) child.findViewById(R.id.disaster_name);
         TextView disastertype = (TextView) child.findViewById(R.id.disaster_type);
         disastername.setText(item.natDisSpecName);
+        disastertype.setBackgroundResource(mNatDisasterRes);
+
+        disastertype.setText("病害预警");
+        disasterdesc.setText("稻瘟病是水稻重要病害之一 可引起大幅度减产，严重时减产40%～50%，甚至颗粒无收。" +
+                "世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多，发生后可造成不同程度减产可造成白穗以致绝产");
         child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
         child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
         return child;

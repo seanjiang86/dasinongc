@@ -1,21 +1,21 @@
 package com.dasinong.app.ui.soil;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.dasinong.app.R;
-import com.dasinong.app.components.net.INetRequest;
-import com.dasinong.app.components.net.NetError;
 import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.net.NetConfig;
-import com.dasinong.app.ui.BaseActivity;
+import com.dasinong.app.ui.soil.adapter.CommonAdapter;
+import com.dasinong.app.ui.soil.adapter.ViewHolder.ViewHolder;
 import com.dasinong.app.ui.soil.domain.SoilAllEntity;
-import com.dasinong.app.ui.view.TopbarView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class SoilAllListActivity extends SoilBaseActivity implements AdapterView.OnItemClickListener {
 
@@ -23,12 +23,20 @@ public class SoilAllListActivity extends SoilBaseActivity implements AdapterView
     private ListView mListView;
     private static final int REQUEST_CODE_SOIL_LIST = 190;
 
-    private static final String URL = NetConfig.BASE_URL + "loadReports";
+    private static final String URL = NetConfig.BASE_URL + "getSoilReport";
+
+    private String mTipText;
+
+    private SimpleDateFormat sdf;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        mTipText = getResources().getString(R.string.soil_report_title);
+
+        sdf = new SimpleDateFormat("yyyy年MM月dd日");
         loadDataFromServer();
 
     }
@@ -41,6 +49,8 @@ public class SoilAllListActivity extends SoilBaseActivity implements AdapterView
     @Override
     protected void initView() {
         mListView = (ListView) findViewById(R.id.list_view);
+
+
     }
 
     @Override
@@ -68,20 +78,37 @@ public class SoilAllListActivity extends SoilBaseActivity implements AdapterView
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-
-        Toast.makeText(this, "open url", Toast.LENGTH_SHORT).show();
+        if(parent.getItemAtPosition(position)==null){
+            return;
+        }
+        startActivity(SoilEditorActivity.createIntentFromList(this, (SoilAllEntity.DataEntity) parent.getItemAtPosition(position)));
     }
 
     @Override
     public void onTaskSuccess(int requestCode, Object response) {
 
-        mListView.setAdapter(new ArrayAdapter<String>(this, R.layout.soil_list_item, R.id.soil_item_text, getResources().getStringArray(R.array.soil_list)));
+        SoilAllEntity entity = (SoilAllEntity) response;
+        mListView.setAdapter(new CommonAdapter<SoilAllEntity.DataEntity>(entity.data) {
+
+            @Override
+            protected int getResourceId() {
+                return R.layout.soil_list_item;
+            }
+
+            @Override
+            protected View getItemView(int position,View convertView, ViewHolder viewHolder) {
+
+                String text = sdf.format(new Date(getItem(position).testDate))+mTipText;
+                viewHolder.setTextValue(R.id.soil_item_text,text);
+                return convertView;
+            }
+        });
     }
 
 
     @Override
     public int getTitleText() {
-        return R.string.soil_all_list_title;
+        return R.string.soil_report_title;
     }
 
 

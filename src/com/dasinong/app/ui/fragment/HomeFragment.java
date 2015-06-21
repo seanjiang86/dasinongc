@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroupOverlay;
 
+import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.home.view.DisasterView;
@@ -31,17 +32,7 @@ import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 
-/**
- * 报错注释 06.12 Ming
- *
- * @author Ming
- */
 
-/**
- * 报错注释 06.12 Ming  此处注释掉一个借口
- *
- * @author Ming
- */
 
 public class HomeFragment extends Fragment implements View.OnClickListener, INetRequest, BGARefreshLayout.BGARefreshLayoutDelegate {
 
@@ -61,6 +52,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     private static final String TAG = "HomeFragment";
 
 
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,9 +61,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        Log.d("HomeFragment", "oncreateView");
-
 
         if (mRoot != null) {
             ViewGroup parent = (ViewGroup) mRoot.getParent();
@@ -237,7 +227,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     @Override
     public void onTaskFailedSuccess(int requestCode, NetError error) {
 
-        Log.d("HOMeTassk", String.valueOf(error.netWorkCode.ordinal()));
+
     }
 
     @Override
@@ -271,15 +261,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
                     AccountManager.saveAccount(HomeFragment.this.getActivity(), entity.getData());
                     loadDataFromWithCache();
 
-                } else {
-                    Logger.d("Home", resultData.getMessage());
                 }
             }
 
             @Override
             public void onFailed(int requestCode, Exception error, String msg) {
 
-                Logger.d("Home", "msg" + msg);
+
                 loadDataFromWithCache();
             }
         });
@@ -297,13 +285,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.d("HomeFragment", "onDestroy");
+
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
 
-        Log.d("HomeFragment", "onDestroyView");
+
+    }
+
+    private  void DEBUG(String msg){
+        if(BuildConfig.DEBUG) {
+            Log.d(TAG, msg);
+        }
     }
 }

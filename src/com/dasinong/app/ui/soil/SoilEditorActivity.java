@@ -1,5 +1,6 @@
 package com.dasinong.app.ui.soil;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
 import com.dasinong.app.components.net.INetRequest;
@@ -25,6 +27,16 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     private static final int REQUEST_CODE_SOIL_POST = 139;
     private static final String URL = NetConfig.BASE_URL + "insertSoilReport";
 
+
+    private SoilAllEntity.DataEntity mListDataEntity;
+
+    private static final String EXTRA_LIST_ENTITY = "list_entity";
+    private static final String EXTRA_FROM = "from";
+
+    private static final String FROM_LIST = "list";
+
+
+    private static final String TAG = "SoilEditorActivity";
 
     private TextView soiltype;
     private TextView soilcolor;
@@ -56,7 +68,13 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null&&bundle.containsKey(EXTRA_FROM)) {
+            if (bundle.get(EXTRA_FROM).equals(FROM_LIST)) {
+                mListDataEntity = bundle.getParcelable(EXTRA_LIST_ENTITY);
+                DEBUG(mListDataEntity.toString());
+            }
+        }
         setRightText(R.string.soil_editor_post);
         mTopBarView.setRightClickListener(this);
     }
@@ -181,4 +199,21 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     }
 
 
+    public static Intent createIntentFromList(Context context, SoilAllEntity.DataEntity entity) {
+
+        Intent intent = new Intent(context, SoilEditorActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(EXTRA_LIST_ENTITY, entity);
+        bundle.putString(EXTRA_FROM, FROM_LIST);
+        intent.putExtras(bundle);
+
+        return intent;
+    }
+
+
+    private  void DEBUG(String msg){
+        if(BuildConfig.DEBUG) {
+            Log.d(TAG, msg);
+        }
+    }
 }

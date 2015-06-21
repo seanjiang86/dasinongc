@@ -54,6 +54,7 @@ public abstract class SoilBaseActivity extends BaseActivity implements INetReque
     @Override
     public void onCache(int requestCode, Object response) {
 
+        onTaskSuccess(requestCode,response);
     }
 
     public abstract int getTitleText();
