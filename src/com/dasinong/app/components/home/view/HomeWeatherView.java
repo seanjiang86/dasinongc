@@ -55,7 +55,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 		mIsWeekWeatherShow = false;
 		tvCloseWeekTemp.setText(getContext().getString(R.string.weather_open_one_week));
-		lyWeekWeather.setVisibility(View.GONE);
+		lyWeekWeather.setVisibility(View.VISIBLE);
 		addView(mRoot);
 
 		setWeatherData(new Object());
@@ -130,9 +130,9 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 	private void initAnimation() {
 		if (mShrinkAnimation == null || mExpandAnimation == null) {
-			int height = tvCloseWeekTemp.getHeight();
-			mShrinkAnimation = new ShrinkAnimation(tvCloseWeekTemp, height);
-			mExpandAnimation = new ExpandAnimation(tvCloseWeekTemp, height);
+			int height = lyWeekWeather.getHeight();
+			mShrinkAnimation = new ShrinkAnimation(lyWeekWeather, height);
+			mExpandAnimation = new ExpandAnimation(lyWeekWeather, height);
 			long duration = (long) (height / getResources().getDisplayMetrics().density);
 			mShrinkAnimation.setDuration(duration);
 			mExpandAnimation.setDuration(duration);
