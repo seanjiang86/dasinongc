@@ -31,6 +31,7 @@ fieldId=10有相关任务
 | 短信订阅获取 |  loadSubScribeList       | id  | 200  |成功　|  订阅内容    | 
 | 短信订阅更改 |  updateSubScribeList    | id+insert sample   |  200 | 成功  |          |
 | 短信订阅删除 |  deleteSubScribeList(还未上传）  | id  |  200 | 成功|   |  
+| 获取老农段子|  getLaoNong  | id  |  200 | 成功|   |  
 /insertSubScribeList?targetName=小张&cellphone=12112345678&province=北京&city=北京&country=朝阳区&district=某某街道&area=15.1&cropId=223&isAgriWeather=true&isNatAlter=false&isRiceHelper=false
 
 insertSoilReport?userId=15&fieldId=10&type=type&color=red&fertility=fertility&humidity=30.5&testDate=2015/04/01&phValue=6.7&organic=organic&an=12.1&qn=10.2&p=100&qK=12&sK=1.2&fe=3.0&mn=12&cu=21.0&zn=1&b=90&mo=12.0&ca=1.0&s=0.1&si=45&mg=2.3
