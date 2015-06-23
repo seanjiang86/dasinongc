@@ -16,6 +16,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dasinong.app.R;
 
@@ -172,6 +173,19 @@ public class DisasterView extends LinearLayout {
                 "世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多，发生后可造成不同程度减产可造成白穗以致绝产");
         child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
         child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
+        
+        child.setOnClickListener(new View.OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				Intent intent=HarmDetialsActivity.createIntent(16, "", getContext());
+				getContext().startActivity(intent);
+				
+			}
+        	
+        	
+        	
+        });
         return child;
 
     }
@@ -194,6 +208,20 @@ public class DisasterView extends LinearLayout {
                 "世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多，发生后可造成不同程度减产可造成白穗以致绝产");
         child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
         child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
+        
+        
+        child.setOnClickListener(new View.OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				//TODO:nat disaster H5
+				Toast.makeText(getContext(), "natdisaster url", Toast.LENGTH_SHORT).show();
+				
+			}
+        	
+        	
+        	
+        });
         return child;
 
     }

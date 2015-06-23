@@ -50,13 +50,6 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.CHECK_USER, params, SubUrl.CHECK_USER, callBack, clazz);
 	}
 
-	// TODO MING:不在田里发送的请求
-	public void sendNoInLocation(Context context, String latitude, String longitude, Class<? extends BaseEntity> clazz,
-			RequestListener callBack) {
-		Map<String, String> params = NetConfig.getLocationInfoParams(latitude, longitude);
-		new NetRequest(context).get(RequestCode.SEND_NO_IN_LOCATION, params, SubUrl.SEND_NO_IN_LOCATION, callBack, clazz);
-	}
-
 	/**
 	 * 在田里是发送的请求
 	 */

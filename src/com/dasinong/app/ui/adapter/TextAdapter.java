@@ -28,7 +28,7 @@ public class TextAdapter extends ArrayAdapter<String> {
 	private OnItemClickListener mOnItemClickListener;
 
 	public TextAdapter(Context context, List<String> listData, int sId, int nId) {
-		// TODO Ming:此处第二个参数可能报错 原值 R.string.no_data
+		// 此处第二个参数可能报错 原值 R.string.no_data
 		super(context, 0, listData);
 		mContext = context;
 		mListData = listData;
@@ -53,7 +53,7 @@ public class TextAdapter extends ArrayAdapter<String> {
 	}
 
 	public TextAdapter(Context context, String[] arrayData, int sId, int nId) {
-		// TODO Ming:此处第二个参数可能报错 原值 R.string.no_data
+		// 此处第二个参数可能报错 原值 R.string.no_data
 		super(context, 0, arrayData);
 		mContext = context;
 		mArrayData = arrayData;

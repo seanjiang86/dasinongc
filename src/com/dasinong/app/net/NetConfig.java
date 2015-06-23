@@ -39,8 +39,6 @@ public class NetConfig {
 		public static final String LOGIN_REGISTER = "authRegLog";
 		/** 检测用户是否已注册 */
 		public static final String CHECK_USER = "checkUser";
-		/** 发送不在田地时的经纬度信息 */
-		public static final String SEND_NO_IN_LOCATION = "sendNoInLocation";
 		/** 发送在田地时的经纬度信息 */
 		public static final String SEARCH_LOCATION = "searchLocation";
 		/** 获取品种名列表 */
@@ -264,13 +262,6 @@ public class NetConfig {
 
 	private static String getTokenParams(String name, String value) {
 		return name + FLAG + value;
-	}
-	// TODO MING:该接口待确定
-	public static Map<String, String> getLocationInfoParams(String latitude, String longitude) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.latitude, latitude), getTokenParams(Params.longitude, longitude));
-		paramsMap.put(Params.latitude, latitude);
-		paramsMap.put(Params.longitude, longitude);
-		return paramsMap;
 	}
 
 	public static Map<String, String> getSearchLocationParams(String latitude, String longitude,String mprovince,String mcity,String mdistrict) {

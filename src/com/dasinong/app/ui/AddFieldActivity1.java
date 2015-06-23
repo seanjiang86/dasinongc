@@ -15,7 +15,7 @@ import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LocationResult;
 import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.entity.NearbyUser;
-import com.dasinong.app.entity.VillageId;
+import com.dasinong.app.entity.LocationInfo;
 import com.dasinong.app.entity.VillageInfo;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
@@ -41,7 +41,7 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 	private String mdistrict;
 	// 街道
 	private String mstreet;
-	private VillageId villageId;
+	private LocationInfo locationInfo;
 	private Button btn_in_field;
 	private Button btn_no_in_field;
 	private TopbarView topbar;
@@ -54,8 +54,13 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			count++;
-			LocationUtils.getInstance().requestLocation();
+			if(msg.what == 0){
+				count++;
+				LocationUtils.getInstance().requestLocation();
+			} else if(msg.what == 1) {
+				goToThree();
+			}
+
 		}
 	};
 
@@ -99,30 +104,30 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 		SharedPreferencesHelper.setString(this, Field.LATITUDE, latitudeText);
 		SharedPreferencesHelper.setString(this, Field.LONGITUDE, longitudeText);
 
-		// TODO MING:如果此时用户选择不在田里，则将地理位置信息传入下一级，填充下拉选框，并拉取下一级地域单位
 		switch (id) {
 		case R.id.btn_no_in_field:
 			goToTwo();
 			break;
 		case R.id.btn_in_field:
-			RequestService.getInstance().searchLocation(this, latitudeText, longitudeText, mprovince, mcity, mdistrict, VillageId.class,
+			// TODO MING:暂时使用假数据，等待真实数据
+			RequestService.getInstance().searchLocation(this, "31.90075389", "117.3185791", "安徽", "合肥", "瑶海区", LocationInfo.class,
 					new NetRequest.RequestListener() {
 
 						@Override
 						public void onSuccess(int requestCode, BaseEntity resultData) {
 
 							if (resultData.isOk()) {
-								villageId = (VillageId) resultData;
-								goToThree();
-							} else {
-								showToast(resultData.getMessage() + "   addFieldActivity");
+								locationInfo = (LocationInfo) resultData;
+								handler.sendEmptyMessage(1);
 							}
 						}
 
 						@Override
 						public void onFailed(int requestCode, Exception error, String msg) {
 							// TODO Ming:待统一
-							goToThree();
+							
+							Logger.d("MING","error == "+error+"   "+"requestCode == "+requestCode+"   "+"msg == "+msg);
+							
 						}
 					});
 			break;
@@ -188,10 +193,10 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 	}
 
 	private void goToThree() {
-		SharedPreferencesHelper.setString(this, Field.VILLAGE_ID, villageId.villageId);
-		SharedPreferencesHelper.setString(this, Field.PROVINCE, mprovince);
-		SharedPreferencesHelper.setString(this, Field.CITY, mcity);
-		SharedPreferencesHelper.setString(this, Field.COUNTY, mdistrict);
+		SharedPreferencesHelper.setString(this, Field.VILLAGE_ID, locationInfo.data.get("country"));
+		SharedPreferencesHelper.setString(this, Field.PROVINCE, locationInfo.data.get("province"));
+		SharedPreferencesHelper.setString(this, Field.CITY, locationInfo.data.get("city"));
+		SharedPreferencesHelper.setString(this, Field.COUNTY, locationInfo.data.get("locationId"));
 		Intent intent = new Intent(DsnApplication.getContext(), AddFieldActivity3.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);

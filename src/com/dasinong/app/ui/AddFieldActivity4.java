@@ -42,6 +42,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	private String varietyId;
 	private Button btn_sure_crop;
 	private TopbarView topbar;
+	private TextView tv_user_call;
 	private TextView tv_crop;
 	private TextView tv_variety_name;
 	private TextView tv_variety_num;
@@ -68,6 +69,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_field_4);
+		tv_user_call = (TextView) findViewById(R.id.tv_user_call);
 		tv_crop = (TextView) findViewById(R.id.tv_crop);
 		tv_variety_name = (TextView) findViewById(R.id.tv_variety_name);
 		tv_variety_num = (TextView) findViewById(R.id.tv_variety_num);
@@ -77,6 +79,20 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		// TODO MING:此处默认值如何设置
 		locationId = SharedPreferencesHelper.getString(this, Field.VILLAGE_ID, "");
 		String county = SharedPreferencesHelper.getString(this, Field.COUNTY, "");
+		String fieldSize = SharedPreferencesHelper.getString(this, Field.FIELD_SIZE, "50");
+		int intFieldSize = Integer.valueOf(fieldSize);
+		if(intFieldSize <= 10){
+			tv_user_call.setText("呦,自给自足啊,都种了");
+		} else if (10 < intFieldSize && intFieldSize <= 200){
+			tv_user_call.setText("呦,大户啊,都种了");
+		} else if(200 < intFieldSize && intFieldSize <= 1000){
+			tv_user_call.setText("呦,超级大户啊,都种了");
+		} else {
+			tv_user_call.setText("呦,农场主啊,都种了");
+		}
+		
+		
+		
 		// TODO MING:此处在修改数据库之后需要重新查询
 		county = county.substring(0, county.length() - 1);
 		queryCrop(county);

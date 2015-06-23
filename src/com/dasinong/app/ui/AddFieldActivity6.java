@@ -80,15 +80,14 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 				return;
 			} else {
 				if (currentDate.after(userDate)) {
-					SharedPreferencesHelper.setInt(this, Field.YEAR, myear);
-					SharedPreferencesHelper.setInt(this, Field.MONTH, mmonth);
-					SharedPreferencesHelper.setInt(this, Field.DAY, mday);
+					long time = userDate.getTime();
+					String strTime = String.valueOf(time);
+					SharedPreferencesHelper.setString(this, Field.PLANTING_DATE, strTime);
 				} else {
 					showToast("请选择正确的时间");
 					return;
 				}
 			}
-
 			goToNext();
 			break;
 		}

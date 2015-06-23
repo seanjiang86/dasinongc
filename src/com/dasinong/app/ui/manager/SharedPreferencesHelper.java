@@ -28,9 +28,7 @@ public final class SharedPreferencesHelper {
     	CITY,
     	COUNTY,
     	SEEDING_METHOD,
-    	YEAR,
-    	MONTH,
-    	DAY,
+    	PLANTING_DATE,
 
     };
     

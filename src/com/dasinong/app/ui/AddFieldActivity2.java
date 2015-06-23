@@ -338,33 +338,4 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		startActivity(intent);
 		overridePendingTransition(0, 0);
 	}
-
-	// private void login() {
-	//
-	// RequestService.getInstance().authcodeLoginReg(this, "13112345678",
-	// LoginRegEntity.class, new NetRequest.RequestListener() {
-	//
-	// @Override
-	// public void onSuccess(int requestCode, BaseEntity resultData) {
-	//
-	// if (resultData.isOk()) {
-	// LoginRegEntity entity = (LoginRegEntity) resultData;
-	//
-	// AccountManager.saveAccount(AddFieldActivity2.this, entity.getData());
-	//
-	// Logger.d("MING", resultData.getMessage() + "onSuccess  成功");
-	//
-	// } else {
-	// Logger.d("MING", resultData.getMessage() + "onSuccess");
-	// }
-	// }
-	//
-	// @Override
-	// public void onFailed(int requestCode, Exception error, String msg) {
-	//
-	// Logger.d("MING", "msg" + msg + "onFailed");
-	// }
-	// });
-	// }
-
 }

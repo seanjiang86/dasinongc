@@ -19,13 +19,9 @@ public final class RequestCode {
 	 */
 	public static final int CHECK_USER = LOGIN_REGISTER + 1;
 	/**
-	 * 发送不在田里时的经纬度信息
-	 */
-	public static final int SEND_NO_IN_LOCATION = CHECK_USER + 1;
-	/**
 	 * 发送在田里时的经纬度信息
 	 */
-	public static final int SEARCH_LOCATION = SEND_NO_IN_LOCATION + 1;
+	public static final int SEARCH_LOCATION = CHECK_USER + 1;
 	/**
 	 * 获取品种名列表
 	 */
