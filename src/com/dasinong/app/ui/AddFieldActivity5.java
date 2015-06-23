@@ -25,7 +25,7 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.PPCPopMenu;
 import com.dasinong.app.ui.view.TopbarView;
 
-public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
+public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener {
 	private String varietyId;
 	private List<String> bigSubStageList;
 	private ArrayList<String> smallSubStageList;
@@ -41,11 +41,12 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 	private SubStageDaoImpl dao;
 	private PPCPopMenu bigStageMenu;
 	private PPCPopMenu smallStageMenu;
-
+	private String seedingMethod;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		overridePendingTransition(0, 0);
 		setContentView(R.layout.activity_add_field_5);
 
 		tv_big_substage = (TextView) findViewById(R.id.tv_big_substage);
@@ -54,14 +55,22 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 		btn_sure_substage = (Button) findViewById(R.id.btn_sure_substage);
 		topbar = (TopbarView) findViewById(R.id.topbar);
 
+		// TODO MING:默认值
 		varietyId = SharedPreferencesHelper.getString(this, Field.VARIETY_ID, "");
+		seedingMethod = SharedPreferencesHelper.getString(this, Field.SEEDING_METHOD, "");
 
 		dao = new SubStageDaoImpl(this);
 
-		bigStageMenu = new PPCPopMenu(this);
-		smallStageMenu = new PPCPopMenu(this);
+		final Context context = AddFieldActivity5.this;
+		tv_big_substage.post(new Runnable() {
 
-		queryBigSubStage();
+			@Override
+			public void run() {
+				bigStageMenu = new PPCPopMenu(context, tv_big_substage, tv_big_substage.getWidth());
+				smallStageMenu = new PPCPopMenu(context, tv_small_substage, tv_small_substage.getWidth());
+				queryBigSubStage();
+			}
+		});
 
 		initTopBar();
 
@@ -76,15 +85,15 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 		int id = v.getId();
 		switch (id) {
 		case R.id.tv_big_substage:
-			bigStageMenu.showAsDropDown(tv_big_substage);
+			bigStageMenu.showAsDropDown();
 			bigStageMenu.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					currentStage = bigSubStageList.get(position);
-					if(!currentStage.equals(lastStage)){
+					if (!currentStage.equals(lastStage)) {
 						tv_big_substage.setText(currentStage);
 						tv_small_substage.setText("小生长期");
-						if(smallSubStageList != null){
+						if (smallSubStageList != null) {
 							smallSubStageList.clear();
 							smallStageMenu.addItems(smallSubStageList);
 						}
@@ -96,11 +105,11 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 			});
 			break;
 		case R.id.tv_small_substage:
-			if(currentStage == null){
+			if (currentStage == null) {
 				showToast("请先选择大生长期");
 				return;
 			}
-			smallStageMenu.showAsDropDown(tv_small_substage);
+			smallStageMenu.showAsDropDown();
 			smallStageMenu.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -131,6 +140,10 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 	 */
 	private void queryBigSubStage() {
 		bigSubStageList = dao.queryStageCategory();
+		if (AddFieldActivity8.DIRECT.equals(seedingMethod)) {
+			bigSubStageList.remove("移栽");
+			bigSubStageList.remove("返青期");
+		}
 		initBigSubStage();
 	}
 
@@ -149,6 +162,8 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 		smallSubStageMap.clear();
 		for (int i = 0; i < list.size(); i++) {
 			SubStage stage = list.get(i);
+			if (AddFieldActivity8.DIRECT.equals(seedingMethod) && "移栽前准备".equals(stage.subStageName))
+				continue;
 			smallSubStageMap.put(stage.subStageName, stage.subStageId);
 		}
 		initSmallSubStage();
@@ -170,6 +185,7 @@ public class AddFieldActivity5 extends BaseActivity implements OnClickListener {
 		Intent intent = new Intent(this, AddFieldActivity6.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
+		overridePendingTransition(0, 0);
 	}
 
 	class SubStageAdapter extends MyBaseAdapter<SubStage> {

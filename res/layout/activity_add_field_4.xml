@@ -56,7 +56,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/crop_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
@@ -70,6 +69,7 @@
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="1"
+            android:background="@drawable/text_bg"
             android:gravity="center"
             android:lines="2"
             android:text="作物"
@@ -80,7 +80,9 @@
             android:id="@+id/tv_variety_name"
             android:layout_width="0dp"
             android:layout_height="45dp"
+            android:layout_marginLeft="8dp"
             android:layout_weight="1"
+            android:background="@drawable/text_bg"
             android:gravity="center"
             android:lines="2"
             android:text="品种"
@@ -91,20 +93,20 @@
             android:id="@+id/tv_variety_num"
             android:layout_width="0dp"
             android:layout_height="45dp"
+            android:layout_marginLeft="7dp"
             android:layout_weight="1"
+            android:background="@drawable/text_bg"
             android:gravity="center"
             android:lines="2"
             android:text="编号"
             android:textColor="@color/color_999999"
             android:textSize="16sp" />
-
     </LinearLayout>
 
     <Button
         android:id="@+id/btn_sure_crop"
         android:layout_width="match_parent"
         android:layout_height="45.0dip"
-        android:layout_below="@id/crop_container"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="40dp"

@@ -6,6 +6,7 @@ import com.dasinong.app.ui.view.TopbarView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,7 +18,12 @@ public class AddFieldActivity7 extends BaseActivity {
 	private Button btn_finish_add_field;
 	private String target;
 	private TopbarView topbar;
-
+	private  Handler handler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			sendFieldInfo();
+		};
+	} ;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -34,7 +40,7 @@ public class AddFieldActivity7 extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				target = et_target_production.getText().toString().trim();
-				sendFieldInfo();
+				handler.sendEmptyMessage(0);
 			}
 		});
 	}
@@ -48,6 +54,14 @@ public class AddFieldActivity7 extends BaseActivity {
 		// TODO Ming：发送请求
 		
 		Intent intent = new Intent(this, MainTabActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
+		overridePendingTransition(0, 0);
+	}
+	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		handler.removeCallbacksAndMessages(null);
 	}
 }

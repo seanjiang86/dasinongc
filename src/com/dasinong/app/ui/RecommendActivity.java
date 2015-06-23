@@ -19,7 +19,7 @@ public class RecommendActivity extends BaseActivity {
 		qr_coder = (ImageView) findViewById(R.id.qr_coder);
 		
 		
-		//生成二维码
+		// TODO MING:生成二维码,修改为用户id
 		Bitmap bitmap = creatQRCoder("你好世界" , 300);
 		
 		qr_coder.setImageBitmap(bitmap);
@@ -31,7 +31,7 @@ public class RecommendActivity extends BaseActivity {
 		} catch (WriterException e) {
 			e.printStackTrace();
 		}
-		// TODO 容错处理如果发生异常怎么处理
+		// TODO MING:容错处理如果发生异常怎么处理
 		return null;
 	}
 }

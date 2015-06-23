@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -80,9 +81,16 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		county = county.substring(0, county.length() - 1);
 		queryCrop(county);
 
-		cropMenu = new PPCPopMenu(this);
-		varietyNameMenu = new PPCPopMenu(this);
-		varietyNumMenu = new PPCPopMenu(this);
+		final Context context = AddFieldActivity4.this;
+		tv_crop.post(new Runnable() {
+
+			@Override
+			public void run() {
+				cropMenu = new PPCPopMenu(context,tv_crop,tv_crop.getWidth());
+				varietyNameMenu = new PPCPopMenu(context,tv_variety_name,tv_variety_name.getWidth());
+				varietyNumMenu = new PPCPopMenu(context,tv_variety_num,tv_variety_num.getWidth());
+			}
+		});
 
 		initTopBar();
 
@@ -99,7 +107,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		switch (id) {
 		case R.id.tv_crop:
 			initCrop();
-			cropMenu.showAsDropDown(tv_crop);
+			cropMenu.showAsDropDown();
 			cropMenu.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -136,7 +144,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 				return;
 			}
 			if (isHasData) {
-				varietyNameMenu.showAsDropDown(tv_variety_name);
+				varietyNameMenu.showAsDropDown();
 				varietyNameMenu.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -159,7 +167,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 				return;
 			}
 			if (isHasData) {
-				varietyNumMenu.showAsDropDown(tv_variety_num);
+				varietyNumMenu.showAsDropDown();
 				varietyNumMenu.setOnItemClickListener(new OnItemClickListener() {
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -175,7 +183,16 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 			}
 			break;
 		case R.id.btn_sure_crop:
+//			handler.post(new Runnable() {
+//				
+//				@Override
+//				public void run() {
+//					goToNext();
+//					
+//				}
+//			});
 			goToNext();
+			
 			break;
 		}
 	}
@@ -241,24 +258,23 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	 */
 	private void queryVariety(String cropName) {
 		// TODO MING:此处参数为假参数 需要修改
-		RequestService.getInstance().getVarietyList(DsnApplication.getContext(), "223", "10000", VarietyInfo.class,
-				new NetRequest.RequestListener() {
+		RequestService.getInstance().getVarietyList(DsnApplication.getContext(), "223", "10000", VarietyInfo.class, new NetRequest.RequestListener() {
 
-					@Override
-					public void onSuccess(int requestCode, BaseEntity resultData) {
-						if (resultData.isOk()) {
-							varietyInfo = (VarietyInfo) resultData;
-							varietyList = new ArrayList<String>(varietyInfo.data.keySet());
-							handler.sendEmptyMessage(0);
-						}
-					}
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				if (resultData.isOk()) {
+					varietyInfo = (VarietyInfo) resultData;
+					varietyList = new ArrayList<String>(varietyInfo.data.keySet());
+					handler.sendEmptyMessage(0);
+				}
+			}
 
-					@Override
-					public void onFailed(int requestCode, Exception error, String msg) {
-						Logger.d("MING", "msg =============== " + msg);
-					}
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				Logger.d("MING", "msg =============== " + msg);
+			}
 
-				});
+		});
 	}
 
 	/**
@@ -281,6 +297,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		Intent intent = new Intent(this, AddFieldActivity8.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
+		overridePendingTransition(0, 0);
 	}
 
 	// private void initCropName(int position) {

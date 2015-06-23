@@ -62,7 +62,6 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		login();
 		setContentView(R.layout.activity_add_field_1);
 
 		btn_no_in_field = (Button) findViewById(R.id.btn_no_in_field);
@@ -91,6 +90,7 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 			Intent intent = new Intent(this, AddFieldActivity2.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			startActivity(intent);
+			overridePendingTransition(0, 0);
 			return;
 		}
 
@@ -184,6 +184,7 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 		intent.putExtra("mstreet", mstreet);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
+		overridePendingTransition(0, 0);
 	}
 
 	private void goToThree() {
@@ -192,34 +193,9 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 		SharedPreferencesHelper.setString(this, Field.CITY, mcity);
 		SharedPreferencesHelper.setString(this, Field.COUNTY, mdistrict);
 		Intent intent = new Intent(DsnApplication.getContext(), AddFieldActivity3.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
-	}
-
-	private void login() {
-
-		RequestService.getInstance().authcodeLoginReg(this, "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
-
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
-
-				if (resultData.isOk()) {
-					LoginRegEntity entity = (LoginRegEntity) resultData;
-
-					AccountManager.saveAccount(AddFieldActivity1.this, entity.getData());
-
-					Logger.d("MING", resultData.getMessage() + "onSuccess  成功");
-
-				} else {
-					Logger.d("MING", resultData.getMessage() + "onSuccess");
-				}
-			}
-
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
-
-				Logger.d("MING", "msg" + msg + "onFailed");
-			}
-		});
+		overridePendingTransition(0, 0);
 	}
 
 	@Override

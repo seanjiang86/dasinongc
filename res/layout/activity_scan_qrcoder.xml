@@ -26,7 +26,6 @@
             android:layout_height="wrap_content" >
         </com.dasinong.app.ui.view.TopbarView>
 
-
         <Button
             android:id="@+id/btn_cancel_scan"
             android:layout_width="230dp"
@@ -37,7 +36,6 @@
             android:text="关闭"
             android:textSize="15sp"
             android:textStyle="bold" />
-
     </RelativeLayout>
 
 </FrameLayout>

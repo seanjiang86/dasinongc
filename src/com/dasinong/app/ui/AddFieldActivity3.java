@@ -50,6 +50,7 @@ public class AddFieldActivity3 extends MyBaseActivity {
 				Intent intent = new Intent(AddFieldActivity3.this, AddFieldActivity4.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 				startActivity(intent);
+				overridePendingTransition(0, 0);
 			}
 		});
 	}

@@ -4,8 +4,6 @@
     <color name="color_FAFAFA">#FAFAFA</color>
     <color name="color_33AB33">#33AB33</color>
     <color name="color_view_home_top_bg">#2bda29</color>
-    
-
     <color name="color_555555">#555555</color>
     <color name="color_DCE3E6">#DCE3E6</color>
     <color name="color_333333">#333333</color>
@@ -21,18 +19,24 @@
     <color name="color_f2f2f2"> #f2f2f2 </color>
     <color name="color_1E6ABB"> #1E6ABB </color>
     <color name="color_cecece"> #CECECE </color>
-	<color name="color_FFFFFF"> #FFFFFF </color>
-	<color name="color_F3F3F3"> #F3F3F3 </color>
-	<color name="color_F1F1F1"> #F1F1F1 </color>
-	<color name="color_FF5722"> #FF5722 </color>
-	<color name="color_harf_transparent"> #E0000000 </color>
-	<color name="color_DBE3E5"> #DBE3E5 </color>
-	<color name="color_CCCCCC"> #CCCCCC </color>
-	
-	<color name="viewfinder_frame">#ff000000</color>
+    <color name="color_FFFFFF"> #FFFFFF </color>
+    <color name="color_F3F3F3"> #F3F3F3 </color>
+    <color name="color_F1F1F1"> #F1F1F1 </color>
+    <color name="color_FF5722"> #FF5722 </color>
+    <color name="color_harf_transparent"> #E0000000 </color>
+    <color name="color_DBE3E5"> #DBE3E5 </color>
+    <color name="color_CCCCCC"> #CCCCCC </color>
+    <color name="viewfinder_frame">#ff000000</color>
     <color name="viewfinder_laser">#ffff0000</color>
     <color name="viewfinder_mask">#60000000</color>
     <color name="result_view">#b0000000</color>
     <color name="possible_result_points">#c0ffff00</color>
-    
+
+    <!-- 二级下拉菜单 -->
+    <color name="popup_main_background">#b0000000</color>
+    <color name="black">#000000</color>
+    <color name="choose_eara_item_press_color">#f4f4f4</color>
+    <color name="white">#ffffff</color>
+    <color name="no_color">#00000000</color>
+
 </resources>

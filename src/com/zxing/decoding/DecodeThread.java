@@ -24,7 +24,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.dasinong.app.ui.CaptureActivity;
-import com.dasinong.app.ui.ScanQRCoderActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.ResultPointCallback;

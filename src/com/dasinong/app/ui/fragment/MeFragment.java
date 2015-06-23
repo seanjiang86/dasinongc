@@ -5,7 +5,6 @@ import com.dasinong.app.ui.CaptureActivity;
 import com.dasinong.app.ui.MyInfoActivity;
 import com.dasinong.app.ui.RecommendActivity;
 import com.dasinong.app.ui.RegisterPhoneActivity;
-import com.dasinong.app.ui.ScanQRCoderActivity;
 import com.dasinong.app.ui.SmsSettingActivity;
 import com.dasinong.app.ui.SmsSubscribeActivity;
 import com.dasinong.app.ui.TaskDetailsActivity;

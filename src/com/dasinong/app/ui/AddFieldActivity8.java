@@ -11,14 +11,18 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
 
-public class AddFieldActivity8 extends BaseActivity implements OnClickListener{
+public class AddFieldActivity8 extends MyBaseActivity implements OnClickListener{
 	private Button btn_direct_seeding;
 	private Button btn_transplanting;
 	private TopbarView topbar;
+	
+	public static final String DIRECT = "direct";
+	public static final String TRANSPLANTING = "transplanting";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		overridePendingTransition(0, 0);
 		setContentView(R.layout.activity_add_field_8);
 		
 		btn_direct_seeding = (Button) findViewById(R.id.btn_direct_seeding);
@@ -45,6 +49,7 @@ public class AddFieldActivity8 extends BaseActivity implements OnClickListener{
 		Intent intent = new Intent(this, AddFieldActivity5.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
+		overridePendingTransition(0, 0);
 	}
 	
 	private void initTopBar() {
