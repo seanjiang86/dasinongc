@@ -1,40 +1,39 @@
 package com.dasinong.app.ui;
 
+import java.awt.SecondaryLoop;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.database.city.dao.impl.CityDaoImpl;
 import com.dasinong.app.entity.BaseEntity;
-import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.entity.VillageInfo;
 import com.dasinong.app.net.NetRequest.RequestListener;
-import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
-import com.dasinong.app.ui.adapter.CityAdapter;
-import com.dasinong.app.ui.manager.AccountManager;
+import com.dasinong.app.ui.adapter.TextAdapter;
+import com.dasinong.app.ui.adapter.TextAdapter.OnItemClickListener;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.ui.view.ExpandTabView;
+import com.dasinong.app.ui.view.ExpandTabView.OnButtonClickListener;
 import com.dasinong.app.ui.view.TopbarView;
-import com.dasinong.app.utils.Logger;
+import com.dasinong.app.ui.view.ViewMiddle;
+import com.dasinong.app.ui.view.ViewRight;
 
-public class AddFieldActivity2 extends MyBaseActivity implements OnClickListener {
+public class AddFieldActivity2 extends MyBaseActivity {
 
-	private CityDaoImpl cityDaoImpl;
+	private CityDaoImpl dao;
 	private String province;
 	private String city;
 	private String county;
@@ -46,272 +45,263 @@ public class AddFieldActivity2 extends MyBaseActivity implements OnClickListener
 	private List<String> countyList;
 	private List<String> districtList;
 	private List<String> villageList;
+	private List<View> viewList = new ArrayList<View>();
 	private Map<String, String> villageMap;
-	private TextView tv_privace_city;
-	private TextView tv_county_district;
-	private TextView tv_village;
-	private FrameLayout fl_select_location;
-	private boolean provinceIsGone = true;
-	private boolean countyIsGone = true;
-	private boolean villageIsGone = true;
-	private ListView lv_big_area;
-	private ListView lv_small_area;
 	private Button btn_sure_location;
 
-	private CityAdapter frontAdapter;
-	private CityAdapter behindAdapter;
 	private String mstreet;
 	private String mdistrict;
 	private String mcity;
 	private String mprovince;
 	private TopbarView topbar;
+	private ViewMiddle provinceView;
+	private ViewMiddle countyView;
+	private ExpandTabView etv;
+	private ViewRight villageView;
+
+	private int provincePosition;
+	private int cityPosition;
+	private int countyPosition;
+	private int districtPostion;
+
+	private String firstButtonText = "省-市";
+	private String secondButtonText = "县-镇";
+	private LinearLayout ll_all;
+
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			initVillage();
+		};
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_field_2);
 
-		login();
+		// login();
 
-		cityDaoImpl = new CityDaoImpl(this);
-
-		tv_privace_city = (TextView) findViewById(R.id.tv_privace_city);
-		tv_county_district = (TextView) findViewById(R.id.tv_county_district);
-		tv_village = (TextView) findViewById(R.id.tv_village);
-		fl_select_location = (FrameLayout) findViewById(R.id.fl_select_location);
-		lv_big_area = (ListView) findViewById(R.id.lv_big_area);
-		lv_small_area = (ListView) findViewById(R.id.lv_small_area);
-		btn_sure_location = (Button) findViewById(R.id.btn_sure_location);
-		topbar = (TopbarView) findViewById(R.id.topbar);
+		dao = new CityDaoImpl(this);
+		provinceList = dao.getProvince();
 
 		mprovince = getIntent().getStringExtra("mprovince");
 		mcity = getIntent().getStringExtra("mcity");
 		mdistrict = getIntent().getStringExtra("mdistrict");
+		// TODO MING:街道是否需要
 		mstreet = getIntent().getStringExtra("mstreet");
-		if (TextUtils.isEmpty(mprovince) || TextUtils.isEmpty(mcity) || TextUtils.isEmpty(mdistrict) || TextUtils.isEmpty(mstreet)) {
-			
-		} else {
-			tv_privace_city.setText(mprovince + "-" + mcity);
-			tv_county_district.setText(mdistrict + "-" + mstreet);
-			
-			//TODO 显示默认选中条目
-			
-			queryVillage(mprovince, mcity, mstreet, mdistrict);
 
-		}
-		
+		province = mprovince;
+		city = mcity;
+		county = mdistrict;
+
+		initView();
+		initValue();
+
 		initTopBar();
 
-		tv_privace_city.setOnClickListener(this);
-		tv_county_district.setOnClickListener(this);
-		tv_village.setOnClickListener(this);
-		btn_sure_location.setOnClickListener(this);
+		initProvinceList();
+
+		ll_all.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				etv.onPressBack();
+			}
+		});
+
+		btn_sure_location.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				gotoThree();
+			}
+		});
 	}
 
-	@Override
-	public void onClick(View v) {
+	private void initView() {
+		ll_all = (LinearLayout) findViewById(R.id.ll_all);
+		btn_sure_location = (Button) findViewById(R.id.btn_sure_location);
+		topbar = (TopbarView) findViewById(R.id.topbar);
+		etv = (ExpandTabView) findViewById(R.id.etv);
+		provinceView = new ViewMiddle(this);
+		provinceView.setBackgroundResource(R.drawable.choosearea_bg_left);
+		countyView = new ViewMiddle(this);
+		countyView.setBackgroundResource(R.drawable.choosearea_bg_mid);
+		villageView = new ViewRight(this);
+	}
 
-		int id = v.getId();
-		switch (id) {
-		case R.id.tv_privace_city:
+	private void initValue() {
 
-			if (countyList != null) {
-				countyList.clear();
-				frontAdapter.setData(countyList);
-				frontAdapter.notifyDataSetChanged();
-			}
+		viewList.add(provinceView);
+		viewList.add(countyView);
+		viewList.add(villageView);
+		List<String> textList = new ArrayList<String>();
+		if (!TextUtils.isEmpty(mprovince) && !TextUtils.isEmpty(mcity)) {
+			firstButtonText = mprovince + "-" + mcity;
+		}
+		if (!TextUtils.isEmpty(mdistrict)) {
+			secondButtonText = mdistrict + "-";
+		}
+		textList.add(firstButtonText);
+		textList.add(secondButtonText);
+		textList.add("村");
+		etv.setValue(textList, viewList);
 
-			if (districtList != null) {
-				districtList.clear();
-				behindAdapter.setData(districtList);
-				behindAdapter.notifyDataSetChanged();
-			}
-
-			if (provinceIsGone) {
-				fl_select_location.setVisibility(View.VISIBLE);
-			} else {
-				fl_select_location.setVisibility(View.GONE);
-			}
-			provinceIsGone = !provinceIsGone;
-
-			initProvince();
-			break;
-		case R.id.tv_county_district:
-
-			if (provinceList != null) {
-				provinceList.clear();
-				frontAdapter.setData(provinceList);
-				frontAdapter.notifyDataSetChanged();
-			}
-
-			if (cityList != null) {
-				cityList.clear();
-				behindAdapter.setData(cityList);
-				behindAdapter.notifyDataSetChanged();
-			}
-
-			if (TextUtils.isEmpty(city) && TextUtils.isEmpty(mcity)) {
-				showToast("请先选择省市");
-				return;
-			}
-
-			if (countyIsGone) {
-				fl_select_location.setVisibility(View.VISIBLE);
-			} else {
-				fl_select_location.setVisibility(View.GONE);
-			}
-			countyIsGone = !countyIsGone;
-
-			initCounty();
-
-			break;
-		case R.id.tv_village:
-
-			if (TextUtils.isEmpty(district) && TextUtils.isEmpty(mstreet)) {
-				showToast("请先选择省市县乡");
-				return;
-			}
-
-			if (villageList != null && villageList.size() != 0) {
-				if (villageIsGone) {
-					fl_select_location.setVisibility(View.VISIBLE);
-				} else {
-					fl_select_location.setVisibility(View.GONE);
+		etv.setOnButtonClickListener(new OnButtonClickListener() {
+			@Override
+			public void onClick(int selectPosition) {
+				switch (selectPosition) {
+				case 1:
+					if (TextUtils.isEmpty(city)) {
+						onrefresh(countyView, "");
+						showToast("请先选择上级单位");
+						return;
+					}
+					initCountyList();
+					break;
+				case 2:
+					if (TextUtils.isEmpty(district)) {
+						onrefresh(villageView, "");
+						showToast("请先选择上级单位");
+						return;
+					}
+					break;
 				}
-				villageIsGone = !villageIsGone;
-
-			} else {
-				return;
 			}
-			break;
-		case R.id.btn_sure_location:
-			// TODO Ming:测试流程判断先取消
-			// if(TextUtils.isEmpty(villageId)){
-			// return;
-			// }
-
-			gotoThree();
-			break;
-		}
-	}
-	
-	private void initTopBar() {
-		topbar.setCenterText("农田信息");
-		topbar.setLeftView(true, true);
+		});
 	}
 
-	private void initProvince() {
-
-		provinceList = cityDaoImpl.getProvince();
-
-		if (frontAdapter == null) {
-			frontAdapter = new CityAdapter(this, provinceList, false);
-		} else {
-			frontAdapter.setData(provinceList);
-			frontAdapter.notifyDataSetInvalidated();
+	private void initProvinceList() {
+		if (!TextUtils.isEmpty(mprovince)) {
+			// TODO MING:测试数据需修改
+			provincePosition = provinceList.indexOf("北京");
 		}
-
-		if (lv_small_area.getVisibility() == View.GONE) {
-			lv_small_area.setVisibility(View.VISIBLE);
+		cityList = dao.getCity(provinceList.get(provincePosition));
+		if (!TextUtils.isEmpty(mcity)) {
+			// TODO MING:测试数据需修改
+			cityPosition = cityList.indexOf("北京");
 		}
+		provinceView.initBigAreaData(provinceList, provincePosition);
+		initCityList();
 
-		lv_big_area.setAdapter(frontAdapter);
+		province = provinceList.get(provincePosition);
 
-		lv_big_area.setOnItemClickListener(new ProvinceOnItemClickListener());
-		lv_small_area.setOnItemClickListener(new ProvinceOnItemClickListener());
+		provinceView.setOnBigAreaItemClickListener(new TextAdapter.OnItemClickListener() {
 
+			@Override
+			public void onItemClick(View view, int position) {
+				province = provinceList.get(position);
+				cityList = dao.getCity(province);
+				provincePosition = 0;
+				cityPosition = 0;
+				initCityList();
+			}
+		});
 	}
 
-	private void initCounty() {
-		countyList = cityDaoImpl.getCounty(city);
-		frontAdapter.setData(countyList);
+	private void initCityList() {
+		provinceView.initSmallAreaData(cityList, cityPosition);
+		countyList = dao.getCounty(cityList.get(cityPosition));
 
-		if (lv_small_area.getVisibility() == View.GONE) {
-			lv_small_area.setVisibility(View.VISIBLE);
+		if (!TextUtils.isEmpty(mdistrict)) {
+			// TODO MING:测试数据需修改
+			countyPosition = countyList.indexOf(mdistrict);
 		}
 
-		lv_big_area.setAdapter(frontAdapter);
-		frontAdapter.notifyDataSetChanged();
+		provinceView.setOnSmallAreaItemClickListener(new TextAdapter.OnItemClickListener() {
+			@Override
+			public void onItemClick(View view, int position) {
+				String currentCity = cityList.get(position);
+				if (!currentCity.equals(city)) {
+					city = currentCity;
 
-		lv_big_area.setOnItemClickListener(new CountyOnItemClickListener());
-		lv_small_area.setOnItemClickListener(new CountyOnItemClickListener());
+					county = null;
+					district = null;
 
+					etv.setTitle("县-镇", 1);
+				}
+				countyList = dao.getCounty(city);
+				onrefresh(provinceView, province + "-" + city);
+				countyPosition = 0;
+			}
+		});
+	}
+
+	private void initCountyList() {
+		countyView.initBigAreaData(countyList, countyPosition);
+
+		districtList = dao.getDistrict(countyList.get(countyPosition));
+		initDistrict();
+
+		county = countyList.get(countyPosition);
+
+		countyView.setOnBigAreaItemClickListener(new TextAdapter.OnItemClickListener() {
+			@Override
+			public void onItemClick(View view, int position) {
+				county = countyList.get(position);
+				countyPosition = position;
+				districtPostion = 0;
+				districtList = dao.getDistrict(county);
+				initDistrict();
+			}
+		});
+	}
+
+	private void initDistrict() {
+		countyView.initSmallAreaData(districtList, districtPostion);
+		countyView.setOnSmallAreaItemClickListener(new TextAdapter.OnItemClickListener() {
+			@Override
+			public void onItemClick(View view, int position) {
+				district = districtList.get(position);
+				districtPostion = position;
+				onrefresh(countyView, county + "-" + district);
+
+				queryVillage(province, city, county, district);
+			}
+		});
 	}
 
 	private void initVillage() {
+		villageView.initData(villageList);
+		villageView.setOnItemclickListener(new OnItemClickListener() {
 
-		frontAdapter.setData(villageList);
-		lv_big_area.setAdapter(frontAdapter);
-		if (lv_small_area.getVisibility() == View.VISIBLE) {
-			lv_small_area.setVisibility(View.GONE);
-		}
-		frontAdapter.notifyDataSetChanged();
+			@Override
+			public void onItemClick(View view, int position) {
+				village = villageList.get(position);
+				villageId = villageMap.get(village);
 
-		lv_big_area.setOnItemClickListener(new VillageOnItemClickListener());
+				onrefresh(villageView, village);
+			}
+		});
 	}
 
-	class ProvinceOnItemClickListener implements OnItemClickListener {
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			int lvId = parent.getId();
-			switch (lvId) {
-			case R.id.lv_big_area:
-				province = provinceList.get(position);
-				cityList = cityDaoImpl.getCity(province);
-
-				if (behindAdapter == null) {
-					behindAdapter = new CityAdapter(AddFieldActivity2.this, cityList, false);
-				} else {
-					behindAdapter.setData(cityList);
-					behindAdapter.notifyDataSetChanged();
-				}
-
-				lv_small_area.setAdapter(behindAdapter);
-
-				break;
-			case R.id.lv_small_area:
-				city = cityList.get(position);
-				fl_select_location.setVisibility(View.GONE);
-
-				provinceIsGone = !provinceIsGone;
-
-				tv_privace_city.setText(province + "-" + city);
-				break;
-			}
+	private void onrefresh(View view, String showText) {
+		etv.onPressBack();
+		int position = getPosition(view);
+		if (position >= 0 && !etv.getTitle(position).equals(showText) && !TextUtils.isEmpty(showText)) {
+			etv.setTitle(showText, position);
 		}
 	}
 
-	class CountyOnItemClickListener implements OnItemClickListener {
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			int lvId = parent.getId();
-			switch (lvId) {
-			case R.id.lv_big_area:
-
-				county = countyList.get(position);
-				districtList = cityDaoImpl.getDistrict(county);
-
-				behindAdapter.setData(districtList);
-				lv_small_area.setAdapter(behindAdapter);
-				behindAdapter.notifyDataSetChanged();
-
-				break;
-			case R.id.lv_small_area:
-
-				district = districtList.get(position);
-				fl_select_location.setVisibility(View.GONE);
-				tv_county_district.setText(county + "-" + district);
-
-				countyIsGone = !countyIsGone;
-
-				queryVillage(province, city, county, district);
-
-				break;
+	private int getPosition(View tView) {
+		for (int i = 0; i < viewList.size(); i++) {
+			if (viewList.get(i) == tView) {
+				return i;
 			}
 		}
+		return -1;
+	}
 
+	@Override
+	public void onBackPressed() {
+		if (!etv.onPressBack()) {
+			finish();
+		}
+	}
+
+	private void initTopBar() {
+		topbar.setCenterText("农田信息");
+		topbar.setLeftView(true, true);
 	}
 
 	private void queryVillage(String province, String city, String county, String district) {
@@ -327,7 +317,7 @@ public class AddFieldActivity2 extends MyBaseActivity implements OnClickListener
 							}
 							villageList = new ArrayList<String>(villageMap.keySet());
 
-							initVillage();
+							handler.sendEmptyMessage(0);
 						}
 					}
 
@@ -338,21 +328,6 @@ public class AddFieldActivity2 extends MyBaseActivity implements OnClickListener
 				});
 	}
 
-	class VillageOnItemClickListener implements OnItemClickListener {
-
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			village = villageList.get(position);
-			villageId = villageMap.get(village);
-			tv_village.setText(village);
-
-			fl_select_location.setVisibility(View.GONE);
-
-			villageIsGone = !villageIsGone;
-		}
-
-	}
-
 	private void gotoThree() {
 		SharedPreferencesHelper.setString(this, Field.VILLAGE_ID, villageId);
 		SharedPreferencesHelper.setString(this, Field.PROVINCE, province);
@@ -361,33 +336,35 @@ public class AddFieldActivity2 extends MyBaseActivity implements OnClickListener
 		Intent intent = new Intent(this, AddFieldActivity3.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
+		overridePendingTransition(0, 0);
 	}
 
-	private void login() {
-
-		RequestService.getInstance().authcodeLoginReg(this, "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
-
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
-
-				if (resultData.isOk()) {
-					LoginRegEntity entity = (LoginRegEntity) resultData;
-
-					AccountManager.saveAccount(AddFieldActivity2.this, entity.getData());
-
-					Logger.d("MING", resultData.getMessage() + "onSuccess  成功");
-
-				} else {
-					Logger.d("MING", resultData.getMessage() + "onSuccess");
-				}
-			}
-
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
-
-				Logger.d("MING", "msg" + msg + "onFailed");
-			}
-		});
-	}
+	// private void login() {
+	//
+	// RequestService.getInstance().authcodeLoginReg(this, "13112345678",
+	// LoginRegEntity.class, new NetRequest.RequestListener() {
+	//
+	// @Override
+	// public void onSuccess(int requestCode, BaseEntity resultData) {
+	//
+	// if (resultData.isOk()) {
+	// LoginRegEntity entity = (LoginRegEntity) resultData;
+	//
+	// AccountManager.saveAccount(AddFieldActivity2.this, entity.getData());
+	//
+	// Logger.d("MING", resultData.getMessage() + "onSuccess  成功");
+	//
+	// } else {
+	// Logger.d("MING", resultData.getMessage() + "onSuccess");
+	// }
+	// }
+	//
+	// @Override
+	// public void onFailed(int requestCode, Exception error, String msg) {
+	//
+	// Logger.d("MING", "msg" + msg + "onFailed");
+	// }
+	// });
+	// }
 
 }

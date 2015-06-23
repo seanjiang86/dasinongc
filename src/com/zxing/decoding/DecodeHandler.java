@@ -25,7 +25,6 @@ import android.util.Log;
 
 import com.dasinong.app.R;
 import com.dasinong.app.ui.CaptureActivity;
-import com.dasinong.app.ui.ScanQRCoderActivity;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
 import com.google.zxing.MultiFormatReader;

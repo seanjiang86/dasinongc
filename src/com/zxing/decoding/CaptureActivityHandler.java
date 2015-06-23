@@ -29,7 +29,6 @@ import android.util.Log;
 
 import com.dasinong.app.R;
 import com.dasinong.app.ui.CaptureActivity;
-import com.dasinong.app.ui.ScanQRCoderActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.zxing.camera.CameraManager;
@@ -126,7 +125,7 @@ public final class CaptureActivityHandler extends Handler {
 		removeMessages(R.id.decode_failed);
 	}
 
-	private void restartPreviewAndDecode() {
+	public void restartPreviewAndDecode() {
 		if (state == State.SUCCESS) {
 			state = State.PREVIEW;
 			CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);

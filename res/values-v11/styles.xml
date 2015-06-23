@@ -7,5 +7,10 @@
     <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
         <!-- API 11 theme customizations can go here. -->
     </style>
+    
+        <style name="noAnimationTheme" parent="android:Theme">
+        <item name="android:windowAnimationStyle">@null</item>
+        
+    </style>
 
 </resources>

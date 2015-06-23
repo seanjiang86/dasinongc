@@ -24,7 +24,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-public class AddFieldActivity6 extends BaseActivity implements OnClickListener {
+public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener {
 	private Button btn_no_date;
 	private Button btn_sure_date;
 	private TopbarView topbar;
@@ -37,7 +37,6 @@ public class AddFieldActivity6 extends BaseActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);// 去掉标题栏
 		setContentView(R.layout.activity_add_field_6);
 
 		btn_no_date = (Button) findViewById(R.id.btn_no_date);
@@ -133,5 +132,6 @@ public class AddFieldActivity6 extends BaseActivity implements OnClickListener {
 		Intent intent = new Intent(this, AddFieldActivity7.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
+		overridePendingTransition(0, 0);
 	}
 }
