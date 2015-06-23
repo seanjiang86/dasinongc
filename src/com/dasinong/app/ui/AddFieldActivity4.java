@@ -95,7 +95,9 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		
 		// TODO MING:此处在修改数据库之后需要重新查询
 		county = county.substring(0, county.length() - 1);
+		long currentTimeMillis = System.currentTimeMillis();
 		queryCrop(county);
+		System.out.println(System.currentTimeMillis() - currentTimeMillis);
 
 		final Context context = AddFieldActivity4.this;
 		tv_crop.post(new Runnable() {
@@ -165,7 +167,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 					@Override
 					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 						variety = varietyList.get(position);
-
+						
 						varietyNumMap = varietyInfo.data.get(variety);
 						varietyNumList = new ArrayList<String>(varietyNumMap.keySet());
 						initVarietyNum();
@@ -174,6 +176,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 					}
 				});
 			} else {
+				// TODO MING:这里会不会出现无数据情况
 				showToast("更多作物正在完善，敬请期待");
 			}
 			break;
@@ -309,45 +312,14 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 
 	private void goToNext() {
 		SharedPreferencesHelper.setString(this, Field.VARIETY_ID, varietyId);
-
-		Intent intent = new Intent(this, AddFieldActivity8.class);
+		Intent intent = null;
+		if("水稻".equals(currentCrop)){
+			intent = new Intent(this, AddFieldActivity8.class);
+		} else {
+			intent = new Intent(this, AddFieldActivity7.class);
+		}
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
 		overridePendingTransition(0, 0);
 	}
-
-	// private void initCropName(int position) {
-	// //cropId=190&locationId=10000
-	//
-	// Log.d("TAG","initCropName");
-	// RequestService.getInstance().getVarietyList(DsnApplication.getContext(),"190"
-	// ,locationId, CropNameList.class,
-	// new NetRequest.RequestListener() {
-	//
-	// @Override
-	// public void onSuccess(int requestCode, BaseEntity resultData) {
-	// // if (resultData.isOk()) {
-	// // cropNameList = ((CropNameList) resultData).getList();
-	// //
-	// // } else {
-	// //
-	// // }
-	//
-	// Log.d("TAG..........", ((CropNameList) resultData).data.toString());
-	//
-	// }
-	//
-	// @Override
-	// public void onFailed(int requestCode, Exception error, String msg) {
-	//
-	// }
-	//
-	// });
-	// // if (cropNameList != null && cropNameList.size() != 0) {
-	// // spn_crop.setAdapter(new ArrayAdapter<CropName>(this,
-	// R.layout.spinner_checked_text, cropNameList));
-	// // }
-	//
-	// }
-
 }

@@ -25,7 +25,7 @@ public class TaskSpecDaoImpl extends DaoSupportImpl<TaskSpec> implements TaskSpe
      */
 
     public List<TaskSpec> queryTaskSpecWithSubStage(int subStageId){
-        return  query(new String[]{"subStage"},new String[]{String.valueOf(subStageId)});
+        return  query("subStage = ? ",new String[]{String.valueOf(subStageId)});
 
     }
 }

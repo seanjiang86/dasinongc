@@ -66,17 +66,11 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
         return result;
     }
     
-    public List<T> query(String[] selection, String[] selectionArgs) {
+    public List<T> query(String selection, String[] selectionArgs,String orderBy) {
 
         List<T> result = new ArrayList<T>();
-        StringBuffer sql = new StringBuffer();
-        buildSQL(selection, selectionArgs, sql);
-        Logger.d(TAG, sql.toString());
-        if (selection == null || selectionArgs == null || selection.length == 0) {
-            selectionArgs = null;
-        }
-        Cursor cursor = sqLiteDatabase.getWritableDatabase().rawQuery(sql.toString(), selectionArgs);
 
+       Cursor cursor =  sqLiteDatabase.getWritableDatabase().query(mTableName, null, selection, selectionArgs, null, null, orderBy);
         convertVo(result, cursor);
         if (cursor != null) {
             cursor.close();
@@ -86,27 +80,17 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
 
 
     }
+    
+    
+    public List<T> query(String selection, String[] selectionArgs) {
 
-    private void buildSQL(String[] selection, String[] selectionArgs, StringBuffer sql) {
-        sql.append("select * from ").append(mTableName);
-        if (selection != null && selectionArgs != null) {
-            int selectionLength = selection.length;
-            int selectArgsLength = selectionArgs.length;
-            if (selectionLength == selectArgsLength && selectArgsLength > 0) {
-                sql.append(" where ");
-                for (int i = 0; i < selectionLength; i++) {
-                    sql.append(" ")
-                            .append(selection[i]).append("= ? ");
-                    if (i != selectArgsLength - 1) {
-                        sql.append(" and ");
-                    }
 
-                }
+        return query(selection, selectionArgs, null);
 
-            }
 
-        }
     }
+
+
 
     private void convertVo(List<T> result, Cursor cursor) {
 

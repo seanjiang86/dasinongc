@@ -25,12 +25,12 @@ public class PetDisspecDaoImpl extends DaoSupportImpl<PetDisspec>  implements Pe
      */
     public  List<PetDisspec> queryDisasterByType(String typeValue){
 
-        return  query(new String[]{"type"},new String[]{typeValue});
+        return  query("type = ? ",new String[]{typeValue});
     }
 
     @Override
     public PetDisspec queryDisasterById(int id) {
-        List<PetDisspec> result = query(new String[]{"petDisSpecId"}, new String[]{String.valueOf(id)});
+        List<PetDisspec> result = query("petDisSpecId= ?", new String[]{String.valueOf(id)});
         if(result.isEmpty()){
             return  new PetDisspec();
         }

@@ -26,7 +26,7 @@ public class PetSolutionDaoImpl extends DaoSupportImpl<PetSolu> implements PetSo
      */
     public List<PetSolu> QuerySolutionIsCure(int petDisSpecId) {
 
-        return query(new String[]{"petDisSpecId", "isCure"}, new String[]{String.valueOf(petDisSpecId), "1"});
+        return query("petDisSpecId= ? and isCure = ?", new String[]{String.valueOf(petDisSpecId), "1"});
     }
 
 
@@ -38,7 +38,7 @@ public class PetSolutionDaoImpl extends DaoSupportImpl<PetSolu> implements PetSo
      */
     public List<PetSolu> QuerySolutionIsPrevent(int petDisSpecId) {
 
-        return query(new String[]{"petDisSpecId", "isCure"}, new String[]{String.valueOf(petDisSpecId), "0"});
+        return query("petDisSpecId= ? and isCure=?", new String[]{String.valueOf(petDisSpecId), "0"});
     }
 
 }

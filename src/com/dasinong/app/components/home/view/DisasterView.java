@@ -178,7 +178,8 @@ public class DisasterView extends LinearLayout {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent=HarmDetialsActivity.createIntent(16, "", getContext());
+				//TODO: flag editor
+				Intent intent=HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_PREVENT, getContext());
 				getContext().startActivity(intent);
 				
 			}

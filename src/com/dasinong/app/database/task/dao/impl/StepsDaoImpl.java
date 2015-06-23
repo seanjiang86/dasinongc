@@ -24,7 +24,7 @@ public class StepsDaoImpl extends DaoSupportImpl<Steps> implements StepsDao {
      */
 
     public List<Steps> queryStepsWithTaskSpecId(int taskSpecId){
-        return  query(new String[]{"taskSpecId"},new String[]{String.valueOf(taskSpecId)});
+        return  query("taskSpecId = ? ",new String[]{String.valueOf(taskSpecId)});
 
     }
 }

@@ -13,7 +13,7 @@ public interface DaoSupport<T> {
      * @param selectionArgs where value
      * @return 返回数据库中所有符合的数据
      */
-    public List<T> query(String[] selection, String[] selectionArgs);
+    public List<T> query(String selection, String[] selectionArgs);
 
     /**
      *

@@ -30,7 +30,7 @@ public class SubStageDaoImpl extends DaoSupportImpl<SubStage> {
     public List<SubStage> queryStageSubCategory(String stageName)
     {
 
-        return query(new String[]{"stageName"},new String[]{stageName});
+        return query("stageName = ? ",new String[]{stageName},"subStageId");
     }
 
     /**
