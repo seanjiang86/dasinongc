@@ -38,9 +38,6 @@ public class SoilPostEntity extends BaseResponse {
 
     }
 
-    public  static class  Result{
-
-    }
 
 
 }
