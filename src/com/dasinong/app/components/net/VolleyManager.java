@@ -107,7 +107,9 @@ public class VolleyManager {
 
         final Response.ErrorListener errorListener = createErrorListener(requestCode, weakReference);
         HashMap<String, String> map = FieldUtils.convertToHashMap(param);
-
+        //TODO:userid
+        map.put("userId","15");
+        DEBUG(map.toString());
         final GsonRequest<T> request = new GsonRequest(url, map, clazz, successListener, errorListener);
 
         request.setShouldCache(false);
@@ -171,7 +173,15 @@ public class VolleyManager {
                 INetRequest tem = weakReference.get();
                 String result = new String(entry.data);
                 DEBUG(result);
-                tem.onCache(requestCode, new Gson().fromJson(result, clazz));
+                DEBUG(request.getUrl());
+                try {
+                    Object obj = new Gson().fromJson(result, clazz);
+                    tem.onCache(requestCode,obj);
+                }catch (Exception  e){
+                    e.printStackTrace();
+                    DEBUG("json parse");
+                }
+
 
             }
         }

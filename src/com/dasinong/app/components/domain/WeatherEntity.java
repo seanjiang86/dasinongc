@@ -34,7 +34,7 @@ public class WeatherEntity extends  BaseResponse{
     public List<SevenDay> n7d;
     public List<Hours> n12h;
 
-    public  CurrentWeather current;
+    public  CurrentWeather current;// Map<String,Map<String,Map<String,String>>> current;
 
     public static class SevenDay{
 
@@ -69,11 +69,11 @@ public class WeatherEntity extends  BaseResponse{
 
     public static class CurrentWeather{
 
-        public Map<String,Map<String,Levlel>> observe;
+        public Map<String,Map<String,Level>> observe;
     }
 
 
-    public static  class Levlel{
+    public static  class Level {
 
         public String l1;//30
         public String l2;//
@@ -82,5 +82,11 @@ public class WeatherEntity extends  BaseResponse{
         public String l5;//晴转多云
         public String l6;//80
         public String l7;//15:45---18分钟之前录入
+    }
+
+
+
+    public  static  class  Param{
+      public String   monitorLocationId;
     }
 }

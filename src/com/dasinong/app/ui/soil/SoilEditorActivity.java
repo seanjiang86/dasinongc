@@ -129,6 +129,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
     protected void initEvent() {
 
+        findViewById(R.id.soil_all_report).setOnClickListener(this);
 
     }
 

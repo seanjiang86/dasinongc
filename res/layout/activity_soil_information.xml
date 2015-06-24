@@ -71,7 +71,7 @@
                         style="@style/soil_information_item_container_left_text"
                         android:layout_alignBottom="@+id/soil_rating"
 
-                        android:text="@string/soil_rating" />
+                        android:text="@string/soil_fertility" />
 
                     <TextView
                         android:id="@+id/soil_rating"
@@ -210,7 +210,7 @@
                         style="@style/soil_information_item_container_left_text"
 
                         android:layout_alignBottom="@+id/soil_n"
-                        android:text="@string/soil_n" />
+                        android:text="@string/soil_an" />
 
                     <TextView
                         android:id="@+id/soil_n"
@@ -218,6 +218,29 @@
 
                         />
                 </RelativeLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/home_dimen_line_height_1"
+                    android:background="#ededed" />
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+
+                        style="@style/soil_information_item_container_left_text"
+                        android:layout_alignBottom="@+id/soil_qn"
+                        android:text="@string/soil_qn" />
+
+                    <TextView
+                        android:id="@+id/soil_qn"
+                        style="@style/soil_information_item_container_right_text" />
+                </RelativeLayout>
+
 
 
                 <View
@@ -253,7 +276,7 @@
                         style="@style/soil_information_item_container_left_text"
                         android:layout_alignBottom="@+id/soil_K"
 
-                        android:text="@string/soil_k" />
+                        android:text="@string/soil_qk" />
 
                     <TextView
                         android:id="@+id/soil_K"
@@ -273,7 +296,7 @@
                         style="@style/soil_information_item_container_left_text"
                         android:layout_alignBottom="@+id/soil_K_slow"
 
-                        android:text="@string/soil_k_slow" />
+                        android:text="@string/soil_sk" />
 
                     <TextView
                         android:id="@+id/soil_K_slow"
@@ -421,7 +444,7 @@
                         style="@style/soil_information_item_container_left_text"
                         android:layout_alignBottom="@+id/soil_P"
 
-                        android:text="@string/soil_p" />
+                        android:text="@string/soil_B" />
 
                     <TextView
                         android:id="@+id/soil_P"
