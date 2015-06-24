@@ -32,7 +32,7 @@ public class FieldUtils {
             try {
                 String key = field.getName();
                 Object value = field.get(obj);
-                if (value.getClass() == String.class) {
+                if (value!=null&&value.getClass() == String.class) {
                     if (value != null && !"".equalsIgnoreCase((String) value)) {
                         map.put(key, (String) value);
                     }

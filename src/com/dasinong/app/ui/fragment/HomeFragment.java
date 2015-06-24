@@ -234,7 +234,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     public void onCache(int requestCode, Object response) {
         switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
-
+                DEBUG("onCache callback");
                 onTaskSuccess(requestCode,response);
                 break;
             case REQUEST_CODE_HOME_WEATHER:

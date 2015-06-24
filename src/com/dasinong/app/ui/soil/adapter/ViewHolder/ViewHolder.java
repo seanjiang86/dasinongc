@@ -20,8 +20,13 @@ public class ViewHolder {
 
     public ViewHolder(View convertView) {
         this.convertView = convertView;
+        convertView.setTag(this);
     }
 
+
+    public  View getRootView(){
+        return  convertView;
+    }
     public <T extends View> T getView(int resId) {
         View v = views.get(resId);
         if (null == v) {
