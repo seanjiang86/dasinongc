@@ -95,9 +95,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		
 		// TODO MING:此处在修改数据库之后需要重新查询
 		county = county.substring(0, county.length() - 1);
-		long currentTimeMillis = System.currentTimeMillis();
 		queryCrop(county);
-		System.out.println(System.currentTimeMillis() - currentTimeMillis);
 
 		final Context context = AddFieldActivity4.this;
 		tv_crop.post(new Runnable() {
@@ -313,7 +311,10 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	private void goToNext() {
 		SharedPreferencesHelper.setString(this, Field.VARIETY_ID, varietyId);
 		Intent intent = null;
-		if("水稻".equals(currentCrop)){
+		
+		System.out.println(currentCrop);
+		
+		if("水稻".equals(lastCrop)){
 			intent = new Intent(this, AddFieldActivity8.class);
 		} else {
 			intent = new Intent(this, AddFieldActivity7.class);
