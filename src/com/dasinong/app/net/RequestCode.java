@@ -57,4 +57,8 @@ public final class RequestCode {
 	public static final int DELETE_SMS_SUBSCRIBE = RESET_PWSSWORD + 1;
 	public static final int MODIFI_SMS_SUBSCRIBE = DELETE_SMS_SUBSCRIBE + 1;
 	public static final int SMS_SUBSCRIBE_DETAIL = MODIFI_SMS_SUBSCRIBE + 1;
+	/**
+	 * 创建田地
+	 */
+	public static final int CREATE_FIELD = SMS_SUBSCRIBE_DETAIL + 1;
 }

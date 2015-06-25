@@ -87,8 +87,6 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		mprovince = getIntent().getStringExtra("mprovince");
 		mcity = getIntent().getStringExtra("mcity");
 		mdistrict = getIntent().getStringExtra("mdistrict");
-		// TODO MING:街道是否需要
-		mstreet = getIntent().getStringExtra("mstreet");
 
 		province = mprovince;
 		city = mcity;
@@ -329,6 +327,10 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	}
 
 	private void gotoThree() {
+		if(TextUtils.isEmpty(villageId)){
+			showToast("请完善您的地理信息");
+			return;
+		}
 		SharedPreferencesHelper.setString(this, Field.VILLAGE_ID, villageId);
 		SharedPreferencesHelper.setString(this, Field.PROVINCE, province);
 		SharedPreferencesHelper.setString(this, Field.CITY, city);

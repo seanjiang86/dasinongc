@@ -38,6 +38,7 @@ public class HarmDetialsActivity extends BaseActivity {
 
 	public static final String FLAG_PREVENT = "prevent";
 	public static final String FLAG_CURE = "cure";
+	public static final String FLAG_ITEM = "item";
 
 	private ListView lv_detial;
 	private View header;
@@ -76,7 +77,7 @@ public class HarmDetialsActivity extends BaseActivity {
 
 		if (HarmFragment.TYPE_PET.equals(type)) {
 			pet = (PetDisspec) getIntent().getExtras().getSerializable("pet");
-		} else if (FLAG_PREVENT.equals(type) || FLAG_CURE.equals(type)) {
+		} else if (FLAG_PREVENT.equals(type) || FLAG_CURE.equals(type) || FLAG_ITEM.equals(type)) {
 			if (getIntent().hasExtra("petDisSpecId")) {
 				int petDisSpecId = getIntent().getIntExtra("petDisSpecId", -1);
 				pet = manager.getDisease(petDisSpecId);
@@ -109,6 +110,8 @@ public class HarmDetialsActivity extends BaseActivity {
 			lv_detial.setSelection(1);
 		} else if (FLAG_PREVENT.equals(type)) {
 			lv_detial.setSelection(petSoluList.size());
+		} else {
+			lv_detial.setSelection(0);
 		}
 
 		lv_detial.setOnItemClickListener(new OnItemClickListener() {

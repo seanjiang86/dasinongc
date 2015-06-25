@@ -77,7 +77,7 @@ insertSoilReport?userId=15&fieldId=10&type=type&color=red&fertility=fertility&hu
 | 注册田地 |  createField   |  fieldName,isActive，        |  200       |   创建成功          |     field 相关信息      |
 |          |                |  seedingortransplant,area,   |            |                     |                         |
 |          |                |  startDate,locationId,  |             |               |                      |
-|          |                |  varietyId,currentStageID(allR)  |          |               |                      |
+|          |                |  varietyId,currentStageId(allR)  |          |               |                      |
 | 选择品种 |  getVarietyList | cropName或cropId(推荐）  |  200   |  获取品种列表成功  | 小品种名列表，对应编号和品种id|      
 |          |                 | locationId(推荐）或province   |   300    | 缺少参数 |     Map（Map（subId,varietyId））    |
 | 选择地址 |  getLocation   | province(R),city(R),country(R),district(R) |  200 | 获取成功 |   Map(community,locationId) |

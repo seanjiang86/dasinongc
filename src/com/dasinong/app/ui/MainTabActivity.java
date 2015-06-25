@@ -124,7 +124,8 @@ public class MainTabActivity extends BaseActivity {
 		}
 
 	}
-
+	
+	// TODO MING :是否只是打开连接，是否有其他需求。
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {

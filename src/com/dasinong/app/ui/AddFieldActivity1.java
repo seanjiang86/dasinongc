@@ -7,19 +7,14 @@ import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
-import com.dasinong.app.entity.LocationResult;
-import com.dasinong.app.entity.LoginRegEntity;
-import com.dasinong.app.entity.NearbyUser;
 import com.dasinong.app.entity.LocationInfo;
-import com.dasinong.app.entity.VillageInfo;
+import com.dasinong.app.entity.LocationResult;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
-import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
@@ -54,13 +49,8 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			if(msg.what == 0){
-				count++;
-				LocationUtils.getInstance().requestLocation();
-			} else if(msg.what == 1) {
-				goToThree();
-			}
-
+			count++;
+			initLocation();
 		}
 	};
 
@@ -80,6 +70,12 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 		btn_in_field.setOnClickListener(this);
 		btn_no_in_field.setOnClickListener(this);
 
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		initLocation();
 	}
 
 	@Override
@@ -109,8 +105,11 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 			goToTwo();
 			break;
 		case R.id.btn_in_field:
-			// TODO MING:暂时使用假数据，等待真实数据
-			RequestService.getInstance().searchLocation(this, "31.90075389", "117.3185791", "安徽", "合肥", "瑶海区", LocationInfo.class,
+			startLoadingDialog();
+			mprovince = mprovince.substring(0, mprovince.length() - 1);
+			mcity = mcity.substring(0, mcity.length() - 1);
+
+			RequestService.getInstance().searchLocation(this, latitudeText, longitudeText, mprovince, mcity, mdistrict, LocationInfo.class,
 					new NetRequest.RequestListener() {
 
 						@Override
@@ -118,16 +117,19 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 
 							if (resultData.isOk()) {
 								locationInfo = (LocationInfo) resultData;
-								handler.sendEmptyMessage(1);
+								goToThree();
+								dismissLoadingDialog();
+							} else {
+								goToTwo();
 							}
 						}
 
 						@Override
 						public void onFailed(int requestCode, Exception error, String msg) {
 							// TODO Ming:待统一
-							
-							Logger.d("MING","error == "+error+"   "+"requestCode == "+requestCode+"   "+"msg == "+msg);
-							
+
+							Logger.d("MING", "error == " + error + "   " + "requestCode == " + requestCode + "   " + "msg == " + msg);
+
 						}
 					});
 			break;
@@ -186,17 +188,16 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 		intent.putExtra("mprovince", mprovince);
 		intent.putExtra("mcity", mcity);
 		intent.putExtra("mdistrict", mdistrict);
-		intent.putExtra("mstreet", mstreet);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
 		overridePendingTransition(0, 0);
 	}
 
 	private void goToThree() {
-		SharedPreferencesHelper.setString(this, Field.VILLAGE_ID, locationInfo.data.get("country"));
 		SharedPreferencesHelper.setString(this, Field.PROVINCE, locationInfo.data.get("province"));
 		SharedPreferencesHelper.setString(this, Field.CITY, locationInfo.data.get("city"));
-		SharedPreferencesHelper.setString(this, Field.COUNTY, locationInfo.data.get("locationId"));
+		SharedPreferencesHelper.setString(this, Field.COUNTY, locationInfo.data.get("country"));
+		SharedPreferencesHelper.setString(this, Field.VILLAGE_ID, locationInfo.data.get("locationId"));
 		Intent intent = new Intent(DsnApplication.getContext(), AddFieldActivity3.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);

@@ -64,7 +64,6 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 			goToNext();
 			break;
 		case R.id.btn_sure_date:
-			// TODO Ming:时间保存格式...
 			String date = myear + "-" + mmonth + "-" + mday;
 			DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
 			Date userDate = null;
