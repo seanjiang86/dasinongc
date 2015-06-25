@@ -97,7 +97,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     }
 
     private void loadDataFromWithCache() {
-
     loadFieldData("10");
     loadWeatherData();
 
@@ -229,6 +228,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
                 break;
             case REQUEST_CODE_HOME_WEATHER:
                 WeatherEntity weatherEntity =(WeatherEntity)response;
+
+                Log.d("weather:",weatherEntity.toString());
+
                 if(weatherEntity!=null) {
                     mHomeWeatherView.setWeatherData(weatherEntity);
                 }
@@ -254,8 +256,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
                 onTaskSuccess(requestCode,response);
                 break;
             case REQUEST_CODE_HOME_WEATHER:
-//                WeatherEntity entity =(WeatherEntity)response;
-//                DEBUG(entity.toString());
+                WeatherEntity entity =(WeatherEntity)response;
+                DEBUG(entity.toString());
 
                 break;
             default:
