@@ -104,11 +104,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 		if (null != hours&&!hours.isEmpty()) {
 			{
 				mHumView.setOneDayWeatherData(hours);
-				if (null == mHorHumView) {
-					Log.e(TAG, "null == mHorHumView");
-				} else {
-					mHorHumView.smoothScrollTo(0, 600);
-				}
+				//TODO scroll postion
 			}
 
 		}
