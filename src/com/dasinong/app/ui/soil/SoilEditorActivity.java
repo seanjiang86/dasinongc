@@ -1,25 +1,30 @@
 package com.dasinong.app.ui.soil;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.DatePicker;
+
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
+import com.dasinong.app.components.domain.BaseResponse;
 import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
-import com.dasinong.app.components.net.INetRequest;
 import com.dasinong.app.components.net.NetError;
 import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.net.NetConfig;
-import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.soil.domain.SoilAllEntity;
 import com.dasinong.app.ui.soil.domain.SoilPostEntity;
-import com.dasinong.app.ui.view.TopbarView;
+
+import java.util.Calendar;
 
 public class SoilEditorActivity extends SoilBaseActivity implements View.OnClickListener {
 
@@ -38,30 +43,35 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
     private static final String TAG = "SoilEditorActivity";
 
-    private TextView soiltype;
-    private TextView soilcolor;
-    private TextView soilrating;
-    private TextView soiltemtext;
-    private TextView soiltem;
-    private TextView soilallreport;
-    private EditText soiltime;
-    private EditText soilph;
-    private EditText soilorganics;
-    private EditText soiln;
-    private EditText soilmoisture;
-    private EditText soilK;
-    private EditText soilKslow;
-    private TextView soilother;
-    private EditText soils;
-    private EditText soilFE;
-    private EditText soilmn;
-    private EditText soilcu;
-    private EditText soilZN;
-    private EditText soilP;
-    private TextView soilcheck;
 
 
     private CommSelectPopWindow mTypePopuWindow;
+
+
+
+    private TextView mSoilType;
+    private TextView mSoilColor;
+    private TextView mSoilFertility;
+    private EditText mSoilTime;
+    private EditText mSoilPH;
+    private EditText mSoilOrganics;
+    private EditText mSoilAN;
+    private EditText mSoilQN;
+    private EditText mSoilP;
+    private EditText mSoilQK;
+    private EditText mSoilSK;
+    private EditText mSoilMO;
+
+    private EditText mSoilFE;
+    private EditText mSoilMN;
+    private EditText mSoilCU;
+    private EditText mSoilB;
+    private EditText mSoilZN;
+    private EditText mSoilCA;
+    private EditText mSoilMG;
+    private EditText mSoilS;
+    private EditText mSoilSI;
+
 
 
     @Override
@@ -87,27 +97,31 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
     protected void initView() {
 
-        this.soilcheck = (TextView) findViewById(R.id.soil_check);
-        this.soilP = (EditText) findViewById(R.id.soil_P);
-        this.soilZN = (EditText) findViewById(R.id.soil_ZN);
-        this.soilcu = (EditText) findViewById(R.id.soil_cu);
-        this.soilmn = (EditText) findViewById(R.id.soil_mn);
-        this.soilFE = (EditText) findViewById(R.id.soil_FE);
-        this.soils = (EditText) findViewById(R.id.soil_s);
-        this.soilother = (TextView) findViewById(R.id.soil_other);
-        this.soilKslow = (EditText) findViewById(R.id.soil_K_slow);
-        this.soilK = (EditText) findViewById(R.id.soil_K);
-        this.soilmoisture = (EditText) findViewById(R.id.soil_moisture);
-        this.soiln = (EditText) findViewById(R.id.soil_n);
-        this.soilorganics = (EditText) findViewById(R.id.soil_organics);
-        this.soilph = (EditText) findViewById(R.id.soil_ph);
-        this.soiltime = (EditText) findViewById(R.id.soil_time);
-        this.soilallreport = (TextView) findViewById(R.id.soil_all_report);
-        this.soiltem = (TextView) findViewById(R.id.soil_tem);
-        this.soiltemtext = (TextView) findViewById(R.id.soil_tem_text);
-        this.soilrating = (TextView) findViewById(R.id.soil_rating);
-        this.soilcolor = (TextView) findViewById(R.id.soil_color);
-        this.soiltype = (TextView) findViewById(R.id.soil_type);
+      mSoilType = (TextView) findViewById(R.id.soil_type);
+      mSoilColor= (TextView) findViewById(R.id.soil_color);
+      mSoilFertility = (TextView) findViewById(R.id.soil_fertility);
+      mSoilTime = (EditText) findViewById(R.id.soil_time);
+      mSoilPH = (EditText) findViewById(R.id.soil_ph);
+      mSoilOrganics = (EditText) findViewById(R.id.soil_organics);
+      mSoilAN= (EditText) findViewById(R.id.soil_an);
+      mSoilQN= (EditText) findViewById(R.id.soil_qn);
+      mSoilP= (EditText) findViewById(R.id.soil_P);
+      mSoilQK= (EditText) findViewById(R.id.soil_qk);
+      mSoilSK= (EditText) findViewById(R.id.soil_sk);
+      mSoilMO= (EditText) findViewById(R.id.soil_mo);
+      mSoilFE= (EditText) findViewById(R.id.soil_FE);
+      mSoilMN= (EditText) findViewById(R.id.soil_mn);
+      mSoilCU= (EditText) findViewById(R.id.soil_cu);
+      mSoilZN= (EditText) findViewById(R.id.soil_ZN);
+      mSoilB= (EditText) findViewById(R.id.soil_B);
+      mSoilCA= (EditText) findViewById(R.id.soil_ca);
+      mSoilMG= (EditText) findViewById(R.id.soil_mg);
+      mSoilS= (EditText) findViewById(R.id.soil_s);
+      mSoilSI= (EditText) findViewById(R.id.soil_si);
+
+
+
+
 
 
     }
@@ -115,20 +129,18 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
     protected void initEvent() {
 
-        soiltype.setOnClickListener(this);
+        findViewById(R.id.soil_all_report).setOnClickListener(this);
 
-        soilallreport.setOnClickListener(this);
-        soiltem.setOnClickListener(this);
-        soilcheck.setOnClickListener(this);
     }
 
     private void postSoilInformation(SoilPostEntity.Param param) {
+
 
         VolleyManager.getInstance().addPostRequest(
                 REQUEST_CODE_SOIL_POST,
                 URL,
                 param,
-                SoilAllEntity.class,
+                BaseResponse.class,
                 this
         );
     }
@@ -144,6 +156,137 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
             case R.id.textview_topbar_right_text:
                 SoilPostEntity.Param param = new SoilPostEntity.Param();
+//userId=15&fieldId=10&type=type&color=red&fertility=fertility&humidity=30.5&testDate=2015/04/01
+// &phValue=6.7
+// &&&&&&&
+// &&
+                param.type="";
+                param.color="";
+
+                //phValue
+                if(TextUtils.isEmpty(mSoilPH.getText())){
+                    param.phValue = "0";
+                }else {
+                    param.phValue = mSoilPH.getText().toString().trim();
+                }
+
+                //有机质organic=organic
+
+                if(TextUtils.isEmpty(mSoilOrganics.getText())){
+                    param.organic = "0";
+                }else {
+                    param.organic = mSoilPH.getText().toString().trim();
+                }
+
+                //有效磷p=100
+                if(TextUtils.isEmpty(mSoilP.getText())){
+                    param.organic = "0";
+                }else {
+                    param.organic = mSoilP.getText().toString().trim();
+                }
+
+
+                //全氮  an=12.1
+                if(TextUtils.isEmpty(mSoilAN.getText())){
+                    param.an = "0";
+                }else {
+                    param.an = mSoilAN.getText().toString().trim();
+                }
+
+                //碱解氮qn=10.2
+                if(TextUtils.isEmpty(mSoilQN.getText())){
+                    param.qn = "0";
+                }else {
+                    param.qn = mSoilQN.getText().toString().trim();
+                }
+                //速效钾qK   soil_K
+                if(TextUtils.isEmpty(mSoilQK.getText())){
+                    param.qK = "0";
+                }else {
+                    param.qK = mSoilQK.getText().toString().trim();
+                }
+                //缓效钾sK=1.2&  soil_K_slow
+
+                if(TextUtils.isEmpty(mSoilSK.getText())){
+                    param.sK = "0";
+                }else {
+                    param.sK = mSoilSK.getText().toString().trim();
+                }
+
+
+
+
+                //mo=12.0
+
+
+                if(TextUtils.isEmpty(mSoilMO.getText())){
+                    param.mo = "0";
+                }else {
+                    param.mo= mSoilMO.getText().toString().trim();
+                }
+
+                //铁Fe fe=3.0 soil_FE
+                if(TextUtils.isEmpty(mSoilFE.getText())){
+                    param.fe = "0";
+                }else {
+                    param.fe= mSoilFE.getText().toString().trim();
+                }
+                //锰Mn mn=12 soil_mn
+                if(TextUtils.isEmpty(mSoilMN.getText())){
+                    param.mn = "0";
+                }else {
+                    param.mn= mSoilMN.getText().toString().trim();
+                }
+                //铜Cu cu=21.0   soil_cu
+                if(TextUtils.isEmpty(mSoilCU.getText())){
+                    param.cu = "0";
+                }else {
+                    param.cu= mSoilCU.getText().toString().trim();
+                }
+
+                //锌Zn zn=1 soil_ZN
+
+                if(TextUtils.isEmpty(mSoilZN.getText())){
+                    param.zn = "0";
+                }else {
+                    param.zn= mSoilZN.getText().toString().trim();
+                }
+                //硼B  b=90 soil_B
+                if(TextUtils.isEmpty(mSoilB.getText())){
+                    param.b = "0";
+                }else {
+                    param.b= mSoilB.getText().toString().trim();
+                }
+
+
+                //ca=1.0
+                if(TextUtils.isEmpty(mSoilCA.getText())){
+                    param.ca = "0";
+                }else {
+                    param.ca= mSoilCA.getText().toString().trim();
+                }
+
+                //s=0.1
+                if(TextUtils.isEmpty(mSoilS.getText())){
+                    param.s = "0";
+                }else {
+                    param.s= mSoilS.getText().toString().trim();
+                }
+                // si=45
+
+                if(TextUtils.isEmpty(mSoilSI.getText())){
+                    param.si = "0";
+                }else {
+                    param.si= mSoilSI.getText().toString().trim();
+                }
+                // mg=2.3
+                if(TextUtils.isEmpty(mSoilMG.getText())){
+                    param.si = "0";
+                }else {
+                    param.si= mSoilMG.getText().toString().trim();
+                }
+
+
                 postSoilInformation(param);
                 break;
 
@@ -184,7 +327,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     @Override
     public void onTaskSuccess(int requestCode, Object response) {
 
-        SoilPostEntity entity = (SoilPostEntity) response;
+
 
     }
 
@@ -216,4 +359,24 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
             Log.d(TAG, msg);
         }
     }
+
+
+    private void showChooseDate(){
+
+       Calendar calendar = Calendar.getInstance();
+
+
+
+        DatePickerDialog dateDialog =null;// new DatePickerDialog(this, new MyOnDateSetListener());
+        dateDialog.show();
+    }
+
+
+    class MyOnDateSetListener implements DatePickerDialog.OnDateSetListener {
+        @Override
+        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+        }
+    }
+
 }

@@ -10,7 +10,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
+import com.dasinong.app.components.domain.WeatherEntity;
+
+import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by sczhang on 15/6/5.
@@ -58,7 +63,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 		lyWeekWeather.setVisibility(View.VISIBLE);
 		addView(mRoot);
 
-		setWeatherData(new Object());
+
 
 	}
 
@@ -90,39 +95,61 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 	}
 
 	public void setWeatherData(Object obj) {
-		if (null != obj) {
-			setOneWeekWeather(new Object());
-			setOneDayWeather(new Object());
+		if (null != obj && obj.getClass()==WeatherEntity.class) {
+			WeatherEntity entity = (WeatherEntity) obj;
+			setOneWeekWeather(entity.n7d);
+			setOneDayWeather(entity.n12h);
 		}
 	}
 
-	private void setOneDayWeather(Object o) {
-		if (null != o) {
-			mHumView.setOneDayWeatherData(new Object());
-			if (null == mHorHumView) {
-				Log.e(TAG, "null == mHorHumView");
-			} else {
-				mHorHumView.smoothScrollTo(0, 600);
+	private void setOneDayWeather(List<WeatherEntity.Hours> hours) {
+		if (null != hours&&!hours.isEmpty()) {
+			{
+				mHumView.setOneDayWeatherData(hours);
+				//TODO scroll postion
 			}
 
 		}
 	}
 
-	private void setOneWeekWeather(Object o) {
-		if (null != o) {
-			for (int i = 0; i < 7; i++) {
+	private void setOneWeekWeather(List<WeatherEntity.SevenDay> days) {
+		if (null != days&&!days.isEmpty()) {
+			int size = days.size();
+			for (int i = 0; i < size; i++) {
+				WeatherEntity.SevenDay item = days.get(i);
+				if(item==null){
+					continue;
+				}
 				View weekWeather = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather_week_item, null);
+
 				TextView tvItemDay = (TextView) weekWeather.findViewById(R.id.tvItemDay);
 				ImageView ivItemWind = (ImageView) weekWeather.findViewById(R.id.ivItemWind);
 				TextView tvItemTempLow = (TextView) weekWeather.findViewById(R.id.tvItemTempLow);
 				TextView tvItemTempHight = (TextView) weekWeather.findViewById(R.id.tvItemTempHight);
 				TextView tvItemWeather = (TextView) weekWeather.findViewById(R.id.tvItemWeather);
 				TextView tvItemWindSpeed = (TextView) weekWeather.findViewById(R.id.tvItemWindSpeed);
-				tvItemDay.setText("周" + i);
-				tvItemTempLow.setText(6 + i + "");
-				tvItemTempHight.setText(18 + i + "~");
-				tvItemWeather.setText("晴天" + i);
-				tvItemWindSpeed.setText("3-4级");
+
+				/**
+				 *  public  String ff_level;//风力编码
+				 public String dd_level;//风向编码（3－4级
+				 public String min_temp;//最低温
+				 public String temp;//平均温度
+				 public String weather;//天气现象编码(晴转多云)
+				 public long forecast_time;//预报时间（周一,timestamp）
+				 public String rain;//降不量
+				 public String max_temp;//最高温度
+
+				 */
+
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTimeInMillis(item.forecast_time);
+
+				int week =calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH);
+				tvItemDay.setText(String.valueOf(week));//周
+				tvItemTempLow.setText(item.min_temp + "");
+				tvItemTempHight.setText(item.max_temp + "~");//
+				tvItemWeather.setText(item.weather);//晴转多云
+				tvItemWindSpeed.setText(item.dd_level);//3-4级
 				lyWeekWeather.addView(weekWeather);
 			}
 		}
@@ -149,4 +176,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 		tvCloseWeekTemp.clearAnimation();
 		tvCloseWeekTemp.startAnimation(mExpandAnimation);
 	}
+
+
 }

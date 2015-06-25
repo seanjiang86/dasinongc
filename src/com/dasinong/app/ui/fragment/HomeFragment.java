@@ -1,5 +1,6 @@
 package com.dasinong.app.ui.fragment;
 
+import android.content.Entity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,7 +14,9 @@ import android.view.ViewGroupOverlay;
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
+import com.dasinong.app.components.domain.WeatherEntity;
 import com.dasinong.app.components.home.view.DisasterView;
+import com.dasinong.app.components.home.view.HomeWeatherView;
 import com.dasinong.app.components.home.view.SoilView;
 import com.dasinong.app.components.net.INetRequest;
 import com.dasinong.app.components.net.NetError;
@@ -39,11 +42,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     private static final int REQUEST_CODE_HOME_FIELD = 130;
     private static final int REQUEST_CODE_HOME_WEATHER = 131;
     private static final String URL_FIELD = NetConfig.BASE_URL + "home";
-    private static final String URL_WEATHER = NetConfig.BASE_URL;
+    /**loadWeather?monitorLocationId=101010100*/
+    private static final String URL_WEATHER = NetConfig.BASE_URL+"loadWeather";
 
     private ViewGroup mRoot;
 
     private BGARefreshLayout mRefreshLayout;
+
+    private HomeWeatherView mHomeWeatherView;
 
     private  SoilView mSoilView;
 
@@ -76,6 +82,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
         mRoot = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
 
+        mHomeWeatherView = (HomeWeatherView) mRoot.findViewById(R.id.weather);
+
         mRefreshLayout = (BGARefreshLayout) mRoot.findViewById(R.id.rl_modulename_refresh);
 
         mSoilView = (SoilView) mRoot.findViewById(R.id.home_soilview);
@@ -89,9 +97,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     }
 
     private void loadDataFromWithCache() {
-
-        loadFieldData("10");
-        //loadWeatherData();
+    loadFieldData("10");
+    loadWeatherData();
 
     }
 
@@ -184,11 +191,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     }
 
     public void loadWeatherData() {
+        WeatherEntity.Param param = new WeatherEntity.Param();
+        param.monitorLocationId = "101010100";
         VolleyManager.getInstance().addGetRequestWithCache(
                 REQUEST_CODE_HOME_WEATHER,
                 URL_WEATHER,
-                null,
-                null,
+                param,
+                WeatherEntity.class,
                 this
         );
 
@@ -213,9 +222,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
         switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
                 FieldEntity entity = (FieldEntity) response;
-                mDisasterView.updateView(entity.currentField.natdisws,entity.currentField.petdisws);
+                if(entity!=null) {
+                    mDisasterView.updateView(entity.currentField.natdisws, entity.currentField.petdisws);
+                }
                 break;
             case REQUEST_CODE_HOME_WEATHER:
+                WeatherEntity weatherEntity =(WeatherEntity)response;
+
+                Log.d("weather:",weatherEntity.toString());
+
+                if(weatherEntity!=null) {
+                    mHomeWeatherView.setWeatherData(weatherEntity);
+                }
                 break;
             default:
                 break;
@@ -234,10 +252,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     public void onCache(int requestCode, Object response) {
         switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
-
+                DEBUG("onCache callback");
                 onTaskSuccess(requestCode,response);
                 break;
             case REQUEST_CODE_HOME_WEATHER:
+                WeatherEntity entity =(WeatherEntity)response;
+                DEBUG(entity.toString());
+
                 break;
             default:
                 break;
@@ -249,7 +270,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
     private void login() {
 
-        RequestService.getInstance().authcodeLoginReg(this.getActivity(), "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
+        RequestService.getInstance().authcodeLoginReg(this.getActivity(), "13999999191", LoginRegEntity.class, new NetRequest.RequestListener() {
 
             @Override
             public void onSuccess(int requestCode, BaseEntity resultData) {

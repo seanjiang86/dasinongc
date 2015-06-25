@@ -25,12 +25,15 @@ import com.android.volley.toolbox.HurlStack;
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.components.domain.BaseResponse;
+import com.dasinong.app.components.domain.WeatherEntity;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.FieldUtils;
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
 
 import java.io.File;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
@@ -102,12 +105,14 @@ public class VolleyManager {
 
     public <T extends BaseResponse> void addPostRequest(int requestCode, String url, Object param, Class<? extends BaseResponse> clazz, final INetRequest netReqeust) {
         final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
-        final Response.Listener<T> successListener = createSuccessListener( requestCode, weakReference);
+        final Response.Listener<T> successListener = createSuccessListener(requestCode, weakReference);
 
 
         final Response.ErrorListener errorListener = createErrorListener(requestCode, weakReference);
         HashMap<String, String> map = FieldUtils.convertToHashMap(param);
-
+        //TODO:userid
+        map.put("userId", "15");
+        DEBUG(map.toString());
         final GsonRequest<T> request = new GsonRequest(url, map, clazz, successListener, errorListener);
 
         request.setShouldCache(false);
@@ -153,7 +158,7 @@ public class VolleyManager {
         final String finalUrl = createUrl(url, param);
 
         final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
-        final Response.Listener<T> successListener = createSuccessListener( requestCode, weakReference);
+        final Response.Listener<T> successListener = createSuccessListener(requestCode, weakReference);
 
         final Response.ErrorListener errorListener = createErrorListener(requestCode, weakReference);
 
@@ -169,9 +174,24 @@ public class VolleyManager {
 
             if (entry != null) {
                 INetRequest tem = weakReference.get();
-                String result = new String(entry.data);
-                DEBUG(result);
-                tem.onCache(requestCode, new Gson().fromJson(result, clazz));
+                String result = new String(entry.data).trim();
+
+
+                try {
+                    if (clazz == WeatherEntity.class) {
+                        result = FilterUtils.filter(result);
+                    }
+
+                    JsonReader reader = new JsonReader(new StringReader(result));
+                    reader.setLenient(true);
+                    T obj = new Gson().fromJson(reader, clazz);
+                    tem.onCache(requestCode, obj);
+                } catch (Exception e) {
+                    DEBUG("cache json parse" + request.getUrl());
+                    e.printStackTrace();
+
+                }
+
 
             }
         }
@@ -186,8 +206,6 @@ public class VolleyManager {
     }
 
 
-
-
     private String buildUrl(String url, Object param) {
 
         StringBuilder urlWithParm = new StringBuilder(url);
@@ -198,10 +216,6 @@ public class VolleyManager {
         }
         return urlWithParm.toString();
     }
-
-
-
-
 
 
     private String encodeParameters(Map<String, String> params) {
@@ -266,7 +280,7 @@ public class VolleyManager {
         };
     }
 
-    private <T extends BaseResponse> Response.Listener<T> createSuccessListener( final int requestCode,  final WeakReference<INetRequest> weakReference) {
+    private <T extends BaseResponse> Response.Listener<T> createSuccessListener(final int requestCode, final WeakReference<INetRequest> weakReference) {
         return new Response.Listener<T>() {
             @Override
             public void onResponse(T response) {
@@ -287,8 +301,8 @@ public class VolleyManager {
     }
 
 
-    private  void DEBUG(String msg){
-        if(BuildConfig.DEBUG) {
+    private void DEBUG(String msg) {
+        if (BuildConfig.DEBUG) {
             Log.d(TAG, msg);
         }
     }

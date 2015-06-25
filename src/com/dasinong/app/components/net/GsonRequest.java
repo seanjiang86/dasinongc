@@ -8,10 +8,14 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.toolbox.HttpHeaderParser;
+import com.dasinong.app.BuildConfig;
 import com.dasinong.app.DsnApplication;
+import com.dasinong.app.components.domain.WeatherEntity;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,12 +25,14 @@ import java.util.Map;
  * Created by liuningning on 15/6/13.
  */
 public class GsonRequest<T> extends Request<T> {
-    private Class<T> mClassName ;
+    private Class<T> mClassName;
     private Response.Listener<T> mListener;
     private Gson mGson;
 
-    private Map<String,String > param;
-    public  GsonRequest(String url,Class<T> clazz,Response.Listener<T> successListener,Response.ErrorListener errorListener){
+    private Map<String, String> param;
+    private static final String TAG = "GsonRequest";
+
+    public GsonRequest(String url, Class<T> clazz, Response.Listener<T> successListener, Response.ErrorListener errorListener) {
         super(Method.GET, url, errorListener);
 
         this.mGson = new Gson();
@@ -35,7 +41,7 @@ public class GsonRequest<T> extends Request<T> {
 
     }
 
-    public  GsonRequest(String url,Map<String,String>param,Class<T> clazz,Response.Listener<T> successListener,Response.ErrorListener errorListener){
+    public GsonRequest(String url, Map<String, String> param, Class<T> clazz, Response.Listener<T> successListener, Response.ErrorListener errorListener) {
         super(Method.POST, url, errorListener);
         this.param = param;
         this.mGson = new Gson();
@@ -43,15 +49,24 @@ public class GsonRequest<T> extends Request<T> {
         this.mListener = successListener;
 
     }
+
     @Override
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
-            String jsonString = new String(response.data,
-                    HttpHeaderParser.parseCharset(response.headers));
-            Log.d("TAG",jsonString);
-            return Response.success(mGson.fromJson(jsonString, mClassName),
+            String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers)).trim();
+            Debug(jsonString);
+            if(mClassName== WeatherEntity.class) {
+                jsonString = FilterUtils.filter(jsonString);
+            }
+            JsonReader reader = new JsonReader(new StringReader(jsonString));
+            reader.setLenient(true);
+
+            T result = mGson.fromJson(jsonString,mClassName);
+            return Response.success(result,
                     HttpHeaderParser.parseCacheHeaders(response));
-        } catch (UnsupportedEncodingException e) {
+        } catch (Exception e) {
+            Debug("request json parse"+this.getUrl());
+            e.printStackTrace();
             return Response.error(new ParseError(e));
         }
 
@@ -64,11 +79,9 @@ public class GsonRequest<T> extends Request<T> {
     }
 
 
-
-
     @Override
     protected Map<String, String> getParams() throws AuthFailureError {
-        return param ;
+        return param;
     }
 
 
@@ -80,5 +93,10 @@ public class GsonRequest<T> extends Request<T> {
         return map;
     }
 
-   
+    private void Debug(String msg) {
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, msg);
+        }
+    }
+
 }

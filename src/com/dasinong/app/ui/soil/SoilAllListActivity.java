@@ -96,11 +96,11 @@ public class SoilAllListActivity extends SoilBaseActivity implements AdapterView
             }
 
             @Override
-            protected View getItemView(int position,View convertView, ViewHolder viewHolder) {
+            protected void updateView(SoilAllEntity.DataEntity result, ViewHolder viewHolder) {
 
-                String text = sdf.format(new Date(getItem(position).testDate))+mTipText;
+                String text = sdf.format(result.testDate)+mTipText;
                 viewHolder.setTextValue(R.id.soil_item_text,text);
-                return convertView;
+
             }
         });
     }

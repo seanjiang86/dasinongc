@@ -9,62 +9,35 @@ public class SoilPostEntity extends BaseResponse {
 
     public static  class Param {
 
-        public String fieldId;
-        public String type;
-        public String color;
-        public String fertility;
-        public String humidity;
-        public String testDate;
-        public String phValue;
-        public String organic;
-        public  String an;
-        public String qn;
-        public  String p;
-        public  String qK;
-        public String sK;
-        public  String fe;
-        public String mn;
-        public  String cu;
-        public  String zn;
-        public  String b;
-        public  String mo;
-        public  String ca;
-        public  String s;
-        public  String si;
-        public String mg;
+        public String fieldId = "10";
+        public String type ="" ;
+        public String color="";
+        public String fertility ="2";
+        public String humidity="0";
+        public String testDate="";
+        public String phValue="0";
+        public String organic="";
+        public  String an="0";
+        public String qn="0";
+        public  String p="0";
+        public  String qK="0";
+        public String sK="0";
+        public  String fe="0";
+        public String mn="0";
+        public  String cu="0";
+        public  String zn="0";
+        public  String b="0";
+        public  String mo="0";
+        public  String ca="0";
+        public  String s="0";
+        public  String si="0";
+        public String mg="0";
 
 
-        /**
-         * fieldId=10&
-         * type=type&
-         * color=red&
-         * fertility=fertility
-         * &humidity=30.5&
-         * testDate=2015/04/01&
-         * phValue=6.7&
-         * organic=organic&
-         * an=12.1
-         * &qn=10.2&
-         * p=100&
-         * qK=12&
-         * sK=1.2&
-         * fe=3.0&
-         * mn=12
-         * &
-         * cu=21.0
-         * &zn=1
-         * &b=90
-         * &mo=12.0
-         * &ca=1.0
-         * &s=0.1&
-         * si=45&mg=2.3
-         */
+
 
     }
 
-    public  static class  Result{
-
-    }
 
 
 }

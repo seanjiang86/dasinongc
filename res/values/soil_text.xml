@@ -3,23 +3,32 @@
     <string name="soil_base_info">基本信息</string>
     <string name="soil_type">土质类型</string>
     <string name="soil_color">土色</string>
-    <string name="soil_rating">肥力自评</string>
+    <string name="soil_fertility">肥力自评</string>
     <string name="soil_tem">土壤湿度</string>
     <string name="soil_report">测土报告录入</string>
     <string name="soil_time">测试时间</string>
     <string name="soil_ph">酸碱度PH</string>
     <string name="soil_organics">有机质</string>
-    <string name="soil_n">全氮</string>
+    <string name="soil_an">全氮</string>
+    <string name="soil_qn">碱解氮</string>
     <string name="soil_moisture">有效磷</string>
-    <string name="soil_k">速效钾</string>
-    <string name="soil_k_slow">缓效钾</string>
+    <string name="soil_qk">速效钾</string>
+    <string name="soil_sk">缓效钾</string>
     <string name="soil_other">其他微量元素</string>
-    <string name="soil_s">硫S</string>
+    <string name="soil_mo">钼Mo</string>
+
+
     <string name="soil_fe">铁Fe</string>
     <string name="soil_mn">锰Mn</string>
     <string name="soil_cu">铜Cu</string>
     <string name="soil_zn">锌Zn</string>
-    <string name="soil_p">硼P</string>
+    <string name="soil_B">硼B</string>
+
+    <string name="soil_ca">钙Ca</string>
+    <string name="soil_mg">镁Mg</string>
+    <string name="soil_s">硫S</string>
+    <string name="soil_si">硅Si</string>
+
     <string name="unit_g">g/km</string>
     <string name="unit_mg">mg/km</string>
     <string name="soil_effect">土壤湿度有什么用?</string>

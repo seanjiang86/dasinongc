@@ -20,7 +20,8 @@
         android:layout_width="@dimen/home_dimen_64"
         android:layout_height="@dimen/home_dimen_64"
         android:layout_marginTop="@dimen/home_dimen_30"
-        android:background="@drawable/ic_weather_dafeng" />
+        android:src="@drawable/ic_weather_dafeng"
+         />
 
     <TextView
         android:id="@+id/tvTimeHTemp"
@@ -31,14 +32,14 @@
         android:textSize="@dimen/home_text_size_30"
         tool:text="30℃" />
 
-    <TextView
-        android:id="@+id/tvTimeLTemp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/home_dimen_40"
-        android:layout_marginTop="@dimen/home_dimen_30"
-        android:textColor="#86a4ff"
-        android:textSize="@dimen/home_text_size_32"
-        tool:text="20℃" />
+    <!--<TextView-->
+        <!--android:id="@+id/tvTimeLTemp"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginBottom="@dimen/home_dimen_40"-->
+        <!--android:layout_marginTop="@dimen/home_dimen_30"-->
+        <!--android:textColor="#86a4ff"-->
+        <!--android:textSize="@dimen/home_text_size_32"-->
+        <!--tool:text="20℃" />-->
 
 </LinearLayout>
