@@ -1,5 +1,6 @@
 package com.dasinong.app.ui.fragment;
 
+import android.content.Entity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.domain.WeatherEntity;
 import com.dasinong.app.components.home.view.DisasterView;
+import com.dasinong.app.components.home.view.HomeWeatherView;
 import com.dasinong.app.components.home.view.SoilView;
 import com.dasinong.app.components.net.INetRequest;
 import com.dasinong.app.components.net.NetError;
@@ -47,6 +49,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
     private BGARefreshLayout mRefreshLayout;
 
+    private HomeWeatherView mHomeWeatherView;
+
     private  SoilView mSoilView;
 
     private DisasterView mDisasterView;
@@ -77,6 +81,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
 
         mRoot = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
+
+        mHomeWeatherView = (HomeWeatherView) mRoot.findViewById(R.id.weather);
 
         mRefreshLayout = (BGARefreshLayout) mRoot.findViewById(R.id.rl_modulename_refresh);
 
@@ -217,9 +223,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
         switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
                 FieldEntity entity = (FieldEntity) response;
-                mDisasterView.updateView(entity.currentField.natdisws,entity.currentField.petdisws);
+                if(entity!=null) {
+                    mDisasterView.updateView(entity.currentField.natdisws, entity.currentField.petdisws);
+                }
                 break;
             case REQUEST_CODE_HOME_WEATHER:
+                WeatherEntity weatherEntity =(WeatherEntity)response;
+                if(weatherEntity!=null) {
+                    mHomeWeatherView.setWeatherData(weatherEntity);
+                }
                 break;
             default:
                 break;
@@ -242,8 +254,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
                 onTaskSuccess(requestCode,response);
                 break;
             case REQUEST_CODE_HOME_WEATHER:
-               // WeatherEntity entity =(WeatherEntity)response;
-                //DEBUG(entity.toString());
+//                WeatherEntity entity =(WeatherEntity)response;
+//                DEBUG(entity.toString());
+
                 break;
             default:
                 break;

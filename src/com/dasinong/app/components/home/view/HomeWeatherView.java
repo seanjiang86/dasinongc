@@ -61,7 +61,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 		lyWeekWeather.setVisibility(View.VISIBLE);
 		addView(mRoot);
 
-		setWeatherData(new Object());
+
 
 	}
 
@@ -93,7 +93,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 	}
 
 	public void setWeatherData(Object obj) {
-		if (null != obj) {
+		if (null != obj && obj.getClass()==WeatherEntity.class) {
 			WeatherEntity entity = (WeatherEntity) obj;
 			setOneWeekWeather(entity.n7d);
 			setOneDayWeather(entity.n12h);
@@ -102,9 +102,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 	private void setOneDayWeather(List<WeatherEntity.Hours> hours) {
 		if (null != hours&&!hours.isEmpty()) {
-			int size =hours.size() ;
-			for(int i = 0;i<size;i++) {
-				mHumView.setOneDayWeatherData(hours.get(i));
+			{
+				mHumView.setOneDayWeatherData(hours);
 				if (null == mHorHumView) {
 					Log.e(TAG, "null == mHorHumView");
 				} else {
@@ -120,6 +119,9 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 			int size = days.size();
 			for (int i = 0; i < size; i++) {
 				WeatherEntity.SevenDay item = days.get(i);
+				if(item==null){
+					continue;
+				}
 				View weekWeather = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather_week_item, null);
 
 				TextView tvItemDay = (TextView) weekWeather.findViewById(R.id.tvItemDay);
