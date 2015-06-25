@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.WeatherEntity;
 
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -139,7 +141,11 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 				 */
 
-				tvItemDay.setText(String.valueOf(item.forecast_time));//周
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTimeInMillis(item.forecast_time);
+
+				int week =calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH);
+				tvItemDay.setText(String.valueOf(week));//周
 				tvItemTempLow.setText(item.min_temp + "");
 				tvItemTempHight.setText(item.max_temp + "~");//
 				tvItemWeather.setText(item.weather);//晴转多云

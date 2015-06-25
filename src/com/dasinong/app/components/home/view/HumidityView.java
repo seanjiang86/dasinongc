@@ -14,6 +14,7 @@ import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.WeatherEntity;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Objects;
 
@@ -86,6 +87,12 @@ public class HumidityView extends LinearLayout {
                 //TextView tvTimeLTemp = (TextView) timeItem.findViewById(R.id.tvTimeLTemp);
 
                 ImageView ivTime = (ImageView) timeItem.findViewById(R.id.ivTime);
+
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTimeInMillis(hour.time);
+                if(BuildConfig.DEBUG){
+                    Log.d("date",calendar.toString());
+                }
                 tvTime.setText(String.valueOf(hour.time));//time
                 tvTimeHTemp.setText(hour.temperature + i + " ℃");
               //  tvTimeLTemp.setText(10 + i + " ℃");
