@@ -1,7 +1,8 @@
 package com.dasinong.app.entity;
+
 /**
  * @author: yusonglin
- * @类   说   明:	
+ * @类 说 明:
  * @version 1.0
  * @创建时间：2015-6-20 下午12:02:58
  * 
@@ -12,6 +13,7 @@ public class SmsSubscribeItem {
 	private String cellphone;
 	private String area;
 	private String cropId;
+	private String cropName;
 	private String ownerId;
 	private String province;
 	private String city;
@@ -20,6 +22,14 @@ public class SmsSubscribeItem {
 	private boolean isAgriWeather;
 	private boolean isNatAler;
 	private boolean isRiceHelper;
+
+	public String getCropName() {
+		return cropName;
+	}
+
+	public void setCropName(String cropName) {
+		this.cropName = cropName;
+	}
 
 	public String getTargetName() {
 		return targetName;
