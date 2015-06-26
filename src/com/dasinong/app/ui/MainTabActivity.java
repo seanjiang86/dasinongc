@@ -118,7 +118,7 @@ public class MainTabActivity extends BaseActivity {
 			TabSpec tabSpec = mTabHost.newTabSpec(mTextviewArray[i]).setIndicator(getTabItemView(i));
 			mTabHost.addTab(tabSpec, fragmentArray[i], null);
 		}
-
+		
 		if (index != 0) {
 			mTabHost.setCurrentTab(index);
 		}

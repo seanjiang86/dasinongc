@@ -118,10 +118,10 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 							if (resultData.isOk()) {
 								locationInfo = (LocationInfo) resultData;
 								goToThree();
-								dismissLoadingDialog();
 							} else {
-								goToTwo();
+								showToast(resultData.getMessage());
 							}
+							dismissLoadingDialog();
 						}
 
 						@Override

@@ -261,6 +261,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	 * 获取品种信息
 	 */
 	private void queryVariety(String cropName) {
+		startLoadingDialog();
 		RequestService.getInstance().getVarietyList(DsnApplication.getContext(), cropName, villageId, VarietyInfo.class,
 				new NetRequest.RequestListener() {
 
@@ -270,7 +271,10 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 							varietyInfo = (VarietyInfo) resultData;
 							varietyList = new ArrayList<String>(varietyInfo.data.keySet());
 							handler.sendEmptyMessage(0);
+						}else {
+							showToast(resultData.getMessage());
 						}
+						dismissLoadingDialog();
 					}
 
 					@Override

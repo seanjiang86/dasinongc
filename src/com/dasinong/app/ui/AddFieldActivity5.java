@@ -198,13 +198,4 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 		startActivity(intent);
 		overridePendingTransition(0, 0);
 	}
-
-	class SubStageAdapter extends MyBaseAdapter<SubStage> {
-
-		public SubStageAdapter(Context ctx, List<SubStage> list, boolean flag) {
-			super(ctx, list, flag);
-		}
-
-	}
-
 }

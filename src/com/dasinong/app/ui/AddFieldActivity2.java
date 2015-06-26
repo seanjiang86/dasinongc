@@ -1,6 +1,5 @@
 package com.dasinong.app.ui;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -64,8 +63,8 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	private int countyPosition;
 	private int districtPostion;
 
-	private String firstButtonText = "省-市";
-	private String secondButtonText = "县-镇";
+	private String firstButtonText = "请选择";
+	private String secondButtonText = "请选择";
 	private LinearLayout ll_all;
 
 	private Handler handler = new Handler() {
@@ -78,8 +77,6 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_field_2);
-
-		// login();
 
 		dao = new CityDaoImpl(this);
 		provinceList = dao.getProvince();
@@ -142,7 +139,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		}
 		textList.add(firstButtonText);
 		textList.add(secondButtonText);
-		textList.add("村");
+		textList.add("请选择");
 		etv.setValue(textList, viewList);
 
 		etv.setOnButtonClickListener(new OnButtonClickListener() {
@@ -202,7 +199,6 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		countyList = dao.getCounty(cityList.get(cityPosition));
 
 		if (!TextUtils.isEmpty(mdistrict)) {
-			// TODO MING:测试数据需修改
 			countyPosition = countyList.indexOf(mdistrict);
 		}
 
@@ -216,7 +212,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 					county = null;
 					district = null;
 
-					etv.setTitle("县-镇", 1);
+					etv.setTitle("请选择", 1);
 				}
 				countyList = dao.getCounty(city);
 				onrefresh(provinceView, province + "-" + city);
@@ -303,6 +299,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	}
 
 	private void queryVillage(String province, String city, String county, String district) {
+		startLoadingDialog();
 		RequestService.getInstance().getLocation(DsnApplication.getContext(), province, city, county, district, VillageInfo.class,
 				new RequestListener() {
 
@@ -316,7 +313,10 @@ public class AddFieldActivity2 extends MyBaseActivity {
 							villageList = new ArrayList<String>(villageMap.keySet());
 
 							handler.sendEmptyMessage(0);
+						} else {
+							showToast(resultData.getMessage());
 						}
+						dismissLoadingDialog();
 					}
 
 					@Override
@@ -327,7 +327,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	}
 
 	private void gotoThree() {
-		if(TextUtils.isEmpty(villageId)){
+		if (TextUtils.isEmpty(villageId)) {
 			showToast("请完善您的地理信息");
 			return;
 		}

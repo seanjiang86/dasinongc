@@ -133,7 +133,7 @@ public class ReportHarmActivity extends BaseActivity {
 				
 				String harmName = et_harm_name.getText().toString();
 				String des = et_des.getText().toString();
-
+				
 			}
 		});
 	}

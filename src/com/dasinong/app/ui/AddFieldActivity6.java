@@ -33,16 +33,27 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 	private int mmonth;
 	private int mday;
 	private Calendar calendar;
+	private TextView tv_prompt;
+	private String seedingMethod;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_add_field_6);
 
+		tv_prompt = (TextView) findViewById(R.id.tv_prompt);
 		btn_no_date = (Button) findViewById(R.id.btn_no_date);
 		btn_sure_date = (Button) findViewById(R.id.btn_sure_date);
 		topbar = (TopbarView) findViewById(R.id.topbar);
 		tv_select_date = (TextView) findViewById(R.id.tv_select_date);
+		
+		seedingMethod = SharedPreferencesHelper.getString(this, Field.SEEDING_METHOD, "false");
+		
+		if("true".equals(seedingMethod)){
+			tv_prompt.setText("哪天播种的？");
+		} else {
+			tv_prompt.setText("哪天移栽的？");
+		}
 
 		initTopBar();
 
