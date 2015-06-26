@@ -80,15 +80,17 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
         initSevenDayView();
 
+        initHoursView();
 
-        mHorHumView = (HorizontalScrollView) mRoot.findViewById(R.id.horHumView);
-        mHumView = (HumidityView) mRoot.findViewById(R.id.humView);
+
+
         mIsWeekWeatherShow = false;
         mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week));
         addView(mRoot);
 
 
     }
+
 
 
     private void initCurrentWeatherView() {
@@ -145,6 +147,29 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         }
     }
 
+
+    private void initHoursView() {
+
+        mHorHumView = (HorizontalScrollView) mRoot.findViewById(R.id.horHumView);
+        mHumView = (HumidityView) mRoot.findViewById(R.id.humView);
+    }
+
+
+    private  void updateHoursView(List<WeatherEntity.Hours> hours ){
+
+        if (null != hours && !hours.isEmpty()) {
+            {
+                mHorHumView.removeAllViews();
+                mHumView.setOneDayWeatherData(hours);
+                //TODO scroll postion
+                autoScrollPostion();
+            }
+
+        }
+
+    }
+
+
     /**
      * Called when a view has been clicked.
      *
@@ -175,24 +200,13 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         if (entity == null) {
             return;
         }
-
+        updateCurrentWeatherView(entity.current);
         updateSevenDayView(entity.n7d);
+        updateHoursView(entity.n12h);
 
-        setOneDayWeather(entity.n12h);
 
     }
 
-    private void setOneDayWeather(List<WeatherEntity.Hours> hours) {
-        if (null != hours && !hours.isEmpty()) {
-            {
-                mHorHumView.removeAllViews();
-                mHumView.setOneDayWeatherData(hours);
-                //TODO scroll postion
-                autoScrollPostion();
-            }
-
-        }
-    }
 
 
     private void initAnimation() {
