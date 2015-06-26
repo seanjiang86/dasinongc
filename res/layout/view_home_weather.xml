@@ -220,7 +220,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
-                android:id="@+id/"
+
                 android:text="夜间" />
 
             <ImageView
@@ -256,7 +256,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/"
+
                 android:layout_marginTop="@dimen/home_dimen_30"
                 android:text="夜间" />
 
@@ -291,7 +291,7 @@
             android:paddingBottom="@dimen/home_dimen_30">
 
             <TextView
-                android:id="@+id/"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
@@ -328,7 +328,7 @@
             android:paddingBottom="@dimen/home_dimen_30">
 
             <TextView
-                android:id="@+id/"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
