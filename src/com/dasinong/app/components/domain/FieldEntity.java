@@ -83,8 +83,8 @@ public class FieldEntity extends BaseResponse {
             public int fieldId;
             public int petDisId;
             public  String description;
-            public int type;
-            public int alerttype;
+            public String type;
+            public boolean alerttype;
 
 
         }
@@ -137,7 +137,7 @@ public class FieldEntity extends BaseResponse {
             public int fieldId;
             public String natDisSpecName;
             public  String description;
-            public int alerttype;
+            public boolean alerttype;
 
 
         }
