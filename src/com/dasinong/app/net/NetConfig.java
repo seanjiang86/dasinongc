@@ -76,7 +76,8 @@ public class NetConfig {
 		public static final String MODIFI_SMS_SUBSCRIBE ="updateSubScribeList";
 		/**获取短信订阅详情*/
 		public static final String SMS_SUBSCRIBE_DETAIL ="loadSubScribeList";
-
+		/**创建田地*/
+		public static final String CREATE_FIELD ="createField";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -97,10 +98,7 @@ public class NetConfig {
 		public static final String mprovince = "province";
 		public static final String mcity = "city";
 		public static final String mdistrict = "country";
-		// TODO MING:正式上线修改为cropName
-		public static final String cropName = "cropId";
-		// TODO MING:cropId备用，具体使用什么来查询
-//		public static final String cropId = "cropId";
+		public static final String cropName = "cropName";
 		public static final String province = "province";
 		public static final String city = "city";
 		public static final String county = "country";
@@ -122,6 +120,12 @@ public class NetConfig {
 		public static final String oPassword = "oPassword";
 		public static final String nPassword = "nPassword";
 		public static final String id = "id";
+		public static final String isActive = "isActive";
+		public static final String seedingortransplant = "seedingortransplant";
+		public static final String startDate = "startDate";
+		public static final String currentStageId = "currentStageId";
+		public static final String yield = "yield";
+		
 	}
 	
 	public static class ResponseCode {
@@ -360,6 +364,19 @@ public class NetConfig {
 	public static Map<String, String> getDeleteSmsSubParams(String id) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.id, id);
+		return getBaseParams(false, paramsMap);
+	}
+	
+	public static Map<String, String> getCreateFieldParams(String isActive,String seedingortransplant,String area,String startDate,String locationId,String varietyId,String currentStageId,String yield) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.isActive, isActive);
+		paramsMap.put(Params.seedingortransplant, seedingortransplant);
+		paramsMap.put(Params.area, area);
+		paramsMap.put(Params.startDate, startDate);
+		paramsMap.put(Params.locationId, locationId);
+		paramsMap.put(Params.varietyId, varietyId);
+		paramsMap.put(Params.currentStageId, currentStageId);
+		paramsMap.put(Params.yield, yield);
 		return getBaseParams(false, paramsMap);
 	}
 }

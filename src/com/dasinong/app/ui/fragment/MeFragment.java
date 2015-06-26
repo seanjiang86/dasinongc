@@ -103,7 +103,9 @@ public class MeFragment extends Fragment implements OnClickListener {
 			break;
 		case R.id.layout_scancode:// 扫一扫
 			Intent scanIntent = new Intent(getActivity(), CaptureActivity.class);
-			getActivity().startActivityForResult(scanIntent, 0);
+			// TODO MING:怎么开启下个页面
+//			getActivity().startActivityForResult(scanIntent, 0);
+			startActivity(scanIntent);
 			break;
 		case R.id.layout_recommend:// 有奖推荐
 			Intent intent = new Intent(getActivity(), RecommendActivity.class);

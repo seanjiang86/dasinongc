@@ -2,6 +2,7 @@ package com.dasinong.app.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	private String varietyId;
 	private List<String> bigSubStageList;
 	private ArrayList<String> smallSubStageList;
-	private Map<String, Integer> smallSubStageMap = new HashMap<String, Integer>();
+	private Map<String, Integer> smallSubStageMap = new LinkedHashMap<String, Integer>();
 	private TextView tv_big_substage;
 	private TextView tv_small_substage;
 	private Button btn_no_sure_substage;
@@ -114,8 +115,13 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					String smallSubStage = smallSubStageList.get(position);
-					subStageId = String.valueOf(smallSubStageMap.get(smallSubStage));
+					
 					tv_small_substage.setText(smallSubStage);
+					
+					if(TextUtils.isEmpty(smallSubStage)){
+						smallSubStage = smallSubStageList.get(1);
+					}
+					subStageId = String.valueOf(smallSubStageMap.get(smallSubStage));
 					smallStageMenu.dismiss();
 				}
 			});
@@ -124,6 +130,10 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 			goToNext();
 			break;
 		case R.id.btn_sure_substage:
+			if(TextUtils.isEmpty(subStageId)){
+				showToast("请完善作物生长阶段，或者选择我不知道");
+				return;
+			}
 			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, subStageId);
 			goToNext();
 			break;
@@ -178,6 +188,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 			return;
 		}
 		smallSubStageList = new ArrayList<String>(smallSubStageMap.keySet());
+		smallSubStageList.add(0, "我不确定");
 		smallStageMenu.addItems(smallSubStageList);
 	}
 
@@ -187,13 +198,4 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 		startActivity(intent);
 		overridePendingTransition(0, 0);
 	}
-
-	class SubStageAdapter extends MyBaseAdapter<SubStage> {
-
-		public SubStageAdapter(Context ctx, List<SubStage> list, boolean flag) {
-			super(ctx, list, flag);
-		}
-
-	}
-
 }

@@ -58,11 +58,13 @@
                     android:textSize="16sp" />
 
                 <RadioGroup
+                    android:id="@+id/rg_harm_type"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
 
                     <RadioButton
+                        android:id="@+id/rb_disease_harm"
                         style="@style/CustomRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -71,6 +73,7 @@
                         android:textColor="@color/color_333333" />
 
                     <RadioButton
+                        android:id="@+id/rb_pet_harm"
                         style="@style/CustomRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -80,6 +83,7 @@
                         android:textColor="@color/color_333333" />
 
                     <RadioButton
+                        android:id="@+id/rb_grass_harm"
                         style="@style/CustomRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -89,6 +93,7 @@
                         android:textColor="@color/color_333333" />
 
                     <RadioButton
+                        android:id="@+id/rb_nosure_harm"
                         style="@style/CustomRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -145,6 +150,7 @@
                     android:orientation="horizontal" >
 
                     <CheckBox
+                        android:id="@+id/cb_part_root"
                         style="@style/CustomCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -153,6 +159,7 @@
                         android:textColor="@color/color_333333" />
 
                     <CheckBox
+                        android:id="@+id/cb_part_stems"
                         style="@style/CustomCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -162,6 +169,7 @@
                         android:textColor="@color/color_333333" />
 
                     <CheckBox
+                        android:id="@+id/cb_part_leaves"
                         style="@style/CustomCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -171,6 +179,7 @@
                         android:textColor="@color/color_333333" />
 
                     <CheckBox
+                        android:id="@+id/cb_part_ear"
                         style="@style/CustomCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -180,6 +189,7 @@
                         android:textColor="@color/color_333333" />
 
                     <CheckBox
+                        android:id="@+id/cb_part_grain"
                         style="@style/CustomCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -205,11 +215,13 @@
                     android:textSize="16sp" />
 
                 <RadioGroup
+                    android:id="@+id/rg_happened"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
 
                     <RadioButton
+                        android:id="@+id/rb_suddenly"
                         style="@style/CustomRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -218,6 +230,7 @@
                         android:textColor="@color/color_333333" />
 
                     <RadioButton
+                        android:id="@+id/rb_recently"
                         style="@style/CustomRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -227,6 +240,7 @@
                         android:textColor="@color/color_333333" />
 
                     <RadioButton
+                        android:id="@+id/rb_recurrence"
                         style="@style/CustomRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -252,11 +266,13 @@
                     android:textSize="16sp" />
 
                 <RadioGroup
+                    android:id="@+id/rg_distribution"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
 
                     <RadioButton
+                        android:id="@+id/rb_uniform"
                         style="@style/CustomRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -265,6 +281,7 @@
                         android:textColor="@color/color_333333" />
 
                     <RadioButton
+                        android:id="@+id/rb_uneven"
                         style="@style/CustomRadioBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -297,13 +314,12 @@
                     android:id="@+id/et_des"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:lines="6"
                     android:background="@drawable/text_bg"
-                    android:textColorHint="@color/color_CCCCCC"
-                    android:textSize="16sp"
+                    android:gravity="top"
                     android:hint="  近期打药或施肥情况"
-                    android:gravity="top" />
-
+                    android:lines="6"
+                    android:textColorHint="@color/color_CCCCCC"
+                    android:textSize="16sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -336,6 +352,17 @@
                     android:textColor="@color/color_CCCCCC"
                     android:textSize="13sp" />
             </LinearLayout>
+
+            <GridView
+                android:id="@+id/noScrollgridview"
+                android:layout_width="290dp"
+                android:layout_height="350dp"
+                android:layout_marginLeft="5dp"
+                android:horizontalSpacing="3dp"
+                android:numColumns="4"
+                android:scrollbars="none"
+                android:verticalSpacing="5dp" >
+            </GridView>
         </LinearLayout>
     </ScrollView>
 

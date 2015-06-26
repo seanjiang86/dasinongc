@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by sczhang on 15/6/5.
+ * Created by  lxn on 15/6/5.
  */
 public class HumidityView extends LinearLayout {
 
@@ -87,7 +87,8 @@ public class HumidityView extends LinearLayout {
                 //TextView tvTimeLTemp = (TextView) timeItem.findViewById(R.id.tvTimeLTemp);
 
                 ImageView ivTime = (ImageView) timeItem.findViewById(R.id.ivTime);
-
+                ivTime.setImageResource(getIcon(hour.icon));
+                //icon
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(hour.time);
                 if(BuildConfig.DEBUG){

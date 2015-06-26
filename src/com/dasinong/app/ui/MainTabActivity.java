@@ -118,13 +118,14 @@ public class MainTabActivity extends BaseActivity {
 			TabSpec tabSpec = mTabHost.newTabSpec(mTextviewArray[i]).setIndicator(getTabItemView(i));
 			mTabHost.addTab(tabSpec, fragmentArray[i], null);
 		}
-
+		
 		if (index != 0) {
 			mTabHost.setCurrentTab(index);
 		}
 
 	}
-
+	
+	// TODO MING :是否只是打开连接，是否有其他需求。
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {

@@ -6,6 +6,7 @@
     android:background="@color/home_w_white">
 
     <TextView
+        android:id="@+id/weather_update_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -30,9 +31,10 @@
             android:id="@+id/ivHomeWicon"
             android:layout_width="@dimen/home_dimen_40"
             android:layout_height="@dimen/home_dimen_40"
-            android:background="@drawable/ic_weather_dafeng" />
+            android:src="@drawable/ic_weather_dafeng" />
 
         <TextView
+            android:id="@+id/current_weather_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/home_dimen_10"
@@ -218,6 +220,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
+
                 android:text="夜间" />
 
             <ImageView
@@ -251,6 +254,44 @@
             android:paddingBottom="@dimen/home_dimen_30">
 
             <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="@dimen/home_dimen_30"
+                android:text="夜间" />
+
+            <ImageView
+                android:layout_width="@dimen/home_dimen_64"
+                android:layout_height="@dimen/home_dimen_64"
+                android:layout_marginTop="@dimen/home_dimen_10"
+                android:background="@drawable/ic_weather_dafeng" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/home_dimen_20"
+                android:text="30%"
+                android:textColor="#666666"
+                android:textSize="@dimen/home_text_size_30" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#ededed" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/home_dimen_30">
+
+            <TextView
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
@@ -287,42 +328,7 @@
             android:paddingBottom="@dimen/home_dimen_30">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="夜间" />
 
-            <ImageView
-                android:layout_width="@dimen/home_dimen_64"
-                android:layout_height="@dimen/home_dimen_64"
-                android:layout_marginTop="@dimen/home_dimen_10"
-                android:background="@drawable/ic_weather_dafeng" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/home_dimen_20"
-                android:text="30%"
-                android:textColor="#666666"
-                android:textSize="@dimen/home_text_size_30" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#ededed" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/home_dimen_30">
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"

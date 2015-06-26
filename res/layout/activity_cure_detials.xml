@@ -78,16 +78,6 @@
             android:text="相关药物"
             android:textColor="@color/color_333333"
             android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/tv_check_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="查看全部"
-            android:textColor="@color/color_1768BE"
-            android:textSize="16sp" />
     </RelativeLayout>
 
     <View

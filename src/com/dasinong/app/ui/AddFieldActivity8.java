@@ -40,10 +40,10 @@ public class AddFieldActivity8 extends MyBaseActivity implements OnClickListener
 		int id = v.getId();
 		switch (id) {
 		case R.id.btn_direct_seeding:
-			SharedPreferencesHelper.setString(this, Field.SEEDING_METHOD, "direct");
+			SharedPreferencesHelper.setString(this, Field.SEEDING_METHOD, "true");
 			break;
 		case R.id.btn_transplanting:
-			SharedPreferencesHelper.setString(this, Field.SEEDING_METHOD, "transplanting");
+			SharedPreferencesHelper.setString(this, Field.SEEDING_METHOD, "false");
 			break;
 		}
 		Intent intent = new Intent(this, AddFieldActivity5.class);

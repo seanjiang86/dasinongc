@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
@@ -22,6 +23,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.ui.view.TopbarView;
 import com.google.zxing.BarcodeFormat;
@@ -130,11 +132,19 @@ public class CaptureActivity extends BaseActivity implements Callback {
 			Toast.makeText(CaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
 		} else {
 			// System.out.println("Result:"+resultString);
-			Intent resultIntent = new Intent();
-			Bundle bundle = new Bundle();
-			bundle.putString("result", resultString);
-			resultIntent.putExtras(bundle);
-			this.setResult(RESULT_OK, resultIntent);
+
+			// TODO MING:6.25 待定
+
+			Intent intent = new Intent(this, WebViewActivity.class);
+			intent.putExtra("url", resultString);
+			startActivity(intent);
+			
+
+			// Intent resultIntent = new Intent();
+			// Bundle bundle = new Bundle();
+			// bundle.putString("result", resultString);
+			// resultIntent.putExtras(bundle);
+			// this.setResult(RESULT_OK, resultIntent);
 		}
 		CaptureActivity.this.finish();
 	}

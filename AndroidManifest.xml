@@ -90,6 +90,9 @@
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
         <activity android:name=".ui.RecommendActivity" />
+        <activity android:name=".ui.WebViewActivity" />
+        <activity android:name="com.king.photo.activity.AlbumActivity"></activity>
+        <activity android:name="com.king.photo.activity.GalleryActivity"></activity>
         <activity
             android:name=".ui.RegisterActivity"
             android:screenOrientation="portrait" >

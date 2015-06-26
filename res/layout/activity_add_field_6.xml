@@ -46,9 +46,10 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/tv_prompt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="哪天移植(播种)的?"
+                android:text="哪天移植的?"
                 android:textColor="@color/color_333333"
                 android:textSize="16.0dip" />
         </LinearLayout>

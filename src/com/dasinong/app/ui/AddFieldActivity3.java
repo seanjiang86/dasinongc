@@ -2,6 +2,7 @@ package com.dasinong.app.ui;
 
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.NearbyUser;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
@@ -64,12 +65,13 @@ public class AddFieldActivity3 extends MyBaseActivity {
 		String latitude = SharedPreferencesHelper.getString(this, Field.LATITUDE, "");
 		String longitude = SharedPreferencesHelper.getString(this, Field.LONGITUDE, "");
 		// TODO Ming:接口确定之后获取该类,替换请求中的null
-		RequestService.getInstance().searchNearUser(this, latitude, longitude, null, new RequestListener() {
+		RequestService.getInstance().searchNearUser(this, latitude, longitude, NearbyUser.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				if(resultData.isOk()){
-					tv_user_count.setText("啊呀,你附近有"+"个用户");
+					NearbyUser nearbyUser = (NearbyUser) resultData;
+					tv_user_count.setText("啊呀,你附近有"+nearbyUser.data+"个用户");
 				}
 			}
 			
