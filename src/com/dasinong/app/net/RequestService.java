@@ -1,5 +1,6 @@
 package com.dasinong.app.net;
 
+import java.util.List;
 import java.util.Map;
 
 import com.dasinong.app.entity.BaseEntity;
@@ -157,5 +158,8 @@ public class RequestService {
 	public void createField(Context context, String seedingortransplant,String area,String startDate,String locationId,String varietyId,String currentStageId,String yield,Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getCreateFieldParams("true",seedingortransplant,area,startDate,locationId,varietyId,currentStageId,yield);
 		new NetRequest(context).get(RequestCode.CREATE_FIELD, params, SubUrl.CREATE_FIELD, callBack, clazz);
+	}
+	public void uploadPetDisPic(Context context, List<String> paths, RequestListener callBack) {
+		new NetRequest(context).uploadImages(0, NetConfig.BASE_URL + "uploadPetDisPic", paths, BaseEntity.class, callBack);
 	}
 }

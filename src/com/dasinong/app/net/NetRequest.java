@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -86,8 +87,8 @@ public class NetRequest {
 		get(requestCode, url, clazz, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
 	}
 
-	private <T> void get(final int requestCode, final String url, final Class<? extends BaseEntity> clazz,
-			final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
+	private <T> void get(final int requestCode, final String url, final Class<? extends BaseEntity> clazz, final RequestListener callback,
+			final Priority priority, RetryPolicy retryPolicy) {
 		StringGetRequest req = new StringGetRequest(url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
@@ -165,8 +166,8 @@ public class NetRequest {
 		post(requestCode, url, clazz, map, callback, Priority.NORMAL, new DefaultRetryPolicy(10 * 1000, 0, 1));
 	}
 
-	private <T> void post(final int requestCode, final String url, final Class<? extends BaseEntity> clazz,
-			final Map<String, String> map, final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
+	private <T> void post(final int requestCode, final String url, final Class<? extends BaseEntity> clazz, final Map<String, String> map,
+			final RequestListener callback, final Priority priority, RetryPolicy retryPolicy) {
 		StringPostRequest req = new StringPostRequest(url, new Response.Listener<String>() {
 			@Override
 			public void onResponse(String response) {
@@ -228,23 +229,22 @@ public class NetRequest {
 		Volley.newRequestQueue(context).add(req);
 	}
 
-	public <T> void upload(final int requestCode, String url, String filePath,final Class<? extends BaseEntity> clazz,
-			final RequestListener callback) {
+	public <T> void upload(final int requestCode, String url, String filePath, final Class<? extends BaseEntity> clazz, final RequestListener callback) {
 		RequestParams params = new RequestParams();
 
-		Logger.e(LogTag.HTTP, "uploadPath:"+filePath+"\r\n"+"url:"+url);
-		
+		Logger.e(LogTag.HTTP, "uploadPath:" + filePath + "\r\n" + "url:" + url);
+
 		// params.setHeader(new Header);
 		String cookie = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.USER_AUTH_TOKEN, "");
-		Logger.e(LogTag.HTTP, "--"+cookie);
+		Logger.e(LogTag.HTTP, "--" + cookie);
 		if (!TextUtils.isEmpty(cookie)) {
 			params.addHeader("Cookie", cookie);
 		}
-//		params.addQueryStringParameter("name", "value");
+		// params.addQueryStringParameter("name", "value");
 
 		// 只包含字符串参数时默认使用BodyParamsEntity，
 		// 类似于UrlEncodedFormEntity（"application/x-www-form-urlencoded"）。
-//		params.addBodyParameter("name", "value");
+		// params.addBodyParameter("name", "value");
 
 		// 加入文件参数后默认使用MultipartEntity（"multipart/form-data"），
 		// 如需"multipart/related"，xUtils中提供的MultipartEntity支持设置subType为"related"。
@@ -252,10 +252,10 @@ public class NetRequest {
 		// MultipartEntity,BodyParamsEntity,FileUploadEntity,InputStreamUploadEntity,StringEntity）。
 		// 例如发送json参数：params.setBodyEntity(new StringEntity(jsonStr,charset));
 		params.addBodyParameter("file", new File(filePath));
-//		FileUploadEntity entity = new FileUploadEntity(file, contentType)
-//		params.setBodyEntity(bodyEntity)
+		// FileUploadEntity entity = new FileUploadEntity(file, contentType)
+		// params.setBodyEntity(bodyEntity)
 		HttpUtils http = new HttpUtils();
-//		 http.configCookieStore(cookieStore)
+		// http.configCookieStore(cookieStore)
 		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
 			@Override
@@ -265,13 +265,14 @@ public class NetRequest {
 
 			@Override
 			public void onLoading(long total, long current, boolean isUploading) {
-//				Toast.makeText(DsnApplication.getContext(), "onLoading", 0).show();
-				Logger.d(LogTag.HTTP, "total:"+total+"--current:"+current+"--isUploading:"+isUploading);
+				// Toast.makeText(DsnApplication.getContext(), "onLoading",
+				// 0).show();
+				Logger.d(LogTag.HTTP, "total:" + total + "--current:" + current + "--isUploading:" + isUploading);
 			}
 
 			@Override
 			public void onSuccess(ResponseInfo<String> responseInfo) {
-				Logger.d(LogTag.HTTP, "total:"+responseInfo.result);
+				Logger.d(LogTag.HTTP, "total:" + responseInfo.result);
 				String response = responseInfo.result;
 				try {
 					Logger.d(LogTag.HTTP, response);
@@ -298,7 +299,67 @@ public class NetRequest {
 
 			@Override
 			public void onFailure(HttpException error, String msg) {
-				Logger.d(LogTag.HTTP, "error:"+Log.getStackTraceString(error)+"--msg:"+msg);
+				Logger.d(LogTag.HTTP, "error:" + Log.getStackTraceString(error) + "--msg:" + msg);
+				callback.onFailed(requestCode, error, msg);
+			}
+		});
+	}
+
+	public <T> void uploadImages(final int requestCode, String url, List<String> paths, final Class<? extends BaseEntity> clazz,
+			final RequestListener callback) {
+		RequestParams params = new RequestParams();
+
+		Logger.e(LogTag.HTTP, "uploadPath:" + paths + "\r\n" + "url:" + url);
+
+		String cookie = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.USER_AUTH_TOKEN, "");
+		Logger.e(LogTag.HTTP, "--" + cookie);
+		if (!TextUtils.isEmpty(cookie)) {
+			params.addHeader("Cookie", cookie);
+		}
+
+		for (int i = 0; i < paths.size(); i++) {
+			params.addBodyParameter("file" + i, new File(paths.get(i)));
+		}
+
+		HttpUtils http = new HttpUtils();
+		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
+
+			@Override
+			public void onStart() {
+				Logger.d(LogTag.HTTP, "upload  onStart");
+			}
+
+			@Override
+			public void onLoading(long total, long current, boolean isUploading) {
+				Logger.d(LogTag.HTTP, "total:" + total + "--current:" + current + "--isUploading:" + isUploading);
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo) {
+				Logger.d(LogTag.HTTP, "total:" + responseInfo.result);
+				String response = responseInfo.result;
+				try {
+					Logger.d(LogTag.HTTP, response);
+
+					BaseEntity result = new Gson().fromJson(response, clazz);
+					if (result == null) {
+						callback.onFailed(requestCode, new NullPointerException(), "data:" + response);
+						return;
+					}
+
+					if (result.isAuthTokenInvalid()) {
+						AccountManager.logout(context);
+					}
+
+					callback.onSuccess(requestCode, result);
+				} catch (Exception e) {
+					callback.onFailed(requestCode, e, e.getClass().toString());
+				}
+			}
+
+			@Override
+			public void onFailure(HttpException error, String msg) {
+				Logger.d(LogTag.HTTP, "error:" + Log.getStackTraceString(error) + "--msg:" + msg);
 				callback.onFailed(requestCode, error, msg);
 			}
 		});
