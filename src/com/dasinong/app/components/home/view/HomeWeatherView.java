@@ -50,6 +50,14 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private TextView mOpenSevenDays;
 
+    /**
+     * four section
+     */
+    private TextView mWeatherMorning;
+    private TextView mWeatherAfternoon;
+    private TextView mWeatherNight;
+    private TextView mWeatherMidnight;
+
 
     public HomeWeatherView(Context context) {
         this(context, null);
@@ -114,9 +122,19 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
      */
     private void initFourSectionView() {
 
+        mWeatherMorning = (TextView) findViewById(R.id.weather_morning);
+        mWeatherAfternoon = (TextView) findViewById(R.id.weather_afternoon);
+        mWeatherNight = (TextView) findViewById(R.id.weather_night);
+        mWeatherMidnight = (TextView) findViewById(R.id.weather_midnight);
+
+
     }
 
-    private void updateFourSectionView() {
+    private void updateFourSectionView(WeatherEntity.POP pop) {
+        mWeatherMorning.setText(pop.morning + "%");
+        mWeatherAfternoon.setText(pop.afternoon + "%");
+        mWeatherNight.setText(pop.night + "%");
+        mWeatherMidnight.setText(pop.midnight + "%");
 
     }
 
@@ -240,7 +258,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         //updateCurrentWeatherView(entity.current);
         updateSevenDayView(entity.n7d);
         updateHoursView(entity.n12h);
-        updateFourSectionView();
+        updateFourSectionView(entity.pop);
 
 
     }

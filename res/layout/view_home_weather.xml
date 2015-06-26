@@ -221,7 +221,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
 
-                android:text="夜间" />
+                android:text="早上" />
 
             <ImageView
                 android:layout_width="@dimen/home_dimen_64"
@@ -230,6 +230,7 @@
                 android:background="@drawable/ic_weather_dafeng" />
 
             <TextView
+                android:id="@+id/weather_morning"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_20"
@@ -258,7 +259,9 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="夜间" />
+                android:text="下午" />
+
+
 
             <ImageView
                 android:layout_width="@dimen/home_dimen_64"
@@ -271,6 +274,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_20"
                 android:text="30%"
+                android:id="@+id/weather_afternoon"
                 android:textColor="#666666"
                 android:textSize="@dimen/home_text_size_30" />
 
@@ -295,7 +299,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="夜间" />
+                android:text="晚间" />
 
             <ImageView
                 android:layout_width="@dimen/home_dimen_64"
@@ -308,6 +312,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_20"
                 android:text="30%"
+                android:id="@+id/weather_night"
                 android:textColor="#666666"
                 android:textSize="@dimen/home_text_size_30" />
 
@@ -332,7 +337,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="夜间" />
+                android:text="子夜" />
 
             <ImageView
                 android:layout_width="@dimen/home_dimen_64"
@@ -341,6 +346,7 @@
                 android:background="@drawable/ic_weather_dafeng" />
 
             <TextView
+                android:id="@+id/weather_midnight"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_20"
