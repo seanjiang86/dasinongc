@@ -56,6 +56,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private void init() {
         weeks = getResources().getStringArray(R.array.weeks);
+
         mRoot = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather, null);
         lyWeekWeather = (LinearLayout) mRoot.findViewById(R.id.lyWeekWeather);
         tvCloseWeekTemp = (TextView) mRoot.findViewById(R.id.tvCloseWeekTemp);
@@ -64,7 +65,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
         mIsWeekWeatherShow = false;
         tvCloseWeekTemp.setText(getContext().getString(R.string.weather_open_one_week));
-        lyWeekWeather.setVisibility(View.VISIBLE);
+
+
         addView(mRoot);
 
 
@@ -96,82 +98,62 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         }
     }
 
-    public void setWeatherData(Object obj) {
-        if (null != obj && obj.getClass() == WeatherEntity.class) {
-            WeatherEntity entity = (WeatherEntity) obj;
-            setOneWeekWeather(entity.n7d);
-            setOneDayWeather(entity.n12h);
+    public void setWeatherData(WeatherEntity entity) {
+        if (entity == null) {
+            return;
         }
+
+        setOneWeekWeather(entity.n7d);
+        setOneDayWeather(entity.n12h);
+
     }
 
     private void setOneDayWeather(List<WeatherEntity.Hours> hours) {
         if (null != hours && !hours.isEmpty()) {
             {
+                mHorHumView.removeAllViews();
                 mHumView.setOneDayWeatherData(hours);
                 //TODO scroll postion
+                autoScrollPostion();
             }
 
         }
     }
+
 
     private void setOneWeekWeather(List<WeatherEntity.SevenDay> days) {
-        if (null != days && !days.isEmpty()) {
-            int size = days.size();
-            for (int i = 0; i < size; i++) {
-                WeatherEntity.SevenDay item = days.get(i);
-                if (item == null) {
-                    continue;
-                }
-                //得到时间进行比较
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(item.forecast_time);
-                Calendar today = Calendar.getInstance();
 
-                if (today.after(calendar)) {
-                    return;
-                }
+        if (days == null || days.isEmpty()) {
 
-                int week = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-
-
-                View weekWeather = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather_week_item, null);
-
-                TextView tvItemDay = (TextView) weekWeather.findViewById(R.id.tvItemDay);
-                ImageView ivItemWind = (ImageView) weekWeather.findViewById(R.id.ivItemWind);
-                TextView tvItemTempLow = (TextView) weekWeather.findViewById(R.id.tvItemTempLow);
-                TextView tvItemTempHight = (TextView) weekWeather.findViewById(R.id.tvItemTempHight);
-                TextView tvItemWeather = (TextView) weekWeather.findViewById(R.id.tvItemWeather);
-                TextView tvItemWindSpeed = (TextView) weekWeather.findViewById(R.id.tvItemWindSpeed);
-
-                /**
-                 *  public  String ff_level;//风力编码
-                 public String dd_level;//风向编码（3－4级
-                 public String min_temp;//最低温
-                 public String temp;//平均温度
-                 public String weather;//天气现象编码(晴转多云)
-                 public long forecast_time;//预报时间（周一,timestamp）
-                 public String rain;//降不量
-                 public String max_temp;//最高温度
-
-                 */
-
-
-                tvItemDay.setText(weeks[week]);//周
-
-                tvItemTempLow.setText(item.min_temp + "");
-                tvItemTempHight.setText(item.max_temp + "~");//
-
-
-                tvItemWeather.setText(getSevenWeather(item.weather));//晴转多云
-
-
-                tvItemWindSpeed.setText(getSevenWindLevel(item.dd_level));//3-4级
-
-
-                lyWeekWeather.addView(weekWeather);
-            }
+            return;
         }
+        lyWeekWeather.removeAllViews();
+
+        int size = days.size();
+        View weekWeather;
+        for (int i = 0; i < size; i++) {
+            WeatherEntity.SevenDay item = days.get(i);
+
+            if (item == null) {
+                continue;
+            }
+            //得到时间进行比较
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(item.forecast_time);
+            Calendar today = Calendar.getInstance();
+
+            if (today.after(calendar)) {
+                return;
+            }
+            int week = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+
+            weekWeather = getView(item, weeks[week]);
+
+            lyWeekWeather.addView(weekWeather);
+        }
+
     }
+
 
     private void initAnimation() {
         if (mShrinkAnimation == null || mExpandAnimation == null) {
@@ -209,6 +191,56 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
         return "3-4级";
 
+    }
+
+
+    private int getIconRes(Object weather) {
+
+        return R.drawable.ic_weather_dafeng;
+    }
+
+
+    private void autoScrollPostion() {
+    }
+
+
+    private View getView(WeatherEntity.SevenDay item, String week) {
+        View weekWeather;
+        weekWeather = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather_week_item, null);
+
+        TextView tvItemDay = (TextView) weekWeather.findViewById(R.id.tvItemDay);
+        ImageView ivItemWind = (ImageView) weekWeather.findViewById(R.id.ivItemWind);
+        TextView tvItemTempLow = (TextView) weekWeather.findViewById(R.id.tvItemTempLow);
+        TextView tvItemTempHight = (TextView) weekWeather.findViewById(R.id.tvItemTempHight);
+        TextView tvItemWeather = (TextView) weekWeather.findViewById(R.id.tvItemWeather);
+        TextView tvItemWindSpeed = (TextView) weekWeather.findViewById(R.id.tvItemWindSpeed);
+
+        /**
+         *  public  String ff_level;//风力编码
+         public String dd_level;//风向编码（3－4级
+         public String min_temp;//最低温
+         public String temp;//平均温度
+         public String weather;//天气现象编码(晴转多云)
+         public long forecast_time;//预报时间（周一,timestamp）
+         public String rain;//降不量
+         public String max_temp;//最高温度
+
+         */
+
+
+        tvItemDay.setText(week);//周
+
+        tvItemTempLow.setText(item.min_temp + "");
+        tvItemTempHight.setText(item.max_temp + "~");//
+
+
+        tvItemWeather.setText(getSevenWeather(item.weather));//晴转多云
+
+
+        tvItemWindSpeed.setText(getSevenWindLevel(item.dd_level));//3-4级
+
+        ivItemWind.setImageResource(getIconRes(item.weather));
+        return weekWeather;
     }
 
 
