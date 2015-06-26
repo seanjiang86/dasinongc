@@ -131,6 +131,9 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
     private void updateFourSectionView(WeatherEntity.POP pop) {
+        if(pop==null){
+            return;
+        }
         mWeatherMorning.setText(pop.morning + "%");
         mWeatherAfternoon.setText(pop.afternoon + "%");
         mWeatherNight.setText(pop.night + "%");
