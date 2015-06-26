@@ -56,7 +56,9 @@ public class TaskListActivity extends BaseActivity {
 		listView.setAdapter(adapter);
 
 		// if(listView.getChildCount()>0)
-		listView.expandGroup(0);
+		for(int i =0;i<taskDataList.size();i++){
+			listView.expandGroup(i);
+		}
 
 		// In order to show animations, we need to use a custom click handler
 		// for our ExpandableListView.
@@ -111,15 +113,17 @@ public class TaskListActivity extends BaseActivity {
 	private void initData() {
 		SubStageDaoImpl dao = new SubStageDaoImpl(this);
 		List<String> queryStageCategory = dao.queryStageCategory();
-		List<SubStage> queryStageSubCategory = dao.queryStageSubCategory(queryStageCategory.get(0));
-
-		TaskSpecDaoImpl dao1 = new TaskSpecDaoImpl(this);
-		for (SubStage subStage : queryStageSubCategory) {
-			GroupItem item = new GroupItem();
-			item.subStage = subStage;
-			List<TaskSpec> queryTaskSpecWithSubStage = dao1.queryTaskSpecWithSubStage(subStage.subStageId);
-			item.items = queryTaskSpecWithSubStage;
-			taskDataList.add(item);
+		for(String queryStage : queryStageCategory){
+			List<SubStage> queryStageSubCategory = dao.queryStageSubCategory(queryStage);
+			
+			TaskSpecDaoImpl dao1 = new TaskSpecDaoImpl(this);
+			for (SubStage subStage : queryStageSubCategory) {
+				GroupItem item = new GroupItem();
+				item.subStage = subStage;
+				List<TaskSpec> queryTaskSpecWithSubStage = dao1.queryTaskSpecWithSubStage(subStage.subStageId);
+				item.items = queryTaskSpecWithSubStage;
+				taskDataList.add(item);
+			}
 		}
 
 	}
