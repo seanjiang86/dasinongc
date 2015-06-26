@@ -56,6 +56,7 @@ public class SmsSubscribeModifiActivity extends BaseActivity implements OnClickL
 	
 	private String subId;
 	private SmsSubscribeItem smsSubscribeItem;
+	private ArrayList<String> cropData;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,9 +75,10 @@ public class SmsSubscribeModifiActivity extends BaseActivity implements OnClickL
 	private void initCropList() {
 		String[] crop = getResources().getStringArray(R.array.cropList);
 		List<String> cropList = Arrays.asList(crop);
-		ArrayList<String> list = new ArrayList<String>();
-		list.addAll(cropList);
-		setCrop(list);
+		cropData = new ArrayList<String>();
+		cropData.addAll(cropList);
+		cropData.add(0, "请选择作物");
+		setCrop();
 	}
 
 	private void requestSmsDetail() {
@@ -112,6 +114,7 @@ public class SmsSubscribeModifiActivity extends BaseActivity implements OnClickL
 		mIsNatAlterRb.setChecked(smsSubscribeItem.isNatAler());
 		mIsRiceHelperRb.setChecked(smsSubscribeItem.isRiceHelper());
 		setProvince();
+		setCrop();
 	}
 
 	private void initData() {
@@ -241,7 +244,7 @@ public class SmsSubscribeModifiActivity extends BaseActivity implements OnClickL
 					public void onSuccess(int requestCode, BaseEntity resultData) {
 						dismissLoadingDialog();
 						if (resultData.isOk()) {
-							showToast("订阅成功");
+							showToast("更新成功");
 							setResult(RESULT_OK);
 							finish();
 						} else {
@@ -346,13 +349,11 @@ public class SmsSubscribeModifiActivity extends BaseActivity implements OnClickL
 		// mTownsSp.setAdapter(null);
 	}
 
-	protected void setCrop(List<String> variety) {
-//		List<String> variety = varietyDaoImp.getVariety(area);
-		variety.add(0, "请选择作物");
-		spinner.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, variety));
+	protected void setCrop() {
+		spinner.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, cropData));
 		if(smsSubscribeItem!=null){
-			for(int i =0;i<variety.size();i++){
-				if(variety.get(i).equals(smsSubscribeItem.getCropId())){
+			for(int i =0;i<cropData.size();i++){
+				if(cropData.get(i).equals(smsSubscribeItem.getCropName())){
 					spinner.setSelection(i);
 					break;
 				}
