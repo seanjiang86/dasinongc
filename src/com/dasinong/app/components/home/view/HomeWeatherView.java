@@ -1,7 +1,9 @@
 package com.dasinong.app.components.home.view;
 
 import android.content.Context;
+import android.os.Debug;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -9,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.WeatherEntity;
 
@@ -167,6 +170,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
         int size = days.size();
         View weekWeather;
+        Calendar today = Calendar.getInstance();
+
         for (int i = 0; i < size; i++) {
             WeatherEntity.SevenDay item = days.get(i);
 
@@ -176,11 +181,15 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
             //得到时间进行比较
             Calendar calendar = Calendar.getInstance();
             calendar.setTimeInMillis(item.forecast_time);
-            Calendar today = Calendar.getInstance();
 
-//            if (today.after(calendar)) {
-//                return;
-//            }
+
+
+            if (today.after(calendar)) {
+                continue;
+
+
+
+            }
             int week = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
             weekWeather = getView(item, weeks[week]);
@@ -351,5 +360,11 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         return weekWeather;
     }
 
+
+    private  void DEBUG(String msg){
+        if(BuildConfig.DEBUG) {
+            Log.d(TAG, msg);
+        }
+    }
 
 }
