@@ -75,24 +75,21 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
         mRoot = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather, null);
 
+        addView(mRoot);
 
         initCurrentWeatherView();
-
-        initSevenDayView();
+        initFourSectionView();
 
         initHoursView();
+        initSevenDayView();
 
-
-
-        mIsWeekWeatherShow = false;
-        mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week));
-        addView(mRoot);
 
 
     }
 
-
-
+    /**
+     * 当前天所相关的的View start
+     */
     private void initCurrentWeatherView() {
 
         mCurrentWeatherUpdateTime = (TextView) findViewById(R.id.weather_update_time);
@@ -108,11 +105,37 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mCurrentWeatherStatus.setText("晴转多云");
 
     }
+    /**
+     * 当前天所相关的的View end
+     */
 
 
+    /**
+     * 当时间区间 start
+     */
+    private void initFourSectionView() {
+
+    }
+
+    private void updateFourSectionView() {
+
+    }
+
+    /**
+     * 当时间区间 end
+     */
+
+
+
+    /**
+     * 七天相关的view
+     */
     private void initSevenDayView() {
         mSevenDaysContainer = (LinearLayout) mRoot.findViewById(R.id.lyWeekWeather);
         mOpenSevenDays = (TextView) mRoot.findViewById(R.id.tvCloseWeekTemp);
+
+        mIsWeekWeatherShow = false;
+        mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week));
     }
 
 
@@ -148,6 +171,17 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
 
+
+
+    /**
+     * 七天相关的end
+     */
+
+
+
+    /**
+     * 24 hours的view
+     */
     private void initHoursView() {
 
         mHorHumView = (HorizontalScrollView) mRoot.findViewById(R.id.horHumView);
@@ -155,19 +189,29 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
 
-    private  void updateHoursView(List<WeatherEntity.Hours> hours ){
+    private void updateHoursView(List<WeatherEntity.Hours> hours) {
 
         if (null != hours && !hours.isEmpty()) {
             {
                 mHorHumView.removeAllViews();
                 mHumView.setOneDayWeatherData(hours);
                 //TODO scroll postion
-                autoScrollPostion();
+                autoScrollPosition();
             }
 
         }
 
     }
+
+    private void autoScrollPosition() {
+    }
+
+
+
+    /**
+     * 24 hours的end
+     */
+
 
 
     /**
@@ -203,10 +247,10 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         updateCurrentWeatherView(entity.current);
         updateSevenDayView(entity.n7d);
         updateHoursView(entity.n12h);
+        updateFourSectionView();
 
 
     }
-
 
 
     private void initAnimation() {
@@ -254,8 +298,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
 
-    private void autoScrollPostion() {
-    }
 
 
     private View getView(WeatherEntity.SevenDay item, String week) {
