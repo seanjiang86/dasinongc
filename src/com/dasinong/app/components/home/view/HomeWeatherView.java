@@ -1,6 +1,7 @@
 package com.dasinong.app.components.home.view;
 
 import android.content.Context;
+import android.text.format.Time;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +34,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 	private ShrinkAnimation mShrinkAnimation;
 	private ExpandAnimation mExpandAnimation;
 
+	private  String[] weeks;
+
 	public HomeWeatherView(Context context) {
 		this(context, null);
 	}
@@ -52,6 +55,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 	}
 
 	private void init() {
+		weeks = getResources().getStringArray(R.array.weeks);
 		mRoot = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather, null);
 		lyWeekWeather = (LinearLayout) mRoot.findViewById(R.id.lyWeekWeather);
 		tvCloseWeekTemp = (TextView) mRoot.findViewById(R.id.tvCloseWeekTemp);
@@ -120,6 +124,18 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 				if(item==null){
 					continue;
 				}
+				//得到时间进行比较
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTimeInMillis(item.forecast_time);
+				Calendar today = Calendar.getInstance();
+
+				if(today.after(calendar)){
+					return;
+				}
+
+				int week =calendar.get(Calendar.DAY_OF_WEEK)-1;
+
+
 				View weekWeather = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather_week_item, null);
 
 				TextView tvItemDay = (TextView) weekWeather.findViewById(R.id.tvItemDay);
@@ -141,11 +157,9 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 				 */
 
-				Calendar calendar = Calendar.getInstance();
-				calendar.setTimeInMillis(item.forecast_time);
 
-				int week =calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH);
-				tvItemDay.setText(String.valueOf(week));//周
+
+				tvItemDay.setText(weeks[week]);//周
 				tvItemTempLow.setText(item.min_temp + "");
 				tvItemTempHight.setText(item.max_temp + "~");//
 				tvItemWeather.setText(item.weather);//晴转多云
@@ -175,6 +189,14 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 	private void startExpandAnimation() {
 		tvCloseWeekTemp.clearAnimation();
 		tvCloseWeekTemp.startAnimation(mExpandAnimation);
+	}
+
+
+	public  String getSevenWeather(){
+
+
+		return "";
+
 	}
 
 
