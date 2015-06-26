@@ -84,7 +84,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         initSevenDayView();
 
 
-
     }
 
     /**
@@ -124,7 +123,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     /**
      * 当时间区间 end
      */
-
 
 
     /**
@@ -171,12 +169,9 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
 
-
-
     /**
      * 七天相关的end
      */
-
 
 
     /**
@@ -207,11 +202,9 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
 
-
     /**
      * 24 hours的end
      */
-
 
 
     /**
@@ -296,8 +289,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         //getResources().getIdentifier(name, "drawable", getContext().getPackageName())
         return R.drawable.ic_weather_dafeng;
     }
-
-
 
 
     private View getView(WeatherEntity.SevenDay item, String week) {
