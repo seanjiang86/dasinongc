@@ -1,6 +1,9 @@
 package com.dasinong.app.ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.locks.Condition;
 
 import com.dasinong.app.R;
 import com.dasinong.app.database.city.dao.impl.CityDaoImpl;
@@ -59,6 +62,15 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 		initView();
 		setUpView();
 		initProvince();
+		initCropList();
+	}
+
+	private void initCropList() {
+		String[] crop = getResources().getStringArray(R.array.cropList);
+		List<String> cropList = Arrays.asList(crop);
+		ArrayList<String> list = new ArrayList<String>();
+		list.addAll(cropList);
+		setCrop(list);
 	}
 
 	private void initData() {
@@ -147,16 +159,16 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 			showToast("请选择区");
 			return;
 		}
-		
+
 		String province = (String) mProvinceSp.getSelectedItem();
 		String city = (String) mCitySp.getSelectedItem();
 		String country = (String) mAreaSp.getSelectedItem();
-		
+
 		String district = "";
 		if (mTownsSp.getSelectedItemPosition() > 0) {
 			district = (String) mTownsSp.getSelectedItem();
 		}
-		
+
 		String area = mAreaEdit.getText().toString().trim();
 
 		if (TextUtils.isEmpty(area)) {
@@ -253,7 +265,7 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 				String area = (String) mAreaSp.getSelectedItem();
 				setTowns(area);
 
-				setCrop(area);
+				// setCrop(area);
 			}
 
 			@Override
@@ -264,10 +276,10 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 		// mTownsSp.setAdapter(null);
 	}
 
-	protected void setCrop(String area) {
-		List<String> variety = varietyDaoImp.getVariety(area);
-		variety.add(0, "请选择作物");
-		spinner.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, variety));
+	protected void setCrop(List<String> area) {
+//		List<String> variety = varietyDaoImp.getVariety(area);
+		area.add(0, "请选择作物");
+		spinner.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, area));
 	}
 
 	protected void setTowns(String area) {

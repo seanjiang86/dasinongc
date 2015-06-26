@@ -341,6 +341,7 @@ public class NetConfig {
 		if(!TextUtils.isEmpty(id)){
 			paramsMap.put(Params.id, id);
 		}
+		paramsMap.put(Params.targetName, targetName);
 		paramsMap.put(Params.cellphone, cellphone);
 		paramsMap.put(Params.province, province);
 		paramsMap.put(Params.city, city);

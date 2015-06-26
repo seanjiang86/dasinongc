@@ -1,5 +1,7 @@
 package com.dasinong.app.ui;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.dasinong.app.R;
@@ -66,6 +68,15 @@ public class SmsSubscribeModifiActivity extends BaseActivity implements OnClickL
 		setUpView();
 		initProvince();
 		requestSmsDetail();
+		initCropList();
+	}
+	
+	private void initCropList() {
+		String[] crop = getResources().getStringArray(R.array.cropList);
+		List<String> cropList = Arrays.asList(crop);
+		ArrayList<String> list = new ArrayList<String>();
+		list.addAll(cropList);
+		setCrop(list);
 	}
 
 	private void requestSmsDetail() {
@@ -324,7 +335,7 @@ public class SmsSubscribeModifiActivity extends BaseActivity implements OnClickL
 				String area = (String) mAreaSp.getSelectedItem();
 				setTowns(area);
 				
-				setCrop(area);
+//				setCrop(area);
 			}
 
 			@Override
@@ -335,8 +346,8 @@ public class SmsSubscribeModifiActivity extends BaseActivity implements OnClickL
 		// mTownsSp.setAdapter(null);
 	}
 
-	protected void setCrop(String area) {
-		List<String> variety = varietyDaoImp.getVariety(area);
+	protected void setCrop(List<String> variety) {
+//		List<String> variety = varietyDaoImp.getVariety(area);
 		variety.add(0, "请选择作物");
 		spinner.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, variety));
 		if(smsSubscribeItem!=null){
