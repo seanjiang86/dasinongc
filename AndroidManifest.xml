@@ -147,6 +147,10 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.RegisterServiceActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".ui.MainActivity"
             android:screenOrientation="portrait" >
         </activity>

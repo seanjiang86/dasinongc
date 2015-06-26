@@ -13,13 +13,18 @@ import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.entity.User;
 import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.GraphicUtils;
 import com.dasinong.app.utils.Logger;
 import com.dasinong.app.utils.PhotoUtils;
+import com.liam.imageload.DisplayImageOptions;
 import com.liam.imageload.LoadUtils;
+import com.liam.imageload.CacheConsts.ImageShowType;
+import com.liam.imageload.DisplayImageOptions.Builder;
+import com.liam.imageload.LoadUtils.LoadImageListener;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -77,8 +82,6 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 
 	CropParams mCropParams = new CropParams();
 
-	private Spinner spinner;
-
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -116,6 +119,10 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 	protected void updateUi(LoginRegEntity entity) {
 		User user = entity.getData();
 		if(user != null){
+			
+			LoadUtils.getInstance().loadImage(mHeadviewImage, NetConfig.IMAGE_URL+user.getPictureId());
+			
+			
 			mPhoneText.setText(user.getCellPhone());
 			mNameText.setText(user.getUserName());
 			if(TextUtils.isEmpty(user.getAddress())){
@@ -124,7 +131,7 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			}else{
 				mAddressText.setTextColor(Color.parseColor("#999999"));
 				mAddressText.setText(user.getAddress());
-			}
+			} 
 			if(TextUtils.isEmpty(user.getTelephone())){
 				mHomephoneText.setTextColor(Color.RED);
 				mHomephoneText.setText("未添加");

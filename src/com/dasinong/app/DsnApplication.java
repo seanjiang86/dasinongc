@@ -5,6 +5,7 @@ import java.io.File;
 import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.ui.manager.CrashHandler;
 import com.dasinong.app.utils.Logger;
+import com.liam.imageload.LoadUtils;
 
 import android.app.Activity;
 import android.app.Application;
@@ -24,7 +25,7 @@ public class DsnApplication extends Application {
 		mContext = DsnApplication.this;
 		VolleyManager.getInstance().init(this);
 		initExceptionCrash();
-
+		LoadUtils.init(getContext());
 	}
 
 	private void initExceptionCrash() {

@@ -25,6 +25,7 @@ public class NetConfig {
 
 //	public static final String BASE_URL = "http://115.29.111.179/ploughHelper/";
 	public static final String BASE_URL = "http://182.254.129.101:8080/ploughHelper/";
+	public static final String IMAGE_URL = "http://182.254.129.101:8080/avater/";
 
 	private static final String KEY_REQUEST = "UHTN90SPOLKIRT6131NM0SEWGLPALczmf";
 
@@ -340,6 +341,7 @@ public class NetConfig {
 		if(!TextUtils.isEmpty(id)){
 			paramsMap.put(Params.id, id);
 		}
+		paramsMap.put(Params.targetName, targetName);
 		paramsMap.put(Params.cellphone, cellphone);
 		paramsMap.put(Params.province, province);
 		paramsMap.put(Params.city, city);

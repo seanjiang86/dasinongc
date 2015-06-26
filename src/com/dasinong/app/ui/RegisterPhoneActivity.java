@@ -22,14 +22,22 @@ import org.json.JSONObject;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -242,6 +250,43 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		if(isAuthPhone){
 			onClick(mNextButton);
 		}
+		
+		mAgreementText.setText(getClickableSpan());
+		mAgreementText.setMovementMethod(LinkMovementMethod.getInstance());
+	}
+	
+	private SpannableString getClickableSpan() {
+
+		SpannableString spanableInfo = new SpannableString(mAgreementText.getText()
+				.toString());
+		int start = 14;
+		int end = spanableInfo.length();
+		spanableInfo.setSpan(new ClickableSpan() {
+
+			@Override
+			public void onClick(View arg0) {
+				// Toast.makeText(RegisterActivity.this, "注册协议",
+				// Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(RegisterPhoneActivity.this, RegisterServiceActivity.class);
+				startActivity(intent);
+			}
+
+			@Override
+			public void updateDrawState(TextPaint ds) {
+				// TODO Auto-generated method stub
+				super.updateDrawState(ds);
+				ds.setUnderlineText(false);
+			}
+
+		}, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spanableInfo.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_33AB33)), start, end,
+				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spanableInfo.setSpan(new BackgroundColorSpan(Color.WHITE), start, end,
+				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		mAgreementText.setHighlightColor(Color.TRANSPARENT);
+
+		return spanableInfo;
 	}
 	
 	private void initData() {
