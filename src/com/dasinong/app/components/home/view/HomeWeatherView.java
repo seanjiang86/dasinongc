@@ -1,9 +1,7 @@
 package com.dasinong.app.components.home.view;
 
 import android.content.Context;
-import android.text.format.Time;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -11,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.WeatherEntity;
 
@@ -29,12 +26,24 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private boolean mIsWeekWeatherShow = false;
     private HumidityView mHumView;
     private HorizontalScrollView mHorHumView;
+
+    private TextView mUpdateTime;
     private static final String TAG = "[HomeWeatherView]";
 
     private ShrinkAnimation mShrinkAnimation;
     private ExpandAnimation mExpandAnimation;
 
     private String[] weeks;
+
+    /**
+     * 当前天所相关的的View
+     */
+    private TextView mCurrentWeatherUpdateTime;
+
+    private ImageView mCurrentWeatherIcon;
+    private TextView mCurrentWeatherStatus;
+
+
 
     public HomeWeatherView(Context context) {
         this(context, null);
@@ -57,18 +66,36 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private void init() {
         weeks = getResources().getStringArray(R.array.weeks);
 
+
         mRoot = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather, null);
+
+
+          initCurrentWeatherView();
+
         lyWeekWeather = (LinearLayout) mRoot.findViewById(R.id.lyWeekWeather);
         tvCloseWeekTemp = (TextView) mRoot.findViewById(R.id.tvCloseWeekTemp);
         mHorHumView = (HorizontalScrollView) mRoot.findViewById(R.id.horHumView);
         mHumView = (HumidityView) mRoot.findViewById(R.id.humView);
-
         mIsWeekWeatherShow = false;
         tvCloseWeekTemp.setText(getContext().getString(R.string.weather_open_one_week));
-
-
         addView(mRoot);
 
+
+    }
+
+    private void initCurrentWeatherView() {
+
+        mCurrentWeatherUpdateTime =(TextView) findViewById(R.id. weather_update_time);
+        mCurrentWeatherIcon = (ImageView) findViewById(R.id.ivHomeWicon);
+        mCurrentWeatherStatus = (TextView) findViewById(R.id.current_weather_status);
+
+    }
+
+    private  void updateCurrenWeatherView(WeatherEntity.CurrentWeather currentWeather){
+
+        mCurrentWeatherUpdateTime.setText("更新于d分钟前");
+        mCurrentWeatherIcon.setImageResource(R.drawable.ic_weather_dafeng);
+        mCurrentWeatherStatus.setText("晴转多云");
 
     }
 
@@ -195,7 +222,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 
     private int getIconRes(Object weather) {
-
+            //getResources().getIdentifier(name, "drawable", getContext().getPackageName())
         return R.drawable.ic_weather_dafeng;
     }
 
@@ -242,6 +269,9 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         ivItemWind.setImageResource(getIconRes(item.weather));
         return weekWeather;
     }
+
+
+
 
 
 }
