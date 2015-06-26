@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
@@ -31,7 +32,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private CropsGroupUpView fieldStateView;//成长状态
     private ImageView addFieldView;
     //田地名称，添加，日期，星期几，天气，左边状态，右边状态
-    private TextView fieldView,dayView, weekView, wealthView, leftStateView, rightStateView;
+    private TextView fieldView, dayView, weekView, wealthView, leftStateView, rightStateView;
     //田地名称是否可以点击--其判断应该是根据接口传值--默认可以点击
     private boolean fieldNameCanClick = true;
     //目前的农田的名称--用于区别点击的是否是当前；
@@ -39,22 +40,26 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private Context context;
     //田地的集合
     private List<String> fieldList;
+
+    private String[] weeks;
     // 农活内容点击事件
     private MyOnAddFieldClickListener onAddFieldClickListener;
+
     public CropsStateView(Context context) {
         super(context);
-        this.context=context;
+        this.context = context;
         init(context);
     }
 
     public CropsStateView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context=context;
+        this.context = context;
         init(context);
     }
 
     private void init(Context context) {
-        View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top,this);
+        weeks = getResources().getStringArray(R.array.weeks);
+        View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top, this);
         fieldView = (TextView) rootView.findViewById(R.id.field);
         addFieldView = (ImageView) rootView.findViewById(R.id.add_field);
         fieldStateView = (CropsGroupUpView) rootView.findViewById(R.id.field_state);
@@ -100,21 +105,32 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      * @param entity
      */
     public void updateView(FieldEntity entity) {
-        Log.d("dding", "entity-->>:" + entity);
+
         if (null == entity)
             return;
-        Log.d("dding", "entity-currentField->>:" + entity.currentField);
+
         //设置田地的名称
         if (null != entity.currentField) {
+            //DONE
             String fieldName = entity.currentField.fieldName;
             if (!TextUtils.isEmpty(fieldName)) {
                 this.currentFieldValue = fieldName;
                 setText2TextView(fieldView, currentFieldValue);
             }
             //设置作物的状态和当前的收获时间--横向滑动的叶子的下面view
-            String harvestDay = getHarvestDay(entity.currentField);
-            //TODO 字段有值进行赋值
-            String rightStateInfo = "";
+            //DONE
+            String harvestDay = "";
+            if(entity.currentField.daytoharvest>0){
+
+                harvestDay = "离收获还有"+entity.currentField.daytoharvest+"天";
+            }
+            /**
+             *     /**
+             * cropName + stageName + SubStagName; 水稻分叶期8叶
+             */
+
+            //TODO:--------------------
+            String rightStateInfo = "水稻";
             setCropStateInfo(harvestDay, rightStateInfo);
         }
 
@@ -140,13 +156,18 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             setCurrentState(1);
         }
         //设置日期，星期几和天气
-        setDatWeekAndWeatherView(entity.currentField);
+        //DONE
+        setDatWeekAndWeatherView(entity);
+
         //设置当前是否是个打药，适合下地干活
-        //TODO 需要根据字段设置当前的状态
-        boolean isWork = false;
-        boolean isSpary = false;
-        setWorkState(isWork, isSpary);
+        //DONE
+        setWorkState(entity.currentField.workable, entity.currentField.sprayable);
+
+
+
         //设置任务的内容
+
+
         setWorkContent(entity.currentField);
 
     }
@@ -164,7 +185,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     }
 
 
-
     /**
      * 设置叶子view的资源图片和叶子内容的值
      *
@@ -175,30 +195,23 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         fieldStateView.setLeafViewAndLeafContent(resId, leafContentValue);
     }
 
-    private String getHarvestDay(FieldEntity.CurrentFieldEntity innerEntity) {
-        String startDate = innerEntity.startDate;
-        String endDate = innerEntity.endDate;
-        //TODO 需要日期的格式计算endDate和startDate的差距
-        return "130";
-    }
+
 
     //给日期，星期和天气设置相对应的值
-    private void setDatWeekAndWeatherView(FieldEntity.CurrentFieldEntity innerEntity) {
+    private void setDatWeekAndWeatherView(FieldEntity innerEntity) {
         if (null == innerEntity) return;
-        //TODO 有字段了，在赋值，放开注释
-//        String dayNum=innerEntity.day;
-//        String weekDay=innerEntity.weekDay;
-//        String weather=innerEntity.weather;
-//        seInfo2TextView(dayNum,weekDay,weather);
+        FieldEntity.HomeDate date = innerEntity.date;
+        int index =  date.day% 7;
+        seInfo2TextView(date.date,weeks[index],date.lunar);
     }
 
 
     /**
      * 设置textView对应显示的值
      *
-     * @param dayNum    --日期(天)
-     * @param weekDay   --日期(星期几)
-     * @param weather   --天气
+     * @param dayNum  --日期(天)
+     * @param weekDay --日期(星期几)
+     * @param weather --天气
      */
     private void seInfo2TextView(String dayNum, String weekDay, String weather) {
         setText2TextView(dayView, dayNum);
@@ -248,7 +261,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     /**
      * 设置农活内容
      *
-     * @param innerEntity    --农活的内容
+     * @param innerEntity --农活的内容
      */
     private void setWorkContent(FieldEntity.CurrentFieldEntity innerEntity) {
         if (null == innerEntity) return;
@@ -258,11 +271,11 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         campaignView.setOrientation(LinearLayout.VERTICAL);
         campaignView.removeAllViews();
         for (int i = 0; i < tasks.size(); i++) {
-            final int tempPos=i;
-            View view=LayoutInflater.from(context).inflate(R.layout.view_home_work_content, null);
-            TextView contentView= (TextView) view.findViewById(R.id.work_content);
-            View lineView=view.findViewById(R.id.line);
-            final LinearLayout checkedView= (LinearLayout) view.findViewById(R.id.iv_check);
+            final int tempPos = i;
+            View view = LayoutInflater.from(context).inflate(R.layout.view_home_work_content, null);
+            TextView contentView = (TextView) view.findViewById(R.id.work_content);
+            View lineView = view.findViewById(R.id.line);
+            final LinearLayout checkedView = (LinearLayout) view.findViewById(R.id.iv_check);
             final String value = tasks.get(i).taskSpecName;
             contentView.setText(value);
             View rightView = view.findViewById(R.id.right_view);
@@ -323,10 +336,10 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.field:
                 //点击田地
-                if(!fieldNameCanClick){
+                if (!fieldNameCanClick) {
                     return;
                 }
                 if (null == fieldList || fieldList.size() <= 1) {
@@ -361,11 +374,11 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 if (null != onAddFieldClickListener) {
                     onAddFieldClickListener.onRightTopViewClick();
                 }
-                
+
                 //TODO MING:测试添加田地 正式上线需要修改
                 Intent intent = new Intent(getContext(), AddFieldActivity1.class);
                 getContext().startActivity(intent);
-                
+
                 break;
         }
     }

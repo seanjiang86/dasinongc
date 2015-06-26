@@ -15,6 +15,7 @@ import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.domain.WeatherEntity;
+import com.dasinong.app.components.home.view.CropsStateView;
 import com.dasinong.app.components.home.view.DisasterView;
 import com.dasinong.app.components.home.view.HomeWeatherView;
 import com.dasinong.app.components.home.view.SoilView;
@@ -55,6 +56,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
     private DisasterView mDisasterView;
 
+    private CropsStateView mCropStateView;
+
     private static final String TAG = "HomeFragment";
 
 
@@ -82,6 +85,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
         mRoot = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
 
+        initView();
+        initRefreshLayout();
+        initEvent();
+
+
+        return mRoot;
+    }
+
+
+    private void initView() {
+        mCropStateView = (CropsStateView) mRoot.findViewById(R.id.stateView);
+
         mHomeWeatherView = (HomeWeatherView) mRoot.findViewById(R.id.weather);
 
         mRefreshLayout = (BGARefreshLayout) mRoot.findViewById(R.id.rl_modulename_refresh);
@@ -89,18 +104,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
         mSoilView = (SoilView) mRoot.findViewById(R.id.home_soilview);
 
         mDisasterView  = (DisasterView) mRoot.findViewById(R.id.home_disaster);
-        initRefreshLayout();
+    }
+
+
+
+    private void initEvent() {
         mSoilView.setOnClickListener(this);
-
-
-        return mRoot;
     }
 
-    private void loadDataFromWithCache() {
-    loadFieldData("10");
-    loadWeatherData();
-
-    }
 
     private void initRefreshLayout() {
         // 为BGARefreshLayout设置代理
@@ -127,6 +138,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
         //mRefreshLayout.setCustomHeaderView(mBanner, false);
         // 可选配置  -------------END
     }
+
+
+
+    private void loadDataFromWithCache() {
+    loadFieldData("10");
+    loadWeatherData();
+
+    }
+
 
 
     @Override
@@ -222,15 +242,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
         switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
                 FieldEntity entity = (FieldEntity) response;
+                DEBUG("entity:"+entity.toString());
                 if(entity!=null) {
                     mDisasterView.updateView(entity.currentField.natdisws, entity.currentField.petdisws);
+
+                    mCropStateView.updateView(entity);
                 }
                 break;
             case REQUEST_CODE_HOME_WEATHER:
                 WeatherEntity weatherEntity =(WeatherEntity)response;
 
-                Log.d("weather:",weatherEntity.toString());
-
+                DEBUG(weatherEntity.toString());
                 if(weatherEntity!=null) {
                     mHomeWeatherView.setWeatherData(weatherEntity);
                 }

@@ -17,26 +17,22 @@ public class FieldEntity extends BaseResponse {
     public CurrentFieldEntity currentField;
 
 
+    public  HomeDate date;
 
+    public static  class HomeDate{
+        public String lunar;//大雪
+        public int day;//周41（要是）
+        public String date;//10
+    }
+
+
+
+
+    /**
+     * cropName + stageName + SubStagName; 水稻分叶期8叶
+     */
     public static class CurrentFieldEntity {
-        /**
-         * startDate : null
-         * currentStageID : 12
-         * petdisws : [{"petDisStatus":false,"petDisSpecName":"稻瘟病1","petDisSpecId":11,"fieldId":10,"petDisId":10}]
-         * yield : 0
-         * taskws : [{"taskSpecName":"播种3任务1","taskId":10,"taskStatus":false,"fieldId":10,"taskSpecId":14}]
-         * userId : 10
-         * locationId : 10
-         * active : false
-         * endDate : null
-         * varietyId : 10
-         * natdisws : [{"natDisId":10,"natDisSpecId":10,
-         * "natDisStatus":false,
-         * "fieldId":10,
-         * "natDisSpecName":"台风"}]
-         * fieldId : 10
-         * fieldName : 测试田
-         */
+
         public String startDate;
         //当前的statgeID
         public int currentStageID;
@@ -65,6 +61,13 @@ public class FieldEntity extends BaseResponse {
         public String fieldName;
 
 
+        public int  daytoharvest;    //int只给 离收获还有多少天（）(小于0不显示)
+
+        public boolean workable;//不宜下地
+        public boolean sprayable;//不宜打药
+
+
+
 
         public class PetdiswsEntity {
             /**
@@ -79,6 +82,9 @@ public class FieldEntity extends BaseResponse {
             public int petDisSpecId;
             public int fieldId;
             public int petDisId;
+            public  String description;
+            public int type;
+            public int alerttype;
 
 
         }
@@ -91,14 +97,31 @@ public class FieldEntity extends BaseResponse {
              * fieldId : 10
              * taskSpecId : 14
              */
-            public String taskSpecName;
-            public int taskId;
-            public boolean taskStatus;
+
+
+            public boolean taskStatus;//状态
             public int fieldId;
             public int taskSpecId;
+            public long subStageId;
+            public int taskId;//
+            public  String taskSpecName;//desc
+            public String stageName;
+            public  String subStageName;
+
+            /**
+             *  "taskStatus": true,
+             "fieldId": 10,
+             "subStageId": 44,
+             "taskSpecId": 29,
+             "taskId": 3,
+             "taskSpecName": "施第一次分蘖肥",
+             "subStageName": "一次分蘖期",
+             "stageName": "分蘖期"
+             */
 
 
         }
+
 
         public class NatdiswsEntity {
             /**
@@ -113,6 +136,8 @@ public class FieldEntity extends BaseResponse {
             public boolean natDisStatus;
             public int fieldId;
             public String natDisSpecName;
+            public  String description;
+            public int alerttype;
 
 
         }

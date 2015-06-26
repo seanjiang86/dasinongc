@@ -67,6 +67,14 @@ public class WeatherEntity extends  BaseResponse{
 
     }
 
+    public static  class POP{
+
+        public int morning;
+        public  int afternoon;
+        public int night;
+        public int midnight;
+    }
+
 
     public static class CurrentWeather{
 

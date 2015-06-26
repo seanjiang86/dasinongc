@@ -11,4 +11,33 @@
 
     </string-array>
 
+
+
+    <string-array name="winddirect">
+        <item>无持续风向</item>
+        <item>东北风</item>
+        <item>东风</item>
+        <item>东南风</item>
+        <item>南风</item>
+        <item>西南风</item>
+        <item>西风</item>
+        <item>西北风</item>
+        <item>北风</item>
+        <item>旋转风</item>
+
+    </string-array>
+
+    <string-array name="wind">
+        <item>微风</item>
+        <item>3-4级</item>
+        <item>4-5级</item>
+        <item>5-6级</item>
+        <item>6-7级</item>
+        <item>7-8级</item>
+        <item>8-9级</item>
+        <item>9-10级</item>
+        <item>10-11级</item>
+        <item>11-12级</item>
+
+    </string-array>
 </resources>

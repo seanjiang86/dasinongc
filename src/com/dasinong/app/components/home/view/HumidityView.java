@@ -91,9 +91,7 @@ public class HumidityView extends LinearLayout {
                 //icon
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTimeInMillis(hour.time);
-                if(BuildConfig.DEBUG){
-                    Log.d("date",calendar.toString());
-                }
+
                 int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
                 tvTime.setText(String.valueOf(hourOfDay));//time
                 tvTimeHTemp.setText(hour.temperature + i + " ℃");
