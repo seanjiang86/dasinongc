@@ -20,14 +20,13 @@ import java.util.List;
  */
 public class HomeWeatherView extends LinearLayout implements View.OnClickListener {
 
-    LinearLayout lyWeekWeather;
-    TextView tvCloseWeekTemp;
+
     private View mRoot;
     private boolean mIsWeekWeatherShow = false;
     private HumidityView mHumView;
     private HorizontalScrollView mHorHumView;
 
-    private TextView mUpdateTime;
+
     private static final String TAG = "[HomeWeatherView]";
 
     private ShrinkAnimation mShrinkAnimation;
@@ -43,6 +42,13 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private ImageView mCurrentWeatherIcon;
     private TextView mCurrentWeatherStatus;
 
+
+    /**
+     * 七天相关的view
+     */
+    private LinearLayout mSevenDaysContainer;
+
+    private TextView mOpenSevenDays;
 
 
     public HomeWeatherView(Context context) {
@@ -60,7 +66,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
     private void setViewListener() {
-        tvCloseWeekTemp.setOnClickListener(this);
+        mOpenSevenDays.setOnClickListener(this);
     }
 
     private void init() {
@@ -70,28 +76,30 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mRoot = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather, null);
 
 
-          initCurrentWeatherView();
+        initCurrentWeatherView();
 
-        lyWeekWeather = (LinearLayout) mRoot.findViewById(R.id.lyWeekWeather);
-        tvCloseWeekTemp = (TextView) mRoot.findViewById(R.id.tvCloseWeekTemp);
+        initSevenDayView();
+
+
         mHorHumView = (HorizontalScrollView) mRoot.findViewById(R.id.horHumView);
         mHumView = (HumidityView) mRoot.findViewById(R.id.humView);
         mIsWeekWeatherShow = false;
-        tvCloseWeekTemp.setText(getContext().getString(R.string.weather_open_one_week));
+        mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week));
         addView(mRoot);
 
 
     }
 
+
     private void initCurrentWeatherView() {
 
-        mCurrentWeatherUpdateTime =(TextView) findViewById(R.id. weather_update_time);
+        mCurrentWeatherUpdateTime = (TextView) findViewById(R.id.weather_update_time);
         mCurrentWeatherIcon = (ImageView) findViewById(R.id.ivHomeWicon);
         mCurrentWeatherStatus = (TextView) findViewById(R.id.current_weather_status);
 
     }
 
-    private  void updateCurrenWeatherView(WeatherEntity.CurrentWeather currentWeather){
+    private void updateCurrentWeatherView(WeatherEntity.CurrentWeather currentWeather) {
 
         mCurrentWeatherUpdateTime.setText("更新于d分钟前");
         mCurrentWeatherIcon.setImageResource(R.drawable.ic_weather_dafeng);
@@ -99,62 +107,19 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     }
 
-    /**
-     * Called when a view has been clicked.
-     *
-     * @param v The view that was clicked.
-     */
-    @Override
-    public void onClick(View v) {
 
-        switch (v.getId()) {
-            case R.id.tvCloseWeekTemp:
-                initAnimation();
-                if (mIsWeekWeatherShow) {
-                    mIsWeekWeatherShow = false;
-                    // gone
-                    startShrinkAnimation();
-                    tvCloseWeekTemp.setText(getContext().getString(R.string.weather_open_one_week));
-                } else {
-                    mIsWeekWeatherShow = true;
-                    // Visibility
-                    startExpandAnimation();
-                    tvCloseWeekTemp.setText(getContext().getString(R.string.weather_close_one_week));
-                }
-                break;
-        }
-    }
-
-    public void setWeatherData(WeatherEntity entity) {
-        if (entity == null) {
-            return;
-        }
-
-        setOneWeekWeather(entity.n7d);
-        setOneDayWeather(entity.n12h);
-
-    }
-
-    private void setOneDayWeather(List<WeatherEntity.Hours> hours) {
-        if (null != hours && !hours.isEmpty()) {
-            {
-                mHorHumView.removeAllViews();
-                mHumView.setOneDayWeatherData(hours);
-                //TODO scroll postion
-                autoScrollPostion();
-            }
-
-        }
+    private void initSevenDayView() {
+        mSevenDaysContainer = (LinearLayout) mRoot.findViewById(R.id.lyWeekWeather);
+        mOpenSevenDays = (TextView) mRoot.findViewById(R.id.tvCloseWeekTemp);
     }
 
 
-    private void setOneWeekWeather(List<WeatherEntity.SevenDay> days) {
-
+    private void updateSevenDayView(List<WeatherEntity.SevenDay> days) {
         if (days == null || days.isEmpty()) {
 
             return;
         }
-        lyWeekWeather.removeAllViews();
+        mSevenDaysContainer.removeAllViews();
 
         int size = days.size();
         View weekWeather;
@@ -176,17 +141,65 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
             weekWeather = getView(item, weeks[week]);
 
-            lyWeekWeather.addView(weekWeather);
+            mSevenDaysContainer.addView(weekWeather);
+        }
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+
+        switch (v.getId()) {
+            case R.id.tvCloseWeekTemp:
+                initAnimation();
+                if (mIsWeekWeatherShow) {
+                    mIsWeekWeatherShow = false;
+                    // gone
+                    startShrinkAnimation();
+                    mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week));
+                } else {
+                    mIsWeekWeatherShow = true;
+                    // Visibility
+                    startExpandAnimation();
+                    mOpenSevenDays.setText(getContext().getString(R.string.weather_close_one_week));
+                }
+                break;
+        }
+    }
+
+    public void setWeatherData(WeatherEntity entity) {
+        if (entity == null) {
+            return;
         }
 
+        updateSevenDayView(entity.n7d);
+
+        setOneDayWeather(entity.n12h);
+
+    }
+
+    private void setOneDayWeather(List<WeatherEntity.Hours> hours) {
+        if (null != hours && !hours.isEmpty()) {
+            {
+                mHorHumView.removeAllViews();
+                mHumView.setOneDayWeatherData(hours);
+                //TODO scroll postion
+                autoScrollPostion();
+            }
+
+        }
     }
 
 
     private void initAnimation() {
         if (mShrinkAnimation == null || mExpandAnimation == null) {
-            int height = lyWeekWeather.getHeight();
-            mShrinkAnimation = new ShrinkAnimation(lyWeekWeather, height);
-            mExpandAnimation = new ExpandAnimation(lyWeekWeather, height);
+            int height = mSevenDaysContainer.getHeight();
+            mShrinkAnimation = new ShrinkAnimation(mSevenDaysContainer, height);
+            mExpandAnimation = new ExpandAnimation(mSevenDaysContainer, height);
             long duration = (long) (height / getResources().getDisplayMetrics().density);
             mShrinkAnimation.setDuration(duration);
             mExpandAnimation.setDuration(duration);
@@ -195,13 +208,13 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
     private void startShrinkAnimation() {
-        tvCloseWeekTemp.clearAnimation();
-        tvCloseWeekTemp.startAnimation(mShrinkAnimation);
+        mOpenSevenDays.clearAnimation();
+        mOpenSevenDays.startAnimation(mShrinkAnimation);
     }
 
     private void startExpandAnimation() {
-        tvCloseWeekTemp.clearAnimation();
-        tvCloseWeekTemp.startAnimation(mExpandAnimation);
+        mOpenSevenDays.clearAnimation();
+        mOpenSevenDays.startAnimation(mExpandAnimation);
     }
 
 
@@ -222,7 +235,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 
     private int getIconRes(Object weather) {
-            //getResources().getIdentifier(name, "drawable", getContext().getPackageName())
+        //getResources().getIdentifier(name, "drawable", getContext().getPackageName())
         return R.drawable.ic_weather_dafeng;
     }
 
@@ -269,9 +282,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         ivItemWind.setImageResource(getIconRes(item.weather));
         return weekWeather;
     }
-
-
-
 
 
 }
