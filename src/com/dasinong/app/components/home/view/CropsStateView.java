@@ -27,10 +27,10 @@ import java.util.Map;
  * Created by lnn on 15/6/2.
  */
 public class CropsStateView extends LinearLayout implements View.OnClickListener {
-    private View rootView;
+
     private LinearLayout campaignView;//添加农作物活动的View
     private CropsGroupUpView fieldStateView;//成长状态
-    private ImageView addFieldView;
+    private View addFieldView;
     //田地名称，添加，日期，星期几，天气，左边状态，右边状态
     private TextView fieldView, dayView, weekView, wealthView, leftStateView, rightStateView;
     //田地名称是否可以点击--其判断应该是根据接口传值--默认可以点击
@@ -61,7 +61,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         weeks = getResources().getStringArray(R.array.weeks);
         View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top, this);
         fieldView = (TextView) rootView.findViewById(R.id.field);
-        addFieldView = (ImageView) rootView.findViewById(R.id.add_field);
+        addFieldView =  rootView.findViewById(R.id.add_field);
         fieldStateView = (CropsGroupUpView) rootView.findViewById(R.id.field_state);
         dayView = (TextView) rootView.findViewById(R.id.day);
         weekView = (TextView) rootView.findViewById(R.id.week);
@@ -185,15 +185,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     }
 
 
-    /**
-     * 设置叶子view的资源图片和叶子内容的值
-     *
-     * @param resId
-     * @param leafContentValue
-     */
-    public void setLeafViewAndLeafContent(int resId, String leafContentValue) {
-        fieldStateView.setLeafViewAndLeafContent(resId, leafContentValue);
-    }
 
 
 

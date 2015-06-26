@@ -1,6 +1,5 @@
 package com.dasinong.app.ui.fragment;
 
-import android.content.Entity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -9,9 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroupOverlay;
 
-import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.domain.WeatherEntity;
@@ -29,7 +26,6 @@ import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.soil.SoilEditorActivity;
-
 import com.dasinong.app.utils.Logger;
 
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -339,7 +335,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     }
 
     private  void DEBUG(String msg){
-        if(BuildConfig.DEBUG) {
+        if(false) {
             Log.d(TAG, msg);
         }
     }

@@ -157,9 +157,9 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
             calendar.setTimeInMillis(item.forecast_time);
             Calendar today = Calendar.getInstance();
 
-            if (today.after(calendar)) {
-                return;
-            }
+//            if (today.after(calendar)) {
+//                return;
+//            }
             int week = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
             weekWeather = getView(item, weeks[week]);
@@ -188,7 +188,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
         if (null != hours && !hours.isEmpty()) {
             {
-                mHorHumView.removeAllViews();
+
                 mHumView.setOneDayWeatherData(hours);
                 //TODO scroll postion
                 autoScrollPosition();
@@ -237,7 +237,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         if (entity == null) {
             return;
         }
-        updateCurrentWeatherView(entity.current);
+        //updateCurrentWeatherView(entity.current);
         updateSevenDayView(entity.n7d);
         updateHoursView(entity.n12h);
         updateFourSectionView();

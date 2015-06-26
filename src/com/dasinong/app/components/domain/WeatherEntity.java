@@ -35,7 +35,7 @@ public class WeatherEntity extends  BaseResponse{
     public List<Hours> n12h;
 
 
-   public  CurrentWeather current;// Map<String,Map<String,Map<String,String>>> current;
+  // public  CurrentWeather current;// Map<String,Map<String,Map<String,String>>> current;
 
     public static class SevenDay{
 

@@ -61,7 +61,6 @@ public class HumidityView extends LinearLayout {
                 }
                 return;
             }
-
             /**
              *
             public  String icon;
@@ -77,6 +76,7 @@ public class HumidityView extends LinearLayout {
             public String temperature;//温度一个
              */
             int size = hoursList.size();
+            removeAllViews();
             for (int i = 0; i <size ; i++) {
                 WeatherEntity.Hours hour = hoursList.get(i);
                 View timeItem = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather_time_item, null);

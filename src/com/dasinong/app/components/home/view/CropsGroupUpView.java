@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,7 +19,7 @@ import com.dasinong.app.components.home.view.dialog.ConfirmDialog;
  */
 public class CropsGroupUpView extends LinearLayout implements View.OnClickListener{
     //收获时间，时候时间右侧的状态，添加作物view(当没有作物的时候显示),叶子后面的内容
-    private TextView harvestTimeView, rightStateView, addCropView, leafContent;
+    private TextView harvestTimeView, rightStateView, addCropView;//leafContent;
     //正常view的父View,没有作物的parent
     private View normalParentView,addCropViewParent;
     //标记当前是否有作物
@@ -43,10 +44,10 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         View rootView=LayoutInflater.from(context).inflate(R.layout.view_home_top_work_content,this);
         normalParentView=rootView.findViewById(R.id.normal_state);
         harvestTimeView= (TextView) rootView.findViewById(R.id.harvest_time);
-        rightStateView=(TextView)rootView.findViewById(R.id.right_state);
+        rightStateView=(TextView)rootView.findViewById(R.id.right_state_content);
         addCropViewParent=rootView.findViewById(R.id.add_crop_parent);
         addCropView=(TextView)rootView.findViewById(R.id.add_crop);
-        leafContent = (TextView) rootView.findViewById(R.id.leaf_content);
+//        leafContent = (TextView) rootView.findViewById(R.id.leaf_content);
         leftArrowView = (ImageView) rootView.findViewById(R.id.left_arrow);
         leafView = (ImageView) rootView.findViewById(R.id.leaf);
         rightArrowView = (ImageView) rootView.findViewById(R.id.right_arrow);
@@ -83,6 +84,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         if(TextUtils.isEmpty(rightStateInfo)){
             rightStateInfo="";
         }
+
         rightStateView.setText(rightStateInfo);
 
     }
@@ -136,11 +138,11 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
 
 
-    public void setLeafViewAndLeafContent(int resId, String leafContentValue) {
+    public void setLeafViewAndLeafContent(int resId) {
         leftArrowView.setBackgroundResource(resId);
-        if (!TextUtils.isEmpty(leafContentValue)) {
-            leafContent.setText(leafContentValue);
-        }
+//        if (!TextUtils.isEmpty(leafContentValue)) {
+//            //leafContent.setText(leafContentValue);
+//        }
     }
     /**
      * 添加农作物
