@@ -11,6 +11,7 @@ import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.ui.soil.adapter.CommonAdapter;
 import com.dasinong.app.ui.soil.adapter.ViewHolder.ViewHolder;
+import com.dasinong.app.ui.soil.domain.DataEntity;
 import com.dasinong.app.ui.soil.domain.SoilAllEntity;
 
 import java.text.SimpleDateFormat;
@@ -81,14 +82,14 @@ public class SoilAllListActivity extends SoilBaseActivity implements AdapterView
         if(parent.getItemAtPosition(position)==null){
             return;
         }
-        startActivity(SoilEditorActivity.createIntentFromList(this, (SoilAllEntity.DataEntity) parent.getItemAtPosition(position)));
+        startActivity(SoilEditorActivity.createIntentFromList(this, (DataEntity) parent.getItemAtPosition(position)));
     }
 
     @Override
     public void onTaskSuccess(int requestCode, Object response) {
 
         SoilAllEntity entity = (SoilAllEntity) response;
-        mListView.setAdapter(new CommonAdapter<SoilAllEntity.DataEntity>(entity.data) {
+        mListView.setAdapter(new CommonAdapter<DataEntity>(entity.data) {
 
             @Override
             protected int getResourceId() {
@@ -96,7 +97,7 @@ public class SoilAllListActivity extends SoilBaseActivity implements AdapterView
             }
 
             @Override
-            protected void updateView(SoilAllEntity.DataEntity result, ViewHolder viewHolder) {
+            protected void updateView(DataEntity result, ViewHolder viewHolder) {
 
                 String text = sdf.format(result.testDate)+mTipText;
                 viewHolder.setTextValue(R.id.soil_item_text,text);

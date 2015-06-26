@@ -4,12 +4,10 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
-
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +19,7 @@ import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
 import com.dasinong.app.components.net.NetError;
 import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.net.NetConfig;
+import com.dasinong.app.ui.soil.domain.DataEntity;
 import com.dasinong.app.ui.soil.domain.SoilAllEntity;
 import com.dasinong.app.ui.soil.domain.SoilPostEntity;
 
@@ -33,7 +32,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     private static final String URL = NetConfig.BASE_URL + "insertSoilReport";
 
 
-    private SoilAllEntity.DataEntity mListDataEntity;
+    private DataEntity mListDataEntity;
 
     private static final String EXTRA_LIST_ENTITY = "list_entity";
     private static final String EXTRA_FROM = "from";
@@ -342,7 +341,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     }
 
 
-    public static Intent createIntentFromList(Context context, SoilAllEntity.DataEntity entity) {
+    public static Intent createIntentFromList(Context context, DataEntity entity) {
 
         Intent intent = new Intent(context, SoilEditorActivity.class);
         Bundle bundle = new Bundle();

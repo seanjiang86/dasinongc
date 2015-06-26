@@ -1,5 +1,7 @@
 package com.dasinong.app.components.domain;
 
+import com.dasinong.app.ui.soil.domain.DataEntity;
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +11,7 @@ import java.util.Map;
 public class FieldEntity extends BaseResponse {
 
 
-
+    public DataEntity latestReport;
     //field list
     //name:fieldID
     public Map<String,Long> fieldList;
