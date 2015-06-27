@@ -62,6 +62,12 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private TextView mWeatherMidnight;
 
 
+
+    private String[]  winds;
+
+    private String[] windDirect;
+
+
     public HomeWeatherView(Context context) {
         this(context, null);
     }
@@ -82,7 +88,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private void init() {
         weeks = getResources().getStringArray(R.array.weeks);
-
+        winds = getResources().getStringArray(R.array.wind);
+        windDirect = getResources().getStringArray(R.array.winddirect);
 
         mRoot = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather, null);
 
@@ -301,16 +308,22 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private String getSevenWeather(Object weather) {
 
-
+        //TODO:
         return "晴转多云";
 
     }
 
 
-    private String getSevenWindLevel(Object ddLevel) {
+    private String getSevenWindLevel(String ddLevel) {
 
+        int index = 0;
+        try{
+            index = Integer.parseInt(ddLevel)%windDirect.length;
+        }catch (Exception e){
+            DEBUG("ddLevle parse error"+ddLevel);
+        }
 
-        return "3-4级";
+        return windDirect[index];
 
     }
 
