@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.dasinong.app.R;
+import com.dasinong.app.ui.soil.SoilEditorActivity;
 import com.dasinong.app.ui.soil.SoilListActivity;
 
 
@@ -39,6 +40,7 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
         LayoutInflater.from(getContext()).inflate(R.layout.view_home_soil, this, true);
         mSoilCheck = (TextView) findViewById(R.id.soil_check);
         mSoilCheck.setOnClickListener(this);
+        this.setOnClickListener(this);
 
     }
 
@@ -52,11 +54,13 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
 
                 break;
             default:
+
+                Intent intent = new Intent(this.getContext(), SoilEditorActivity.class);
+                getContext().startActivity(intent);
                 break;
         }
 
     }
-
 
 
 }

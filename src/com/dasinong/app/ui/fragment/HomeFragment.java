@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dasinong.app.R;
+import com.dasinong.app.components.domain.BaseResponse;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.domain.WeatherEntity;
 import com.dasinong.app.components.home.view.CropsStateView;
@@ -33,14 +34,17 @@ import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 
 
-
-public class HomeFragment extends Fragment implements View.OnClickListener, INetRequest, BGARefreshLayout.BGARefreshLayoutDelegate {
+public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLayout.BGARefreshLayoutDelegate {
 
     private static final int REQUEST_CODE_HOME_FIELD = 130;
     private static final int REQUEST_CODE_HOME_WEATHER = 131;
+    private static final int REQUEST_CODE_HOME_BANNER = 132;
     private static final String URL_FIELD = NetConfig.BASE_URL + "home";
-    /**loadWeather?monitorLocationId=101010100*/
-    private static final String URL_WEATHER = NetConfig.BASE_URL+"loadWeather";
+    /**
+     * loadWeather?monitorLocationId=101010100
+     */
+    private static final String URL_WEATHER = NetConfig.BASE_URL + "loadWeather";
+    private static final String URL_BANNER = NetConfig.BASE_URL + "getLaoNong";
 
     private ViewGroup mRoot;
 
@@ -48,15 +52,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
     private HomeWeatherView mHomeWeatherView;
 
-    private  SoilView mSoilView;
+    private SoilView mSoilView;
 
     private DisasterView mDisasterView;
 
     private CropsStateView mCropStateView;
 
     private static final String TAG = "HomeFragment";
-
-
 
 
     @Override
@@ -99,13 +101,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
         mSoilView = (SoilView) mRoot.findViewById(R.id.home_soilview);
 
-        mDisasterView  = (DisasterView) mRoot.findViewById(R.id.home_disaster);
+        mDisasterView = (DisasterView) mRoot.findViewById(R.id.home_disaster);
     }
 
 
-
     private void initEvent() {
-        mSoilView.setOnClickListener(this);
+
     }
 
 
@@ -136,10 +137,52 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     }
 
 
-
     private void loadDataFromWithCache() {
-    loadFieldData("10");
-    loadWeatherData();
+        loadFieldData("10");
+        loadWeatherData();
+        loadBanner();
+
+    }
+    public void loadFieldData(String fiedlId) {
+        FieldEntity.Param param = new FieldEntity.Param();
+        param.fieldId = fiedlId;
+
+        VolleyManager.getInstance().addGetRequestWithCache(
+                REQUEST_CODE_HOME_FIELD,
+                URL_FIELD,
+                param,
+                FieldEntity.class,
+                this
+        );
+
+    }
+
+
+
+    public void loadWeatherData() {
+        WeatherEntity.Param param = new WeatherEntity.Param();
+        param.monitorLocationId = "101010100";
+        VolleyManager.getInstance().addGetRequestWithCache(
+                REQUEST_CODE_HOME_WEATHER,
+                URL_WEATHER,
+                param,
+                WeatherEntity.class,
+                this
+        );
+
+    }
+
+
+    private void loadBanner() {
+
+
+        VolleyManager.getInstance().addGetRequestWithCache(
+                REQUEST_CODE_HOME_BANNER,
+                URL_BANNER,
+                null,
+                BaseResponse.class,
+                this
+        );
 
     }
 
@@ -192,44 +235,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
     }
 
 
-    public void loadFieldData(String fiedlId) {
-        FieldEntity.Param param = new FieldEntity.Param();
-        param.fieldId = fiedlId;
-
-        VolleyManager.getInstance().addGetRequestWithCache(
-                REQUEST_CODE_HOME_FIELD,
-                URL_FIELD,
-                param,
-                FieldEntity.class,
-                this
-        );
-
-    }
-
-    public void loadWeatherData() {
-        WeatherEntity.Param param = new WeatherEntity.Param();
-        param.monitorLocationId = "101010100";
-        VolleyManager.getInstance().addGetRequestWithCache(
-                REQUEST_CODE_HOME_WEATHER,
-                URL_WEATHER,
-                param,
-                WeatherEntity.class,
-                this
-        );
-
-    }
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
 
-            case R.id.home_soilview:
-                Intent intent = new Intent(this.getActivity(), SoilEditorActivity.class);
-                startActivity(intent);
-                break;
-        }
-    }
 
 
     @Override
@@ -238,18 +246,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
         switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
                 FieldEntity entity = (FieldEntity) response;
-                DEBUG("entity:"+entity.toString());
-                if(entity!=null) {
+                DEBUG("entity:" + entity.toString());
+                if (entity != null) {
                     mDisasterView.updateView(entity.currentField.natdisws, entity.currentField.petdisws);
 
                     mCropStateView.updateView(entity);
                 }
                 break;
             case REQUEST_CODE_HOME_WEATHER:
-                WeatherEntity weatherEntity =(WeatherEntity)response;
+                WeatherEntity weatherEntity = (WeatherEntity) response;
 
                 DEBUG(weatherEntity.toString());
-                if(weatherEntity!=null) {
+                if (weatherEntity != null) {
                     mHomeWeatherView.setWeatherData(weatherEntity);
                 }
                 break;
@@ -271,10 +279,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
         switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
                 DEBUG("onCache callback");
-                onTaskSuccess(requestCode,response);
+                onTaskSuccess(requestCode, response);
                 break;
             case REQUEST_CODE_HOME_WEATHER:
-                WeatherEntity entity =(WeatherEntity)response;
+                WeatherEntity entity = (WeatherEntity) response;
                 DEBUG(entity.toString());
 
                 break;
@@ -334,8 +342,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener, INet
 
     }
 
-    private  void DEBUG(String msg){
-        if(false) {
+    private void DEBUG(String msg) {
+        if (false) {
             Log.d(TAG, msg);
         }
     }

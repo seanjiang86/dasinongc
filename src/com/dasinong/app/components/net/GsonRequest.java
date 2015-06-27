@@ -54,6 +54,7 @@ public class GsonRequest<T> extends Request<T> {
     protected Response<T> parseNetworkResponse(NetworkResponse response) {
         try {
             String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers)).trim();
+            Debug(this.getUrl());
             Debug(jsonString);
             if(mClassName== WeatherEntity.class) {
                 jsonString = FilterUtils.filter(jsonString);
