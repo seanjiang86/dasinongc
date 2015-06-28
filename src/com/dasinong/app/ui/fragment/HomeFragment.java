@@ -182,7 +182,7 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
                 REQUEST_CODE_HOME_BANNER,
                 URL_BANNER,
                 null,
-                BaseResponse.class,
+                BannerEntity.class,
                 this
         );
 
