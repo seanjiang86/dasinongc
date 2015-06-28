@@ -9,20 +9,22 @@
         android:layout_height="10dp"
         android:background="#ededed" />
 
+    <!--type-->
     <LinearLayout
+        android:id="@+id/banner_all_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-
+            android:id="@+id/banner_all_container_icon"
             android:src="@drawable/ic_launcher" />
 
         <LinearLayout
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -30,6 +32,7 @@
             android:paddingLeft="50dp">
 
             <TextView
+                android:id="@+id/banner_all_container_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="text1"
@@ -40,6 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="text2"
+                android:id="@+id/banner_all_container_content_above"
                 android:textColor="#FD7223"
                 android:textSize="@dimen/home_text_size_60" />
 
@@ -47,11 +51,63 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="text3"
+                android:id="@+id/banner_all_container_content_behind"
                 android:textColor="#FD7223"
                 android:textSize="@dimen/home_text_size_60" />
         </LinearLayout>
 
     </LinearLayout>
+    <!--icon container-->
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/banner_img_container"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/banner_img_icon"
+            android:src="@drawable/ic_launcher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <!--icon text container-->
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/banner_title_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/banner_title_container_icon"
+            android:src="@drawable/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingLeft="50dp">
+
+            <TextView
+                android:id="@+id/banner_title_container_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="text1"
+                android:textColor="#B56020"
+                android:textSize="@dimen/home_text_size_42" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"

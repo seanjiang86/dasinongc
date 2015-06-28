@@ -112,6 +112,7 @@ public class DisasterView extends LinearLayout {
 
 
     public void updateView(List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> natdiswsEntityList, List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
+
         this.removeAllViews();
         addTopView();
         updatePetView(petdiswsEntities);

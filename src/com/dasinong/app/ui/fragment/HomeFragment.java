@@ -10,9 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.dasinong.app.R;
+import com.dasinong.app.components.domain.BannerEntity;
 import com.dasinong.app.components.domain.BaseResponse;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.domain.WeatherEntity;
+import com.dasinong.app.components.home.view.BannerView;
 import com.dasinong.app.components.home.view.CropsStateView;
 import com.dasinong.app.components.home.view.DisasterView;
 import com.dasinong.app.components.home.view.HomeWeatherView;
@@ -51,11 +53,9 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
     private BGARefreshLayout mRefreshLayout;
 
     private HomeWeatherView mHomeWeatherView;
-
     private SoilView mSoilView;
-
+    private BannerView mBannerView;
     private DisasterView mDisasterView;
-
     private CropsStateView mCropStateView;
 
     private static final String TAG = "HomeFragment";
@@ -102,6 +102,8 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
         mSoilView = (SoilView) mRoot.findViewById(R.id.home_soilview);
 
         mDisasterView = (DisasterView) mRoot.findViewById(R.id.home_disaster);
+
+        mBannerView = (BannerView) mRoot.findViewById(R.id.home_banner);
     }
 
 
@@ -257,8 +259,16 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
                 WeatherEntity weatherEntity = (WeatherEntity) response;
 
                 DEBUG(weatherEntity.toString());
-                if (weatherEntity != null) {
+
                     mHomeWeatherView.setWeatherData(weatherEntity);
+
+                break;
+
+            case  REQUEST_CODE_HOME_BANNER:
+
+                BannerEntity banner = (BannerEntity) response;
+                if(banner!=null){
+                    mBannerView.updateView(banner);
                 }
                 break;
             default:

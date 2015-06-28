@@ -24,7 +24,7 @@
             <com.dasinong.app.components.home.view.BannerView
                 android:layout_width="match_parent"
                 android:background="#FFFEDA"
-
+                android:id="@+id/home_banner"
                 android:layout_height="wrap_content" />
 
             <com.dasinong.app.components.home.view.HomeWeatherView
