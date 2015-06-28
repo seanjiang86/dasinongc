@@ -82,7 +82,7 @@ public class SoilAllListActivity extends SoilBaseActivity implements AdapterView
         if(parent.getItemAtPosition(position)==null){
             return;
         }
-        startActivity(SoilEditorActivity.createIntent(this, (DataEntity) parent.getItemAtPosition(position)));
+        startActivity(SoilInformationActivity.createIntent(this, (DataEntity) parent.getItemAtPosition(position)));
     }
 
     @Override
