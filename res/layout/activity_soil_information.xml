@@ -305,7 +305,10 @@
         </LinearLayout>
 
 
-        <View style="@style/soil_information_full_divider"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/home_dimen_20"
+            android:background="#ededed"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -453,20 +456,19 @@
             </RelativeLayout>
         </LinearLayout>
 
-
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/home_dimen_line_height_1"
+            android:layout_height="@dimen/home_dimen_20"
             android:background="#ededed"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+           >
 
             <TextView
                 style="@style/soil_information_title"
-
+                android:layout_alignParentBottom="true"
                 android:text="@string/soil_other"/>
 
             <TextView
