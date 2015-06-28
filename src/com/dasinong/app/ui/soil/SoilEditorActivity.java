@@ -35,20 +35,15 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     private DataEntity mListDataEntity;
 
     private static final String EXTRA_LIST_ENTITY = "list_entity";
-    private static final String EXTRA_FROM = "from";
-
-    private static final String FROM_LIST = "list";
 
 
     private static final String TAG = "SoilEditorActivity";
-
 
 
     private CommSelectPopWindow mTypePopuWindow;
     private CommSelectPopWindow mColorPopuWindow;
 
     private CommSelectPopWindow mFertilityPopuWindow;
-
 
 
     private TextView mSoilType;
@@ -74,7 +69,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     private EditText mSoilS;
     private EditText mSoilSI;
 
-    private  int year;
+    private int year;
     private int month;
     private int day;
 
@@ -84,16 +79,27 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
         super.onCreate(savedInstanceState);
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null&&bundle.containsKey(EXTRA_FROM)) {
-            if (bundle.get(EXTRA_FROM).equals(FROM_LIST)) {
-                mListDataEntity = bundle.getParcelable(EXTRA_LIST_ENTITY);
-                DEBUG(mListDataEntity.toString());
+
+        Calendar calendar = Calendar.getInstance();
+
+        if (bundle != null && bundle.containsKey(EXTRA_LIST_ENTITY)) {
+
+            mListDataEntity = bundle.getParcelable(EXTRA_LIST_ENTITY);
+            DEBUG(mListDataEntity.toString());
+            if (mListDataEntity != null) {
+                calendar.setTimeInMillis(mListDataEntity.testDate);
             }
+
         }
-       Calendar calendar= Calendar.getInstance();
-        year =calendar.get(Calendar.YEAR);
-         month = calendar.get(Calendar.MONTH)+1;
-         day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH) + 1;
+        day = calendar.get(Calendar.DAY_OF_MONTH);
+        if (mListDataEntity != null) {
+            updateView(mListDataEntity);
+        }
+
+        mSoilTime.setText(year + "-" + month + "-" + day);
         setRightText(R.string.soil_editor_post);
         mTopBarView.setRightClickListener(this);
     }
@@ -103,34 +109,139 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
         return R.layout.activity_soil_edit;
     }
 
+    private void updateView(DataEntity mListDataEntity) {
+        if (mListDataEntity != null) {
+
+
+            if (!TextUtils.isEmpty(mListDataEntity.type)) {
+                mSoilType.setText(mListDataEntity.type);
+            }
+            if (!TextUtils.isEmpty(mListDataEntity.fertility)) {
+                mSoilFertility.setText(mListDataEntity.fertility);
+            }
+
+            if (!TextUtils.isEmpty(mListDataEntity.color)) {
+                mSoilColor.setText(mListDataEntity.color);
+            }
+
+            //phValue
+            if (!TextUtils.isEmpty(mListDataEntity.phValue)) {
+                mSoilPH.setText(mListDataEntity.phValue.trim());
+            }
+
+            //有机质organic=organic
+
+            if (!TextUtils.isEmpty(mListDataEntity.organic)) {
+
+                mSoilOrganics.setText(mListDataEntity.organic);
+            }
+
+            //有效磷p=100
+            if (!TextUtils.isEmpty(mListDataEntity.p)) {
+
+                mSoilP.setText(mListDataEntity.p);
+            }
+
+
+            //全氮  an=12.1
+            if (!TextUtils.isEmpty(mListDataEntity.an)) {
+                mSoilAN.setText(mListDataEntity.an);
+            }
+
+            //碱解氮qn=10.2
+            if (!TextUtils.isEmpty(mListDataEntity.qn)) {
+                mSoilQN.setText(mListDataEntity.qn);
+            }
+            //速效钾qK   soil_K
+            if (!TextUtils.isEmpty(mListDataEntity.qK)) {
+                mSoilQK.setText(mListDataEntity.qK);
+            }
+            //缓效钾sK=1.2&  soil_K_slow
+
+            if (!TextUtils.isEmpty(mListDataEntity.sK)) {
+
+                mSoilSK.setText(mListDataEntity.sK);
+            }
+
+
+            //mo=12.0
+
+
+            if (!TextUtils.isEmpty(mListDataEntity.mo)) {
+                mSoilMO.setText(mListDataEntity.mo);
+            }
+
+            //铁Fe fe=3.0 soil_FE
+            if (!TextUtils.isEmpty(mListDataEntity.fe)) {
+                mSoilFE.setText(mListDataEntity.fe);
+            }
+            //锰Mn mn=12 soil_mn
+            if (!TextUtils.isEmpty(mListDataEntity.mn)) {
+                mSoilMN.setText(mListDataEntity.mn);
+            }
+            //铜Cu cu=21.0   soil_cu
+            if (!TextUtils.isEmpty(mListDataEntity.cu)) {
+                mSoilCU.setText(mListDataEntity.cu);
+            }
+
+            //锌Zn zn=1 soil_ZN
+
+            if (!TextUtils.isEmpty(mListDataEntity.zn)) {
+                mSoilZN.setText(mListDataEntity.zn);
+            }
+            //硼B  b=90 soil_B
+            if (!TextUtils.isEmpty(mListDataEntity.b)) {
+                mSoilB.setText(mListDataEntity.b);
+            }
+
+
+            //ca=1.0
+            if (!TextUtils.isEmpty(mListDataEntity.ca)) {
+                mSoilCA.setText(mListDataEntity.ca);
+            }
+
+            //s=0.1
+            if (!TextUtils.isEmpty(mListDataEntity.s)) {
+                mSoilS.setText(mListDataEntity.s);
+            }
+            // si=45
+
+            if (!TextUtils.isEmpty(mListDataEntity.si)) {
+                mSoilSI.setText(mListDataEntity.si);
+            }
+            // mg=2.3
+            if (!TextUtils.isEmpty(mListDataEntity.mg)) {
+                mSoilMG.setText(mListDataEntity.mg);
+            }
+
+
+        }
+    }
+
 
     protected void initView() {
 
-      mSoilType = (TextView) findViewById(R.id.soil_type);
-      mSoilColor= (TextView) findViewById(R.id.soil_color);
-      mSoilFertility = (TextView) findViewById(R.id.soil_fertility);
-      mSoilTime = (EditText) findViewById(R.id.soil_time);
-      mSoilPH = (EditText) findViewById(R.id.soil_ph);
-      mSoilOrganics = (EditText) findViewById(R.id.soil_organics);
-      mSoilAN= (EditText) findViewById(R.id.soil_an);
-      mSoilQN= (EditText) findViewById(R.id.soil_qn);
-      mSoilP= (EditText) findViewById(R.id.soil_P);
-      mSoilQK= (EditText) findViewById(R.id.soil_qk);
-      mSoilSK= (EditText) findViewById(R.id.soil_sk);
-      mSoilMO= (EditText) findViewById(R.id.soil_mo);
-      mSoilFE= (EditText) findViewById(R.id.soil_FE);
-      mSoilMN= (EditText) findViewById(R.id.soil_mn);
-      mSoilCU= (EditText) findViewById(R.id.soil_cu);
-      mSoilZN= (EditText) findViewById(R.id.soil_ZN);
-      mSoilB= (EditText) findViewById(R.id.soil_B);
-      mSoilCA= (EditText) findViewById(R.id.soil_ca);
-      mSoilMG= (EditText) findViewById(R.id.soil_mg);
-      mSoilS= (EditText) findViewById(R.id.soil_s);
-      mSoilSI= (EditText) findViewById(R.id.soil_si);
-
-
-
-
+        mSoilType = (TextView) findViewById(R.id.soil_type);
+        mSoilColor = (TextView) findViewById(R.id.soil_color);
+        mSoilFertility = (TextView) findViewById(R.id.soil_fertility);
+        mSoilTime = (EditText) findViewById(R.id.soil_time);
+        mSoilPH = (EditText) findViewById(R.id.soil_ph);
+        mSoilOrganics = (EditText) findViewById(R.id.soil_organics);
+        mSoilAN = (EditText) findViewById(R.id.soil_an);
+        mSoilQN = (EditText) findViewById(R.id.soil_qn);
+        mSoilP = (EditText) findViewById(R.id.soil_P);
+        mSoilQK = (EditText) findViewById(R.id.soil_qk);
+        mSoilSK = (EditText) findViewById(R.id.soil_sk);
+        mSoilMO = (EditText) findViewById(R.id.soil_mo);
+        mSoilFE = (EditText) findViewById(R.id.soil_FE);
+        mSoilMN = (EditText) findViewById(R.id.soil_mn);
+        mSoilCU = (EditText) findViewById(R.id.soil_cu);
+        mSoilZN = (EditText) findViewById(R.id.soil_ZN);
+        mSoilB = (EditText) findViewById(R.id.soil_B);
+        mSoilCA = (EditText) findViewById(R.id.soil_ca);
+        mSoilMG = (EditText) findViewById(R.id.soil_mg);
+        mSoilS = (EditText) findViewById(R.id.soil_s);
+        mSoilSI = (EditText) findViewById(R.id.soil_si);
 
 
     }
@@ -171,130 +282,128 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 // &phValue=6.7
 // &&&&&&&
 // &&
-                param.type="";
-                param.color="";
+                param.type = "";
+                param.color = "";
 
                 //phValue
-                if(TextUtils.isEmpty(mSoilPH.getText())){
+                if (TextUtils.isEmpty(mSoilPH.getText())) {
                     param.phValue = "0";
-                }else {
+                } else {
                     param.phValue = mSoilPH.getText().toString().trim();
                 }
 
                 //有机质organic=organic
 
-                if(TextUtils.isEmpty(mSoilOrganics.getText())){
+                if (TextUtils.isEmpty(mSoilOrganics.getText())) {
                     param.organic = "0";
-                }else {
-                    param.organic = mSoilPH.getText().toString().trim();
+                } else {
+                    param.organic = mSoilOrganics.getText().toString().trim();
                 }
 
                 //有效磷p=100
-                if(TextUtils.isEmpty(mSoilP.getText())){
+                if (TextUtils.isEmpty(mSoilP.getText())) {
                     param.organic = "0";
-                }else {
+                } else {
                     param.organic = mSoilP.getText().toString().trim();
                 }
 
 
                 //全氮  an=12.1
-                if(TextUtils.isEmpty(mSoilAN.getText())){
+                if (TextUtils.isEmpty(mSoilAN.getText())) {
                     param.an = "0";
-                }else {
+                } else {
                     param.an = mSoilAN.getText().toString().trim();
                 }
 
                 //碱解氮qn=10.2
-                if(TextUtils.isEmpty(mSoilQN.getText())){
+                if (TextUtils.isEmpty(mSoilQN.getText())) {
                     param.qn = "0";
-                }else {
+                } else {
                     param.qn = mSoilQN.getText().toString().trim();
                 }
                 //速效钾qK   soil_K
-                if(TextUtils.isEmpty(mSoilQK.getText())){
+                if (TextUtils.isEmpty(mSoilQK.getText())) {
                     param.qK = "0";
-                }else {
+                } else {
                     param.qK = mSoilQK.getText().toString().trim();
                 }
                 //缓效钾sK=1.2&  soil_K_slow
 
-                if(TextUtils.isEmpty(mSoilSK.getText())){
+                if (TextUtils.isEmpty(mSoilSK.getText())) {
                     param.sK = "0";
-                }else {
+                } else {
                     param.sK = mSoilSK.getText().toString().trim();
                 }
-
-
 
 
                 //mo=12.0
 
 
-                if(TextUtils.isEmpty(mSoilMO.getText())){
+                if (TextUtils.isEmpty(mSoilMO.getText())) {
                     param.mo = "0";
-                }else {
-                    param.mo= mSoilMO.getText().toString().trim();
+                } else {
+                    param.mo = mSoilMO.getText().toString().trim();
                 }
 
                 //铁Fe fe=3.0 soil_FE
-                if(TextUtils.isEmpty(mSoilFE.getText())){
+                if (TextUtils.isEmpty(mSoilFE.getText())) {
                     param.fe = "0";
-                }else {
-                    param.fe= mSoilFE.getText().toString().trim();
+                } else {
+                    param.fe = mSoilFE.getText().toString().trim();
                 }
                 //锰Mn mn=12 soil_mn
-                if(TextUtils.isEmpty(mSoilMN.getText())){
+                if (TextUtils.isEmpty(mSoilMN.getText())) {
                     param.mn = "0";
-                }else {
-                    param.mn= mSoilMN.getText().toString().trim();
+                } else {
+                    param.mn = mSoilMN.getText().toString().trim();
                 }
                 //铜Cu cu=21.0   soil_cu
-                if(TextUtils.isEmpty(mSoilCU.getText())){
+                if (TextUtils.isEmpty(mSoilCU.getText())) {
                     param.cu = "0";
-                }else {
-                    param.cu= mSoilCU.getText().toString().trim();
+                } else {
+                    param.cu = mSoilCU.getText().toString().trim();
                 }
 
                 //锌Zn zn=1 soil_ZN
 
-                if(TextUtils.isEmpty(mSoilZN.getText())){
+                if (TextUtils.isEmpty(mSoilZN.getText())) {
                     param.zn = "0";
-                }else {
-                    param.zn= mSoilZN.getText().toString().trim();
+                } else {
+                    param.zn = mSoilZN.getText().toString().trim();
                 }
                 //硼B  b=90 soil_B
-                if(TextUtils.isEmpty(mSoilB.getText())){
+                if (TextUtils.isEmpty(mSoilB.getText())) {
                     param.b = "0";
-                }else {
-                    param.b= mSoilB.getText().toString().trim();
+                } else {
+                    param.b = mSoilB.getText().toString().trim();
                 }
 
 
                 //ca=1.0
-                if(TextUtils.isEmpty(mSoilCA.getText())){
+                if (TextUtils.isEmpty(mSoilCA.getText())) {
                     param.ca = "0";
-                }else {
-                    param.ca= mSoilCA.getText().toString().trim();
+                } else {
+                    param.ca = mSoilCA.getText().toString().trim();
                 }
 
                 //s=0.1
-                if(TextUtils.isEmpty(mSoilS.getText())){
+                if (TextUtils.isEmpty(mSoilS.getText())) {
                     param.s = "0";
-                }else {
-                    param.s= mSoilS.getText().toString().trim();
+                } else {
+                    param.s = mSoilS.getText().toString().trim();
                 }
                 // si=45
 
-                if(TextUtils.isEmpty(mSoilSI.getText())){
+                if (TextUtils.isEmpty(mSoilSI.getText())) {
                     param.si = "0";
-                }else {
-                    param.si= mSoilSI.getText().toString().trim();
+                } else {
+                    param.si = mSoilSI.getText().toString().trim();
                 }
                 // mg=2.3
-                if(TextUtils.isEmpty(mSoilMG.getText())){
-                    param.si = "0";
-                }else {
-                    param.si= mSoilMG.getText().toString().trim();
+                if (TextUtils.isEmpty(mSoilMG.getText())) {
+                    param.mg = "0";
+                } else {
+                    param.mg = mSoilMG.getText().toString().trim();
                 }
 
 
@@ -331,7 +440,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
                 Toast.makeText(this, "h5 report", Toast.LENGTH_SHORT).show();
                 break;
 
-            case  R.id.soil_time:
+            case R.id.soil_time:
                 showChooseDate();
             default:
                 break;
@@ -397,7 +506,6 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     public void onTaskSuccess(int requestCode, Object response) {
 
 
-
     }
 
     @Override
@@ -411,28 +519,28 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     }
 
 
-    public static Intent createIntentFromList(Context context, DataEntity entity) {
+    public static Intent createIntent(Context context, DataEntity entity) {
 
         Intent intent = new Intent(context, SoilEditorActivity.class);
         Bundle bundle = new Bundle();
         bundle.putParcelable(EXTRA_LIST_ENTITY, entity);
-        bundle.putString(EXTRA_FROM, FROM_LIST);
+
         intent.putExtras(bundle);
 
         return intent;
     }
 
 
-    private  void DEBUG(String msg){
-        if(BuildConfig.DEBUG) {
+    private void DEBUG(String msg) {
+        if (BuildConfig.DEBUG) {
             Log.d(TAG, msg);
         }
     }
 
 
-    private void showChooseDate(){
-        DEBUG("year:"+year);
-        DatePickerDialog dateDialog = new DatePickerDialog(this, new MyOnDateSetListener(),year,month,day);
+    private void showChooseDate() {
+        DEBUG("year:" + year);
+        DatePickerDialog dateDialog = new DatePickerDialog(this, new MyOnDateSetListener(), year, month, day);
         dateDialog.show();
     }
 
@@ -444,6 +552,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
             year = y;
             month = monthOfYear;
             day = dayOfMonth;
+            mSoilTime.setText(year + "-" + month + "-" + day);
         }
     }
 

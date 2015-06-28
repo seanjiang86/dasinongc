@@ -24,6 +24,8 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
 
     private TextView mSoilCheck;
 
+    private DataEntity entity;
+
 
     public SoilView(Context context) {
         super(context);
@@ -57,7 +59,7 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
                 break;
             default:
 
-                Intent intent = new Intent(this.getContext(), SoilEditorActivity.class);
+                Intent intent = SoilEditorActivity.createIntent(this.getContext(),entity);
                 getContext().startActivity(intent);
                 break;
         }
@@ -69,6 +71,8 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
         if (latestReport == null) {
             return;
         }
+
+        entity =latestReport;
         TextView color = (TextView) this.findViewById(R.id.soil_color);
         if(!TextUtils.isEmpty(latestReport.color)){
             color.setText(latestReport.color+latestReport.type);
