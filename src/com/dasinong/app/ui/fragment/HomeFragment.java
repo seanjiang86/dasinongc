@@ -41,6 +41,10 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
     private static final int REQUEST_CODE_HOME_FIELD = 130;
     private static final int REQUEST_CODE_HOME_WEATHER = 131;
     private static final int REQUEST_CODE_HOME_BANNER = 132;
+
+    private  boolean home = false;
+    private boolean weather = false;
+    private boolean banner = false;
     private static final String URL_FIELD = NetConfig.BASE_URL + "home";
     /**
      * loadWeather?monitorLocationId=101010100
@@ -140,6 +144,7 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
 
 
     private void loadDataFromWithCache() {
+
         loadFieldData("10");
         loadWeatherData();
         loadBanner();
@@ -247,15 +252,18 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
 
         switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
+                home = true;
                 FieldEntity entity = (FieldEntity) response;
                 DEBUG("entity:" + entity.toString());
                 if (entity != null) {
                     mDisasterView.updateView(entity.currentField.natdisws, entity.currentField.petdisws);
 
                     mCropStateView.updateView(entity);
+                    mSoilView.updateView(entity.latestReport);
                 }
                 break;
             case REQUEST_CODE_HOME_WEATHER:
+                weather = true;
                 WeatherEntity weatherEntity = (WeatherEntity) response;
 
                 DEBUG(weatherEntity.toString());
@@ -265,7 +273,7 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
                 break;
 
             case  REQUEST_CODE_HOME_BANNER:
-
+                banner = true;
                 BannerEntity banner = (BannerEntity) response;
                 if(banner!=null){
                     mBannerView.updateView(banner);
@@ -275,6 +283,7 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
                 break;
 
         }
+
 
     }
 

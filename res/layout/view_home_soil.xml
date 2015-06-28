@@ -29,9 +29,10 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="#333333"
+                android:id="@+id/soil_color"
                 android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
-                android:text="红色土壤"
+
                 tools:text="红色土壤" />
 
             <TextView
@@ -65,7 +66,8 @@
                 android:textColor="#333333"
                 android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
-                android:text="中等"
+                android:id="@+id/soil_fertility"
+
                 tools:text="中等" />
 
             <TextView
@@ -96,8 +98,9 @@
                 android:gravity="center"
                 android:textColor="#333333"
                 android:textSize="@dimen/home_text_size_34"
+                android:id="@+id/soil_tem"
                 android:textStyle="bold"
-                android:text="34％"
+                android:text=""
 
                 tools:text="34％" />
 
@@ -143,6 +146,7 @@
                 android:textColor="#333333"
                 android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
+                android:id="@+id/soil_qn"
                 android:text="－－"
                 tools:text="－－" />
 
@@ -175,6 +179,7 @@
                 android:gravity="center"
                 android:textColor="#333333"
                 android:textSize="@dimen/home_text_size_34"
+                android:id="@+id/soil_P"
                 android:textStyle="bold"
                 android:text="－－"
                 tools:text="－－" />
@@ -206,6 +211,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="#333333"
+                android:id="@id/soil_qk"
                 android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
                 android:text="－－"

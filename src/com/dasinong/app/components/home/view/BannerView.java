@@ -83,11 +83,11 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
                 mImageContainer.setVisibility(VISIBLE);
                 dealImageContainer(banner);
                 break;
-            case 1:
+            case 2:
                 mAllContainer.setVisibility(VISIBLE);
                 dealAllView(banner);
                 break;
-            case 2:
+            case 1:
                 mImageTitleContainer.setVisibility(VISIBLE);
                 dealTitleImageContainer(banner);
                 break;

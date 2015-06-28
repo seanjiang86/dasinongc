@@ -3,6 +3,7 @@ package com.dasinong.app.components.home.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.dasinong.app.R;
 import com.dasinong.app.ui.soil.SoilEditorActivity;
 import com.dasinong.app.ui.soil.SoilListActivity;
+import com.dasinong.app.ui.soil.domain.DataEntity;
 
 
 /**
@@ -63,4 +65,44 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
     }
 
 
+    public void updateView(DataEntity latestReport) {
+        if (latestReport == null) {
+            return;
+        }
+        TextView color = (TextView) this.findViewById(R.id.soil_color);
+        if(!TextUtils.isEmpty(latestReport.color)){
+            color.setText(latestReport.color+latestReport.type);
+        }
+
+        TextView fertility = (TextView) this.findViewById(R.id.soil_fertility);
+
+        if (!TextUtils.isEmpty(latestReport.fertility)) {
+            fertility.setText(latestReport.fertility);
+
+        }
+
+        TextView humidity = (TextView) this.findViewById(R.id.soil_tem);
+        if (!TextUtils.isEmpty(latestReport.humidity)) {
+            humidity.setText(latestReport.humidity);
+
+        }
+
+
+        TextView qn = (TextView) this.findViewById(R.id.soil_qn);
+        if (!TextUtils.isEmpty(latestReport.qn)&&!"0.0".equals(latestReport.qn)) {
+            qn.setText(latestReport.qn);
+
+        }
+        TextView p = (TextView) this.findViewById(R.id.soil_P);
+        if (!TextUtils.isEmpty(latestReport.qn)&&!"0.0".equals(latestReport.p)) {
+            p.setText(latestReport.p);
+
+        }
+        TextView k = (TextView) this.findViewById(R.id.soil_qk);
+        if (!TextUtils.isEmpty(latestReport.qK)&&!"0.0".equals(latestReport.qK)) {
+            k.setText(latestReport.qK);
+
+        }
+
+    }
 }
