@@ -2,6 +2,7 @@ package com.dasinong.app.components.home.view;
 
 import android.content.Context;
 import android.os.Debug;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.components.domain.WeatherEntity;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -62,10 +64,50 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private TextView mWeatherMidnight;
 
 
-
-    private String[]  winds;
+    private String[] winds;
 
     private String[] windDirect;
+
+    private static final HashMap<String,String> weatherMaps = new HashMap<>();
+
+    static {
+
+        weatherMaps.put("00", "晴");
+        weatherMaps.put("01", "多云");
+        weatherMaps.put("02", "阴");
+        weatherMaps.put("03", "阵雨");
+        weatherMaps.put("04", "雷阵雨");
+        weatherMaps.put("05", "雷阵雨伴有冰雹");
+        weatherMaps.put("06", "雨夹雪");
+        weatherMaps.put("07", "小雨");
+        weatherMaps.put("08", "中雨");
+        weatherMaps.put("09", "大雨");
+        weatherMaps.put("10", "暴雨");
+        weatherMaps.put("11", "大暴雨");
+        weatherMaps.put("12", "特大暴雨");
+        weatherMaps.put("13", "阵雪");
+        weatherMaps.put("14", "小雪");
+        weatherMaps.put("15", "中雪");
+        weatherMaps.put("16", "大雪");
+        weatherMaps.put("17", "暴雪");
+        weatherMaps.put("18", "雾");
+        weatherMaps.put("19", "冻雨");
+        weatherMaps.put("20", "沙尘暴");
+        weatherMaps.put("21", "小到中雨");
+        weatherMaps.put("22", "中到大雨");
+        weatherMaps.put("23", "大雨到暴雨");
+        weatherMaps.put("24", "暴雨到大暴雨");
+        weatherMaps.put("25", "大暴雨到特大暴雨");
+        weatherMaps.put("26", "小到中雪");
+        weatherMaps.put("27", "中到大雪");
+        weatherMaps.put("28", "大到暴雪");
+        weatherMaps.put("29", "浮尘");
+        weatherMaps.put("30", "扬沙");
+        weatherMaps.put("31", "强沙尘暴");
+        weatherMaps.put("53", "霾");
+        weatherMaps.put("99", "无");
+
+    }
 
 
     public HomeWeatherView(Context context) {
@@ -141,7 +183,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
     private void updateFourSectionView(WeatherEntity.POP pop) {
-        if(pop==null){
+        if (pop == null) {
             return;
         }
         mWeatherMorning.setText(pop.morning + "%");
@@ -190,10 +232,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
             calendar.setTimeInMillis(item.forecast_time);
 
 
-
             if (today.after(calendar)) {
                 continue;
-
 
 
             }
@@ -306,10 +346,9 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
 
-    private String getSevenWeather(Object weather) {
-
-        //TODO:
-        return "晴转多云";
+    private String getSevenWeather(String weather) {
+        String status = weatherMaps.get(weather);
+        return TextUtils.isEmpty(status)?"晴转多云":status;
 
     }
 
@@ -317,10 +356,10 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private String getSevenWindLevel(String ddLevel) {
 
         int index = 0;
-        try{
-            index = Integer.parseInt(ddLevel)%windDirect.length;
-        }catch (Exception e){
-            DEBUG("ddLevle parse error"+ddLevel);
+        try {
+            index = Integer.parseInt(ddLevel) % windDirect.length;
+        } catch (Exception e) {
+            DEBUG("ddLevle parse error" + ddLevel);
         }
 
         return windDirect[index];
@@ -374,8 +413,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
 
-    private  void DEBUG(String msg){
-        if(BuildConfig.DEBUG) {
+    private void DEBUG(String msg) {
+        if (BuildConfig.DEBUG) {
             Log.d(TAG, msg);
         }
     }
