@@ -22,9 +22,12 @@ import com.dasinong.app.R;
 
 import com.dasinong.app.components.domain.FieldEntity;
 
+import com.dasinong.app.database.disaster.dao.PetDisspecDao;
 import com.dasinong.app.ui.HarmDetialsActivity;
 import com.dasinong.app.ui.HarmListActivity;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
@@ -56,6 +59,14 @@ public class DisasterView extends LinearLayout {
     private int mNatDisasterRes;
     private int mPetDisasterRes;
 
+    private List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> mTopCurrentNatEntity;
+    private List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> mTopCurrentPetEntity;
+
+
+
+    private PetDisspecDao dao;
+
+
     public DisasterView(Context context) {
         super(context);
         initView();
@@ -83,8 +94,9 @@ public class DisasterView extends LinearLayout {
         initTopView();
 
         initBottomView();
-
-        updateView(null, null);
+        mTopCurrentNatEntity = new ArrayList<>();
+        mTopCurrentPetEntity = new ArrayList<>();
+        //updateView(null, null);
 
     }
 
@@ -99,7 +111,7 @@ public class DisasterView extends LinearLayout {
         int padding = (int) getResources().getDimension(R.dimen.home_dimen_30);
         mBottomView = new TextView(this.getContext());
         mBottomView.setPadding(padding, padding, padding, padding);
-        mBottomView.setTextSize(TypedValue.COMPLEX_UNIT_SP,16);
+        mBottomView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         mBottomView.setText(R.string.disaster_show);
         mBottomView.setGravity(Gravity.CENTER);
         mBottomView.setTextColor(Color.parseColor("#1768bc"));
@@ -115,11 +127,47 @@ public class DisasterView extends LinearLayout {
 
         this.removeAllViews();
         addTopView();
+        filterNatEntity(natdiswsEntityList);
+        filterDiste(petdiswsEntities);
+        updateNatView(mTopCurrentNatEntity);
+        updatePetView(mTopCurrentPetEntity);
+
         updatePetView(petdiswsEntities);
         updateNatView(natdiswsEntityList);
+
         addBottomView();
 
     }
+
+    private void filterNatEntity(List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> natdiswsEntityList) {
+
+        if(natdiswsEntityList==null||natdiswsEntityList.isEmpty()){
+            return;
+        }
+
+        Iterator<FieldEntity.CurrentFieldEntity.NatdiswsEntity> iterator = natdiswsEntityList.iterator();
+        mTopCurrentNatEntity.clear();
+        while (iterator.hasNext()) {
+            FieldEntity.CurrentFieldEntity.NatdiswsEntity entity = iterator.next();
+            if (entity.alerttype) {
+                mTopCurrentNatEntity.add(entity);
+                iterator.remove();
+            }
+        }
+    }
+
+    private void filterDiste(List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
+        Iterator<FieldEntity.CurrentFieldEntity.PetdiswsEntity> iterator = petdiswsEntities.iterator();
+        while (iterator.hasNext()) {
+            FieldEntity.CurrentFieldEntity.PetdiswsEntity entity = iterator.next();
+            if(entity.alerttype){
+                mTopCurrentPetEntity.add(entity);
+                iterator.remove();
+            }
+        }
+    }
+
+
 
     private void addTopView() {
 
@@ -129,14 +177,14 @@ public class DisasterView extends LinearLayout {
             container.removeView(mTopView);
         }
 
-        this.addView(mTopView, 0,mTopLayoutParam);
+        this.addView(mTopView, 0, mTopLayoutParam);
 
     }
 
     private void updateNatView(List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> natdiswsEntityList) {
         View child;
-        if(natdiswsEntityList!=null&&!natdiswsEntityList.isEmpty()){
-            for (FieldEntity.CurrentFieldEntity.NatdiswsEntity item:natdiswsEntityList) {
+        if (natdiswsEntityList != null && !natdiswsEntityList.isEmpty()) {
+            for (FieldEntity.CurrentFieldEntity.NatdiswsEntity item : natdiswsEntityList) {
                 child = createNatView(item);
                 this.addView(child);
             }
@@ -146,9 +194,9 @@ public class DisasterView extends LinearLayout {
     }
 
     private void updatePetView(List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
-        View child ;
-        if(petdiswsEntities!=null&&!petdiswsEntities.isEmpty()){
-            for (FieldEntity.CurrentFieldEntity.PetdiswsEntity item:petdiswsEntities) {
+        View child;
+        if (petdiswsEntities != null && !petdiswsEntities.isEmpty()) {
+            for (FieldEntity.CurrentFieldEntity.PetdiswsEntity item : petdiswsEntities) {
                 child = createPetView(item);
                 this.addView(child);
             }
@@ -166,7 +214,11 @@ public class DisasterView extends LinearLayout {
         TextView disastertype = (TextView) child.findViewById(R.id.disaster_type);
 
         disastername.setText(item.petDisSpecName);
-        disastertype.setBackgroundResource(mPetDisasterRes);
+        if(item.alerttype) {
+            disastertype.setBackgroundResource(mPetDisasterRes);
+        }else {
+            disastertype.setBackgroundResource(mPetDisasterRes);
+        }
 
         disastertype.setText("病害预警");
 
@@ -174,24 +226,22 @@ public class DisasterView extends LinearLayout {
                 "世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多，发生后可造成不同程度减产可造成白穗以致绝产");
         child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
         child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
-        
-        child.setOnClickListener(new View.OnClickListener(){
 
-			@Override
-			public void onClick(View v) {
-				//TODO: flag editor
-				Intent intent=HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_ITEM, getContext());
-				getContext().startActivity(intent);
-				
-			}
-        	
-        	
-        	
+        child.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //TODO: flag editor
+                Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_ITEM, getContext());
+                getContext().startActivity(intent);
+
+            }
+
+
         });
         return child;
 
     }
-
 
 
     private View createNatView(FieldEntity.CurrentFieldEntity.NatdiswsEntity item) {
@@ -203,26 +253,28 @@ public class DisasterView extends LinearLayout {
         TextView disastername = (TextView) child.findViewById(R.id.disaster_name);
         TextView disastertype = (TextView) child.findViewById(R.id.disaster_type);
         disastername.setText(item.natDisSpecName);
-        disastertype.setBackgroundResource(mNatDisasterRes);
-
+        if(item.alerttype) {
+            disastertype.setBackgroundResource(mPetDisasterRes);
+        }else {
+            disastertype.setBackgroundResource(mPetDisasterRes);
+        }
         disastertype.setText("病害预警");
         disasterdesc.setText("稻瘟病是水稻重要病害之一 可引起大幅度减产，严重时减产40%～50%，甚至颗粒无收。" +
                 "世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多，发生后可造成不同程度减产可造成白穗以致绝产");
         child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
         child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
-        
-        
-        child.setOnClickListener(new View.OnClickListener(){
 
-			@Override
-			public void onClick(View v) {
-				//TODO:nat disaster H5
-				Toast.makeText(getContext(), "natdisaster url", Toast.LENGTH_SHORT).show();
-				
-			}
-        	
-        	
-        	
+
+        child.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //TODO:nat disaster H5
+                Toast.makeText(getContext(), "natdisaster url", Toast.LENGTH_SHORT).show();
+
+            }
+
+
         });
         return child;
 
@@ -251,22 +303,24 @@ public class DisasterView extends LinearLayout {
     class BottomClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-        	Intent intent = new Intent(v.getContext(), HarmListActivity.class);
-        	v.getContext().startActivity(intent);
+            Intent intent = new Intent(v.getContext(), HarmListActivity.class);
+            v.getContext().startActivity(intent);
         }
     }
 
     class PreVentClickListener implements View.OnClickListener {
 
         private int petDisspecId;
-        public PreVentClickListener(int petDisspecId){
+
+        public PreVentClickListener(int petDisspecId) {
             this.petDisspecId = petDisspecId;
 
         }
+
         @Override
         public void onClick(View v) {
             //需要标明你是点击防治，预防，还是该条item跳进来的
-            Intent intent = HarmDetialsActivity.createIntent(petDisspecId,HarmDetialsActivity.FLAG_PREVENT,getContext());
+            Intent intent = HarmDetialsActivity.createIntent(petDisspecId, HarmDetialsActivity.FLAG_PREVENT, getContext());
             v.getContext().startActivity(intent);
 
         }
@@ -274,14 +328,16 @@ public class DisasterView extends LinearLayout {
 
     class CureClickListener implements View.OnClickListener {
         private int petDisspecId;
-        public CureClickListener(int petDisspecId){
+
+        public CureClickListener(int petDisspecId) {
             this.petDisspecId = petDisspecId;
 
         }
+
         @Override
         public void onClick(View v) {
 
-            Intent intent = HarmDetialsActivity.createIntent(petDisspecId,HarmDetialsActivity.FLAG_CURE,getContext());
+            Intent intent = HarmDetialsActivity.createIntent(petDisspecId, HarmDetialsActivity.FLAG_CURE, getContext());
             v.getContext().startActivity(intent);
         }
     }

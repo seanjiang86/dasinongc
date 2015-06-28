@@ -48,4 +48,18 @@ public class SubStageDaoImpl extends DaoSupportImpl<SubStage> {
 
         return querySingleColumn(sb.toString());
     }
+
+
+    /**
+     *
+     * @return
+     */
+    public SubStage queryStageByID(String id)
+    {
+        if(query("subStageId = ? ",new String[]{id},"subStageId").isEmpty()){
+            return  null;
+        }
+        return query("subStageId = ? ",new String[]{id},"subStageId").get(0);
+    }
+
 }

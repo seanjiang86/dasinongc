@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BannerEntity;
-import com.dasinong.app.components.domain.BaseResponse;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.domain.WeatherEntity;
 import com.dasinong.app.components.home.view.BannerView;

@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/home_w_white"
+                android:gravity="center_vertical"
+              android:orientation="vertical"
                 android:paddingBottom="0dp">
+
+
 
     <TextView
         android:id="@+id/tvItemDay"
@@ -42,6 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
         android:layout_toLeftOf="@+id/tvItemWindSpeed"
         android:layout_toRightOf="@+id/tvItemWeather"
         android:gravity="center"
@@ -72,19 +77,19 @@
 
 
     <TextView
+
+        android:layout_marginLeft="5dp"
         android:id="@+id/tvItemWindSpeed"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
+        android:gravity="right"
         android:text="3~4级"
         android:textColor="#999999"
         android:textSize="@dimen/home_text_size_32"/>
 
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/tvItemDay"
-        android:background="#ededed"/>
-</RelativeLayout>
+
+</TableRow>
+
+
+

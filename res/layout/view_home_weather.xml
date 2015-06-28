@@ -385,13 +385,13 @@
         android:layout_below="@id/horHumView"
         android:background="#dbe3e6" />
 
-    <LinearLayout
+    <TableLayout
         android:id="@+id/lyWeekWeather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/ivLine3"
-        android:layout_marginLeft="@dimen/home_dimen_45"
-        android:layout_marginRight="@dimen/home_dimen_45"
+        android:layout_marginLeft="@dimen/home_dimen_30"
+        android:layout_marginRight="@dimen/home_dimen_30"
         android:orientation="vertical" />
 
     <TextView

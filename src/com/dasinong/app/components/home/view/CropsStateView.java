@@ -1,6 +1,5 @@
 package com.dasinong.app.components.home.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -8,7 +7,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,6 +14,8 @@ import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
 
+import com.dasinong.app.database.task.dao.impl.SubStageDaoImpl;
+import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.ui.AddFieldActivity1;
 
 import java.util.ArrayList;
@@ -45,6 +45,11 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     // 农活内容点击事件
     private MyOnAddFieldClickListener onAddFieldClickListener;
 
+    private List<SubStage> mSubStageLists;
+    private SubStage mCurrentSubStage;
+    private String rightStateInfo;
+
+
     public CropsStateView(Context context) {
         super(context);
         this.context = context;
@@ -61,7 +66,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         weeks = getResources().getStringArray(R.array.weeks);
         View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top, this);
         fieldView = (TextView) rootView.findViewById(R.id.field);
-        addFieldView =  rootView.findViewById(R.id.add_field);
+        addFieldView = rootView.findViewById(R.id.add_field);
         fieldStateView = (CropsGroupUpView) rootView.findViewById(R.id.field_state);
         dayView = (TextView) rootView.findViewById(R.id.day);
         weekView = (TextView) rootView.findViewById(R.id.week);
@@ -119,18 +124,18 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             }
             //设置作物的状态和当前的收获时间--横向滑动的叶子的下面view
             //DONE
-            String harvestDay = "";
-            if(entity.currentField.daytoharvest>0){
+            String harvestDay = getHarvestDay(entity);
 
-                harvestDay = "离收获还有"+entity.currentField.daytoharvest+"天";
-            }
-            /**
-             *     /**
-             * cropName + stageName + SubStagName; 水稻分叶期8叶
-             */
+            FieldEntity.CurrentFieldEntity fieldEntity = entity.currentField;
 
-            //TODO:--------------------
             String rightStateInfo = "水稻";
+            if (fieldEntity != null) {
+                mCurrentSubStage = getCurrentStage(fieldEntity.currentStageID);
+                mSubStageLists = getSubStages();
+                rightStateInfo = rightStateInfo + mCurrentSubStage.stageName + mCurrentSubStage.subStageName;
+            }
+
+
             setCropStateInfo(harvestDay, rightStateInfo);
         }
 
@@ -164,13 +169,28 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         setWorkState(entity.currentField.workable, entity.currentField.sprayable);
 
 
-
         //设置任务的内容
 
 
         setWorkContent(entity.currentField);
 
     }
+
+    private String getHarvestDay(FieldEntity entity) {
+        String harvestDay = "";
+        if (entity.currentField.daytoharvest > 0) {
+
+            harvestDay = "离收获还有" + entity.currentField.daytoharvest + "天";
+        }
+
+        return harvestDay;
+    }
+
+    private void updateLeftHarvestDay(String harvestDay) {
+
+
+    }
+
 
     /**
      * 设置农活任务(活动任务)的显示实体
@@ -185,15 +205,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     }
 
 
-
-
-
     //给日期，星期和天气设置相对应的值
     private void setDatWeekAndWeatherView(FieldEntity innerEntity) {
         if (null == innerEntity) return;
         FieldEntity.HomeDate date = innerEntity.date;
-        int index =  date.day% 7;
-        seInfo2TextView(date.date,weeks[index],date.lunar);
+        int index = date.day % 7;
+        seInfo2TextView(date.date, weeks[index], date.lunar);
     }
 
 
@@ -402,6 +419,23 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
          * popwindow的item点击事件
          */
         void onPopWindowItemClick();
+
+    }
+
+
+    private SubStage getCurrentStage(int currentStageID) {
+
+        //
+        SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
+        return dao.queryStageByID(String.valueOf(currentStageID));
+
+    }
+
+
+    private List<SubStage> getSubStages() {
+
+        SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
+        return dao.queryStageSubCategory(mCurrentSubStage.stageName);
 
     }
 }

@@ -7,9 +7,11 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.dasinong.app.BuildConfig;
@@ -71,6 +73,12 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private static final HashMap<String,String> weatherMaps = new HashMap<>();
 
     private static final  HashMap<String,String> iconMaps = new HashMap<>();
+
+    private int height;
+
+    private LayoutInflater mLayoutInflater;
+
+    private TableRow mLine;
 
     static {
 
@@ -179,6 +187,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
     private void init() {
+
+        mLayoutInflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         weeks = getResources().getStringArray(R.array.weeks);
         winds = getResources().getStringArray(R.array.wind);
         windDirect = getResources().getStringArray(R.array.winddirect);
@@ -186,6 +196,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mRoot = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather, null);
 
         addView(mRoot);
+
+
 
         initCurrentWeatherView();
         initFourSectionView();
@@ -283,6 +295,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 
             if (today.after(calendar)) {
+
                 continue;
 
 
@@ -291,8 +304,22 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
             weekWeather = getView(item, weeks[week]);
 
+
             mSevenDaysContainer.addView(weekWeather);
+
+            mLayoutInflater.inflate(R.layout.weather_row_line,mSevenDaysContainer,true);
+
+
         }
+
+
+        mSevenDaysContainer.setVisibility(View.GONE);
+        mSevenDaysContainer.measure(0,0);
+
+        height = mSevenDaysContainer.getMeasuredHeight() ;
+
+        DEBUG("---"+height);
+
     }
 
 
@@ -375,7 +402,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private void initAnimation() {
         if (mShrinkAnimation == null || mExpandAnimation == null) {
-            int height = mSevenDaysContainer.getHeight();
+
             mShrinkAnimation = new ShrinkAnimation(mSevenDaysContainer, height);
             mExpandAnimation = new ExpandAnimation(mSevenDaysContainer, height);
             long duration = (long) (height / getResources().getDisplayMetrics().density);
@@ -420,11 +447,14 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private int getIconRes(Object weather) {
 
         String iconName = iconMaps.get(weather);
+
+
         int resId=0;
         if(!TextUtils.isEmpty(iconName)){
             resId =getResources().getIdentifier(iconName, "drawable", getContext().getPackageName());
         }
-        return resId!=0?resId:R.drawable.ic_weather_dafeng;
+        DEBUG("resid"+resId+"name"+iconName);
+        return resId!=0?resId:R.drawable.na;
     }
 
 
@@ -462,6 +492,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 
         tvItemWindSpeed.setText(getSevenWindLevel(item.dd_level));//3-4级
+
 
         ivItemWind.setImageResource(getIconRes(item.weather));
         return weekWeather;
