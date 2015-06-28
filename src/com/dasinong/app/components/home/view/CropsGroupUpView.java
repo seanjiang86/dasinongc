@@ -140,6 +140,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     public void setLeafViewAndLeafContent(int resId) {
         leftArrowView.setBackgroundResource(resId);
+
+        leafView.getMeasuredHeight();
 //        if (!TextUtils.isEmpty(leafContentValue)) {
 //            //leafContent.setText(leafContentValue);
 //        }
