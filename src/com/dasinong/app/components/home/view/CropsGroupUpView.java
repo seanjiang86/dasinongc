@@ -11,23 +11,35 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.home.view.dialog.ConfirmDialog;
+import com.dasinong.app.database.task.domain.SubStage;
 
-/**农作物成长状况View--用于首页上部绿色背景中部的显示
+import java.util.List;
+
+/**
+ * 农作物成长状况View--用于首页上部绿色背景中部的显示
  * Created by lnn on 15/6/2.
  */
-public class CropsGroupUpView extends LinearLayout implements View.OnClickListener{
+public class CropsGroupUpView extends LinearLayout implements View.OnClickListener {
     //收获时间，时候时间右侧的状态，添加作物view(当没有作物的时候显示),叶子后面的内容
     private TextView harvestTimeView, rightStateView, addCropView;//leafContent;
     //正常view的父View,没有作物的parent
-    private View normalParentView,addCropViewParent;
+    private View normalParentView, addCropViewParent;
     //标记当前是否有作物
-    private int hasCrop=0;//默认有作物
+    private int hasCrop = 0;//默认有作物
     //添加农作物
     private MyAddCropOnClickListener onAddCropClickListener;
     private ImageView leftArrowView, leafView, rightArrowView;
     private ConfirmDialog confirmDialog;
+
+    private int mCurrentPostion;
+    private List<SubStage> mSubStages;
+
+    private static final String TAG = "CropsGroupUpView";
 
 
     public CropsGroupUpView(Context context) {
@@ -41,12 +53,12 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     }
 
     private void init(Context context) {
-        View rootView=LayoutInflater.from(context).inflate(R.layout.view_home_top_work_content,this);
-        normalParentView=rootView.findViewById(R.id.normal_state);
-        harvestTimeView= (TextView) rootView.findViewById(R.id.harvest_time);
-        rightStateView=(TextView)rootView.findViewById(R.id.right_state_content);
-        addCropViewParent=rootView.findViewById(R.id.add_crop_parent);
-        addCropView=(TextView)rootView.findViewById(R.id.add_crop);
+        View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top_work_content, this);
+        normalParentView = rootView.findViewById(R.id.normal_state);
+        harvestTimeView = (TextView) rootView.findViewById(R.id.harvest_time);
+        rightStateView = (TextView) rootView.findViewById(R.id.right_state_content);
+        addCropViewParent = rootView.findViewById(R.id.add_crop_parent);
+        addCropView = (TextView) rootView.findViewById(R.id.add_crop);
 //        leafContent = (TextView) rootView.findViewById(R.id.leaf_content);
         leftArrowView = (ImageView) rootView.findViewById(R.id.left_arrow);
         leafView = (ImageView) rootView.findViewById(R.id.leaf);
@@ -58,14 +70,15 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     /**
      * 设置当前是否有作物-
-     * @param state  0：有；其他：没有
+     *
+     * @param state 0：有；其他：没有
      */
-    public void setCurrentState(int state){
-        this.hasCrop=state;
-        if(0==hasCrop){
+    public void setCurrentState(int state) {
+        this.hasCrop = state;
+        if (0 == hasCrop) {
             normalParentView.setVisibility(View.VISIBLE);
             addCropViewParent.setVisibility(View.GONE);
-        }else{
+        } else {
             normalParentView.setVisibility(View.GONE);
             addCropViewParent.setVisibility(View.VISIBLE);
         }
@@ -73,16 +86,17 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     /**
      * 设置作物状态和收获时间
-     * @param leftStateInfo   --左侧的收获时间
-     * @param rightStateInfo  --右侧的成长状态
+     *
+     * @param leftStateInfo  --左侧的收获时间
+     * @param rightStateInfo --右侧的成长状态
      */
-    public void setCropStateInfo(String leftStateInfo,String rightStateInfo){
-        if(TextUtils.isEmpty(leftStateInfo)){
-            leftStateInfo="";
+    public void setCropStateInfo(String leftStateInfo, String rightStateInfo) {
+        if (TextUtils.isEmpty(leftStateInfo)) {
+            leftStateInfo = "";
         }
         harvestTimeView.setText(leftStateInfo);
-        if(TextUtils.isEmpty(rightStateInfo)){
-            rightStateInfo="";
+        if (TextUtils.isEmpty(rightStateInfo)) {
+            rightStateInfo = "";
         }
 
         rightStateView.setText(rightStateInfo);
@@ -91,7 +105,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.add_crop_parent:
                 // 添加作物
                 if (null != onAddCropClickListener) {
@@ -100,23 +114,42 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 break;
             case R.id.left_arrow:
                 //左侧箭头
-                showConfirmDialog();
+                showConfirmDialog(false);
                 break;
             case R.id.right_arrow:
                 //右侧箭头
-                showConfirmDialog();
+                showConfirmDialog(true);
                 break;
         }
     }
 
-    private void showConfirmDialog() {
-//        if (null == activity) {
-//            return;
-//        }
+    private void showConfirmDialog(boolean flag) {
+
+        if(mSubStages==null||mSubStages.isEmpty()){
+            return;
+        }
+        if (flag) {
+
+
+            if (mCurrentPostion + 1 >= mSubStages.size()) {
+                Toast.makeText(this.getContext(), "sorry", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            mCurrentPostion += 1;
+
+        } else {
+
+            if (mCurrentPostion - 1 < 0) {
+                Toast.makeText(this.getContext(), "sorry", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            mCurrentPostion -= 1;
+        }
         if (null == confirmDialog) {
             confirmDialog = new ConfirmDialog(getContext());
-            confirmDialog.setTitle("确认切换状态");
-            confirmDialog.setMessage("您真的确认要切换当前作物的状态吗");
+
             confirmDialog.setButtonClickListener(new ConfirmDialog.ButtonClickListener() {
 
                 @Override
@@ -127,15 +160,20 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 @Override
                 public void onRightClick(Dialog dialog, String txt) {
                     if (null != onAddCropClickListener) {
+                        confirmDialog.dismiss();
                         onAddCropClickListener.onRightArrowViewClick();
                     }
                 }
             });
         }
+
+        confirmDialog.setTitle("确认切换状态");
+
+        DEBUG("mCurrentPosion" + mCurrentPostion);
+        confirmDialog.setMessage("您真的确认要切换到" + mSubStages.get(mCurrentPostion).subStageName + "的状态吗");
         confirmDialog.show();
 
     }
-
 
 
     public void setLeafViewAndLeafContent(int resId) {
@@ -146,6 +184,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 //            //leafContent.setText(leafContentValue);
 //        }
     }
+
     /**
      * 添加农作物
      *
@@ -153,6 +192,13 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
      */
     public void setOnAddCropClickListener(MyAddCropOnClickListener onAddCropClickListener) {
         this.onAddCropClickListener = onAddCropClickListener;
+    }
+
+    public void setPostionAndList(int mPosition, List<SubStage> mSubStageLists) {
+
+        this.mCurrentPostion = mPosition;
+        this.mSubStages = mSubStageLists;
+
     }
 
     //添加农作物
@@ -166,5 +212,12 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
          * 叶子右侧的箭头的点击
          */
         void onRightArrowViewClick();
+    }
+
+
+    private void DEBUG(String msg) {
+        if (true) {
+            Log.d(TAG, msg);
+        }
     }
 }

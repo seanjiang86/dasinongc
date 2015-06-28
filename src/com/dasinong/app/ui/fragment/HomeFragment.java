@@ -1,6 +1,5 @@
 package com.dasinong.app.ui.fragment;
 
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BannerEntity;
@@ -258,6 +258,37 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
                     mDisasterView.updateView(entity.currentField.natdisws, entity.currentField.petdisws);
 
                     mCropStateView.updateView(entity);
+                    mCropStateView.setOnAddFieldClickListener(new CropsStateView.MyOnAddFieldClickListener() {
+                        @Override
+                        public void onWorKContentItemClick(String itemValue, int pos, boolean isSelect) {
+                            //
+                            Toast.makeText(HomeFragment.this.getActivity(),"task",Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onAddCroupClick() {
+                            Toast.makeText(HomeFragment.this.getActivity(),"add filed",Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onRightTopViewClick() {
+                            Toast.makeText(HomeFragment.this.getActivity(),"+",Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onLeafViewConfirmClick() {
+
+                            Toast.makeText(HomeFragment.this.getActivity(),"confirm",Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void onPopWindowItemClick() {
+
+                            Toast.makeText(HomeFragment.this.getActivity(),"drop",Toast.LENGTH_SHORT).show();
+
+                        }
+                    });
                     mSoilView.updateView(entity.latestReport);
                 }
                 break;

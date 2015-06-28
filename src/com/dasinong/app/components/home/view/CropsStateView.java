@@ -12,13 +12,18 @@ import android.widget.TextView;
 
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
+import com.dasinong.app.components.domain.TaskStatus;
 import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
 
 import com.dasinong.app.database.task.dao.impl.SubStageDaoImpl;
 import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.ui.AddFieldActivity1;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +52,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
     private List<SubStage> mSubStageLists;
     private SubStage mCurrentSubStage;
+    private int mPosition;
     private String rightStateInfo;
 
 
@@ -87,6 +93,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
             @Override
             public void onRightArrowViewClick() {
+
                 if (null != onAddFieldClickListener) {
                     onAddFieldClickListener.onLeafViewConfirmClick();
                 }
@@ -132,6 +139,18 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             if (fieldEntity != null) {
                 mCurrentSubStage = getCurrentStage(fieldEntity.currentStageID);
                 mSubStageLists = getSubStages();
+                int size = mSubStageLists.size();
+                for (int i = 0; i < size; i++) {
+                    if (mSubStageLists.get(i).subStageId == mCurrentSubStage.subStageId) {
+                        mPosition = i;
+                        break;
+                    }
+                }
+
+
+                fieldStateView.setPostionAndList(mPosition, mSubStageLists);
+
+
                 rightStateInfo = rightStateInfo + mCurrentSubStage.stageName + mCurrentSubStage.subStageName;
             }
 
@@ -139,7 +158,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             setCropStateInfo(harvestDay, rightStateInfo);
         }
 
-        if (null != entity.fieldList) {
+        if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
 
             Map<String, Long> maps = entity.fieldList;
             if (maps.size() != 0) {
@@ -281,12 +300,37 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         for (int i = 0; i < tasks.size(); i++) {
             final int tempPos = i;
             View view = LayoutInflater.from(context).inflate(R.layout.view_home_work_content, null);
+
             TextView contentView = (TextView) view.findViewById(R.id.work_content);
             View lineView = view.findViewById(R.id.line);
             final LinearLayout checkedView = (LinearLayout) view.findViewById(R.id.iv_check);
-            final String value = tasks.get(i).taskSpecName;
+            final FieldEntity.CurrentFieldEntity.TaskwsEntity entity = tasks.get(i);
+            final String value = entity.taskSpecName;
             contentView.setText(value);
             View rightView = view.findViewById(R.id.right_view);
+
+            Gson gson = new Gson();
+            String key = "task_" + entity.fieldId + entity.stageName;
+            String result = SharedPreferencesHelper.getString(getContext(), key, null);
+            List<TaskStatus> lists = new ArrayList<>();
+            if (result != null) {
+                lists.clear();
+                lists = gson.fromJson(result, new TypeToken<List<TaskStatus>>() {
+                }.getType());
+            }
+            if(!lists.isEmpty()){
+                Iterator<TaskStatus> iterator = lists.iterator();
+                while (iterator.hasNext()) {
+                    TaskStatus next = iterator.next();
+
+                    checkedView.setSelected(next.isCheck);
+
+
+
+
+                }
+            }
+
             rightView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -298,10 +342,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             if (i == tasks.size() - 1) {
                 lineView.setVisibility(View.GONE);
             }
+
             checkedView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     checkedView.setSelected(!checkedView.isSelected());
+                    saveTaskStatus(checkedView.isSelected(), entity);
                 }
             });
 
@@ -309,6 +355,40 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
         }
 
+    }
+
+    private void saveTaskStatus(boolean selected, FieldEntity.CurrentFieldEntity.TaskwsEntity entity) {
+        TaskStatus taskStatus = new TaskStatus();
+        taskStatus.subStageId = entity.subStageId;
+        taskStatus.isCheck = selected;
+
+        Gson gson = new Gson();
+        String key = "task_" + entity.fieldId + entity.stageName;
+        String result = SharedPreferencesHelper.getString(getContext(), key, null);
+        List<TaskStatus> lists = new ArrayList<>();
+        if (result != null) {
+            lists.clear();
+            lists = gson.fromJson(result, new TypeToken<List<TaskStatus>>() {
+            }.getType());
+        }
+
+        if (lists.contains(taskStatus)) {
+            Iterator<TaskStatus> iterator = lists.iterator();
+            while (iterator.hasNext()) {
+                TaskStatus next = iterator.next();
+                if (next.subStageId == taskStatus.subStageId) {
+                    iterator.remove();
+                    break;
+                }
+
+
+            }
+        }
+
+        lists.add(taskStatus);
+
+
+        SharedPreferencesHelper.setString(this.getContext(), key, gson.toJson(lists));
     }
 
     //设置田地的数据集合,记住当前数据集合--给fieldList赋值
