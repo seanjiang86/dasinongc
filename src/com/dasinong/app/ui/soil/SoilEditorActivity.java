@@ -45,6 +45,9 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
 
     private CommSelectPopWindow mTypePopuWindow;
+    private CommSelectPopWindow mColorPopuWindow;
+
+    private CommSelectPopWindow mFertilityPopuWindow;
 
 
 
@@ -71,6 +74,9 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     private EditText mSoilS;
     private EditText mSoilSI;
 
+    private  int year;
+    private int month;
+    private int day;
 
 
     @Override
@@ -84,6 +90,10 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
                 DEBUG(mListDataEntity.toString());
             }
         }
+       Calendar calendar= Calendar.getInstance();
+        year =calendar.get(Calendar.YEAR);
+         month = calendar.get(Calendar.MONTH)+1;
+         day = calendar.get(Calendar.DAY_OF_MONTH);
         setRightText(R.string.soil_editor_post);
         mTopBarView.setRightClickListener(this);
     }
@@ -128,13 +138,15 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
     protected void initEvent() {
 
+        mSoilType.setOnClickListener(this);
+        mSoilColor.setOnClickListener(this);
+        mSoilFertility.setOnClickListener(this);
+        mSoilTime.setOnClickListener(this);
         findViewById(R.id.soil_all_report).setOnClickListener(this);
 
     }
 
     private void postSoilInformation(SoilPostEntity.Param param) {
-
-
         VolleyManager.getInstance().addPostRequest(
                 REQUEST_CODE_SOIL_POST,
                 URL,
@@ -291,21 +303,23 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
             case R.id.soil_type:
 
-                if (mTypePopuWindow == null) {
-                    mTypePopuWindow = new CommSelectPopWindow(this);
-                }
-                mTypePopuWindow.setDatas(getResources().getStringArray(R.array.soil_type));
-                mTypePopuWindow.setPopWidth(v.getMeasuredWidth());
-                mTypePopuWindow.setmPopItemSelectListener(new CommSelectPopWindow.PopItemSelectListener() {
-                    @Override
-                    public void itemSelected(CommSelectPopWindow window, int position, CharSequence tag) {
+                initTypePopuWindow(v);
 
-
-                    }
-                });
                 mTypePopuWindow.showAsDropDown(v);
                 break;
 
+            case R.id.soil_color:
+
+                initColorPopuWindow(v);
+
+                mColorPopuWindow.showAsDropDown(v);
+                break;
+            case R.id.soil_fertility:
+
+                initFertilityPopuWindow(v);
+
+                mFertilityPopuWindow.showAsDropDown(v);
+                break;
 
             case R.id.soil_tem:
                 //TODO:H5 土壤湿度
@@ -317,10 +331,66 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
                 Toast.makeText(this, "h5 report", Toast.LENGTH_SHORT).show();
                 break;
 
+            case  R.id.soil_time:
+                showChooseDate();
             default:
                 break;
 
         }
+    }
+
+    private void initFertilityPopuWindow(View v) {
+
+        if (mFertilityPopuWindow == null) {
+            mFertilityPopuWindow = new CommSelectPopWindow(this);
+            mFertilityPopuWindow.setDatas(getResources().getStringArray(R.array.soil_type));
+            mFertilityPopuWindow.setPopWidth(v.getMeasuredWidth());
+            mFertilityPopuWindow.setmPopItemSelectListener(new CommSelectPopWindow.PopItemSelectListener() {
+                @Override
+                public void itemSelected(CommSelectPopWindow window, int position, CharSequence tag) {
+
+                    mSoilFertility.setText(tag.toString());
+                }
+            });
+        }
+
+
+    }
+
+    private void initColorPopuWindow(View v) {
+
+
+        if (mColorPopuWindow == null) {
+            mColorPopuWindow = new CommSelectPopWindow(this);
+            mColorPopuWindow.setDatas(getResources().getStringArray(R.array.soil_type));
+            mColorPopuWindow.setPopWidth(v.getMeasuredWidth());
+            mColorPopuWindow.setmPopItemSelectListener(new CommSelectPopWindow.PopItemSelectListener() {
+                @Override
+                public void itemSelected(CommSelectPopWindow window, int position, CharSequence tag) {
+
+                    mSoilColor.setText(tag.toString());
+                }
+            });
+        }
+
+
+    }
+
+    private void initTypePopuWindow(View v) {
+        if (mTypePopuWindow == null) {
+            mTypePopuWindow = new CommSelectPopWindow(this);
+
+            mTypePopuWindow.setDatas(getResources().getStringArray(R.array.soil_type));
+            mTypePopuWindow.setPopWidth(v.getMeasuredWidth());
+            mTypePopuWindow.setmPopItemSelectListener(new CommSelectPopWindow.PopItemSelectListener() {
+                @Override
+                public void itemSelected(CommSelectPopWindow window, int position, CharSequence tag) {
+
+                    mSoilType.setText(tag.toString());
+                }
+            });
+        }
+
     }
 
     @Override
@@ -361,20 +431,19 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
 
     private void showChooseDate(){
-
-       Calendar calendar = Calendar.getInstance();
-
-
-
-        DatePickerDialog dateDialog =null;// new DatePickerDialog(this, new MyOnDateSetListener());
+        DEBUG("year:"+year);
+        DatePickerDialog dateDialog = new DatePickerDialog(this, new MyOnDateSetListener(),year,month,day);
         dateDialog.show();
     }
 
 
     class MyOnDateSetListener implements DatePickerDialog.OnDateSetListener {
         @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+        public void onDateSet(DatePicker view, int y, int monthOfYear, int dayOfMonth) {
 
+            year = y;
+            month = monthOfYear;
+            day = dayOfMonth;
         }
     }
 
