@@ -16,6 +16,7 @@
         android:textColor="#999999"
         android:textSize="@dimen/home_text_size_32"/>
 
+
     <ImageView
         android:id="@+id/ivItemWind"
         android:layout_width="@dimen/home_dimen_50"

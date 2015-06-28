@@ -70,6 +70,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private static final HashMap<String,String> weatherMaps = new HashMap<>();
 
+    private static final  HashMap<String,String> iconMaps = new HashMap<>();
+
     static {
 
         weatherMaps.put("00", "晴");
@@ -106,6 +108,54 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         weatherMaps.put("31", "强沙尘暴");
         weatherMaps.put("53", "霾");
         weatherMaps.put("99", "无");
+
+
+
+        iconMaps.put("00", "sunnyday");
+        iconMaps.put("01", "cloudyday");
+        iconMaps.put("02", "cloudy");
+        iconMaps.put("03", "rainscatteredday");
+        iconMaps.put("04", "stormday");
+        iconMaps.put("05", "stormhail");
+        iconMaps.put("06", "rainsnow");
+        iconMaps.put("07", "rainsmall");
+        iconMaps.put("08", "rainmid");
+        iconMaps.put("09", "rainbig");
+        iconMaps.put("10", "rainheavy");
+        iconMaps.put("11", "rainheavier");
+        iconMaps.put("12", "rainsevereextreme");
+        iconMaps.put("13", "snowscatteredday");
+        iconMaps.put("14", "snowsmall");
+        iconMaps.put("15", "snowmid");
+        iconMaps.put("16", "snowbig");
+        iconMaps.put("17", "snowbigheavy");
+        iconMaps.put("18", "fogday");
+        iconMaps.put("19", "frozenrain");
+        iconMaps.put("20", "duststorm");
+        iconMaps.put("21", "rainsmallmid");
+        iconMaps.put("22", "rainmidbig");
+        iconMaps.put("23", "rainbigheavy");
+        iconMaps.put("24", "rainheavyheavier");
+        iconMaps.put("25", "rainheaviersevere");
+        iconMaps.put("26", "snowsmallmid");
+        iconMaps.put("27", "snowmidbig");
+        iconMaps.put("28", "snowbigheavy");
+        iconMaps.put("29", "dust");
+        iconMaps.put("30", "dustmid");
+        iconMaps.put("31", "duststormheavy");
+        iconMaps.put("53", "haze");
+        iconMaps.put("99", "na");
+
+
+
+
+
+
+
+
+
+
+
 
     }
 
@@ -369,7 +419,13 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private int getIconRes(Object weather) {
         //getResources().getIdentifier(name, "drawable", getContext().getPackageName())
-        return R.drawable.ic_weather_dafeng;
+
+        String iconName = iconMaps.get(weather);
+        int resId=0;
+        if(!TextUtils.isEmpty(iconName)){
+            resId =getResources().getIdentifier(iconName, "drawable", getContext().getPackageName());
+        }
+        return resId!=0?resId:R.drawable.ic_weather_dafeng;
     }
 
 
