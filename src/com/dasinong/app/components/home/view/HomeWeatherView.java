@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -53,7 +54,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     /**
      * 七天相关的view
      */
-    private LinearLayout mSevenDaysContainer;
+    private TableLayout mSevenDaysContainer;
 
     private TextView mOpenSevenDays;
 
@@ -78,7 +79,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private LayoutInflater mLayoutInflater;
 
-    private TableRow mLine;
 
     static {
 
@@ -264,7 +264,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
      * 七天相关的view
      */
     private void initSevenDayView() {
-        mSevenDaysContainer = (LinearLayout) mRoot.findViewById(R.id.lyWeekWeather);
+        mSevenDaysContainer = (TableLayout) mRoot.findViewById(R.id.lyWeekWeather);
         mOpenSevenDays = (TextView) mRoot.findViewById(R.id.tvCloseWeekTemp);
 
         mIsWeekWeatherShow = false;
@@ -307,8 +307,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
             mSevenDaysContainer.addView(weekWeather);
 
-            mLayoutInflater.inflate(R.layout.weather_row_line,mSevenDaysContainer,true);
-
+           TableRow row = (TableRow) mLayoutInflater.inflate(R.layout.weather_row_line,null,false);
+            mSevenDaysContainer.addView(row);
 
         }
 

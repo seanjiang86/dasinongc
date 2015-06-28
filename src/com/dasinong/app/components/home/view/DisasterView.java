@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Debug;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -22,7 +24,9 @@ import com.dasinong.app.R;
 
 import com.dasinong.app.components.domain.FieldEntity;
 
-import com.dasinong.app.database.disaster.dao.PetDisspecDao;
+
+import com.dasinong.app.database.disaster.dao.impl.PetDisspecDaoImpl;
+import com.dasinong.app.database.disaster.domain.PetDisspec;
 import com.dasinong.app.ui.HarmDetialsActivity;
 import com.dasinong.app.ui.HarmListActivity;
 
@@ -59,12 +63,14 @@ public class DisasterView extends LinearLayout {
     private int mNatDisasterRes;
     private int mPetDisasterRes;
 
+    private PetDisspecDaoImpl dao;
+
     private List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> mTopCurrentNatEntity;
     private List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> mTopCurrentPetEntity;
 
 
 
-    private PetDisspecDao dao;
+
 
 
     public DisasterView(Context context) {
@@ -98,6 +104,8 @@ public class DisasterView extends LinearLayout {
         mTopCurrentPetEntity = new ArrayList<>();
         //updateView(null, null);
 
+        dao = new PetDisspecDaoImpl(this.getContext());
+
     }
 
     private void initTopView() {
@@ -123,17 +131,21 @@ public class DisasterView extends LinearLayout {
     }
 
 
-    public void updateView(List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> natdiswsEntityList, List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
+    public synchronized void  updateView(List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> natdiswsEntityList, List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
 
         this.removeAllViews();
         addTopView();
+        if((natdiswsEntityList==null||natdiswsEntityList.isEmpty())&&(petdiswsEntities==null&&petdiswsEntities.isEmpty())){
+            return;
+        }
+
         filterNatEntity(natdiswsEntityList);
         filterDiste(petdiswsEntities);
         updateNatView(mTopCurrentNatEntity);
         updatePetView(mTopCurrentPetEntity);
-
-        updatePetView(petdiswsEntities);
         updateNatView(natdiswsEntityList);
+        updatePetView(petdiswsEntities);
+
 
         addBottomView();
 
@@ -158,6 +170,7 @@ public class DisasterView extends LinearLayout {
 
     private void filterDiste(List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
         Iterator<FieldEntity.CurrentFieldEntity.PetdiswsEntity> iterator = petdiswsEntities.iterator();
+        mTopCurrentPetEntity.clear();
         while (iterator.hasNext()) {
             FieldEntity.CurrentFieldEntity.PetdiswsEntity entity = iterator.next();
             if(entity.alerttype){
@@ -204,7 +217,7 @@ public class DisasterView extends LinearLayout {
 
     }
 
-    private View createPetView(FieldEntity.CurrentFieldEntity.PetdiswsEntity item) {
+    private View createPetView(final FieldEntity.CurrentFieldEntity.PetdiswsEntity item) {
 
         View child = mLayoutInflater.inflate(R.layout.view_home_disaster, this, false);
 
@@ -222,17 +235,18 @@ public class DisasterView extends LinearLayout {
 
         disastertype.setText("病害预警");
 
-        disasterdesc.setText("稻瘟病是水稻重要病害之一 可引起大幅度减产，严重时减产40%～50%，甚至颗粒无收。" +
-                "世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多，发生后可造成不同程度减产可造成白穗以致绝产");
-        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
-        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
+
+        PetDisspec petDisspec =dao.queryDisasterById(item.petDisSpecId);
+        disasterdesc.setText(petDisspec.description);
+        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.petDisSpecId));
+        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.petDisSpecId));
 
         child.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 //TODO: flag editor
-                Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_ITEM, getContext());
+                Intent intent = HarmDetialsActivity.createIntent(item.petDisSpecId, HarmDetialsActivity.FLAG_ITEM, getContext());
                 getContext().startActivity(intent);
 
             }
@@ -258,9 +272,8 @@ public class DisasterView extends LinearLayout {
         }else {
             disastertype.setBackgroundResource(mPetDisasterRes);
         }
-        disastertype.setText("病害预警");
-        disasterdesc.setText("稻瘟病是水稻重要病害之一 可引起大幅度减产，严重时减产40%～50%，甚至颗粒无收。" +
-                "世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多，发生后可造成不同程度减产可造成白穗以致绝产");
+        disastertype.setText(""+item.natDisSpecId);
+        disasterdesc.setText(item.description);
         child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
         child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
 
