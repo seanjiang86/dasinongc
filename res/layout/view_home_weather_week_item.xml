@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/home_w_white"
-    android:paddingBottom="0dp">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/home_w_white"
+                android:paddingBottom="0dp">
 
     <TextView
         android:id="@+id/tvItemDay"
@@ -14,7 +14,7 @@
         android:layout_marginTop="@dimen/home_dimen_30"
         android:text="周五"
         android:textColor="#999999"
-        android:textSize="@dimen/home_text_size_32" />
+        android:textSize="@dimen/home_text_size_32"/>
 
     <ImageView
         android:id="@+id/ivItemWind"
@@ -23,7 +23,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="@dimen/home_dimen_60"
         android:layout_toRightOf="@id/tvItemDay"
-        android:src="@drawable/ic_weather_dafeng" />
+        android:src="@drawable/ic_weather_dafeng"/>
 
     <TextView
         android:id="@+id/tvItemWeather"
@@ -34,7 +34,40 @@
         android:layout_toRightOf="@id/ivItemWind"
         android:text="晴转多云"
         android:textColor="#999999"
-        android:textSize="@dimen/home_text_size_24" />
+        android:textSize="@dimen/home_text_size_24"/>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/tvItemWindSpeed"
+        android:layout_toRightOf="@+id/tvItemWeather"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/tvItemTempHight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:text="18~"
+            android:textColor="#666666"
+            android:textSize="@dimen/home_text_size_36"/>
+
+        <TextView
+            android:id="@+id/tvItemTempLow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:text="8"
+            android:textColor="#86a4ff"
+            android:textSize="@dimen/home_text_size_36"/>
+
+    </LinearLayout>
 
 
     <TextView
@@ -45,32 +78,12 @@
         android:layout_centerVertical="true"
         android:text="3~4级"
         android:textColor="#999999"
-        android:textSize="@dimen/home_text_size_32" />
+        android:textSize="@dimen/home_text_size_32"/>
 
-    <TextView
-        android:id="@+id/tvItemTempLow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="@dimen/home_dimen_60"
-        android:layout_toLeftOf="@id/tvItemWindSpeed"
-        android:text="8"
-        android:textColor="#86a4ff"
-        android:textSize="@dimen/home_text_size_36" />
-
-    <TextView
-        android:id="@+id/tvItemTempHight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/tvItemTempLow"
-        android:text="18~"
-        android:textColor="#666666"
-        android:textSize="@dimen/home_text_size_36" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/tvItemDay"
-        android:background="#ededed" />
+        android:background="#ededed"/>
 </RelativeLayout>
