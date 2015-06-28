@@ -274,7 +274,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         if (entity == null) {
             return;
         }
-        //updateCurrentWeatherView(entity.current);
+        updateCurrentWeatherView(entity.current);
         updateSevenDayView(entity.n7d);
         updateHoursView(entity.n12h);
         updateFourSectionView(entity.pop);
