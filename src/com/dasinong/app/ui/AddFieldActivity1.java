@@ -4,12 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
+import com.dasinong.app.database.city.dao.impl.CityDaoImpl;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LocationInfo;
 import com.dasinong.app.entity.LocationResult;
@@ -18,6 +20,7 @@ import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
@@ -80,8 +83,11 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 
 	@Override
 	public void onClick(View v) {
-
+		if (!DeviceHelper.checkNetWork(this)) {
+			showToast("请检测您的网络连接");
+		}
 		int id = v.getId();
+
 		if ((latitude == 0 || longitude == 0) && count < MAX_DELAY_COUNT) {
 			showToast("定位失败，请重新点击按钮");
 			handler.postDelayed(new RunnableTask(), 500);
@@ -102,38 +108,80 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 
 		switch (id) {
 		case R.id.btn_no_in_field:
+			hasCurrentLocation();
 			goToTwo();
 			break;
 		case R.id.btn_in_field:
 			startLoadingDialog();
-			mprovince = mprovince.substring(0, mprovince.length() - 1);
-			mcity = mcity.substring(0, mcity.length() - 1);
+			boolean flag = false;
+			if (!TextUtils.isEmpty(mprovince)) {
+				flag = hasCurrentLocation();
+			}
 
-			RequestService.getInstance().searchLocation(this, latitudeText, longitudeText, mprovince, mcity, mdistrict, LocationInfo.class,
-					new NetRequest.RequestListener() {
+			if (flag) {
+				RequestService.getInstance().searchLocation(this, latitudeText, longitudeText, mprovince, mcity, mdistrict, LocationInfo.class,
+						new NetRequest.RequestListener() {
 
-						@Override
-						public void onSuccess(int requestCode, BaseEntity resultData) {
+							@Override
+							public void onSuccess(int requestCode, BaseEntity resultData) {
 
-							if (resultData.isOk()) {
-								locationInfo = (LocationInfo) resultData;
-								goToThree();
-							} else {
-								showToast(resultData.getMessage());
+								if (resultData.isOk()) {
+									locationInfo = (LocationInfo) resultData;
+									goToThree();
+								} else {
+									showToast(resultData.getMessage());
+								}
+								dismissLoadingDialog();
 							}
-							dismissLoadingDialog();
-						}
 
-						@Override
-						public void onFailed(int requestCode, Exception error, String msg) {
-							// TODO Ming:待统一
+							@Override
+							public void onFailed(int requestCode, Exception error, String msg) {
+								// TODO Ming:待统一
+								dismissLoadingDialog();
+								showToast("请求失败，请检查网络或稍候再试");
+								Logger.d("MING", "error == " + error + "   " + "requestCode == " + requestCode + "   " + "msg == " + msg);
 
-							Logger.d("MING", "error == " + error + "   " + "requestCode == " + requestCode + "   " + "msg == " + msg);
+							}
+						});
+			} else {
+				dismissLoadingDialog();
+				goToTwo();
+			}
 
-						}
-					});
 			break;
 		}
+	}
+
+	// 判断百度地图地理编码出来的地名在数据库中是否存在
+	private boolean hasCurrentLocation() {
+		CityDaoImpl dao = new CityDaoImpl(this);
+		if (mprovince.contains("西藏")) {
+			mprovince = "西藏";
+		} else if (mprovince.contains("新疆")) {
+			mprovince = "新疆";
+		} else if (mprovince.contains("内蒙古")) {
+			mprovince = "内蒙古";
+		} else if (mprovince.contains("宁夏")) {
+			mprovince = "宁夏";
+		} else if (mprovince.contains("广西")) {
+			mprovince = "广西";
+		} else {
+			if (mprovince.contains("省") || mprovince.contains("市")) {
+				mprovince = mprovince.substring(0, mprovince.length() - 1);
+			}
+		}
+		if (mcity.contains("市") || mcity.contains("县") || mcity.contains("盟")) {
+			mcity = mcity.substring(0, mcity.length() - 1);
+		} else if (mcity.contains("地区")) {
+			mcity = mcity.replace("地区", "");
+		} else if (mcity.contains("自治州")) {
+			mcity = mcity.replace("自治州", "");
+		}
+
+		if (dao.hasCity(mcity) && dao.hasCounty(mdistrict)) {
+			return true;
+		}
+		return false;
 	}
 
 	private void initLocation() {

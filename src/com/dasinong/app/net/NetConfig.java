@@ -83,7 +83,7 @@ public class NetConfig {
 	public static String getRequestUrl(String subUrl) {
 		return NetConfig.BASE_URL + subUrl;
 	}
-
+	
 	public static class Params {
 		public static final String token = "token";
 		public static final String stamp = "stamp";

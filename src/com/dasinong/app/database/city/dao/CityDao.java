@@ -8,6 +8,7 @@ import com.dasinong.app.database.common.dao.impl.DaoSupportImpl;
 
 import java.util.List;
 
+
 /**
  * Created by liuningning on 15/6/6.
  */
@@ -38,7 +39,6 @@ public interface CityDao extends DaoSupport<City> {
      */
     public List<String> getCounty(String city);
 
-
     /**
      * 根据county 得到所有district
      *
@@ -47,6 +47,6 @@ public interface CityDao extends DaoSupport<City> {
      */
 
     public List<String> getDistrict(String county);
-
+    
 }
 

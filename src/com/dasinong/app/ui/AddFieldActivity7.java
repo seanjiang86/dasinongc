@@ -10,6 +10,7 @@ import com.dasinong.app.ui.fragment.HomeFragment;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.DeviceHelper;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -49,6 +50,9 @@ public class AddFieldActivity7 extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
+				if (!DeviceHelper.checkNetWork(AddFieldActivity7.this)) {
+					showToast("请检测您的网络连接");
+				}
 				startLoadingDialog();
 				yield = et_target_production.getText().toString().trim();
 				RequestService.getInstance().createField(AddFieldActivity7.this, seedingortransplant, area, startDate, locationId, varietyId,
@@ -68,7 +72,8 @@ public class AddFieldActivity7 extends BaseActivity {
 
 							@Override
 							public void onFailed(int requestCode, Exception error, String msg) {
-								
+								dismissLoadingDialog();
+								showToast("请求失败，请检查网络或稍候再试");
 							}
 
 						});

@@ -33,7 +33,7 @@
         <ImageView
             android:layout_width="95.0dip"
             android:layout_height="95.0dip"
-            android:src="@drawable/old_man_head" />
+            android:src="@drawable/relax" />
 
         <LinearLayout
             android:layout_width="fill_parent"

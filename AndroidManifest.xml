@@ -78,7 +78,8 @@
         <activity android:name=".ui.AddFieldActivity5" />
         <activity android:name=".ui.AddFieldActivity6" />
         <activity android:name=".ui.AddFieldActivity7" />
-        <activity android:name=".ui.ReportHarmActivity" />
+        <activity android:name=".ui.ReportHarmActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.ScanQRCoderActivity"
             android:theme="@style/AppBaseTheme" />

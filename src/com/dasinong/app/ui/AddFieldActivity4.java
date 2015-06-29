@@ -27,6 +27,7 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.PPCPopMenu;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.GraphicUtils;
 import com.dasinong.app.utils.Logger;
 
@@ -261,6 +262,9 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	 * 获取品种信息
 	 */
 	private void queryVariety(String cropName) {
+		if(!DeviceHelper.checkNetWork(this)){
+			showToast("请检测您的网络连接");
+		}
 		startLoadingDialog();
 		RequestService.getInstance().getVarietyList(DsnApplication.getContext(), cropName, villageId, VarietyInfo.class,
 				new NetRequest.RequestListener() {
@@ -272,6 +276,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 							varietyList = new ArrayList<String>(varietyInfo.data.keySet());
 							handler.sendEmptyMessage(0);
 						}else {
+							// TODO MING:请求不到时会出现空toast
 							showToast(resultData.getMessage());
 						}
 						dismissLoadingDialog();
@@ -279,6 +284,8 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
+						dismissLoadingDialog();
+						showToast("请求失败，请检查网络或稍候再试");
 						Logger.d("MING", "msg =============== " + msg);
 					}
 

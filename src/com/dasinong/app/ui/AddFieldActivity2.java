@@ -29,6 +29,7 @@ import com.dasinong.app.ui.view.ExpandTabView.OnButtonClickListener;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.ui.view.ViewMiddle;
 import com.dasinong.app.ui.view.ViewRight;
+import com.dasinong.app.utils.DeviceHelper;
 
 public class AddFieldActivity2 extends MyBaseActivity {
 
@@ -84,7 +85,8 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		mprovince = getIntent().getStringExtra("mprovince");
 		mcity = getIntent().getStringExtra("mcity");
 		mdistrict = getIntent().getStringExtra("mdistrict");
-
+		
+		
 		province = mprovince;
 		city = mcity;
 		county = mdistrict;
@@ -167,14 +169,15 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	}
 
 	private void initProvinceList() {
+		
 		if (!TextUtils.isEmpty(mprovince)) {
 			// TODO MING:测试数据需修改
-			provincePosition = provinceList.indexOf("北京");
+			provincePosition = provinceList.indexOf(mprovince);
 		}
 		cityList = dao.getCity(provinceList.get(provincePosition));
 		if (!TextUtils.isEmpty(mcity)) {
 			// TODO MING:测试数据需修改
-			cityPosition = cityList.indexOf("北京");
+			cityPosition = cityList.indexOf(mcity);
 		}
 		provinceView.initBigAreaData(provinceList, provincePosition);
 		initCityList();
@@ -217,6 +220,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 				countyList = dao.getCounty(city);
 				onrefresh(provinceView, province + "-" + city);
 				countyPosition = 0;
+				districtPostion = 0;
 			}
 		});
 	}
@@ -299,6 +303,9 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	}
 
 	private void queryVillage(String province, String city, String county, String district) {
+		if(!DeviceHelper.checkNetWork(this)){
+			showToast("请检测您的网络连接");
+		}
 		startLoadingDialog();
 		RequestService.getInstance().getLocation(DsnApplication.getContext(), province, city, county, district, VillageInfo.class,
 				new RequestListener() {
@@ -321,7 +328,8 @@ public class AddFieldActivity2 extends MyBaseActivity {
 
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
-
+						dismissLoadingDialog();
+						showToast("请求失败，请检查网络或稍候再试");
 					}
 				});
 	}

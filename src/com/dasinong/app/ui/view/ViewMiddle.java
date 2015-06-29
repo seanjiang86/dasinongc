@@ -52,6 +52,7 @@ public class ViewMiddle extends LinearLayout implements ViewBaseAction {
 		earaListViewAdapter.setTextSize(17);
 		earaListViewAdapter.setSelectedPositionNoNotify(tEaraPosition);
 		regionListView.setAdapter(earaListViewAdapter);
+		regionListView.setSelection(tEaraPosition);
 	}
 
 	public void initSmallAreaData(List<String> smallAreaList, int defaultPostion) {
@@ -61,6 +62,7 @@ public class ViewMiddle extends LinearLayout implements ViewBaseAction {
 		plateListViewAdapter.setTextSize(15);
 		plateListViewAdapter.setSelectedPositionNoNotify(tBlockPosition);
 		plateListView.setAdapter(plateListViewAdapter);
+		plateListView.setSelection(tBlockPosition);
 	}
 
 	public void setOnBigAreaItemClickListener(TextAdapter.OnItemClickListener listener) {

@@ -28,7 +28,7 @@ public class DeviceHelper {
 		cwjManager.getActiveNetworkInfo();
 		NetworkInfo networkInfo = cwjManager.getActiveNetworkInfo();
 		if (networkInfo != null) {
-			return true;
+			return networkInfo.isConnected();
 		} else {
 			return false;
 		}

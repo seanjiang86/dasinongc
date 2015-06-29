@@ -94,8 +94,7 @@ public class ReportHarmActivity extends BaseActivity {
 
 		PublicWay.activityList.add(this);
 
-		// TODO MING:修改方法名？
-		init();
+		initGridView();
 
 		initView();
 		initTopBar();
@@ -134,7 +133,7 @@ public class ReportHarmActivity extends BaseActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-		init();
+		initGridView();
 	}
 
 	private void initTopBar() {
@@ -282,7 +281,7 @@ public class ReportHarmActivity extends BaseActivity {
 		dialog.show();
 	}
 
-	public void init() {
+	public void initGridView() {
 
 		noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
 		noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
@@ -362,6 +361,7 @@ public class ReportHarmActivity extends BaseActivity {
 
 			if (Bimp.tempSelectBitmap.size() > 0) {
 				holder.image.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
+				System.out.println(Bimp.tempSelectBitmap.get(position).getBitmap());
 			}
 
 			return convertView;
@@ -396,17 +396,14 @@ public class ReportHarmActivity extends BaseActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		switch (requestCode) {
 		case Activity.DEFAULT_KEYS_DIALER:
-			if (Bimp.tempSelectBitmap.size() < 9 && resultCode == RESULT_OK) {
+			if (Bimp.tempSelectBitmap.size() < 6 && resultCode == RESULT_OK) {
 
-				String fileName = String.valueOf(System.currentTimeMillis());
-				Bitmap bm = (Bitmap) data.getExtras().get("data");
-				System.out.println(bm.getWidth());
-				System.out.println(bm.getHeight());
-
-				FileUtils.saveBitmap(bm, fileName);
+				Bitmap bitmap = Bimp.revitionImageSize(FileUtils.SDPATH + fileName + ".jpg");
+				
+				FileUtils.saveBitmap(bitmap, String.valueOf(System.currentTimeMillis()));
 
 				ImageItem takePhoto = new ImageItem();
-				takePhoto.setBitmap(bm);
+				takePhoto.setBitmap(bitmap);
 				Bimp.tempSelectBitmap.add(takePhoto);
 			}
 			break;

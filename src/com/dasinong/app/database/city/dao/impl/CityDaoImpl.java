@@ -90,5 +90,49 @@ public class CityDaoImpl extends DaoSupportImpl<City> implements CityDao{
         Logger.d(TAG, sb.toString());
         return querySingleColumn(sb.toString());
     }
-
+    
+    /**
+     * 查找数据库中是否有某个省份
+     */
+    
+    public boolean hasProvince(String province){
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("select province from city where province is '")
+    		.append(province+"'");
+    	List<String> list = querySingleColumn(sb.toString());
+    	if(list != null && list.size() > 0){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    /**
+     * 查找数据库中是否有某个市
+     */
+    
+    public boolean hasCity(String province){
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("select city from city where city is '")
+    		.append(province+"'");
+    	List<String> list = querySingleColumn(sb.toString());
+    	if(list != null && list.size() > 0){
+    		return true;
+    	}
+    	return false;
+    }
+    
+    /**
+     * 查找数据库中是否有某个三级单位
+     */
+    
+    public boolean hasCounty(String province){
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("select county from city where county is '")
+    		.append(province+"'");
+    	List<String> list = querySingleColumn(sb.toString());
+    	if(list != null && list.size() > 0){
+    		return true;
+    	}
+    	return false;
+    }
 }
