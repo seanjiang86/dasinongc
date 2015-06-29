@@ -144,12 +144,13 @@
                     android:textSize="@dimen/home_text_size_28" />
 
                 <TextView
+                    android:id="@+id/wether_window_level"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/tvWind"
                     android:layout_marginTop="@dimen/home_dimen_10"
                     android:layout_toRightOf="@id/ivWind"
-                    android:text="东北风"
+                    android:text="4级"
                     android:textColor="@color/home_w_666666"
                     android:textSize="@dimen/home_text_size_28" />
 
@@ -174,7 +175,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/ivRainfall"
 
-                    android:text="东北风"
+                    android:text="80"
                     android:textColor="@color/home_w_666666"
                     android:textSize="@dimen/home_text_size_28" />
 
@@ -184,7 +185,7 @@
                     android:layout_below="@id/tvRainfall"
                     android:layout_marginTop="@dimen/home_dimen_10"
                     android:layout_toRightOf="@id/ivRainfall"
-                    android:text="东北风"
+                    android:text=""
                     android:textColor="@color/home_w_666666"
                     android:textSize="@dimen/home_text_size_28" />
 
