@@ -8,13 +8,16 @@
 
     <LinearLayout
         android:id="@+id/normal_state"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:orientation="vertical">
         <!--叶子view-->
         <RelativeLayout
             android:background="@drawable/leaf_bg"
             android:layout_width="match_parent"
+
             android:layout_height="@dimen/home_dimen_100">
 
             <ImageView

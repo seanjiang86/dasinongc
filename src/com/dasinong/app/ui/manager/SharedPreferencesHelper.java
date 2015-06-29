@@ -29,6 +29,7 @@ public final class SharedPreferencesHelper {
     	COUNTY,
     	SEEDING_METHOD,
     	PLANTING_DATE,
+        FIELDID,
 
     };
     
@@ -136,5 +137,6 @@ public final class SharedPreferencesHelper {
         }
         return displayList;
     }
-    
+
+
 }

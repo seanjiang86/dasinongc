@@ -3,6 +3,7 @@ package com.dasinong.app.components.home.view;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -29,8 +30,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     private TextView harvestTimeView, rightStateView, addCropView;//leafContent;
     //正常view的父View,没有作物的parent
     private View normalParentView, addCropViewParent;
-    //标记当前是否有作物
-    private int hasCrop = 0;//默认有作物
+
     //添加农作物
     private MyAddCropOnClickListener onAddCropClickListener;
     private ImageView leftArrowView, leafView, rightArrowView;
@@ -38,6 +38,9 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     private int mCurrentPostion;
     private List<SubStage> mSubStages;
+
+
+    private boolean isLeft;
 
     private static final String TAG = "CropsGroupUpView";
 
@@ -59,7 +62,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         rightStateView = (TextView) rootView.findViewById(R.id.right_state_content);
         addCropViewParent = rootView.findViewById(R.id.add_crop_parent);
         addCropView = (TextView) rootView.findViewById(R.id.add_crop);
-//        leafContent = (TextView) rootView.findViewById(R.id.leaf_content);
+
         leftArrowView = (ImageView) rootView.findViewById(R.id.left_arrow);
         leafView = (ImageView) rootView.findViewById(R.id.leaf);
         rightArrowView = (ImageView) rootView.findViewById(R.id.right_arrow);
@@ -68,67 +71,53 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         rightArrowView.setOnClickListener(this);
     }
 
-    /**
-     * 设置当前是否有作物-
-     *
-     * @param state 0：有；其他：没有
-     */
-    public void setCurrentState(int state) {
-        this.hasCrop = state;
-        if (0 == hasCrop) {
-            normalParentView.setVisibility(View.VISIBLE);
-            addCropViewParent.setVisibility(View.GONE);
-        } else {
-            normalParentView.setVisibility(View.GONE);
-            addCropViewParent.setVisibility(View.VISIBLE);
-        }
+
+
+    public void showNormalStatus() {
+        normalParentView.setVisibility(View.VISIBLE);
+        addCropViewParent.setVisibility(View.GONE);
     }
 
-    /**
-     * 设置作物状态和收获时间
-     *
-     * @param leftStateInfo  --左侧的收获时间
-     * @param rightStateInfo --右侧的成长状态
-     */
-    public void setCropStateInfo(String leftStateInfo, String rightStateInfo) {
-        if (TextUtils.isEmpty(leftStateInfo)) {
-            leftStateInfo = "";
-        }
-        harvestTimeView.setText(leftStateInfo);
-        if (TextUtils.isEmpty(rightStateInfo)) {
-            rightStateInfo = "";
-        }
-
-        rightStateView.setText(rightStateInfo);
-
+    public void showNOFildStatus() {
+        normalParentView.setVisibility(View.GONE);
+        addCropViewParent.setVisibility(View.VISIBLE);
     }
 
+
+    public void updateHarvestDay(String harvestDay ){
+        harvestTimeView.setText(harvestDay);
+    }
+
+    public void updateStageStatus(String stageStatus ){
+        rightStateView.setText(stageStatus);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_crop_parent:
                 // 添加作物
-                if (null != onAddCropClickListener) {
-                    onAddCropClickListener.onAddCropClick();
-                }
+
+
                 break;
             case R.id.left_arrow:
                 //左侧箭头
-                showConfirmDialog(false);
+                isLeft = true;
+                showConfirmDialog();
                 break;
             case R.id.right_arrow:
                 //右侧箭头
-                showConfirmDialog(true);
+                isLeft = false;
+                showConfirmDialog();
                 break;
         }
     }
 
-    private void showConfirmDialog(boolean flag) {
+    private void showConfirmDialog() {
 
-        if(mSubStages==null||mSubStages.isEmpty()){
+        if (mSubStages == null || mSubStages.isEmpty()) {
             return;
         }
-        if (flag) {
+        if (!isLeft) {
 
 
             if (mCurrentPostion + 1 >= mSubStages.size()) {
@@ -147,6 +136,17 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
             mCurrentPostion -= 1;
         }
+        initDialog();
+
+        confirmDialog.setTitle("确认切换状态");
+
+
+        confirmDialog.setMessage("您真的确认要切换到" + mSubStages.get(mCurrentPostion).subStageName + "的状态吗");
+        confirmDialog.show();
+
+    }
+
+    private void initDialog() {
         if (null == confirmDialog) {
             confirmDialog = new ConfirmDialog(getContext());
 
@@ -161,29 +161,13 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 public void onRightClick(Dialog dialog, String txt) {
                     if (null != onAddCropClickListener) {
                         confirmDialog.dismiss();
-                        onAddCropClickListener.onRightArrowViewClick();
+                        onAddCropClickListener.onArrowViewClick(mCurrentPostion);
                     }
                 }
             });
         }
-
-        confirmDialog.setTitle("确认切换状态");
-
-        DEBUG("mCurrentPosion" + mCurrentPostion);
-        confirmDialog.setMessage("您真的确认要切换到" + mSubStages.get(mCurrentPostion).subStageName + "的状态吗");
-        confirmDialog.show();
-
     }
 
-
-    public void setLeafViewAndLeafContent(int resId) {
-        leftArrowView.setBackgroundResource(resId);
-
-        leafView.getMeasuredHeight();
-//        if (!TextUtils.isEmpty(leafContentValue)) {
-//            //leafContent.setText(leafContentValue);
-//        }
-    }
 
     /**
      * 添加农作物
@@ -211,7 +195,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         /**
          * 叶子右侧的箭头的点击
          */
-        void onRightArrowViewClick();
+        void onArrowViewClick(int position);
     }
 
 

@@ -104,7 +104,7 @@ public class FieldEntity extends BaseResponse {
             public boolean taskStatus;//状态
             public int fieldId;
             public int taskSpecId;
-            public long subStageId;
+            public int subStageId;
             public int taskId;//
             public  String taskSpecName;//desc
             public String stageName;

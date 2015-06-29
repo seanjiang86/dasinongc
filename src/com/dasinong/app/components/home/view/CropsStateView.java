@@ -5,25 +5,31 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.domain.TaskStatus;
 import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
 
 import com.dasinong.app.database.task.dao.impl.SubStageDaoImpl;
+import com.dasinong.app.database.task.dao.impl.TaskSpecDaoImpl;
 import com.dasinong.app.database.task.domain.SubStage;
+import com.dasinong.app.database.task.domain.TaskSpec;
 import com.dasinong.app.ui.AddFieldActivity1;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.HashMap;
+
 import java.util.List;
 import java.util.Map;
 
@@ -37,24 +43,42 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private CropsGroupUpView fieldStateView;//成长状态
     private View addFieldView;
     //田地名称，添加，日期，星期几，天气，左边状态，右边状态
-    private TextView fieldView, dayView, weekView, wealthView, leftStateView, rightStateView;
-    //田地名称是否可以点击--其判断应该是根据接口传值--默认可以点击
-    private boolean fieldNameCanClick = true;
-    //目前的农田的名称--用于区别点击的是否是当前；
-    private String currentFieldValue;
+    private TextView mFieldNameView, dayView, weekView, wealthView, leftStateView, rightStateView;
+
     private Context context;
-    //田地的集合
-    private List<String> fieldList;
+
 
     private String[] weeks;
     // 农活内容点击事件
     private MyOnAddFieldClickListener onAddFieldClickListener;
 
     private List<SubStage> mSubStageLists;
-    private SubStage mCurrentSubStage;
-    private int mPosition;
-    private String rightStateInfo;
 
+
+    private SubStage mCurrentSubStage;
+
+
+    /*田地id,name的map*/
+    private Map<String, Long> mFieldMap = new HashMap<>();
+    /*田地的集合*/
+    private List<String> mFieldList = new ArrayList<>();
+    //目前的农田的名称--用于区别点击的是否是当前；
+    private String mCurrentFieldName;
+
+
+    private List<TaskStatus> mCurrentTaskSpec = new ArrayList<>();
+
+
+    private SparseArray<List<TaskStatus>> mAllTasks = new SparseArray<>();
+
+    private TaskSpecDaoImpl taskSpecDao;
+
+
+    private CommSelectPopWindow popWindow;
+
+    private static final String TAG = "CropsStateView";
+
+    private static  final  String PREFIX ="field";
 
     public CropsStateView(Context context) {
         super(context);
@@ -71,7 +95,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private void init(Context context) {
         weeks = getResources().getStringArray(R.array.weeks);
         View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top, this);
-        fieldView = (TextView) rootView.findViewById(R.id.field);
+        mFieldNameView = (TextView) rootView.findViewById(R.id.field);
         addFieldView = rootView.findViewById(R.id.add_field);
         fieldStateView = (CropsGroupUpView) rootView.findViewById(R.id.field_state);
         dayView = (TextView) rootView.findViewById(R.id.day);
@@ -80,7 +104,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         leftStateView = (TextView) rootView.findViewById(R.id.left_state);
         rightStateView = (TextView) rootView.findViewById(R.id.right_state);
         campaignView = (LinearLayout) rootView.findViewById(R.id.campaign);
-        fieldView.setOnClickListener(this);
+        mFieldNameView.setOnClickListener(this);
         addFieldView.setOnClickListener(this);
         fieldStateView.setOnAddCropClickListener(new CropsGroupUpView.MyAddCropOnClickListener() {
 
@@ -92,11 +116,11 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             }
 
             @Override
-            public void onRightArrowViewClick() {
+            public void onArrowViewClick(int position) {
+                mCurrentSubStage = mSubStageLists.get(position);
+                mCurrentTaskSpec = getTaskBySubStageId();
+                updateTask();
 
-                if (null != onAddFieldClickListener) {
-                    onAddFieldClickListener.onLeafViewConfirmClick();
-                }
             }
         });
 
@@ -121,139 +145,171 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         if (null == entity)
             return;
 
+        if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
+            mFieldMap = entity.fieldList;
+            updateFieldNameMenue();
+            fieldStateView.showNormalStatus();
+        } else {
+            //当前没有田地--
+            fieldStateView.showNOFildStatus();
+        }
         //设置田地的名称
         if (null != entity.currentField) {
+            FieldEntity.CurrentFieldEntity currentFieldEntity = entity.currentField;
             //DONE
-            String fieldName = entity.currentField.fieldName;
-            if (!TextUtils.isEmpty(fieldName)) {
-                this.currentFieldValue = fieldName;
-                setText2TextView(fieldView, currentFieldValue);
+            if(mFieldMap!=null&&mFieldMap.containsKey(currentFieldEntity.fieldName)){
+                mCurrentFieldName = currentFieldEntity.fieldName;
             }
-            //设置作物的状态和当前的收获时间--横向滑动的叶子的下面view
-            //DONE
-            String harvestDay = getHarvestDay(entity);
+            updateFieldName();
+            //设置当前是否是个打药，适合下地干活
+            setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
 
-            FieldEntity.CurrentFieldEntity fieldEntity = entity.currentField;
+            updateFieldTimeAndStage(entity.currentField);
+            //任务相关的
+            convertTask(currentFieldEntity.taskws);
+            mCurrentTaskSpec = getTaskBySubStageId();
+            updateTask();
 
-            String rightStateInfo = "水稻";
-            if (fieldEntity != null) {
-                mCurrentSubStage = getCurrentStage(fieldEntity.currentStageID);
-                mSubStageLists = getSubStages();
-                int size = mSubStageLists.size();
-                for (int i = 0; i < size; i++) {
-                    if (mSubStageLists.get(i).subStageId == mCurrentSubStage.subStageId) {
-                        mPosition = i;
-                        break;
-                    }
-                }
-
-
-                fieldStateView.setPostionAndList(mPosition, mSubStageLists);
-
-
-                rightStateInfo = rightStateInfo + mCurrentSubStage.stageName + mCurrentSubStage.subStageName;
-            }
-
-
-            setCropStateInfo(harvestDay, rightStateInfo);
         }
 
-        if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
 
-            Map<String, Long> maps = entity.fieldList;
-            if (maps.size() != 0) {
-                //有田地
-                List<String> list = new ArrayList<String>();
-                for (Map.Entry<String, Long> entrySet : maps.entrySet()) {
-                    String key = entrySet.getKey();
-                    if (!TextUtils.isEmpty(key)) {
-                        list.add(key);
-                    }
-                }
-
-                //记住田地数据集合的内容--用以点击展开popouwindow
-                setFieldList(list);
-            }
-        } else {
-
-            //当前没有田地--
-            setCurrentState(1);
-        }
         //设置日期，星期几和天气
-        //DONE
-        setDatWeekAndWeatherView(entity);
+        setDatWeekAndWeatherView(entity.date);
 
-        //设置当前是否是个打药，适合下地干活
-        //DONE
-        setWorkState(entity.currentField.workable, entity.currentField.sprayable);
-
-
-        //设置任务的内容
-
-
-        setWorkContent(entity.currentField);
 
     }
 
-    private String getHarvestDay(FieldEntity entity) {
-        String harvestDay = "";
-        if (entity.currentField.daytoharvest > 0) {
+    private void updateFieldTimeAndStage(FieldEntity.CurrentFieldEntity currentFieldEntity) {
+        if (currentFieldEntity == null) {
+            return;
+        }
 
-            harvestDay = "离收获还有" + entity.currentField.daytoharvest + "天";
+        String harvestDay = getHarvestDay(currentFieldEntity);
+        fieldStateView.updateHarvestDay(harvestDay);
+        String rightStateInfo = "水稻";
+        mCurrentSubStage = getCurrentStage(currentFieldEntity.currentStageID);
+        mSubStageLists = getSubStages();
+        int size = mSubStageLists.size();
+
+        int currentPosition = 0;
+        for (int i = 0; i < size; i++) {
+            if (mSubStageLists.get(i).subStageId == mCurrentSubStage.subStageId) {
+                currentPosition = i;
+                break;
+            }
+        }
+
+
+        fieldStateView.setPostionAndList(currentPosition, mSubStageLists);
+
+
+        rightStateInfo = rightStateInfo + mCurrentSubStage.stageName + mCurrentSubStage.subStageName;
+
+
+        fieldStateView.updateStageStatus(rightStateInfo);
+    }
+
+
+    private void updateFieldName() {
+        if(!TextUtils.isEmpty(mCurrentFieldName)){
+            mFieldNameView.setText(mCurrentFieldName);
+            SharedPreferencesHelper.setLong(this.getContext(), SharedPreferencesHelper.Field.FIELDID,mFieldMap.get(mCurrentFieldName));
+        }
+
+
+
+
+    }
+
+    private void convertTask(List<FieldEntity.CurrentFieldEntity.TaskwsEntity> taskws) {
+
+        List<TaskStatus> taskSpecs = mAllTasks.get(mCurrentSubStage.subStageId, null);
+        if (taskSpecs != null) {
+            return;
+        }
+
+        //read local
+        taskSpecs = readTaskStatus();
+        if (!taskSpecs.isEmpty()) {
+            mAllTasks.put(mCurrentSubStage.subStageId, taskSpecs);
+            return;
+        }
+
+        for (FieldEntity.CurrentFieldEntity.TaskwsEntity entity : taskws) {
+            TaskStatus taskStatus = new TaskStatus();
+            taskStatus.subStageId = entity.subStageId;
+            taskStatus.taskSpecId = entity.taskSpecId;
+            taskStatus.taskSpecName = entity.taskSpecName;
+            taskStatus.isCheck = entity.taskStatus;
+            taskSpecs.add(taskStatus);
+        }
+
+        mAllTasks.put(mCurrentSubStage.subStageId, taskSpecs);
+    }
+
+    /**
+     * getTaskBySubStageId
+     *
+     * @return
+     */
+    private List<TaskStatus> getTaskBySubStageId() {
+
+
+        if (mAllTasks.get(mCurrentSubStage.subStageId, null) != null) {
+            return mAllTasks.get(mCurrentSubStage.subStageId);
+        }
+
+        //read local
+        List<TaskStatus> status = readTaskStatus();
+        if (!status.isEmpty()) {
+            mAllTasks.put(mCurrentSubStage.subStageId, status);
+            return status;
+        }
+
+        if (taskSpecDao == null) {
+            taskSpecDao = new TaskSpecDaoImpl(this.getContext());
+        }
+
+        List<TaskSpec> list = taskSpecDao.queryTaskSpecWithSubStage(mCurrentSubStage.subStageId);
+        int size = list.size();
+
+        for (int i = 0; i < size; i++) {
+            TaskSpec spec = list.get(i);
+            TaskStatus taskStatus = new TaskStatus();
+            taskStatus.taskSpecName = spec.taskSpecName;
+            taskStatus.subStageId = spec.subStage;
+            taskStatus.taskSpecId = spec.taskSpecId;
+            status.add(taskStatus);
+        }
+
+        mAllTasks.put(mCurrentSubStage.subStageId, status);
+        return mAllTasks.get(mCurrentSubStage.subStageId);
+    }
+
+    private String getHarvestDay(FieldEntity.CurrentFieldEntity currentField) {
+        String harvestDay = "";
+        if (currentField.daytoharvest > 0) {
+
+            harvestDay = "离收获还有" + currentField.daytoharvest + "天";
         }
 
         return harvestDay;
     }
 
-    private void updateLeftHarvestDay(String harvestDay) {
-
-
-    }
-
-
-    /**
-     * 设置农活任务(活动任务)的显示实体
-     *
-     * @param entity --农活实体model
-     */
-    public void setWorkContent(FieldEntity entity) {
-        if (null == entity || null == entity.currentField) {
-            return;
-        }
-        setWorkContent(entity.currentField);
-    }
-
 
     //给日期，星期和天气设置相对应的值
-    private void setDatWeekAndWeatherView(FieldEntity innerEntity) {
-        if (null == innerEntity) return;
-        FieldEntity.HomeDate date = innerEntity.date;
+    private void setDatWeekAndWeatherView(FieldEntity.HomeDate date) {
+        if (date == null) {
+            return;
+        }
+
         int index = date.day % 7;
-        seInfo2TextView(date.date, weeks[index], date.lunar);
+
+        setText2TextView(dayView, date.date);
+        setText2TextView(weekView, weeks[index]);
+        setText2TextView(wealthView, date.lunar);
     }
 
-
-    /**
-     * 设置textView对应显示的值
-     *
-     * @param dayNum  --日期(天)
-     * @param weekDay --日期(星期几)
-     * @param weather --天气
-     */
-    private void seInfo2TextView(String dayNum, String weekDay, String weather) {
-        setText2TextView(dayView, dayNum);
-        setText2TextView(weekView, weekDay);
-        setText2TextView(wealthView, weather);
-    }
-
-    /**
-     * 设置当前是否有作物-
-     *
-     * @param state 0：有；其他：没有
-     */
-    private void setCurrentState(int state) {
-        fieldStateView.setCurrentState(state);
-    }
 
     /**
      * 设置是否适宜工作的状态
@@ -275,141 +331,36 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         }
     }
 
-    /**
-     * 设置作物状态和收获时间
-     *
-     * @param leftStateInfo  --左侧的收获时间
-     * @param rightStateInfo --右侧的成长状态
-     */
-    private void setCropStateInfo(String leftStateInfo, String rightStateInfo) {
-        fieldStateView.setCropStateInfo(leftStateInfo, rightStateInfo);
-    }
-
-    /**
-     * 设置农活内容
-     *
-     * @param innerEntity --农活的内容
-     */
-    private void setWorkContent(FieldEntity.CurrentFieldEntity innerEntity) {
-        if (null == innerEntity) return;
-
-        if (null == innerEntity.taskws || innerEntity.taskws.size() == 0) return;
-        List<FieldEntity.CurrentFieldEntity.TaskwsEntity> tasks = innerEntity.taskws;
-        campaignView.setOrientation(LinearLayout.VERTICAL);
-        campaignView.removeAllViews();
-        for (int i = 0; i < tasks.size(); i++) {
-            final int tempPos = i;
-            View view = LayoutInflater.from(context).inflate(R.layout.view_home_work_content, null);
-
-            TextView contentView = (TextView) view.findViewById(R.id.work_content);
-            View lineView = view.findViewById(R.id.line);
-            final LinearLayout checkedView = (LinearLayout) view.findViewById(R.id.iv_check);
-            final FieldEntity.CurrentFieldEntity.TaskwsEntity entity = tasks.get(i);
-            final String value = entity.taskSpecName;
-            contentView.setText(value);
-            View rightView = view.findViewById(R.id.right_view);
-
-            Gson gson = new Gson();
-            String key = "task_" + entity.fieldId + entity.stageName;
-            String result = SharedPreferencesHelper.getString(getContext(), key, null);
-            List<TaskStatus> lists = new ArrayList<>();
-            if (result != null) {
-                lists.clear();
-                lists = gson.fromJson(result, new TypeToken<List<TaskStatus>>() {
-                }.getType());
-            }
-            if(!lists.isEmpty()){
-                Iterator<TaskStatus> iterator = lists.iterator();
-                while (iterator.hasNext()) {
-                    TaskStatus next = iterator.next();
-
-                    checkedView.setSelected(next.isCheck);
-
-
-
-
-                }
-            }
-
-            rightView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (null != onAddFieldClickListener) {
-                        onAddFieldClickListener.onWorKContentItemClick(value, tempPos, checkedView.isSelected());
-                    }
-                }
-            });
-            if (i == tasks.size() - 1) {
-                lineView.setVisibility(View.GONE);
-            }
-
-            checkedView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    checkedView.setSelected(!checkedView.isSelected());
-                    saveTaskStatus(checkedView.isSelected(), entity);
-                }
-            });
-
-            campaignView.addView(view);
-
-        }
-
-    }
-
-    private void saveTaskStatus(boolean selected, FieldEntity.CurrentFieldEntity.TaskwsEntity entity) {
-        TaskStatus taskStatus = new TaskStatus();
-        taskStatus.subStageId = entity.subStageId;
-        taskStatus.isCheck = selected;
-
-        Gson gson = new Gson();
-        String key = "task_" + entity.fieldId + entity.stageName;
-        String result = SharedPreferencesHelper.getString(getContext(), key, null);
-        List<TaskStatus> lists = new ArrayList<>();
-        if (result != null) {
-            lists.clear();
-            lists = gson.fromJson(result, new TypeToken<List<TaskStatus>>() {
-            }.getType());
-        }
-
-        if (lists.contains(taskStatus)) {
-            Iterator<TaskStatus> iterator = lists.iterator();
-            while (iterator.hasNext()) {
-                TaskStatus next = iterator.next();
-                if (next.subStageId == taskStatus.subStageId) {
-                    iterator.remove();
-                    break;
-                }
-
-
-            }
-        }
-
-        lists.add(taskStatus);
-
-
-        SharedPreferencesHelper.setString(this.getContext(), key, gson.toJson(lists));
-    }
 
     //设置田地的数据集合,记住当前数据集合--给fieldList赋值
-    private void setFieldList(List<String> list) {
-        if (null == list || list.size() == 0) {
-            fieldNameCanClick = false;
+    private void updateFieldNameMenue() {
+
+        if (mFieldMap == null || mFieldMap.isEmpty()) {
             return;
         }
-        this.fieldList = list;
-        this.fieldNameCanClick = true;
-        if (fieldList.size() > 1) {
-            //当有2个或者两个以上的农田时，才显示下拉的箭头图标
-            fieldView.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.down_arrow), null);
-            fieldView.setPadding(0, 0, 20, 0);
+
+
+        //有田地
+        for (Map.Entry<String, Long> entrySet : mFieldMap.entrySet()) {
+            String key = entrySet.getKey();
+            if (!TextUtils.isEmpty(key)) {
+                mFieldList.add(key);
+            }
+
         }
-        fieldView.setText(list.get(0));
+
+        if (mFieldList.size() > 1) {
+            //当有2个或者两个以上的农田时，才显示下拉的箭头图标
+            mFieldNameView.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.down_arrow), null);
+            mFieldNameView.setPadding(0, 0, 20, 0);
+        }
+        mFieldNameView.setText(mFieldList.get(0));
 
 
     }
 
     //判断value是否为null或空
+
     private boolean isEmptyValue(String value) {
         return !TextUtils.isEmpty(value);
     }
@@ -427,48 +378,48 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         switch (v.getId()) {
             case R.id.field:
                 //点击田地
-                if (!fieldNameCanClick) {
-                    return;
-                }
-                if (null == fieldList || fieldList.size() <= 1) {
+                if (null == mFieldList || mFieldList.size() <= 1) {
                     return;
                 }
 
-                //TODO 弹出window,回显，刷新界面
-                final CommSelectPopWindow popWindow = new CommSelectPopWindow(context);
-                popWindow.setDatas(fieldList);
-                popWindow.setPopWidth(fieldView.getMeasuredWidth());
-                popWindow.setmPopItemSelectListener(new CommSelectPopWindow.PopItemSelectListener() {
-                    @Override
-                    public void itemSelected(CommSelectPopWindow window, int position, CharSequence tag) {
-                        Log.d("dding", "当前选择的pos--:tag--:" + position + "," + tag);
-                        if (tag.toString().equalsIgnoreCase(currentFieldValue)) {
-                            //点击的位置和当前显示的一样--不请求网络
-                            return;
-                        }
-                        fieldView.setText(tag);
-                        popWindow.disMiss();
-                        if (null != onAddFieldClickListener) {
-                            onAddFieldClickListener.onPopWindowItemClick();
-                        }
-
-                    }
-                });
-                popWindow.showAsDropDown(fieldView);
+                initPoPuWindow();
+                popWindow.showAsDropDown(mFieldNameView);
 
                 break;
             case R.id.add_field:
                 //点击添加--最右上角按钮
-                if (null != onAddFieldClickListener) {
-                    onAddFieldClickListener.onRightTopViewClick();
-                }
 
-                //TODO MING:测试添加田地 正式上线需要修改
                 Intent intent = new Intent(getContext(), AddFieldActivity1.class);
                 getContext().startActivity(intent);
 
                 break;
         }
+    }
+
+    private void initPoPuWindow() {
+        if (popWindow != null) {
+            return;
+        }
+        popWindow = new CommSelectPopWindow(context);
+        popWindow.setDatas(mFieldList);
+        popWindow.setPopWidth(mFieldNameView.getMeasuredWidth());
+        popWindow.setmPopItemSelectListener(new CommSelectPopWindow.PopItemSelectListener() {
+            @Override
+            public void itemSelected(CommSelectPopWindow window, int position, CharSequence fieldName) {
+
+                if (fieldName.toString().equalsIgnoreCase(mCurrentFieldName)) {
+                    //点击的位置和当前显示的一样--不请求网络
+                    return;
+                }
+                mCurrentFieldName = fieldName.toString();
+                updateFieldName();
+                popWindow.disMiss();
+                if (null != onAddFieldClickListener) {
+                    onAddFieldClickListener.onPopWindowItemClick(mFieldMap.get(mCurrentFieldName));
+                }
+
+            }
+        });
     }
 
 
@@ -485,27 +436,24 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
          */
         void onAddCroupClick();
 
-        /**
-         * 右上角view("+")点击事件
-         */
-        void onRightTopViewClick();
-
-        /**
-         * 点击叶子view旁边左右箭头的弹出dialog的确认按钮监听
-         */
-        void onLeafViewConfirmClick();
 
         /**
          * popwindow的item点击事件
+         *
+         * @param filedId
          */
-        void onPopWindowItemClick();
+        void onPopWindowItemClick(Long filedId);
 
     }
 
 
+    /**
+     * 得到当前的subStage
+     *
+     * @param currentStageID
+     * @return
+     */
     private SubStage getCurrentStage(int currentStageID) {
-
-        //
         SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
         return dao.queryStageByID(String.valueOf(currentStageID));
 
@@ -518,4 +466,106 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         return dao.queryStageSubCategory(mCurrentSubStage.stageName);
 
     }
+
+
+    private void DEBUG(String msg) {
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, msg);
+        }
+    }
+
+
+    private void updateTask() {
+        campaignView.setOrientation(LinearLayout.VERTICAL);
+        campaignView.removeAllViews();
+        int length = mCurrentTaskSpec.size();
+        TaskStatus item;
+        for (int i = 0; i < length; i++) {
+            item = mCurrentTaskSpec.get(i);
+           final View view = LayoutInflater.from(context).inflate(R.layout.view_home_work_content, null);
+            TextView contentView = (TextView) view.findViewById(R.id.work_content);
+            View lineView = view.findViewById(R.id.line);
+            final LinearLayout checkedView = (LinearLayout) view.findViewById(R.id.iv_check);
+            contentView.setText(item.taskSpecName);
+            View rightView = view.findViewById(R.id.right_view);
+
+            checkedView.setSelected(item.isCheck);
+            rightView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //TODO:任务上单击
+
+                    Toast.makeText(CropsStateView.this.getContext(), "start task ", Toast.LENGTH_SHORT).show();
+                }
+            });
+            if (i == length - 1) {
+                lineView.setVisibility(View.GONE);
+            }
+
+            view.setTag(item);
+            checkedView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkedView.setSelected(!checkedView.isSelected());
+                    TaskStatus item = (TaskStatus) view.getTag();
+                    item.isCheck = checkedView.isSelected();
+                    saveTaskStatus();
+
+                }
+            });
+
+            campaignView.addView(view);
+
+        }
+
+    }
+
+
+    private List<TaskStatus> readTaskStatus() {
+
+        Gson gson = new Gson();
+        String key = getSaveKey();
+        String result = SharedPreferencesHelper.getString(getContext(), key, null);
+        List<TaskStatus> lists = new ArrayList<>();
+        if (result != null) {
+            lists.clear();
+            lists = gson.fromJson(result, new TypeToken<List<TaskStatus>>() {
+            }.getType());
+        }
+
+        return lists;
+    }
+
+
+    private void saveTaskStatus() {
+        int childCount = campaignView.getChildCount();
+        View view;
+        List<TaskStatus> lists = new ArrayList<>();
+        for (int i = 0; i < childCount; i++) {
+            view = campaignView.getChildAt(i);
+            lists.add((TaskStatus) view.getTag());
+        }
+
+
+        if (lists.isEmpty()) {
+            return;
+        }
+
+        String key = getSaveKey();
+        Gson gson = new Gson();
+        SharedPreferencesHelper.setString(this.getContext(), key, gson.toJson(lists));
+
+        DEBUG(lists.toString());
+        DEBUG(lists.size()+"");
+        for (int i = 0; i < lists.size(); i++) {
+            DEBUG("status:"+lists.get(i).isCheck);
+        }
+
+    }
+
+
+    private String getSaveKey(){
+        return PREFIX+mFieldMap.get(mCurrentFieldName)+mCurrentSubStage.subStageId;
+    }
+
 }
