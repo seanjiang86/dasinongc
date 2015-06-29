@@ -377,6 +377,10 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
             {
 
                 mHumView.setOneDayWeatherData(hours);
+
+
+
+
                 //TODO scroll postion
                 autoScrollPosition();
             }
@@ -386,6 +390,21 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
     private void autoScrollPosition() {
+
+
+        mHorHumView.post(new Runnable() {
+            @Override
+            public void run() {
+                mHorHumView.measure(0,0);
+                int width = mHorHumView.getMeasuredWidth();
+
+                int hour =Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+
+
+                double distance = width/mHumView.getChildCount()*hour;
+                mHorHumView.smoothScrollTo((int) distance,0);
+            }
+        });
     }
 
 
@@ -424,7 +443,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         if (entity == null) {
             return;
         }
-        updateCurrentWeatherView(entity.current);
+       // updateCurrentWeatherView(entity.current);
         updateSevenDayView(entity.n7d);
         updateHoursView(entity.n12h);
         updateFourSectionView(entity.pop);

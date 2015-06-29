@@ -36,7 +36,7 @@ public class WeatherEntity extends  BaseResponse{
 
     public POP pop;
 
-  public  CurrentWeather current;
+  //public  CurrentWeather current;
 
     public static class SevenDay{
 
