@@ -185,7 +185,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
         //设置当前是否是个打药，适合下地干活
         //DONE
-        setWorkState(entity.currentField.workable, entity.currentField.sprayable);
+        if(entity.currentField != null){
+        	setWorkState(entity.currentField.workable, entity.currentField.sprayable);
+        }
 
 
         //设置任务的内容
@@ -227,6 +229,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     //给日期，星期和天气设置相对应的值
     private void setDatWeekAndWeatherView(FieldEntity innerEntity) {
         if (null == innerEntity) return;
+        if (null == innerEntity.date) return;
         FieldEntity.HomeDate date = innerEntity.date;
         int index = date.day % 7;
         seInfo2TextView(date.date, weeks[index], date.lunar);

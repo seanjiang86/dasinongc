@@ -61,4 +61,8 @@ public final class RequestCode {
 	 * 创建田地
 	 */
 	public static final int CREATE_FIELD = SMS_SUBSCRIBE_DETAIL + 1;
+	/**
+	 * 搜索百科
+	 */
+	public static final int SEARCH_WORD = CREATE_FIELD + 1;
 }

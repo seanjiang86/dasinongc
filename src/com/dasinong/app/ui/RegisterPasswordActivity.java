@@ -11,8 +11,16 @@ import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.StringHelper;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.BackgroundColorSpan;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,6 +34,8 @@ public class RegisterPasswordActivity extends BaseActivity {
 	private EditText mPwdEdit;
 	private Button mNextButton;
 	private TextView mAgreementText;
+	
+	private TextView mProblemText;
 
 	private String phone;
 	private boolean isLogin;
@@ -52,6 +62,8 @@ public class RegisterPasswordActivity extends BaseActivity {
 		mPwdEdit = (EditText) this.findViewById(R.id.edittext_password);
 		mAgreementText = (TextView) this.findViewById(R.id.textview_agreement);
 
+		mProblemText = (TextView) this.findViewById(R.id.textview_login_problem);
+		
 		mNextButton = (Button) this.findViewById(R.id.button_next);
 	}
 
@@ -59,9 +71,11 @@ public class RegisterPasswordActivity extends BaseActivity {
 		if (isLogin) {
 			mTopbarView.setCenterText("手机号登录");
 			mNextButton.setText("登录");
+			mProblemText.setVisibility(View.VISIBLE);
 		} else {
 			mTopbarView.setCenterText("手机号注册");
 			mNextButton.setText("注册");
+			mProblemText.setVisibility(View.GONE);
 		}
 		mTopbarView.setLeftView(true, true);
 
@@ -80,7 +94,43 @@ public class RegisterPasswordActivity extends BaseActivity {
 				}
 			}
 		});
+		
+		mAgreementText.setText(getClickableSpan());
+		mAgreementText.setMovementMethod(LinkMovementMethod.getInstance());
+	}
+	
+	private SpannableString getClickableSpan() {
 
+		SpannableString spanableInfo = new SpannableString(mAgreementText.getText()
+				.toString());
+		int start = 14;
+		int end = spanableInfo.length();
+		spanableInfo.setSpan(new ClickableSpan() {
+
+			@Override
+			public void onClick(View arg0) {
+				// Toast.makeText(RegisterActivity.this, "注册协议",
+				// Toast.LENGTH_SHORT).show();
+				Intent intent = new Intent(RegisterPasswordActivity.this, RegisterServiceActivity.class);
+				startActivity(intent);
+			}
+
+			@Override
+			public void updateDrawState(TextPaint ds) {
+				// TODO Auto-generated method stub
+				super.updateDrawState(ds);
+				ds.setUnderlineText(false);
+			}
+
+		}, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spanableInfo.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_33AB33)), start, end,
+				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spanableInfo.setSpan(new BackgroundColorSpan(Color.WHITE), start, end,
+				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		mAgreementText.setHighlightColor(Color.TRANSPARENT);
+
+		return spanableInfo;
 	}
 
 	private void login() {
