@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:paddingLeft="@dimen/home_dimen_30"
-        android:paddingRight="@dimen/home_dimen_30"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/home_dimen_30">
@@ -26,8 +26,10 @@
             android:layout_alignParentRight="true"
             android:orientation="vertical"
             android:id="@+id/add_field"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+            android:paddingLeft="35dp"
+            android:paddingRight="35dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
             android:layout_height="wrap_content">
         <ImageView
 

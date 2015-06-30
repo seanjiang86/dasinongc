@@ -7,7 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
 
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BannerEntity;
@@ -27,7 +27,6 @@ import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.AccountManager;
-import com.dasinong.app.ui.soil.SoilEditorActivity;
 import com.dasinong.app.utils.Logger;
 
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -264,34 +263,21 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
                     mCropStateView.setOnAddFieldClickListener(new CropsStateView.MyOnAddFieldClickListener() {
                         @Override
                         public void onWorKContentItemClick(String itemValue, int pos, boolean isSelect) {
-                            //
-                            Toast.makeText(HomeFragment.this.getActivity(),"task",Toast.LENGTH_SHORT).show();
+
                         }
 
                         @Override
                         public void onAddCroupClick() {
-                            Toast.makeText(HomeFragment.this.getActivity(),"add filed",Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onRightTopViewClick() {
-                            Toast.makeText(HomeFragment.this.getActivity(),"+",Toast.LENGTH_SHORT).show();
-                        }
-
-                        @Override
-                        public void onLeafViewConfirmClick() {
-
-                            Toast.makeText(HomeFragment.this.getActivity(),"confirm",Toast.LENGTH_SHORT).show();
 
                         }
 
                         @Override
-                        public void onPopWindowItemClick() {
-
-                            Toast.makeText(HomeFragment.this.getActivity(),"drop",Toast.LENGTH_SHORT).show();
-
+                        public void onPopWindowItemClick(Long filedId) {
+                            //filde popuWidno
                         }
                     });
+                    mCropStateView.updateView(entity);
+
                     mSoilView.updateView(entity.latestReport);
                 }
                 break;
