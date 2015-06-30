@@ -304,7 +304,7 @@ public class NetRequest {
 			}
 		});
 	}
-
+	//TODO MING:修改方法名
 	public <T> void uploadImages(final int requestCode, String url, List<String> paths, final Class<? extends BaseEntity> clazz,
 			final RequestListener callback) {
 		RequestParams params = new RequestParams();
@@ -320,7 +320,6 @@ public class NetRequest {
 		for (int i = 0; i < paths.size(); i++) {
 			params.addBodyParameter("file" + i, new File(paths.get(i)));
 		}
-
 		HttpUtils http = new HttpUtils();
 		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 
