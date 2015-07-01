@@ -116,7 +116,7 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.layout_ask_for:
 			Intent intent = new Intent(getActivity(),ReportHarmActivity.class);
-			intent.putExtra("title", "申请会诊");
+			intent.putExtra("title", "诊断病虫草害");
 			getActivity().startActivity(intent);
 			break;
 		case R.id.layout_intelligent:

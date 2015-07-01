@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:hint="搜索名称"
+                android:hint="搜索种子、病虫草害、药物信息"
                 android:imeOptions="actionSearch"
                 android:singleLine="true" />
         </LinearLayout>
@@ -49,8 +49,23 @@
         android:layout_height="match_parent"
         android:cacheColorHint="@android:color/transparent" 
         android:divider="@color/color_DCE3E6"
-        android:dividerHeight="1dp"
+        android:dividerHeight="0.5dp"
+        android:visibility="gone"
         >
     </ListView>
 
+    
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/layout_empty"
+        android:gravity="center"
+        android:paddingBottom="50dp"
+        android:textSize="@dimen/sp_16"
+        android:textColor="#A09F9C"
+        android:text="暂无搜索结果哦~"
+        android:visibility="gone"
+        />
+    
+    
 </LinearLayout>
