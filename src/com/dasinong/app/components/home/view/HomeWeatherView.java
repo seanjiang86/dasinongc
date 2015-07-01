@@ -361,13 +361,15 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
         }else if(weather<40){
             return R.drawable.pop1;
-        }else if(weather<60){
+        }else if(weather<=60){
             return R.drawable.pop3;
-        }else if(weather<80){
+        }else if(weather<=80){
             return R.drawable.pop4;
-        }else {
+        }else if(weather< 100){
             return R.drawable.pop5;
         }
+
+        return R.drawable.pop5;
 
 
     }
