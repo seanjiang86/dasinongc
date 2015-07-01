@@ -30,6 +30,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnKeyListener;
 import android.webkit.DownloadListener;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings.ZoomDensity;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -55,10 +56,16 @@ public class WebViewActivity extends BaseActivity {
 		webView.getSettings().setDefaultZoom(ZoomDensity.FAR);
 		// 设置出现缩放工具
 		webView.getSettings().setBuiltInZoomControls(true);
+		//
+		webView.setWebChromeClient(new MyWebChromeClient());
 
 		String url = getIntent().getStringExtra("url");
+		if(!url.startsWith("http://")){
+			url = "http://"+url;
+		}
+		System.out.println(url);
 
-		webView.loadUrl("http://" + url);
+		webView.loadUrl(url);
 		// 设置下载监听事件
 		webView.setDownloadListener(new MyWebViewDownLoadListener());
 
@@ -93,12 +100,20 @@ public class WebViewActivity extends BaseActivity {
 			return true;
 		}
 	}
-
+	/**
+	 * @author Ming
+	 *	添加进度条
+	 */
+	class MyWebChromeClient extends WebChromeClient{
+		@Override
+		public void onProgressChanged(WebView view, int newProgress) {
+			// TODO MING 进度条是否需要
+			System.out.println(newProgress);
+		}
+	}
 	/**
 	 * 调用系统浏览器下载文件
-	 * 
 	 * @author Ming
-	 * 
 	 */
 
 	// class MyWebViewDownLoadListener implements DownloadListener {

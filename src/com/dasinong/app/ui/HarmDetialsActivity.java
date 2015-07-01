@@ -79,6 +79,7 @@ public class HarmDetialsActivity extends BaseActivity {
 			pet = (PetDisspec) getIntent().getExtras().getSerializable("pet");
 		} else if (FLAG_PREVENT.equals(type) || FLAG_CURE.equals(type) || FLAG_ITEM.equals(type)) {
 			if (getIntent().hasExtra("petDisSpecId")) {
+				// TODO MING：如果取不到值不能等于 -1；
 				int petDisSpecId = getIntent().getIntExtra("petDisSpecId", -1);
 				pet = manager.getDisease(petDisSpecId);
 			} else {

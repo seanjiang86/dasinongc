@@ -70,7 +70,7 @@
 
         <EditText
             android:id="@+id/et_target_production"
-            android:layout_width="158dp"
+            android:layout_width="150dp"
             android:layout_height="45dp"
             android:layout_marginLeft="20dp"
             android:background="@drawable/text_bg"
@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:text="斤" />
+            android:text="斤/亩" />
     </LinearLayout>
 
     <Button

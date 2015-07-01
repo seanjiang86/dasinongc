@@ -50,7 +50,9 @@ public class CaptureActivity extends BaseActivity implements Callback {
 	private boolean playBeep;
 	private static final float BEEP_VOLUME = 0.10f;
 	private boolean vibrate;
-	private Button cancelScanButton;
+	private TopbarView topbar;
+
+	// private Button cancelScanButton;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -62,9 +64,9 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		// R.string.scan_card);
 		CameraManager.init(getApplication());
 		viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
-		cancelScanButton = (Button) this.findViewById(R.id.btn_cancel_scan);
+		// cancelScanButton = (Button) this.findViewById(R.id.btn_cancel_scan);
 		topbar = (TopbarView) findViewById(R.id.topbar);
-		topbar.setCenterText("扫描二维码");
+		initTopar();
 		hasSurface = false;
 		inactivityTimer = new InactivityTimer(this);
 	}
@@ -92,13 +94,18 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		vibrate = true;
 
 		// quit the scan view
-		cancelScanButton.setOnClickListener(new OnClickListener() {
+		// cancelScanButton.setOnClickListener(new OnClickListener() {
+		//
+		// @Override
+		// public void onClick(View v) {
+		// CaptureActivity.this.finish();
+		// }
+		// });
+	}
 
-			@Override
-			public void onClick(View v) {
-				CaptureActivity.this.finish();
-			}
-		});
+	private void initTopar() {
+		topbar.setCenterText("扫描二维码");
+		topbar.setLeftView(true, true);
 	}
 
 	@Override
@@ -136,9 +143,9 @@ public class CaptureActivity extends BaseActivity implements Callback {
 			// TODO MING:6.25 待定
 
 			Intent intent = new Intent(this, WebViewActivity.class);
+			
 			intent.putExtra("url", resultString);
 			startActivity(intent);
-			
 
 			// Intent resultIntent = new Intent();
 			// Bundle bundle = new Bundle();
@@ -237,6 +244,5 @@ public class CaptureActivity extends BaseActivity implements Callback {
 			mediaPlayer.seekTo(0);
 		}
 	};
-	private TopbarView topbar;
 
 }
