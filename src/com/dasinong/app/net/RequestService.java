@@ -155,6 +155,11 @@ public class RequestService {
 		new NetRequest(context).upload(0, NetConfig.BASE_URL + "uploadAvater", filePath, BaseEntity.class, callBack);
 	}
 	
+	public void searchWord(Context context, String key, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getSearchWordParams(key);
+		new NetRequest(context).get(RequestCode.SEARCH_WORD, params, SubUrl.SEARCH_WORD, callBack, clazz);
+	}
+	
 	public void createField(Context context, String seedingortransplant,String area,String startDate,String locationId,String varietyId,String currentStageId,String yield,Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getCreateFieldParams("true",seedingortransplant,area,startDate,locationId,varietyId,currentStageId,yield);
 		new NetRequest(context).get(RequestCode.CREATE_FIELD, params, SubUrl.CREATE_FIELD, callBack, clazz);

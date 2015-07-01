@@ -1,6 +1,9 @@
 package com.dasinong.app.ui;
 
 import com.dasinong.app.R;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.DeviceHelper;
 
@@ -26,7 +29,22 @@ public class SearchResultActivity extends BaseActivity {
 		initData();
 		initView();
 		setUpView();
-		
+		requestData();
+	}
+
+	private void requestData() {
+		RequestService.getInstance().searchWord(this, keywords, BaseEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				
+			}
+		});
 	}
 
 	private void initData() {

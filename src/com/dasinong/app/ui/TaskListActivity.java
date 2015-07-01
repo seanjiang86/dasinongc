@@ -298,7 +298,7 @@ public class TaskListActivity extends BaseActivity {
 				holder = (GroupHolder) convertView.getTag();
 			}
 
-			holder.title.setText(item.subStage.stageName);
+			holder.title.setText(item.subStage.subStageName);
 
 			return convertView;
 		}

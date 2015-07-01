@@ -254,7 +254,12 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
                 FieldEntity entity = (FieldEntity) response;
                 DEBUG("entity:" + entity.toString());
                 if (entity != null) {
-                    mDisasterView.updateView(entity.currentField.natdisws, entity.currentField.petdisws);
+                	
+                	if(entity.currentField != null){
+                		mDisasterView.updateView(entity.currentField.natdisws, entity.currentField.petdisws);
+                	}
+
+                    mCropStateView.updateView(entity);
                     mCropStateView.setOnAddFieldClickListener(new CropsStateView.MyOnAddFieldClickListener() {
                         @Override
                         public void onWorKContentItemClick(String itemValue, int pos, boolean isSelect) {
@@ -357,8 +362,8 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
     @Override
     public void onResume() {
         super.onResume();
-        login();
-
+//        login();
+        loadDataFromWithCache();
     }
 
 

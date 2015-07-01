@@ -75,6 +75,10 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
             return;
         }
 
+        if(banner.data == null){
+        	return;
+        }
+        
         url = banner.data.url;
         visibilityAllView();
         switch (banner.data.type) {

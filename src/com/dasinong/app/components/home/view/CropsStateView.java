@@ -199,6 +199,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             }
         }
 
+        //设置当前是否是个打药，适合下地干活
+        //DONE
+        	setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
 
         fieldStateView.setPostionAndList(currentPosition, mSubStageLists);
 

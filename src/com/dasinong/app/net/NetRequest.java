@@ -38,6 +38,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.ui.RegisterPhoneActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
@@ -102,10 +103,9 @@ public class NetRequest {
 					}
 
 					if (result.isAuthTokenInvalid()) {
-						// Intent intent = new
-						// Intent(context,LoginActivity.class);
-						// // intent.putExtra(AccountManager.CHECK_LOGIN,true);
-						// context.startActivity(intent);
+						 Intent intent = new Intent(context,RegisterPhoneActivity.class);
+						 // intent.putExtra(AccountManager.CHECK_LOGIN,true);
+						 context.startActivity(intent);
 						AccountManager.logout(context);
 					}
 
@@ -182,10 +182,9 @@ public class NetRequest {
 					}
 
 					if (result.isAuthTokenInvalid()) {
-						// Intent intent = new
-						// Intent(context,LoginActivity.class);
-						// // intent.putExtra(AccountManager.CHECK_LOGIN,true);
-						// context.startActivity(intent);
+						 Intent intent = new Intent(context,RegisterPhoneActivity.class);
+						 // intent.putExtra(AccountManager.CHECK_LOGIN,true);
+						 context.startActivity(intent);
 						AccountManager.logout(context);
 					}
 

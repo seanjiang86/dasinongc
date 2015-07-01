@@ -1,9 +1,11 @@
 package com.dasinong.app.ui.fragment;
 
 import com.dasinong.app.R;
+import com.dasinong.app.ui.AuthCodeActivity;
 import com.dasinong.app.ui.CaptureActivity;
 import com.dasinong.app.ui.MyInfoActivity;
 import com.dasinong.app.ui.RecommendActivity;
+import com.dasinong.app.ui.RegisterPasswordActivity;
 import com.dasinong.app.ui.RegisterPhoneActivity;
 import com.dasinong.app.ui.SmsSettingActivity;
 import com.dasinong.app.ui.SmsSubscribeActivity;
@@ -120,7 +122,10 @@ public class MeFragment extends Fragment implements OnClickListener {
 			getActivity().startActivity(loginIntent);
 			break;
 		case R.id.layout_use:// 使用教程
-
+			Intent lIntent = new Intent(getActivity(),RegisterPasswordActivity.class);
+			lIntent.putExtra("phone", "13120128328");
+			lIntent.putExtra("isLogin", true);
+			getActivity().startActivity(lIntent);
 			break;
 		case R.id.layout_contact_us:// 联系我们
 

@@ -78,6 +78,8 @@ public class NetConfig {
 		public static final String SMS_SUBSCRIBE_DETAIL ="loadSubScribeList";
 		/**创建田地*/
 		public static final String CREATE_FIELD ="createField";
+		/**搜索*/
+		public static final String SEARCH_WORD ="searchWord";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -125,6 +127,7 @@ public class NetConfig {
 		public static final String startDate = "startDate";
 		public static final String currentStageId = "currentStageId";
 		public static final String yield = "yield";
+		public static final String key = "key";
 		
 	}
 	
@@ -365,6 +368,11 @@ public class NetConfig {
 	public static Map<String, String> getDeleteSmsSubParams(String id) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.id, id);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getSearchWordParams(String key) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.key, key);
 		return getBaseParams(false, paramsMap);
 	}
 	
