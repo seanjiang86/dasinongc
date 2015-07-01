@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BannerEntity;
 import com.dasinong.app.components.domain.FieldEntity;
@@ -362,8 +363,8 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
     @Override
     public void onResume() {
         super.onResume();
-//        login();
-        loadDataFromWithCache();
+      // login();
+        //loadDataFromWithCache();
     }
 
 
@@ -381,7 +382,7 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
     }
 
     private void DEBUG(String msg) {
-        if (false) {
+        if (BuildConfig.DEBUG) {
             Log.d(TAG, msg);
         }
     }

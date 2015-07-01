@@ -1,14 +1,15 @@
 package com.dasinong.app.components.home.view;
 
-import android.app.Activity;
+
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.text.TextUtils;
+
 import android.util.AttributeSet;
 import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +21,8 @@ import com.dasinong.app.components.home.view.dialog.ConfirmDialog;
 import com.dasinong.app.database.task.domain.SubStage;
 
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * 农作物成长状况View--用于首页上部绿色背景中部的显示
@@ -33,16 +36,21 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     //添加农作物
     private MyAddCropOnClickListener onAddCropClickListener;
-    private ImageView leftArrowView, leafView, rightArrowView;
+    private ImageView leftArrowView, rightArrowView;
     private ConfirmDialog confirmDialog;
 
     private int mCurrentPostion;
     private List<SubStage> mSubStages;
 
 
+
+    private static TreeMap<Integer,Integer> cropIconRest = new TreeMap<>();
+
     private boolean isLeft;
 
     private static final String TAG = "CropsGroupUpView";
+
+    private HorizontalScrollView mSubstageContainer;
 
 
     public CropsGroupUpView(Context context) {
@@ -56,6 +64,11 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     }
 
     private void init(Context context) {
+        initView(context);
+        setEvent();
+    }
+
+    private void initView(Context context) {
         View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top_work_content, this);
         normalParentView = rootView.findViewById(R.id.normal_state);
         harvestTimeView = (TextView) rootView.findViewById(R.id.harvest_time);
@@ -64,13 +77,18 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         addCropView = (TextView) rootView.findViewById(R.id.add_crop);
 
         leftArrowView = (ImageView) rootView.findViewById(R.id.left_arrow);
-        leafView = (ImageView) rootView.findViewById(R.id.leaf);
+
         rightArrowView = (ImageView) rootView.findViewById(R.id.right_arrow);
+
+
+
+    }
+
+    private void setEvent() {
         addCropViewParent.setOnClickListener(this);
         leftArrowView.setOnClickListener(this);
         rightArrowView.setOnClickListener(this);
     }
-
 
 
     public void showNormalStatus() {
@@ -78,7 +96,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         addCropViewParent.setVisibility(View.GONE);
     }
 
-    public void showNOFildStatus() {
+    public void showNOFieldStatus() {
         normalParentView.setVisibility(View.GONE);
         addCropViewParent.setVisibility(View.VISIBLE);
     }
@@ -182,6 +200,26 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
         this.mCurrentPostion = mPosition;
         this.mSubStages = mSubStageLists;
+        if(mSubStageLists==null||mSubStageLists.isEmpty()){
+            return;
+        }
+        updateStageIcon();
+    }
+
+    private void updateStageIcon() {
+
+        if(mSubstageContainer!=null){
+            LinearLayout mIconContainer  = null;
+            //TODO:add ImageView
+            //根据当前的的状态进行点亮不同的图标，之前的是点亮，之后的是不点的
+            //TODO: a row five
+            for(Map.Entry<Integer,Integer> entity:cropIconRest.entrySet()){
+
+                //TODO:create imageView
+
+            }
+
+        }
 
     }
 
@@ -203,5 +241,56 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         if (true) {
             Log.d(TAG, msg);
         }
+    }
+
+
+    static {
+
+        cropIconRest.put(35,R.drawable.sowbefore);
+        cropIconRest.put(36,R.drawable.sow);
+        cropIconRest.put(37,R.drawable.germination);
+        cropIconRest.put(38,R.drawable.leafe);
+
+
+        cropIconRest.put(39,R.drawable.twiceleafe);
+        cropIconRest.put(40,R.drawable.threeleafe);
+
+        cropIconRest.put(41,R.drawable.pretransplant);
+        cropIconRest.put(42,R.drawable.transplant);
+
+
+
+        cropIconRest.put(43,R.drawable.seedling);
+
+
+
+        cropIconRest.put(44,R.drawable.tillering);
+        cropIconRest.put(45,R.drawable.twicetillering);
+        cropIconRest.put(46,R.drawable.threetillering);
+
+
+        cropIconRest.put(47,R.drawable.fourperiod);
+        cropIconRest.put(48,R.drawable.threeperiod);
+        cropIconRest.put(49,R.drawable.twoperiod);
+        cropIconRest.put(50,R.drawable.oneperiod);
+
+
+
+        cropIconRest.put(51,R.drawable.flowerhead);
+        cropIconRest.put(52,R.drawable.head);
+        cropIconRest.put(53,R.drawable.fullhead);
+
+        cropIconRest.put(54,R.drawable.startfill);
+        cropIconRest.put(55,R.drawable.fill);
+        cropIconRest.put(56,R.drawable.fillstage);
+        cropIconRest.put(57,R.drawable.yellowfill);
+
+
+        cropIconRest.put(58,R.drawable.lastbefore);
+        cropIconRest.put(59,R.drawable.last);
+
+
+
+
     }
 }

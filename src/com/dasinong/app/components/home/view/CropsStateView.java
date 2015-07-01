@@ -151,7 +151,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             fieldStateView.showNormalStatus();
         } else {
             //当前没有田地--
-            fieldStateView.showNOFildStatus();
+            fieldStateView.showNOFieldStatus();
         }
         //设置田地的名称
         if (null != entity.currentField) {

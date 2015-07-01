@@ -10,6 +10,7 @@
     <LinearLayout
         android:id="@+id/normal_state"
         android:visibility="gone"
+        tools:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -18,7 +19,6 @@
         <RelativeLayout
             android:background="@drawable/leaf_bg"
             android:layout_width="match_parent"
-
             android:layout_height="@dimen/home_dimen_100">
 
             <ImageView
@@ -44,8 +44,7 @@
                 android:gravity="center_vertical"
                 android:layout_toRightOf="@id/left_arrow"
                 android:layout_toLeftOf="@id/right_arrow"
-                android:layout_marginLeft="@dimen/home_dimen_30"
-                android:layout_marginRight="@dimen/home_dimen_30"
+
                 android:layout_centerVertical="true"
                 android:orientation="horizontal"
 
