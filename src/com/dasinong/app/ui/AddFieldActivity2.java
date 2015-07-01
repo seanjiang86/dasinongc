@@ -216,6 +216,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 					district = null;
 
 					etv.setTitle("请选择", 1);
+					etv.setTitle("请选择",2);
 				}
 				countyList = dao.getCounty(city);
 				onrefresh(provinceView, province + "-" + city);
@@ -250,7 +251,15 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		countyView.setOnSmallAreaItemClickListener(new TextAdapter.OnItemClickListener() {
 			@Override
 			public void onItemClick(View view, int position) {
-				district = districtList.get(position);
+				String currentDistrict = districtList.get(position);
+				if(!currentDistrict.equals(district)){
+					district = currentDistrict;
+					
+					village = null;
+					
+					etv.setTitle("请选择", 2);
+				}
+				
 				districtPostion = position;
 				onrefresh(countyView, county + "-" + district);
 
@@ -305,6 +314,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	private void queryVillage(String province, String city, String county, String district) {
 		if(!DeviceHelper.checkNetWork(this)){
 			showToast("请检测您的网络连接");
+			return;
 		}
 		startLoadingDialog();
 		RequestService.getInstance().getLocation(DsnApplication.getContext(), province, city, county, district, VillageInfo.class,
@@ -335,6 +345,11 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	}
 
 	private void gotoThree() {
+		if("请选择".equals(etv.getTitle(2))){
+			showToast("请完善您的地理信息");
+			return;
+		}
+		
 		if (TextUtils.isEmpty(villageId)) {
 			showToast("请完善您的地理信息");
 			return;

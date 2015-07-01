@@ -98,6 +98,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 							smallSubStageList.clear();
 							smallStageMenu.addItems(smallSubStageList);
 						}
+						subStageId = "";
 						lastStage = currentStage;
 					}
 					querySmallSubStage(currentStage);
@@ -118,7 +119,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 					
 					tv_small_substage.setText(smallSubStage);
 					
-					if(TextUtils.isEmpty(smallSubStage)){
+					if("我不确定".equals(smallSubStage)){
 						smallSubStage = smallSubStageList.get(1);
 					}
 					subStageId = String.valueOf(smallSubStageMap.get(smallSubStage));
@@ -127,6 +128,8 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 			});
 			break;
 		case R.id.btn_no_sure_substage:
+			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, "");
+			System.out.println(subStageId+"               sdfsadfsa                ");
 			goToNext();
 			break;
 		case R.id.btn_sure_substage:
@@ -135,6 +138,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 				return;
 			}
 			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, subStageId);
+			System.out.println(subStageId+"               sdfsadfsa                ");
 			goToNext();
 			break;
 		}
@@ -150,6 +154,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	 */
 	private void queryBigSubStage() {
 		bigSubStageList = dao.queryStageCategory();
+		bigSubStageList.remove("收获后");
 		if (AddFieldActivity8.DIRECT.equals(seedingMethod)) {
 			bigSubStageList.remove("移栽");
 			bigSubStageList.remove("返青期");

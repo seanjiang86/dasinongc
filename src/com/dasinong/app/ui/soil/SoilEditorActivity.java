@@ -85,7 +85,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
         if (bundle != null && bundle.containsKey(EXTRA_LIST_ENTITY)) {
 
             mListDataEntity = bundle.getParcelable(EXTRA_LIST_ENTITY);
-            DEBUG(mListDataEntity.toString());
+            DEBUG(mListDataEntity==null?"dataEntity is empty":mListDataEntity.toString());
             if (mListDataEntity != null) {
                 calendar.setTimeInMillis(mListDataEntity.testDate);
             }

@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="#33AB33"
-    android:orientation="vertical">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="#33AB33"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:paddingLeft="@dimen/home_dimen_30"
@@ -63,7 +64,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="10" />
+            tools:text="10" />
 
         <LinearLayout
             android:layout_marginLeft="@dimen/home_dimen_15"
@@ -78,7 +79,7 @@
                 android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="周一" />
+                tools:text="周一" />
 
             <TextView
                 android:id="@+id/wealth"
@@ -87,7 +88,7 @@
                 android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="大雪" />
+                tools:text="大雪" />
         </LinearLayout>
 
         <LinearLayout
@@ -103,9 +104,14 @@
                 android:gravity="center"
                 android:background="@drawable/view_home_top_white_bg"
                 android:textColor="@color/color_view_home_top_bg"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
-                android:text="宜下地" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="11dp"
+                android:paddingBottom="11dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:visibility="gone"
+                tools:text="宜下地" />
 
             <TextView
                 android:id="@+id/right_state"
@@ -113,10 +119,16 @@
                 android:gravity="center"
                 android:background="@drawable/view_home_top_red_bg"
                 android:textColor="@android:color/white"
-                android:layout_width="100dp"
-                android:layout_height="40dp"
+                android:layout_width="wrap_content"
+
+                android:visibility="gone"
+                android:paddingTop="11dp"
+                android:paddingBottom="11dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/home_dimen_20"
-                android:text="不宜打药" />
+                tools:text="不宜打药" />
         </LinearLayout>
 
     </LinearLayout>

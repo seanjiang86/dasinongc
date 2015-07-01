@@ -64,6 +64,7 @@ public class ReportHarmActivity extends BaseActivity {
 	private GridView noScrollgridview;
 	private GridAdapter adapter;
 	private String fileName;
+	private String title;
 	private List <String> paths = new ArrayList<String>();
 	private int flag = 0;
 	
@@ -93,7 +94,10 @@ public class ReportHarmActivity extends BaseActivity {
 		setContentView(R.layout.activity_report_harm);
 
 		PublicWay.activityList.add(this);
-
+		
+		title = getIntent().getStringExtra("title");
+		
+		
 		initGridView();
 
 		initView();
@@ -137,7 +141,7 @@ public class ReportHarmActivity extends BaseActivity {
 	}
 
 	private void initTopBar() {
-		topbar.setCenterText("举报病虫草害");
+		topbar.setCenterText(title);
 		topbar.setRightText("提交");
 		topbar.setLeftView(true, true);
 

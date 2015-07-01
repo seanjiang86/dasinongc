@@ -85,6 +85,7 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 	public void onClick(View v) {
 		if (!DeviceHelper.checkNetWork(this)) {
 			showToast("请检测您的网络连接");
+			return;
 		}
 		int id = v.getId();
 
@@ -108,7 +109,9 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 
 		switch (id) {
 		case R.id.btn_no_in_field:
-			hasCurrentLocation();
+			if(!TextUtils.isEmpty(mprovince)){
+				hasCurrentLocation();
+			}
 			goToTwo();
 			break;
 		case R.id.btn_in_field:

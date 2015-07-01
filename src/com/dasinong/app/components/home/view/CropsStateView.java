@@ -1,13 +1,16 @@
 package com.dasinong.app.components.home.view;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +26,9 @@ import com.dasinong.app.database.task.dao.impl.TaskSpecDaoImpl;
 import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.database.task.domain.TaskSpec;
 import com.dasinong.app.ui.AddFieldActivity1;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.utils.DeviceHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -151,7 +156,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             fieldStateView.showNormalStatus();
         } else {
             //当前没有田地--
-            fieldStateView.showNOFildStatus();
+            fieldStateView.showNOFieldStatus();
         }
         //设置田地的名称
         if (null != entity.currentField) {
@@ -162,6 +167,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             }
             updateFieldName();
             //设置当前是否是个打药，适合下地干活
+
             setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
 
             updateFieldTimeAndStage(entity.currentField);
@@ -181,9 +187,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
     private void updateFieldTimeAndStage(FieldEntity.CurrentFieldEntity currentFieldEntity) {
         if (currentFieldEntity == null) {
+
+
             return;
         }
 
+        DEBUG("currentEntity:"+currentFieldEntity.daytoharvest);
         String harvestDay = getHarvestDay(currentFieldEntity);
         fieldStateView.updateHarvestDay(harvestDay);
         String rightStateInfo = "水稻";
@@ -321,6 +330,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      * @param isSpray --是否适合打药;true:是；false:否
      */
     private void setWorkState(boolean isWork, boolean isSpray) {
+        leftStateView.setVisibility(View.VISIBLE);
+        rightStateView.setVisibility(View.VISIBLE);
         if (isWork) {
             leftStateView.setText("宜下地");
         } else {
@@ -392,8 +403,68 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             case R.id.add_field:
                 //点击添加--最右上角按钮
 
-                Intent intent = new Intent(getContext(), AddFieldActivity1.class);
-                getContext().startActivity(intent);
+//                Intent intent = new Intent(getContext(), AddFieldActivity1.class);
+//                getContext().startActivity(intent);
+
+                if (DeviceHelper.checkNetWork(context) && DeviceHelper.checkGPS(context)) {
+
+                    // TODO MING:该方法是否为检测登陆的方法
+                    if (AccountManager.checkLogin(context)) {
+                        Intent intent = new Intent(context, AddFieldActivity1.class);
+                        context.startActivity(intent);
+                    } else {
+                        // TODO MING 跳转至用户登陆界面
+
+                    }
+                    return;
+                } else {
+
+//				AlertDialog.Builder builder = new AlertDialog.Builder(context);
+//
+//				builder.setTitle("提示");
+//				builder.setMessage("请检测您的网络和GPS是否开启");
+//				builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//						Intent intent = new Intent(Settings.ACTION_SETTINGS);
+//						context.startActivity(intent);
+//					}
+//				});
+//				builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//
+//					@Override
+//					public void onClick(DialogInterface dialog, int which) {
+//
+//					}
+//				});
+//				builder.show();
+
+                    final Dialog dialog = new Dialog(context, R.style.CommonDialog);
+                    dialog.setContentView(R.layout.smssdk_back_verify_dialog);
+                    TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
+                    tv.setText("请检测您的网络和GPS是否开启？");
+                    tv.setTextSize(18);
+                    Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
+                    waitBtn.setText("取消");
+                    waitBtn.setOnClickListener(new OnClickListener() {
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_cancel);
+                    backBtn.setText("确定");
+                    backBtn.setOnClickListener(new OnClickListener() {
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                            context.startActivity(intent);
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.setCanceledOnTouchOutside(true);
+                    dialog.show();
+                }
+
 
                 break;
         }
@@ -499,6 +570,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                     //TODO:任务上单击
 
                     Toast.makeText(CropsStateView.this.getContext(), "start task ", Toast.LENGTH_SHORT).show();
+
                 }
             });
             if (i == length - 1) {

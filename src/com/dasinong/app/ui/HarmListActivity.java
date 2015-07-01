@@ -58,6 +58,7 @@ public class HarmListActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(HarmListActivity.this, ReportHarmActivity.class);
+				intent.putExtra("title", "举报病虫草害");
 				startActivity(intent);
 			}
 		});

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tool="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/home_w_white">
+                xmlns:tool="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/home_w_white">
 
     <TextView
         android:id="@+id/weather_update_time"
@@ -11,12 +11,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/home_dimen_75"
-        android:layout_marginRight="@dimen/home_dimen_30"
         android:layout_marginTop="@dimen/home_dimen_30"
+        android:paddingRight="@dimen/home_dimen_30"
         android:text="@string/weather_update"
         android:textColor="@color/home_w_c8c8c8"
-        android:textSize="@dimen/home_text_size_24" />
-
+        android:textSize="@dimen/home_text_size_24"/>
+    <!--android:layout_marginRight="@dimen/home_dimen_30"-->
     <LinearLayout
         android:id="@+id/lyWeather"
         android:layout_width="wrap_content"
@@ -29,9 +29,10 @@
 
         <ImageView
             android:id="@+id/ivHomeWicon"
-            android:layout_width="@dimen/home_dimen_40"
-            android:layout_height="@dimen/home_dimen_40"
-            android:src="@drawable/ic_weather_dafeng" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tool:src="@drawable/ic_weather_dafeng"
+            />
 
         <TextView
             android:id="@+id/current_weather_status"
@@ -39,9 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/home_dimen_10"
             android:gravity="center"
-            android:text="@string/weather_qingzhuanduoyun"
             android:textColor="@color/home_w_666666"
-            android:textSize="@dimen/home_text_size_28" />
+            android:textSize="@dimen/home_text_size_28"
+            tool:text="@string/weather_qingzhuanduoyun"/>
     </LinearLayout>
 
     <LinearLayout
@@ -56,7 +57,7 @@
 
         <ImageView
             android:layout_width="@dimen/home_dimen_10"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,12 +65,12 @@
             android:layout_marginLeft="@dimen/home_dimen_20"
             android:text="28°"
             android:textColor="@color/home_w_666666"
-            android:textSize="@dimen/home_text_size_32" />
+            android:textSize="@dimen/home_text_size_32"/>
 
         <ImageView
             android:layout_width="@dimen/home_dimen_10"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/home_dimen_50" />
+            android:layout_marginLeft="@dimen/home_dimen_50"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -77,7 +78,7 @@
             android:layout_marginLeft="@dimen/home_dimen_20"
             android:text="-28°"
             android:textColor="@color/home_w_86a4ff"
-            android:textSize="@dimen/home_text_size_32" />
+            android:textSize="@dimen/home_text_size_32"/>
     </LinearLayout>
 
     <LinearLayout
@@ -95,13 +96,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:text="30°"
 
             android:minHeight="0dp"
-
             android:padding="0dp"
+
             android:textColor="@color/home_w_black"
-            android:textSize="90sp" />
+            android:textSize="90sp"
+            tool:text="30°"/>
 
         <View
             android:layout_width="1dp"
@@ -127,11 +128,11 @@
 
                 <ImageView
                     android:id="@+id/ivWind"
-                    android:layout_width="@dimen/home_dimen_64"
-                    android:layout_height="@dimen/home_dimen_64"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/home_dimen_25"
-                    android:src="@drawable/ic_weather_dafeng" />
+                    android:src="@drawable/wind"/>
 
                 <TextView
                     android:id="@+id/tvWind"
@@ -139,9 +140,10 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/ivWind"
 
-                    android:text="东北风"
                     android:textColor="@color/home_w_666666"
-                    android:textSize="@dimen/home_text_size_28" />
+
+                    android:textSize="@dimen/home_text_size_28"
+                    tool:text="东北风"/>
 
                 <TextView
                     android:id="@+id/wether_window_level"
@@ -150,9 +152,9 @@
                     android:layout_below="@id/tvWind"
                     android:layout_marginTop="@dimen/home_dimen_10"
                     android:layout_toRightOf="@id/ivWind"
-                    android:text="4级"
                     android:textColor="@color/home_w_666666"
-                    android:textSize="@dimen/home_text_size_28" />
+                    android:textSize="@dimen/home_text_size_28"
+                    tool:text="4级"/>
 
             </RelativeLayout>
 
@@ -167,7 +169,7 @@
                     android:layout_height="@dimen/home_dimen_64"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/home_dimen_25"
-                    android:src="@drawable/ic_weather_dafeng" />
+                    android:src="@drawable/precipitationy"/>
 
                 <TextView
                     android:id="@+id/tvRainfall"
@@ -175,9 +177,9 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/ivRainfall"
 
-                    android:text="80"
                     android:textColor="@color/home_w_666666"
-                    android:textSize="@dimen/home_text_size_28" />
+                    android:textSize="@dimen/home_text_size_28"
+                    tool:text="80"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -187,7 +189,7 @@
                     android:layout_toRightOf="@id/ivRainfall"
                     android:text=""
                     android:textColor="@color/home_w_666666"
-                    android:textSize="@dimen/home_text_size_28" />
+                    android:textSize="@dimen/home_text_size_28"/>
 
             </RelativeLayout>
 
@@ -199,7 +201,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/lyWind"
-        android:background="#dbe3e6" />
+        android:background="#dbe3e6"/>
 
     <LinearLayout
         android:id="@+id/lyHumidity"
@@ -222,13 +224,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
 
-                android:text="早上" />
+                android:text="早上"/>
 
             <ImageView
                 android:layout_width="@dimen/home_dimen_64"
                 android:layout_height="@dimen/home_dimen_64"
                 android:layout_marginTop="@dimen/home_dimen_10"
-                android:background="@drawable/ic_weather_dafeng" />
+                android:background="@drawable/ic_weather_dafeng"/>
 
             <TextView
                 android:id="@+id/weather_morning"
@@ -237,14 +239,14 @@
                 android:layout_marginTop="@dimen/home_dimen_20"
                 android:text="30%"
                 android:textColor="#666666"
-                android:textSize="@dimen/home_text_size_30" />
+                android:textSize="@dimen/home_text_size_30"/>
 
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#ededed" />
+            android:background="#ededed"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -260,69 +262,30 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="下午" />
-
+                android:text="下午"/>
 
 
             <ImageView
                 android:layout_width="@dimen/home_dimen_64"
                 android:layout_height="@dimen/home_dimen_64"
                 android:layout_marginTop="@dimen/home_dimen_10"
-                android:background="@drawable/ic_weather_dafeng" />
+                android:background="@drawable/ic_weather_dafeng"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/home_dimen_20"
-                android:text="30%"
                 android:id="@+id/weather_afternoon"
-                android:textColor="#666666"
-                android:textSize="@dimen/home_text_size_30" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:background="#ededed" />
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="@dimen/home_dimen_30">
-
-            <TextView
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="晚间" />
-
-            <ImageView
-                android:layout_width="@dimen/home_dimen_64"
-                android:layout_height="@dimen/home_dimen_64"
-                android:layout_marginTop="@dimen/home_dimen_10"
-                android:background="@drawable/ic_weather_dafeng" />
-
-            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_20"
                 android:text="30%"
-                android:id="@+id/weather_night"
                 android:textColor="#666666"
-                android:textSize="@dimen/home_text_size_30" />
+                android:textSize="@dimen/home_text_size_30"/>
 
         </LinearLayout>
 
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:background="#ededed" />
+            android:background="#ededed"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -338,13 +301,51 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="子夜" />
+                android:text="晚间"/>
 
             <ImageView
                 android:layout_width="@dimen/home_dimen_64"
                 android:layout_height="@dimen/home_dimen_64"
                 android:layout_marginTop="@dimen/home_dimen_10"
-                android:background="@drawable/ic_weather_dafeng" />
+                android:background="@drawable/ic_weather_dafeng"/>
+
+            <TextView
+                android:id="@+id/weather_night"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/home_dimen_20"
+                android:text="30%"
+                android:textColor="#666666"
+                android:textSize="@dimen/home_text_size_30"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="#ededed"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/home_dimen_30">
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/home_dimen_30"
+                android:text="子夜"/>
+
+            <ImageView
+                android:layout_width="@dimen/home_dimen_64"
+                android:layout_height="@dimen/home_dimen_64"
+                android:layout_marginTop="@dimen/home_dimen_10"
+                android:background="@drawable/ic_weather_dafeng"/>
 
             <TextView
                 android:id="@+id/weather_midnight"
@@ -353,7 +354,7 @@
                 android:layout_marginTop="@dimen/home_dimen_20"
                 android:text="30%"
                 android:textColor="#666666"
-                android:textSize="@dimen/home_text_size_30" />
+                android:textSize="@dimen/home_text_size_30"/>
 
         </LinearLayout>
 
@@ -364,19 +365,19 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/lyHumidity"
-        android:background="#dbe3e6" />
+        android:background="#dbe3e6"/>
 
     <HorizontalScrollView
-        android:scrollbars="none"
         android:id="@+id/horHumView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/ivLine2">
+        android:layout_below="@id/ivLine2"
+        android:scrollbars="none">
 
         <com.dasinong.app.components.home.view.HumidityView
             android:id="@+id/humView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
     </HorizontalScrollView>
 
     <View
@@ -384,7 +385,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_below="@id/horHumView"
-        android:background="#dbe3e6" />
+        android:background="#dbe3e6"/>
 
     <TableLayout
         android:id="@+id/lyWeekWeather"
@@ -393,7 +394,7 @@
         android:layout_below="@id/ivLine3"
         android:layout_marginLeft="@dimen/home_dimen_30"
         android:layout_marginRight="@dimen/home_dimen_30"
-        android:orientation="vertical" />
+        android:orientation="vertical"/>
 
     <TextView
         android:id="@+id/tvCloseWeekTemp"
@@ -401,8 +402,8 @@
         android:layout_height="@dimen/home_dimen_110"
         android:layout_below="@id/lyWeekWeather"
         android:gravity="center"
-        tool:text="@string/weather_close_one_week"
         android:textColor="#1768be"
-        android:textSize="@dimen/home_text_size_32" />
+        android:textSize="@dimen/home_text_size_32"
+        tool:text="@string/weather_close_one_week"/>
 
 </RelativeLayout>

@@ -3,7 +3,7 @@
     <string name="weather_update">更新于%d分钟前</string>
     <string name="weather_dafeng">大风</string>
     <string name="weather_qingzhuanduoyun">晴转多云</string>
-    <string name="weather_close_one_week">收起未来7天</string>
-    <string name="weather_open_one_week">查看未来7天</string>
+    <string name="weather_close_one_week">收起未来%d天</string>
+    <string name="weather_open_one_week">查看未来%d天</string>
 
 </resources>

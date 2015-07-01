@@ -80,7 +80,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		villageId = SharedPreferencesHelper.getString(this, Field.VILLAGE_ID, "1");
 
 		String fieldSize = SharedPreferencesHelper.getString(this, Field.FIELD_SIZE, "50");
-		int intFieldSize = Integer.valueOf(fieldSize);
+		double intFieldSize = Double.valueOf(fieldSize);
 		if (intFieldSize <= 10) {
 			tv_user_call.setText("呦,自给自足啊,都种了");
 		} else if (10 < intFieldSize && intFieldSize <= 200) {
@@ -140,6 +140,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 							varietyNumList.clear();
 							varietyNumMenu.addItems(varietyNumList);
 						}
+						varietyId = "";
 						lastCrop = currentCrop;
 					}
 					
@@ -179,7 +180,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 								varietyNumList.clear();
 								varietyNumMenu.addItems(varietyNumList);
 							}
-							
+							varietyId = "";
 							lastVariety = currentVariety;
 						}
 
@@ -218,7 +219,6 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 			break;
 		case R.id.btn_sure_crop:
 			goToNext();
-
 			break;
 		}
 	}
@@ -264,6 +264,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	private void queryVariety(String cropName) {
 		if(!DeviceHelper.checkNetWork(this)){
 			showToast("请检测您的网络连接");
+			return;
 		}
 		startLoadingDialog();
 		RequestService.getInstance().getVarietyList(DsnApplication.getContext(), cropName, villageId, VarietyInfo.class,
@@ -277,7 +278,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 							handler.sendEmptyMessage(0);
 						}else {
 							// TODO MING:请求不到时会出现空toast
-							showToast(resultData.getMessage());
+							showToast(resultData.getMessage()+requestCode);
 						}
 						dismissLoadingDialog();
 					}
@@ -322,6 +323,9 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 			intent = new Intent(this, AddFieldActivity8.class);
 		} else {
 			intent = new Intent(this, AddFieldActivity7.class);
+			SharedPreferencesHelper.setString(this, Field.SEEDING_METHOD, "false");
+			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, "");
+			SharedPreferencesHelper.setString(this, Field.PLANTING_DATE, "");
 		}
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);

@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:paddingLeft="@dimen/home_dimen_30"
-    android:paddingRight="@dimen/home_dimen_30">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/home_dimen_30"
+                android:paddingRight="@dimen/home_dimen_30">
 
     <LinearLayout
         android:id="@+id/normal_state"
-
+        android:visibility="gone"
+        tools:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -17,21 +19,20 @@
         <RelativeLayout
             android:background="@drawable/leaf_bg"
             android:layout_width="match_parent"
-
             android:layout_height="@dimen/home_dimen_100">
 
             <ImageView
                 android:id="@+id/left_arrow"
                 android:layout_centerVertical="true"
                 android:paddingLeft="25dp"
-                android:paddingRight="25dp"
+                android:paddingRight="10dp"
                 android:src="@drawable/left_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <ImageView
                 android:paddingRight="25dp"
-                android:paddingLeft="25dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/right_arrow"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
@@ -39,26 +40,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
+            <HorizontalScrollView
+                android:id="@+id/leaf_parent"
                 android:gravity="center_vertical"
                 android:layout_toRightOf="@id/left_arrow"
                 android:layout_toLeftOf="@id/right_arrow"
-                android:layout_marginLeft="@dimen/home_dimen_30"
-                android:layout_marginRight="@dimen/home_dimen_30"
+
                 android:layout_centerVertical="true"
                 android:orientation="horizontal"
-
+                android:scrollbars="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/leaf"
-                    android:src="@drawable/leafe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+               <LinearLayout
+                   android:id="@+id/leaf_container"
+                   android:layout_width="match_parent"
+                   android:orientation="horizontal"
+                   android:layout_height="match_parent">
 
 
-            </LinearLayout>
+               </LinearLayout>
+
+
+            </HorizontalScrollView>
 
 
         </RelativeLayout>
@@ -73,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="离收获还有130天"
+                tools:text="离收获还有130天"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/home_text_size_32" />
 
@@ -83,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
-                android:text="水稻分页器期8页"
+                tools:text="水稻分页器期8页"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/home_text_size_32" />
 
@@ -97,7 +101,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:visibility="gone"
+
         android:orientation="horizontal">
 
         <ImageView

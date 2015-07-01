@@ -2,8 +2,10 @@ package com.dasinong.app.components.home.view;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TimeUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -17,11 +19,15 @@ import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.WeatherEntity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Created by lxn on 15/6/5.
@@ -35,7 +41,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private HorizontalScrollView mHorHumView;
 
 
-    private static final String TAG = "[HomeWeatherView]";
+    private static final String TAG = "HomeWeatherView";
 
     private ShrinkAnimation mShrinkAnimation;
     private ExpandAnimation mExpandAnimation;
@@ -63,6 +69,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private TextView mOpenSevenDays;
 
+
+    private int weatherCount = 1;
     /**
      * four section
      */
@@ -80,7 +88,11 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private static final HashMap<String, String> iconMaps = new HashMap<>();
 
+
+
     private int height;
+
+
 
     private LayoutInflater mLayoutInflater;
 
@@ -162,6 +174,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
 
+
+
     public HomeWeatherView(Context context) {
         this(context, null);
     }
@@ -190,8 +204,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mRoot = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather, null);
 
         addView(mRoot);
-
-
         initCurrentWeatherView();
         initFourSectionView();
 
@@ -205,7 +217,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
      * 当前天所相关的的View start
      */
     private void initCurrentWeatherView() {
-
         mCurrentTemp = (TextView) findViewById(R.id.tvTemperature);
         mCurrentWindowLevel = (TextView) findViewById(R.id.wether_window_level);
         mCurrentWindowDirect = (TextView) findViewById(R.id.tvWind);
@@ -216,49 +227,93 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     }
 
-    private void updateCurrentWeatherView(WeatherEntity.CurrentWeather currentWeather) {
+    private void updateCurrentWeatherView(WeatherEntity.CurrentWeather item) {
 
-        for (Map<String, WeatherEntity.Level> levelMap : currentWeather.observe.values()) {
-            Collection<WeatherEntity.Level> values = levelMap.values();
-            for (WeatherEntity.Level item : values) {
+
                 mCurrentTemp.setText(item.l1 + "°");
                 mCurrentWindowLevel.setText(item.l3 + "级");
-                mCurrentWindowDirect.setText(getWindDirect(item.l4));
-                mCurrentRain.setText(item.l6);
-                mCurrentWeatherUpdateTime.setText("更新于" + getTime(item.l7) + "前");
-
+                mCurrentWindowDirect.setText(getCurrentWindDirect(item.l4));
                 mCurrentWeatherStatus.setText(getWeather(item.l5));
                 mCurrentWeatherIcon.setImageResource(getCurrentIconRes(item.l5));
-            }
+                mCurrentRain.setText(item.l6);
+                mCurrentWeatherUpdateTime.setText( getCurrentUpdateTime(item.l7));
 
-        }
+
 
 
     }
 
-    private int getCurrentIconRes(String weather) {
+    private String getCurrentWindDirect(String level4) {
 
-        String iconName = iconMaps.get(weather);
+        int index = 0;
+        try {
+            index = Integer.parseInt(level4) % windDirect.length;
+        } catch (Exception e) {
+            DEBUG("l4" + level4);
+        }
+
+        return windDirect[index];
+
+    }
+
+    private int getCurrentIconRes(String level5) {
+
+        String iconName = iconMaps.get(level5);
 
 
         int resId = 0;
         if (!TextUtils.isEmpty(iconName)) {
             resId = getResources().getIdentifier(iconName, "drawable", getContext().getPackageName());
         }
-        DEBUG("resid" + resId + "name" + iconName);
+        DEBUG("getCurrentIconRes" + resId + "name" + iconName);
         return resId != 0 ? resId : R.drawable.na;
     }
 
 
-    private String getWeather(String weather) {
-        String status = weatherMaps.get(weather);
+    private String getWeather(String level5) {
+        String status = weatherMaps.get(level5);
         return TextUtils.isEmpty(status) ? "晴转多云" : status;
 
     }
 
 
-    private String getTime(String l7) {
-        return "10分钟前";
+    private String getCurrentUpdateTime(String Level7) {
+
+        //20:45
+        //当前时间与它的时间并差
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+
+        try {
+
+
+            Date date = sdf.parse(Level7);
+            DEBUG(Level7);
+            Date serverDate = new Date();
+            serverDate.setHours(date.getHours()-1);
+            serverDate.setMinutes(date.getMinutes());
+            Date today = new Date();
+            DEBUG("srver"+serverDate.toLocaleString()+"\t"+serverDate.getTime());
+            DEBUG("now"+today.toString()+"\t"+today.getTime());
+          long time =  Math.abs(today.getTime() - serverDate.getTime());
+            DEBUG("time:"+time);
+
+            if(time/ DateUtils.SECOND_IN_MILLIS<1){
+                return "刚刚";
+            }else if(time/ DateUtils.MINUTE_IN_MILLIS<60){
+                return "更新于" +time/ DateUtils.SECOND_IN_MILLIS+"分钟前";
+            }else if(time/ DateUtils.HOUR_IN_MILLIS<24){
+                return "更新于" +time/ DateUtils.HOUR_IN_MILLIS+"小时前";
+            }else {
+                return "更新于" +time/ DateUtils.DAY_IN_MILLIS+"天前";
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return "刚刚";
     }
     /**
      * 当前天所相关的的View end
@@ -302,7 +357,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mOpenSevenDays = (TextView) mRoot.findViewById(R.id.tvCloseWeekTemp);
 
         mIsWeekWeatherShow = false;
-        mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week));
+        // mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week));
     }
 
 
@@ -311,11 +366,13 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
             return;
         }
+        weatherCount = 0;
         mSevenDaysContainer.removeAllViews();
 
         int size = days.size();
         View weekWeather;
         Calendar today = Calendar.getInstance();
+
 
         for (int i = 0; i < size; i++) {
             WeatherEntity.SevenDay item = days.get(i);
@@ -334,6 +391,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 
             }
+            weatherCount++;
+
             int week = calendar.get(Calendar.DAY_OF_WEEK) - 1;
 
             weekWeather = getView(item, weeks[week]);
@@ -352,6 +411,64 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
         height = mSevenDaysContainer.getMeasuredHeight();
 
+        mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week, weatherCount));
+
+
+    }
+
+
+    private View getView(WeatherEntity.SevenDay item, String week) {
+        View weekWeather;
+        weekWeather = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather_week_item, null);
+
+        TextView tvItemDay = (TextView) weekWeather.findViewById(R.id.tvItemDay);
+        ImageView ivItemWind = (ImageView) weekWeather.findViewById(R.id.ivItemWind);
+        TextView tvItemTempLow = (TextView) weekWeather.findViewById(R.id.tvItemTempLow);
+        TextView tvItemTempHight = (TextView) weekWeather.findViewById(R.id.tvItemTempHight);
+        TextView tvItemWeather = (TextView) weekWeather.findViewById(R.id.tvItemWeather);
+        TextView tvItemWindSpeed = (TextView) weekWeather.findViewById(R.id.tvItemWindSpeed);
+        tvItemDay.setText(week);//周
+
+        tvItemTempLow.setText(item.min_temp + "");
+        tvItemTempHight.setText(item.max_temp + "~");//
+
+
+        tvItemWeather.setText(getSevenWeather(item.weather));//晴转多云
+
+
+        tvItemWindSpeed.setText(getSevenWindLevel(item.dd_level));//3-4级
+        ivItemWind.setImageResource(getSevenWeatherIcon(item.weather));
+
+        return weekWeather;
+    }
+
+
+    private String getSevenWeather(String weather) {
+        String status = weatherMaps.get(weather);
+        return TextUtils.isEmpty(status) ? "晴转多云" : status;
+
+    }
+    private int getSevenWeatherIcon(String weather) {
+        String iconName = iconMaps.get(weather);
+        int resId = 0;
+        if (!TextUtils.isEmpty(iconName)) {
+            resId = getResources().getIdentifier(iconName, "drawable", getContext().getPackageName());
+        }
+        DEBUG("getSevenWeatherIcon" + resId + "name" + iconName);
+        return resId != 0 ? resId : R.drawable.na;
+
+    }
+
+    private String getSevenWindLevel(String ddLevel) {
+
+        int index = 0;
+        try {
+            index = Integer.parseInt(ddLevel) % windDirect.length;
+        } catch (Exception e) {
+            DEBUG("ddLevle parse error" + ddLevel);
+        }
+
+        return windDirect[index];
 
     }
 
@@ -378,10 +495,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
                 mHumView.setOneDayWeatherData(hours);
 
-
-
-
-                //TODO scroll postion
                 autoScrollPosition();
             }
 
@@ -395,14 +508,14 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mHorHumView.post(new Runnable() {
             @Override
             public void run() {
-                mHorHumView.measure(0,0);
+                mHorHumView.measure(0, 0);
                 int width = mHorHumView.getMeasuredWidth();
 
-                int hour =Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+                int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
 
-                double distance = width/mHumView.getChildCount()*hour;
-                mHorHumView.smoothScrollTo((int) distance,0);
+                 double distance = width / mHumView.getChildCount() * hour;
+                mHorHumView.smoothScrollTo((int) distance, 0);
             }
         });
     }
@@ -428,12 +541,12 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
                     mIsWeekWeatherShow = false;
                     // gone
                     startShrinkAnimation();
-                    mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week));
+                    mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week, weatherCount));
                 } else {
                     mIsWeekWeatherShow = true;
                     // Visibility
                     startExpandAnimation();
-                    mOpenSevenDays.setText(getContext().getString(R.string.weather_close_one_week));
+                    mOpenSevenDays.setText(getContext().getString(R.string.weather_close_one_week, weatherCount));
                 }
                 break;
         }
@@ -443,7 +556,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         if (entity == null) {
             return;
         }
-       // updateCurrentWeatherView(entity.current);
+        updateCurrentWeatherView(entity.current);
         updateSevenDayView(entity.n7d);
         updateHoursView(entity.n12h);
         updateFourSectionView(entity.pop);
@@ -472,84 +585,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private void startExpandAnimation() {
         mOpenSevenDays.clearAnimation();
         mOpenSevenDays.startAnimation(mExpandAnimation);
-    }
-
-
-    private String getSevenWeather(String weather) {
-        String status = weatherMaps.get(weather);
-        return TextUtils.isEmpty(status) ? "晴转多云" : status;
-
-    }
-
-
-    private String getSevenWindLevel(String ddLevel) {
-
-        int index = 0;
-        try {
-            index = Integer.parseInt(ddLevel) % windDirect.length;
-        } catch (Exception e) {
-            DEBUG("ddLevle parse error" + ddLevel);
-        }
-
-        return windDirect[index];
-
-    }
-
-
-
-
-    private View getView(WeatherEntity.SevenDay item, String week) {
-        View weekWeather;
-        weekWeather = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather_week_item, null);
-
-        TextView tvItemDay = (TextView) weekWeather.findViewById(R.id.tvItemDay);
-        ImageView ivItemWind = (ImageView) weekWeather.findViewById(R.id.ivItemWind);
-        TextView tvItemTempLow = (TextView) weekWeather.findViewById(R.id.tvItemTempLow);
-        TextView tvItemTempHight = (TextView) weekWeather.findViewById(R.id.tvItemTempHight);
-        TextView tvItemWeather = (TextView) weekWeather.findViewById(R.id.tvItemWeather);
-        TextView tvItemWindSpeed = (TextView) weekWeather.findViewById(R.id.tvItemWindSpeed);
-
-        /**
-         *  public  String ff_level;//风力编码
-         public String dd_level;//风向编码（3－4级
-         public String min_temp;//最低温
-         public String temp;//平均温度
-         public String weather;//天气现象编码(晴转多云)
-         public long forecast_time;//预报时间（周一,timestamp）
-         public String rain;//降不量
-         public String max_temp;//最高温度
-
-         */
-
-
-        tvItemDay.setText(week);//周
-
-        tvItemTempLow.setText(item.min_temp + "");
-        tvItemTempHight.setText(item.max_temp + "~");//
-
-
-        tvItemWeather.setText(getSevenWeather(item.weather));//晴转多云
-
-
-        tvItemWindSpeed.setText(getSevenWindLevel(item.dd_level));//3-4级
-
-
-        //ivItemWind.setImageResource();
-        return weekWeather;
-    }
-
-
-    private String getWindDirect(String direct) {
-
-        int index = 0;
-        try {
-            index = Integer.parseInt(direct) % windDirect.length;
-        } catch (Exception e) {
-            DEBUG("ddLevle parse error" + direct);
-        }
-
-        return windDirect[index];
-
     }
 
 

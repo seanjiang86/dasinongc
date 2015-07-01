@@ -35,6 +35,7 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 	private Calendar calendar;
 	private TextView tv_prompt;
 	private String seedingMethod;
+	private String strTime;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,13 +66,14 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 
 	@Override
 	public void onClick(View v) {
-
+		
 		int id = v.getId();
 		switch (id) {
 		case R.id.tv_select_date:
 			showDatePickerDialog();
 			break;
 		case R.id.btn_no_date:
+			strTime = String.valueOf(System.currentTimeMillis());
 			goToNext();
 			break;
 		case R.id.btn_sure_date:
@@ -91,8 +93,7 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 			} else {
 				if (currentDate.after(userDate)) {
 					long time = userDate.getTime();
-					String strTime = String.valueOf(time);
-					SharedPreferencesHelper.setString(this, Field.PLANTING_DATE, strTime);
+					strTime = String.valueOf(time);
 				} else {
 					showToast("请选择正确的时间");
 					return;
@@ -137,7 +138,8 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 	}
 
 	private void goToNext() {
-
+		System.out.println(strTime);
+		SharedPreferencesHelper.setString(this, Field.PLANTING_DATE, strTime);
 		Intent intent = new Intent(this, AddFieldActivity7.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
