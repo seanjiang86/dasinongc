@@ -41,6 +41,7 @@
         android:id="@+id/layout_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:minHeight="50dp"
         android:background="@drawable/button_white_bg_selector"
         android:orientation="horizontal"
          >

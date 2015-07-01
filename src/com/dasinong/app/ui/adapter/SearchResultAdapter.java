@@ -15,6 +15,7 @@ import com.dasinong.app.ui.manager.AccountManager;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -59,7 +60,11 @@ public class SearchResultAdapter extends MyBaseAdapter<SearchItem> {
 			holder.typeText.setText(item.getName());
 		}else{
 			holder.nameText.setText(item.getName());
-			holder.desText.setText(Html.fromHtml(item.getSource()));
+			if(!TextUtils.isEmpty(item.getSource())){
+				holder.desText.setText(Html.fromHtml(item.getSource()));
+			}else{
+				holder.desText.setVisibility(View.GONE);
+			}
 			
 			holder.contentLayout.setVisibility(View.VISIBLE);
 			holder.line1View.setVisibility(View.GONE);
