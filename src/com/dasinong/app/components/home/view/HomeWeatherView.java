@@ -1,6 +1,7 @@
 package com.dasinong.app.components.home.view;
 
 import android.content.Context;
+import android.media.Image;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
@@ -75,6 +76,10 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private TextView mWeatherNight;
     private TextView mWeatherMidnight;
 
+    private ImageView mWeatherMorningIcon;
+    private ImageView mWeatherAfternoonIcon;
+    private ImageView mWeatherNightIcon;
+    private ImageView mWeatherMidnightIcon;
 
     private String[] winds;
 
@@ -326,6 +331,12 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mWeatherNight = (TextView) findViewById(R.id.weather_night);
         mWeatherMidnight = (TextView) findViewById(R.id.weather_midnight);
 
+        mWeatherMorningIcon = (ImageView) findViewById(R.id.icon_weather_morning);
+        mWeatherAfternoonIcon = (ImageView) findViewById(R.id.icon_weather_afternoon);
+        mWeatherNightIcon = (ImageView) findViewById(R.id.icon_weather_night);
+        mWeatherMidnightIcon = (ImageView) findViewById(R.id.icon_weather_midnight);
+
+
 
     }
 
@@ -334,9 +345,30 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
             return;
         }
         mWeatherMorning.setText(pop.morning + "%");
+        mWeatherMorningIcon.setImageResource(getFourWeatherIcon(pop.morning));
         mWeatherAfternoon.setText(pop.noon + "%");
+        mWeatherAfternoonIcon.setImageResource(getFourWeatherIcon(pop.noon));
         mWeatherNight.setText(pop.night + "%");
+        mWeatherNightIcon.setImageResource(getFourWeatherIcon(pop.night));
         mWeatherMidnight.setText(pop.nextmidnight + "%");
+        mWeatherMidnightIcon.setImageResource(getFourWeatherIcon(pop.nextmidnight));
+    }
+
+    private int getFourWeatherIcon(int weather) {
+        if(weather<20)
+        {
+            return R.drawable.pop0;
+
+        }else if(weather<40){
+            return R.drawable.pop1;
+        }else if(weather<60){
+            return R.drawable.pop3;
+        }else if(weather<80){
+            return R.drawable.pop4;
+        }else {
+            return R.drawable.pop5;
+        }
+
 
     }
 

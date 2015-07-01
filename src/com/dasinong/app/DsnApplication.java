@@ -20,7 +20,6 @@ public class DsnApplication extends Application {
 
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
 		super.onCreate();
 		mContext = DsnApplication.this;
 		VolleyManager.getInstance().init(this);
