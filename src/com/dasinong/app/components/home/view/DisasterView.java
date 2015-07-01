@@ -246,7 +246,8 @@ public class DisasterView extends LinearLayout {
             @Override
             public void onClick(View v) {
                 //TODO: flag editor
-                Intent intent = HarmDetialsActivity.createIntent(item.petDisSpecId, HarmDetialsActivity.FLAG_ITEM, getContext());
+            	//TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
+                Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_ITEM, getContext());
                 getContext().startActivity(intent);
 
             }
@@ -333,7 +334,8 @@ public class DisasterView extends LinearLayout {
         @Override
         public void onClick(View v) {
             //需要标明你是点击防治，预防，还是该条item跳进来的
-            Intent intent = HarmDetialsActivity.createIntent(petDisspecId, HarmDetialsActivity.FLAG_PREVENT, getContext());
+        	//TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
+            Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_PREVENT, getContext());
             v.getContext().startActivity(intent);
 
         }
@@ -349,8 +351,9 @@ public class DisasterView extends LinearLayout {
 
         @Override
         public void onClick(View v) {
-
-            Intent intent = HarmDetialsActivity.createIntent(petDisspecId, HarmDetialsActivity.FLAG_CURE, getContext());
+        	
+        	//TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
+            Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_CURE, getContext());
             v.getContext().startActivity(intent);
         }
     }

@@ -52,6 +52,7 @@ public class AddFieldActivity7 extends BaseActivity {
 			public void onClick(View v) {
 				if (!DeviceHelper.checkNetWork(AddFieldActivity7.this)) {
 					showToast("请检测您的网络连接");
+					return;
 				}
 				startLoadingDialog();
 				yield = et_target_production.getText().toString().trim();
