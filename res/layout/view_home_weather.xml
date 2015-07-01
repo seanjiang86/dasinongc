@@ -228,10 +228,10 @@
 
             <ImageView
                 android:id="@+id/icon_weather_morning"
-                android:layout_width="@dimen/home_dimen_64"
-                android:layout_height="@dimen/home_dimen_64"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_10"
-                android:background="@drawable/ic_weather_dafeng"/>
+                />
 
             <TextView
                 android:id="@+id/weather_morning"
@@ -268,10 +268,10 @@
 
             <ImageView
                 android:id="@+id/icon_weather_afternoon"
-                android:layout_width="@dimen/home_dimen_64"
-                android:layout_height="@dimen/home_dimen_64"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_10"
-                android:background="@drawable/ic_weather_dafeng"/>
+                />
 
             <TextView
                 android:id="@+id/weather_afternoon"
@@ -307,10 +307,10 @@
 
             <ImageView
                 android:id="@+id/icon_weather_night"
-                android:layout_width="@dimen/home_dimen_64"
-                android:layout_height="@dimen/home_dimen_64"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_10"
-                android:background="@drawable/ic_weather_dafeng"/>
+                />
 
             <TextView
                 android:id="@+id/weather_night"
@@ -346,10 +346,10 @@
 
             <ImageView
                 android:id="@+id/icon_weather_midnight"
-                android:layout_width="@dimen/home_dimen_64"
-                android:layout_height="@dimen/home_dimen_64"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_10"
-                android:background="@drawable/ic_weather_dafeng"/>
+                />
 
             <TextView
                 android:id="@+id/weather_midnight"
