@@ -63,71 +63,66 @@ public class HumidityView extends LinearLayout {
 
     public void setOneDayWeatherData(List<WeatherEntity.Hours> hoursList) {
 
-            if(hoursList==null||hoursList.isEmpty()){
-               DEBUG("24 hour is empty");
-                return;
-            }
+        if (hoursList == null || hoursList.isEmpty()) {
+            DEBUG("24 hour is empty");
+            return;
+        }
 
-            int size = hoursList.size();
-            removeAllViews();
-            for (int i = 0; i <size ; i++) {
-                WeatherEntity.Hours hour = hoursList.get(i);
-                View timeItem = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather_time_item, null);
-                TextView tvTime = (TextView) timeItem.findViewById(R.id.tvTime);
-                TextView tvTimeHTemp = (TextView) timeItem.findViewById(R.id.tvTimeHTemp);
-                ImageView icon = (ImageView) timeItem.findViewById(R.id.ivTime);
+        int size = hoursList.size();
+        removeAllViews();
+        for (int i = 0; i < size; i++) {
+            WeatherEntity.Hours hour = hoursList.get(i);
+            View timeItem = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather_time_item, null);
+            TextView tvTime = (TextView) timeItem.findViewById(R.id.tvTime);
+            TextView tvTimeHTemp = (TextView) timeItem.findViewById(R.id.tvTimeHTemp);
+            ImageView icon = (ImageView) timeItem.findViewById(R.id.ivTime);
 
-                //time
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTimeInMillis(hour.time);
-                int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-                tvTime.setText(String.valueOf(hourOfDay)+":00");
-
-
-                //icon
-                icon.setImageResource(getIcon(hour.icon));
+            //time
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis(hour.time);
+            int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+            tvTime.setText(String.valueOf(hourOfDay) + ":00");
 
 
-                //tem
-                tvTimeHTemp.setText(hour.temperature + i + " ℃");
+            //icon
+            icon.setImageResource(getIcon(hour.icon));
 
 
-                LayoutParams layoutParams = new LayoutParams(mItemWidth, LayoutParams.MATCH_PARENT);
-                addView(timeItem, layoutParams);
+            //tem
+            tvTimeHTemp.setText(hour.temperature + i + " ℃");
 
-            }
+
+            LayoutParams layoutParams = new LayoutParams(mItemWidth, LayoutParams.MATCH_PARENT);
+            addView(timeItem, layoutParams);
+
+        }
     }
 
 
-    private int  getIcon(String icon){
+    private int getIcon(String icon) {
         Calendar calendar = Calendar.getInstance();
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
 
 
-
-        if(hourOfDay<6||hourOfDay>18){
-            icon = icon+"night";
+        if (hourOfDay < 6 || hourOfDay > 18) {
+            icon = icon + "night";
         }
         icon = weatherIconMap.get(icon);
-        if(!TextUtils.isEmpty(icon)){
+        if (!TextUtils.isEmpty(icon)) {
 
-            int resId =getResources().getIdentifier(icon,"drawable",getContext().getPackageName());
+            int resId = getResources().getIdentifier(icon, "drawable", getContext().getPackageName());
 
-            DEBUG("icon is "+icon+" resId:"+resId);
-            if(resId!=0){
-                return  resId;
+            DEBUG("icon is " + icon + " resId:" + resId);
+            if (resId != 0) {
+                return resId;
             }
 
 
-        }
-        else {
+        } else {
             DEBUG("icon is empty");
         }
         return R.drawable.ic_weather_dafeng;
     }
-
-
-
 
 
     static {
@@ -418,8 +413,7 @@ public class HumidityView extends LinearLayout {
         weatherIconMap.put("cloudyheavysnowlightningnight", "snowbigheavythunder");
         weatherIconMap.put("cloudyheavysnownight", "snowbig");
         weatherIconMap.put("cloudylightfreezingrain", "sunnywithfrozenrainday");
-        weatherIconMap.put("cloudylightfreezingrainnight",
-                "sunnywithfrozenrainnight");
+        weatherIconMap.put("cloudylightfreezingrainnight", "sunnywithfrozenrainnight");
         weatherIconMap.put("cloudylightmix", "sunnyrainsnowday");
         weatherIconMap.put("cloudylightmixnight", "sunnyrainsnownight");
         weatherIconMap.put("cloudylightrain", "rainsmall");

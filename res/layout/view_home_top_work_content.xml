@@ -25,14 +25,14 @@
                 android:id="@+id/left_arrow"
                 android:layout_centerVertical="true"
                 android:paddingLeft="25dp"
-                android:paddingRight="25dp"
+                android:paddingRight="10dp"
                 android:src="@drawable/left_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <ImageView
                 android:paddingRight="25dp"
-                android:paddingLeft="25dp"
+                android:paddingLeft="10dp"
                 android:id="@+id/right_arrow"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
@@ -48,7 +48,7 @@
 
                 android:layout_centerVertical="true"
                 android:orientation="horizontal"
-
+                android:scrollbars="none"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

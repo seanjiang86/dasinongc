@@ -407,6 +407,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 //                getContext().startActivity(intent);
 
                 if (DeviceHelper.checkNetWork(context) && DeviceHelper.checkGPS(context)) {
+
                     // TODO MING:该方法是否为检测登陆的方法
                     if (AccountManager.checkLogin(context)) {
                         Intent intent = new Intent(context, AddFieldActivity1.class);

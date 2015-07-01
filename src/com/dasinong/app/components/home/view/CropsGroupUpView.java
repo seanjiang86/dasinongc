@@ -9,6 +9,7 @@ import android.util.Log;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 import com.dasinong.app.R;
 import com.dasinong.app.components.home.view.dialog.ConfirmDialog;
 import com.dasinong.app.database.task.domain.SubStage;
+import com.dasinong.app.utils.DeviceHelper;
+import com.dasinong.app.utils.GraphicUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -211,6 +214,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
         this.mCurrentPostion = mPosition;
         this.mSubStages = mSubStageLists;
+        Log.d("dding", "setPostionAndList()---mSubStageLists.size()---:" + mSubStageLists.size());
         if(mSubStageLists==null||mSubStageLists.isEmpty()){
             return;
         }
@@ -220,16 +224,24 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     private void updateStageIcon() {
 
         if(mLeafParent !=null){
-
+            WindowManager windownManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+            int width = windownManager.getDefaultDisplay().getWidth();
+            int itemWidth = (width - GraphicUtils.dip2px(getContext(), 100)) / 5;
+            Log.d("dding", "itemWidth:" + itemWidth);
+            mLeafContainer.removeAllViews();
             //TODO:add ImageView
             //根据当前的的状态进行点亮不同的图标，之前的是点亮，之后的是不点的
-            //TODO: a row five
+            //TODO: a row five  ---key:substageId  ;value:图片的资源id
             for(Map.Entry<Integer,Integer> entity: cropIconResource.entrySet()){
-
+                LinearLayout layout = new LinearLayout(getContext());
+                LayoutParams linLayoutParams = new LayoutParams(itemWidth, LayoutParams.WRAP_CONTENT);
                 //TODO:create imageView
                 //TODO image = getIconBySubstageId(enity.key)
-
-
+                LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                ImageView imageView = new ImageView(getContext());
+                imageView.setBackgroundResource(getIconBySubstageId(entity.getKey()));
+                layout.addView(imageView, params);
+                mLeafContainer.addView(layout, linLayoutParams);
 
             }
 
