@@ -88,8 +88,9 @@ public class HumidityView extends LinearLayout {
             icon.setImageResource(getIcon(hour.icon));
 
 
+
             //tem
-            tvTimeHTemp.setText(hour.temperature + i + " ℃");
+            tvTimeHTemp.setText(hour.temperature + " ℃");
 
 
             LayoutParams layoutParams = new LayoutParams(mItemWidth, LayoutParams.MATCH_PARENT);
