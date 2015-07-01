@@ -363,7 +363,7 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
     @Override
     public void onResume() {
         super.onResume();
-      // login();
+       login();
         //loadDataFromWithCache();
     }
 

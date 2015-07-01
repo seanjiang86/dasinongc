@@ -2,8 +2,10 @@ package com.dasinong.app.components.home.view;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TimeUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -17,11 +19,15 @@ import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.WeatherEntity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.SimpleFormatter;
 
 /**
  * Created by lxn on 15/6/5.
@@ -221,22 +227,18 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     }
 
-    private void updateCurrentWeatherView(WeatherEntity.CurrentWeather currentWeather) {
+    private void updateCurrentWeatherView(WeatherEntity.CurrentWeather item) {
 
-        for (Map<String, WeatherEntity.Level> levelMap : currentWeather.observe.values()) {
-            Collection<WeatherEntity.Level> values = levelMap.values();
-            for (WeatherEntity.Level item : values) {
+
                 mCurrentTemp.setText(item.l1 + "°");
                 mCurrentWindowLevel.setText(item.l3 + "级");
                 mCurrentWindowDirect.setText(getCurrentWindDirect(item.l4));
                 mCurrentWeatherStatus.setText(getWeather(item.l5));
                 mCurrentWeatherIcon.setImageResource(getCurrentIconRes(item.l5));
                 mCurrentRain.setText(item.l6);
-                mCurrentWeatherUpdateTime.setText("更新于" + getCurrentUpdateTime(item.l7) + "前");
+                mCurrentWeatherUpdateTime.setText( getCurrentUpdateTime(item.l7));
 
-            }
 
-        }
 
 
     }
@@ -276,7 +278,37 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 
     private String getCurrentUpdateTime(String Level7) {
-        return "10分钟前";
+
+        //20:45
+        //当前时间与它的时间并差
+        Calendar today = Calendar.getInstance();
+        Calendar serverTime =null;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+
+        try {
+
+
+            Date date = sdf.parse(Level7);
+            Date nowDate = new Date();
+            nowDate.setHours(date.getHours());
+            nowDate.setMinutes(date.getMinutes());
+          long time =  today.getTimeInMillis() - nowDate.getTime();
+            if(time/ DateUtils.SECOND_IN_MILLIS<1){
+                return "刚刚";
+            }else if(time/ DateUtils.MINUTE_IN_MILLIS<60){
+                return "更新于" +time/ DateUtils.SECOND_IN_MILLIS+"分钟前";
+            }else if(time/ DateUtils.HOUR_IN_MILLIS<24){
+                return "更新于" +time/ DateUtils.SECOND_IN_MILLIS+"小时前";
+            }else {
+                return "更新于" +time/ DateUtils.DAY_IN_MILLIS+"天前";
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return "刚刚";
     }
     /**
      * 当前天所相关的的View end
@@ -519,7 +551,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         if (entity == null) {
             return;
         }
-        // updateCurrentWeatherView(entity.current);
+        updateCurrentWeatherView(entity.current);
         updateSevenDayView(entity.n7d);
         updateHoursView(entity.n12h);
         updateFourSectionView(entity.pop);
