@@ -505,6 +505,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                     //TODO:任务上单击
 
                     Toast.makeText(CropsStateView.this.getContext(), "start task ", Toast.LENGTH_SHORT).show();
+
                 }
             });
             if (i == length - 1) {
