@@ -125,6 +125,7 @@
         </activity>
         <activity
             android:name=".ui.SearchResultActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:screenOrientation="portrait" >
         </activity>
         <activity
