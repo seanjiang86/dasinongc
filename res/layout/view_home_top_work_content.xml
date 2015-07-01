@@ -40,7 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
+            <HorizontalScrollView
+                android:id="@+id/leaf_parent"
                 android:gravity="center_vertical"
                 android:layout_toRightOf="@id/left_arrow"
                 android:layout_toLeftOf="@id/right_arrow"
@@ -51,14 +52,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/leaf"
-                    android:src="@drawable/leafe"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+               <LinearLayout
+                   android:id="@+id/leaf_container"
+                   android:layout_width="match_parent"
+                   android:orientation="horizontal"
+                   android:layout_height="match_parent">
 
 
-            </LinearLayout>
+               </LinearLayout>
+
+
+            </HorizontalScrollView>
 
 
         </RelativeLayout>

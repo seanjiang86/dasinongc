@@ -4,7 +4,6 @@ package com.dasinong.app.components.home.view;
 import android.app.Dialog;
 import android.content.Context;
 
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -54,7 +53,9 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     private static final String TAG = "CropsGroupUpView";
 
-    private HorizontalScrollView mSubstageContainer;
+    private HorizontalScrollView mLeafParent;
+
+    private LinearLayout mLeafContainer;
 
 
     public CropsGroupUpView(Context context) {
@@ -83,6 +84,12 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         leftArrowView = (ImageView) rootView.findViewById(R.id.left_arrow);
 
         rightArrowView = (ImageView) rootView.findViewById(R.id.right_arrow);
+
+        mLeafParent = (HorizontalScrollView) findViewById(R.id.leaf_parent);
+
+        mLeafContainer = (LinearLayout) findViewById(R.id.leaf_container);
+
+
 
 
 
@@ -212,14 +219,17 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     private void updateStageIcon() {
 
-        if(mSubstageContainer!=null){
-            LinearLayout mIconContainer  = null;
+        if(mLeafParent !=null){
+
             //TODO:add ImageView
             //根据当前的的状态进行点亮不同的图标，之前的是点亮，之后的是不点的
             //TODO: a row five
             for(Map.Entry<Integer,Integer> entity: cropIconResource.entrySet()){
 
                 //TODO:create imageView
+                //TODO image = getIconBySubstageId(enity.key)
+
+
 
             }
 
