@@ -162,6 +162,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             }
             updateFieldName();
             //设置当前是否是个打药，适合下地干活
+
             setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
 
             updateFieldTimeAndStage(entity.currentField);
@@ -181,9 +182,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
     private void updateFieldTimeAndStage(FieldEntity.CurrentFieldEntity currentFieldEntity) {
         if (currentFieldEntity == null) {
+
+
             return;
         }
 
+        DEBUG("currentEntity:"+currentFieldEntity.daytoharvest);
         String harvestDay = getHarvestDay(currentFieldEntity);
         fieldStateView.updateHarvestDay(harvestDay);
         String rightStateInfo = "水稻";
@@ -321,6 +325,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      * @param isSpray --是否适合打药;true:是；false:否
      */
     private void setWorkState(boolean isWork, boolean isSpray) {
+        leftStateView.setVisibility(View.VISIBLE);
+        rightStateView.setVisibility(View.VISIBLE);
         if (isWork) {
             leftStateView.setText("宜下地");
         } else {

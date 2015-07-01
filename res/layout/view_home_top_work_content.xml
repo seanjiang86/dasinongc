@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:paddingLeft="@dimen/home_dimen_30"
-    android:paddingRight="@dimen/home_dimen_30">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/home_dimen_30"
+                android:paddingRight="@dimen/home_dimen_30">
 
     <LinearLayout
         android:id="@+id/normal_state"
-
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -73,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="离收获还有130天"
+                tools:text="离收获还有130天"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/home_text_size_32" />
 
@@ -83,7 +84,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:gravity="center"
-                android:text="水稻分页器期8页"
+                tools:text="水稻分页器期8页"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/home_text_size_32" />
 
@@ -97,7 +98,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:visibility="gone"
+
         android:orientation="horizontal">
 
         <ImageView

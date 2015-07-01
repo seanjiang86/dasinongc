@@ -196,8 +196,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mRoot = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather, null);
 
         addView(mRoot);
-
-
         initCurrentWeatherView();
         initFourSectionView();
 
