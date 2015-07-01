@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tool="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/home_w_white">
+                xmlns:tool="http://schemas.android.com/tools"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/home_w_white">
 
     <TextView
         android:id="@+id/weather_update_time"
@@ -29,9 +30,10 @@
 
         <ImageView
             android:id="@+id/ivHomeWicon"
-            android:layout_width="@dimen/home_dimen_40"
-            android:layout_height="@dimen/home_dimen_40"
-            android:src="@drawable/ic_weather_dafeng" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tool:src="@drawable/ic_weather_dafeng"
+           />
 
         <TextView
             android:id="@+id/current_weather_status"
@@ -39,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/home_dimen_10"
             android:gravity="center"
-            android:text="@string/weather_qingzhuanduoyun"
+            tool:text="@string/weather_qingzhuanduoyun"
             android:textColor="@color/home_w_666666"
             android:textSize="@dimen/home_text_size_28" />
     </LinearLayout>
@@ -95,8 +97,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:includeFontPadding="false"
-            android:text="30°"
 
+            tool:text="30°"
             android:minHeight="0dp"
 
             android:padding="0dp"
@@ -127,11 +129,11 @@
 
                 <ImageView
                     android:id="@+id/ivWind"
-                    android:layout_width="@dimen/home_dimen_64"
-                    android:layout_height="@dimen/home_dimen_64"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/home_dimen_25"
-                    android:src="@drawable/ic_weather_dafeng" />
+                    android:src="@drawable/wind" />
 
                 <TextView
                     android:id="@+id/tvWind"
@@ -139,7 +141,8 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/ivWind"
 
-                    android:text="东北风"
+                    tool:text="东北风"
+
                     android:textColor="@color/home_w_666666"
                     android:textSize="@dimen/home_text_size_28" />
 
@@ -150,7 +153,7 @@
                     android:layout_below="@id/tvWind"
                     android:layout_marginTop="@dimen/home_dimen_10"
                     android:layout_toRightOf="@id/ivWind"
-                    android:text="4级"
+                    tool:text="4级"
                     android:textColor="@color/home_w_666666"
                     android:textSize="@dimen/home_text_size_28" />
 
@@ -167,7 +170,7 @@
                     android:layout_height="@dimen/home_dimen_64"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="@dimen/home_dimen_25"
-                    android:src="@drawable/ic_weather_dafeng" />
+                    android:src="@drawable/precipitationy" />
 
                 <TextView
                     android:id="@+id/tvRainfall"
@@ -175,7 +178,7 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/ivRainfall"
 
-                    android:text="80"
+                    tool:text="80"
                     android:textColor="@color/home_w_666666"
                     android:textSize="@dimen/home_text_size_28" />
 
