@@ -86,6 +86,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private int height;
 
+
+
     private LayoutInflater mLayoutInflater;
 
 
@@ -475,7 +477,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
 
-                double distance = width / mHumView.getChildCount() * hour;
+                 double distance = width / mHumView.getChildCount() * hour;
                 mHorHumView.smoothScrollTo((int) distance, 0);
             }
         });

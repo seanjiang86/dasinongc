@@ -4,6 +4,7 @@ package com.dasinong.app.components.home.view;
 import android.app.Dialog;
 import android.content.Context;
 
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 
@@ -15,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.dasinong.app.BuildConfig;
+
 import com.dasinong.app.R;
 import com.dasinong.app.components.home.view.dialog.ConfirmDialog;
 import com.dasinong.app.database.task.domain.SubStage;
@@ -44,7 +45,10 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
 
 
-    private static TreeMap<Integer,Integer> cropIconRest = new TreeMap<>();
+    private static TreeMap<Integer,Integer> cropIconResource = new TreeMap<>();
+
+
+    private static TreeMap<Integer,Integer> cropNoIconResource = new TreeMap<>();
 
     private boolean isLeft;
 
@@ -213,7 +217,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
             //TODO:add ImageView
             //根据当前的的状态进行点亮不同的图标，之前的是点亮，之后的是不点的
             //TODO: a row five
-            for(Map.Entry<Integer,Integer> entity:cropIconRest.entrySet()){
+            for(Map.Entry<Integer,Integer> entity: cropIconResource.entrySet()){
 
                 //TODO:create imageView
 
@@ -222,6 +226,22 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         }
 
     }
+
+
+    private int getIconBySubstageId(int subStageId){
+
+        int mCurrentStageId = mSubStages.get(mCurrentPostion).subStageId;
+
+        int resId = 0;
+        if(mCurrentStageId>subStageId){
+            resId = cropIconResource.get(subStageId);
+        }else {
+            resId = cropNoIconResource.get(subStageId);
+        }
+        return resId;
+
+    }
+
 
     //添加农作物
     public interface MyAddCropOnClickListener {
@@ -246,48 +266,98 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     static {
 
-        cropIconRest.put(35,R.drawable.sowbefore);
-        cropIconRest.put(36,R.drawable.sow);
-        cropIconRest.put(37,R.drawable.germination);
-        cropIconRest.put(38,R.drawable.leafe);
+        cropIconResource.put(35,R.drawable.sowbefore);
+        cropIconResource.put(36,R.drawable.sow);
+        cropIconResource.put(37,R.drawable.germination);
+        cropIconResource.put(38,R.drawable.leafe);
 
 
-        cropIconRest.put(39,R.drawable.twiceleafe);
-        cropIconRest.put(40,R.drawable.threeleafe);
+        cropIconResource.put(39,R.drawable.twiceleafe);
+        cropIconResource.put(40,R.drawable.threeleafe);
 
-        cropIconRest.put(41,R.drawable.pretransplant);
-        cropIconRest.put(42,R.drawable.transplant);
-
-
-
-        cropIconRest.put(43,R.drawable.seedling);
+        cropIconResource.put(41,R.drawable.pretransplant);
+        cropIconResource.put(42,R.drawable.transplant);
 
 
 
-        cropIconRest.put(44,R.drawable.tillering);
-        cropIconRest.put(45,R.drawable.twicetillering);
-        cropIconRest.put(46,R.drawable.threetillering);
-
-
-        cropIconRest.put(47,R.drawable.fourperiod);
-        cropIconRest.put(48,R.drawable.threeperiod);
-        cropIconRest.put(49,R.drawable.twoperiod);
-        cropIconRest.put(50,R.drawable.oneperiod);
+        cropIconResource.put(43,R.drawable.seedling);
 
 
 
-        cropIconRest.put(51,R.drawable.flowerhead);
-        cropIconRest.put(52,R.drawable.head);
-        cropIconRest.put(53,R.drawable.fullhead);
-
-        cropIconRest.put(54,R.drawable.startfill);
-        cropIconRest.put(55,R.drawable.fill);
-        cropIconRest.put(56,R.drawable.fillstage);
-        cropIconRest.put(57,R.drawable.yellowfill);
+        cropIconResource.put(44,R.drawable.tillering);
+        cropIconResource.put(45,R.drawable.twicetillering);
+        cropIconResource.put(46,R.drawable.threetillering);
 
 
-        cropIconRest.put(58,R.drawable.lastbefore);
-        cropIconRest.put(59,R.drawable.last);
+        cropIconResource.put(47,R.drawable.fourperiod);
+        cropIconResource.put(48,R.drawable.threeperiod);
+        cropIconResource.put(49,R.drawable.twoperiod);
+        cropIconResource.put(50,R.drawable.oneperiod);
+
+
+
+        cropIconResource.put(51,R.drawable.flowerhead);
+        cropIconResource.put(52,R.drawable.head);
+        cropIconResource.put(53,R.drawable.fullhead);
+
+        cropIconResource.put(54,R.drawable.startfill);
+        cropIconResource.put(55,R.drawable.fill);
+        cropIconResource.put(56,R.drawable.fillstage);
+        cropIconResource.put(57,R.drawable.yellowfill);
+
+
+        cropIconResource.put(58,R.drawable.lastbefore);
+        cropIconResource.put(59,R.drawable.last);
+
+
+
+        //非点亮
+        cropNoIconResource.put(35,R.drawable.sowbeforeno);
+        cropNoIconResource.put(36,R.drawable.sowno);
+        cropNoIconResource.put(37,R.drawable.germinationno);
+        cropNoIconResource.put(38,R.drawable.leafeno);
+
+
+        cropNoIconResource.put(39,R.drawable.twiceleafeno);
+        cropNoIconResource.put(40,R.drawable.threeleafeno);
+
+        cropNoIconResource.put(41,R.drawable.pretransplantno);
+        cropNoIconResource.put(42,R.drawable.transplantno);
+
+
+
+        cropNoIconResource.put(43,R.drawable.seedlingno);
+
+
+
+        cropNoIconResource.put(44,R.drawable.tilleringno);
+        cropNoIconResource.put(45,R.drawable.twicetilleringno);
+        cropNoIconResource.put(46,R.drawable.threetilleringno);
+
+
+        cropNoIconResource.put(47,R.drawable.fourperiodno);
+        cropNoIconResource.put(48,R.drawable.threeperiodno);
+        cropNoIconResource.put(49,R.drawable.twoperiodno);
+        cropNoIconResource.put(50,R.drawable.oneperiodno);
+
+
+
+        cropNoIconResource.put(51,R.drawable.flowerheadno);
+        cropNoIconResource.put(52,R.drawable.headno);
+        cropNoIconResource.put(53,R.drawable.fullheadno);
+
+        cropNoIconResource.put(54,R.drawable.startfillno);
+        cropNoIconResource.put(55,R.drawable.fillno);
+        cropNoIconResource.put(56,R.drawable.fillstageno);
+        cropNoIconResource.put(57,R.drawable.yellowfillno);
+
+
+        cropNoIconResource.put(58,R.drawable.lastbeforeno);
+        cropNoIconResource.put(59,R.drawable.lastno);
+
+
+
+
 
 
 
