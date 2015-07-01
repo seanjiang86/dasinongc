@@ -475,7 +475,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private String getSevenWeather(String weather) {
         String status = weatherMaps.get(weather);
-        return TextUtils.isEmpty(status) ? "晴转多云" : status;
+        return TextUtils.isEmpty(status) ? "晴" : status;
 
     }
     private int getSevenWeatherIcon(String weather) {
@@ -485,7 +485,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
             resId = getResources().getIdentifier(iconName, "drawable", getContext().getPackageName());
         }
         DEBUG("getSevenWeatherIcon" + resId + "name" + iconName);
-        return resId != 0 ? resId : R.drawable.na;
+        return resId != 0 ? resId : R.drawable.sunnyday;
 
     }
 
