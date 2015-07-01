@@ -1,7 +1,6 @@
 package com.dasinong.app.components.domain;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by liuningning on 15/6/24.
@@ -12,7 +11,7 @@ public class WeatherEntity extends BaseResponse {
     public List<SevenDay> n7d;
     public List<Hours> n12h;
 
-    public POP pop;
+    public SectionWeather POP;
 
     public CurrentWeather current;
 
@@ -48,12 +47,12 @@ public class WeatherEntity extends BaseResponse {
 
     }
 
-    public static class POP {
+    public static class SectionWeather {
 
         public int morning;
-        public int afternoon;
+        public int noon;
         public int night;
-        public int midnight;
+        public int nextmidnight;
     }
 
 

@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
-import android.util.TimeUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -22,12 +21,9 @@ import com.dasinong.app.components.domain.WeatherEntity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.logging.SimpleFormatter;
 
 /**
  * Created by lxn on 15/6/5.
@@ -333,14 +329,14 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     }
 
-    private void updateFourSectionView(WeatherEntity.POP pop) {
+    private void updateFourSectionView(WeatherEntity.SectionWeather pop) {
         if (pop == null) {
             return;
         }
         mWeatherMorning.setText(pop.morning + "%");
-        mWeatherAfternoon.setText(pop.afternoon + "%");
+        mWeatherAfternoon.setText(pop.noon + "%");
         mWeatherNight.setText(pop.night + "%");
-        mWeatherMidnight.setText(pop.midnight + "%");
+        mWeatherMidnight.setText(pop.nextmidnight + "%");
 
     }
 
@@ -559,7 +555,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         updateCurrentWeatherView(entity.current);
         updateSevenDayView(entity.n7d);
         updateHoursView(entity.n12h);
-        updateFourSectionView(entity.pop);
+        updateFourSectionView(entity.POP);
 
 
     }

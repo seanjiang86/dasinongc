@@ -1,13 +1,13 @@
 /**
  * 使用方法
- * CommSelectPopWindow pop=new CommSelectPopWindow(mContext)
- * pop.setDatas(new String[]{"测试一","测试2"});
- * pop.setPopWidth(text_payee_identity_type.getMeasuredWidth());
- * pop.setmPopItemSelectListener(new PopItemSelectListener() {
+ * CommSelectPopWindow popuwindow=new CommSelectPopWindow(mContext)
+ * popuwindow.setDatas(new String[]{"测试一","测试2"});
+ * popuwindow.setPopWidth(text_payee_identity_type.getMeasuredWidth());
+ * popuwindow.setmPopItemSelectListener(new PopItemSelectListener() {
  * public void itemSelected(int position, CharSequence tag) {
  * }
  * });
- * pop.showAsDropDown(text_payee_identity_type);
+ * popuwindow.showAsDropDown(text_payee_identity_type);
  */
 
 package com.dasinong.app.components.home.view.popupwidow;
