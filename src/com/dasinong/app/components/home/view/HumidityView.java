@@ -104,9 +104,9 @@ public class HumidityView extends LinearLayout {
         int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
 
 
-        if (hourOfDay < 6 || hourOfDay > 18) {
-            icon = icon + "night";
-        }
+//        if (hourOfDay < 6 || hourOfDay > 18) {
+//            icon = icon + "night";
+//        }
         icon = weatherIconMap.get(icon);
         if (!TextUtils.isEmpty(icon)) {
 
