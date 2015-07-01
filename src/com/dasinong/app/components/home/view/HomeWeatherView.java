@@ -41,7 +41,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private HorizontalScrollView mHorHumView;
 
 
-    private static final String TAG = "[HomeWeatherView]";
+    private static final String TAG = "HomeWeatherView";
 
     private ShrinkAnimation mShrinkAnimation;
     private ExpandAnimation mExpandAnimation;
@@ -281,8 +281,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
         //20:45
         //当前时间与它的时间并差
-        Calendar today = Calendar.getInstance();
-        Calendar serverTime =null;
+
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
 
@@ -290,16 +289,22 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 
             Date date = sdf.parse(Level7);
-            Date nowDate = new Date();
-            nowDate.setHours(date.getHours());
-            nowDate.setMinutes(date.getMinutes());
-          long time =  today.getTimeInMillis() - nowDate.getTime();
+            DEBUG(Level7);
+            Date serverDate = new Date();
+            serverDate.setHours(date.getHours()-1);
+            serverDate.setMinutes(date.getMinutes());
+            Date today = new Date();
+            DEBUG("srver"+serverDate.toLocaleString()+"\t"+serverDate.getTime());
+            DEBUG("now"+today.toString()+"\t"+today.getTime());
+          long time =  Math.abs(today.getTime() - serverDate.getTime());
+            DEBUG("time:"+time);
+
             if(time/ DateUtils.SECOND_IN_MILLIS<1){
                 return "刚刚";
             }else if(time/ DateUtils.MINUTE_IN_MILLIS<60){
                 return "更新于" +time/ DateUtils.SECOND_IN_MILLIS+"分钟前";
             }else if(time/ DateUtils.HOUR_IN_MILLIS<24){
-                return "更新于" +time/ DateUtils.SECOND_IN_MILLIS+"小时前";
+                return "更新于" +time/ DateUtils.HOUR_IN_MILLIS+"小时前";
             }else {
                 return "更新于" +time/ DateUtils.DAY_IN_MILLIS+"天前";
             }
