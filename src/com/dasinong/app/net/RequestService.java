@@ -164,7 +164,8 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getCreateFieldParams("true",seedingortransplant,area,startDate,locationId,varietyId,currentStageId,yield);
 		new NetRequest(context).get(RequestCode.CREATE_FIELD, params, SubUrl.CREATE_FIELD, callBack, clazz);
 	}
-	public void uploadPetDisPic(Context context, List<String> paths, RequestListener callBack) {
-		new NetRequest(context).uploadImages(0, NetConfig.BASE_URL + "uploadPetDisPic", paths, BaseEntity.class, callBack);
+	public void uploadPetDisPic(Context context, List<String> paths ,String cropName, String disasterType,String disasterName,String affectedArea,String eruptionTime, String disasterDist,String fieldOperations,String fieldId, RequestListener callBack) {
+		// TODO MING :修改为真实IP地址
+		new NetRequest(context).uploadImages(0,NetConfig.BASE_URL + "insertDisasterReport", paths, cropName, disasterType, disasterName, affectedArea, eruptionTime,  disasterDist, fieldOperations,fieldId,BaseEntity.class, callBack);
 	}
 }

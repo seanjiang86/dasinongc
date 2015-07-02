@@ -304,7 +304,7 @@ public class NetRequest {
 		});
 	}
 	//TODO MING:修改方法名
-	public <T> void uploadImages(final int requestCode, String url, List<String> paths, final Class<? extends BaseEntity> clazz,
+	public <T> void uploadImages(final int requestCode, String url, List<String> paths,String cropName, String disasterType,String disasterName,String affectedArea,String eruptionTime, String disasterDist,String fieldOperations,String fieldId , final Class<? extends BaseEntity> clazz,
 			final RequestListener callback) {
 		RequestParams params = new RequestParams();
 
@@ -319,6 +319,15 @@ public class NetRequest {
 		for (int i = 0; i < paths.size(); i++) {
 			params.addBodyParameter("file" + i, new File(paths.get(i)));
 		}
+		params.addBodyParameter("cropName",cropName);
+		params.addBodyParameter("disasterType",disasterType);
+		params.addBodyParameter("disasterName",disasterName);
+		params.addBodyParameter("affectedArea",affectedArea);
+		params.addBodyParameter("eruptionTime",eruptionTime);
+		params.addBodyParameter("disasterDist",disasterDist);
+		params.addBodyParameter("fieldOperations",fieldOperations);
+		params.addBodyParameter("fieldId",fieldId);
+		
 		HttpUtils http = new HttpUtils();
 		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
 

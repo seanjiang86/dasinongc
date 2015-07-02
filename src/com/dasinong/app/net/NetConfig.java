@@ -25,6 +25,8 @@ public class NetConfig {
 
 //	public static final String BASE_URL = "http://115.29.111.179/ploughHelper/";
 	public static final String BASE_URL = "http://182.254.129.101:8080/ploughHelper/";
+	// TODO MING :本地测试使用
+//	public static final String BASE_URL = "http://192.168.1.140:8080/ploughHelper/";
 	public static final String IMAGE_URL = "http://182.254.129.101:8080/avater/";
 
 	private static final String KEY_REQUEST = "UHTN90SPOLKIRT6131NM0SEWGLPALczmf";

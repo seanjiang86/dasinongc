@@ -21,7 +21,7 @@ public class FileUtils {
 				f.delete();
 			}
 			FileOutputStream out = new FileOutputStream(f);
-			bm.compress(Bitmap.CompressFormat.JPEG, 100, out);
+			bm.compress(Bitmap.CompressFormat.JPEG, 95, out);
 			out.flush();
 			out.close();
 		} catch (FileNotFoundException e) {

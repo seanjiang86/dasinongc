@@ -38,6 +38,7 @@ public class Bimp {
 	 * 从相册压缩图片
 	 */
 	public static Bitmap revitionImageSize(String path) {
+		
 		Bitmap bitmap = BitmapFactory.decodeFile(path);
 
 		int width = bitmap.getWidth();

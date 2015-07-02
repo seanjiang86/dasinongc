@@ -4,24 +4,30 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.Logger;
 import com.king.photo.activity.AlbumActivity;
 import com.king.photo.activity.GalleryActivity;
 import com.king.photo.util.Bimp;
 import com.king.photo.util.FileUtils;
 import com.king.photo.util.ImageItem;
 import com.king.photo.util.PublicWay;
+import com.king.photo.util.Res;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -31,6 +37,7 @@ import android.os.Message;
 import android.provider.MediaStore;
 import android.support.annotation.VisibleForTesting;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +74,20 @@ public class ReportHarmActivity extends BaseActivity {
 	private String title;
 	private List <String> paths = new ArrayList<String>();
 	private int flag = 0;
+	// 作物名称
+	private String cropName = "水稻";
+	// 灾害类型
+	private String disasterType = "";
+	// 灾害名称
+	private String disasterName = "";
+	// 发生部位
+	private String affectedArea = "";
+	// 爆发时间
+	private String eruptionTime = "";
+	// 灾害分布
+	private String disasterDist = "";
+	// 农事操作
+	private String fieldOperations = "";
 	
 	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -77,7 +98,6 @@ public class ReportHarmActivity extends BaseActivity {
 			case 2:
 				String path = (String) msg.obj;
 				paths.add(path);
-				System.out.println(path);
 				flag++;
 				if(flag == Bimp.tempSelectBitmap.size()){
 					upLoadImages();
@@ -92,7 +112,9 @@ public class ReportHarmActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_report_harm);
-
+		Res.init(DsnApplication.getContext());
+		login();
+		
 		PublicWay.activityList.add(this);
 		
 		title = getIntent().getStringExtra("title");
@@ -148,7 +170,16 @@ public class ReportHarmActivity extends BaseActivity {
 		topbar.setRightClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				
+				getTableData();
+				if(TextUtils.isEmpty(disasterType)){
+					showToast("请选择病虫草害类型");
+					return;
+				}
+				if(Bimp.tempSelectBitmap.size() < 1){
+					showToast("请选择您要上传的图片");
+					return;
+				}
+				startLoadingDialog();
 				// 压缩图片
 				new Thread(new Runnable() {
 					@Override
@@ -165,7 +196,7 @@ public class ReportHarmActivity extends BaseActivity {
 					}
 				}).start();
 
-				getTableData();
+				
 			}
 		});
 	}
@@ -180,71 +211,94 @@ public class ReportHarmActivity extends BaseActivity {
 
 		switch (typeCheckedId) {
 		case R.id.rb_disease_harm:
-			// TODO MING 病害
-			System.out.println("病害");
+			disasterType = "病害";
 			break;
 		case R.id.rb_pet_harm:
-			// TODO MING 虫害
-			System.out.println("虫害");
+			disasterType = "虫害";
 			break;
 		case R.id.rb_grass_harm:
-			// TODO MING 草害
-			System.out.println("草害");
+			disasterType = "草害";
 			break;
 		case R.id.rb_nosure_harm:
-			// TODO MING 不确定
-			System.out.println("不确定");
+			disasterType = "不确定";
 			break;
 		}
 
 		switch (hapCheckedId) {
 		case R.id.rb_suddenly:
-			// TODO MING 突然爆发
-			System.out.println("突然爆发");
+			eruptionTime = "突然爆发";
 			break;
 		case R.id.rb_recently:
-			// TODO MING 几天爆发
-			System.out.println("近几天");
+			eruptionTime = "近几天";
 			break;
 		case R.id.rb_recurrence:
-			// TODO MING 复发
-			System.out.println("复发");
+			eruptionTime = "复发";
 			break;
 		}
 
 		switch (disCheckedId) {
 		case R.id.rb_uniform:
-			// TODO MING 均匀受害
-			System.out.println("均匀");
+			disasterDist = "均匀受害";
 			break;
 		case R.id.rb_uneven:
-			// TODO MING 不规则爆发
-			System.out.println("不规则");
+			disasterDist = "不规则爆发";
 			break;
 		}
-
-		// TODO MING 获取影响部位
-
-		String harmName = et_harm_name.getText().toString();
-		String des = et_des.getText().toString();
-
+		
+		StringBuilder sb = new StringBuilder();
+		if(cb_part_root.isChecked()){
+			String root = cb_part_root.getText().toString();
+			sb.append(root+",");
+		}
+		if(cb_part_stems.isChecked()){
+			String stems = cb_part_stems.getText().toString();
+			sb.append(stems+",");
+		}
+		if(cb_part_leaves.isChecked()){
+			String leaves = cb_part_leaves.getText().toString();
+			sb.append(leaves+",");
+		}
+		if(cb_part_ear.isChecked()){
+			String ear = cb_part_ear.getText().toString();
+			sb.append(ear+",");
+		}
+		if(cb_part_grain.isChecked()){
+			String grain = cb_part_grain.getText().toString();
+			sb.append(grain+",");
+		}
+		affectedArea = sb.toString();
+		if(!TextUtils.isEmpty(affectedArea)){
+			affectedArea = affectedArea.substring(0, affectedArea.length()-1);
+		}
+		cropName = "水稻";
+		disasterName = et_harm_name.getText().toString();
+		fieldOperations = et_des.getText().toString();
 	}
 
 	protected void upLoadImages() {
 
-		RequestService.getInstance().uploadPetDisPic(this, paths, new NetRequest.RequestListener() {
-
+		RequestService.getInstance().uploadPetDisPic(this, paths,cropName, disasterType, disasterName, affectedArea, eruptionTime,  disasterDist, fieldOperations, "1000",new NetRequest.RequestListener() {
+			
+			// TODO MING提示语；
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				if (resultData.isOk()) {
-					showToast("上传成功");
+					if("诊断病虫草害".equals(title)){
+						showToast("感谢您的反馈，我们会在与专家沟通后联系您");
+					}else {
+						showToast("感谢您的反馈");
+					}
+					
+					dismissLoadingDialog();
 				} else {
 					showToast("上传失败");
+					dismissLoadingDialog();
 				}
 			}
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
+				showToast("网络异常，请检测您的网络或稍后再试");
 				error.printStackTrace();
 			}
 		});
@@ -365,7 +419,6 @@ public class ReportHarmActivity extends BaseActivity {
 
 			if (Bimp.tempSelectBitmap.size() > 0) {
 				holder.image.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
-				System.out.println(Bimp.tempSelectBitmap.get(position).getBitmap());
 			}
 
 			return convertView;
@@ -401,12 +454,10 @@ public class ReportHarmActivity extends BaseActivity {
 		switch (requestCode) {
 		case Activity.DEFAULT_KEYS_DIALER:
 			if (Bimp.tempSelectBitmap.size() < 6 && resultCode == RESULT_OK) {
-
 				Bitmap bitmap = Bimp.revitionImageSize(FileUtils.SDPATH + fileName + ".jpg");
 				
-				FileUtils.saveBitmap(bitmap, String.valueOf(System.currentTimeMillis()));
-
 				ImageItem takePhoto = new ImageItem();
+				takePhoto.setImagePath(FileUtils.SDPATH + fileName + ".jpg");
 				takePhoto.setBitmap(bitmap);
 				Bimp.tempSelectBitmap.add(takePhoto);
 			}
@@ -423,4 +474,32 @@ public class ReportHarmActivity extends BaseActivity {
 		}
 
 	}
+	
+	
+	// TODO MING 测试代码将来去掉
+	private void login() {
+    	if(AccountManager.isLogin(ReportHarmActivity.this)){
+    		return;
+    	}
+        RequestService.getInstance().authcodeLoginReg(ReportHarmActivity.this, "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
+
+            @Override
+            public void onSuccess(int requestCode, BaseEntity resultData) {
+
+                if(resultData.isOk()){
+                    LoginRegEntity entity = (LoginRegEntity) resultData;
+                    AccountManager.saveAccount(ReportHarmActivity.this, entity.getData());
+                    showToast("登录成功");
+                }else{
+                    Logger.d("TAG", resultData.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailed(int requestCode, Exception error, String msg) {
+
+                Logger.d("TAG","msg"+msg);
+            }
+        });
+    }
 }
