@@ -70,7 +70,7 @@ public class AddFieldActivity7 extends BaseActivity {
 									showToast("创建失败");
 								}
 							}
-
+							
 							@Override
 							public void onFailed(int requestCode, Exception error, String msg) {
 								dismissLoadingDialog();

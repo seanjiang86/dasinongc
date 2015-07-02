@@ -10,8 +10,7 @@
         android:paddingLeft="@dimen/home_dimen_30"
 
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/home_dimen_30">
+        android:layout_height="wrap_content" >
 
         <TextView
             android:id="@+id/field"
@@ -20,6 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="暂无田地"
+            android:layout_marginTop="15dp"
             android:textColor="@android:color/white" />
 
         <LinearLayout
@@ -29,7 +29,7 @@
             android:id="@+id/add_field"
             android:paddingLeft="35dp"
             android:paddingRight="35dp"
-            android:paddingTop="10dp"
+            android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:layout_height="wrap_content">
         <ImageView
@@ -106,10 +106,10 @@
                 android:textColor="@color/color_view_home_top_bg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="11dp"
-                android:paddingBottom="11dp"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:visibility="gone"
                 tools:text="宜下地" />
 
@@ -122,10 +122,10 @@
                 android:layout_width="wrap_content"
 
                 android:visibility="gone"
-                android:paddingTop="11dp"
-                android:paddingBottom="11dp"
-                android:paddingLeft="25dp"
-                android:paddingRight="25dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/home_dimen_20"
                 tools:text="不宜打药" />
