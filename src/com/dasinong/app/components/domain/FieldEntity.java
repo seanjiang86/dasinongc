@@ -20,6 +20,7 @@ public class FieldEntity extends BaseResponse {
 
 
     public  HomeDate date;
+    public  String  soilHum;
 
     public static  class HomeDate{
         public String lunar;//大雪

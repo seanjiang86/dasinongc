@@ -67,12 +67,21 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
     }
 
 
-    public void updateView(DataEntity latestReport) {
+    public void updateView(DataEntity latestReport,String soilHum) {
+        if(!TextUtils.isEmpty(soilHum)){
+            TextView humidity = (TextView) this.findViewById(R.id.soil_tem);
+
+            humidity.setText(soilHum);
+
+        }else {
+            soilHum="";
+        }
         if (latestReport == null) {
             return;
         }
 
         entity =latestReport;
+        entity.humidity = soilHum;
         TextView color = (TextView) this.findViewById(R.id.soil_color);
         if(!TextUtils.isEmpty(latestReport.color)){
             color.setText(latestReport.color+latestReport.type);
@@ -85,11 +94,7 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
 
         }
 
-        TextView humidity = (TextView) this.findViewById(R.id.soil_tem);
-        if (!TextUtils.isEmpty(latestReport.humidity)) {
-            humidity.setText(latestReport.humidity);
 
-        }
 
 
         TextView qn = (TextView) this.findViewById(R.id.soil_qn);

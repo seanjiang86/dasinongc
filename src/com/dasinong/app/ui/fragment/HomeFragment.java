@@ -3,6 +3,7 @@ package com.dasinong.app.ui.fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -279,7 +280,7 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
                     });
                     mCropStateView.updateView(entity);
 
-                    mSoilView.updateView(entity.latestReport);
+                    mSoilView.updateView(entity.latestReport,entity.soilHum);
                 }
                 break;
             case REQUEST_CODE_HOME_WEATHER:
