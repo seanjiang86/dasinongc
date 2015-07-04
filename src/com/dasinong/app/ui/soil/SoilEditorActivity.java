@@ -316,6 +316,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
     private void postSoilInformation(SoilPostEntity.Param param) {
 
+        startLoadingDialog();
         String url =URL_INSERT_SOIL ;
         int code = REQUEST_CODE_SOIL_INSERT;
         checkStatus();
@@ -609,7 +610,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     @Override
     public void onTaskSuccess(int requestCode, Object response) {
 
-
+        dismissLoadingDialog();
         this.finish();
         setResult(RESULT_OK);
     }

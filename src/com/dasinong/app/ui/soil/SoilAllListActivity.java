@@ -61,9 +61,9 @@ public class SoilAllListActivity extends SoilBaseActivity implements AdapterView
     }
 
     private void loadDataFromServer() {
-
+        startLoadingDialog();
         SoilAllEntity.Param param = new SoilAllEntity.Param();
-        VolleyManager.getInstance().addGetRequestWithCache(
+        VolleyManager.getInstance().addGetRequestWithNoCache(
                 REQUEST_CODE_SOIL_LIST,
                 URL,
                 param,
@@ -88,6 +88,7 @@ public class SoilAllListActivity extends SoilBaseActivity implements AdapterView
     @Override
     public void onTaskSuccess(int requestCode, Object response) {
 
+        dismissLoadingDialog();
         SoilAllEntity entity = (SoilAllEntity) response;
         mListView.setAdapter(new CommonAdapter<DataEntity>(entity.data) {
 
