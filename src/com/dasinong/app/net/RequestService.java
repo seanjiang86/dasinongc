@@ -159,6 +159,14 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getSearchWordParams(key);
 		new NetRequest(context).get(RequestCode.SEARCH_WORD, params, SubUrl.SEARCH_WORD, callBack, clazz);
 	}
+	public void requestSecurityCode(Context context, String cellphone, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getRequestSecurityCodeParams(cellphone);
+		new NetRequest(context).get(RequestCode.REQUEST_SECURITY_CODE, params, SubUrl.REQUEST_SECURITY_CODE, callBack, clazz);
+	}
+	public void loginWithSecCode(Context context, String cellphone,String seccode, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getLoginWithSecCodeParams(cellphone, seccode);
+		new NetRequest(context).get(RequestCode.LOGIN_WITH_SECCODE, params, SubUrl.LOGIN_WITH_SECCODE, callBack, clazz);
+	}
 	
 	public void createField(Context context, String seedingortransplant,String area,String startDate,String locationId,String varietyId,String currentStageId,String yield,Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getCreateFieldParams("true",seedingortransplant,area,startDate,locationId,varietyId,currentStageId,yield);

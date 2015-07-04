@@ -65,4 +65,9 @@ public final class RequestCode {
 	 * 搜索百科
 	 */
 	public static final int SEARCH_WORD = CREATE_FIELD + 1;
+	/**
+	 * 请求验证码
+	 */
+	public static final int REQUEST_SECURITY_CODE = SEARCH_WORD + 1;
+	public static final int LOGIN_WITH_SECCODE = REQUEST_SECURITY_CODE + 1;
 }

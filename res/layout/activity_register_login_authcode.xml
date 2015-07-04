@@ -88,6 +88,16 @@
             android:text="@string/smssdk_next"
             android:textColor="#ffffff"
             android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/btn_phone_kefu"
+            android:layout_width="match_parent"
+            android:layout_height="48dip"
+            android:layout_gravity="right"
+            android:background="@null"
+            android:text="致电客服人员"
+            android:textColor="#434543"
+            android:textSize="15sp" />
     </LinearLayout>
 
 </LinearLayout>

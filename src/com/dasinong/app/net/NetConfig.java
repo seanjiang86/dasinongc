@@ -82,6 +82,10 @@ public class NetConfig {
 		public static final String CREATE_FIELD ="createField";
 		/**搜索*/
 		public static final String SEARCH_WORD ="searchWord";
+		/**请求验证码*/
+		public static final String REQUEST_SECURITY_CODE ="requestSecurityCode";
+		/**验证临时密码 登录*/
+		public static final String LOGIN_WITH_SECCODE ="loginWithSecCode";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -130,6 +134,7 @@ public class NetConfig {
 		public static final String currentStageId = "currentStageId";
 		public static final String yield = "yield";
 		public static final String key = "key";
+		public static final String seccode = "seccode";
 		
 	}
 	
@@ -375,6 +380,17 @@ public class NetConfig {
 	public static Map<String, String> getSearchWordParams(String key) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.key, key);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getRequestSecurityCodeParams(String key) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.cellphone, key);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getLoginWithSecCodeParams(String key,String seccode) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.cellphone, key);
+		paramsMap.put(Params.seccode, seccode);
 		return getBaseParams(false, paramsMap);
 	}
 	

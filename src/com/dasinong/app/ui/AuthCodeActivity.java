@@ -18,6 +18,7 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -74,6 +75,12 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	private int mFailedCount = 0;
 	
 	private boolean isAuthPhone = false;
+	private boolean isAuthPempPwd = false;
+	
+	private TextView mCallPhoneText;
+	
+	private static String APPKEY = "80424b5493c0";
+	private static String APPSECRET = "3c1b73e6af8f059c2e6b25f7065d77a3";
 	
 	public void setPhone(String phone, String code, String formatedPhone) {
 		this.phone = phone;
@@ -89,6 +96,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		code = getIntent().getStringExtra("code");
 		formatedPhone = getIntent().getStringExtra("formatedPhone");
 		isAuthPhone = getIntent().getBooleanExtra("isAuthPhone", false);
+		isAuthPempPwd = getIntent().getBooleanExtra("authPempPwd", false);
 	}
 
 	@Override
@@ -98,6 +106,8 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		setContentView(R.layout.activity_register_login_authcode);
 
 		initData();
+		
+		SMSSDK.initSDK(this, APPKEY, APPSECRET);
 		
 		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
 		mTopbarView.setCenterText("填写验证码");
@@ -162,6 +172,26 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 			}
 		});
 		registerReceiver(smsReceiver, new IntentFilter("android.provider.Telephony.SMS_RECEIVED"));
+		
+		mCallPhoneText = (TextView) this.findViewById(R.id.btn_phone_kefu);
+		
+		if(isAuthPempPwd){
+			tvUnreceiveIdentify.setVisibility(View.GONE);
+			mCallPhoneText.setVisibility(View.VISIBLE);
+		}else{
+			tvUnreceiveIdentify.setVisibility(View.VISIBLE);
+			mCallPhoneText.setVisibility(View.GONE);
+		}
+		
+		mCallPhoneText.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+"4000556050"));  
+                startActivity(intent); 
+			}
+		});
+		
 	}
 
 	// public void onCreate() {
@@ -346,17 +376,22 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		case R.id.btn_submit:
 			// 提交验证码
 			String verificationCode = etIdentifyNum.getText().toString().trim();
-			if (!TextUtils.isEmpty(code)) {
-				startLoadingDialog();
-				SMSSDK.submitVerificationCode(code, phone, verificationCode);
-			} else {
-				// int resId = getStringRes(activity,
-				// "smssdk_write_identify_code");
-				// if (resId > 0) {
-				// Toast.makeText(getContext(), resId,
-				// Toast.LENGTH_SHORT).show();
-				// }
-				showToast(R.string.smssdk_write_identify_code);
+			
+			if(isAuthPempPwd){
+				authPempPwd(verificationCode);
+			}else{
+				if (!TextUtils.isEmpty(code)) {
+					startLoadingDialog();
+					SMSSDK.submitVerificationCode(code, phone, verificationCode);
+				} else {
+					// int resId = getStringRes(activity,
+					// "smssdk_write_identify_code");
+					// if (resId > 0) {
+					// Toast.makeText(getContext(), resId,
+					// Toast.LENGTH_SHORT).show();
+					// }
+					showToast(R.string.smssdk_write_identify_code);
+				}
 			}
 			
 //			loginRegister(phone);
@@ -418,6 +453,34 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		// // 发送语音验证码
 		// showDialog(SHOWDIALOGTYPE);
 		// }
+	}
+
+	private void authPempPwd(String verificationCode) {
+		startLoadingDialog();
+		RequestService.getInstance().loginWithSecCode(this, phone, verificationCode, LoginRegEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				if(resultData.isOk()){
+					LoginRegEntity entity = (LoginRegEntity) resultData;
+					
+					AccountManager.saveAccount(AuthCodeActivity.this, entity.getData());
+					
+					Intent intent = new Intent(AuthCodeActivity.this,MainTabActivity.class);
+					startActivity(intent);
+					
+					finish();
+				}else{
+					showToast(resultData.getMessage());
+				}
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+			}
+		});
 	}
 
 	/** 弹出重新发送短信对话框,或发送语音窗口 */
@@ -619,7 +682,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				
+				showToast(R.string.please_check_netword);
 			}
 		});
 	}

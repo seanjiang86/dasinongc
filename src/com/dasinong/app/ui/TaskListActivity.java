@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.dasinong.app.R;
+import com.dasinong.app.components.domain.TaskStatus;
 import com.dasinong.app.database.task.dao.impl.SubStageDaoImpl;
 import com.dasinong.app.database.task.dao.impl.TaskSpecDaoImpl;
 import com.dasinong.app.database.task.domain.SubStage;
@@ -11,9 +12,15 @@ import com.dasinong.app.database.task.domain.TaskSpec;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.AnimatedExpandableListView;
 import com.dasinong.app.ui.view.AnimatedExpandableListView.AnimatedExpandableListAdapter;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.Logger;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.mob.tools.utils.SharePrefrenceHelper;
 
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +45,8 @@ public class TaskListActivity extends BaseActivity {
 
 	private List<TaskSpec> mSelectTask = new ArrayList<TaskSpec>();
 
+	private long filedId;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -86,7 +95,7 @@ public class TaskListActivity extends BaseActivity {
 			@Override
 			public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
-				TaskSpec child = adapter.getChild(groupPosition, childPosition);
+				TaskStatus child = adapter.getChild(groupPosition, childPosition);
 				showToast(child.taskSpecName);
 
 				return false;
@@ -111,6 +120,8 @@ public class TaskListActivity extends BaseActivity {
 	}
 
 	private void initData() {
+		filedId = SharedPreferencesHelper.getLong(this, Field.FIELDID, 0);
+		
 		SubStageDaoImpl dao = new SubStageDaoImpl(this);
 		List<String> queryStageCategory = dao.queryStageCategory();
 		for(String queryStage : queryStageCategory){
@@ -120,9 +131,23 @@ public class TaskListActivity extends BaseActivity {
 			for (SubStage subStage : queryStageSubCategory) {
 				GroupItem item = new GroupItem();
 				item.subStage = subStage;
-				List<TaskSpec> queryTaskSpecWithSubStage = dao1.queryTaskSpecWithSubStage(subStage.subStageId);
-				item.items = queryTaskSpecWithSubStage;
-				taskDataList.add(item);
+				List<TaskStatus> readTaskStatus = readTaskStatus(subStage);
+				if(!readTaskStatus.isEmpty()){
+					item.items = readTaskStatus;
+					taskDataList.add(item);
+				}else{
+					List<TaskSpec> queryTaskSpecWithSubStage = dao1.queryTaskSpecWithSubStage(subStage.subStageId);
+					for(TaskSpec task:queryTaskSpecWithSubStage){
+						TaskStatus status = new TaskStatus();
+						status.subStageId = subStage.subStageId;
+						status.taskSpecName = task.taskSpecName;
+						status.taskSpecId = task.taskSpecId;
+						status.isCheck = false;
+						readTaskStatus.add(status);
+					}
+					item.items = readTaskStatus;
+					taskDataList.add(item);
+				}
 			}
 		}
 
@@ -187,10 +212,11 @@ public class TaskListActivity extends BaseActivity {
 			}
 		});
 	}
+	
 
 	private static class GroupItem {
 		SubStage subStage;
-		List<TaskSpec> items = new ArrayList<TaskSpec>();
+		List<TaskStatus> items = new ArrayList<TaskStatus>();
 	}
 
 	private static class ChildHolder {
@@ -220,7 +246,7 @@ public class TaskListActivity extends BaseActivity {
 		}
 
 		@Override
-		public TaskSpec getChild(int groupPosition, int childPosition) {
+		public TaskStatus getChild(int groupPosition, int childPosition) {
 			return items.get(groupPosition).items.get(childPosition);
 		}
 
@@ -230,35 +256,32 @@ public class TaskListActivity extends BaseActivity {
 		}
 
 		@Override
-		public View getRealChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+		public View getRealChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 			ChildHolder holder;
-			final TaskSpec item = getChild(groupPosition, childPosition);
-			if (convertView == null) {
+			final TaskStatus item = getChild(groupPosition, childPosition);
+//			if (convertView == null) {
 				holder = new ChildHolder();
 				convertView = inflater.inflate(R.layout.task_list_item, parent, false);
 				holder.title = (TextView) convertView.findViewById(R.id.textTitle);
 				holder.state = (CheckBox) convertView.findViewById(R.id.cb_state);
 				convertView.setTag(holder);
-			} else {
-				holder = (ChildHolder) convertView.getTag();
-			}
+//			} else {
+//				holder = (ChildHolder) convertView.getTag();
+//			}
 
 			holder.title.setText(item.taskSpecName);
 			// holder.hint.setText(item.type);
-
+			Logger.d("YSL", item.isCheck+"--"+item.taskSpecName);
+			holder.state.setChecked(item.isCheck);
+			
 			holder.state.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-					if (isChecked) {
-						if (!mSelectTask.contains(item)) {
-							mSelectTask.add(item);
-						}
-					} else {
-						if (mSelectTask.contains(item)) {
-							mSelectTask.remove(item);
-						}
-					}
+					GroupItem group = getGroup(groupPosition);
+					item.isCheck = isChecked;
+					saveTaskStatus(group);
+					Logger.d("YSL", "onCheckedChanged--"+isChecked+"--"+item.taskSpecName);
 				}
 			});
 
@@ -299,7 +322,6 @@ public class TaskListActivity extends BaseActivity {
 			}
 
 			holder.title.setText(item.subStage.subStageName);
-
 			return convertView;
 		}
 
@@ -312,7 +334,37 @@ public class TaskListActivity extends BaseActivity {
 		public boolean isChildSelectable(int arg0, int arg1) {
 			return true;
 		}
-
 	}
+	
+	private static  final  String PREFIX ="field";
+	private String getSaveKey(SubStage mCurrentSubStage){
+        return PREFIX+filedId+mCurrentSubStage.subStageId;
+    }
+	
+	private List<TaskStatus> readTaskStatus(SubStage mCurrentSubStage) {
+
+        Gson gson = new Gson();
+        String key = getSaveKey(mCurrentSubStage);
+        String result = SharedPreferencesHelper.getString(this, key, null);
+        List<TaskStatus> lists = new ArrayList<>();
+        if (result != null) {
+            lists.clear();
+            lists = gson.fromJson(result, new TypeToken<List<TaskStatus>>() {
+            }.getType());
+        }
+
+        return lists;
+    }
+	
+	private void saveTaskStatus(GroupItem group) {
+        List<TaskStatus> lists = group.items;
+        if (lists.isEmpty()) {
+            return;
+        }
+        String key = getSaveKey(group.subStage);
+        Gson gson = new Gson();
+        SharedPreferencesHelper.setString(this, key, gson.toJson(lists));
+    }
+	
 
 }

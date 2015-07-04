@@ -12,10 +12,12 @@
         <CheckBox
             android:id="@+id/cb_state"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
-            android:layout_weight="0.3"
+            android:layout_weight="0.4"
+            android:gravity="center"
             android:button="@drawable/custom_checkbox"
             android:focusable="false" />
 
