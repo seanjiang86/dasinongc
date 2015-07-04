@@ -145,6 +145,7 @@
                 <EditText
                     android:id="@+id/soil_time"
                     android:editable="false"
+
                     style="@style/soil_editor_item_container_no_unit" />
             </LinearLayout>
 
@@ -158,6 +159,7 @@
                     android:text="@string/soil_ph" />
 
                 <EditText
+                    android:inputType="numberDecimal"
                     android:id="@+id/soil_ph"
                     style="@style/soil_editor_item_container_unit" />
             </LinearLayout>
@@ -176,6 +178,7 @@
                 <LinearLayout style="@style/soil_editor_item_unit_container">
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/soil_organics"
                         style="@style/soil_editor_item_container_unit" />
 
@@ -199,7 +202,7 @@
                     <EditText
                         android:id="@+id/soil_an"
                         style="@style/soil_editor_item_container_unit"
-
+                        android:inputType="numberDecimal"
                         />
 
                     <TextView
@@ -224,6 +227,7 @@
 
                     <EditText
                         android:id="@+id/soil_qn"
+                        android:inputType="numberDecimal"
                         style="@style/soil_editor_item_container_unit"
 
                         />
@@ -248,6 +252,7 @@
                 <LinearLayout style="@style/soil_editor_item_unit_container">
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/soil_P"
                         style="@style/soil_editor_item_container_unit" />
 
@@ -268,6 +273,7 @@
                 <LinearLayout style="@style/soil_editor_item_unit_container">
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/soil_qk"
                         style="@style/soil_editor_item_container_unit" />
 
@@ -295,6 +301,7 @@
                     <LinearLayout style="@style/soil_editor_item_unit_container">
 
                         <EditText
+                            android:inputType="numberDecimal"
                             android:id="@+id/soil_sk"
                             style="@style/soil_editor_item_container_unit" />
 
@@ -350,6 +357,7 @@
                 <LinearLayout style="@style/soil_editor_item_unit_container">
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/soil_mo"
                         style="@style/soil_editor_item_container_unit" />
 
@@ -374,6 +382,7 @@
 
                     <EditText
                         android:id="@+id/soil_FE"
+                        android:inputType="numberDecimal"
                         style="@style/soil_editor_item_container_unit" />
 
                     <TextView
@@ -398,6 +407,7 @@
                 <LinearLayout style="@style/soil_editor_item_unit_container">
 
                     <EditText
+
                         android:id="@+id/soil_mn"
                         android:inputType="numberDecimal"
                         style="@style/soil_editor_item_container_unit" />
@@ -420,6 +430,7 @@
                 <LinearLayout style="@style/soil_editor_item_unit_container">
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/soil_cu"
                         style="@style/soil_editor_item_container_unit" />
 
@@ -441,6 +452,7 @@
                 <LinearLayout style="@style/soil_editor_item_unit_container">
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/soil_ZN"
                         style="@style/soil_editor_item_container_unit" />
 
@@ -461,6 +473,7 @@
                 <LinearLayout style="@style/soil_editor_item_unit_container">
 
                     <EditText
+                        android:inputType="numberDecimal"
                         android:id="@+id/soil_B"
                         style="@style/soil_editor_item_container_unit" />
 
@@ -500,6 +513,8 @@
             <LinearLayout style="@style/soil_editor_item_unit_container">
 
                 <EditText
+
+                    android:inputType="numberDecimal"
                     android:id="@+id/soil_ca"
                     style="@style/soil_editor_item_container_unit" />
 
@@ -527,6 +542,8 @@
             <LinearLayout style="@style/soil_editor_item_unit_container">
 
                 <EditText
+
+                    android:inputType="numberDecimal"
                     android:id="@+id/soil_mg"
                     style="@style/soil_editor_item_container_unit" />
 
@@ -547,6 +564,7 @@
             <LinearLayout style="@style/soil_editor_item_unit_container">
 
                 <EditText
+                    android:inputType="numberDecimal"
                     android:id="@+id/soil_s"
                     style="@style/soil_editor_item_container_unit" />
 
@@ -568,6 +586,7 @@
             <LinearLayout style="@style/soil_editor_item_unit_container">
 
                 <EditText
+                    android:inputType="numberDecimal"
                     android:id="@+id/soil_si"
                     style="@style/soil_editor_item_container_unit" />
 

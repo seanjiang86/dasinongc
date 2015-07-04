@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.DatePicker;
@@ -83,7 +85,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     private boolean isEditor = false;
 
 
-    private long time;
+
 
 
 
@@ -242,23 +244,61 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
         mSoilColor = (TextView) findViewById(R.id.soil_color);
         mSoilFertility = (TextView) findViewById(R.id.soil_fertility);
         mSoilTime = (EditText) findViewById(R.id.soil_time);
+
         mSoilPH = (EditText) findViewById(R.id.soil_ph);
+        mSoilPH.addTextChangedListener(new DecimalLimit(mSoilPH,10,2));
         mSoilOrganics = (EditText) findViewById(R.id.soil_organics);
+        mSoilOrganics.addTextChangedListener(new DecimalLimit(mSoilOrganics,10,2));
         mSoilAN = (EditText) findViewById(R.id.soil_an);
+        mSoilAN.addTextChangedListener(new DecimalLimit(mSoilAN,10,2));
         mSoilQN = (EditText) findViewById(R.id.soil_qn);
+
+        mSoilQN.addTextChangedListener(new DecimalLimit(mSoilQN,10,2));
+
         mSoilP = (EditText) findViewById(R.id.soil_P);
+
+        mSoilP.addTextChangedListener(new DecimalLimit(mSoilP,10,2));
+
+
         mSoilQK = (EditText) findViewById(R.id.soil_qk);
+
+        mSoilQK.addTextChangedListener(new DecimalLimit(mSoilQK,10,2));
+
         mSoilSK = (EditText) findViewById(R.id.soil_sk);
+
+        mSoilSK.addTextChangedListener(new DecimalLimit(mSoilSK,10,2));
+
         mSoilMO = (EditText) findViewById(R.id.soil_mo);
+
+        mSoilMO.addTextChangedListener(new DecimalLimit(mSoilMO,10,2));
         mSoilFE = (EditText) findViewById(R.id.soil_FE);
+
+        mSoilFE.addTextChangedListener(new DecimalLimit(mSoilFE,10,2));
+
         mSoilMN = (EditText) findViewById(R.id.soil_mn);
+        mSoilMN.addTextChangedListener(new DecimalLimit(mSoilMN,10,2));
+
         mSoilCU = (EditText) findViewById(R.id.soil_cu);
+        mSoilCU.addTextChangedListener(new DecimalLimit(mSoilCU,10,2));
+
         mSoilZN = (EditText) findViewById(R.id.soil_ZN);
+        mSoilZN.addTextChangedListener(new DecimalLimit(mSoilZN,10,2));
+
         mSoilB = (EditText) findViewById(R.id.soil_B);
+        mSoilB.addTextChangedListener(new DecimalLimit(mSoilB,10,2));
+
         mSoilCA = (EditText) findViewById(R.id.soil_ca);
+        mSoilCA.addTextChangedListener(new DecimalLimit(mSoilCA,10,2));
+
         mSoilMG = (EditText) findViewById(R.id.soil_mg);
+        mSoilMG.addTextChangedListener(new DecimalLimit(mSoilMG,10,2));
+
         mSoilS = (EditText) findViewById(R.id.soil_s);
+        mSoilS.addTextChangedListener(new DecimalLimit(mSoilS,10,2));
+
         mSoilSI = (EditText) findViewById(R.id.soil_si);
+        mSoilSI.addTextChangedListener(new DecimalLimit(mSoilSI,10,2));
+
 
 
     }
@@ -358,7 +398,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
                 //有机质organic=organic
 
-                if (!TextUtils.isEmpty(mSoilOrganics.getText())) {
+                if (TextUtils.isEmpty(mSoilOrganics.getText())) {
                     param.organic = "0";
                 } else {
                     param.organic = mSoilOrganics.getText().toString().trim();
@@ -430,7 +470,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
                 //锌Zn zn=1 soil_ZN
 
-                if (!TextUtils.isEmpty(mSoilZN.getText())) {
+                if (TextUtils.isEmpty(mSoilZN.getText())) {
                     param.zn = "0";
                 } else {
                     param.zn = mSoilZN.getText().toString().trim();
@@ -611,7 +651,8 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     }
 
 
-    class MyOnDateSetListener implements DatePickerDialog.OnDateSetListener {
+   class MyOnDateSetListener implements DatePickerDialog.OnDateSetListener {
+
         @Override
         public void onDateSet(DatePicker view, int y, int monthOfYear, int dayOfMonth) {
 
@@ -621,5 +662,91 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
             mSoilTime.setText(year + "-" + (month+1) + "-" + day);
         }
     }
+
+
+    class DecimalLimit implements TextWatcher {
+
+        private EditText mEditeText;
+        private int max;
+        private int count;
+        public DecimalLimit(EditText editText,int max,int count){
+            this.mEditeText = editText;
+            this.max = max;
+            this.count = count;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            String text =   s.toString();
+            if(TextUtils.isEmpty(text)){
+                return;
+            }
+
+            if("00".equals(text)){
+
+                mEditeText.setText("0");
+                mEditeText.setSelection(1);
+                return;
+            }else if(".".equals(text)){
+                mEditeText.setText("0.");
+                mEditeText.setSelection(2);
+                return;
+            }
+            String[] split = text.split("\\.");
+            if(split.length==1){
+                int start = Integer.parseInt(split[0]);
+                if(start>max){
+                    String t =split[0].substring(0,split[0].length()-1);
+                    mEditeText.setText(t);
+                    mEditeText.setSelection(t.length());
+                }
+
+            }else if(split.length==2){
+                if(text.endsWith("\\.")){
+                    String value =text.substring(0,text.length()-1);
+                    mEditeText.setText(value);
+                    mEditeText.setSelection(value.length());
+                    return;
+                }
+                int start = Integer.parseInt(split[0]);
+                int end = Integer.parseInt(split[1]);
+                if(start==max) {
+                    if(end>0){
+                        String value = String.valueOf(start)+"."+"0";
+                        mEditeText.setText(value);
+                        mEditeText.setSelection(value.length());
+                    }
+
+                }else
+                {
+                    if(split[1].length()>count){
+                        String value = String.valueOf(start)+"."+split[1].substring(0,count);
+                        mEditeText.setText(value);
+                        mEditeText.setSelection(value.length());
+                    }
+
+                }
+              }
+//
+//
+//
+//
+//            }
+
+
+        }
+    }
+
 
 }
