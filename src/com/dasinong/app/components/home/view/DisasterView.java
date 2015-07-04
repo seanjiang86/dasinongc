@@ -139,11 +139,11 @@ public class DisasterView extends LinearLayout {
             return;
         }
 
-        filterNatEntity(natdiswsEntityList);
+       // filterNatEntity(natdiswsEntityList);
         filterDiste(petdiswsEntities);
-        updateNatView(mTopCurrentNatEntity);
+        //updateNatView(mTopCurrentNatEntity);
         updatePetView(mTopCurrentPetEntity);
-        updateNatView(natdiswsEntityList);
+        //updateNatView(natdiswsEntityList);
         updatePetView(petdiswsEntities);
 
 
@@ -221,23 +221,25 @@ public class DisasterView extends LinearLayout {
 
         View child = mLayoutInflater.inflate(R.layout.view_home_disaster, this, false);
 
-        TextView disasterdesc = (TextView) child.findViewById(R.id.disaster_desc);
-        ImageView disastericon = (ImageView) child.findViewById(R.id.disaster_icon);
-        TextView disastername = (TextView) child.findViewById(R.id.disaster_name);
-        TextView disastertype = (TextView) child.findViewById(R.id.disaster_type);
+        TextView desc = (TextView) child.findViewById(R.id.disaster_desc);
+        ImageView icon = (ImageView) child.findViewById(R.id.disaster_icon);
+        TextView name = (TextView) child.findViewById(R.id.disaster_name);
+        TextView type = (TextView) child.findViewById(R.id.disaster_type);
 
-        disastername.setText(item.petDisSpecName);
+        name.setText(item.petDisSpecName);
         if(item.alerttype) {
-            disastertype.setBackgroundResource(mPetDisasterRes);
+            type.setBackgroundResource(mPetDisasterRes);
         }else {
-            disastertype.setBackgroundResource(mPetDisasterRes);
+            type.setBackgroundResource(mPetDisasterRes);
         }
 
-        disastertype.setText("病害预警");
+        type.setText(item.type + "预警");
+        icon.setImageResource(getDisasterIcon(item.type));
+
 
 
         PetDisspec petDisspec =dao.queryDisasterById(item.petDisSpecId);
-        disasterdesc.setText(petDisspec.description);
+        desc.setText(petDisspec.description);
         child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.petDisSpecId));
         child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.petDisSpecId));
 
@@ -263,18 +265,20 @@ public class DisasterView extends LinearLayout {
 
         View child = mLayoutInflater.inflate(R.layout.view_home_disaster, this, false);
 
-        TextView disasterdesc = (TextView) child.findViewById(R.id.disaster_desc);
-        ImageView disastericon = (ImageView) child.findViewById(R.id.disaster_icon);
-        TextView disastername = (TextView) child.findViewById(R.id.disaster_name);
-        TextView disastertype = (TextView) child.findViewById(R.id.disaster_type);
-        disastername.setText(item.natDisSpecName);
+        TextView desc = (TextView) child.findViewById(R.id.disaster_desc);
+        ImageView icon = (ImageView) child.findViewById(R.id.disaster_icon);
+        TextView name = (TextView) child.findViewById(R.id.disaster_name);
+        TextView type = (TextView) child.findViewById(R.id.disaster_type);
+        name.setText(item.natDisSpecName);
         if(item.alerttype) {
-            disastertype.setBackgroundResource(mPetDisasterRes);
+            type.setBackgroundResource(mPetDisasterRes);
         }else {
-            disastertype.setBackgroundResource(mPetDisasterRes);
+            type.setBackgroundResource(mPetDisasterRes);
         }
-        disastertype.setText(""+item.natDisSpecId);
-        disasterdesc.setText(item.description);
+
+        //icon.setImageResource(getDisasterIcon(item.));
+
+        desc.setText(item.description);
         child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
         child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
 
@@ -355,6 +359,22 @@ public class DisasterView extends LinearLayout {
         	//TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
             Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_CURE, getContext());
             v.getContext().startActivity(intent);
+        }
+    }
+
+
+    public int getDisasterIcon(String type){
+        if("病害".equals(type)){
+            return R.drawable.disease;
+
+        }else if ("虫害".equals(type)){
+            return R.drawable.pest;
+
+        }else if("草害".equals(type)){
+
+            return R.drawable.weed;
+        }else {
+            return  R.drawable.naturaldis;
         }
     }
 }
