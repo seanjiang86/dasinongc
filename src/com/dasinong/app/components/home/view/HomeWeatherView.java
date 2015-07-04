@@ -554,6 +554,10 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private void initMinAndMax(List<WeatherEntity.Hours> hoursList) {
         int size = hoursList.size();
+        if(hoursList.isEmpty()){
+            return;
+        }
+        mMinTemValue = mMaxTemValue = Double.parseDouble(hoursList.get(0).temperature);
         for (int i = 0; i < size; i++) {
             WeatherEntity.Hours hour = hoursList.get(i);
             try {

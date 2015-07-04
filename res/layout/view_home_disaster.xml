@@ -68,6 +68,8 @@
             android:lineSpacingExtra="@dimen/home_dimen_10"
             android:textColor="#333333"
             android:textSize="@dimen/home_text_size_32"
+            android:lines="2"
+            android:ellipsize="end"
 
         tools:text="稻瘟病是水稻重要病害之一 可引起大幅度减产，严重时减产40%～50%，甚至颗粒无收。世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多，发生后可造成不同程度减产可造成白穗以致绝产。" />
 

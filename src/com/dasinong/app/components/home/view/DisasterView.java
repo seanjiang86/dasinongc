@@ -236,12 +236,12 @@ public class DisasterView extends LinearLayout {
         type.setText(item.type + "预警");
         icon.setImageResource(getDisasterIcon(item.type));
 
+        desc.setText(item.description);
 
-
-        PetDisspec petDisspec =dao.queryDisasterById(item.petDisSpecId);
-        desc.setText(petDisspec.description);
-        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.petDisSpecId));
-        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.petDisSpecId));
+//        PetDisspec petDisspec =dao.queryDisasterById(item.petDisSpecId);
+//        desc.setText(petDisspec.description);
+//        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.petDisSpecId));
+//        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.petDisSpecId));
 
         child.setOnClickListener(new View.OnClickListener() {
 
