@@ -83,6 +83,8 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     private boolean isEditor = false;
 
 
+    private long time;
+
 
 
     @Override
@@ -107,14 +109,14 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
         }
 
         originyear=year = calendar.get(Calendar.YEAR);
-        originmonth=month = calendar.get(Calendar.MONTH) + 1;
+        originmonth=month = calendar.get(Calendar.MONTH);
         originday=day = calendar.get(Calendar.DAY_OF_MONTH);
 
         if (mListDataEntity != null) {
             updateView(mListDataEntity);
         }
 
-        mSoilTime.setText(year + "-" + month + "-" + day);
+        mSoilTime.setText(year + "-" + (month+1) + "-" + day);
         setRightText(R.string.soil_editor_post);
         mTopBarView.setRightClickListener(this);
     }
@@ -282,6 +284,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
              code = REQUEST_CODE_UPDATE;
         }
         DEBUG("isUpdate..."+isEditor);
+        DEBUG("isUpdate..."+url);
         VolleyManager.getInstance().addPostRequest(
                 code,
                 url,
@@ -314,6 +317,16 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 // &phValue=6.7
 // &&&&&&&
 // &&
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.YEAR,year);
+                calendar.set(Calendar.MONTH,month);
+                calendar.set(Calendar.DAY_OF_MONTH,day);
+                calendar.set(Calendar.SECOND,0);
+                calendar.set(Calendar.MILLISECOND,0);
+                calendar.set(Calendar.MINUTE,0);
+                calendar.set(Calendar.HOUR,0);
+
+                param.testDate= String.valueOf(calendar.getTimeInMillis());
                 if(!TextUtils.isEmpty(mSoilType.getText())){
                     param.type = mSoilType.getText().toString();
 
@@ -328,6 +341,13 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
                     param.color = "";
                 }
 
+                if(!TextUtils.isEmpty(mSoilFertility.getText())){
+                    param.fertility = mSoilFertility.getText().toString();
+
+                }else {
+                    param.fertility = "";
+                }
+
 
                 //phValue
                 if (TextUtils.isEmpty(mSoilPH.getText())) {
@@ -338,7 +358,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
                 //有机质organic=organic
 
-                if (TextUtils.isEmpty(mSoilOrganics.getText())) {
+                if (!TextUtils.isEmpty(mSoilOrganics.getText())) {
                     param.organic = "0";
                 } else {
                     param.organic = mSoilOrganics.getText().toString().trim();
@@ -346,9 +366,9 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
                 //有效磷p=100
                 if (TextUtils.isEmpty(mSoilP.getText())) {
-                    param.organic = "0";
+                    param.p = "0";
                 } else {
-                    param.organic = mSoilP.getText().toString().trim();
+                    param.p = mSoilP.getText().toString().trim();
                 }
 
 
@@ -410,7 +430,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
                 //锌Zn zn=1 soil_ZN
 
-                if (TextUtils.isEmpty(mSoilZN.getText())) {
+                if (!TextUtils.isEmpty(mSoilZN.getText())) {
                     param.zn = "0";
                 } else {
                     param.zn = mSoilZN.getText().toString().trim();
