@@ -60,10 +60,11 @@
             android:layout_height="match_parent"/>
 
         <TextView
+            android:id="@+id/weather_max"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/home_dimen_20"
-            android:text="28°"
+            tool:text="28"
             android:textColor="@color/home_w_666666"
             android:textSize="@dimen/home_text_size_32"/>
 
@@ -73,10 +74,11 @@
             android:layout_marginLeft="@dimen/home_dimen_50"/>
 
         <TextView
+            android:id="@+id/weather_min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/home_dimen_20"
-            android:text="-28°"
+            tool:text="-28°"
             android:textColor="@color/home_w_86a4ff"
             android:textSize="@dimen/home_text_size_32"/>
     </LinearLayout>
@@ -396,6 +398,7 @@
         android:layout_below="@id/ivLine3"
         android:layout_marginLeft="@dimen/home_dimen_30"
         android:layout_marginRight="@dimen/home_dimen_30"
+        android:stretchColumns="3"
         android:orientation="vertical"/>
 
     <TextView

@@ -23,6 +23,7 @@ import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.GraphicUtils;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -232,18 +233,37 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
             //TODO:add ImageView
             //根据当前的的状态进行点亮不同的图标，之前的是点亮，之后的是不点的
             //TODO: a row five  ---key:substageId  ;value:图片的资源id
-            for(Map.Entry<Integer,Integer> entity: cropIconResource.entrySet()){
+            Log.d("dding","id:"+mCurrentPostion);
+            Iterator<SubStage> iterator  = mSubStages.iterator();
+            while(iterator.hasNext()){
+
+                SubStage item = iterator.next();
                 LinearLayout layout = new LinearLayout(getContext());
                 LayoutParams linLayoutParams = new LayoutParams(itemWidth, LayoutParams.WRAP_CONTENT);
                 //TODO:create imageView
                 //TODO image = getIconBySubstageId(enity.key)
                 LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 ImageView imageView = new ImageView(getContext());
-                imageView.setBackgroundResource(getIconBySubstageId(entity.getKey()));
+                imageView.setBackgroundResource(getIconBySubstageId(item.subStageId));
                 layout.addView(imageView, params);
                 mLeafContainer.addView(layout, linLayoutParams);
 
             }
+
+
+
+//            for(Map.Entry<Integer,Integer> entity: cropIconResource.entrySet()){
+//                LinearLayout layout = new LinearLayout(getContext());
+//                LayoutParams linLayoutParams = new LayoutParams(itemWidth, LayoutParams.WRAP_CONTENT);
+//                //TODO:create imageView
+//                //TODO image = getIconBySubstageId(enity.key)
+//                LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+//                ImageView imageView = new ImageView(getContext());
+//                imageView.setBackgroundResource(getIconBySubstageId(entity.getKey()));
+//                layout.addView(imageView, params);
+//                mLeafContainer.addView(layout, linLayoutParams);
+//
+//            }
 
         }
 
@@ -255,7 +275,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         int mCurrentStageId = mSubStages.get(mCurrentPostion).subStageId;
 
         int resId = 0;
-        if(mCurrentStageId>subStageId){
+        if(mCurrentStageId>=subStageId){
             resId = cropIconResource.get(subStageId);
         }else {
             resId = cropNoIconResource.get(subStageId);

@@ -58,6 +58,11 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private TextView mCurrentWindowDirect;
     private TextView mCurrentRain;
 
+    private TextView mMinTem;
+    private TextView mMaxTem;
+    private double mMinTemValue;
+    private double mMaxTemValue;
+
 
     /**
      * 七天相关的view
@@ -226,6 +231,12 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mCurrentWeatherIcon = (ImageView) findViewById(R.id.ivHomeWicon);
         mCurrentWeatherStatus = (TextView) findViewById(R.id.current_weather_status);
 
+        mMaxTem = (TextView) findViewById(R.id.weather_max);
+        mMinTem = (TextView) findViewById(R.id.weather_min);
+
+
+
+
     }
 
     private void updateCurrentWeatherView(WeatherEntity.CurrentWeather item) {
@@ -242,6 +253,12 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 
 
+
+    }
+
+    private void updateCurrentTem(){
+        mMinTem.setText(String.format("%.2f", mMinTemValue)+"°");
+        mMaxTem.setText(String.format("%.2f",mMaxTemValue)+"°");
     }
 
     private String getCurrentWindDirect(String level4) {
@@ -430,7 +447,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
             mSevenDaysContainer.addView(weekWeather);
 
-            TableRow row = (TableRow) mLayoutInflater.inflate(R.layout.weather_row_line, null, false);
+            View row =  mLayoutInflater.inflate(R.layout.weather_row_line, mSevenDaysContainer, false);
             mSevenDaysContainer.addView(row);
 
         }
@@ -523,13 +540,38 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         if (null != hours && !hours.isEmpty()) {
             {
 
+
                 mHumView.setOneDayWeatherData(hours);
 
                 autoScrollPosition();
+
+                initMinAndMax(hours);
             }
 
         }
 
+    }
+
+    private void initMinAndMax(List<WeatherEntity.Hours> hoursList) {
+        int size = hoursList.size();
+        for (int i = 0; i < size; i++) {
+            WeatherEntity.Hours hour = hoursList.get(i);
+            try {
+                double tem = Double.parseDouble(hour.temperature);
+                if(tem<=mMinTemValue){
+                    mMinTemValue = tem;
+                }
+
+                if(tem>=mMaxTemValue){
+                   mMaxTemValue = tem;
+                }
+            }catch (Exception e){
+
+            }
+
+            updateCurrentTem();
+
+        }
     }
 
     private void autoScrollPosition() {
@@ -586,9 +628,10 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         if (entity == null) {
             return;
         }
+        updateHoursView(entity.n12h);
         updateCurrentWeatherView(entity.current);
         updateSevenDayView(entity.n7d);
-        updateHoursView(entity.n12h);
+
         updateFourSectionView(entity.POP);
 
 

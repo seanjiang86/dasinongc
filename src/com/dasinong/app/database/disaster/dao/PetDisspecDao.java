@@ -19,7 +19,7 @@ public interface PetDisspecDao extends DaoSupport<PetDisspec> {
 
     /**
      * 根据id得所有的数据
-     * @param id 类型的值
+     * @param typeValue 类型的值
      * @return 根据类型得所有的数据
      */
     public  PetDisspec queryDisasterById(int typeValue);

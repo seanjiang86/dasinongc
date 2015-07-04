@@ -537,7 +537,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private List<SubStage> getSubStages() {
 
         SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
-        return dao.queryStageSubCategory(mCurrentSubStage.stageName);
+        return dao.queryAllOderBy();
 
     }
 

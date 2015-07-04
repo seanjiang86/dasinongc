@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              xmlns:tool="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
@@ -15,13 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
+        tool:visibility="visible"
         android:layout_marginRight="15dp"
+
         android:visibility="gone"
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="95dp"
-            android:layout_height="95dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:id="@+id/banner_all_container_icon"
             android:src="@drawable/close_eye_smile" />
@@ -37,25 +40,25 @@
                 android:id="@+id/banner_all_container_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="text1"
-                android:textColor="#B56020"
-                android:textSize="@dimen/home_text_size_42" />
+                tool:text="台风红色一个是人"
+                android:singleLine="true"
+                android:padding="10dp"
+                android:textColor="#000"
+
+                android:textSize="@dimen/home_text_size_40" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="text2"
+                android:gravity="left"
+                android:lines="2"
+                android:ellipsize="end"
+                tool:text="一个人的晚餐无聊，两个朋友可以开民台风红色一个是人台风红一个是人台风红色一个是人台风红色一个是人台风红色一个是人台风红色一个是人"
                 android:id="@+id/banner_all_container_content_above"
-                android:textColor="#FD7223"
-                android:textSize="@dimen/home_text_size_60" />
+                android:textColor="#666"
+                android:textSize="@dimen/home_text_size_32" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="text3"
-                android:id="@+id/banner_all_container_content_behind"
-                android:textColor="#FD7223"
-                android:textSize="@dimen/home_text_size_60" />
+
         </LinearLayout>
 
     </LinearLayout>
@@ -65,22 +68,25 @@
         android:id="@+id/banner_img_container"
         android:layout_width="match_parent"
         android:orientation="vertical"
+        tool:visibility="visible"
         android:layout_height="wrap_content">
-
         <ImageView
             android:id="@+id/banner_img_icon"
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/close_eye_smile"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="match_parent"/>
 
     </LinearLayout>
 
     <!--icon text container-->
     <LinearLayout
         android:visibility="gone"
+        tool:visibility="visible"
         android:id="@+id/banner_title_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -88,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:id="@+id/banner_title_container_icon"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/close_eye_smile" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,10 +107,10 @@
                 android:id="@+id/banner_title_container_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="text1"
-                android:textColor="#B56020"
-                android:textSize="@dimen/home_text_size_42" />
-
+                tool:text="一个人的晚餐无聊，两个朋友可以开民台风红色一个是人台风红一个是人台风红色一个是人台风红色一个是人台风红色一个是人台风红色一个是人"
+                android:textColor="#000"
+                android:gravity="center_vertical"
+                android:textSize="@dimen/home_text_size_40" />
 
         </LinearLayout>
 

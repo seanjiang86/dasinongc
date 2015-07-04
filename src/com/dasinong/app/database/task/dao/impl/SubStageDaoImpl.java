@@ -62,4 +62,18 @@ public class SubStageDaoImpl extends DaoSupportImpl<SubStage> {
         return query("subStageId = ? ",new String[]{id},"subStageId").get(0);
     }
 
+
+    /**
+     *
+     * @return
+     */
+    public List<SubStage> queryAllOderBy()
+    {
+
+        return query(null,null,"subStageId");
+    }
+
+
+
+
 }

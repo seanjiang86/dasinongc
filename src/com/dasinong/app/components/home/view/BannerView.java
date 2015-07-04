@@ -61,7 +61,7 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        //TODO banner
+
 
         if (!TextUtils.isEmpty(url)) {
             Toast.makeText(getContext(), "open url" + url, Toast.LENGTH_SHORT).show();
@@ -83,15 +83,15 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
         visibilityAllView();
         switch (banner.data.type) {
 
-            case 0:
+            case 2:
                 mImageContainer.setVisibility(VISIBLE);
                 dealImageContainer(banner);
                 break;
-            case 2:
+            case 1:
                 mAllContainer.setVisibility(VISIBLE);
                 dealAllView(banner);
                 break;
-            case 1:
+            case 3:
                 mImageTitleContainer.setVisibility(VISIBLE);
                 dealTitleImageContainer(banner);
                 break;
@@ -104,10 +104,12 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
 
     private void dealTitleImageContainer(BannerEntity banner) {
         ImageView icon = (ImageView) findViewById(R.id.banner_title_container_icon);
-        //  LoadUtils.getInstance().loadImage(icon, NetConfig.IMAGE_URL+user.getPictureId());
+        if(!TextUtils.isEmpty(banner.data.picUrl)) {
+            LoadUtils.getInstance().loadImage(icon, banner.data.picUrl);
+        }
 
         TextView title = (TextView) findViewById(R.id.banner_title_container_title);
-        title.setText(banner.data.title);
+        title.setText(banner.data.content);
         // TextView content = (TextView) findViewById(R.id.banner_all_container_content_above);
 
     }
@@ -115,20 +117,23 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
     private void dealAllView(BannerEntity banner) {
 
         ImageView icon = (ImageView) findViewById(R.id.banner_all_container_icon);
-        //  LoadUtils.getInstance().loadImage(icon, NetConfig.IMAGE_URL+user.getPictureId());
+        if(!TextUtils.isEmpty(banner.data.picUrl)) {
+            LoadUtils.getInstance().loadImage(icon, banner.data.picUrl);
+        }
 
         TextView title = (TextView) findViewById(R.id.banner_all_container_title);
         title.setText(banner.data.title);
         TextView above = (TextView) findViewById(R.id.banner_all_container_content_above);
         above.setText(banner.data.content);
-        TextView behind = (TextView) findViewById(R.id.banner_all_container_content_behind);
 
 
     }
 
     private void dealImageContainer(BannerEntity banner) {
         ImageView icon = (ImageView) findViewById(R.id.banner_img_icon);
-        //  LoadUtils.getInstance().loadImage(icon, NetConfig.IMAGE_URL+user.getPictureId());
+        if(!TextUtils.isEmpty(banner.data.picUrl)) {
+            LoadUtils.getInstance().loadImage(icon, banner.data.picUrl);
+        }
 
 
     }
