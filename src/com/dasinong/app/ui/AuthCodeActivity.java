@@ -187,11 +187,36 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 			
 			@Override
 			public void onClick(View v) {
+				showCallDialog();
+			}
+		});
+		
+	}
+	
+	private void showCallDialog() {
+		final Dialog dialog = new Dialog(this, R.style.CommonDialog);
+		dialog.setContentView(R.layout.smssdk_back_verify_dialog);
+		TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
+		tv.setText("确定致电: 4000556050 ?");
+		tv.setTextSize(18);
+		Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
+		waitBtn.setText("取消");
+		waitBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				dialog.dismiss();
+			}
+		});
+		Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_cancel);
+		backBtn.setText("确定");
+		backBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				dialog.dismiss();
 				Intent intent = new Intent(Intent.ACTION_CALL,Uri.parse("tel:"+"4000556050"));  
                 startActivity(intent); 
 			}
 		});
-		
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
 	}
 
 	// public void onCreate() {
@@ -471,8 +496,8 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					startActivity(intent);
 					
 					Intent setIntent = new Intent(AuthCodeActivity.this, MyInfoSetActivity.class);
-					intent.putExtra("editType", MyInfoSetActivity.EDIT_PASSWORD);
-					intent.putExtra("isNewPwd", true);
+					setIntent.putExtra("editType", MyInfoSetActivity.EDIT_PASSWORD);
+					setIntent.putExtra("isNewPwd", true);
 					startActivity(setIntent);
 					
 					finish();

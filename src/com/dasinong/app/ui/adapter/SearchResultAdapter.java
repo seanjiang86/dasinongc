@@ -59,7 +59,11 @@ public class SearchResultAdapter extends MyBaseAdapter<SearchItem> {
 			holder.typeLayout.setVisibility(View.VISIBLE);
 			holder.typeText.setText(item.getName());
 		}else{
-			holder.nameText.setText(item.getName());
+			if(!TextUtils.isEmpty(item.getName())){
+				holder.nameText.setText(Html.fromHtml(item.getName()));
+			}else{
+				holder.nameText.setVisibility(View.GONE);
+			}
 			if(!TextUtils.isEmpty(item.getSource())){
 				holder.desText.setText(Html.fromHtml(item.getSource()));
 			}else{

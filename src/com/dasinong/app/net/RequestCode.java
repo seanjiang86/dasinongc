@@ -54,7 +54,8 @@ public final class RequestCode {
 	public static final int SMS_SUBSCRIBE = UPLOAD_PHONE_AUTH_STATE + 1;
 	public static final int GET_SUBSCRIBE_LIST = SMS_SUBSCRIBE + 1;
 	public static final int RESET_PWSSWORD = GET_SUBSCRIBE_LIST + 1;
-	public static final int DELETE_SMS_SUBSCRIBE = RESET_PWSSWORD + 1;
+	public static final int UPDATE_PWSSWORD = RESET_PWSSWORD + 1;
+	public static final int DELETE_SMS_SUBSCRIBE = UPDATE_PWSSWORD + 1;
 	public static final int MODIFI_SMS_SUBSCRIBE = DELETE_SMS_SUBSCRIBE + 1;
 	public static final int SMS_SUBSCRIBE_DETAIL = MODIFI_SMS_SUBSCRIBE + 1;
 	/**

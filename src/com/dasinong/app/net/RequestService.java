@@ -139,7 +139,11 @@ public class RequestService {
 	public void resetPwd(Context context, String oPassword, String nPassword, Class<? extends BaseEntity> clazz,
 			RequestListener callBack) {
 		Map<String, String> params = NetConfig.getResetPwdParams(oPassword, nPassword);
-		new NetRequest(context).get(RequestCode.RESET_PWSSWORD, params, SubUrl.RESET_PWSSWORD, callBack, clazz);
+		if(TextUtils.isEmpty(oPassword)){
+			new NetRequest(context).get(RequestCode.RESET_PWSSWORD, params, SubUrl.RESET_PWSSWORD, callBack, clazz);
+		}else{
+			new NetRequest(context).get(RequestCode.UPDATE_PWSSWORD, params, SubUrl.UPDATE_PWSSWORD, callBack, clazz);
+		}
 	}
 
 	public void deleteSmsSub(Context context, String id, Class<? extends BaseEntity> clazz, RequestListener callBack) {

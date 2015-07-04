@@ -71,7 +71,9 @@ public class NetConfig {
 		/**短信订阅列表 */
 		public static final String GET_SUBSCRIBE_LIST ="getSubScribeLists";
 		/**修改密码*/
-		public static final String RESET_PWSSWORD ="updatePassword";
+		public static final String UPDATE_PWSSWORD ="updatePassword";
+		/**修改密码*/
+		public static final String RESET_PWSSWORD ="resetPassword";
 		/**刪除短信訂閱*/
 		public static final String DELETE_SMS_SUBSCRIBE ="deleteSubScribeList";
 		/**更改短信訂閱*/
@@ -369,7 +371,9 @@ public class NetConfig {
 	
 	public static Map<String, String> getResetPwdParams(String oPassword,String nPassword) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
-		paramsMap.put(Params.oPassword, oPassword);
+		if(!TextUtils.isEmpty(oPassword)){
+			paramsMap.put(Params.oPassword, oPassword);
+		}
 		paramsMap.put(Params.nPassword, nPassword);
 		return getBaseParams(false, paramsMap);
 	}

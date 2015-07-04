@@ -89,16 +89,23 @@
             android:textColor="#ffffff"
             android:textSize="15sp" />
 
-        <TextView
-            android:id="@+id/btn_phone_kefu"
-            android:layout_width="wrap_content"
-            android:layout_height="48dip"
-            android:layout_gravity="right"
-            android:background="@null"
-            android:text="致电客服人员"
-            android:gravity="center_vertical|right"
-            android:textColor="#434543"
-            android:textSize="15sp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/btn_phone_kefu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:text="致电客服人员"
+                android:textColor="#365F9C"
+                android:textSize="@dimen/sp_14" />
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>
