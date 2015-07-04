@@ -8,6 +8,9 @@ public class Steps {
     public int stepId;
     public int stepName;
     public int taskSpecId;
+    public String fitRegion;
     public String description;
     public String picture;
+    public int idx;
+
 }
