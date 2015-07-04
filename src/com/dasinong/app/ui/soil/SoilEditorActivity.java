@@ -20,16 +20,16 @@ import com.dasinong.app.components.net.NetError;
 import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.ui.soil.domain.DataEntity;
-import com.dasinong.app.ui.soil.domain.SoilAllEntity;
 import com.dasinong.app.ui.soil.domain.SoilPostEntity;
 
 import java.util.Calendar;
 
 public class SoilEditorActivity extends SoilBaseActivity implements View.OnClickListener {
 
-    private static final int REQUEST_CODE = 101;
-    private static final int REQUEST_CODE_SOIL_POST = 139;
-    private static final String URL = NetConfig.BASE_URL + "insertSoilReport";
+    private static final int REQUEST_CODE_UPDATE = 101;
+    private static final int REQUEST_CODE_SOIL_INSERT = 139;
+    private static final String URL_INSERT_SOIL = NetConfig.BASE_URL + "insertSoilReport";
+    private static final String URL_UPDATE_SOIL = NetConfig.BASE_URL + "updateSoilReport";
 
 
     private DataEntity mListDataEntity;
@@ -69,9 +69,20 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     private EditText mSoilS;
     private EditText mSoilSI;
 
+
+
+    private  int originyear;
+    private  int originmonth;
+    private  int originday;
+
     private int year;
     private int month;
     private int day;
+
+
+    private boolean isEditor = false;
+
+
 
 
     @Override
@@ -82,6 +93,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
         Calendar calendar = Calendar.getInstance();
 
+
         if (bundle != null && bundle.containsKey(EXTRA_LIST_ENTITY)) {
 
             mListDataEntity = bundle.getParcelable(EXTRA_LIST_ENTITY);
@@ -90,11 +102,14 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
                 calendar.setTimeInMillis(mListDataEntity.testDate);
             }
 
+            isEditor = true;
+
         }
 
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH) + 1;
-        day = calendar.get(Calendar.DAY_OF_MONTH);
+        originyear=year = calendar.get(Calendar.YEAR);
+        originmonth=month = calendar.get(Calendar.MONTH) + 1;
+        originday=day = calendar.get(Calendar.DAY_OF_MONTH);
+
         if (mListDataEntity != null) {
             updateView(mListDataEntity);
         }
@@ -258,13 +273,30 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     }
 
     private void postSoilInformation(SoilPostEntity.Param param) {
+
+        String url =URL_INSERT_SOIL ;
+        int code = REQUEST_CODE_SOIL_INSERT;
+        checkStatus();
+        if(isEditor){
+             url =URL_UPDATE_SOIL ;
+             code = REQUEST_CODE_UPDATE;
+        }
+        DEBUG("isUpdate..."+isEditor);
         VolleyManager.getInstance().addPostRequest(
-                REQUEST_CODE_SOIL_POST,
-                URL,
+                code,
+                url,
                 param,
                 BaseResponse.class,
                 this
         );
+    }
+
+    private void checkStatus() {
+        if(isEditor) {
+            if (originday != day || originmonth != month || originyear != year) {
+                isEditor = false;
+            }
+        }
     }
 
     @Override
@@ -282,8 +314,20 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 // &phValue=6.7
 // &&&&&&&
 // &&
-                param.type = "";
-                param.color = "";
+                if(!TextUtils.isEmpty(mSoilType.getText())){
+                    param.type = mSoilType.getText().toString();
+
+                }else {
+                    param.type = "";
+                }
+
+                if(!TextUtils.isEmpty(mSoilColor.getText())){
+                    param.color = mSoilColor.getText().toString();
+
+                }else {
+                    param.color = "";
+                }
+
 
                 //phValue
                 if (TextUtils.isEmpty(mSoilPH.getText())) {
@@ -452,7 +496,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
         if (mFertilityPopuWindow == null) {
             mFertilityPopuWindow = new CommSelectPopWindow(this);
-            mFertilityPopuWindow.setDatas(getResources().getStringArray(R.array.soil_type));
+            mFertilityPopuWindow.setDatas(getResources().getStringArray(R.array.soil_fertility));
             mFertilityPopuWindow.setPopWidth(v.getMeasuredWidth());
             mFertilityPopuWindow.setmPopItemSelectListener(new CommSelectPopWindow.PopItemSelectListener() {
                 @Override
@@ -471,7 +515,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
         if (mColorPopuWindow == null) {
             mColorPopuWindow = new CommSelectPopWindow(this);
-            mColorPopuWindow.setDatas(getResources().getStringArray(R.array.soil_type));
+            mColorPopuWindow.setDatas(getResources().getStringArray(R.array.soil_color));
             mColorPopuWindow.setPopWidth(v.getMeasuredWidth());
             mColorPopuWindow.setmPopItemSelectListener(new CommSelectPopWindow.PopItemSelectListener() {
                 @Override
@@ -506,6 +550,8 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
     public void onTaskSuccess(int requestCode, Object response) {
 
 
+        this.finish();
+        setResult(RESULT_OK);
     }
 
     @Override
@@ -552,7 +598,7 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
             year = y;
             month = monthOfYear;
             day = dayOfMonth;
-            mSoilTime.setText(year + "-" + month + "-" + day);
+            mSoilTime.setText(year + "-" + (month+1) + "-" + day);
         }
     }
 

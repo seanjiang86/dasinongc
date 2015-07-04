@@ -14,7 +14,7 @@ import com.dasinong.app.ui.soil.domain.DataEntity;
 import java.util.Calendar;
 
 /**
- * 测土的详情页面
+ * 测土的详情页面 or editor
  */
 public class SoilInformationActivity extends SoilBaseActivity implements View.OnClickListener {
 
@@ -54,7 +54,7 @@ public class SoilInformationActivity extends SoilBaseActivity implements View.On
 
         super.onCreate(savedInstanceState);
 
-
+        setRightText(R.string.soil_edit);
         getIntentDate();
 
     }
@@ -261,5 +261,15 @@ public class SoilInformationActivity extends SoilBaseActivity implements View.On
     @Override
     public void onTaskSuccess(int requestCode, Object response) {
 
+    }
+
+    @Override
+    public void onRightClick() {
+       startActivityForResult(SoilEditorActivity.createIntent(this, mListDataEntity), 100);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

@@ -46,7 +46,7 @@
     <string name="soil_editor_post">保存</string>
     <string name="soil_all_list_title">全部测土</string>
 
-    <array name="soil_type">
+    <array name="soil_color">
         <item>红色</item>
         <item>绿色</item>
         <item>白色</item>
@@ -55,4 +55,21 @@
 
 
     <string name="soil_report_title">测土报告</string>
+    <string name="soil_edit">edit</string>
+
+
+    <array name="soil_type">
+        <item>砂土</item>
+        <item>壤土</item>
+        <item>粘土</item>
+
+    </array>
+    <array name="soil_fertility">
+        <item>高等</item>
+        <item>中等</item>
+        <item>低等</item>
+
+    </array>
+
+
 </resources>

@@ -36,6 +36,7 @@ public abstract class SoilBaseActivity extends BaseActivity implements INetReque
         mTopBarView.setLeftView(isBack(), isBack());
 
 
+
     }
 
     protected abstract int getMainResourceId();
@@ -65,7 +66,19 @@ public abstract class SoilBaseActivity extends BaseActivity implements INetReque
     }
 
     public void setRightText(int resourceID) {
+
         mTopBarView.setRightText(resourceID);
+        mTopBarView.setRightClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onRightClick();
+            }
+        });
+    }
+
+
+    public  void onRightClick()
+    {
 
     }
 

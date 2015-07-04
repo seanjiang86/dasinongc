@@ -69,12 +69,12 @@
 
                 <TextView
                     style="@style/soil_information_item_container_left_text"
-                    android:layout_alignBottom="@+id/soil_rating"
+                    android:layout_alignBottom="@+id/soil_fertility"
 
                     android:text="@string/soil_fertility"/>
 
                 <TextView
-                    android:id="@+id/soil_rating"
+                    android:id="@+id/soil_fertility"
 
                     style="@style/soil_information_item_container_right_text"/>
             </RelativeLayout>
@@ -88,12 +88,12 @@
 
                 <TextView
                     style="@style/soil_information_item_container_left_text"
-                    android:layout_alignBottom="@+id/soil_fertility"
+                    android:layout_alignBottom="@+id/soil_tem"
 
                     android:text="@string/soil_tem"/>
 
                 <TextView
-                    android:id="@+id/soil_fertility"
+                    android:id="@+id/soil_tem"
 
                     style="@style/soil_information_item_container_right_text"/>
             </RelativeLayout>
