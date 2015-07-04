@@ -256,7 +256,7 @@ public class TaskListActivity extends BaseActivity {
 		}
 
 		@Override
-		public View getRealChildView(final int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+		public View getRealChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 			ChildHolder holder;
 			final TaskStatus item = getChild(groupPosition, childPosition);
 //			if (convertView == null) {
@@ -279,6 +279,8 @@ public class TaskListActivity extends BaseActivity {
 				@Override
 				public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 					GroupItem group = getGroup(groupPosition);
+					//group.get(groupPosition).setChecked(childrenAllIsChecked);
+					group.items.get(childPosition).isCheck= isChecked;
 					item.isCheck = isChecked;
 					saveTaskStatus(group);
 					Logger.d("YSL", "onCheckedChanged--"+isChecked+"--"+item.taskSpecName);

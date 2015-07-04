@@ -26,6 +26,7 @@ import com.dasinong.app.database.task.dao.impl.TaskSpecDaoImpl;
 import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.database.task.domain.TaskSpec;
 import com.dasinong.app.ui.AddFieldActivity1;
+import com.dasinong.app.ui.TaskDetailsActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.utils.DeviceHelper;
@@ -553,9 +554,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         campaignView.setOrientation(LinearLayout.VERTICAL);
         campaignView.removeAllViews();
         int length = mCurrentTaskSpec.size();
-        TaskStatus item;
+
         for (int i = 0; i < length; i++) {
-            item = mCurrentTaskSpec.get(i);
+          final   TaskStatus   item = mCurrentTaskSpec.get(i);
            final View view = LayoutInflater.from(context).inflate(R.layout.view_home_work_content, null);
             TextView contentView = (TextView) view.findViewById(R.id.work_content);
             View lineView = view.findViewById(R.id.line);
@@ -569,7 +570,10 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 public void onClick(View view) {
                     //TODO:任务上单击
 
-                    Toast.makeText(CropsStateView.this.getContext(), "start task ", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getContext(),TaskDetailsActivity.class);
+                    intent.putExtra(TaskDetailsActivity.TASK_ID, item.taskSpecId);
+                    getContext().startActivity(intent);
+                    //Toast.makeText(CropsStateView.this.getContext(), "start task ", Toast.LENGTH_SHORT).show();
 
                 }
             });
