@@ -470,6 +470,11 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					Intent intent = new Intent(AuthCodeActivity.this,MainTabActivity.class);
 					startActivity(intent);
 					
+					Intent setIntent = new Intent(AuthCodeActivity.this, MyInfoSetActivity.class);
+					intent.putExtra("editType", MyInfoSetActivity.EDIT_PASSWORD);
+					intent.putExtra("isNewPwd", true);
+					startActivity(setIntent);
+					
 					finish();
 				}else{
 					showToast(resultData.getMessage());

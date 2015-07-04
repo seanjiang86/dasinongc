@@ -73,7 +73,6 @@
             android:id="@+id/tv_unreceive_identify"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="30dp"
             android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="@string/smssdk_receive_msg"
@@ -84,6 +83,7 @@
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="48dip"
+            android:layout_marginTop="30dp"
             android:background="@drawable/button_green_bg_selector"
             android:text="@string/smssdk_next"
             android:textColor="#ffffff"
@@ -91,11 +91,12 @@
 
         <TextView
             android:id="@+id/btn_phone_kefu"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="48dip"
             android:layout_gravity="right"
             android:background="@null"
             android:text="致电客服人员"
+            android:gravity="center_vertical|right"
             android:textColor="#434543"
             android:textSize="15sp" />
     </LinearLayout>

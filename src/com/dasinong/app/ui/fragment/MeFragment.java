@@ -123,7 +123,7 @@ public class MeFragment extends Fragment implements OnClickListener {
 			break;
 		case R.id.layout_use:// 使用教程
 			Intent lIntent = new Intent(getActivity(),RegisterPasswordActivity.class);
-			lIntent.putExtra("phone", "13120128328");
+			lIntent.putExtra("phone", "13810139423");
 			lIntent.putExtra("isLogin", true);
 			getActivity().startActivity(lIntent);
 			break;

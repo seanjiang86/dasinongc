@@ -7,6 +7,7 @@ import org.hybridsquad.android.library.CropHelper;
 import com.dasinong.app.R;
 import com.dasinong.app.database.city.dao.impl.CityDaoImpl;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.IsPassSetEntity;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.ui.view.TopbarView;
@@ -47,11 +48,13 @@ public class MyInfoSetActivity extends BaseActivity {
 	private Spinner mVillageSp;
 
 	private int editType = EDIT_PHONE;
+	private boolean isNewPwd = false;
 	protected String info;
 
 	private List<String> province;
 	private CityDaoImpl dao;
-
+	protected IsPassSetEntity entity;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,6 +69,7 @@ public class MyInfoSetActivity extends BaseActivity {
 
 	private void initData() {
 		editType = getIntent().getIntExtra("editType", EDIT_PHONE);
+		isNewPwd = getIntent().getBooleanExtra("isNewPwd", false);
 	}
 
 	private void initView() {
@@ -92,17 +96,9 @@ public class MyInfoSetActivity extends BaseActivity {
 			mEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
 			break;
 		case EDIT_PASSWORD:
-			mEditText.setVisibility(View.VISIBLE);
-			mPwdEdit.setVisibility(View.VISIBLE);
-			mSurePwdEdit.setVisibility(View.VISIBLE);
-
-			mTopbarView.setCenterText("修改密码");
-			mEditText.setHint("原密码");
-			mPwdEdit.setHint("新密码");
-			mSurePwdEdit.setHint("确认新密码");
-			mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-			mPwdEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-			mSurePwdEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+			
+			isPassSet();
+			
 			break;
 		case EDIT_NAME:
 			mEditText.setVisibility(View.VISIBLE);
@@ -158,6 +154,45 @@ public class MyInfoSetActivity extends BaseActivity {
 		});
 	}
 
+	private void isPassSet() {
+		startLoadingDialog();
+		RequestService.getInstance().isPassSet(this, IsPassSetEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				if(resultData.isOk()){
+					entity = (IsPassSetEntity) resultData;
+					
+					if(entity.isData() && !isNewPwd){
+						mEditText.setVisibility(View.VISIBLE);
+					}else{
+						mEditText.setVisibility(View.GONE);
+					}
+					mPwdEdit.setVisibility(View.VISIBLE);
+					mSurePwdEdit.setVisibility(View.VISIBLE);
+
+					mTopbarView.setCenterText("修改密码");
+					mEditText.setHint("原密码");
+					mPwdEdit.setHint("新密码");
+					mSurePwdEdit.setHint("确认新密码");
+					mEditText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+					mPwdEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+					mSurePwdEdit.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+					
+				}else{
+					showToast(resultData.getMessage());
+				}
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+				showToast(R.string.please_check_netword);
+			}
+		});
+	}
+
 	protected void uploadInfo() {
 		String userName = "";
 		String password = "";
@@ -182,10 +217,13 @@ public class MyInfoSetActivity extends BaseActivity {
 			
 			return;
 		case EDIT_PASSWORD:
-			String oPassword = mEditText.getText().toString().trim();
-			if (TextUtils.isEmpty(oPassword)) {
-				showToast("请输入原密码");
-				return;
+			String oPassword = "";
+			if(!isNewPwd && entity != null && entity.isData()){
+				oPassword = mEditText.getText().toString().trim();
+				if (TextUtils.isEmpty(oPassword)) {
+					showToast("请输入原密码");
+					return;
+				}
 			}
 			String nPassword = mPwdEdit.getText().toString().trim();
 			if(TextUtils.isEmpty(nPassword)){

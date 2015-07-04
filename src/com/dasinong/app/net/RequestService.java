@@ -167,6 +167,10 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getLoginWithSecCodeParams(cellphone, seccode);
 		new NetRequest(context).get(RequestCode.LOGIN_WITH_SECCODE, params, SubUrl.LOGIN_WITH_SECCODE, callBack, clazz);
 	}
+	public void isPassSet(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.IS_PWSS_SET, params, SubUrl.IS_PWSS_SET, callBack, clazz);
+	}
 	
 	public void createField(Context context, String seedingortransplant,String area,String startDate,String locationId,String varietyId,String currentStageId,String yield,Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getCreateFieldParams("true",seedingortransplant,area,startDate,locationId,varietyId,currentStageId,yield);

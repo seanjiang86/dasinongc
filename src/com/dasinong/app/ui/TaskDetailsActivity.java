@@ -3,10 +3,13 @@ package com.dasinong.app.ui;
 import java.util.List;
 
 import com.dasinong.app.R;
+import com.dasinong.app.database.task.dao.impl.StepsDaoImpl;
 import com.dasinong.app.database.task.dao.impl.SubStageDaoImpl;
 import com.dasinong.app.database.task.dao.impl.TaskSpecDaoImpl;
+import com.dasinong.app.database.task.domain.Steps;
 import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.database.task.domain.TaskSpec;
+import com.dasinong.app.ui.adapter.TaskDetailsAdapter;
 import com.dasinong.app.ui.view.TopbarView;
 
 import android.content.Intent;
@@ -23,7 +26,7 @@ public class TaskDetailsActivity extends BaseActivity {
 	
 	private ListView mListView;
 
-	private Object taskSpecs;
+	private List<Steps> taskSpecs;
 	
 	private int taskId;
 	
@@ -39,10 +42,10 @@ public class TaskDetailsActivity extends BaseActivity {
 	}
 
 	private void initData() {
-		taskId = getIntent().getIntExtra(TASK_ID, 14);
+		taskId = getIntent().getIntExtra(TASK_ID, 0);
 		
-		TaskSpecDaoImpl dao1 = new TaskSpecDaoImpl(this);
-		taskSpecs = dao1.queryTaskSpecWithSubStage(taskId);
+		StepsDaoImpl dao1 = new StepsDaoImpl(this);
+		taskSpecs = dao1.queryStepsWithTaskSpecId(taskId);
 	}
 
 	private void initView() {
@@ -63,6 +66,8 @@ public class TaskDetailsActivity extends BaseActivity {
 			}
 		});
 		
+		TaskDetailsAdapter mAdapter = new TaskDetailsAdapter(this, taskSpecs, false);
+		mListView.setAdapter(mAdapter);
 //		mListView
 		
 	}

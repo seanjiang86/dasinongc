@@ -86,6 +86,8 @@ public class NetConfig {
 		public static final String REQUEST_SECURITY_CODE ="requestSecurityCode";
 		/**验证临时密码 登录*/
 		public static final String LOGIN_WITH_SECCODE ="loginWithSecCode";
+		/**是否设置过密码*/
+		public static final String IS_PWSS_SET ="isPassSet";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
