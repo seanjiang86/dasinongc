@@ -30,6 +30,7 @@ public final class SharedPreferencesHelper {
     	SEEDING_METHOD,
     	PLANTING_DATE,
         FIELDID,
+        MONITOR_LOCATION_ID,
 
     };
     
@@ -40,6 +41,12 @@ public final class SharedPreferencesHelper {
     public static void setInt(Context context, Field field, int value) {
         Editor editor = context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).edit();
         editor.putInt(field.name(), value);
+        editor.commit();
+    }
+    
+    public static void setInt(Context context, String field, int value) {
+        Editor editor = context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).edit();
+        editor.putInt(field, value);
         editor.commit();
     }
 

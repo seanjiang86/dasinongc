@@ -171,12 +171,10 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	private void initProvinceList() {
 		
 		if (!TextUtils.isEmpty(mprovince)) {
-			// TODO MING:测试数据需修改
 			provincePosition = provinceList.indexOf(mprovince);
 		}
 		cityList = dao.getCity(provinceList.get(provincePosition));
 		if (!TextUtils.isEmpty(mcity)) {
-			// TODO MING:测试数据需修改
 			cityPosition = cityList.indexOf(mcity);
 		}
 		provinceView.initBigAreaData(provinceList, provincePosition);

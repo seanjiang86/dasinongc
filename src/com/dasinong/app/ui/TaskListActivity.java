@@ -348,7 +348,7 @@ public class TaskListActivity extends BaseActivity {
         Gson gson = new Gson();
         String key = getSaveKey(mCurrentSubStage);
         String result = SharedPreferencesHelper.getString(this, key, null);
-        List<TaskStatus> lists = new ArrayList<>();
+        List<TaskStatus> lists = new ArrayList<TaskStatus>();
         if (result != null) {
             lists.clear();
             lists = gson.fromJson(result, new TypeToken<List<TaskStatus>>() {

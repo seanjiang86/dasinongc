@@ -31,9 +31,9 @@ public class HumidityView extends LinearLayout {
 
 
     //weather icon
-    private static final HashMap<String, String> weatherIconMap = new HashMap<>();
+    private static final HashMap<String, String> weatherIconMap = new HashMap<String, String>();
     //weather status
-    private static final HashMap<String, String> weatherStatusMap = new HashMap<>();
+    private static final HashMap<String, String> weatherStatusMap = new HashMap<String, String>();
 
     public HumidityView(Context context) {
         this(context, null);

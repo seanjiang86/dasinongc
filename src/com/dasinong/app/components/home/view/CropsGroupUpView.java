@@ -48,10 +48,10 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
 
 
-    private static TreeMap<Integer,Integer> cropIconResource = new TreeMap<>();
+    private static TreeMap<Integer,Integer> cropIconResource = new TreeMap<Integer,Integer>();
 
 
-    private static TreeMap<Integer,Integer> cropNoIconResource = new TreeMap<>();
+    private static TreeMap<Integer,Integer> cropNoIconResource = new TreeMap<Integer,Integer>();
 
     private boolean isLeft;
 

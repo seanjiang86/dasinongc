@@ -181,7 +181,6 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.CREATE_FIELD, params, SubUrl.CREATE_FIELD, callBack, clazz);
 	}
 	public void uploadPetDisPic(Context context, List<String> paths ,String cropName, String disasterType,String disasterName,String affectedArea,String eruptionTime, String disasterDist,String fieldOperations,String fieldId, RequestListener callBack) {
-		// TODO MING :修改为真实IP地址
 		new NetRequest(context).uploadImages(0,NetConfig.BASE_URL + "insertDisasterReport", paths, cropName, disasterType, disasterName, affectedArea, eruptionTime,  disasterDist, fieldOperations,fieldId,BaseEntity.class, callBack);
 	}
 }

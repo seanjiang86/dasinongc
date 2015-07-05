@@ -49,9 +49,9 @@ public class HarmDetialsActivity extends BaseActivity {
 	// 病害等级
 	private RatingBar rb_harm_grade;
 	// 病害图片展示
-	private ViewPager vp_pic;
+	// private ViewPager vp_pic;
 	// 每张图片对应的点
-	private LinearLayout ll_point;
+	// private LinearLayout ll_point;
 	// 快速诊断按钮
 	private LinearLayout ll_rapid_diagnosis;
 	// 用来存放图片链接的集合
@@ -65,6 +65,7 @@ public class HarmDetialsActivity extends BaseActivity {
 	private PetDisspec pet;
 	private DisasterManager manager;
 	private TopbarView topbar;
+	private ImageView iv_pic;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -119,7 +120,6 @@ public class HarmDetialsActivity extends BaseActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
 				PetSolu solu = dataList.get(position - 1);
 				Intent intent = new Intent(DsnApplication.getContext(), CureDetialActivity.class);
 
@@ -150,7 +150,7 @@ public class HarmDetialsActivity extends BaseActivity {
 
 		initListView();
 	}
-
+	
 	/*
 	 * 填充listview的头的信息
 	 */
@@ -158,61 +158,49 @@ public class HarmDetialsActivity extends BaseActivity {
 		tv_harm_name = (TextView) header.findViewById(R.id.tv_harm_name);
 		rb_harm_grade = (RatingBar) header.findViewById(R.id.rb_harm_grade);
 		tv_harm_des = (TextView) header.findViewById(R.id.tv_harm_des);
-		vp_pic = (ViewPager) header.findViewById(R.id.vp_pic);
-		ll_point = (LinearLayout) header.findViewById(R.id.ll_point);
+		iv_pic = (ImageView) header.findViewById(R.id.iv_pic);
 
 		tv_harm_name.setText(pet.petDisSpecName);
 		rb_harm_grade.setRating(pet.severity);
 		tv_harm_des.setText(pet.description);
-
-		imageViews = new ImageView[4];
-		int px = GraphicUtils.dip2px(this, 8);
-		for (int i = 0; i < 4; i++) {
-			imageView = new ImageView(this);
-			imageView.setLayoutParams(new LayoutParams(px, px));
-
-			imageViews[i] = imageView;
-
-			if (i == 0) {
-				imageView.setBackgroundResource(R.drawable.selected_point);
-			} else {
-				imageView.setBackgroundResource(R.drawable.unselect_point);
-			}
-
-			ll_point.addView(imageView);
-		}
-
-		ll_rapid_diagnosis = (LinearLayout) header.findViewById(R.id.ll_rapid_diagnosis);
-
-		vp_pic.setAdapter(new PagerAdapter() {
-
-			@Override
-			public int getCount() {
-				return 5;
-			}
-
-			@Override
-			public boolean isViewFromObject(View arg0, Object arg1) {
-				return arg0 == arg1;
-			}
-
-			@Override
-			public Object instantiateItem(ViewGroup container, int position) {
-				TextView tv = new TextView(getApplicationContext());
-				tv.setText("我是第" + position + "张图片");
-				tv.setTextSize(50);
-
-				container.addView(tv);
-				return tv;
-			}
-
-			@Override
-			public void destroyItem(ViewGroup container, int position, Object object) {
-				container.removeView((View) object);
-			}
-		});
-
-		lv_detial.addHeaderView(header);
+		iv_pic.setImageResource(R.drawable.test_pic_detial);
+		
+		
+		// TODO MING 多张图片备用
+		/*
+		 * imageViews = new ImageView[4]; int px = GraphicUtils.dip2px(this, 8);
+		 * for (int i = 0; i < 4; i++) { imageView = new ImageView(this);
+		 * imageView.setLayoutParams(new LayoutParams(px, px));
+		 * 
+		 * imageViews[i] = imageView;
+		 * 
+		 * if (i == 0) {
+		 * imageView.setBackgroundResource(R.drawable.selected_point); } else {
+		 * imageView.setBackgroundResource(R.drawable.unselect_point); }
+		 * 
+		 * ll_point.addView(imageView); }
+		 * 
+		 * ll_rapid_diagnosis = (LinearLayout)
+		 * header.findViewById(R.id.ll_rapid_diagnosis);
+		 * 
+		 * vp_pic.setAdapter(new PagerAdapter() {
+		 * 
+		 * @Override public int getCount() { return 5; }
+		 * 
+		 * @Override public boolean isViewFromObject(View arg0, Object arg1) {
+		 * return arg0 == arg1; }
+		 * 
+		 * @Override public Object instantiateItem(ViewGroup container, int
+		 * position) { TextView tv = new TextView(getApplicationContext());
+		 * tv.setText("我是第" + position + "张图片"); tv.setTextSize(50);
+		 * 
+		 * container.addView(tv); return tv; }
+		 * 
+		 * @Override public void destroyItem(ViewGroup container, int position,
+		 * Object object) { container.removeView((View) object); } });
+		 */
+		
+		lv_detial.addHeaderView(header,null,false);
 	}
 
 	/**

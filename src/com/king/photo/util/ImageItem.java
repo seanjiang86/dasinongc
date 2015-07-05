@@ -9,7 +9,7 @@ public class ImageItem implements Serializable {
 	public String imageId;
 	public String thumbnailPath;
 	public String imagePath;
-	private Bitmap bitmap;
+//	private Bitmap bitmap;
 	public boolean isSelected = false;
 
 	public String getImageId() {
@@ -44,14 +44,14 @@ public class ImageItem implements Serializable {
 		this.isSelected = isSelected;
 	}
 
-	public Bitmap getBitmap() {
-		if (bitmap == null)
-			bitmap = Bimp.revitionImageSize(imagePath);
-		return bitmap;
-	}
-
-	public void setBitmap(Bitmap bitmap) {
-		this.bitmap = bitmap;
-	}
+//	public Bitmap getBitmap() {
+//		if (bitmap == null)
+//			bitmap = Bimp.revitionImageSize(imagePath);
+//		return bitmap;
+//	}
+//
+//	public void setBitmap(Bitmap bitmap) {
+//		this.bitmap = bitmap;
+//	}
 
 }

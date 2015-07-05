@@ -90,9 +90,9 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private String[] windDirect;
 
-    private static final HashMap<String, String> weatherMaps = new HashMap<>();
+    private static final HashMap<String, String> weatherMaps = new HashMap<String, String>();
 
-    private static final HashMap<String, String> iconMaps = new HashMap<>();
+    private static final HashMap<String, String> iconMaps = new HashMap<String, String>();
 
 
 

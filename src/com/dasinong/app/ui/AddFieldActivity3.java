@@ -64,7 +64,6 @@ public class AddFieldActivity3 extends MyBaseActivity {
 	private void initUserCount() {
 		String latitude = SharedPreferencesHelper.getString(this, Field.LATITUDE, "");
 		String longitude = SharedPreferencesHelper.getString(this, Field.LONGITUDE, "");
-		// TODO Ming:接口确定之后获取该类,替换请求中的null
 		RequestService.getInstance().searchNearUser(this, latitude, longitude, NearbyUser.class, new RequestListener() {
 			
 			@Override

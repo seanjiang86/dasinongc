@@ -3,6 +3,7 @@ package com.dasinong.app.ui;
 import java.util.Date;
 
 import com.dasinong.app.R;
+import com.dasinong.app.entity.AddFieldEntity;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
@@ -57,12 +58,17 @@ public class AddFieldActivity7 extends BaseActivity {
 				startLoadingDialog();
 				yield = et_target_production.getText().toString().trim();
 				RequestService.getInstance().createField(AddFieldActivity7.this, seedingortransplant, area, startDate, locationId, varietyId,
-						currentStageId, yield, BaseEntity.class, new NetRequest.RequestListener() {
+						currentStageId, yield, AddFieldEntity.class, new NetRequest.RequestListener() {
 
 							@Override
 							public void onSuccess(int requestCode, BaseEntity resultData) {
 								if (resultData.isOk()) {
 									showToast("请求成功");
+									long fieldId = ((AddFieldEntity) resultData).data.fieldId;
+									int monitorLocationId = ((AddFieldEntity) resultData).data.monitorLocationId;
+									
+									SharedPreferencesHelper.setLong(AddFieldActivity7.this, SharedPreferencesHelper.Field.FIELDID, fieldId);
+									SharedPreferencesHelper.setInt(AddFieldActivity7.this, "FIELD_"+fieldId, monitorLocationId);
 									backToHome();
 									dismissLoadingDialog();
 								} else {
@@ -70,7 +76,7 @@ public class AddFieldActivity7 extends BaseActivity {
 									showToast("创建失败");
 								}
 							}
-							
+
 							@Override
 							public void onFailed(int requestCode, Exception error, String msg) {
 								dismissLoadingDialog();

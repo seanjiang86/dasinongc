@@ -12,6 +12,8 @@ import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.ui.manager.AccountManager;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.Logger;
 import com.king.photo.activity.AlbumActivity;
@@ -21,6 +23,9 @@ import com.king.photo.util.FileUtils;
 import com.king.photo.util.ImageItem;
 import com.king.photo.util.PublicWay;
 import com.king.photo.util.Res;
+import com.liam.imageload.CacheConsts.CacheFileType;
+import com.liam.imageload.CacheConsts;
+import com.liam.imageload.LoadUtils;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -53,10 +58,12 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 
 public class ReportHarmActivity extends BaseActivity {
 
 	private TopbarView topbar;
+	private ScrollView sv_all;
 	private EditText et_des;
 	private Button btn_upload_images;
 	private RadioGroup rg_harm_type;
@@ -68,11 +75,12 @@ public class ReportHarmActivity extends BaseActivity {
 	private CheckBox cb_part_ear;
 	private CheckBox cb_part_grain;
 	private EditText et_harm_name;
+	private Button btn_submit_harm;
 	private GridView noScrollgridview;
 	private GridAdapter adapter;
 	private String fileName;
 	private String title;
-	private List <String> paths = new ArrayList<String>();
+	private List<String> paths = new ArrayList<String>();
 	private int flag = 0;
 	// 作物名称
 	private String cropName = "水稻";
@@ -88,21 +96,15 @@ public class ReportHarmActivity extends BaseActivity {
 	private String disasterDist = "";
 	// 农事操作
 	private String fieldOperations = "";
-	
+	private long fieldId;
+
 	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case 1:
-				adapter.notifyDataSetChanged();
-				break;
-			case 2:
-				String path = (String) msg.obj;
-				paths.add(path);
-				flag++;
-				if(flag == Bimp.tempSelectBitmap.size()){
-					upLoadImages();
-				}
-				break;
+			String path = (String) msg.obj;
+			paths.add(path);
+			flag++;
+			if (flag == Bimp.tempSelectBitmap.size()) {
+				upLoadImages();
 			}
 			super.handleMessage(msg);
 		}
@@ -114,16 +116,16 @@ public class ReportHarmActivity extends BaseActivity {
 		setContentView(R.layout.activity_report_harm);
 		Res.init(DsnApplication.getContext());
 		login();
-		
+
 		PublicWay.activityList.add(this);
-		
+
 		title = getIntent().getStringExtra("title");
-		
-		
-		initGridView();
 
 		initView();
+
 		initTopBar();
+
+		fieldId = SharedPreferencesHelper.getLong(this, Field.FIELDID, 1);
 
 		btn_upload_images.setOnClickListener(new OnClickListener() {
 
@@ -136,6 +138,8 @@ public class ReportHarmActivity extends BaseActivity {
 	}
 
 	private void initView() {
+
+		sv_all = (ScrollView) findViewById(R.id.sv_all);
 
 		topbar = (TopbarView) findViewById(R.id.topbar);
 
@@ -153,29 +157,19 @@ public class ReportHarmActivity extends BaseActivity {
 		et_des = (EditText) findViewById(R.id.et_des);
 
 		btn_upload_images = (Button) findViewById(R.id.btn_upload_images);
+		noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
+		btn_submit_harm = (Button) findViewById(R.id.btn_submit_harm);
 
-	}
+		btn_submit_harm.setOnClickListener(new OnClickListener() {
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		initGridView();
-	}
-
-	private void initTopBar() {
-		topbar.setCenterText(title);
-		topbar.setRightText("提交");
-		topbar.setLeftView(true, true);
-
-		topbar.setRightClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				getTableData();
-				if(TextUtils.isEmpty(disasterType)){
+				if (TextUtils.isEmpty(disasterType)) {
 					showToast("请选择病虫草害类型");
 					return;
 				}
-				if(Bimp.tempSelectBitmap.size() < 1){
+				if (Bimp.tempSelectBitmap.size() < 1) {
 					showToast("请选择您要上传的图片");
 					return;
 				}
@@ -189,16 +183,38 @@ public class ReportHarmActivity extends BaseActivity {
 							String fileName = String.valueOf(System.currentTimeMillis());
 							FileUtils.saveBitmap(revitionImageSize, fileName);
 							Message msg = handler.obtainMessage();
-							msg.what = 2;
+							msg.what = 1;
 							msg.obj = FileUtils.SDPATH + fileName + ".JPEG";
 							handler.sendMessage(msg);
 						}
 					}
 				}).start();
-
-				
 			}
 		});
+
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (Bimp.tempSelectBitmap != null && Bimp.tempSelectBitmap.size() > 0) {
+			noScrollgridview.setVisibility(View.VISIBLE);
+			initGridView();
+			handler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					sv_all.fullScroll(ScrollView.FOCUS_DOWN);
+				}
+			});
+		} else {
+			noScrollgridview.setVisibility(View.GONE);
+		}
+	}
+
+	private void initTopBar() {
+		topbar.setCenterText(title);
+		topbar.setLeftView(true, true);
 	}
 
 	/**
@@ -244,31 +260,31 @@ public class ReportHarmActivity extends BaseActivity {
 			disasterDist = "不规则爆发";
 			break;
 		}
-		
+
 		StringBuilder sb = new StringBuilder();
-		if(cb_part_root.isChecked()){
+		if (cb_part_root.isChecked()) {
 			String root = cb_part_root.getText().toString();
-			sb.append(root+",");
+			sb.append(root + ",");
 		}
-		if(cb_part_stems.isChecked()){
+		if (cb_part_stems.isChecked()) {
 			String stems = cb_part_stems.getText().toString();
-			sb.append(stems+",");
+			sb.append(stems + ",");
 		}
-		if(cb_part_leaves.isChecked()){
+		if (cb_part_leaves.isChecked()) {
 			String leaves = cb_part_leaves.getText().toString();
-			sb.append(leaves+",");
+			sb.append(leaves + ",");
 		}
-		if(cb_part_ear.isChecked()){
+		if (cb_part_ear.isChecked()) {
 			String ear = cb_part_ear.getText().toString();
-			sb.append(ear+",");
+			sb.append(ear + ",");
 		}
-		if(cb_part_grain.isChecked()){
+		if (cb_part_grain.isChecked()) {
 			String grain = cb_part_grain.getText().toString();
-			sb.append(grain+",");
+			sb.append(grain + ",");
 		}
 		affectedArea = sb.toString();
-		if(!TextUtils.isEmpty(affectedArea)){
-			affectedArea = affectedArea.substring(0, affectedArea.length()-1);
+		if (!TextUtils.isEmpty(affectedArea)) {
+			affectedArea = affectedArea.substring(0, affectedArea.length() - 1);
 		}
 		cropName = "水稻";
 		disasterName = et_harm_name.getText().toString();
@@ -277,31 +293,31 @@ public class ReportHarmActivity extends BaseActivity {
 
 	protected void upLoadImages() {
 
-		RequestService.getInstance().uploadPetDisPic(this, paths,cropName, disasterType, disasterName, affectedArea, eruptionTime,  disasterDist, fieldOperations, "1000",new NetRequest.RequestListener() {
-			
-			// TODO MING提示语；
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
-				if (resultData.isOk()) {
-					if("诊断病虫草害".equals(title)){
-						showToast("感谢您的反馈，我们会在与专家沟通后联系您");
-					}else {
-						showToast("感谢您的反馈");
-					}
-					
-					dismissLoadingDialog();
-				} else {
-					showToast("上传失败");
-					dismissLoadingDialog();
-				}
-			}
+		RequestService.getInstance().uploadPetDisPic(this, paths, cropName, disasterType, disasterName, affectedArea, eruptionTime, disasterDist,
+				fieldOperations, fieldId + "", new NetRequest.RequestListener() {
 
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast("网络异常，请检测您的网络或稍后再试");
-				error.printStackTrace();
-			}
-		});
+					@Override
+					public void onSuccess(int requestCode, BaseEntity resultData) {
+						if (resultData.isOk()) {
+							if ("诊断病虫草害".equals(title)) {
+								showToast("感谢您的反馈，我们会在与专家沟通后联系您");
+							} else {
+								showToast("感谢您的反馈");
+							}
+
+							dismissLoadingDialog();
+						} else {
+							showToast("上传失败");
+							dismissLoadingDialog();
+						}
+					}
+
+					@Override
+					public void onFailed(int requestCode, Exception error, String msg) {
+						showToast("网络异常，请检测您的网络或稍后再试");
+						error.printStackTrace();
+					}
+				});
 	}
 
 	private void showHeadViewDialog() {
@@ -341,7 +357,6 @@ public class ReportHarmActivity extends BaseActivity {
 
 	public void initGridView() {
 
-		noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
 		noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
 		adapter = new GridAdapter(this);
 		adapter.update();
@@ -383,7 +398,7 @@ public class ReportHarmActivity extends BaseActivity {
 		}
 
 		public void update() {
-			loading();
+			// loading();
 		}
 
 		public int getCount() {
@@ -418,7 +433,9 @@ public class ReportHarmActivity extends BaseActivity {
 			}
 
 			if (Bimp.tempSelectBitmap.size() > 0) {
-				holder.image.setImageBitmap(Bimp.tempSelectBitmap.get(position).getBitmap());
+
+				LoadUtils.getInstance().loadImage(holder.image, "file:///" + Bimp.tempSelectBitmap.get(position).imagePath);
+
 			}
 
 			return convertView;
@@ -426,26 +443,6 @@ public class ReportHarmActivity extends BaseActivity {
 
 		public class ViewHolder {
 			public ImageView image;
-		}
-
-		public void loading() {
-			new Thread(new Runnable() {
-				public void run() {
-					while (true) {
-						if (Bimp.max == Bimp.tempSelectBitmap.size()) {
-							Message message = new Message();
-							message.what = 1;
-							handler.sendMessage(message);
-							break;
-						} else {
-							Bimp.max += 1;
-							Message message = new Message();
-							message.what = 1;
-							handler.sendMessage(message);
-						}
-					}
-				}
-			}).start();
 		}
 	}
 
@@ -455,10 +452,9 @@ public class ReportHarmActivity extends BaseActivity {
 		case Activity.DEFAULT_KEYS_DIALER:
 			if (Bimp.tempSelectBitmap.size() < 6 && resultCode == RESULT_OK) {
 				Bitmap bitmap = Bimp.revitionImageSize(FileUtils.SDPATH + fileName + ".jpg");
-				
+
 				ImageItem takePhoto = new ImageItem();
 				takePhoto.setImagePath(FileUtils.SDPATH + fileName + ".jpg");
-				takePhoto.setBitmap(bitmap);
 				Bimp.tempSelectBitmap.add(takePhoto);
 			}
 			break;
@@ -474,32 +470,31 @@ public class ReportHarmActivity extends BaseActivity {
 		}
 
 	}
-	
-	
+
 	// TODO MING 测试代码将来去掉
 	private void login() {
-    	if(AccountManager.isLogin(ReportHarmActivity.this)){
-    		return;
-    	}
-        RequestService.getInstance().authcodeLoginReg(ReportHarmActivity.this, "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
+		if (AccountManager.isLogin(ReportHarmActivity.this)) {
+			return;
+		}
+		RequestService.getInstance().authcodeLoginReg(ReportHarmActivity.this, "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
 
-            @Override
-            public void onSuccess(int requestCode, BaseEntity resultData) {
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
 
-                if(resultData.isOk()){
-                    LoginRegEntity entity = (LoginRegEntity) resultData;
-                    AccountManager.saveAccount(ReportHarmActivity.this, entity.getData());
-                    showToast("登录成功");
-                }else{
-                    Logger.d("TAG", resultData.getMessage());
-                }
-            }
+				if (resultData.isOk()) {
+					LoginRegEntity entity = (LoginRegEntity) resultData;
+					AccountManager.saveAccount(ReportHarmActivity.this, entity.getData());
+					showToast("登录成功");
+				} else {
+					Logger.d("TAG", resultData.getMessage());
+				}
+			}
 
-            @Override
-            public void onFailed(int requestCode, Exception error, String msg) {
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
 
-                Logger.d("TAG","msg"+msg);
-            }
-        });
-    }
+				Logger.d("TAG", "msg" + msg);
+			}
+		});
+	}
 }

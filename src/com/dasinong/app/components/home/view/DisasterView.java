@@ -100,8 +100,8 @@ public class DisasterView extends LinearLayout {
         initTopView();
 
         initBottomView();
-        mTopCurrentNatEntity = new ArrayList<>();
-        mTopCurrentPetEntity = new ArrayList<>();
+        mTopCurrentNatEntity = new ArrayList<FieldEntity.CurrentFieldEntity.NatdiswsEntity>();
+        mTopCurrentPetEntity = new ArrayList<FieldEntity.CurrentFieldEntity.PetdiswsEntity>();
         //updateView(null, null);
 
         dao = new PetDisspecDaoImpl(this.getContext());

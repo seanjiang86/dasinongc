@@ -57,11 +57,6 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
-			if (varietyList == null || varietyList.size() == 0) {
-				isHasData = false;
-			} else {
-				isHasData = true;
-			}
 			initVariety();
 		};
 	};
@@ -90,9 +85,6 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		} else {
 			tv_user_call.setText("呦,农场主啊,都种了");
 		}
-
-		// county = county.substring(0, county.length() - 1);
-		// queryCrop("临沧");
 
 		initCropList();
 
@@ -143,17 +135,18 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 						varietyId = "";
 						lastCrop = currentCrop;
 					}
-					
-					if("其他".equals(currentCrop)){
+
+					if ("其他".equals(currentCrop)) {
 						varietyId = "4";
 						tv_variety_name.setClickable(false);
 						tv_variety_num.setClickable(false);
 						showToast("更多作物正在完善，敬请期待,请点击确定按钮");
+						return;
 					} else {
 						tv_variety_name.setClickable(true);
 						tv_variety_num.setClickable(true);
 					}
-					
+
 					queryVariety(currentCrop);
 
 					cropMenu.dismiss();
@@ -165,57 +158,47 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 				showToast("请先选择作物");
 				return;
 			}
-			if (isHasData) {
-				varietyNameMenu.showAsDropDown();
-				varietyNameMenu.setOnItemClickListener(new OnItemClickListener() {
+			varietyNameMenu.showAsDropDown();
+			varietyNameMenu.setOnItemClickListener(new OnItemClickListener() {
 
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						currentVariety = varietyList.get(position);
-						if (!currentVariety.equals(lastVariety)) {
-							tv_variety_name.setText(currentVariety);
-							tv_variety_num.setText("编号");
-							
-							if (varietyNumList != null) {
-								varietyNumList.clear();
-								varietyNumMenu.addItems(varietyNumList);
-							}
-							varietyId = "";
-							lastVariety = currentVariety;
-						}
-
-						varietyNumMap = varietyInfo.data.get(currentVariety);
-						varietyNumList = new ArrayList<String>(varietyNumMap.keySet());
-						initVarietyNum();
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					currentVariety = varietyList.get(position);
+					if (!currentVariety.equals(lastVariety)) {
 						tv_variety_name.setText(currentVariety);
-						varietyNameMenu.dismiss();
+						tv_variety_num.setText("编号");
+
+						if (varietyNumList != null) {
+							varietyNumList.clear();
+							varietyNumMenu.addItems(varietyNumList);
+						}
+						varietyId = "";
+						lastVariety = currentVariety;
 					}
-				});
-			} else {
-				// TODO MING:这里会不会出现无数据情况
-				showToast("更多作物正在完善，敬请期待");
-			}
+
+					varietyNumMap = varietyInfo.data.get(currentVariety);
+					varietyNumList = new ArrayList<String>(varietyNumMap.keySet());
+					initVarietyNum();
+					tv_variety_name.setText(currentVariety);
+					varietyNameMenu.dismiss();
+				}
+			});
 			break;
 		case R.id.tv_variety_num:
 			if (TextUtils.isEmpty(currentVariety)) {
 				showToast("请先选择品种");
 				return;
 			}
-			if (isHasData) {
-				varietyNumMenu.showAsDropDown();
-				varietyNumMenu.setOnItemClickListener(new OnItemClickListener() {
-					@Override
-					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-						String varietyNum = varietyNumList.get(position);
-						varietyId = varietyNumMap.get(varietyNum);
-						tv_variety_num.setText(varietyNum);
-						varietyNumMenu.dismiss();
-					}
-				});
-			} else {
-				// TODO MING:这里会不会出现无数据情况
-				showToast("更多作物正在完善，敬请期待");
-			}
+			varietyNumMenu.showAsDropDown();
+			varietyNumMenu.setOnItemClickListener(new OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					String varietyNum = varietyNumList.get(position);
+					varietyId = varietyNumMap.get(varietyNum);
+					tv_variety_num.setText(varietyNum);
+					varietyNumMenu.dismiss();
+				}
+			});
 			break;
 		case R.id.btn_sure_crop:
 			goToNext();
@@ -262,7 +245,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	 * 获取品种信息
 	 */
 	private void queryVariety(String cropName) {
-		if(!DeviceHelper.checkNetWork(this)){
+		if (!DeviceHelper.checkNetWork(this)) {
 			showToast("请检测您的网络连接");
 			return;
 		}
@@ -276,9 +259,9 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 							varietyInfo = (VarietyInfo) resultData;
 							varietyList = new ArrayList<String>(varietyInfo.data.keySet());
 							handler.sendEmptyMessage(0);
-						}else {
+						} else {
 							// TODO MING:请求不到时会出现空toast
-							showToast(resultData.getMessage()+requestCode);
+							showToast(resultData.getMessage() + requestCode);
 						}
 						dismissLoadingDialog();
 					}
@@ -312,7 +295,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 			showToast("请完善作物信息");
 			return;
 		}
-		
+
 		SharedPreferencesHelper.setString(this, Field.VARIETY_ID, varietyId);
 		Intent intent = null;
 		if (TextUtils.isEmpty(currentCrop)) {

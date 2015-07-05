@@ -65,17 +65,17 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 
     /*田地id,name的map*/
-    private Map<String, Long> mFieldMap = new HashMap<>();
+    private Map<String, Long> mFieldMap = new HashMap<String, Long>();
     /*田地的集合*/
-    private List<String> mFieldList = new ArrayList<>();
+    private List<String> mFieldList = new ArrayList<String>();
     //目前的农田的名称--用于区别点击的是否是当前；
     private String mCurrentFieldName;
 
 
-    private List<TaskStatus> mCurrentTaskSpec = new ArrayList<>();
+    private List<TaskStatus> mCurrentTaskSpec = new ArrayList<TaskStatus>();
 
 
-    private SparseArray<List<TaskStatus>> mAllTasks = new SparseArray<>();
+    private SparseArray<List<TaskStatus>> mAllTasks = new SparseArray<List<TaskStatus>>();
 
     private TaskSpecDaoImpl taskSpecDao;
 
@@ -402,23 +402,23 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
                 break;
             case R.id.add_field:
-                //点击添加--最右上角按钮
+            	//点击添加--最右上角按钮
 
-//                Intent intent = new Intent(getContext(), AddFieldActivity1.class);
-//                getContext().startActivity(intent);
+//              Intent intent = new Intent(getContext(), AddFieldActivity1.class);
+//              getContext().startActivity(intent);
 
-                if (DeviceHelper.checkNetWork(context) && DeviceHelper.checkGPS(context)) {
+              if (DeviceHelper.checkNetWork(context) && DeviceHelper.checkGPS(context)) {
 
-                    // TODO MING:该方法是否为检测登陆的方法
-                    if (AccountManager.checkLogin(context)) {
-                        Intent intent = new Intent(context, AddFieldActivity1.class);
-                        context.startActivity(intent);
-                    } else {
-                        // TODO MING 跳转至用户登陆界面
+                  // TODO MING:该方法是否为检测登陆的方法
+                  if (AccountManager.checkLogin(context)) {
+                      Intent intent = new Intent(context, AddFieldActivity1.class);
+                      context.startActivity(intent);
+                  } else {
+                      // TODO MING 跳转至用户登陆界面
 
-                    }
-                    return;
-                } else {
+                  }
+                  return;
+              } else {
 
 //				AlertDialog.Builder builder = new AlertDialog.Builder(context);
 //
@@ -441,31 +441,30 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 //				});
 //				builder.show();
 
-                    final Dialog dialog = new Dialog(context, R.style.CommonDialog);
-                    dialog.setContentView(R.layout.smssdk_back_verify_dialog);
-                    TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
-                    tv.setText("请检测您的网络和GPS是否开启？");
-                    tv.setTextSize(18);
-                    Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
-                    waitBtn.setText("取消");
-                    waitBtn.setOnClickListener(new OnClickListener() {
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-                    Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_cancel);
-                    backBtn.setText("确定");
-                    backBtn.setOnClickListener(new OnClickListener() {
-                        public void onClick(View v) {
-                            Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                            context.startActivity(intent);
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.setCanceledOnTouchOutside(true);
-                    dialog.show();
-                }
-
+                  final Dialog dialog = new Dialog(context, R.style.CommonDialog);
+                  dialog.setContentView(R.layout.smssdk_back_verify_dialog);
+                  TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
+                  tv.setText("请检测您的网络和GPS是否开启？");
+                  tv.setTextSize(18);
+                  Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
+                  waitBtn.setText("取消");
+                  waitBtn.setOnClickListener(new OnClickListener() {
+                      public void onClick(View v) {
+                          dialog.dismiss();
+                      }
+                  });
+                  Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_cancel);
+                  backBtn.setText("确定");
+                  backBtn.setOnClickListener(new OnClickListener() {
+                      public void onClick(View v) {
+                          Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                          context.startActivity(intent);
+                          dialog.dismiss();
+                      }
+                  });
+                  dialog.setCanceledOnTouchOutside(true);
+                  dialog.show();
+              }
 
                 break;
         }
@@ -605,7 +604,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         Gson gson = new Gson();
         String key = getSaveKey();
         String result = SharedPreferencesHelper.getString(getContext(), key, null);
-        List<TaskStatus> lists = new ArrayList<>();
+        List<TaskStatus> lists = new ArrayList<TaskStatus>();
         if (result != null) {
             lists.clear();
             lists = gson.fromJson(result, new TypeToken<List<TaskStatus>>() {
@@ -619,7 +618,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private void saveTaskStatus() {
         int childCount = campaignView.getChildCount();
         View view;
-        List<TaskStatus> lists = new ArrayList<>();
+        List<TaskStatus> lists = new ArrayList<TaskStatus>();
         for (int i = 0; i < childCount; i++) {
             view = campaignView.getChildAt(i);
             lists.add((TaskStatus) view.getTag());

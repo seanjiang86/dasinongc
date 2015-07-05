@@ -19,7 +19,9 @@ public class HarmDetialAdapter extends MyBaseAdapter<PetSolu> {
 		super(ctx, list, flag);
 		this.soluSize = soluSize;
 	}
+	
 
+	
 	@Override
 	public View getView(int pos, View view, ViewGroup group) {
 		ViewHolder holder = null;

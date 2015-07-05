@@ -12,6 +12,7 @@
     </com.dasinong.app.ui.view.TopbarView>
 
     <ScrollView
+        android:id="@+id/sv_all"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
@@ -325,7 +326,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="18dp"
                 android:orientation="horizontal" >
@@ -356,13 +356,28 @@
             <GridView
                 android:id="@+id/noScrollgridview"
                 android:layout_width="290dp"
-                android:layout_height="350dp"
+                android:layout_height="235dp"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="20dp"
                 android:horizontalSpacing="3dp"
                 android:numColumns="4"
                 android:scrollbars="none"
-                android:verticalSpacing="5dp" >
+                android:verticalSpacing="5dp"
+                android:visibility="gone" >
             </GridView>
+
+            <Button
+                android:id="@+id/btn_submit_harm"
+                android:layout_width="match_parent"
+                android:layout_height="45.0dip"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="50dp"
+                android:background="@drawable/green_button_selector"
+                android:text="提交"
+                android:textColor="@color/color_FFFFFF"
+                android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
 
