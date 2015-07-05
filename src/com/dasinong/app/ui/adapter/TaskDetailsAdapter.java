@@ -15,6 +15,7 @@ import com.liam.imageload.LoadUtils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -41,9 +42,13 @@ public class TaskDetailsAdapter extends MyBaseAdapter<Steps> {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		final Steps item = list.get(pos);
+		Steps item = list.get(pos);
 
-		LoadUtils.getInstance().loadImage(holder.stepImage, "http://182.254.129.101:8080/nongshi/" + item.picture + ".jpg");
+		if(TextUtils.isEmpty(item.picture)){
+			holder.stepImage.setVisibility(View.GONE);
+		}else{
+			LoadUtils.getInstance().loadImage(holder.stepImage, "http://182.254.129.101:8080/nongshi/" + item.picture + ".jpg");
+		}
 
 		holder.nameText.setText(item.stepName);
 		holder.contentText.setText(item.description);

@@ -9,7 +9,13 @@ import com.dasinong.app.database.task.dao.impl.TaskSpecDaoImpl;
 import com.dasinong.app.database.task.domain.Steps;
 import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.database.task.domain.TaskSpec;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.StepsListEntity;
+import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.adapter.TaskDetailsAdapter;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
 
 import android.content.Intent;
@@ -21,6 +27,7 @@ import android.widget.ListView;
 public class TaskDetailsActivity extends BaseActivity {
 
 	public static final String TASK_ID = "task_id";
+	public static final String TASK_TITLE = "task_title";
 	
 	private TopbarView mTopbarView;
 	
@@ -28,7 +35,10 @@ public class TaskDetailsActivity extends BaseActivity {
 
 	private List<Steps> taskSpecs;
 	
-	private int taskId;
+	private int taskSpecId;
+	private String mTitle;
+
+	private long filedId;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,14 +48,44 @@ public class TaskDetailsActivity extends BaseActivity {
 		initData();
 		initView();
 		setUpView();
-		
+		requestData();
+	}
+
+	private void requestData() {
+		startLoadingDialog();
+		RequestService.getInstance().getSteps(this, filedId+"", taskSpecId+"", StepsListEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				if(resultData.isOk()){
+					StepsListEntity entity = (StepsListEntity) resultData;
+					setAdapter(entity);
+				}else{
+					showToast(resultData.getMessage());
+				}
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+				showToast(R.string.please_check_netword);
+			}
+		});
+	}
+
+	protected void setAdapter(StepsListEntity entity) {
+		TaskDetailsAdapter mAdapter = new TaskDetailsAdapter(this, entity.getData(), false);
+		mListView.setAdapter(mAdapter);
 	}
 
 	private void initData() {
-		taskId = getIntent().getIntExtra(TASK_ID, 0);
+		filedId = SharedPreferencesHelper.getLong(this, Field.FIELDID, 0);
+		taskSpecId = getIntent().getIntExtra(TASK_ID, 0);
+		mTitle = getIntent().getStringExtra(TASK_TITLE);
 		
 		StepsDaoImpl dao1 = new StepsDaoImpl(this);
-		taskSpecs = dao1.queryStepsWithTaskSpecId(taskId);
+		taskSpecs = dao1.queryStepsWithTaskSpecId(taskSpecId);
 	}
 
 	private void initView() {
@@ -54,7 +94,7 @@ public class TaskDetailsActivity extends BaseActivity {
 	}
 
 	private void setUpView() {
-		mTopbarView.setCenterText("农事指导");
+		mTopbarView.setCenterText(mTitle);
 		mTopbarView.setLeftView(true, true);
 		mTopbarView.setRightText("查看全部");
 		mTopbarView.setRightClickListener(new OnClickListener() {
@@ -62,14 +102,24 @@ public class TaskDetailsActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(TaskDetailsActivity.this,TaskListActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent, 0);
 			}
 		});
 		
-		TaskDetailsAdapter mAdapter = new TaskDetailsAdapter(this, taskSpecs, false);
-		mListView.setAdapter(mAdapter);
+//		TaskDetailsAdapter mAdapter = new TaskDetailsAdapter(this, taskSpecs, false);
+//		mListView.setAdapter(mAdapter);
 //		mListView
 		
+	}
+	@Override
+	protected void onActivityResult(int arg0, int arg1, Intent arg2) {
+		super.onActivityResult(arg0, arg1, arg2);
+		if(arg1 == RESULT_OK){
+			taskSpecId = arg2.getIntExtra(TASK_ID, 0);
+			mTitle = arg2.getStringExtra(TASK_TITLE);
+			mTopbarView.setCenterText(mTitle);
+			requestData();
+		}
 	}
 	
 }

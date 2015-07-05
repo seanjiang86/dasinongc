@@ -72,4 +72,5 @@ public final class RequestCode {
 	public static final int REQUEST_SECURITY_CODE = SEARCH_WORD + 1;
 	public static final int LOGIN_WITH_SECCODE = REQUEST_SECURITY_CODE + 1;
 	public static final int IS_PWSS_SET = LOGIN_WITH_SECCODE + 1;
+	public static final int GET_STEPS = IS_PWSS_SET + 1;
 }

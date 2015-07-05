@@ -171,6 +171,10 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getLoginWithSecCodeParams(cellphone, seccode);
 		new NetRequest(context).get(RequestCode.LOGIN_WITH_SECCODE, params, SubUrl.LOGIN_WITH_SECCODE, callBack, clazz);
 	}
+	public void getSteps(Context context, String fieldId,String taskSpecId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getStepsParams(fieldId, taskSpecId);
+		new NetRequest(context).get(RequestCode.GET_STEPS, params, SubUrl.GET_STEPS, callBack, clazz);
+	}
 	public void isPassSet(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getDefaultParams();
 		new NetRequest(context).get(RequestCode.IS_PWSS_SET, params, SubUrl.IS_PWSS_SET, callBack, clazz);
