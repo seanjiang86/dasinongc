@@ -571,6 +571,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
                     Intent intent = new Intent(getContext(),TaskDetailsActivity.class);
                     intent.putExtra(TaskDetailsActivity.TASK_ID, item.taskSpecId);
+                    intent.putExtra(TaskDetailsActivity.TASK_TITLE, item.taskSpecName);
                     getContext().startActivity(intent);
                     //Toast.makeText(CropsStateView.this.getContext(), "start task ", Toast.LENGTH_SHORT).show();
 

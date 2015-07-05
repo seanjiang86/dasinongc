@@ -96,8 +96,14 @@ public class TaskListActivity extends BaseActivity {
 			public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
 				TaskStatus child = adapter.getChild(groupPosition, childPosition);
-				showToast(child.taskSpecName);
+				
+				Intent intent = new Intent();
+				intent.putExtra(TaskDetailsActivity.TASK_ID, child.taskSpecId);
+				intent.putExtra(TaskDetailsActivity.TASK_TITLE, child.taskSpecName);
+				setResult(RESULT_OK, intent);
 
+				finish();
+				
 				return false;
 			}
 		});

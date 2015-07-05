@@ -90,6 +90,8 @@ public class NetConfig {
 		public static final String LOGIN_WITH_SECCODE ="loginWithSecCode";
 		/**是否设置过密码*/
 		public static final String IS_PWSS_SET ="isPassSet";
+		/**获取任务步骤*/
+		public static final String GET_STEPS ="getSteps";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -139,6 +141,7 @@ public class NetConfig {
 		public static final String yield = "yield";
 		public static final String key = "key";
 		public static final String seccode = "seccode";
+		public static final String taskSpecId = "taskSpecId";
 		
 	}
 	
@@ -397,6 +400,12 @@ public class NetConfig {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.cellphone, key);
 		paramsMap.put(Params.seccode, seccode);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getStepsParams(String fieldId,String taskSpecId) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.fieldId, fieldId);
+		paramsMap.put(Params.taskSpecId, taskSpecId);
 		return getBaseParams(false, paramsMap);
 	}
 	
