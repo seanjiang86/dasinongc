@@ -12,11 +12,13 @@ import android.widget.Button;
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.database.city.dao.impl.CityDaoImpl;
+import com.dasinong.app.entity.AccountEntity;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LocationInfo;
 import com.dasinong.app.entity.LocationResult;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
@@ -72,7 +74,7 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 
 		btn_in_field.setOnClickListener(this);
 		btn_no_in_field.setOnClickListener(this);
-
+		
 	}
 
 	@Override

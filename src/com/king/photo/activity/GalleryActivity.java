@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.dasinong.app.R;
+import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.ReportHarmActivity;
 import com.king.photo.util.Bimp;
 import com.king.photo.util.PublicWay;
@@ -35,7 +36,7 @@ import com.liam.imageload.LoadUtils;
  * @QQ:595163260
  * @version 2014年10月18日 下午11:47:53
  */
-public class GalleryActivity extends Activity {
+public class GalleryActivity extends BaseActivity {
 	private Intent intent;
 	// 返回按钮
 	private Button back_bt;

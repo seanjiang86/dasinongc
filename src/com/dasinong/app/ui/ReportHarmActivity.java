@@ -4,35 +4,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dasinong.app.DsnApplication;
-import com.dasinong.app.R;
-import com.dasinong.app.entity.BaseEntity;
-import com.dasinong.app.entity.LoginRegEntity;
-import com.dasinong.app.net.NetRequest;
-import com.dasinong.app.net.RequestService;
-import com.dasinong.app.net.NetRequest.RequestListener;
-import com.dasinong.app.ui.manager.AccountManager;
-import com.dasinong.app.ui.manager.SharedPreferencesHelper;
-import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
-import com.dasinong.app.ui.view.TopbarView;
-import com.dasinong.app.utils.Logger;
-import com.king.photo.activity.AlbumActivity;
-import com.king.photo.activity.GalleryActivity;
-import com.king.photo.util.Bimp;
-import com.king.photo.util.FileUtils;
-import com.king.photo.util.ImageItem;
-import com.king.photo.util.PublicWay;
-import com.king.photo.util.Res;
-import com.liam.imageload.CacheConsts.CacheFileType;
-import com.liam.imageload.CacheConsts;
-import com.liam.imageload.LoadUtils;
-
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -40,10 +16,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
-import android.support.annotation.VisibleForTesting;
-import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -56,9 +29,28 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
+
+import com.dasinong.app.DsnApplication;
+import com.dasinong.app.R;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.LoginRegEntity;
+import com.dasinong.app.net.NetRequest;
+import com.dasinong.app.net.RequestService;
+import com.dasinong.app.ui.manager.AccountManager;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.Logger;
+import com.king.photo.activity.AlbumActivity;
+import com.king.photo.activity.GalleryActivity;
+import com.king.photo.util.Bimp;
+import com.king.photo.util.FileUtils;
+import com.king.photo.util.ImageItem;
+import com.king.photo.util.PublicWay;
+import com.king.photo.util.Res;
+import com.liam.imageload.LoadUtils;
 
 public class ReportHarmActivity extends BaseActivity {
 
@@ -200,6 +192,12 @@ public class ReportHarmActivity extends BaseActivity {
 		if (Bimp.tempSelectBitmap != null && Bimp.tempSelectBitmap.size() > 0) {
 			noScrollgridview.setVisibility(View.VISIBLE);
 			initGridView();
+			
+			for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
+				System.out.println(Bimp.tempSelectBitmap.get(i).imagePath);
+			}
+			
+			// 使scrollView滚动至底部
 			handler.post(new Runnable() {
 
 				@Override

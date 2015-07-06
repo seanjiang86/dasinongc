@@ -138,7 +138,6 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 	}
 
 	private void goToNext() {
-		System.out.println(strTime);
 		SharedPreferencesHelper.setString(this, Field.PLANTING_DATE, strTime);
 		Intent intent = new Intent(this, AddFieldActivity7.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

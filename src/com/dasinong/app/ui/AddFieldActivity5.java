@@ -129,7 +129,6 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 			break;
 		case R.id.btn_no_sure_substage:
 			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, "");
-			System.out.println(subStageId+"               sdfsadfsa                ");
 			goToNext();
 			break;
 		case R.id.btn_sure_substage:
@@ -138,7 +137,6 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 				return;
 			}
 			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, subStageId);
-			System.out.println(subStageId+"               sdfsadfsa                ");
 			goToNext();
 			break;
 		}

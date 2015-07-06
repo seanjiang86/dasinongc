@@ -101,7 +101,7 @@ public class AddFieldActivity7 extends BaseActivity {
 
 		locationId = SharedPreferencesHelper.getString(this, Field.VILLAGE_ID, "");
 		varietyId = SharedPreferencesHelper.getString(this, Field.VARIETY_ID, "");
-		currentStageId = SharedPreferencesHelper.getString(this, Field.SUBSTAGE_ID, "");
+		currentStageId = SharedPreferencesHelper.getString(this, Field.SUBSTAGE_ID, "10");
 	}
 
 	private void initTopBar() {

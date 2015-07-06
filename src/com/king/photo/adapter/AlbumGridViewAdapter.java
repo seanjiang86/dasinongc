@@ -1,7 +1,12 @@
 package com.king.photo.adapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -13,10 +18,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.dasinong.app.R;
+import com.king.photo.util.Bimp;
 import com.king.photo.util.BitmapCache;
 import com.king.photo.util.BitmapCache.ImageCallback;
 import com.king.photo.util.ImageItem;
@@ -36,6 +46,7 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 	private ArrayList<ImageItem> selectedDataList;
 	private DisplayMetrics dm;
 	BitmapCache cache;
+	private HashMap<Integer, Boolean> mSelectMap = new HashMap<Integer, Boolean>();
 
 	public AlbumGridViewAdapter(Context c, ArrayList<ImageItem> dataList, ArrayList<ImageItem> selectedDataList) {
 		mContext = c;
@@ -79,28 +90,22 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 	 */
 	private class ViewHolder {
 		public ImageView imageView;
-		public ToggleButton toggleButton;
-		public Button choosetoggle;
-		public TextView textView;
+		public CheckBox childCheckbox;
 	}
 
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder viewHolder;
+		final ViewHolder viewHolder;
 		if (convertView == null) {
 			viewHolder = new ViewHolder();
 			convertView = LayoutInflater.from(mContext).inflate(Res.getLayoutID("plugin_camera_select_imageview"), parent, false);
 			viewHolder.imageView = (ImageView) convertView.findViewById(Res.getWidgetID("image_view"));
-			viewHolder.toggleButton = (ToggleButton) convertView.findViewById(Res.getWidgetID("toggle_button"));
-			viewHolder.choosetoggle = (Button) convertView.findViewById(Res.getWidgetID("choosedbt"));
-			// RelativeLayout.LayoutParams lp = new
-			// RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,dipToPx(65));
-			// lp.setMargins(50, 0, 50,0);
-			// viewHolder.imageView.setLayoutParams(lp);
+			viewHolder.childCheckbox = (CheckBox) convertView.findViewById(R.id.child_checkbox);
 			convertView.setTag(viewHolder);
 		} else {
 			viewHolder = (ViewHolder) convertView.getTag();
 		}
 		String path;
+
 		if (dataList != null && dataList.size() > position)
 			path = dataList.get(position).imagePath;
 		else
@@ -108,47 +113,65 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 		if (path.contains("camera_default")) {
 			viewHolder.imageView.setImageResource(Res.getDrawableID("plugin_camera_no_pictures"));
 		} else {
-			// ImageManager2.from(mContext).displayImage(viewHolder.imageView,
-			// path, Res.getDrawableID("plugin_camera_camera_default"), 100,
-			// 100);
 			final ImageItem item = dataList.get(position);
 			viewHolder.imageView.setTag(item.imagePath);
 			cache.displayBmp(viewHolder.imageView, item.thumbnailPath, item.imagePath, callback);
 		}
-		viewHolder.toggleButton.setTag(position);
-		viewHolder.choosetoggle.setTag(position);
-		viewHolder.toggleButton.setOnClickListener(new ToggleClickListener(viewHolder.choosetoggle));
-		if (selectedDataList.contains(dataList.get(position))) {
-			viewHolder.toggleButton.setChecked(true);
-			viewHolder.choosetoggle.setVisibility(View.VISIBLE);
-		} else {
-			viewHolder.toggleButton.setChecked(false);
-			viewHolder.choosetoggle.setVisibility(View.GONE);
+
+		if (Bimp.tempSelectBitmap.contains(dataList.get(position))) {
+			System.out.println(position);
+			viewHolder.childCheckbox.setChecked(true);
 		}
+		System.out.println(viewHolder.childCheckbox.isChecked());
+
+		viewHolder.childCheckbox.setOnCheckedChangeListener(new MyCheckedChangeListener(position, viewHolder));
+
+		for (Iterator<Map.Entry<Integer, Boolean>> it = mSelectMap.entrySet().iterator(); it.hasNext();) {
+			Map.Entry<Integer, Boolean> entry = it.next();
+			if (entry.getValue()) {
+				Bimp.tempSelectBitmap.add(dataList.get(entry.getKey()));
+			}
+		}
+
 		return convertView;
+	}
+
+	private class MyCheckedChangeListener implements OnCheckedChangeListener {
+		private int position;
+		private ViewHolder viewHolder;
+
+		public MyCheckedChangeListener(int position, ViewHolder viewHolder) {
+			this.position = position;
+			this.viewHolder = viewHolder;
+		}
+
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+			if (dataList != null && mOnItemClickListener != null && position < dataList.size()) {
+				mOnItemClickListener.onItemClick(viewHolder.childCheckbox, position, viewHolder.childCheckbox.isChecked());
+			}
+			// 如果是未选中的CheckBox,则添加动画
+			if (!mSelectMap.containsKey(position) || !mSelectMap.get(position)) {
+				addAnimation(viewHolder.childCheckbox);
+			}
+			mSelectMap.put(position, isChecked);
+		}
 	}
 
 	public int dipToPx(int dip) {
 		return (int) (dip * dm.density + 0.5f);
 	}
 
-	private class ToggleClickListener implements OnClickListener {
-		Button chooseBt;
-
-		public ToggleClickListener(Button choosebt) {
-			this.chooseBt = choosebt;
-		}
-
-		@Override
-		public void onClick(View view) {
-			if (view instanceof ToggleButton) {
-				ToggleButton toggleButton = (ToggleButton) view;
-				int position = (Integer) toggleButton.getTag();
-				if (dataList != null && mOnItemClickListener != null && position < dataList.size()) {
-					mOnItemClickListener.onItemClick(toggleButton, position, toggleButton.isChecked(), chooseBt);
-				}
-			}
-		}
+	/**
+	 * 给CheckBox加点击动画，利用开源库nineoldandroids设置动画
+	 * @param view
+	 */
+	private void addAnimation(View view) {
+		float[] vaules = new float[] { 0.5f, 0.6f, 0.7f, 0.8f, 0.9f, 1.0f, 1.1f, 1.2f, 1.3f, 1.25f, 1.2f, 1.15f, 1.1f, 1.0f };
+		AnimatorSet set = new AnimatorSet();
+		set.playTogether(ObjectAnimator.ofFloat(view, "scaleX", vaules), ObjectAnimator.ofFloat(view, "scaleY", vaules));
+		set.setDuration(150);
+		set.start();
 	}
 
 	private OnItemClickListener mOnItemClickListener;
@@ -158,7 +181,7 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 	}
 
 	public interface OnItemClickListener {
-		public void onItemClick(ToggleButton view, int position, boolean isChecked, Button chooseBt);
+		public void onItemClick(CheckBox view, int position, boolean isChecked);
 	}
 
 }
