@@ -3,12 +3,10 @@ package com.dasinong.app.ui.fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
@@ -24,25 +22,28 @@ import com.dasinong.app.components.net.INetRequest;
 import com.dasinong.app.components.net.NetError;
 import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.LocationResult;
 import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.AccountManager;
-import com.dasinong.app.utils.Logger;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.utils.LocationUtils;
 
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
 import cn.bingoogolapple.refreshlayout.BGARefreshViewHolder;
 import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 
 
-public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLayout.BGARefreshLayoutDelegate {
+public class HomeFragment extends Fragment implements INetRequest, BGARefreshLayout.BGARefreshLayoutDelegate {
+    private boolean isLogin = false;
 
     private static final int REQUEST_CODE_HOME_FIELD = 130;
     private static final int REQUEST_CODE_HOME_WEATHER = 131;
     private static final int REQUEST_CODE_HOME_BANNER = 132;
 
-    private  boolean home = false;
+    private boolean home = false;
     private boolean weather = false;
     private boolean banner = false;
     private static final String URL_FIELD = NetConfig.BASE_URL + "home";
@@ -64,6 +65,11 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
 
     private static final String TAG = "HomeFragment";
 
+    public static final long DEFAULT_FIELD_ID = -1;
+
+
+    FieldEntity.Param param = new FieldEntity.Param();
+    WeatherEntity.Param weatherParam = new WeatherEntity.Param();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -90,8 +96,6 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
         initView();
         initRefreshLayout();
         initEvent();
-
-
         return mRoot;
     }
 
@@ -143,55 +147,6 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
     }
 
 
-    private void loadDataFromWithCache() {
-
-        loadFieldData("10");
-        loadWeatherData();
-        loadBanner();
-
-    }
-    public void loadFieldData(String fiedlId) {
-        FieldEntity.Param param = new FieldEntity.Param();
-        param.fieldId = fiedlId;
-
-        VolleyManager.getInstance().addGetRequestWithCache(
-                REQUEST_CODE_HOME_FIELD,
-                URL_FIELD,
-                param,
-                FieldEntity.class,
-                this
-        );
-
-    }
-
-
-
-    public void loadWeatherData() {
-        WeatherEntity.Param param = new WeatherEntity.Param();
-        param.monitorLocationId = "101010100";
-        VolleyManager.getInstance().addGetRequestWithCache(
-                REQUEST_CODE_HOME_WEATHER,
-                URL_WEATHER,
-                param,
-                WeatherEntity.class,
-                this
-        );
-
-    }
-
-
-    private void loadBanner() {
-
-
-        VolleyManager.getInstance().addGetRequestWithCache(
-                REQUEST_CODE_HOME_BANNER,
-                URL_BANNER,
-                null,
-                BannerEntity.class,
-                this
-        );
-
-    }
 
 
 
@@ -242,11 +197,6 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
     }
 
 
-
-
-
-
-
     @Override
     public void onTaskSuccess(int requestCode, Object response) {
 
@@ -256,10 +206,10 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
                 FieldEntity entity = (FieldEntity) response;
                 DEBUG("entity:" + entity.toString());
                 if (entity != null) {
-                	
-                	if(entity.currentField != null){
-                		mDisasterView.updateView(entity.currentField.natdisws, entity.currentField.petdisws);
-                	}
+
+                    if (entity.currentField != null) {
+                        mDisasterView.updateView(entity.currentField.natdisws, entity.currentField.petdisws);
+                    }
 
                     mCropStateView.updateView(entity);
                     mCropStateView.setOnAddFieldClickListener(new CropsStateView.MyOnAddFieldClickListener() {
@@ -280,7 +230,7 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
                     });
                     mCropStateView.updateView(entity);
 
-                    mSoilView.updateView(entity.latestReport,entity.soilHum);
+                    mSoilView.updateView(entity.latestReport, entity.soilHum);
                 }
                 break;
             case REQUEST_CODE_HOME_WEATHER:
@@ -289,14 +239,14 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
 
                 DEBUG(weatherEntity.toString());
 
-                    mHomeWeatherView.setWeatherData(weatherEntity);
+                mHomeWeatherView.setWeatherData(weatherEntity);
 
                 break;
 
-            case  REQUEST_CODE_HOME_BANNER:
+            case REQUEST_CODE_HOME_BANNER:
                 banner = true;
                 BannerEntity banner = (BannerEntity) response;
-                if(banner!=null){
+                if (banner != null) {
                     mBannerView.updateView(banner);
                 }
                 break;
@@ -334,38 +284,12 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
     }
 
 
-    private void login() {
-
-        RequestService.getInstance().authcodeLoginReg(this.getActivity(), "13999999191", LoginRegEntity.class, new NetRequest.RequestListener() {
-
-            @Override
-            public void onSuccess(int requestCode, BaseEntity resultData) {
-
-                if (resultData.isOk()) {
-                    LoginRegEntity entity = (LoginRegEntity) resultData;
-
-                    Logger.d("Home1", resultData.getMessage());
-                    AccountManager.saveAccount(HomeFragment.this.getActivity(), entity.getData());
-                    loadDataFromWithCache();
-
-                }
-            }
-
-            @Override
-            public void onFailed(int requestCode, Exception error, String msg) {
-
-
-                loadDataFromWithCache();
-            }
-        });
-    }
 
 
     @Override
     public void onResume() {
         super.onResume();
-       login();
-        //loadDataFromWithCache();
+        loadDataFromWithCache();
     }
 
 
@@ -382,9 +306,166 @@ public class HomeFragment extends Fragment implements  INetRequest, BGARefreshLa
 
     }
 
+
+    private void initLocation() {
+
+
+        LocationUtils.getInstance().registerLocationListener(new LocationUtils.LocationListener() {
+
+            @Override
+            public void locationNotify(LocationResult result) {
+                DEBUG("定位开始执行");
+                param.fieldId = String.valueOf(DEFAULT_FIELD_ID);
+                param.lat = String.valueOf(result.getLatitude());
+                param.lon = String.valueOf(result.getLongitude());
+                weatherParam.lat = String.valueOf(result.getLatitude());
+                weatherParam.lon = String.valueOf(result.getLongitude());
+                weatherParam.monitorLocationId = String.valueOf(DEFAULT_FIELD_ID);
+                loadFieldData(param);
+                loadWeatherData(weatherParam);
+                DEBUG("定位结束");
+            }
+        });
+    }
+
+
+    private void loadDataFromWithCache() {
+
+        if (BuildConfig.DEBUG&&isLogin) {
+            DEBUG("---auto login---");
+            login();
+            return;
+        }
+
+
+        if(AccountManager.isLogin(this.getActivity())){
+            long mFiledId = SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
+            param.fieldId = String.valueOf(mFiledId);
+            param.lat = "";
+            param.lon = "";
+            weatherParam.lat = "";
+            weatherParam.lon = "";
+            weatherParam.monitorLocationId = SharedPreferencesHelper.getString(this.getActivity(), "FIELD_" + mFiledId, "");
+            loadFieldData(param);
+            loadWeatherData(weatherParam);
+        } else {
+            DEBUG("------- not login");
+            initLocation();
+        }
+        loadBanner();
+
+
+    }
+
+    public void loadFieldData(FieldEntity.Param param) {
+        VolleyManager.getInstance().addGetRequestWithCache(
+                REQUEST_CODE_HOME_FIELD,
+                URL_FIELD,
+                param,
+                FieldEntity.class,
+                this
+        );
+
+    }
+
+
+    public void loadWeatherData(WeatherEntity.Param param) {
+        VolleyManager.getInstance().addGetRequestWithCache(
+                REQUEST_CODE_HOME_WEATHER,
+                URL_WEATHER,
+                param,
+                WeatherEntity.class,
+                this
+        );
+
+    }
+
+
+    private void loadBanner() {
+
+
+        VolleyManager.getInstance().addGetRequestWithCache(
+                REQUEST_CODE_HOME_BANNER,
+                URL_BANNER,
+                null,
+                BannerEntity.class,
+                this
+        );
+
+    }
+
     private void DEBUG(String msg) {
         if (BuildConfig.DEBUG) {
             Log.d(TAG, msg);
         }
     }
+
+
+
+    private void login() {
+
+        RequestService.getInstance().authcodeLoginReg(this.getActivity(), "13999999191", LoginRegEntity.class, new NetRequest.RequestListener() {
+
+            @Override
+            public void onSuccess(int requestCode, BaseEntity resultData) {
+
+                if (resultData.isOk()) {
+                    LoginRegEntity entity = (LoginRegEntity) resultData;
+
+                    AccountManager.saveAccount(HomeFragment.this.getActivity(), entity.getData());
+                    AtuoLoadDataFromWithCache();
+                }
+            }
+
+            @Override
+            public void onFailed(int requestCode, Exception error, String msg) {
+
+                AtuoLoadDataFromWithCache();
+
+            }
+        });
+    }
+
+
+//-------test--------
+
+
+    private void AtuoLoadDataFromWithCache() {
+
+        loadFieldData("10");
+        loadWeatherData();
+        loadBanner();
+
+    }
+    public void loadFieldData(String fiedlId) {
+        FieldEntity.Param param = new FieldEntity.Param();
+        param.fieldId = fiedlId;
+
+        VolleyManager.getInstance().addGetRequestWithCache(
+                REQUEST_CODE_HOME_FIELD,
+                URL_FIELD,
+                param,
+                FieldEntity.class,
+                this
+        );
+
+    }
+
+
+
+    public void loadWeatherData() {
+        WeatherEntity.Param param = new WeatherEntity.Param();
+        param.monitorLocationId = "101010100";
+        VolleyManager.getInstance().addGetRequestWithCache(
+                REQUEST_CODE_HOME_WEATHER,
+                URL_WEATHER,
+                param,
+                WeatherEntity.class,
+                this
+        );
+
+    }
+
+
+//-------test--------
 }

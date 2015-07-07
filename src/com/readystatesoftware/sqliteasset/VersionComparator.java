@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.dasinong.app.BuildConfig;
 import com.readystatesoftware.sqliteasset.SQLiteAssetHelper.SQLiteAssetException;
 
 /**
@@ -52,12 +53,13 @@ class VersionComparator implements Comparator<String> {
         Matcher m1 = pattern.matcher(file1);
 
         if (!m0.matches()) {
-            Log.w(TAG, "could not parse upgrade script file: " + file0);
             throw new SQLiteAssetException("Invalid upgrade script file");
         }
 
         if (!m1.matches()) {
-            Log.w(TAG, "could not parse upgrade script file: " + file1);
+            if(BuildConfig.DEBUG) {
+                Log.w(TAG, "could not parse upgrade script file: " + file1);
+            }
             throw new SQLiteAssetException("Invalid upgrade script file");
         }
 

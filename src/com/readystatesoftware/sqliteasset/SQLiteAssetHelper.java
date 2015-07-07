@@ -23,6 +23,8 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.dasinong.app.BuildConfig;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -191,7 +193,7 @@ public class SQLiteAssetHelper extends SQLiteOpenHelper {
                         onCreate(db);
                     } else {
                         if (version > mNewVersion) {
-                            Log.w(TAG, "Can't downgrade read-only database from version " +
+                            DEBUG( "Can't downgrade read-only database from version " +
                                     version + " to " + mNewVersion + ": " + db.getPath());
                         }
                         onUpgrade(db, version, mNewVersion);
@@ -254,7 +256,7 @@ public class SQLiteAssetHelper extends SQLiteOpenHelper {
             return getWritableDatabase();
         } catch (SQLiteException e) {
             if (mName == null) throw e;  // Can't open a temp database read-only!
-            Log.e(TAG, "Couldn't open " + mName + " for writing (will try read-only):", e);
+            DEBUG("Couldn't open " + mName + " for writing (will try read-only):" + e.getMessage());
         }
 
         SQLiteDatabase db = null;
@@ -304,20 +306,20 @@ public class SQLiteAssetHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-        Log.w(TAG, "Upgrading database " + mName + " from version " + oldVersion + " to " + newVersion + "...");
+        DEBUG("Upgrading database " + mName + " from version " + oldVersion + " to " + newVersion + "...");
 
         ArrayList<String> paths = new ArrayList<String>();
         getUpgradeFilePaths(oldVersion, newVersion-1, newVersion, paths);
 
         if (paths.isEmpty()) {
-            Log.e(TAG, "no upgrade script path from " + oldVersion + " to " + newVersion);
+            DEBUG( "no upgrade script path from " + oldVersion + " to " + newVersion);
             throw new SQLiteAssetException("no upgrade script path from " + oldVersion + " to " + newVersion);
         }
 
         Collections.sort(paths, new VersionComparator());
         for (String path : paths) {
             try {
-                Log.w(TAG, "processing upgrade: " + path);
+                DEBUG( "processing upgrade: " + path);
                 InputStream is = mContext.getAssets().open(path);
                 String sql = Utils.convertStreamToString(is);
                 if (sql != null) {
@@ -334,7 +336,7 @@ public class SQLiteAssetHelper extends SQLiteOpenHelper {
             }
         }
 
-        Log.w(TAG, "Successfully upgraded database " + mName + " from version " + oldVersion + " to " + newVersion);
+        DEBUG("Successfully upgraded database " + mName + " from version " + oldVersion + " to " + newVersion);
 
     }
 
@@ -390,7 +392,7 @@ public class SQLiteAssetHelper extends SQLiteOpenHelper {
         if (db != null) {
             // database already exists
             if (force) {
-                Log.w(TAG, "forcing database upgrade!");
+                DEBUG("forcing database upgrade!");
                 copyDatabaseFromAssets();
                 db = returnDatabase();
             }
@@ -406,16 +408,16 @@ public class SQLiteAssetHelper extends SQLiteOpenHelper {
     private SQLiteDatabase returnDatabase(){
         try {
             SQLiteDatabase db = SQLiteDatabase.openDatabase(mDatabasePath + "/" + mName, mFactory, SQLiteDatabase.OPEN_READWRITE);
-            Log.i(TAG, "successfully opened database " + mName);
+            DEBUG("successfully opened database " + mName);
             return db;
         } catch (SQLiteException e) {
-            Log.w(TAG, "could not open database " + mName + " - " + e.getMessage());
+            DEBUG("could not open database " + mName + " - " + e.getMessage());
             return null;
         }
     }
 
     private void copyDatabaseFromAssets() throws SQLiteAssetException {
-        Log.w(TAG, "copying database from assets...");
+        DEBUG("copying database from assets...");
 
         String path = mAssetPath;
         String dest = mDatabasePath + "/" + mName;
@@ -455,7 +457,7 @@ public class SQLiteAssetHelper extends SQLiteOpenHelper {
                 Utils.writeExtractedFileToDisk(is, new FileOutputStream(dest));
             }
 
-            Log.w(TAG, "database copy complete");
+            DEBUG("database copy complete");
 
         } catch (IOException e) {
             SQLiteAssetException se = new SQLiteAssetException("Unable to write " + dest + " to data directory");
@@ -469,7 +471,7 @@ public class SQLiteAssetHelper extends SQLiteOpenHelper {
         try {
             return mContext.getAssets().open(path);
         } catch (IOException e) {
-            Log.w(TAG, "missing database upgrade script: " + path);
+            DEBUG( "missing database upgrade script: " + path);
             return null;
         }
     }
@@ -512,5 +514,14 @@ public class SQLiteAssetHelper extends SQLiteOpenHelper {
             super(error);
         }
     }
+
+
+    private void DEBUG(String msg) {
+        if (BuildConfig.DEBUG) {
+            Log.d(TAG, msg);
+        }
+    }
+
+
 
 }

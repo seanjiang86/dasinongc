@@ -149,5 +149,7 @@ public class FieldEntity extends BaseResponse {
 
     public static  class Param{
         public String fieldId;
+        public String  lat;
+        public String lon;
     }
 }

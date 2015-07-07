@@ -8,5 +8,5 @@ public class TaskSpec {
     public String taskSpecName;
     public int subStage;
     public String type;
-    public String  fitRegion   ;
+    public String  fitRegion;
 }

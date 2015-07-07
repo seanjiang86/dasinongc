@@ -139,6 +139,7 @@
 
     <LinearLayout
         android:id="@+id/campaign"
+        android:minHeight="0dp"
         android:layout_marginLeft="@dimen/home_dimen_30"
         android:layout_marginRight="@dimen/home_dimen_30"
         android:orientation="vertical"

@@ -2,7 +2,9 @@ package com.dasinong.app.database.common.dao.impl;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
+import com.dasinong.app.BuildConfig;
 import com.dasinong.app.database.common.LocalDataBaseHelper;
 import com.dasinong.app.database.common.dao.DaoSupport;
 import com.dasinong.app.utils.Logger;
@@ -68,8 +70,7 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
     
     public List<T> query(String selection, String[] selectionArgs,String orderBy) {
 
-        List<T> result = new ArrayList<T>();
-
+        List<T> result = new ArrayList<>();
        Cursor cursor =  sqLiteDatabase.getWritableDatabase().query(mTableName, null, selection, selectionArgs, null, null, orderBy);
         convertVo(result, cursor);
         if (cursor != null) {
