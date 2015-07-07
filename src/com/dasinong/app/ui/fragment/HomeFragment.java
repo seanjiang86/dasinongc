@@ -37,7 +37,7 @@ import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 
 
 public class HomeFragment extends Fragment implements INetRequest, BGARefreshLayout.BGARefreshLayoutDelegate {
-    private boolean isLogin = false;
+    private boolean autoLogin = true;
 
     private static final int REQUEST_CODE_HOME_FIELD = 130;
     private static final int REQUEST_CODE_HOME_WEATHER = 131;
@@ -331,7 +331,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     private void loadDataFromWithCache() {
 
-        if (BuildConfig.DEBUG&&isLogin) {
+        if (BuildConfig.DEBUG&& autoLogin) {
             DEBUG("---auto login---");
             login();
             return;
