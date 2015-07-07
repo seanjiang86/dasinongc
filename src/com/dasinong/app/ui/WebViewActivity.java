@@ -18,6 +18,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.dasinong.app.R;
+import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.Logger;
 
 import android.content.Context;
@@ -39,13 +40,19 @@ import android.widget.Toast;
 public class WebViewActivity extends BaseActivity {
 
 	private WebView webView;
+	private TopbarView topbar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_web_view);
 
-		webView = (WebView) findViewById(R.id.wv);
+		webView = (WebView) findViewById(R.id.webView);
+		topbar = (TopbarView) findViewById(R.id.topbar);
+		
+		topbar.setCenterText("详情页");
+		topbar.setLeftView(true, true);
+		
 		// 设置web视图客户端
 		webView.setWebViewClient(new MyWebViewClient());
 		// 得到WebSettings对象，设置支持JavaScript的参数
