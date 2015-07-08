@@ -1,6 +1,7 @@
 package com.dasinong.app.components.home.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.opengl.Visibility;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BannerEntity;
 import com.dasinong.app.net.NetConfig;
+import com.dasinong.app.ui.WebBrowserActivity;
 import com.liam.imageload.LoadUtils;
 
 /**
@@ -64,7 +66,11 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
 
 
         if (!TextUtils.isEmpty(url)) {
-            Toast.makeText(getContext(), "open url" + url, Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this.getContext(),WebBrowserActivity.class) ;
+            intent.putExtra(WebBrowserActivity.TITLE,"天气预警");
+            intent.putExtra(WebBrowserActivity.URL,NetConfig.BASE_URL+url);
+            getContext().startActivity(intent);
+
         }
 
     }
@@ -83,15 +89,15 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
         visibilityAllView();
         switch (banner.data.type) {
 
-            case 2:
+            case 1:
                 mImageContainer.setVisibility(VISIBLE);
                 dealImageContainer(banner);
                 break;
-            case 1:
+            case 3:
                 mAllContainer.setVisibility(VISIBLE);
                 dealAllView(banner);
                 break;
-            case 3:
+            case 2:
                 mImageTitleContainer.setVisibility(VISIBLE);
                 dealTitleImageContainer(banner);
                 break;
