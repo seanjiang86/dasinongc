@@ -41,7 +41,7 @@ import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 
 
 public class HomeFragment extends Fragment implements INetRequest, BGARefreshLayout.BGARefreshLayoutDelegate {
-    private boolean autoLogin = true;
+    private boolean autoLogin = false;
 
     private static final int REQUEST_CODE_HOME_FIELD = 130;
     private static final int REQUEST_CODE_HOME_WEATHER = 131;
@@ -74,6 +74,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     FieldEntity.Param param = new FieldEntity.Param();
     WeatherEntity.Param weatherParam = new WeatherEntity.Param();
 
+    BannerEntity.Param  bannerParam = new BannerEntity.Param();
     private long mStartTime = -1L;
     /**
      * unite is minute
@@ -238,13 +239,16 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 break;
 
         }
-
+        DEBUG("isHomeSuccess:"+isHomeSuccess);
+        DEBUG("isWeather:"+isWeatherSuccess);
+        DEBUG("isBanner:"+isBannerSuccess);
         if (isHomeSuccess && isWeatherSuccess && isBannerSuccess) {
             DEBUG("isSuccess All");
             mRefreshLayout.endRefreshing();
             resetSuccessFlag();
             isShowDialog = false;
             if (mBaseActivity != null) {
+                mRoot.setVisibility(View.VISIBLE);
                 mBaseActivity.dismissLoadingDialog();
             }
         }
@@ -262,13 +266,13 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 onTaskSuccess(requestCode, fieldEntity);
                 break;
             case REQUEST_CODE_HOME_WEATHER:
-                WeatherEntity weather = VolleyManager.getInstance().getCacheDomain(mHomeRequest, WeatherEntity.class);
+                WeatherEntity weather = VolleyManager.getInstance().getCacheDomain(mWeatherRequest, WeatherEntity.class);
                 onTaskSuccess(requestCode, weather);
 
                 break;
 
             case REQUEST_CODE_HOME_BANNER:
-                BannerEntity bannerEntity = VolleyManager.getInstance().getCacheDomain(mHomeRequest, BannerEntity.class);
+                BannerEntity bannerEntity = VolleyManager.getInstance().getCacheDomain(mBannerRequest, BannerEntity.class);
                 onTaskSuccess(requestCode, bannerEntity);
                 break;
             default:
@@ -338,8 +342,12 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 weatherParam.lat = String.valueOf(result.getLatitude());
                 weatherParam.lon = String.valueOf(result.getLongitude());
                 weatherParam.monitorLocationId = String.valueOf(DEFAULT_FIELD_ID);
+
+                bannerParam.lat = String.valueOf(result.getLatitude());
+                bannerParam.lon = String.valueOf(result.getLongitude());
                 loadFieldData(param);
                 loadWeatherData(weatherParam);
+                loadBanner(bannerParam);
                 DEBUG("定位结束");
             }
         });
@@ -364,6 +372,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
             mStartTime = SystemClock.currentThreadTimeMillis();
             if (mBaseActivity != null && isShowDialog) {
                 DEBUG("showDialog");
+                mRoot.setVisibility(View.GONE);
                 mBaseActivity.startLoadingDialog();
             }
         }
@@ -375,13 +384,18 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
             weatherParam.lat = "";
             weatherParam.lon = "";
             weatherParam.monitorLocationId = SharedPreferencesHelper.getString(this.getActivity(), "FIELD_" + mFiledId, "");
+            bannerParam.lat = "";
+            bannerParam.lon = "";
+            bannerParam.monitorLocationId = SharedPreferencesHelper.getString(this.getActivity(), "FIELD_" + mFiledId, "");
             loadFieldData(param);
             loadWeatherData(weatherParam);
+            loadBanner(bannerParam);
         } else {
             DEBUG("------- not login");
             initLocation();
+
         }
-        loadBanner();
+
 
 
     }
@@ -413,11 +427,11 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     }
 
 
-    private void loadBanner() {
+    private void loadBanner(BannerEntity.Param param) {
         mBannerRequest = VolleyManager.getInstance().addGetRequestWithCache(
                 REQUEST_CODE_HOME_BANNER,
                 URL_BANNER,
-                null,
+                param,
                 BannerEntity.class,
                 this
         );
@@ -475,7 +489,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     private void AtuoLoadDataFromWithCache() {
         loadFieldData("10");
         loadWeatherData();
-        loadBanner();
+        loadBanner(null);
 
     }
 

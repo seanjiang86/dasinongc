@@ -9,7 +9,6 @@ public class BannerEntity extends BaseResponse {
     public ItemEntity data;
 
 
-
     public class ItemEntity {
         /**
          * content : 高考成绩不理想真无所谓，你奋斗过，努力过，拼搏过，就不必太在乎结果。考的分低，
@@ -27,6 +26,14 @@ public class BannerEntity extends BaseResponse {
         public String url;
         public String picUrl;
 
+
+    }
+
+
+    public static class Param {
+        public String lat;
+        public String lon;
+        public String monitorLocationId;
 
     }
 }
