@@ -22,10 +22,12 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -45,6 +47,8 @@ public class SearchResultActivity extends BaseActivity {
 	private String keywords;
 
 	private SearchResultAdapter mAdapter;
+	
+	private ImageView mSearchView;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -144,6 +148,8 @@ public class SearchResultActivity extends BaseActivity {
 		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
 		mSearchEdit = (EditText) this.findViewById(R.id.edittext_search);
 		mResultListview = (ListView) this.findViewById(R.id.listview_search_result);
+		
+		mSearchView = (ImageView) this.findViewById(R.id.imageview_search);
 	}
 
 	private void setUpView() {
@@ -165,20 +171,13 @@ public class SearchResultActivity extends BaseActivity {
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
 				if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP){
 					
-					DeviceHelper.hideIME(mSearchEdit);
-					
-					String keywords = mSearchEdit.getText().toString().trim();
-					if(TextUtils.isEmpty(keywords)){
-						Toast.makeText(SearchResultActivity.this, "请输入要搜索的内容", 0).show();
-						return false;
-					}
-					
-					requestData(keywords);
+					search();
 					
 					return true;
 				}
 				return false;
 			}
+
 		});
 		
 		mResultListview.setOnItemClickListener(new OnItemClickListener() {
@@ -200,6 +199,26 @@ public class SearchResultActivity extends BaseActivity {
 			}
 		});
 		
+		mSearchView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				search();
+			}
+		});
+		
+	}
+	
+	private void search() {
+		DeviceHelper.hideIME(mSearchEdit);
+		
+		String keywords = mSearchEdit.getText().toString().trim();
+		if(TextUtils.isEmpty(keywords)){
+			Toast.makeText(SearchResultActivity.this, "请输入要搜索的内容", 0).show();
+			return;
+		}
+		
+		requestData(keywords);
 	}
 	
 }

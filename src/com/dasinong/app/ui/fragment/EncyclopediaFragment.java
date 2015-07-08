@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -46,6 +47,8 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 	private EditText mSearchEdit;
 	private RelativeLayout mAskforLayout;
 	private RelativeLayout mIntelligentLayout;
+	
+	private ImageView mSearchView;
 	
 
 	@Override
@@ -77,6 +80,7 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 		mSearchEdit = (EditText) mContentView.findViewById(R.id.edittext_search);
 		mAskforLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_ask_for);
 		mIntelligentLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_intelligent);
+		mSearchView = (ImageView) mContentView.findViewById(R.id.imageview_search);
 	}
 
 	private void setUpView() {
@@ -94,21 +98,35 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 					
 //					DeviceHelper.hideIME(mSearchEdit);
 					
-					String keywords = mSearchEdit.getText().toString().trim();
-					if(TextUtils.isEmpty(keywords)){
-						Toast.makeText(getActivity(), "请输入要搜索的内容", 0).show();
-						return false;
-					}
-					
-					Intent intent = new Intent(getActivity(),SearchResultActivity.class);
-					intent.putExtra("keywords", keywords);
-					getActivity().startActivity(intent);
+					search();
 					return true;
 				}
 				return false;
 			}
+
+			
 		});
 		
+		mSearchView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				search();
+			}
+		});
+		
+	}
+	
+	private void search() {
+		String keywords = mSearchEdit.getText().toString().trim();
+		if(TextUtils.isEmpty(keywords)){
+			Toast.makeText(getActivity(), "请输入要搜索的内容", 0).show();
+			return;
+		}
+		
+		Intent intent = new Intent(getActivity(),SearchResultActivity.class);
+		intent.putExtra("keywords", keywords);
+		getActivity().startActivity(intent);
 	}
 	
 	@Override
