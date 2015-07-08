@@ -304,6 +304,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     @Override
     public void onResume() {
         super.onResume();
+        DEBUG("onResume");
         if (mStartTime < 0) {
             loadDataFromWithCache(true);
         } else {
@@ -339,14 +340,20 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
             public void locationNotify(LocationResult result) {
                 DEBUG("定位开始执行");
                 param.fieldId = String.valueOf(DEFAULT_FIELD_ID);
-                param.lat = String.valueOf(result.getLatitude());
-                param.lon = String.valueOf(result.getLongitude());
-                weatherParam.lat = String.valueOf(result.getLatitude());
-                weatherParam.lon = String.valueOf(result.getLongitude());
+                String lat = String.valueOf(result.getLatitude());
+                String lon = String.valueOf(result.getLongitude());
+//                if(BuildConfig.DEBUG){
+//                    lat ="24.8";
+//                    lon ="118.6";
+//                }
+                param.lat = lat;
+                param.lon = lon;
+                weatherParam.lat = lat;
+                weatherParam.lon = lon;
                 weatherParam.monitorLocationId = String.valueOf(DEFAULT_FIELD_ID);
 
-                bannerParam.lat = String.valueOf(result.getLatitude());
-                bannerParam.lon = String.valueOf(result.getLongitude());
+                bannerParam.lat = lat;
+                bannerParam.lon = lon;
                 loadFieldData(param);
                 loadWeatherData(weatherParam);
                 loadBanner(bannerParam);
@@ -387,10 +394,12 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
             param.lon = "";
             weatherParam.lat = "";
             weatherParam.lon = "";
-            weatherParam.monitorLocationId = SharedPreferencesHelper.getString(this.getActivity(), "FIELD_" + mFiledId, "");
+                DEBUG("mFieldID:"+mFiledId+"");
+                int motionID = SharedPreferencesHelper.getInt(this.getActivity(), "FIELD_" + mFiledId, -1);
+                weatherParam.monitorLocationId = String.valueOf(motionID);
             bannerParam.lat = "";
             bannerParam.lon = "";
-            bannerParam.monitorLocationId = SharedPreferencesHelper.getString(this.getActivity(), "FIELD_" + mFiledId, "");
+            bannerParam.monitorLocationId = String.valueOf(motionID);
             loadFieldData(param);
             loadWeatherData(weatherParam);
             loadBanner(bannerParam);

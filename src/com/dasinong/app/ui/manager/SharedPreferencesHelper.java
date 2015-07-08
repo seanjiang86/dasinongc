@@ -33,7 +33,11 @@ public final class SharedPreferencesHelper {
         MONITOR_LOCATION_ID,
 
     };
-    
+
+
+    public static int getInt(Context context, String field, int defaultValue) {
+        return context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).getInt(field,-1);
+    }
     public static int getInt(Context context, Field field, int defaultValue) {
         return context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).getInt(field.name(), defaultValue);
     }
