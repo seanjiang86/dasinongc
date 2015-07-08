@@ -270,7 +270,12 @@ public class VolleyManager {
 
     private Cache.Entry getCache(Request request) {
 
-        return mRequestQueue.getCache().get(request.getUrl());
+        if(mRequestQueue.getCache()!=null){
+            return mRequestQueue.getCache().get(request.getUrl());
+        }
+
+        return  null;
+
     }
 
     public <T> T getCacheDomain(Request request, Class<T> clazz) {
