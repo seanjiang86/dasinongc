@@ -190,7 +190,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
                 if (entity != null) {
                     if (entity.currentField != null) {
-                        mDisasterView.updateView(entity.currentField.natdisws, entity.currentField.petdisws);
+                        mDisasterView.updateView(entity.currentField.petdisspecws, entity.currentField.petdisws);
                     }
 
                     mCropStateView.updateView(entity);
@@ -481,7 +481,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     private void resetSuccessFlag() {
         isHomeSuccess = false;
         isBannerSuccess = false;
-        isWeatherSuccess = true;
+        isWeatherSuccess = false;
     }
 
     @Override
@@ -494,7 +494,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 
     private void AtuoLoadDataFromWithCache() {
-        loadFieldData("10");
+        loadFieldData("24");
         loadWeatherData();
         loadBanner(null);
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Debug;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -60,17 +61,10 @@ public class DisasterView extends LinearLayout {
 
     private LinearLayout.LayoutParams mTopLayoutParam;
 
-    private int mNatDisasterRes;
+
     private int mPetDisasterRes;
 
     private PetDisspecDaoImpl dao;
-
-    private List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> mTopCurrentNatEntity;
-    private List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> mTopCurrentPetEntity;
-
-
-
-
 
 
     public DisasterView(Context context) {
@@ -94,14 +88,13 @@ public class DisasterView extends LinearLayout {
 
         mLayoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        mNatDisasterRes = R.drawable.natdisaster_bg;
+
         mPetDisasterRes = R.drawable.disaster_bg;
 
         initTopView();
 
         initBottomView();
-        mTopCurrentNatEntity = new ArrayList<FieldEntity.CurrentFieldEntity.NatdiswsEntity>();
-        mTopCurrentPetEntity = new ArrayList<FieldEntity.CurrentFieldEntity.PetdiswsEntity>();
+
         //updateView(null, null);
 
         dao = new PetDisspecDaoImpl(this.getContext());
@@ -130,20 +123,18 @@ public class DisasterView extends LinearLayout {
 
     }
 
-
-    public synchronized void  updateView(List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> natdiswsEntityList, List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
+    //false,true
+    public synchronized void updateView(List<FieldEntity.CurrentFieldEntity.Petdisspecws> list, List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
 
         this.removeAllViews();
         addTopView();
-        if((natdiswsEntityList==null||natdiswsEntityList.isEmpty())&&(petdiswsEntities==null&&petdiswsEntities.isEmpty())){
+        if ((list == null || list.isEmpty()) && (petdiswsEntities == null && petdiswsEntities.isEmpty())) {
             return;
         }
 
-       // filterNatEntity(natdiswsEntityList);
-        filterDiste(petdiswsEntities);
-        //updateNatView(mTopCurrentNatEntity);
-        updatePetView(mTopCurrentPetEntity);
-        //updateNatView(natdiswsEntityList);
+
+        updatePetdisspecws(list);
+
         updatePetView(petdiswsEntities);
 
 
@@ -151,34 +142,6 @@ public class DisasterView extends LinearLayout {
 
     }
 
-    private void filterNatEntity(List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> natdiswsEntityList) {
-
-        if(natdiswsEntityList==null||natdiswsEntityList.isEmpty()){
-            return;
-        }
-
-        Iterator<FieldEntity.CurrentFieldEntity.NatdiswsEntity> iterator = natdiswsEntityList.iterator();
-        mTopCurrentNatEntity.clear();
-        while (iterator.hasNext()) {
-            FieldEntity.CurrentFieldEntity.NatdiswsEntity entity = iterator.next();
-            if (entity.alerttype) {
-                mTopCurrentNatEntity.add(entity);
-                iterator.remove();
-            }
-        }
-    }
-
-    private void filterDiste(List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
-        Iterator<FieldEntity.CurrentFieldEntity.PetdiswsEntity> iterator = petdiswsEntities.iterator();
-        mTopCurrentPetEntity.clear();
-        while (iterator.hasNext()) {
-            FieldEntity.CurrentFieldEntity.PetdiswsEntity entity = iterator.next();
-            if(entity.alerttype){
-                mTopCurrentPetEntity.add(entity);
-                iterator.remove();
-            }
-        }
-    }
 
 
 
@@ -194,17 +157,58 @@ public class DisasterView extends LinearLayout {
 
     }
 
-    private void updateNatView(List<FieldEntity.CurrentFieldEntity.NatdiswsEntity> natdiswsEntityList) {
+
+
+    private void updatePetdisspecws(List<FieldEntity.CurrentFieldEntity.Petdisspecws> items) {
         View child;
-        if (natdiswsEntityList != null && !natdiswsEntityList.isEmpty()) {
-            for (FieldEntity.CurrentFieldEntity.NatdiswsEntity item : natdiswsEntityList) {
-                child = createNatView(item);
+        if (items != null && !items.isEmpty()) {
+            for (FieldEntity.CurrentFieldEntity.Petdisspecws item : items) {
+                child = createPetdisspecws(item);
                 this.addView(child);
             }
         }
 
+    }
+
+
+
+    private View createPetdisspecws(final FieldEntity.CurrentFieldEntity.Petdisspecws item) {
+
+        View child = mLayoutInflater.inflate(R.layout.view_home_disaster, this, false);
+
+        TextView desc = (TextView) child.findViewById(R.id.disaster_desc);
+        ImageView icon = (ImageView) child.findViewById(R.id.disaster_icon);
+        TextView name = (TextView) child.findViewById(R.id.disaster_name);
+        TextView type = (TextView) child.findViewById(R.id.disaster_type);
+
+        name.setText(item.petDisSpecName);
+
+        type.setBackgroundResource(R.drawable.natdisaster_bg);
+
+
+        type.setText("易发"+getDisasterString(item.type));
+        icon.setImageResource(getDisasterIcon(item.type));
+
+        desc.setText(item.sympton);
+
+
+        child.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //TODO: flag editor
+                //TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
+                Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_ITEM, getContext());
+                getContext().startActivity(intent);
+
+            }
+
+
+        });
+        return child;
 
     }
+
 
     private void updatePetView(List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
         View child;
@@ -227,68 +231,24 @@ public class DisasterView extends LinearLayout {
         TextView type = (TextView) child.findViewById(R.id.disaster_type);
 
         name.setText(item.petDisSpecName);
-        if(item.alerttype) {
-            type.setBackgroundResource(mPetDisasterRes);
-        }else {
-            type.setBackgroundResource(mPetDisasterRes);
-        }
 
-        type.setText(item.type + "预警");
+        type.setBackgroundResource(mPetDisasterRes);
+
+
+        type.setText(getDisasterString(item.type) + "预警");
         icon.setImageResource(getDisasterIcon(item.type));
 
         desc.setText(item.description);
 
-//        PetDisspec petDisspec =dao.queryDisasterById(item.petDisSpecId);
-//        desc.setText(petDisspec.description);
-//        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.petDisSpecId));
-//        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.petDisSpecId));
 
         child.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 //TODO: flag editor
-            	//TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
+                //TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
                 Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_ITEM, getContext());
                 getContext().startActivity(intent);
-
-            }
-
-
-        });
-        return child;
-
-    }
-
-
-    private View createNatView(FieldEntity.CurrentFieldEntity.NatdiswsEntity item) {
-
-        View child = mLayoutInflater.inflate(R.layout.view_home_disaster, this, false);
-
-        TextView desc = (TextView) child.findViewById(R.id.disaster_desc);
-        ImageView icon = (ImageView) child.findViewById(R.id.disaster_icon);
-        TextView name = (TextView) child.findViewById(R.id.disaster_name);
-        TextView type = (TextView) child.findViewById(R.id.disaster_type);
-        name.setText(item.natDisSpecName);
-        if(item.alerttype) {
-            type.setBackgroundResource(mPetDisasterRes);
-        }else {
-            type.setBackgroundResource(mPetDisasterRes);
-        }
-
-        //icon.setImageResource(getDisasterIcon(item.));
-
-        desc.setText(item.description);
-        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(16));
-        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(16));
-
-
-        child.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                //TODO:nat disaster H5
-                Toast.makeText(getContext(), "natdisaster url", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -338,7 +298,7 @@ public class DisasterView extends LinearLayout {
         @Override
         public void onClick(View v) {
             //需要标明你是点击防治，预防，还是该条item跳进来的
-        	//TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
+            //TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
             Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_PREVENT, getContext());
             v.getContext().startActivity(intent);
 
@@ -355,26 +315,48 @@ public class DisasterView extends LinearLayout {
 
         @Override
         public void onClick(View v) {
-        	
-        	//TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
+
+            //TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
             Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_CURE, getContext());
             v.getContext().startActivity(intent);
         }
     }
 
 
-    public int getDisasterIcon(String type){
-        if("病害".equals(type)){
+    public String getDisasterString(String type) {
+     if(TextUtils.isEmpty(type)){
+         return "病害";
+     }
+        if (type.contains("病害")) {
+            return "病害";
+
+        } else if (type.contains("虫害")) {
+            return "虫害";
+
+        } else if (type.contains("草害")) {
+
+            return "草害";
+        } else {
+            return "病害";
+        }
+    }
+
+
+    public int getDisasterIcon(String type) {
+        if(TextUtils.isEmpty(type)){
+            return R.drawable.weed;
+        }
+        if (type.contains("病害")) {
             return R.drawable.disease;
 
-        }else if ("虫害".equals(type)){
+        } else if (type.contains("虫害")) {
             return R.drawable.pest;
 
-        }else if("草害".equals(type)){
+        } else if (type.contains("草害")) {
 
             return R.drawable.weed;
-        }else {
-            return  R.drawable.naturaldis;
+        } else {
+            return R.drawable.naturaldis;
         }
     }
 }
