@@ -10,6 +10,7 @@ import com.dasinong.app.ui.RegisterPhoneActivity;
 import com.dasinong.app.ui.SmsSettingActivity;
 import com.dasinong.app.ui.SmsSubscribeActivity;
 import com.dasinong.app.ui.TaskDetailsActivity;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.view.TopbarView;
 
 import android.content.Intent;
@@ -81,6 +82,25 @@ public class MeFragment extends Fragment implements OnClickListener {
 		mContactUsLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_contact_us);
 		mCheckUpdateLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_check_update);
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		if(!AccountManager.isLogin(getActivity())){
+			mTopbarView.setRightText("登录");
+			mTopbarView.setRightClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent intent = new Intent(getActivity(),RegisterPhoneActivity.class);
+					getActivity().startActivity(intent);
+				}
+			});
+		}else{
+			mTopbarView.setRightText("");
+			mTopbarView.setRightClickListener(null);
+		}
+	}
 
 	private void setUpView() {
 
@@ -100,8 +120,13 @@ public class MeFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_my_info:// 个人信息
-			Intent myInfoIntent = new Intent(getActivity(), MyInfoActivity.class);
-			getActivity().startActivity(myInfoIntent);
+			if(!AccountManager.isLogin(getActivity())){
+				Intent myInfoIntent = new Intent(getActivity(), RegisterPhoneActivity.class);
+				getActivity().startActivity(myInfoIntent);
+			}else{
+				Intent myInfoIntent = new Intent(getActivity(), MyInfoActivity.class);
+				getActivity().startActivity(myInfoIntent);
+			}
 			break;
 		case R.id.layout_scancode:// 扫一扫
 			Intent scanIntent = new Intent(getActivity(), CaptureActivity.class);
@@ -114,8 +139,13 @@ public class MeFragment extends Fragment implements OnClickListener {
 			getActivity().startActivity(intent);
 			break;
 		case R.id.layout_sms_setting:// 短信订阅设置
-			Intent smsIntent = new Intent(getActivity(), SmsSettingActivity.class);
-			getActivity().startActivity(smsIntent);
+			if(!AccountManager.isLogin(getActivity())){
+				Intent myInfoIntent = new Intent(getActivity(), RegisterPhoneActivity.class);
+				getActivity().startActivity(myInfoIntent);
+			}else{
+				Intent smsIntent = new Intent(getActivity(), SmsSettingActivity.class);
+				getActivity().startActivity(smsIntent);
+			}
 			break;
 		case R.id.layout_help_center:// 帮助中心
 			Intent loginIntent = new Intent(getActivity(),RegisterPhoneActivity.class);
