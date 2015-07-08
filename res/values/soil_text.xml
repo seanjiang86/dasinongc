@@ -36,7 +36,6 @@
     <string name="soil_check">申请测土</string>
     <array name="soil_list">
         <item>为什么要测土？</item>
-        <item>测土配方报告示例</item>
         <item>采样须知</item>
         <item>测土报告解读</item>
         <item>哪里可以测土？</item>

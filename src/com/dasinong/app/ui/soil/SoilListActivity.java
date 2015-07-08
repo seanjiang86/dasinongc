@@ -62,24 +62,18 @@ public class SoilListActivity extends SoilBaseActivity implements AdapterView.On
                 break;
             case 1:
             	intent.setClass(this, RegisterServiceActivity.class);
-            	intent.putExtra("url", "SamplingExample.htm");
-            	intent.putExtra("title", "测土配方报告示例");
-            	startActivity(intent);
-                break;
-            case 2:
-            	intent.setClass(this, RegisterServiceActivity.class);
             	intent.putExtra("url", "SamplingNotice.htm");
             	intent.putExtra("title", "采样须知");
             	startActivity(intent);
                 break;
-            case 3:
+            case 2:
             	
             	intent.setClass(this, RegisterServiceActivity.class);
-            	intent.putExtra("url", "SamplingUnscramble.htm");
+            	intent.putExtra("url", "soiltest-sample.html");
             	intent.putExtra("title", "测土报告解读");
             	startActivity(intent);
                 break;
-            case 4:
+            case 3:
             	intent.setClass(this, RegisterServiceActivity.class);
             	intent.putExtra("url", "SamplingStation.htm");
             	intent.putExtra("title", "哪里可以测土？");

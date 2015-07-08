@@ -2,8 +2,6 @@ package com.dasinong.app.ui;
 
 import android.content.Intent;
 
-import com.dasinong.app.R;
-
 public class MyBaseActivity extends BaseActivity {
 	@Override
 	public void startActivity(Intent intent) {
