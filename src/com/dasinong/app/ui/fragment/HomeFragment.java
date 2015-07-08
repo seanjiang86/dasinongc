@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,7 +42,7 @@ import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 
 
 public class HomeFragment extends Fragment implements INetRequest, BGARefreshLayout.BGARefreshLayoutDelegate {
-    private boolean autoLogin = false;
+    private boolean autoLogin = true;
 
     private static final int REQUEST_CODE_HOME_FIELD = 130;
     private static final int REQUEST_CODE_HOME_WEATHER = 131;
@@ -173,10 +174,10 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     @Override
     public void onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
-        // 在这里加载更多数据，或者更具产品需求实现上拉刷新也可以
 
 
-        // 加载完毕后在UI线程结束加载更多
+
+
 
     }
 
@@ -378,6 +379,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
         }
 
         if (AccountManager.isLogin(this.getActivity())) {
+            boolean isEmpty = TextUtils.isEmpty(String.valueOf(mFiledId));
+            if(!isEmpty&&mFiledId!=DEFAULT_FIELD_ID){
             param.fieldId = String.valueOf(mFiledId);
             param.lat = "";
             param.lon = "";
@@ -390,6 +393,10 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
             loadFieldData(param);
             loadWeatherData(weatherParam);
             loadBanner(bannerParam);
+            }else{
+                initLocation();
+            }
+
         } else {
             DEBUG("------- not login");
             initLocation();
