@@ -107,7 +107,6 @@ public class ReportHarmActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_report_harm);
 		Res.init(DsnApplication.getContext());
-		login();
 
 		PublicWay.activityList.add(this);
 
@@ -467,32 +466,5 @@ public class ReportHarmActivity extends BaseActivity {
 			finish();
 		}
 
-	}
-
-	// TODO MING 测试代码将来去掉
-	private void login() {
-		if (AccountManager.isLogin(ReportHarmActivity.this)) {
-			return;
-		}
-		RequestService.getInstance().authcodeLoginReg(ReportHarmActivity.this, "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
-
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
-
-				if (resultData.isOk()) {
-					LoginRegEntity entity = (LoginRegEntity) resultData;
-					AccountManager.saveAccount(ReportHarmActivity.this, entity.getData());
-					showToast("登录成功");
-				} else {
-					Logger.d("TAG", resultData.getMessage());
-				}
-			}
-
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
-
-				Logger.d("TAG", "msg" + msg);
-			}
-		});
 	}
 }

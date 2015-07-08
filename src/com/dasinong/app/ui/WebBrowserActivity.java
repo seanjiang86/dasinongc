@@ -120,6 +120,8 @@ public class WebBrowserActivity extends BaseActivity {
 			public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 				// TODO Auto-generated method stub
 				super.onReceivedSslError(view, handler, error);
+				
+				// TODO 
 				dismissLoadingDialog();
 			}
 
