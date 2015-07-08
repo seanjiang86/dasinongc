@@ -42,4 +42,26 @@
         </LinearLayout>
     </ScrollView>
 
+    <LinearLayout
+        android:id="@+id/ll_error_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="30dp"
+        android:visibility="gone"
+        android:orientation="vertical" >
+        
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="320dp"
+            android:src="@drawable/sitdown_sadface"
+            android:scaleType="centerInside" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="哎呀！页面去火星了，请您稍后再来找它" />
+        
+    </LinearLayout>
+
 </LinearLayout>
