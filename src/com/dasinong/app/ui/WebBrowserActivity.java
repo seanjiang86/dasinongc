@@ -70,8 +70,8 @@ public class WebBrowserActivity extends BaseActivity {
 		settings.setDefaultTextEncodingName("utf-8");
 		settings.setSupportZoom(true);// 缩放
 
-		settings.setUseWideViewPort(true);
-		settings.setLoadWithOverviewMode(true);
+//		settings.setUseWideViewPort(true);
+//		settings.setLoadWithOverviewMode(true);
 		// settings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
 
 		settings.setBuiltInZoomControls(true);// 支持手势缩放

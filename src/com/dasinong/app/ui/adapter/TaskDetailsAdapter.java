@@ -70,8 +70,8 @@ public class TaskDetailsAdapter extends MyBaseAdapter<Steps> {
 		}
 
 		holder.nameText.setText(item.stepName);
-		holder.contentText.setText(item.description);
-		holder.contentText.setText(test(holder.contentText));
+		holder.contentText.setText(Html.fromHtml(item.description));
+//		holder.contentText.setText(dealWeiboContent(item.description, holder.contentText));
 		return view;
 	}
 
@@ -112,7 +112,7 @@ public class TaskDetailsAdapter extends MyBaseAdapter<Steps> {
 	}
 
 	private SpannableStringBuilder dealWeiboContent(String temp, TextView textView) {
-		Pattern pattern = Pattern.compile("((http://|https://){1}[\\w\\.\\-/:]+)|(#(.+?)#)|(@[\\u4e00-\\u9fa5\\w\\-]+)");
+		Pattern pattern = Pattern.compile("草");
 		// temp = weiboContent;
 		Matcher matcher = pattern.matcher(temp);
 		List<String> list = new LinkedList<String>();
@@ -161,7 +161,8 @@ public class TaskDetailsAdapter extends MyBaseAdapter<Steps> {
 			@Override
 			public void updateDrawState(TextPaint ds) {
 				ds.setColor(Color.argb(255, 54, 92, 124));
-				ds.setUnderlineText(true);
+				ds.setFakeBoldText(true);
+				ds.setUnderlineText(false);
 			}
 		};
 
