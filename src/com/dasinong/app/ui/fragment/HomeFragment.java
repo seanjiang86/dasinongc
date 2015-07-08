@@ -127,6 +127,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
         // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
         BGARefreshViewHolder refreshViewHolder = new BGAStickinessRefreshViewHolder(getActivity(), false);
         // 设置下拉刷新和上拉加载更多的风格
+        // 设置下拉刷新控件的背景颜色资源id
+        refreshViewHolder.setRefreshViewBackgroundColorRes(R.color.color_view_home_top_bg);
         mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
 
 
@@ -134,13 +136,13 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
         // 设置正在加载更多时的文本
         //refreshViewHolder.setLoadingMoreText(loadingMoreText);
         // 设置整个加载更多控件的背景颜色资源id
-        //refreshViewHolder.setLoadMoreBackgroundColorRes(loadMoreBackgroundColorRes);
+        //refreshViewHolder.setLoadMoreBackgroundColorRes();
         // 设置整个加载更多控件的背景drawable资源id
         //refreshViewHolder.setLoadMoreBackgroundDrawableRes(loadMoreBackgroundDrawableRes);
-        // 设置下拉刷新控件的背景颜色资源id
-        //refreshViewHolder.setRefreshViewBackgroundColorRes(refreshViewBackgroundColorRes);
+
+
         // 设置下拉刷新控件的背景drawable资源id
-        //refreshViewHolder.setRefreshViewBackgroundDrawableRes(refreshViewBackgroundDrawableRes);
+        //refreshViewHolder.setRefreshViewBackgroundDrawableRes(R.color.color_view_home_top_bg);
         // 设置自定义头部视图（也可以不用设置）     参数1：自定义头部视图（例如广告位）， 参数2：上拉加载更多是否可用
         //mRefreshLayout.setCustomHeaderView(mBanner, false);
         // 可选配置  -------------END
