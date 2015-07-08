@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.http.AndroidHttpClient;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -270,7 +271,7 @@ public class VolleyManager {
 
     private Cache.Entry getCache(Request request) {
 
-        if(mRequestQueue.getCache()!=null){
+        if(request!=null&& !TextUtils.isEmpty(request.getUrl())){
             return mRequestQueue.getCache().get(request.getUrl());
         }
 
