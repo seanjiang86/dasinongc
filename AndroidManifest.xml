@@ -206,6 +206,10 @@
             android:name=".ui.soil.SoilBaseActivity"
             android:label="@string/title_activity_soil_base" >
         </activity>
+        <activity
+            android:name=".ui.WebBrowserActivity"
+            android:label="@string/title_activity_soil_base" >
+        </activity>
     </application>
 
 </manifest>

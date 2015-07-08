@@ -28,6 +28,7 @@ public class NetConfig {
 	// TODO MING :本地测试使用
 //	public static final String BASE_URL = "http://192.168.1.140:8080/ploughHelper/";
 	public static final String IMAGE_URL = "http://182.254.129.101:8080/avater/";
+	public static final String BAIKE_URL = "http://182.254.129.101:8080/ploughHelper/baike?";
 
 	private static final String KEY_REQUEST = "UHTN90SPOLKIRT6131NM0SEWGLPALczmf";
 
@@ -97,6 +98,13 @@ public class NetConfig {
 	public static String getRequestUrl(String subUrl) {
 		return NetConfig.BASE_URL + subUrl;
 	}
+	
+	
+	public static String getBaikeUrl(String type,String id) {
+		return NetConfig.BAIKE_URL + "type="+type+"&id="+id;
+	}
+	
+	
 	
 	public static class Params {
 		public static final String token = "token";
