@@ -42,7 +42,7 @@ import cn.bingoogolapple.refreshlayout.BGAStickinessRefreshViewHolder;
 
 
 public class HomeFragment extends Fragment implements INetRequest, BGARefreshLayout.BGARefreshLayoutDelegate {
-    private boolean autoLogin = true;
+    private boolean autoLogin = false;
 
     private static final int REQUEST_CODE_HOME_FIELD = 130;
     private static final int REQUEST_CODE_HOME_WEATHER = 131;
