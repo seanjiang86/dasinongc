@@ -9,6 +9,7 @@ import com.dasinong.app.entity.SearchItem;
 import com.dasinong.app.entity.SearchResultEntity;
 import com.dasinong.app.entity.SearchResultEntity.SearchData;
 import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.adapter.SearchResultAdapter;
 import com.dasinong.app.ui.view.TopbarView;
@@ -17,6 +18,7 @@ import com.dasinong.app.utils.ViewHelper;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -29,6 +31,12 @@ import android.widget.Toast;
 
 public class SearchResultActivity extends BaseActivity {
 
+	private static final String TYPE_DISEASE = "Disease";
+	private static final String TYPE_PEST = "Pest";
+	private static final String TYPE_WEEDS = "Weeds";
+	private static final String TYPE_VARIETY = "Variety";
+	private static final String TYPE_CPPRODUCT = "Cpproduct";
+	
 	private TopbarView mTopbarView;
 	
 	private EditText mSearchEdit;
@@ -85,6 +93,7 @@ public class SearchResultActivity extends BaseActivity {
 			SearchItem item =  new SearchItem();
 			item.setType(true);
 			item.setName("病害");
+			item.setResId(R.drawable.binghai);
 			searchData.add(item);
 			searchData.addAll(data.getDisease());
 		}
@@ -92,6 +101,7 @@ public class SearchResultActivity extends BaseActivity {
 			SearchItem item =  new SearchItem();
 			item.setType(true);
 			item.setName("虫害");
+			item.setResId(R.drawable.chonghai);
 			searchData.add(item);
 			searchData.addAll(data.getPest());
 		}
@@ -99,6 +109,7 @@ public class SearchResultActivity extends BaseActivity {
 			SearchItem item =  new SearchItem();
 			item.setType(true);
 			item.setName("草害");
+			item.setResId(R.drawable.caohai);
 			searchData.add(item);
 			searchData.addAll(data.getDisease());
 		}
@@ -106,6 +117,7 @@ public class SearchResultActivity extends BaseActivity {
 			SearchItem item =  new SearchItem();
 			item.setType(true);
 			item.setName("品类");
+			item.setResId(R.drawable.pinzhong);
 			searchData.add(item);
 			searchData.addAll(data.getVariety());
 		}
@@ -113,6 +125,7 @@ public class SearchResultActivity extends BaseActivity {
 			SearchItem item =  new SearchItem();
 			item.setType(true);
 			item.setName("药物");
+			item.setResId(R.drawable.nongyao);
 			searchData.add(item);
 			searchData.addAll(data.getCpproduct());
 		}
@@ -174,8 +187,15 @@ public class SearchResultActivity extends BaseActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				SearchItem item = (SearchItem) parent.getItemAtPosition(position);
 				if(item.isType()){
-				}else{
-					showToast(item.getName());
+				} else {
+					Intent intent = new Intent(SearchResultActivity.this, WebBrowserActivity.class);
+					intent.putExtra(WebBrowserActivity.URL, NetConfig.getBaikeUrl(item.getType(), item.getId()));
+					if(TextUtils.isEmpty(item.getName())){
+						intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getSource()).toString());
+					}else{
+						intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getName()).toString());
+					}
+					startActivity(intent);
 				}
 			}
 		});

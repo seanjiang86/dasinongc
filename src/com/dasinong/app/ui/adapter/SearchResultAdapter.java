@@ -47,6 +47,7 @@ public class SearchResultAdapter extends MyBaseAdapter<SearchItem> {
 			holder.line1View =  view.findViewById(R.id.view_line1);
 			holder.contentLayout =  view.findViewById(R.id.layout_content);
 			holder.typeLayout =  view.findViewById(R.id.layout_type);
+			holder.typeImage = (ImageView) view.findViewById(R.id.imageview_type_image);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
@@ -58,14 +59,17 @@ public class SearchResultAdapter extends MyBaseAdapter<SearchItem> {
 			holder.line1View.setVisibility(View.VISIBLE);
 			holder.typeLayout.setVisibility(View.VISIBLE);
 			holder.typeText.setText(item.getName());
+			holder.typeImage.setImageResource(item.getResId());
 		}else{
 			if(!TextUtils.isEmpty(item.getName())){
 				holder.nameText.setText(Html.fromHtml(item.getName()));
+				holder.nameText.setVisibility(View.VISIBLE);
 			}else{
 				holder.nameText.setVisibility(View.GONE);
 			}
 			if(!TextUtils.isEmpty(item.getSource())){
 				holder.desText.setText(Html.fromHtml(item.getSource()));
+				holder.desText.setVisibility(View.VISIBLE);
 			}else{
 				holder.desText.setVisibility(View.GONE);
 			}
@@ -87,6 +91,7 @@ public class SearchResultAdapter extends MyBaseAdapter<SearchItem> {
 		View line1View;
 		View typeLayout;
 		TextView typeText;
+		ImageView typeImage;
 	}
 	
 }

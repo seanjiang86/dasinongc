@@ -73,5 +73,8 @@ public class WeatherEntity extends BaseResponse {
 
     public static class Param {
         public String monitorLocationId;
+
+        public String lat;
+        public String lon ;
     }
 }

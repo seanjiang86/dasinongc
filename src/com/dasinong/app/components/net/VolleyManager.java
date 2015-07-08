@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.http.AndroidHttpClient;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -54,8 +55,6 @@ public class VolleyManager {
     private volatile Boolean isInit;
 
 
-    private String mCacheDir;
-
     private VolleyManager() {
         isInit = false;
     }
@@ -90,20 +89,20 @@ public class VolleyManager {
         }
     }
 
-    public <T extends BaseResponse> void addGetRequestWithNoCache(final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest netRequest) {
+    public <T extends BaseResponse> Request addGetRequestWithNoCache(final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest netRequest) {
 
-        addGetRequest(false, requestCode, url, param, clazz, netRequest);
-
-    }
-
-    public <T extends BaseResponse> void addGetRequestWithCache(final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest netRequest) {
-
-        addGetRequest(true, requestCode, url, param, clazz, netRequest);
+        return addGetRequest(false, requestCode, url, param, clazz, netRequest);
 
     }
 
+    public <T extends BaseResponse> Request addGetRequestWithCache(final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest netRequest) {
 
-    public <T extends BaseResponse> void addPostRequest(int requestCode, String url, Object param, Class<? extends BaseResponse> clazz, final INetRequest netReqeust) {
+        return addGetRequest(true, requestCode, url, param, clazz, netRequest);
+
+    }
+
+
+    public <T extends BaseResponse> Request addPostRequest(int requestCode, String url, Object param, Class<? extends BaseResponse> clazz, final INetRequest netReqeust) {
         final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
         final Response.Listener<T> successListener = createSuccessListener(requestCode, weakReference);
 
@@ -118,6 +117,7 @@ public class VolleyManager {
         request.setShouldCache(false);
 
         mRequestQueue.add(request);
+        return request;
 
     }
 
@@ -154,7 +154,7 @@ public class VolleyManager {
     }
 
 
-    private <T extends BaseResponse> void addGetRequest(boolean needCache, final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest netReqeust) {
+    private <T extends BaseResponse> Request addGetRequest(boolean needCache, final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest netReqeust) {
         final String finalUrl = createUrl(url, param);
 
         final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
@@ -164,44 +164,18 @@ public class VolleyManager {
 
 
         final GsonRequest<T> request = new GsonRequest(finalUrl, clazz, successListener, errorListener);
-        //disabel volley cache
 
         request.setShouldCache(needCache);
 
-
-        if (needCache) {
-            Cache.Entry entry = getCache(request);
-
-            if (entry != null) {
-                INetRequest tem = weakReference.get();
-                String result = new String(entry.data).trim();
-
-
-                try {
-                    if (clazz == WeatherEntity.class) {
-                        result = FilterUtils.filter(result);
-                    }
-
-                    JsonReader reader = new JsonReader(new StringReader(result));
-                    reader.setLenient(true);
-                    T obj = new Gson().fromJson(reader, clazz);
-                    tem.onCache(requestCode, obj);
-                } catch (Exception e) {
-                    DEBUG("cache json parse" + request.getUrl());
-                    e.printStackTrace();
-
-                }
-
-
-            }
-        }
         if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
             netReqeust.onTaskFailedSuccess(requestCode, new NetError(NetError.NETWORK_UNAVAILABLEE));
-            return;
+
         } else {
             mRequestQueue.add(request);
 
         }
+
+        return request;
 
     }
 
@@ -297,9 +271,39 @@ public class VolleyManager {
 
     private Cache.Entry getCache(Request request) {
 
-        return mRequestQueue.getCache().get(request.getUrl());
+        if(request!=null&& !TextUtils.isEmpty(request.getUrl())){
+            return mRequestQueue.getCache().get(request.getUrl());
+        }
+
+        return  null;
+
     }
 
+    public <T> T getCacheDomain(Request request, Class<T> clazz) {
+
+        Cache.Entry entry = getCache(request);
+
+        if (entry != null) {
+
+            String result = new String(entry.data).trim();
+
+
+            try {
+
+                JsonReader reader = new JsonReader(new StringReader(result));
+                reader.setLenient(true);
+
+                return new Gson().fromJson(reader, clazz);
+            } catch (Exception e) {
+                DEBUG("cache json parse" + request.getUrl());
+                e.printStackTrace();
+
+            }
+
+
+        }
+        return null;
+    }
 
     private void DEBUG(String msg) {
         if (BuildConfig.DEBUG) {

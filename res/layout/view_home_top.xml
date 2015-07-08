@@ -3,12 +3,11 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:background="#33AB33"
+              android:background="@color/color_view_home_top_bg"
               android:orientation="vertical">
 
     <RelativeLayout
         android:paddingLeft="@dimen/home_dimen_30"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
@@ -33,7 +32,6 @@
             android:paddingBottom="15dp"
             android:layout_height="wrap_content">
         <ImageView
-
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
 
@@ -111,6 +109,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:visibility="gone"
+                tools:visibility="visible"
                 tools:text="宜下地" />
 
             <TextView
@@ -139,6 +138,7 @@
 
     <LinearLayout
         android:id="@+id/campaign"
+        android:minHeight="0dp"
         android:layout_marginLeft="@dimen/home_dimen_30"
         android:layout_marginRight="@dimen/home_dimen_30"
         android:orientation="vertical"

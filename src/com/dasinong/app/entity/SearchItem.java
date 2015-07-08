@@ -5,8 +5,26 @@ public class SearchItem {
 	private String id;
 	private String name;
 	private String source;
+	private String type;
 
 	private boolean isType = false;
+	private int resId;
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public int getResId() {
+		return resId;
+	}
+
+	public void setResId(int resId) {
+		this.resId = resId;
+	}
 
 	public boolean isType() {
 		return isType;

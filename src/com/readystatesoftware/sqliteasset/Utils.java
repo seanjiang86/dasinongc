@@ -2,6 +2,8 @@ package com.readystatesoftware.sqliteasset;
 
 import android.util.Log;
 
+import com.dasinong.app.BuildConfig;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -54,10 +56,16 @@ class Utils {
         ZipInputStream zis = new ZipInputStream(zipFileStream);
         ZipEntry ze;
         while ((ze = zis.getNextEntry()) != null) {
-            Log.w(TAG, "extracting file: '" + ze.getName() + "'...");
+            DEBUG("extracting file: '" + ze.getName() + "'...");
             return zis;
         }
         return null;
+    }
+
+    private static void DEBUG( String s) {
+        if(BuildConfig.DEBUG){
+            Log.d(TAG,s);
+        }
     }
 
     public static String convertStreamToString(InputStream is) {

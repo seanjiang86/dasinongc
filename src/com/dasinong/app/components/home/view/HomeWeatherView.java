@@ -241,7 +241,11 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private void updateCurrentWeatherView(WeatherEntity.CurrentWeather item) {
 
-
+                if(item==null){
+                    this.setVisibility(View.GONE);
+                    return;
+                }
+                this.setVisibility(View.VISIBLE);
                 mCurrentTemp.setText(item.l1 + "°");
                 mCurrentWindowLevel.setText(item.l3 + "级");
                 mCurrentWindowDirect.setText(getCurrentWindDirect(item.l4));
