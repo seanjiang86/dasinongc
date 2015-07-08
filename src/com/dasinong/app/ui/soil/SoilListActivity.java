@@ -1,29 +1,19 @@
 package com.dasinong.app.ui.soil;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dasinong.app.R;
-import com.dasinong.app.entity.BaseEntity;
-import com.dasinong.app.entity.SoilDetail;
-import com.dasinong.app.net.NetConfig;
-import com.dasinong.app.net.NetRequest;
-import com.dasinong.app.net.RequestService;
-import com.dasinong.app.ui.BaseActivity;
-import com.dasinong.app.ui.RegisterServiceActivity;
-import com.dasinong.app.ui.WebViewActivity;
-import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.ui.WebBrowserActivity;
 
 public class SoilListActivity extends SoilBaseActivity implements AdapterView.OnItemClickListener {
 
 
     private ListView mListView;
+    private static final String BASE_URL = "http://192.168.1.136:8080/ploughHelper/html/";
 
 
     @Override
@@ -49,33 +39,34 @@ public class SoilListActivity extends SoilBaseActivity implements AdapterView.On
         return R.string.soil_check;
     }
 
-
+    
+    
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         Intent intent = new Intent();
         switch (position) {
             case 0:
-            	intent.setClass(this, RegisterServiceActivity.class);
-            	intent.putExtra("url", "SamplingImportance.htm");
+            	intent.setClass(this, WebBrowserActivity.class);
+            	intent.putExtra("url", BASE_URL+"SamplingImportance.html");
             	intent.putExtra("title", "为什么要测土");
             	startActivity(intent);
                 break;
             case 1:
-            	intent.setClass(this, RegisterServiceActivity.class);
-            	intent.putExtra("url", "SamplingNotice.htm");
+            	intent.setClass(this, WebBrowserActivity.class);
+            	intent.putExtra("url", BASE_URL+"SamplingNotice.html");
             	intent.putExtra("title", "采样须知");
             	startActivity(intent);
                 break;
             case 2:
             	
-            	intent.setClass(this, RegisterServiceActivity.class);
-            	intent.putExtra("url", "soiltest-sample.html");
+            	intent.setClass(this, WebBrowserActivity.class);
+            	intent.putExtra("url", BASE_URL+"soiltest-sample.html");
             	intent.putExtra("title", "测土报告解读");
             	startActivity(intent);
                 break;
             case 3:
-            	intent.setClass(this, RegisterServiceActivity.class);
-            	intent.putExtra("url", "SamplingStation.htm");
+            	intent.setClass(this, WebBrowserActivity.class);
+            	intent.putExtra("url", BASE_URL+"SamplingStation.html");
             	intent.putExtra("title", "哪里可以测土？");
             	startActivity(intent);
                 break;
