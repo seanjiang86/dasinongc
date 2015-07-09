@@ -139,42 +139,50 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
             case R.id.left_arrow:
                 //左侧箭头
                 isLeft = true;
+                isClickMove = false;
                 showConfirmDialog();
                 break;
             case R.id.right_arrow:
                 //右侧箭头
                 isLeft = false;
+                isClickMove = false;
                 showConfirmDialog();
                 break;
         }
     }
+
+    //是否是点击图片进行移动
+    private boolean isClickMove = false;
 
     private void showConfirmDialog() {
 
         if (mSubStages == null || mSubStages.isEmpty()) {
             return;
         }
-        if (!isLeft) {
+        if (!isClickMove) {
+            if (!isLeft) {
 
 
-            if (mCurrentPostion + 1 >= mSubStages.size()) {
-                Toast.makeText(this.getContext(), "sorry", Toast.LENGTH_SHORT).show();
-                return;
-            }
+                if (mCurrentPostion + 1 >= mSubStages.size()) {
+                    Toast.makeText(this.getContext(), "sorry", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
 //            mCurrentPostion += 1;
 
-            mCurrentPostion = getCurrentPosition(itemWidth) + 1;
-        } else {
+                mCurrentPostion = getCurrentPosition(itemWidth) + 1;
+            } else {
 
-            if (mCurrentPostion - 1 < 0) {
-                Toast.makeText(this.getContext(), "sorry", Toast.LENGTH_SHORT).show();
-                return;
-            }
+                if (mCurrentPostion - 1 < 0) {
+                    Toast.makeText(this.getContext(), "sorry", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
 //            mCurrentPostion -= 1;
-            mCurrentPostion = getCurrentPosition(itemWidth) - 1;
+                mCurrentPostion = getCurrentPosition(itemWidth) - 1;
+            }
         }
+
         initDialog();
 
         confirmDialog.setTitle("确认切换状态");
@@ -261,10 +269,11 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                         if (mCurrentPostion == currentCount) {
                             return;
                         }
-                        //TODO  只做了移动  木有加上弹出dialog,确认点击 以及刷新图片icon
                         Log.d("dding", "currentCount:" + currentCount);
                         mCurrentPostion = currentCount;
-                        moveToDes();
+                        isClickMove = true;
+                        showConfirmDialog();
+//                        moveToDes();
 
                     }
                 });
