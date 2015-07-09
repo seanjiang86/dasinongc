@@ -18,6 +18,7 @@ import com.dasinong.app.utils.ViewHelper;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -49,6 +50,8 @@ public class SearchResultActivity extends BaseActivity {
 	private SearchResultAdapter mAdapter;
 	
 	private ImageView mSearchView;
+	
+	private Handler mHandler = new Handler();
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -135,7 +138,7 @@ public class SearchResultActivity extends BaseActivity {
 		}
 		
 		mAdapter.setData(searchData);
-		mResultListview.requestFocusFromTouch();
+//		mResultListview.requestFocusFromTouch();
 		mResultListview.setSelection(0);
 		ViewHelper.setListVIewEmptyView(this, mResultListview);
 	}
@@ -160,6 +163,15 @@ public class SearchResultActivity extends BaseActivity {
 		mSearchEdit.setSelection(mSearchEdit.getText().length());
 		
 //		mSearchEdit.setFocusable(false);
+//		mSearchEdit.setEnabled(false);
+//		mHandler.postDelayed(new Runnable() {
+//			
+//			@Override
+//			public void run() {
+//				mSearchEdit.setFocusable(true);
+//				mSearchEdit.setEnabled(true);
+//			}
+//		}, 2000);
 		
 		mAdapter = new SearchResultAdapter(this, new ArrayList<SearchItem>(), false);
 		mResultListview.setAdapter(mAdapter);
