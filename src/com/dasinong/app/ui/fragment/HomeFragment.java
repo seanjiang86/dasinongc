@@ -25,8 +25,11 @@ import com.dasinong.app.components.home.view.SoilView;
 import com.dasinong.app.components.net.INetRequest;
 import com.dasinong.app.components.net.NetError;
 import com.dasinong.app.components.net.VolleyManager;
+
 import com.dasinong.app.entity.LocationResult;
+
 import com.dasinong.app.net.NetConfig;
+
 import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
@@ -357,6 +360,9 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 
     private void loadDataFromWithCache(boolean isForce) {
+        if(BuildConfig.DEBUG&&autoLogin){
+           // login();
+        }
 
         if (!isForce) {
             long distance = SystemClock.currentThreadTimeMillis() - mStartTime;
