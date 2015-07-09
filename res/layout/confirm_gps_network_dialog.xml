@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:minWidth="250dp"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:gravity="center"
+        android:text="提醒"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/sp_20" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_DCE3E6" />
+
+    <TextView
+        android:id="@+id/tv_dialog_hint"
+        android:layout_width="wrap_content"
+        android:layout_height="75dp"
+        android:gravity="center_vertical"
+        android:lineSpacingExtra="5dip"
+        android:paddingLeft="15dip"
+        android:paddingRight="15dip"
+        android:text="短信验证码可能略有延迟,确定取消并重新开始？"
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/sp_16" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_DCE3E6" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/btn_dialog_ok"
+            android:layout_width="0dip"
+            android:layout_height="50dip"
+            android:layout_marginLeft="1dip"
+            android:layout_weight="1"
+            android:background="@drawable/button_white_bg_selector"
+            android:padding="10dip"
+            android:text="等待"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_16" />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_width="0.5dp"
+            android:layout_height="match_parent"
+            android:background="@color/color_DCE3E6" />
+
+        <Button
+            android:id="@+id/btn_dialog_cancel"
+            android:layout_width="0dip"
+            android:layout_height="50dip"
+            android:layout_marginRight="1dip"
+            android:layout_weight="1"
+            android:background="@drawable/button_white_bg_selector"
+            android:padding="10dip"
+            android:text="重新开始"
+            android:textColor="@color/color_333333"
+            android:textSize="@dimen/sp_16" />
+    </LinearLayout>
+
+</LinearLayout>

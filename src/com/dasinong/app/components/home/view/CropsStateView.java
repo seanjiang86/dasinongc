@@ -407,41 +407,43 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             case R.id.add_field:
                 //点击添加--最右上角按钮
 
-                if (DeviceHelper.checkNetWork(context) && DeviceHelper.checkGPS(context)) {
-
-                    // TODO MING:该方法是否为检测登陆的方法
-                    if (AccountManager.checkLogin(context)) {
-                        Intent intent = new Intent(context, AddFieldActivity1.class);
-                        context.startActivity(intent);
-                    } else {
-                        // TODO MING 跳转至用户登陆界面
-
-                    }
-                    return;
+                if (DeviceHelper.checkNetWork(context)) {
+                	if(!DeviceHelper.checkGPS(context)){
+                		showRemindDialog("无法获取当前位置","请前往“设置”打开GPS卫星，设置完成后点”返回“键就可以回到今日农事","前往设置","暂不开启", new MyDialogClickListener() {
+							@Override
+							public void onSureButtonClick() {
+				                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				                context.startActivity(intent);
+							}
+							
+							@Override
+							public void onCancelButtonClick() {
+								// TODO MING:该方法是否为检测登陆的方法
+								if (AccountManager.checkLogin(context)) {
+									Intent intent = new Intent(context, AddFieldActivity1.class);
+									context.startActivity(intent);
+								}
+							}
+						});
+                	}else{
+						if (AccountManager.checkLogin(context)) {
+							Intent intent = new Intent(context, AddFieldActivity1.class);
+							context.startActivity(intent);
+						}
+                	}
                 } else {
-                    final Dialog dialog = new Dialog(context, R.style.CommonDialog);
-                    dialog.setContentView(R.layout.smssdk_back_verify_dialog);
-                    TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
-                    tv.setText("请检测您的网络和GPS是否开启？");
-                    tv.setTextSize(18);
-                    Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
-                    waitBtn.setText("取消");
-                    waitBtn.setOnClickListener(new OnClickListener() {
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-                    Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_cancel);
-                    backBtn.setText("确定");
-                    backBtn.setOnClickListener(new OnClickListener() {
-                        public void onClick(View v) {
-                            Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                            context.startActivity(intent);
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.setCanceledOnTouchOutside(true);
-                    dialog.show();
+                	showRemindDialog("请先开启网络","开网啊","好","不好", new MyDialogClickListener() {
+						
+						@Override
+						public void onSureButtonClick() {
+			                Intent intent = new Intent(Settings.ACTION_SETTINGS);
+			                context.startActivity(intent);
+						}
+						@Override
+						public void onCancelButtonClick() {
+							
+						}
+					});
                 }
 
                 break;
@@ -628,6 +630,44 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             Log.d(TAG, msg);
         }
     }
-
+    
+    private void showRemindDialog(String title, String content, String sureButton,String cancelButton, final MyDialogClickListener dialogClickListener){
+        final Dialog dialog = new Dialog(context, R.style.CommonDialog);
+        dialog.setContentView(R.layout.confirm_gps_network_dialog);
+        TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
+        TextView tv_title = (TextView) dialog.findViewById(R.id.tv_dialog_title);
+        
+        System.out.println(tv_title+"tv _ title");
+        
+        tv_title.setText(title);
+        tv.setTextSize(22);
+        
+        tv.setText(content);
+        tv.setTextSize(18);
+        
+        Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
+        waitBtn.setText(cancelButton);
+        waitBtn.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	dialogClickListener.onCancelButtonClick();
+                dialog.dismiss();
+            }
+        });
+        Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_cancel);
+        backBtn.setText(sureButton);
+        backBtn.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+            	dialogClickListener.onSureButtonClick();
+                dialog.dismiss();
+            }
+        });
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+    }
+    
+    public interface MyDialogClickListener{
+    	public void onSureButtonClick();
+    	public void onCancelButtonClick();
+    }
 
 }
