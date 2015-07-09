@@ -25,12 +25,11 @@ import com.dasinong.app.components.home.view.SoilView;
 import com.dasinong.app.components.net.INetRequest;
 import com.dasinong.app.components.net.NetError;
 import com.dasinong.app.components.net.VolleyManager;
-import com.dasinong.app.entity.BaseEntity;
+
 import com.dasinong.app.entity.LocationResult;
-import com.dasinong.app.entity.LoginRegEntity;
+
 import com.dasinong.app.net.NetConfig;
-import com.dasinong.app.net.NetRequest;
-import com.dasinong.app.net.RequestService;
+
 import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
@@ -213,7 +212,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                             loadDataFromWithCache(true);
                         }
                     });
-                    mCropStateView.updateView(entity);
 
                     mSoilView.updateView(entity.latestReport, entity.soilHum);
                 }
@@ -305,6 +303,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     public void onResume() {
         super.onResume();
         DEBUG("onResume");
+        DEBUG("ShparedID:"+ SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID));
+
         if (mStartTime < 0) {
             loadDataFromWithCache(true);
         } else {
@@ -342,10 +342,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 param.fieldId = String.valueOf(DEFAULT_FIELD_ID);
                 String lat = String.valueOf(result.getLatitude());
                 String lon = String.valueOf(result.getLongitude());
-//                if(BuildConfig.DEBUG){
-//                    lat ="24.8";
-//                    lon ="118.6";
-//                }
                 param.lat = lat;
                 param.lon = lon;
                 weatherParam.lat = lat;
@@ -364,10 +360,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 
     private void loadDataFromWithCache(boolean isForce) {
-        if (BuildConfig.DEBUG && autoLogin) {
-            DEBUG("---auto login---");
-            login();
-            return;
+        if(BuildConfig.DEBUG&&autoLogin){
+           // login();
         }
 
         if (!isForce) {
@@ -463,29 +457,29 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     }
 
 
-    private void login() {
-
-        RequestService.getInstance().authcodeLoginReg(this.getActivity(), "13999999191", LoginRegEntity.class, new NetRequest.RequestListener() {
-
-            @Override
-            public void onSuccess(int requestCode, BaseEntity resultData) {
-
-                if (resultData.isOk()) {
-                    LoginRegEntity entity = (LoginRegEntity) resultData;
-
-                    AccountManager.saveAccount(HomeFragment.this.getActivity(), entity.getData());
-                    AtuoLoadDataFromWithCache();
-                }
-            }
-
-            @Override
-            public void onFailed(int requestCode, Exception error, String msg) {
-
-                AtuoLoadDataFromWithCache();
-
-            }
-        });
-    }
+//    private void login() {
+//
+//        RequestService.getInstance().authcodeLoginReg(this.getActivity(), "13999999191", LoginRegEntity.class, new NetRequest.RequestListener() {
+//
+//            @Override
+//            public void onSuccess(int requestCode, BaseEntity resultData) {
+//
+//                if (resultData.isOk()) {
+//                    LoginRegEntity entity = (LoginRegEntity) resultData;
+//
+//                    AccountManager.saveAccount(HomeFragment.this.getActivity(), entity.getData());
+//                    AtuoLoadDataFromWithCache();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailed(int requestCode, Exception error, String msg) {
+//
+//                AtuoLoadDataFromWithCache();
+//
+//            }
+//        });
+//    }
 
 
     private void resetSuccessFlag() {
@@ -503,40 +497,40 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     //-------test--------
 
 
-    private void AtuoLoadDataFromWithCache() {
-        loadFieldData("24");
-        loadWeatherData();
-        loadBanner(null);
-
-    }
-
-    public void loadFieldData(String fiedlId) {
-        FieldEntity.Param param = new FieldEntity.Param();
-        param.fieldId = fiedlId;
-
-        VolleyManager.getInstance().addGetRequestWithCache(
-                REQUEST_CODE_HOME_FIELD,
-                URL_FIELD,
-                param,
-                FieldEntity.class,
-                this
-        );
-
-    }
-
-
-    public void loadWeatherData() {
-        WeatherEntity.Param param = new WeatherEntity.Param();
-        param.monitorLocationId = "101010100";
-        VolleyManager.getInstance().addGetRequestWithCache(
-                REQUEST_CODE_HOME_WEATHER,
-                URL_WEATHER,
-                param,
-                WeatherEntity.class,
-                this
-        );
-
-    }
+//    private void AtuoLoadDataFromWithCache() {
+//        loadFieldData("24");
+//        loadWeatherData();
+//        loadBanner(null);
+//
+//    }
+//
+//    public void loadFieldData(String fiedlId) {
+//        FieldEntity.Param param = new FieldEntity.Param();
+//        param.fieldId = fiedlId;
+//
+//        VolleyManager.getInstance().addGetRequestWithCache(
+//                REQUEST_CODE_HOME_FIELD,
+//                URL_FIELD,
+//                param,
+//                FieldEntity.class,
+//                this
+//        );
+//
+//    }
+//
+//
+//    public void loadWeatherData() {
+//        WeatherEntity.Param param = new WeatherEntity.Param();
+//        param.monitorLocationId = "101010100";
+//        VolleyManager.getInstance().addGetRequestWithCache(
+//                REQUEST_CODE_HOME_WEATHER,
+//                URL_WEATHER,
+//                param,
+//                WeatherEntity.class,
+//                this
+//        );
+//
+//    }
 
 
 //-------test--------

@@ -7,14 +7,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.dasinong.app.R;
+import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.ui.WebBrowserActivity;
 
 public class SoilListActivity extends SoilBaseActivity implements AdapterView.OnItemClickListener {
 
 
     private ListView mListView;
-    private static final String BASE_URL = "http://192.168.1.136:8080/ploughHelper/html/";
-
+    // TODO MING 修改为真实链接地址
 
     @Override
     protected int getMainResourceId() {
@@ -47,26 +47,26 @@ public class SoilListActivity extends SoilBaseActivity implements AdapterView.On
         switch (position) {
             case 0:
             	intent.setClass(this, WebBrowserActivity.class);
-            	intent.putExtra("url", BASE_URL+"SamplingImportance.html");
+            	intent.putExtra("url", NetConfig.BASE_URL+"html/"+"SamplingImportance.html");
             	intent.putExtra("title", "为什么要测土");
             	startActivity(intent);
                 break;
             case 1:
             	intent.setClass(this, WebBrowserActivity.class);
-            	intent.putExtra("url", BASE_URL+"SamplingNotice.html");
+            	intent.putExtra("url", NetConfig.BASE_URL+"html/"+"SamplingNotice.html");
             	intent.putExtra("title", "采样须知");
             	startActivity(intent);
                 break;
             case 2:
             	
             	intent.setClass(this, WebBrowserActivity.class);
-            	intent.putExtra("url", BASE_URL+"soiltest-sample.html");
+            	intent.putExtra("url", NetConfig.BASE_URL+"html/"+"soiltest-sample.html");
             	intent.putExtra("title", "测土报告解读");
             	startActivity(intent);
                 break;
             case 3:
             	intent.setClass(this, WebBrowserActivity.class);
-            	intent.putExtra("url", BASE_URL+"SamplingStation.html");
+            	intent.putExtra("url", NetConfig.BASE_URL+"html/"+"SamplingStation.html");
             	intent.putExtra("title", "哪里可以测土？");
             	startActivity(intent);
                 break;

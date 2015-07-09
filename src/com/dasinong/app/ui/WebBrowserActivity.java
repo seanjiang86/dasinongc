@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.HttpAuthHandler;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
@@ -21,6 +22,8 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class WebBrowserActivity extends BaseActivity {
 	protected static final String TAG = WebBrowserActivity.class.getSimpleName();
@@ -36,6 +39,10 @@ public class WebBrowserActivity extends BaseActivity {
 
 	private TopbarView mTopbarView;
 
+	private LinearLayout ll_error_page;
+
+	private RelativeLayout rl_web_view;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,6 +52,8 @@ public class WebBrowserActivity extends BaseActivity {
 		mTitleStr = this.getIntent().getStringExtra(TITLE);
 
 		mWebView = (WebView) this.findViewById(R.id.web_browser);
+		ll_error_page = (LinearLayout) findViewById(R.id.ll_error_page);
+		rl_web_view = (RelativeLayout) findViewById(R.id.rl_web_view);
 
 		setTopbar();
 		initHttpHeaders();
@@ -106,6 +115,7 @@ public class WebBrowserActivity extends BaseActivity {
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
+				
 				dismissLoadingDialog();
 			}
 
@@ -113,22 +123,22 @@ public class WebBrowserActivity extends BaseActivity {
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
 				// TODO Auto-generated method stub
 				super.onReceivedError(view, errorCode, description, failingUrl);
-
+				ll_error_page.setVisibility(View.VISIBLE);
+				rl_web_view.setVisibility(View.GONE);
 			}
 
 			@Override
 			public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
 				// TODO Auto-generated method stub
 				super.onReceivedSslError(view, handler, error);
-				
-				// TODO 
+
 				dismissLoadingDialog();
 			}
 
 			@Override
 			public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
 				// TODO
-
+				
 				super.onReceivedHttpAuthRequest(view, handler, host, realm);
 
 			}
