@@ -169,21 +169,21 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-        if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
-
-            Toast.makeText(this.getActivity(), "无网络连接",Toast.LENGTH_SHORT).show();
-            mRefreshLayout.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mRefreshLayout.endRefreshing();
-                }
-            },500);
-
-        }else {
+//        if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
+//
+//            Toast.makeText(this.getActivity(), "无网络连接",Toast.LENGTH_SHORT).show();
+//            mRefreshLayout.postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mRefreshLayout.endRefreshing();
+//                }
+//            },500);
+//
+//        }else {
 
             loadDataFromWithCache(true);
             isShowDialog = false;
-        }
+      //  }
     }
 
     @Override
