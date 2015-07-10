@@ -10,9 +10,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.dasinong.app.BuildConfig;
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BannerEntity;
 import com.dasinong.app.components.domain.FieldEntity;
@@ -33,6 +35,7 @@ import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.LocationUtils;
 
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -166,9 +169,21 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-        DEBUG("onBegin...........");
-        loadDataFromWithCache(true);
-        isShowDialog = false;
+        if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
+
+            Toast.makeText(this.getActivity(), "无网络连接",Toast.LENGTH_SHORT).show();
+            mRefreshLayout.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mRefreshLayout.endRefreshing();
+                }
+            },500);
+
+        }else {
+
+            loadDataFromWithCache(true);
+            isShowDialog = false;
+        }
     }
 
     @Override
