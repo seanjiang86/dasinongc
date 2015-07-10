@@ -206,7 +206,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                         public void onPopWindowItemClick(Long filedId) {
                             //filde popuWidno
                             isShowDialog = true;
-
+                            mFiledId = filedId;
                             loadDataFromWithCache(true);
                         }
                     });
