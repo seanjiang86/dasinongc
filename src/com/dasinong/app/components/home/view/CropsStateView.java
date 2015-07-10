@@ -175,6 +175,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             updateFieldTimeAndStage(entity.currentField);
             //任务相关的
             convertTask(currentFieldEntity.taskws);
+
+
             mCurrentTaskSpec = getTaskBySubStageId();
             updateTask();
 
@@ -189,8 +191,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
     private void updateFieldTimeAndStage(FieldEntity.CurrentFieldEntity currentFieldEntity) {
         if (currentFieldEntity == null) {
-
-
             return;
         }
 
@@ -204,6 +204,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
         int currentPosition = 0;
         for (int i = 0; i < size; i++) {
+            if(mSubStageLists.get(i)==null){
+                continue;
+            }
             if (mSubStageLists.get(i).subStageId == mCurrentSubStage.subStageId) {
                 currentPosition = i;
                 break;
