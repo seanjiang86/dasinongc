@@ -381,7 +381,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             return;
         }
 
-
+        mFieldList.clear();
         //有田地
         for (Map.Entry<String, Long> entrySet : mFieldMap.entrySet()) {
             String key = entrySet.getKey();

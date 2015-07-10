@@ -299,13 +299,18 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
         super.onResume();
         DEBUG("onResume");
         DEBUG("ShparedID:" + SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID));
+        DEBUG("1mFiledId"+mFiledId);
         if (mStartTime < 0) {
+            DEBUG("2mFiledId"+mFiledId);
             loadDataFromWithCache(true);
         } else {
             long currentFieldId = SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
             if (mFiledId == currentFieldId) {
+                DEBUG("3mFiledId"+mFiledId);
                 loadDataFromWithCache(false);
             } else {
+                DEBUG("4mFiledId"+mFiledId);
+                mFiledId= SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
                 loadDataFromWithCache(true);
             }
         }

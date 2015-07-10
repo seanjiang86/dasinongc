@@ -9,6 +9,7 @@ import android.util.Log;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
@@ -94,8 +95,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         mLeafParent = (HorizontalScrollView) findViewById(R.id.leaf_parent);
 
         mLeafContainer = (LinearLayout) findViewById(R.id.leaf_container);
-        WindowManager windownManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        int width = windownManager.getDefaultDisplay().getWidth();
+        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        int width = windowManager.getDefaultDisplay().getWidth();
         itemWidth = (width - GraphicUtils.dip2px(getContext(), 100)) / 5;
 
 
@@ -269,7 +270,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                         if (mCurrentPostion == currentCount) {
                             return;
                         }
-                        Log.d("dding", "currentCount:" + currentCount);
+                       DEBUG("dding currentCount:" + currentCount);
                         mCurrentPostion = currentCount;
                         isClickMove = true;
                         showConfirmDialog();
@@ -280,7 +281,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 mLeafContainer.addView(layout, linLayoutParams);
 
             }
-            Log.d("dding", "当前mCurrentPostion前--：" + mCurrentPostion);
+
             moveToDes();
 
         }
@@ -288,11 +289,35 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     }
 
     private void moveToDes() {
+        DEBUG("dding当前mCurrentPostion前--：" + mCurrentPostion);
         if (mCurrentPostion > 2) {
             //移动到中间
-            mLeafParent.smoothScrollTo(itemWidth * (mCurrentPostion - 2), 0);
+
+            mLeafParent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                public void onGlobalLayout() {
+                   // mLeafParent.scrollTo(0, 0);
+                    mLeafParent.smoothScrollTo(itemWidth * (mCurrentPostion - 2), 0);
+                }
+            });
+            mLeafParent.post(new Runnable() {
+                @Override
+                public void run() {
+                    DEBUG("post...");
+                    DEBUG("post:" + itemWidth * (mCurrentPostion - 2));
+
+
+                }
+            });
+
         } else {
-            mLeafParent.smoothScrollTo(0, 0);
+
+            mLeafParent.post(new Runnable() {
+                @Override
+                public void run() {
+                    mLeafParent.smoothScrollTo(0, 0);
+                }
+            });
+
         }
     }
 
