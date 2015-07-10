@@ -45,7 +45,7 @@
                 android:padding="10dp"
                 android:textColor="#000"
 
-                android:textSize="@dimen/home_text_size_40" />
+                android:textSize="@dimen/home_text_size_36" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -110,7 +110,7 @@
                 tool:text="一个人的晚餐无聊，两个朋友可以开民台风红色一个是人台风红一个是人台风红色一个是人台风红色一个是人台风红色一个是人台风红色一个是人"
                 android:textColor="#000"
                 android:gravity="center_vertical"
-                android:textSize="@dimen/home_text_size_40" />
+                android:textSize="@dimen/home_text_size_36" />
 
         </LinearLayout>
 
