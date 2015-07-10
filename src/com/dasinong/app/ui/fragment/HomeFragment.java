@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     FieldEntity.Param param = new FieldEntity.Param();
     WeatherEntity.Param weatherParam = new WeatherEntity.Param();
 
-    BannerEntity.Param  bannerParam = new BannerEntity.Param();
+    BannerEntity.Param bannerParam = new BannerEntity.Param();
     private long mStartTime = -1L;
     /**
      * unite is minute
@@ -175,9 +175,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     public void onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
 
 
-
-
-
     }
 
 
@@ -191,6 +188,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                     if (entity.currentField != null) {
                         mDisasterView.updateView(entity.currentField.petdisspecws, entity.currentField.petdisws);
                     }
+
 
                     mCropStateView.updateView(entity);
                     mCropStateView.setOnAddFieldClickListener(new CropsStateView.MyOnAddFieldClickListener() {
@@ -239,9 +237,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 break;
 
         }
-        DEBUG("isHomeSuccess:"+isHomeSuccess);
-        DEBUG("isWeather:"+isWeatherSuccess);
-        DEBUG("isBanner:"+isBannerSuccess);
         if (isHomeSuccess && isWeatherSuccess && isBannerSuccess) {
             DEBUG("isSuccess All");
             mRefreshLayout.endRefreshing();
@@ -303,8 +298,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     public void onResume() {
         super.onResume();
         DEBUG("onResume");
-        DEBUG("ShparedID:"+ SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID));
-
+        DEBUG("ShparedID:" + SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID));
         if (mStartTime < 0) {
             loadDataFromWithCache(true);
         } else {
@@ -347,9 +341,9 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 weatherParam.lat = lat;
                 weatherParam.lon = lon;
                 weatherParam.monitorLocationId = String.valueOf(DEFAULT_FIELD_ID);
-
                 bannerParam.lat = lat;
                 bannerParam.lon = lon;
+
                 loadFieldData(param);
                 loadWeatherData(weatherParam);
                 loadBanner(bannerParam);
@@ -360,8 +354,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 
     private void loadDataFromWithCache(boolean isForce) {
-        if(BuildConfig.DEBUG&&autoLogin){
-           // login();
+        if (BuildConfig.DEBUG && autoLogin) {
+            // login();
         }
 
         if (!isForce) {
@@ -382,31 +376,37 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
         if (AccountManager.isLogin(this.getActivity())) {
             boolean isEmpty = TextUtils.isEmpty(String.valueOf(mFiledId));
-            if(!isEmpty&&mFiledId!=DEFAULT_FIELD_ID){
-            param.fieldId = String.valueOf(mFiledId);
-            param.lat = "";
-            param.lon = "";
-            weatherParam.lat = "";
-            weatherParam.lon = "";
-                DEBUG("mFieldID:"+mFiledId+"");
+            if (!isEmpty && mFiledId != DEFAULT_FIELD_ID) {
+                param.fieldId = String.valueOf(mFiledId);
+                String key ="field" + mFiledId + SharedPreferencesHelper.getString(this.getActivity(), "current_subStage_id", "-1");
+                String value =SharedPreferencesHelper.getString(getActivity(), key, null);
+                if(TextUtils.isEmpty(value)) {
+                    param.task = FieldEntity.TASK_TYPE_ALL;
+                }else {
+                    param.task = FieldEntity.TASK_TYPE_NONE;
+                }
+                param.lat = "";
+                param.lon = "";
+                weatherParam.lat = "";
+                weatherParam.lon = "";
+
                 int motionID = SharedPreferencesHelper.getInt(this.getActivity(), "FIELD_" + mFiledId, -1);
                 weatherParam.monitorLocationId = String.valueOf(motionID);
-            bannerParam.lat = "";
-            bannerParam.lon = "";
-            bannerParam.monitorLocationId = String.valueOf(motionID);
-            loadFieldData(param);
-            loadWeatherData(weatherParam);
-            loadBanner(bannerParam);
-            }else{
+                bannerParam.lat = "";
+                bannerParam.lon = "";
+                bannerParam.monitorLocationId = String.valueOf(motionID);
+                loadFieldData(param);
+                loadWeatherData(weatherParam);
+                loadBanner(bannerParam);
+            } else {
                 initLocation();
             }
 
         } else {
-            DEBUG("------- not login");
+
             initLocation();
 
         }
-
 
 
     }

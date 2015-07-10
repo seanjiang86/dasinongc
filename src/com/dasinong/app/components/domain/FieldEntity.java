@@ -168,8 +168,12 @@ public class FieldEntity extends BaseResponse {
     }
 
 
+    public static  final  String TASK_TYPE_ALL="all";
+    public static  final  String TASK_TYPE_NONE="none";
+    //all | currentStage | none
     public static  class Param{
         public String fieldId;
+        public String task;
         public String  lat;
         public String lon;
     }

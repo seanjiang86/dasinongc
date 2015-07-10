@@ -162,6 +162,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         }
         //设置田地的名称
         if (null != entity.currentField) {
+
+            SharedPreferencesHelper.setString(this.getContext(),"current_subStage_id",entity.currentField.currentStageID+"");
+
             FieldEntity.CurrentFieldEntity currentFieldEntity = entity.currentField;
             //DONE
             if (mFieldMap != null && mFieldMap.containsKey(currentFieldEntity.fieldName)) {
@@ -231,6 +234,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         if (!TextUtils.isEmpty(mCurrentFieldName)) {
             mFieldNameView.setText(mCurrentFieldName);
             SharedPreferencesHelper.setLong(this.getContext(), SharedPreferencesHelper.Field.FIELDID, mFieldMap.get(mCurrentFieldName));
+            SharedPreferencesHelper.setLong(this.getContext(), SharedPreferencesHelper.Field.FIELDID, mFieldMap.get(mCurrentFieldName));
         }
 
 
@@ -256,10 +260,27 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             taskStatus.taskSpecId = entity.taskSpecId;
             taskStatus.taskSpecName = entity.taskSpecName;
             taskStatus.isCheck = entity.taskStatus;
+            taskSpecs = mAllTasks.get(entity.subStageId);
+            if(taskSpecs==null){
+                taskSpecs = new ArrayList<>();
+            }
             taskSpecs.add(taskStatus);
+            mAllTasks.delete(entity.subStageId);
+            mAllTasks.put(entity.subStageId,taskSpecs);
+
+        }
+        //save all  task
+        if(mAllTasks!=null){
+           for(int i =0;i<mAllTasks.size();i++){
+               List<TaskStatus> statusList = mAllTasks.get(i);
+               if(statusList!=null){
+                   saveTaskStatus(statusList);
+               }
+           }
         }
 
-        mAllTasks.put(mCurrentSubStage.subStageId, taskSpecs);
+
+
     }
 
     /**
@@ -567,7 +588,15 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                     checkedView.setSelected(!checkedView.isSelected());
                     TaskStatus item = (TaskStatus) view.getTag();
                     item.isCheck = checkedView.isSelected();
-                    saveTaskStatus();
+                    int childCount = campaignView.getChildCount();
+                    View child;
+                    List<TaskStatus> lists = new ArrayList<TaskStatus>();
+                    for (int i = 0; i < childCount; i++) {
+                        child = campaignView.getChildAt(i);
+                        lists.add((TaskStatus) view.getTag());
+                    }
+
+                    saveTaskStatus(lists);
 
                 }
             });
@@ -596,20 +625,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     }
 
 
-    private void saveTaskStatus() {
-        int childCount = campaignView.getChildCount();
-        View view;
-        List<TaskStatus> lists = new ArrayList<TaskStatus>();
-        for (int i = 0; i < childCount; i++) {
-            view = campaignView.getChildAt(i);
-            lists.add((TaskStatus) view.getTag());
-        }
+    private void saveTaskStatus(List<TaskStatus> lists ) {
 
 
         if (lists.isEmpty()) {
             return;
         }
-
         String key = getSaveKey();
         Gson gson = new Gson();
         SharedPreferencesHelper.setString(this.getContext(), key, gson.toJson(lists));
