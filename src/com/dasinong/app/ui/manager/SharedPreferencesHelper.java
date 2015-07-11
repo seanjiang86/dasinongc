@@ -31,6 +31,7 @@ public final class SharedPreferencesHelper {
     	PLANTING_DATE,
         FIELDID,
         MONITOR_LOCATION_ID,
+        USER_FIELDS,
 
     };
 
@@ -124,11 +125,11 @@ public final class SharedPreferencesHelper {
         return arrayLong;
     }
 
-    public static void setArrayString(Context context, Field field, ArrayList<String> displayList) {
+    public static void setArrayString(Context context, Field field, String[] displayList) {
         String str = "";
         Integer num = 0;
-        for (int index = 0, count = displayList.size(); index < count; ++index) {
-            str = str + displayList.get(index) + SPLITCHAR;
+        for (int index = 0, count = displayList.length; index < count; ++index) {
+            str = str + displayList[index]+ SPLITCHAR;
             num++;
         }
         Editor editor = context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).edit();
@@ -136,7 +137,7 @@ public final class SharedPreferencesHelper {
         editor.commit();
     }
 
-    public static ArrayList<String> getArrayString(Context context, Field field, String defaultValue) {
+    public static String[] getArrayString(Context context, Field field, String defaultValue) {
         ArrayList<String> displayList = new ArrayList<String>();
         String str = context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).getString(field.name(), defaultValue);
         if (str != null) {
@@ -146,7 +147,8 @@ public final class SharedPreferencesHelper {
                     displayList.add(ids[index]);
             }
         }
-        return displayList;
+        
+        return (String[]) displayList.toArray();
     }
 
 

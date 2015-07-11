@@ -51,7 +51,7 @@ import com.mob.tools.FakeActivity;
 
 public class AuthCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
 
-	private static final int RETRY_INTERVAL = 10;
+	private static final int RETRY_INTERVAL = 60;
 	private String phone;
 	private String code;
 	private String formatedPhone;
