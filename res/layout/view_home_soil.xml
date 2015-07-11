@@ -111,7 +111,7 @@
                 android:gravity="center"
                 android:textColor="#999999"
                 android:textSize="@dimen/home_text_size_26"
-                android:text="根茎层 土壤温度"
+                android:text="根茎层 土壤湿度"
                 tools:text="根茎层 土壤温度" />
 
         </LinearLayout>
