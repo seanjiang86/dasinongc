@@ -1,6 +1,8 @@
 package com.dasinong.app.ui.fragment;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -10,11 +12,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.dasinong.app.BuildConfig;
-import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BannerEntity;
 import com.dasinong.app.components.domain.FieldEntity;
@@ -35,7 +35,6 @@ import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
-import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.LocationUtils;
 
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -93,6 +92,16 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     private Request mBannerRequest;
     private Request mWeatherRequest;
 
+
+    private SharedPreferencesChangeListener mSharedPreferencesChangeListener;
+
+    private LocationListener mLocationListener;
+
+    private  SharedPreferences mSharedPreferences;
+
+
+   // private  boolean isLogin;
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -126,6 +135,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
         mStartTime = -1L;
         resetSuccessFlag();
         isShowDialog = true;
+
+        mSharedPreferences = mBaseActivity.getSharedPreferences("dasinong_data", Context.MODE_PRIVATE);
         initView();
         initRefreshLayout();
         initEvent();
@@ -169,26 +180,17 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     @Override
     public void onBGARefreshLayoutBeginRefreshing(BGARefreshLayout refreshLayout) {
-//        if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
-//
-//            Toast.makeText(this.getActivity(), "无网络连接",Toast.LENGTH_SHORT).show();
-//            mRefreshLayout.postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mRefreshLayout.endRefreshing();
-//                }
-//            },500);
-//
-//        }else {
 
-            loadDataFromWithCache(true);
-            isShowDialog = false;
-      //  }
+        DEBUG("onBGARefreshLayoutBeginRefreshing");
+        loadDataFromWithCache(true);
+        isShowDialog = false;
+        //  }
     }
 
     @Override
     public void onBGARefreshLayoutBeginLoadingMore(BGARefreshLayout refreshLayout) {
-
+        DEBUG("onBGARefreshLayoutBeginLoadingMore");
+        mRefreshLayout.endRefreshing();
 
     }
 
@@ -254,6 +256,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
         }
         if (isHomeSuccess && isWeatherSuccess && isBannerSuccess) {
             DEBUG("isSuccess All");
+            DEBUG("BGA All");
             mRefreshLayout.endRefreshing();
             resetSuccessFlag();
             isShowDialog = false;
@@ -269,19 +272,26 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     @Override
     public void onTaskFailedSuccess(int requestCode, NetError error) {
+        DEBUG("BGA:" + error.netWorkCode.name());
+        DEBUG("failed:requestCode" + requestCode);
+        DEBUG("is..."+(NetError.NET_ERROR==error.netWorkCode));
+
         switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
-
+                DEBUG("failed:mHomeRequest" + mHomeRequest);
                 FieldEntity fieldEntity = VolleyManager.getInstance().getCacheDomain(mHomeRequest, FieldEntity.class);
+
                 onTaskSuccess(requestCode, fieldEntity);
                 break;
             case REQUEST_CODE_HOME_WEATHER:
+                DEBUG("failed:mWeatherRequest" + mWeatherRequest);
                 WeatherEntity weather = VolleyManager.getInstance().getCacheDomain(mWeatherRequest, WeatherEntity.class);
                 onTaskSuccess(requestCode, weather);
 
                 break;
 
             case REQUEST_CODE_HOME_BANNER:
+                DEBUG("failed:mBannerRequest" + mBannerRequest);
                 BannerEntity bannerEntity = VolleyManager.getInstance().getCacheDomain(mBannerRequest, BannerEntity.class);
                 onTaskSuccess(requestCode, bannerEntity);
                 break;
@@ -312,26 +322,32 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     @Override
     public void onResume() {
         super.onResume();
-        DEBUG("onResume");
-        DEBUG("ShparedID:" + SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID));
-        DEBUG("1mFiledId"+mFiledId);
+
+        if(mSharedPreferencesChangeListener ==null){
+            mSharedPreferencesChangeListener = new SharedPreferencesChangeListener();
+        }
+        mSharedPreferences.registerOnSharedPreferenceChangeListener(mSharedPreferencesChangeListener);
         if (mStartTime < 0) {
-            DEBUG("2mFiledId"+mFiledId);
             loadDataFromWithCache(true);
         } else {
             long currentFieldId = SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
             if (mFiledId == currentFieldId) {
-                DEBUG("3mFiledId"+mFiledId);
                 loadDataFromWithCache(false);
             } else {
-                DEBUG("4mFiledId"+mFiledId);
-                mFiledId= SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
+                mFiledId = SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
                 loadDataFromWithCache(true);
             }
         }
 
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mSharedPreferences.unregisterOnSharedPreferenceChangeListener(mSharedPreferencesChangeListener);
+        LocationUtils.getInstance().unRegisterLocationListener();
+    }
 
     @Override
     public void onDestroy() {
@@ -348,28 +364,13 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 
     private void initLocation() {
-        LocationUtils.getInstance().registerLocationListener(new LocationUtils.LocationListener() {
-
-            @Override
-            public void locationNotify(LocationResult result) {
-                DEBUG("定位开始执行");
-                param.fieldId = String.valueOf(DEFAULT_FIELD_ID);
-                String lat = String.valueOf(result.getLatitude());
-                String lon = String.valueOf(result.getLongitude());
-                param.lat = lat;
-                param.lon = lon;
-                weatherParam.lat = lat;
-                weatherParam.lon = lon;
-                weatherParam.monitorLocationId = String.valueOf(DEFAULT_FIELD_ID);
-                bannerParam.lat = lat;
-                bannerParam.lon = lon;
-
-                loadFieldData(param);
-                loadWeatherData(weatherParam);
-                loadBanner(bannerParam);
-                DEBUG("定位结束");
-            }
-        });
+        if(mLocationListener==null){
+            mLocationListener = new LocationListener();
+        }else {
+            LocationUtils.getInstance().unRegisterLocationListener();
+            mLocationListener = new LocationListener();
+        }
+        LocationUtils.getInstance().registerLocationListener(mLocationListener);
     }
 
 
@@ -395,14 +396,15 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
         }
 
         if (AccountManager.isLogin(this.getActivity())) {
+            DEBUG("BGA"+AccountManager.isLogin(this.getActivity()));
             boolean isEmpty = TextUtils.isEmpty(String.valueOf(mFiledId));
             if (!isEmpty && mFiledId != DEFAULT_FIELD_ID) {
                 param.fieldId = String.valueOf(mFiledId);
-                String key ="field" + mFiledId + SharedPreferencesHelper.getString(this.getActivity(), "current_subStage_id", "-1");
-                String value =SharedPreferencesHelper.getString(getActivity(), key, null);
-                if(TextUtils.isEmpty(value)) {
+                String key = "field" + mFiledId + SharedPreferencesHelper.getString(this.getActivity(), "current_subStage_id", "-1");
+                String value = SharedPreferencesHelper.getString(getActivity(), key, null);
+                if (TextUtils.isEmpty(value)) {
                     param.task = FieldEntity.TASK_TYPE_ALL;
-                }else {
+                } else {
                     param.task = FieldEntity.TASK_TYPE_NONE;
                 }
                 param.lat = "";
@@ -419,10 +421,12 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 loadWeatherData(weatherParam);
                 loadBanner(bannerParam);
             } else {
+
                 initLocation();
             }
 
         } else {
+
 
             initLocation();
 
@@ -556,4 +560,42 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 //-------test--------
 
 
+
+    private class SharedPreferencesChangeListener implements SharedPreferences.OnSharedPreferenceChangeListener{
+
+
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            DEBUG("key"+key);
+            if(key.equals(SharedPreferencesHelper.Field.USER_ID)){
+                loadDataFromWithCache(true);
+            }
+        }
+    }
+
+
+    private  class LocationListener implements  LocationUtils.LocationListener {
+
+
+
+        @Override
+        public void locationNotify(LocationResult result) {
+            DEBUG("BGA定位开始执行");
+            param.fieldId = String.valueOf(DEFAULT_FIELD_ID);
+            String lat = String.valueOf(result.getLatitude());
+            String lon = String.valueOf(result.getLongitude());
+            param.lat = lat;
+            param.lon = lon;
+            weatherParam.lat = lat;
+            weatherParam.lon = lon;
+            weatherParam.monitorLocationId = String.valueOf(DEFAULT_FIELD_ID);
+            bannerParam.lat = lat;
+            bannerParam.lon = lon;
+
+            loadFieldData(param);
+            loadWeatherData(weatherParam);
+            loadBanner(bannerParam);
+            DEBUG("BGA定位结束");
+        }
+    }
 }
