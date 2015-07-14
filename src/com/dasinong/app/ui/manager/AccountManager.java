@@ -48,11 +48,11 @@ public class AccountManager {
 	}
 	
 	public static String[] getUserFields(Context context){
-		return SharedPreferencesHelper.getArrayString(context, Field.USER_FIELDS, "");
+		return SharedPreferencesHelper.getArrayString(context, Field.USER_FIELDS, null);
 	}
 	
 	public static String[] getLocations(Context context){
-		return SharedPreferencesHelper.getArrayString(context, Field.MONITOR_LOCATION_ID, "");
+		return SharedPreferencesHelper.getArrayString(context, Field.MONITOR_LOCATION_ID, null);
 	}
 	
 	public static void logout(Context context){
