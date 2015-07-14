@@ -166,14 +166,9 @@ public class VolleyManager {
         final GsonRequest<T> request = new GsonRequest(finalUrl, clazz, successListener, errorListener);
 
         request.setShouldCache(needCache);
+        mRequestQueue.add(request);
 
-        if (!DeviceHelper.checkNetWork(DsnApplication.getContext())) {
-            netReqeust.onTaskFailedSuccess(requestCode, new NetError(NetError.NETWORK_UNAVAILABLEE));
 
-        } else {
-            mRequestQueue.add(request);
-
-        }
 
         return request;
 

@@ -7,38 +7,41 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
 public final class SharedPreferencesHelper {
-	public final static String TAG = "SettingHelper";
+    public final static String TAG = "SettingHelper";
     private final static String DATA_NAME = "dasinong_data";
     private final static String SPLITCHAR = ",";
 
     public enum Field {
-    	USER_NAME,
-    	USER_ID,
-    	USER_AUTH_TOKEN,
-    	USER_ADDRESS,
-    	USER_PHONE,
-//    	SESSIONID,
-    	VILLAGE_ID,
-    	LATITUDE,
-    	LONGITUDE,
-    	FIELD_SIZE,
-    	VARIETY_ID,
-    	SUBSTAGE_ID,
-    	PROVINCE,
-    	CITY,
-    	COUNTY,
-    	SEEDING_METHOD,
-    	PLANTING_DATE,
+        USER_NAME,
+        USER_ID,
+        USER_AUTH_TOKEN,
+        USER_ADDRESS,
+        USER_PHONE,
+        //    	SESSIONID,
+        VILLAGE_ID,
+        LATITUDE,
+        LONGITUDE,
+        FIELD_SIZE,
+        VARIETY_ID,
+        SUBSTAGE_ID,
+        PROVINCE,
+        CITY,
+        COUNTY,
+        SEEDING_METHOD,
+        PLANTING_DATE,
         FIELDID,
         MONITOR_LOCATION_ID,
         USER_FIELDS,
 
-    };
+    }
+
+    ;
 
 
     public static int getInt(Context context, String field, int defaultValue) {
-        return context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).getInt(field,-1);
+        return context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).getInt(field, -1);
     }
+
     public static int getInt(Context context, Field field, int defaultValue) {
         return context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).getInt(field.name(), defaultValue);
     }
@@ -48,7 +51,7 @@ public final class SharedPreferencesHelper {
         editor.putInt(field.name(), value);
         editor.commit();
     }
-    
+
     public static void setInt(Context context, String field, int value) {
         Editor editor = context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).edit();
         editor.putInt(field, value);
@@ -67,7 +70,7 @@ public final class SharedPreferencesHelper {
     public static String getString(Context context, String field, String defaultValue) {
     	return context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).getString(field, defaultValue);
     }
-    
+
     public static void setString(Context context, String field, String value) {
     	Editor editor = context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).edit();
     	editor.putString(field, value);
@@ -93,7 +96,7 @@ public final class SharedPreferencesHelper {
         editor.putBoolean(field.name(), value);
         editor.commit();
     }
-    
+
     public static void setArraylong(Context context, Field field, ArrayList<Long> arrayLong) {
         if (arrayLong != null && arrayLong.size() > 0) {
             String str = "";
@@ -105,7 +108,7 @@ public final class SharedPreferencesHelper {
             editor.commit();
         }
     }
-    
+
     public static void removeKey(Context context,Field field){
     	Editor editor = context.getSharedPreferences(DATA_NAME, Context.MODE_PRIVATE).edit();
     	editor.remove(field.name());
@@ -147,8 +150,10 @@ public final class SharedPreferencesHelper {
                     displayList.add(ids[index]);
             }
         }
-        
-        return (String[]) displayList.toArray();
+        String[] result = new String[displayList.size()];
+        displayList.toArray(result);
+
+        return result;
     }
 
 
