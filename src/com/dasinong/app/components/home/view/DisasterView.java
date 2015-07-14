@@ -124,6 +124,7 @@ public class DisasterView extends LinearLayout {
     }
 
     //false,true
+
     public synchronized void updateView(List<FieldEntity.CurrentFieldEntity.Petdisspecws> list, List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
 
         this.removeAllViews();

@@ -123,10 +123,11 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             @Override
             public void onArrowViewClick(int position) {
                 mCurrentSubStage = mSubStageLists.get(position);
-
-
                 mCurrentTaskSpec = getTaskBySubStageId();
                 updateTask();
+               if(onAddFieldClickListener!=null){
+                   onAddFieldClickListener.onDialogClick(mCurrentSubStage.subStageId);
+               }
 
             }
         });
@@ -200,6 +201,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         DEBUG("currentEntity daytoharvest:" + currentFieldEntity.daytoharvest);
         String harvestDay = getHarvestDay(currentFieldEntity);
         fieldStateView.updateHarvestDay(harvestDay);
+
         String rightStateInfo = "水稻";
         mCurrentSubStage = getCurrentStage(currentFieldEntity.currentStageID);
         mSubStageLists = getSubStages();
@@ -208,9 +210,11 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         int currentPosition = 0;
         // TODO MING TO NINGNING  当作物不为水稻时，则出现空指针  mSubStageLists 为空
         for (int i = 0; i < size; i++) {
-            if(mSubStageLists.get(i)==null){
+            if(mSubStageLists.get(i)==null||mCurrentSubStage==null){
                 continue;
             }
+
+
             if (mSubStageLists.get(i).subStageId == mCurrentSubStage.subStageId) {
                 currentPosition = i;
                 break;
@@ -223,9 +227,11 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
         fieldStateView.setPostionAndList(currentPosition, mSubStageLists);
 
-
-        rightStateInfo = rightStateInfo + mCurrentSubStage.stageName + mCurrentSubStage.subStageName;
-
+        if(mCurrentSubStage!=null) {
+            rightStateInfo = rightStateInfo + mCurrentSubStage.stageName + mCurrentSubStage.subStageName;
+        }else{
+            rightStateInfo="";
+        }
 
         fieldStateView.updateStageStatus(rightStateInfo);
     }
@@ -243,6 +249,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
     private void convertTask(List<FieldEntity.CurrentFieldEntity.TaskwsEntity> taskws) {
 
+        if(mCurrentSubStage==null){
+            return;
+        }
         List<TaskStatus> taskSpecs = mAllTasks.get(mCurrentSubStage.subStageId, null);
         if (taskSpecs != null) {
             return;
@@ -291,6 +300,10 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      */
     private List<TaskStatus> getTaskBySubStageId() {
 
+        if(mCurrentSubStage==null){
+            return new ArrayList<>();
+
+        }
 
         if (mAllTasks.get(mCurrentSubStage.subStageId, null) != null) {
             return mAllTasks.get(mCurrentSubStage.subStageId);
@@ -312,7 +325,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         List<TaskSpec> list = taskSpecDao.queryTaskSpecWithSubStage(mCurrentSubStage.subStageId);
         int size = list.size();
 
-        DEBUG("4mCurrentSubState id:size"+size);
+
 
         for (int i = 0; i < size; i++) {
             TaskSpec spec = list.get(i);
@@ -524,6 +537,13 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
          * @param filedId
          */
         void onPopWindowItemClick(Long filedId);
+
+        /**
+         * 更新disaster
+         *
+         */
+
+        void  onDialogClick(int  substage);
 
     }
 

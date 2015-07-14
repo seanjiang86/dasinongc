@@ -17,6 +17,7 @@ import com.android.volley.Request;
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BannerEntity;
+import com.dasinong.app.components.domain.DisasterEntity;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.domain.WeatherEntity;
 import com.dasinong.app.components.home.view.BannerView;
@@ -49,6 +50,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     private static final int REQUEST_CODE_HOME_WEATHER = 131;
     private static final int REQUEST_CODE_HOME_BANNER = 132;
 
+    private static final int REQUEST_CODE_DISASTER = 133;
+
     private boolean isHomeSuccess = false;
     private boolean isWeatherSuccess = false;
     private boolean isBannerSuccess = false;
@@ -56,6 +59,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     private static final String URL_WEATHER = NetConfig.BASE_URL + "loadWeather";
     private static final String URL_BANNER = NetConfig.BASE_URL + "getLaoNong";
+    private static final String URL_DISASTER= NetConfig.BASE_URL + "getPetDisBySubStage";
+
 
     private ViewGroup mRoot;
 
@@ -77,6 +82,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     WeatherEntity.Param weatherParam = new WeatherEntity.Param();
 
     BannerEntity.Param bannerParam = new BannerEntity.Param();
+
+    DisasterEntity.Param diasterParam = new DisasterEntity.Param();
     private long mStartTime = -1L;
     /**
      * unite is minute
@@ -204,6 +211,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                         @Override
                         public void onWorKContentItemClick(String itemValue, int pos, boolean isSelect) {
 
+
                         }
 
                         @Override
@@ -217,7 +225,17 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                             isShowDialog = true;
                             mFiledId = filedId;
                             loadDataFromWithCache(true);
+
+
                         }
+
+                        @Override
+                        public void onDialogClick(int substage) {
+                            diasterParam.subStageId = String.valueOf(substage);
+                            loadDisaster();
+                        }
+
+
                     });
 
                     mSoilView.updateView(entity.latestReport, entity.soilHum);
@@ -241,6 +259,10 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                     mBannerView.updateView(banner);
                 }
                 isBannerSuccess = true;
+                break;
+            case  REQUEST_CODE_DISASTER:
+                DisasterEntity disasterEntity = (DisasterEntity) response;
+                mDisasterView.updateView(disasterEntity.data,null);
                 break;
             default:
                 break;
@@ -425,6 +447,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                     break;
                 }
             }
+            DEBUG("position:"+position);
             mMotionId = Integer.parseInt(motionIds[position]);
             SharedPreferencesHelper.setInt(this.getActivity(), "FIELD_" + mFiledId,mMotionId);
         }
@@ -469,6 +492,18 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     }
 
+
+    private void loadDisaster() {
+        mBannerRequest = VolleyManager.getInstance().addGetRequestWithCache(
+                REQUEST_CODE_DISASTER,
+                URL_DISASTER,
+                diasterParam,
+                DisasterEntity.class,
+                this
+        );
+
+
+    }
     private void DEBUG(String msg) {
         if (BuildConfig.DEBUG) {
             Log.d(TAG, msg);
