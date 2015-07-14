@@ -1,6 +1,10 @@
 package com.dasinong.app.ui;
 
+import java.text.Collator;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -68,6 +72,8 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	private String secondButtonText = "请选择";
 	private LinearLayout ll_all;
 
+	private MyComparator mComparator = new MyComparator();
+
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			initVillage();
@@ -82,11 +88,12 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		dao = new CityDaoImpl(this);
 		provinceList = dao.getProvince();
 
+		Collections.sort(provinceList, mComparator);
+
 		mprovince = getIntent().getStringExtra("mprovince");
 		mcity = getIntent().getStringExtra("mcity");
 		mdistrict = getIntent().getStringExtra("mdistrict");
-		
-		
+
 		province = mprovince;
 		city = mcity;
 		county = mdistrict;
@@ -169,11 +176,12 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	}
 
 	private void initProvinceList() {
-		
+
 		if (!TextUtils.isEmpty(mprovince)) {
 			provincePosition = provinceList.indexOf(mprovince);
 		}
 		cityList = dao.getCity(provinceList.get(provincePosition));
+		Collections.sort(cityList, mComparator);
 		if (!TextUtils.isEmpty(mcity)) {
 			cityPosition = cityList.indexOf(mcity);
 		}
@@ -188,6 +196,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 			public void onItemClick(View view, int position) {
 				province = provinceList.get(position);
 				cityList = dao.getCity(province);
+				Collections.sort(cityList, mComparator);
 				provincePosition = 0;
 				cityPosition = 0;
 				initCityList();
@@ -198,7 +207,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	private void initCityList() {
 		provinceView.initSmallAreaData(cityList, cityPosition);
 		countyList = dao.getCounty(cityList.get(cityPosition));
-
+		Collections.sort(countyList, mComparator);
 		if (!TextUtils.isEmpty(mdistrict)) {
 			countyPosition = countyList.indexOf(mdistrict);
 		}
@@ -214,9 +223,10 @@ public class AddFieldActivity2 extends MyBaseActivity {
 					district = null;
 
 					etv.setTitle("请选择", 1);
-					etv.setTitle("请选择",2);
+					etv.setTitle("请选择", 2);
 				}
 				countyList = dao.getCounty(city);
+				Collections.sort(countyList, mComparator);
 				onrefresh(provinceView, province + "-" + city);
 				countyPosition = 0;
 				districtPostion = 0;
@@ -228,6 +238,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		countyView.initBigAreaData(countyList, countyPosition);
 
 		districtList = dao.getDistrict(countyList.get(countyPosition));
+		Collections.sort(districtList, mComparator);
 		initDistrict();
 
 		county = countyList.get(countyPosition);
@@ -239,6 +250,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 				countyPosition = position;
 				districtPostion = 0;
 				districtList = dao.getDistrict(county);
+				Collections.sort(districtList, mComparator);
 				initDistrict();
 			}
 		});
@@ -250,14 +262,14 @@ public class AddFieldActivity2 extends MyBaseActivity {
 			@Override
 			public void onItemClick(View view, int position) {
 				String currentDistrict = districtList.get(position);
-				if(!currentDistrict.equals(district)){
+				if (!currentDistrict.equals(district)) {
 					district = currentDistrict;
-					
+
 					village = null;
-					
+
 					etv.setTitle("请选择", 2);
 				}
-				
+
 				districtPostion = position;
 				onrefresh(countyView, county + "-" + district);
 
@@ -310,7 +322,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	}
 
 	private void queryVillage(String province, String city, String county, String district) {
-		if(!DeviceHelper.checkNetWork(this)){
+		if (!DeviceHelper.checkNetWork(this)) {
 			showToast("请检测您的网络连接");
 			return;
 		}
@@ -326,6 +338,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 								villageList.clear();
 							}
 							villageList = new ArrayList<String>(villageMap.keySet());
+							Collections.sort(villageList,mComparator);
 
 							handler.sendEmptyMessage(0);
 						} else {
@@ -343,11 +356,11 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	}
 
 	private void gotoThree() {
-		if("请选择".equals(etv.getTitle(2))){
+		if ("请选择".equals(etv.getTitle(2))) {
 			showToast("请完善您的地理信息");
 			return;
 		}
-		
+
 		if (TextUtils.isEmpty(villageId)) {
 			showToast("请完善您的地理信息");
 			return;
@@ -361,4 +374,19 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		startActivity(intent);
 		overridePendingTransition(0, 0);
 	}
+
+	public class MyComparator implements Comparator<String> {
+		Collator cmp = Collator.getInstance(java.util.Locale.CHINA);
+
+		@Override
+		public int compare(String str1, String str2) {
+			if (cmp.compare(str1, str2) > 0) {
+				return 1;
+			} else if (cmp.compare(str1, str2) < 0) {
+				return -1;
+			}
+			return 0;
+		}
+	}
+
 }

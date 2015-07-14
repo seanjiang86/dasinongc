@@ -442,7 +442,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 							
 							@Override
 							public void onCancelButtonClick() {
-								// TODO MING:该方法是否为检测登陆的方法
 								if (AccountManager.checkLogin(context)) {
 									Intent intent = new Intent(context, AddFieldActivity1.class);
 									context.startActivity(intent);
@@ -456,6 +455,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 						}
                 	}
                 } else {
+                	//TODO Ming 待确定文字
                 	showRemindDialog("请先开启网络","开网啊","好","不好", new MyDialogClickListener() {
 						
 						@Override
