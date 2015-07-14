@@ -9,7 +9,8 @@ public class User {
 	private String pictureId;
 	private String telephone;
 	private String address;
-	private int[] fields;
+	private String[] fields;
+	private String[] monitorLocationId;
 
 	public String getTelephone() {
 		return telephone;
@@ -67,12 +68,20 @@ public class User {
 		this.address = address;
 	}
 
-	public int[] getFields() {
+	public String[] getFields() {
 		return fields;
 	}
 
-	public void setFields(int[] fields) {
+	public void setFields(String[] fields) {
 		this.fields = fields;
+	}
+
+	public String[] getMonitorLocationId() {
+		return monitorLocationId;
+	}
+
+	public void setMonitorLocationId(String[] monitorLocationId) {
+		this.monitorLocationId = monitorLocationId;
 	}
 
 }

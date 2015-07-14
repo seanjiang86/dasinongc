@@ -13,7 +13,7 @@
         android:layout_marginLeft="@dimen/home_dimen_75"
         android:layout_marginTop="@dimen/home_dimen_30"
         android:paddingRight="@dimen/home_dimen_30"
-        android:text="@string/weather_update"
+        android:text=""
         android:textColor="@color/home_w_c8c8c8"
         android:textSize="@dimen/home_text_size_24"/>
     <!--android:layout_marginRight="@dimen/home_dimen_30"-->

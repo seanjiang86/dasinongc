@@ -21,6 +21,10 @@ public class NetError extends Exception {
 
     }
 
+
+
+
+
     public enum NetErrorStatus
 
     {

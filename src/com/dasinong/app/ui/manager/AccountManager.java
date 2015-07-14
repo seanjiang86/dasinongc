@@ -39,12 +39,20 @@ public class AccountManager {
 		SharedPreferencesHelper.setString(context, Field.USER_PHONE, user.getCellPhone());
 		SharedPreferencesHelper.setString(context, Field.USER_ADDRESS, user.getAddress());
 		
-		//save db | user fields
-		
+		SharedPreferencesHelper.setArrayString(context, Field.USER_FIELDS, user.getFields());
+		SharedPreferencesHelper.setArrayString(context, Field.MONITOR_LOCATION_ID, user.getMonitorLocationId());
 	}
 	
 	public static String getAuthToken(Context context){
 		return SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "");
+	}
+	
+	public static String[] getUserFields(Context context){
+		return SharedPreferencesHelper.getArrayString(context, Field.USER_FIELDS, "");
+	}
+	
+	public static String[] getLocations(Context context){
+		return SharedPreferencesHelper.getArrayString(context, Field.MONITOR_LOCATION_ID, "");
 	}
 	
 	public static void logout(Context context){

@@ -234,7 +234,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         if (!TextUtils.isEmpty(mCurrentFieldName)) {
             mFieldNameView.setText(mCurrentFieldName);
             SharedPreferencesHelper.setLong(this.getContext(), SharedPreferencesHelper.Field.FIELDID, mFieldMap.get(mCurrentFieldName));
-            SharedPreferencesHelper.setLong(this.getContext(), SharedPreferencesHelper.Field.FIELDID, mFieldMap.get(mCurrentFieldName));
+
         }
 
 
@@ -382,6 +382,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         }
 
 
+        mFieldList.clear();
         //有田地
         for (Map.Entry<String, Long> entrySet : mFieldMap.entrySet()) {
             String key = entrySet.getKey();
@@ -490,6 +491,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                     return;
                 }
                 mCurrentFieldName = fieldName.toString();
+                DEBUG(""+fieldName.toString());
                 updateFieldName();
                 popWindow.disMiss();
                 if (null != onAddFieldClickListener) {
