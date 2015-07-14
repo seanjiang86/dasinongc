@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -57,7 +58,7 @@ public class ReportHarmActivity extends BaseActivity {
 	private TopbarView topbar;
 	private ScrollView sv_all;
 	private EditText et_des;
-	private Button btn_upload_images;
+	private ImageButton btn_upload_images;
 	private RadioGroup rg_harm_type;
 	private RadioGroup rg_happened;
 	private RadioGroup rg_distribution;
@@ -147,7 +148,7 @@ public class ReportHarmActivity extends BaseActivity {
 		et_harm_name = (EditText) findViewById(R.id.et_harm_name);
 		et_des = (EditText) findViewById(R.id.et_des);
 
-		btn_upload_images = (Button) findViewById(R.id.btn_upload_images);
+		btn_upload_images = (ImageButton) findViewById(R.id.btn_upload_images);
 		noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
 		btn_submit_harm = (Button) findViewById(R.id.btn_submit_harm);
 

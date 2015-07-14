@@ -198,7 +198,7 @@ public class DisasterView extends LinearLayout {
             public void onClick(View v) {
                 //TODO: flag editor
                 //TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
-                Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_ITEM, getContext());
+                Intent intent = HarmDetialsActivity.createIntent(2000, HarmDetialsActivity.FLAG_ITEM, getContext());
                 getContext().startActivity(intent);
 
             }

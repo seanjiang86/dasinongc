@@ -206,6 +206,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         int size = mSubStageLists.size();
 
         int currentPosition = 0;
+        // TODO MING TO NINGNING  当作物不为水稻时，则出现空指针  mSubStageLists 为空
         for (int i = 0; i < size; i++) {
             if(mSubStageLists.get(i)==null){
                 continue;

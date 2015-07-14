@@ -23,7 +23,5 @@ public class AddFieldEntity extends BaseEntity {
 		public int varietyId;
 		public boolean workable;
 		public int yield;
-		
-		
 	}
 }

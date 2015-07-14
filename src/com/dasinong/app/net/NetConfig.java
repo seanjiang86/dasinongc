@@ -28,6 +28,7 @@ public class NetConfig {
 	// TODO MING :本地测试使用
 //	public static final String BASE_URL = "http://192.168.1.199:8080/ploughHelper/";
 	public static final String IMAGE_URL = "http://182.254.129.101:8080/avater/";
+	public static final String PET_IMAGE = "http://182.254.129.101:8080/";
 	public static final String BAIKE_URL = "http://182.254.129.101:8080/ploughHelper/baike?";
 
 	private static final String KEY_REQUEST = "UHTN90SPOLKIRT6131NM0SEWGLPALczmf";
@@ -93,6 +94,8 @@ public class NetConfig {
 		public static final String IS_PWSS_SET ="isPassSet";
 		/**获取任务步骤*/
 		public static final String GET_STEPS ="getSteps";
+		/**获取病虫草害详情*/
+		public static final String GET_PET_DIS_SPEC_DETIAL ="getPetDisSpecDetial";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -150,6 +153,7 @@ public class NetConfig {
 		public static final String key = "key";
 		public static final String seccode = "seccode";
 		public static final String taskSpecId = "taskSpecId";
+		public static final String petDisSpecId = "petDisSpecId";
 		
 	}
 	
@@ -427,6 +431,13 @@ public class NetConfig {
 		paramsMap.put(Params.varietyId, varietyId);
 		paramsMap.put(Params.currentStageId, currentStageId);
 		paramsMap.put(Params.yield, yield);
+		return getBaseParams(false, paramsMap);
+	}
+	
+	public static Map<String, String> getGetPetDisSpecDetial(int petDisSpecId) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		String strPetDisSpecId = String.valueOf(petDisSpecId);
+		paramsMap.put(Params.petDisSpecId, strPetDisSpecId);
 		return getBaseParams(false, paramsMap);
 	}
 }
