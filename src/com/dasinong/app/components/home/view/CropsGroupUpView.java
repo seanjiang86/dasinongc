@@ -298,6 +298,9 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
             while(iterator.hasNext()){
 
                 SubStage item = iterator.next();
+                if(item==null||item.subStageId==10||item.subStageId==0){
+                    continue;
+                }
                 final LinearLayout layout = new LinearLayout(getContext());
                 layout.setTag(count++);
                 LayoutParams linLayoutParams = new LayoutParams(itemWidth, LayoutParams.WRAP_CONTENT);
@@ -305,7 +308,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 //TODO image = getIconBySubstageId(enity.key)
                 LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 ImageView imageView = new ImageView(getContext());
-                imageView.setBackgroundResource(getIconBySubstageId(item.subStageId));
+                int resID =getIconBySubstageId(item.subStageId);
+                imageView.setBackgroundResource(resID);
                 layout.addView(imageView, params);
                 layout.setOnClickListener(new OnClickListener() {
                     @Override
@@ -339,19 +343,12 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
             mLeafParent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 public void onGlobalLayout() {
-                   // mLeafParent.scrollTo(0, 0);
+                    // mLeafParent.scrollTo(0, 0);
                     mLeafParent.smoothScrollTo(itemWidth * (mCurrentPostion - 2), 0);
-                }
-            });
-            mLeafParent.post(new Runnable() {
-                @Override
-                public void run() {
-                    DEBUG("post...");
-                    DEBUG("post:" + itemWidth * (mCurrentPostion - 2));
-
 
                 }
             });
+
 
         } else {
 
@@ -386,11 +383,13 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         int mCurrentStageId = mSubStages.get(mCurrentPostion).subStageId;
 
         int resId;
+
         if(mCurrentStageId>=subStageId){
             resId = cropIconResource.get(subStageId);
         }else {
             resId = cropNoIconResource.get(subStageId);
         }
+
         return resId;
 
     }

@@ -129,7 +129,7 @@ public class DisasterView extends LinearLayout {
 
         this.removeAllViews();
         addTopView();
-        if ((list == null || list.isEmpty()) && (petdiswsEntities == null && petdiswsEntities.isEmpty())) {
+        if ((list == null || list.isEmpty()) && (petdiswsEntities == null||petdiswsEntities.isEmpty())) {
             return;
         }
 
