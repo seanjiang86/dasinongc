@@ -408,6 +408,7 @@
         android:layout_below="@id/lyWeekWeather"
         android:gravity="center"
         android:textColor="#1768be"
+        android:background="@drawable/button_white_bg_selector"
         android:textSize="@dimen/home_text_size_32"
         tool:text="@string/weather_close_one_week"/>
 

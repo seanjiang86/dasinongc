@@ -151,7 +151,7 @@ public class MainTabActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		//login();
+		login();
 	}
 
 	@Override

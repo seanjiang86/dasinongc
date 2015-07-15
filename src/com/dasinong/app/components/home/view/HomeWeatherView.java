@@ -480,7 +480,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         TextView tvItemWindSpeed = (TextView) weekWeather.findViewById(R.id.tvItemWindSpeed);
         tvItemDay.setText(week);//周
 
-        tvItemTempLow.setText(item.min_temp + "");
+        tvItemTempLow.setText(item.min_temp + "℃");
         tvItemTempHight.setText(item.max_temp + "~");//
 
 
