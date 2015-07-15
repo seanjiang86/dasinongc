@@ -112,6 +112,8 @@ public class MainTabActivity extends BaseActivity {
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
+		mTabHost.getTabWidget().setDividerDrawable(null);
+		
 		int count = fragmentArray.length;
 
 		for (int i = 0; i < count; i++) {
