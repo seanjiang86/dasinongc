@@ -382,8 +382,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
         } else {
             mStartTime = SystemClock.currentThreadTimeMillis();
             if (mBaseActivity != null && isShowDialog) {
-                mRoot.setVisibility(View.GONE);
-                mBaseActivity.startLoadingDialog();
+//                mRoot.setVisibility(View.GONE);
+                ((BaseActivity)getActivity()).startLoadingDialog();
             }
         }
 

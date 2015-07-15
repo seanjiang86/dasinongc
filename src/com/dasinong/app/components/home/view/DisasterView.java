@@ -115,6 +115,7 @@ public class DisasterView extends LinearLayout {
         mBottomView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         mBottomView.setText(R.string.disaster_show);
         mBottomView.setGravity(Gravity.CENTER);
+        mBottomView.setBackgroundResource(R.drawable.button_white_bg_selector);
         mBottomView.setTextColor(Color.parseColor("#1768bc"));
         mBottomLayoutParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         //set event

@@ -11,86 +11,10 @@
         android:layout_height="wrap_content" >
     </com.dasinong.app.ui.view.TopbarView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp" >
-
-        <TextView
-            android:id="@+id/tv_cure_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="防治方案A"
-            android:textColor="@color/color_333333"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/tv_cure_stage"
-            android:layout_width="63dp"
-            android:layout_height="23dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/crop_stage_bg"
-            android:gravity="center"
-            android:text="种子阶段"
-            android:textColor="@android:color/white" />
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/tv_cure_provider"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="8dp"
-        android:text="防止中心提供"
-        android:textColor="@color/color_999999"
-        android:textSize="13sp" />
-
-    <TextView
-        android:id="@+id/tv_cure_content"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:lineSpacingExtra="11dp"
-        android:text="我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，"
-        android:textColor="@color/color_333333"
-        android:textSize="16sp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/color_E9E9E9" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:text="相关药物"
-            android:textColor="@color/color_333333"
-            android:textSize="16sp" />
-    </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/color_E9E9E9" />
-
     <ListView
         android:id="@+id/lv_medicine"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
         android:divider="@color/color_DBE3E5"
         android:dividerHeight="1px" />
 

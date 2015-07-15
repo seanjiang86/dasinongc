@@ -27,6 +27,14 @@ public class PetDisspecDaoImpl extends DaoSupportImpl<PetDisspec>  implements Pe
 
         return  query("type = ? ",new String[]{typeValue});
     }
+    
+    /**
+     * xiyao
+     */
+    public  List<PetDisspec> queryDisasterByTypeandCropName(String[] value){
+
+        return  query("type = ? and cropName = ? ",value);
+    }
 
     @Override
     public PetDisspec queryDisasterById(int id) {
