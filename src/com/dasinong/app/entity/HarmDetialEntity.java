@@ -3,15 +3,17 @@ package com.dasinong.app.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import com.dasinong.app.database.disaster.domain.PetSolu;
+
 public class HarmDetialEntity extends BaseEntity {
 	public HarmDetial data;
 
-	public class HarmDetial {
+	public static class HarmDetial {
 		public HarmInfo petDisSpec;
-		public List<Solution> petSolutions;
+		public List<Solutions> petSolutions;
 	}
 
-	public class HarmInfo {
+	public static class HarmInfo {
 		public String alias;
 		public String form;
 		public String habbit;
@@ -21,8 +23,8 @@ public class HarmDetialEntity extends BaseEntity {
 		public String rule;
 		public String sympton;
 	}
-
-	public class Solution implements Serializable{
+	
+	public static class Solutions implements Serializable{
 		public boolean isCPSolu;
 		public boolean isRemedy;
 		public int petDisSpecId;
@@ -32,5 +34,4 @@ public class HarmDetialEntity extends BaseEntity {
 		public int rank;
 		public String subStageId;
 	}
-
 }

@@ -9,10 +9,11 @@ import android.widget.TextView;
 
 import com.dasinong.app.R;
 import com.dasinong.app.database.disaster.domain.CPProduct;
+import com.dasinong.app.entity.DrugListEntity.Drug;
 
-public class CureAdapter extends MyBaseAdapter<CPProduct> {
+public class CureAdapter extends MyBaseAdapter<Drug> {
 
-	public CureAdapter(Context ctx, List<CPProduct> list, boolean flag) {
+	public CureAdapter(Context ctx, List<Drug> list, boolean flag) {
 		super(ctx, list, flag);
 	}
 
@@ -29,7 +30,7 @@ public class CureAdapter extends MyBaseAdapter<CPProduct> {
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		holder.tv_medicine_name.setText(list.get(pos).cPProductName);
+		holder.tv_medicine_name.setText(list.get(pos).name);
 		holder.tv_medicine_descript.setText(list.get(pos).activeIngredient);
 		return view;
 	}

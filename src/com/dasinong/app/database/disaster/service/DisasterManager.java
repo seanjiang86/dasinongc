@@ -67,6 +67,14 @@ public class DisasterManager {
 
         return mPetDisspecDao.queryDisasterByType(type);
     }
+    
+    /**
+     * xiyao
+     */
+    public List<PetDisspec> getDisease(String type,String cropName){
+
+        return mPetDisspecDao.queryDisasterByTypeandCropName(new String[]{type,cropName});
+    }
 
     
     /**

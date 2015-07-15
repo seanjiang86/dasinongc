@@ -3,6 +3,7 @@ package com.dasinong.app.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -10,13 +11,13 @@ import android.widget.TextView;
 
 import com.dasinong.app.R;
 import com.dasinong.app.database.disaster.domain.PetSolu;
-import com.dasinong.app.entity.HarmDetialEntity.Solution;
+import com.dasinong.app.entity.HarmDetialEntity.Solutions;
 
-public class HarmDetialAdapter extends MyBaseAdapter<Solution> {
+public class HarmDetialAdapter extends MyBaseAdapter<Solutions> {
 
 	private int soluSize;
 
-	public HarmDetialAdapter(Context ctx, List<Solution> list, int soluSize, boolean flag) {
+	public HarmDetialAdapter(Context ctx, List<Solutions> list, int soluSize, boolean flag) {
 		super(ctx, list, flag);
 		this.soluSize = soluSize;
 	}
@@ -68,9 +69,13 @@ public class HarmDetialAdapter extends MyBaseAdapter<Solution> {
 		holder.tv_content.setText(list.get(pos).petSoluDes);
 		
 		// TODO MING:等待数据
-		holder.tv_crop_stage.setText("种子阶段");
+		if(TextUtils.isEmpty(list.get(pos).subStageId)){
+			holder.tv_crop_stage.setVisibility(View.GONE);
+		} else {
+			holder.tv_crop_stage.setVisibility(View.VISIBLE);
+			holder.tv_crop_stage.setText(list.get(pos).subStageId);
+		}
 		holder.tv_provider.setText(list.get(pos).providedBy);
-		
 		return view;
 	}
 

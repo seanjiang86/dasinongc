@@ -327,7 +327,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="40dp"
                 android:orientation="horizontal" >
 
                 <TextView
@@ -337,14 +337,6 @@
                     android:textColor="@color/color_666666"
                     android:textSize="16sp" />
 
-<!--                 <Button
-                    android:id="@+id/btn_upload_images"
-                    android:layout_width="90dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/button_green_bg_selector"
-                    android:text="上传"
-                    android:textColor="@color/color_FFFFFF" /> -->
-                
                 <ImageButton
                     android:id="@+id/btn_upload_images"
                     android:layout_width="90dp"
@@ -377,10 +369,10 @@
                 android:id="@+id/btn_submit_harm"
                 android:layout_width="match_parent"
                 android:layout_height="45.0dip"
+                android:layout_marginBottom="50dp"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="50dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/green_button_selector"
                 android:text="提交"
                 android:textColor="@color/color_FFFFFF"

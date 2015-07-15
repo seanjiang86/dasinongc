@@ -96,6 +96,8 @@ public class NetConfig {
 		public static final String GET_STEPS ="getSteps";
 		/**获取病虫草害详情*/
 		public static final String GET_PET_DIS_SPEC_DETIAL ="getPetDisSpecDetial";
+		/**获取相关药物*/
+		public static final String GET_PET_SOLU ="getPetSolu";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -154,6 +156,7 @@ public class NetConfig {
 		public static final String seccode = "seccode";
 		public static final String taskSpecId = "taskSpecId";
 		public static final String petDisSpecId = "petDisSpecId";
+		public static final String petSoluId = "petSoluId";
 		
 	}
 	
@@ -440,5 +443,13 @@ public class NetConfig {
 		paramsMap.put(Params.petDisSpecId, strPetDisSpecId);
 		return getBaseParams(false, paramsMap);
 	}
+	
+	public static Map<String, String> getGetPetSolu(int petSoluId) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		String strPetSoluId = String.valueOf(petSoluId);
+		paramsMap.put(Params.petSoluId, strPetSoluId);
+		return getBaseParams(false, paramsMap);
+	}
+	
 }
 
