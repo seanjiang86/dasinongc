@@ -227,7 +227,7 @@ public class RegisterPasswordActivity extends BaseActivity {
 					finish();
 
 				} else {
-
+					showToast(resultData.getMessage());
 				}
 			}
 

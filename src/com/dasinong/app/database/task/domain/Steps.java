@@ -5,6 +5,7 @@ package com.dasinong.app.database.task.domain;
  */
 public class Steps {
 
+
     public int stepId;
     public String stepName;
     public int taskSpecId;

@@ -333,17 +333,24 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="照片上传： "
+                    android:text="添加照片："
                     android:textColor="@color/color_666666"
                     android:textSize="16sp" />
 
-                <Button
+<!--                 <Button
                     android:id="@+id/btn_upload_images"
                     android:layout_width="90dp"
                     android:layout_height="30dp"
                     android:background="@drawable/button_green_bg_selector"
                     android:text="上传"
-                    android:textColor="@color/color_FFFFFF" />
+                    android:textColor="@color/color_FFFFFF" /> -->
+                
+                <ImageButton
+                    android:id="@+id/btn_upload_images"
+                    android:layout_width="90dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/button_green_bg_selector"
+                    android:src="@drawable/icon_camera" />
 
                 <TextView
                     android:layout_width="wrap_content"

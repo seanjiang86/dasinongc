@@ -79,8 +79,8 @@ public class WebBrowserActivity extends BaseActivity {
 		settings.setDefaultTextEncodingName("utf-8");
 		settings.setSupportZoom(true);// 缩放
 
-//		settings.setUseWideViewPort(true);
-//		settings.setLoadWithOverviewMode(true);
+		// settings.setUseWideViewPort(true);
+		// settings.setLoadWithOverviewMode(true);
 		// settings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
 
 		settings.setBuiltInZoomControls(true);// 支持手势缩放
@@ -115,7 +115,7 @@ public class WebBrowserActivity extends BaseActivity {
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-				
+
 				dismissLoadingDialog();
 			}
 
@@ -138,7 +138,7 @@ public class WebBrowserActivity extends BaseActivity {
 			@Override
 			public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
 				// TODO
-				
+
 				super.onReceivedHttpAuthRequest(view, handler, host, realm);
 
 			}

@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="找不到？请你来举报"
+            android:text="找不到？你来告诉我们"
             android:textColor="@color/color_1768BE"
             android:textSize="16sp" />
     </LinearLayout>

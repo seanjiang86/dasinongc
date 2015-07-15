@@ -187,4 +187,8 @@ public class RequestService {
 	public void uploadPetDisPic(Context context, List<String> paths ,String cropName, String disasterType,String disasterName,String affectedArea,String eruptionTime, String disasterDist,String fieldOperations,String fieldId, RequestListener callBack) {
 		new NetRequest(context).uploadImages(0,NetConfig.BASE_URL + "insertDisasterReport", paths, cropName, disasterType, disasterName, affectedArea, eruptionTime,  disasterDist, fieldOperations,fieldId,BaseEntity.class, callBack);
 	}
+	public void getPetDisSpecDetial(Context context, int petDisSpecId ,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetPetDisSpecDetial(petDisSpecId);
+		new NetRequest(context).get(RequestCode.GET_PET_DIS_SPEC_DETIAL, params, SubUrl.GET_PET_DIS_SPEC_DETIAL, callBack, clazz);
+	}
 }

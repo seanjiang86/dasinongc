@@ -6,11 +6,16 @@ package com.dasinong.app.database.disaster.domain;
 public class CPProduct {
     public  int cPProductId;
     public String cPProductName;
+    public String registerationId;
     public String activeIngredient;
     public String type;
+    public String manufacturer;
+    public String tip;
+    public String guideline;
     public String crop;
     public String disease;
     public String volume;
-    public String guideline;
-    public String tip;
+    public String method;
+    public String model;
+
 }

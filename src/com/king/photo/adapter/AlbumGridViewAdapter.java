@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.android.volley.toolbox.ImageLoader;
 import com.dasinong.app.R;
 import com.king.photo.util.Bimp;
 import com.king.photo.util.BitmapCache;
@@ -119,10 +120,8 @@ public class AlbumGridViewAdapter extends BaseAdapter {
 		}
 
 		if (Bimp.tempSelectBitmap.contains(dataList.get(position))) {
-			System.out.println(position);
 			viewHolder.childCheckbox.setChecked(true);
 		}
-		System.out.println(viewHolder.childCheckbox.isChecked());
 
 		viewHolder.childCheckbox.setOnCheckedChangeListener(new MyCheckedChangeListener(position, viewHolder));
 

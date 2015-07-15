@@ -4,12 +4,16 @@ package com.dasinong.app.components.home.view;
 import android.app.Dialog;
 import android.content.Context;
 
+import android.content.Intent;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -21,6 +25,8 @@ import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.home.view.dialog.ConfirmDialog;
 import com.dasinong.app.database.task.domain.SubStage;
+import com.dasinong.app.ui.AddFieldActivity1;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.GraphicUtils;
 
@@ -94,8 +100,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         mLeafParent = (HorizontalScrollView) findViewById(R.id.leaf_parent);
 
         mLeafContainer = (LinearLayout) findViewById(R.id.leaf_container);
-        WindowManager windownManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        int width = windownManager.getDefaultDisplay().getWidth();
+        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+        int width = windowManager.getDefaultDisplay().getWidth();
         itemWidth = (width - GraphicUtils.dip2px(getContext(), 100)) / 5;
 
 
@@ -133,7 +139,46 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         switch (v.getId()) {
             case R.id.add_crop_parent:
                 // 添加作物
+                final Context context=getContext();
                 // TODO: 15/7/7 add crop
+                if (DeviceHelper.checkNetWork(context)) {
+                    if(!DeviceHelper.checkGPS(context)){
+                        showRemindDialog("无法获取当前位置","请前往“设置”打开GPS卫星，设置完成后点”返回“键就可以回到今日农事","前往设置","暂不开启", new MyDialogClickListener() {
+                            @Override
+                            public void onSureButtonClick() {
+                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                context.startActivity(intent);
+                            }
+
+                            @Override
+                            public void onCancelButtonClick() {
+                                // TODO MING:该方法是否为检测登陆的方法
+                                if (AccountManager.checkLogin(context)) {
+                                    Intent intent = new Intent(context, AddFieldActivity1.class);
+                                    context.startActivity(intent);
+                                }
+                            }
+                        });
+                    }else{
+                        if (AccountManager.checkLogin(context)) {
+                            Intent intent = new Intent(context, AddFieldActivity1.class);
+                            context.startActivity(intent);
+                        }
+                    }
+                } else {
+                    showRemindDialog("请先开启网络","开网啊","好","不好", new MyDialogClickListener() {
+
+                        @Override
+                        public void onSureButtonClick() {
+                            Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                            context.startActivity(intent);
+                        }
+                        @Override
+                        public void onCancelButtonClick() {
+
+                        }
+                    });
+                }
 
                 break;
             case R.id.left_arrow:
@@ -269,7 +314,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                         if (mCurrentPostion == currentCount) {
                             return;
                         }
-                        Log.d("dding", "currentCount:" + currentCount);
+                       DEBUG("dding currentCount:" + currentCount);
                         mCurrentPostion = currentCount;
                         isClickMove = true;
                         showConfirmDialog();
@@ -280,7 +325,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 mLeafContainer.addView(layout, linLayoutParams);
 
             }
-            Log.d("dding", "当前mCurrentPostion前--：" + mCurrentPostion);
+
             moveToDes();
 
         }
@@ -288,11 +333,35 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     }
 
     private void moveToDes() {
+        DEBUG("dding当前mCurrentPostion前--：" + mCurrentPostion);
         if (mCurrentPostion > 2) {
             //移动到中间
-            mLeafParent.smoothScrollTo(itemWidth * (mCurrentPostion - 2), 0);
+
+            mLeafParent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                public void onGlobalLayout() {
+                   // mLeafParent.scrollTo(0, 0);
+                    mLeafParent.smoothScrollTo(itemWidth * (mCurrentPostion - 2), 0);
+                }
+            });
+            mLeafParent.post(new Runnable() {
+                @Override
+                public void run() {
+                    DEBUG("post...");
+                    DEBUG("post:" + itemWidth * (mCurrentPostion - 2));
+
+
+                }
+            });
+
         } else {
-            mLeafParent.smoothScrollTo(0, 0);
+
+            mLeafParent.post(new Runnable() {
+                @Override
+                public void run() {
+                    mLeafParent.smoothScrollTo(0, 0);
+                }
+            });
+
         }
     }
 
@@ -447,4 +516,47 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
 
     }
+
+
+
+
+    private void showRemindDialog(String title, String content, String sureButton,String cancelButton, final MyDialogClickListener dialogClickListener){
+        final Dialog dialog = new Dialog(getContext(), R.style.CommonDialog);
+        dialog.setContentView(R.layout.confirm_gps_network_dialog);
+        TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
+        TextView tv_title = (TextView) dialog.findViewById(R.id.tv_dialog_title);
+
+        System.out.println(tv_title+"tv _ title");
+
+        tv_title.setText(title);
+        tv.setTextSize(22);
+
+        tv.setText(content);
+        tv.setTextSize(18);
+
+        Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
+        waitBtn.setText(cancelButton);
+        waitBtn.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                dialogClickListener.onCancelButtonClick();
+                dialog.dismiss();
+            }
+        });
+        Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_cancel);
+        backBtn.setText(sureButton);
+        backBtn.setOnClickListener(new OnClickListener() {
+            public void onClick(View v) {
+                dialogClickListener.onSureButtonClick();
+                dialog.dismiss();
+            }
+        });
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+    }
+
+    public interface MyDialogClickListener{
+        public void onSureButtonClick();
+        public void onCancelButtonClick();
+    }
+
 }
