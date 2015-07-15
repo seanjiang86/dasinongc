@@ -3,15 +3,16 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:minWidth="250dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
     android:background="@android:color/white"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tv_dialog_hint"
         android:layout_width="wrap_content"
-        android:layout_height="75dp"
-        android:paddingLeft="15dip"
-        android:paddingRight="15dip"
+        android:layout_height="wrap_content"
+        android:padding="24dp"
         android:lineSpacingExtra="5dip"
         android:gravity="center_vertical"
         android:text="短信验证码可能略有延迟,确定取消并重新开始？"

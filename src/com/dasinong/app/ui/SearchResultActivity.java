@@ -118,7 +118,7 @@ public class SearchResultActivity extends BaseActivity {
 			item.setName("草害");
 			item.setResId(R.drawable.caohai);
 			searchData.add(item);
-			searchData.addAll(data.getDisease());
+			searchData.addAll(data.getWeeds());
 		}
 		if(!data.getVariety().isEmpty()){
 			SearchItem item =  new SearchItem();
