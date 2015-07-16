@@ -211,6 +211,10 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
         //DONE 状态
         mCurrentSubStage = getCurrentStage(currentFieldEntity.currentStageID);
+
+        if(currentFieldEntity.currentStageID==0||currentFieldEntity.currentStageID==10){
+            mCurrentSubStage= null;
+        }
         updateStageStatus();
 
         mSubStageLists = getSubStages();
@@ -231,9 +235,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         }
 
 
-        if(currentPosition < 0 ){
-            return;
-        }
+
+
         fieldStateView.setPostionAndList(currentPosition, mSubStageLists);
 
     }
@@ -385,19 +388,24 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      * @param isWork  --是否适合下地;true:是；false:否
      * @param isSpray --是否适合打药;true:是；false:否
      */
-    private void setWorkState(boolean isWork, boolean isSpray) {
+    private void setWorkState(int isWork, int isSpray) {
+        //值我改成了1，0，-1是宜，0是不宜，-1是不显示
         leftStateView.setVisibility(View.VISIBLE);
         rightStateView.setVisibility(View.VISIBLE);
-        if (isWork) {
+        if (isWork==1) {
             leftStateView.setText("宜下地");
-        } else {
+        } else if(isWork==0) {
             leftStateView.setText("不宜下地");
+        }else {
+            leftStateView.setVisibility(View.GONE);
         }
-        if (isSpray) {
+        if (isSpray==1) {
             rightStateView.setText("宜打药");
 
-        } else {
+        } else if(isSpray==0) {
             rightStateView.setText("不宜打药");
+        }else {
+            rightStateView.setVisibility(View.GONE);
         }
     }
 
