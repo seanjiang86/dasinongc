@@ -71,6 +71,10 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
     public List<T> query(String selection, String[] selectionArgs,String orderBy) {
 
         List<T> result = new ArrayList<>();
+         String sql = SQLiteQueryBuilder.buildQueryString(false, mTableName, null, selection, null, null, orderBy, null);
+        if(BuildConfig.DEBUG){
+            Log.d("SQL",sql);
+        }
        Cursor cursor =  sqLiteDatabase.getWritableDatabase().query(mTableName, null, selection, selectionArgs, null, null, orderBy);
         convertVo(result, cursor);
         if (cursor != null) {
