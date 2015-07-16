@@ -160,6 +160,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
             mFieldMap = entity.fieldList;
             updateFieldNameMenue();
+
             fieldStateView.showNormalStatus();
         } else {
             //当前没有田地--

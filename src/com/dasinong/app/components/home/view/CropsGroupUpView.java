@@ -255,6 +255,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     if (null != onAddCropClickListener) {
                         confirmDialog.dismiss();
                         onAddCropClickListener.onArrowViewClick(mCurrentPostion);
+
                         updateStageIcon();
 
                     }
@@ -281,7 +282,17 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         if(mSubStageLists==null||mSubStageLists.isEmpty()){
             return;
         }
-        updateStageIcon();
+       if(mPosition<0||mSubStageLists.get(mPosition).subStageId==10){
+           leftArrowView.setVisibility(View.GONE);
+           rightArrowView.setVisibility(View.GONE);
+           mLeafParent.setVisibility(View.GONE);
+       }else {
+           mLeafParent.setVisibility(View.VISIBLE);
+           leftArrowView.setVisibility(View.VISIBLE);
+           rightArrowView.setVisibility(View.VISIBLE);
+           updateStageIcon();
+       }
+
     }
 
     private void updateStageIcon() {
@@ -304,8 +315,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 final LinearLayout layout = new LinearLayout(getContext());
                 layout.setTag(count++);
                 LayoutParams linLayoutParams = new LayoutParams(itemWidth, LayoutParams.WRAP_CONTENT);
-                //TODO:create imageView
-                //TODO image = getIconBySubstageId(enity.key)
                 LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 ImageView imageView = new ImageView(getContext());
                 int resID =getIconBySubstageId(item.subStageId);
@@ -337,7 +346,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     }
 
     private void moveToDes() {
-        DEBUG("dding当前mCurrentPostion前--：" + mCurrentPostion);
         if (mCurrentPostion > 2) {
             //移动到中间
 
