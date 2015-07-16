@@ -2,6 +2,7 @@ package com.dasinong.app.database.common.dao.impl;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.util.Log;
 
 import com.dasinong.app.BuildConfig;

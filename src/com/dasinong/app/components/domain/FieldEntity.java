@@ -66,9 +66,9 @@ public class FieldEntity extends BaseResponse {
 
 
         public int  daytoharvest;    //int只给 离收获还有多少天（）(小于0不显示)
-
-        public boolean workable;//不宜下地
-        public boolean sprayable;//不宜打药
+        //宜下地，宜打药，值我改成了1，0，-1是宜，0是不宜，-1是不显示
+        public int  workable;//不宜下地
+        public int sprayable;//不宜打药
 
 
 
