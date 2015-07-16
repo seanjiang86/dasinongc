@@ -11,14 +11,13 @@ import android.widget.TextView;
 import com.dasinong.app.R;
 import com.dasinong.app.database.disaster.domain.NatDisspec;
 import com.dasinong.app.database.disaster.domain.PetDisspec;
+import com.dasinong.app.net.NetConfig;
+import com.liam.imageload.LoadUtils;
 
 public class HarmAdapter<T> extends MyBaseAdapter<T> {
-	
-	private int fragmentPosition;
-	
-	public HarmAdapter(Context ctx, List<T> list, int fragmentPosition, boolean flag) {
+
+	public HarmAdapter(Context ctx, List<T> list, boolean flag) {
 		super(ctx, list, flag);
-		this.fragmentPosition = fragmentPosition;
 	}
 
 	@Override
@@ -35,17 +34,17 @@ public class HarmAdapter<T> extends MyBaseAdapter<T> {
 			holder = (ViewHolder) view.getTag();
 		}
 
-		if (fragmentPosition == 3) {
-			NatDisspec nat = (NatDisspec) list.get(pos);
-			holder.iv_harm_pic.setVisibility(View.GONE);
-			holder.tv_harm_name.setText(nat.natDisSpecName);
-			holder.tv_harm_des.setText(nat.solution);
+		PetDisspec pet = (PetDisspec) list.get(pos);
+		String path = null;
+		if(pet.pictureIds.contains("\n")){
+			path = pet.pictureIds.substring(0, pet.pictureIds.indexOf("\n"));
 		} else {
-			PetDisspec pet = (PetDisspec) list.get(pos);
-			holder.iv_harm_pic.setImageResource(R.drawable.test_pic);
-			holder.tv_harm_name.setText(pet.petDisSpecName);
-			holder.tv_harm_des.setText(pet.description);
+			path = pet.pictureIds;
 		}
+		
+		LoadUtils.getInstance().loadImage(holder.iv_harm_pic, NetConfig.PET_IMAGE+path);
+		holder.tv_harm_name.setText(pet.petDisSpecName);
+		holder.tv_harm_des.setText(pet.sympthon);
 
 		return view;
 	}

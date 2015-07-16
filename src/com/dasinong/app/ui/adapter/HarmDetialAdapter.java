@@ -69,13 +69,15 @@ public class HarmDetialAdapter extends MyBaseAdapter<Solutions> {
 		holder.tv_content.setText(list.get(pos).petSoluDes);
 		
 		// TODO MING:等待数据
-		if(TextUtils.isEmpty(list.get(pos).subStageId)){
+		if(TextUtils.isEmpty(list.get(pos).subStageId) || "0".equals(list.get(pos).subStageId)){
 			holder.tv_crop_stage.setVisibility(View.GONE);
 		} else {
 			holder.tv_crop_stage.setVisibility(View.VISIBLE);
 			holder.tv_crop_stage.setText(list.get(pos).subStageId);
 		}
-		holder.tv_provider.setText(list.get(pos).providedBy);
+		// TODO MING：暂时没有提供者，第一个版本隐藏该控件
+		holder.tv_provider.setVisibility(View.GONE);
+//		holder.tv_provider.setText(list.get(pos).providedBy);
 		return view;
 	}
 

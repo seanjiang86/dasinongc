@@ -190,6 +190,8 @@ public class DisasterView extends LinearLayout {
 
         type.setText("易发"+getDisasterString(item.type));
         icon.setImageResource(getDisasterIcon(item.type));
+        
+//        System.out.println(item.type);
 
         desc.setText(item.sympton);
 
@@ -239,7 +241,8 @@ public class DisasterView extends LinearLayout {
 
         type.setText(getDisasterString(item.type) + "预警");
         icon.setImageResource(getDisasterIcon(item.type));
-
+        
+        
         desc.setText(item.description);
 
 

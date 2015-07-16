@@ -1,17 +1,13 @@
 package com.king.photo.activity;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
@@ -22,9 +18,6 @@ import android.widget.TextView;
 import com.dasinong.app.R;
 import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.ReportHarmActivity;
-import com.king.photo.util.Bimp;
-import com.king.photo.util.PublicWay;
-import com.king.photo.util.Res;
 import com.king.photo.zoom.PhotoView;
 import com.king.photo.zoom.ViewPagerFixed;
 import com.liam.imageload.LoadUtils;
@@ -55,11 +48,10 @@ public class GalleryActivity extends BaseActivity {
 	private ViewPagerFixed pager;
 	private MyPageAdapter adapter;
 
-	// public List<Bitmap> bmp = new ArrayList<Bitmap>();
-	// public List<String> drr = new ArrayList<String>();
-	// public List<String> del = new ArrayList<String>();
-
 	private Context mContext;
+
+	// 存放当前图片地址的集合
+	private ArrayList<String> paths;
 
 	RelativeLayout photo_relativeLayout;
 
@@ -67,26 +59,28 @@ public class GalleryActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.plugin_camera_gallery);
-		PublicWay.activityList.add(this);
 		mContext = this;
-		send_bt = (Button) findViewById(Res.getWidgetID("send_button"));
-		del_bt = (Button) findViewById(Res.getWidgetID("gallery_del"));
+		send_bt = (Button) findViewById(R.id.send_button);
+		del_bt = (Button) findViewById(R.id.gallery_del);
 		send_bt.setOnClickListener(new GallerySendListener());
 		del_bt.setOnClickListener(new DelListener());
 		intent = getIntent();
+
 		Bundle bundle = intent.getExtras();
-		position = Integer.parseInt(intent.getStringExtra("position"));
+		paths = bundle.getStringArrayList(ReportHarmActivity.CURRENT_LIST);
+		position = Integer.parseInt(bundle.getString("position"));
+		int id = bundle.getInt("ID", 0);
+
 		isShowOkBt();
-		pager = (ViewPagerFixed) findViewById(Res.getWidgetID("gallery01"));
+		pager = (ViewPagerFixed) findViewById(R.id.gallery01);
 		pager.setOnPageChangeListener(pageChangeListener);
-		for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
-			initListViews(Bimp.tempSelectBitmap.get(i).imagePath);
+		for (int i = 0; i < paths.size(); i++) {
+			initListViews(paths.get(i));
 		}
 
 		adapter = new MyPageAdapter(listViews);
 		pager.setAdapter(adapter);
-		pager.setPageMargin((int) getResources().getDimensionPixelOffset(Res.getDimenID("ui_10_dip")));
-		int id = intent.getIntExtra("ID", 0);
+		pager.setPageMargin((int) getResources().getDimensionPixelOffset(R.dimen.ui_10_dip));
 		pager.setCurrentItem(id);
 	}
 
@@ -105,17 +99,6 @@ public class GalleryActivity extends BaseActivity {
 		}
 	};
 
-	// private void initListViews(Bitmap bm) {
-	// if (listViews == null)
-	// listViews = new ArrayList<View>();
-	// PhotoView img = new PhotoView(this);
-	// img.setBackgroundColor(0xff000000);
-	// img.setImageBitmap(bm);
-	// img.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,
-	// LayoutParams.MATCH_PARENT));
-	// listViews.add(img);
-	// }
-
 	private void initListViews(String path) {
 		if (listViews == null)
 			listViews = new ArrayList<View>();
@@ -131,20 +114,19 @@ public class GalleryActivity extends BaseActivity {
 
 		public void onClick(View v) {
 			if (listViews.size() == 1) {
-				Bimp.tempSelectBitmap.clear();
-				Bimp.max = 0;
-				send_bt.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
-				Intent intent = new Intent("data.broadcast.action");
-				sendBroadcast(intent);
+				paths.clear();
+				send_bt.setText("完成" + "(" + paths.size() + "/" + ReportHarmActivity.MAX_NUM + ")");
+				Bundle bundle = new Bundle();
+				bundle.putStringArrayList(ReportHarmActivity.CURRENT_LIST, paths);
+				intent.putExtras(bundle);
+				setResult(RESULT_OK, intent);
 				finish();
 			} else {
-				Bimp.tempSelectBitmap.remove(location);
-
-				Bimp.max--;
+				paths.remove(location);
 				pager.removeAllViews();
 				listViews.remove(location);
 				adapter.setListViews(listViews);
-				send_bt.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
+				send_bt.setText("完成" + "(" + paths.size() + "/" + ReportHarmActivity.MAX_NUM + ")");
 				adapter.notifyDataSetChanged();
 			}
 		}
@@ -153,16 +135,18 @@ public class GalleryActivity extends BaseActivity {
 	// 完成按钮的监听
 	private class GallerySendListener implements OnClickListener {
 		public void onClick(View v) {
+			Bundle bundle = new Bundle();
+			bundle.putStringArrayList(ReportHarmActivity.CURRENT_LIST, paths);
+			intent.putExtras(bundle);
+			setResult(RESULT_OK, intent);
 			finish();
-			intent.setClass(mContext, ReportHarmActivity.class);
-			startActivity(intent);
 		}
 
 	}
 
 	public void isShowOkBt() {
-		if (Bimp.tempSelectBitmap.size() > 0) {
-			send_bt.setText(Res.getString("finish") + "(" + Bimp.tempSelectBitmap.size() + "/" + PublicWay.num + ")");
+		if (paths.size() > 0) {
+			send_bt.setText("完成" + "(" + paths.size() + "/" + ReportHarmActivity.MAX_NUM + ")");
 			send_bt.setPressed(true);
 			send_bt.setClickable(true);
 			send_bt.setTextColor(Color.WHITE);

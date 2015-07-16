@@ -27,11 +27,8 @@ import com.dasinong.app.ui.adapter.HarmAdapter;
 
 public class HarmFragment extends Fragment {
 
-	private List list = new ArrayList();
-	// private List<NatDisspec> natList = new ArrayList<NatDisspec> ();
+	private List<PetDisspec> list = new ArrayList<PetDisspec>();
 	private int fragmentPosition;
-
-	public final static String TYPE_PET = "petdisspec";
 
 	public static HarmFragment newInstance(int position) {
 
@@ -57,7 +54,7 @@ public class HarmFragment extends Fragment {
 		View view = View.inflate(getActivity(), R.layout.fragment_harm, null);
 		ListView lv_harm = (ListView) view.findViewById(R.id.lv_harm);
 
-		lv_harm.setAdapter(new HarmAdapter<NatDisspec>(getActivity(), list, fragmentPosition, false));
+		lv_harm.setAdapter(new HarmAdapter<PetDisspec>(getActivity(), list, false));
 
 		lv_harm.setOnItemClickListener(new OnItemClickListener() {
 
@@ -67,8 +64,9 @@ public class HarmFragment extends Fragment {
 
 				PetDisspec pet = (PetDisspec) list.get(position);
 				Bundle bundle = new Bundle();
-				bundle.putString("type", TYPE_PET);
-				bundle.putSerializable("pet", pet);
+				bundle.putString("type", HarmDetialsActivity.FLAG_ITEM);
+				bundle.putInt("petDisSpecId", pet.petDisSpecId);
+				System.out.println(pet.petDisSpecId);
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}
@@ -93,6 +91,6 @@ public class HarmFragment extends Fragment {
 			type = "草害";
 			break;
 		}
-		list = manager.getDisease(type,"水稻");
+		list = manager.getDisease(type, "水稻");
 	}
 }
