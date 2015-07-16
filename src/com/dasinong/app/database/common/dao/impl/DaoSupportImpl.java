@@ -27,15 +27,15 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
 	private String mTableName;
 	protected Class<T> mClass;
 
-	public DaoSupportImpl(Context context) {
-		ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
-		mClass = (Class<T>) type.getActualTypeArguments()[0];
+    public DaoSupportImpl(Context context) {
+        ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
+        mClass = (Class<T>) type.getActualTypeArguments()[0];
 
-		mTableName = mClass.getSimpleName().toLowerCase();
+        mTableName = mClass.getSimpleName().toLowerCase();
 
-		sqLiteDatabase = new LocalDataBaseHelper(context.getApplicationContext());
+        sqLiteDatabase = new LocalDataBaseHelper(context.getApplicationContext());
 
-	}
+    }
 
 	public List<T> query(String sql) {
 		List<T> result = new ArrayList<T>();

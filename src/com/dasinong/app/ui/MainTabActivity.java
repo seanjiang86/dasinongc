@@ -174,7 +174,7 @@ public class MainTabActivity extends BaseActivity {
 			@Override
 			public void locationNotify(LocationResult result) {
 				
-//				Toast.makeText(MainTabActivity.this, result.getLatitude()+" -- "+result.getLongitude(), 0).show();
+				Toast.makeText(MainTabActivity.this, result.getCity()+" -- "+result.getStreet(), 0).show();
 			}
 		});
 	}
