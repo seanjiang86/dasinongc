@@ -30,7 +30,9 @@ import com.dasinong.app.database.disaster.domain.PetSolu;
 import com.dasinong.app.database.disaster.service.DisasterManager;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.HarmDetialEntity;
-import com.dasinong.app.entity.HarmDetialEntity.Solution;
+import com.dasinong.app.entity.HarmDetialEntity.HarmDetial;
+import com.dasinong.app.entity.HarmDetialEntity.HarmInfo;
+import com.dasinong.app.entity.HarmDetialEntity.Solutions;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
@@ -66,25 +68,26 @@ public class HarmDetialsActivity extends BaseActivity {
 	// 快速诊断按钮
 	private LinearLayout ll_rapid_diagnosis;
 	// 用来存放图片链接的集合
-	// private List<PetSolu> dataList = new ArrayList<PetSolu>();
-	private List<Solution> dataList = new ArrayList<Solution>();
+	private List<Solutions> dataList = new ArrayList<Solutions>();
 	private ImageView imageView;
 	private ImageView[] imageViews;
 	private String type;
-	// TODO MING:本地查询的bean，待数据库导入后，统一Bean
-	// private List<PetSolu> petSoluList;
-	// private List<PetSolu> petPreventList;
-	private List<Solution> petSoluList = new ArrayList<Solution>();
-	private List<Solution> petPreventList = new ArrayList<Solution>();
+	//网络查询结果
+	private List<Solutions> petSoluList = new ArrayList<Solutions>();
+	private List<Solutions> petPreventList = new ArrayList<Solutions>();
+	//本地查询结果
+	private List<PetSolu> LocaPetSoluList = new ArrayList<PetSolu>();
+	private List<PetSolu> LocaPetPreventList = new ArrayList<PetSolu>();
 	private PetDisspec pet;
 	private DisasterManager manager;
 	private TopbarView topbar;
 	private ImageView iv_pic;
+	private int petDisSpecId;
 
 	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			HarmDetialEntity detial = (HarmDetialEntity) msg.obj;
-			for (HarmDetialEntity.Solution solution : detial.data.petSolutions) {
+			for (Solutions solution : detial.data.petSolutions) {
 				if (solution.isRemedy) {
 					petSoluList.add(solution);
 				} else {
@@ -93,18 +96,21 @@ public class HarmDetialsActivity extends BaseActivity {
 			}
 			dataList.addAll(petSoluList);
 			dataList.addAll(petPreventList);
-			// TODO MING:查询本地
-
 			initTopBar(detial.data.petDisSpec.petDisSpecName);
 			initHeader(detial);
 			initListView();
 		};
 	};
 
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_harm_detials);
+		
+		lv_detial = (ListView) findViewById(R.id.lv_detial);
+		topbar = (TopbarView) findViewById(R.id.topbar);
+		header = View.inflate(DsnApplication.getContext(), R.layout.harm_detials_header, null);
 
 		manager = DisasterManager.getInstance(this);
 
@@ -114,25 +120,17 @@ public class HarmDetialsActivity extends BaseActivity {
 			pet = (PetDisspec) getIntent().getExtras().getSerializable("pet");
 		} else if (FLAG_PREVENT.equals(type) || FLAG_CURE.equals(type) || FLAG_ITEM.equals(type)) {
 			if (getIntent().hasExtra("petDisSpecId")) {
-				// TODO MING：如果取不到值不能等于 -1；
-				int petDisSpecId = getIntent().getIntExtra("petDisSpecId", -1);
-				queryDisease(petDisSpecId);
-				// pet = manager.getDisease(petDisSpecId);
+				petDisSpecId = getIntent().getIntExtra("petDisSpecId", -1);
+				if (DeviceHelper.checkNetWork(this)) {
+					queryDisease(petDisSpecId);
+				} else {
+					initData(petDisSpecId);
+				}
 			} else {
 				this.finish();
 				return;
 			}
 		}
-
-		lv_detial = (ListView) findViewById(R.id.lv_detial);
-		topbar = (TopbarView) findViewById(R.id.topbar);
-
-		// initTopBar();
-
-		header = View.inflate(DsnApplication.getContext(), R.layout.harm_detials_header, null);
-
-		// initData(pet.petDisSpecId);
-
 	}
 
 	private void initTopBar(String name) {
@@ -142,7 +140,7 @@ public class HarmDetialsActivity extends BaseActivity {
 
 	private void initListView() {
 		lv_detial.setAdapter(new HarmDetialAdapter(this, dataList, petSoluList.size(), true));
-
+		
 		if (FLAG_CURE.equals(type)) {
 			lv_detial.setSelection(1);
 		} else if (FLAG_PREVENT.equals(type)) {
@@ -155,11 +153,13 @@ public class HarmDetialsActivity extends BaseActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Solution solu = dataList.get(position - 1);
+				Solutions solu = dataList.get(position - 1);
 				Intent intent = new Intent(DsnApplication.getContext(), CureDetialActivity.class);
 
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("solu", solu);
+				bundle.putInt("position", position);
+				bundle.putInt("size", petSoluList.size());
 				intent.putExtras(bundle);
 
 				startActivity(intent);
@@ -167,45 +167,104 @@ public class HarmDetialsActivity extends BaseActivity {
 		});
 	}
 
-	// TODO MING:本地查询
-
 	private void initData(int petDisSpecId) {
-		//
-		// // 获取治疗方案
-		// petSoluList = manager.getCureSolution(petDisSpecId);
-		// // 获取预防方案
-		// petPreventList = manager.getPreventSolution(petDisSpecId);
-		//
-		// if (petSoluList != null && petSoluList.size() != 0) {
-		// dataList.addAll(petSoluList);
-		// }
-		// if (petPreventList != null && petPreventList.size() != 0) {
-		// dataList.addAll(petPreventList);
-		// }
-		//
-		// initHeader();
-		//
-		// initListView();
+		PetDisspec pet = manager.getDisease(petDisSpecId);
+
+		HarmDetialEntity detial = new HarmDetialEntity();
+		detial.data = new HarmDetial();
+		detial.data.petDisSpec = new HarmInfo();
+		
+		detial.data.petDisSpec.alias = pet.alias;
+		detial.data.petDisSpec.form = pet.forms;
+		detial.data.petDisSpec.habbit = pet.habits;
+		detial.data.petDisSpec.id = pet.petDisSpecId;
+		detial.data.petDisSpec.imagePath = pet.pictureIds;
+		detial.data.petDisSpec.petDisSpecName = pet.petDisSpecName;
+		detial.data.petDisSpec.rule = pet.rules;
+		detial.data.petDisSpec.sympton = pet.sympthon;
+		
+		// 获取治疗方案
+		LocaPetSoluList = manager.getCureSolution(petDisSpecId);
+		// 获取预防方案
+		LocaPetPreventList = manager.getPreventSolution(petDisSpecId);
+		
+		for (PetSolu solu : LocaPetPreventList) {
+			Solutions solution = new Solutions();
+			if(solu.isCPSolu == 1){
+				solution.isCPSolu = true;
+			}else{
+				solution.isCPSolu = false;
+			}
+			
+			if(solu.isRemedy == 1){
+				solution.isRemedy = true;
+			} else {
+				solution.isRemedy = false;
+			}
+			solution.petDisSpecId = solu.petDisSpecId;
+			solution.petSoluDes = solu.petSoluDes;
+			solution.petSoluId = solu.petSoluId;
+			solution.providedBy = solu.providedBy;
+			solution.rank = solu.rank;
+			solution.subStageId = solu.subStageId;
+			
+			petPreventList.add(solution);
+		}
+		
+		for (PetSolu solu : LocaPetPreventList) {
+			Solutions solution = new Solutions();
+			if(solu.isCPSolu == 1){
+				solution.isCPSolu = true;
+			}else{
+				solution.isCPSolu = false;
+			}
+			
+			if(solu.isRemedy == 1){
+				solution.isRemedy = true;
+			} else {
+				solution.isRemedy = false;
+			}
+			solution.petDisSpecId = solu.petDisSpecId;
+			solution.petSoluDes = solu.petSoluDes;
+			solution.petSoluId = solu.petSoluId;
+			solution.providedBy = solu.providedBy;
+			solution.rank = solu.rank;
+			solution.subStageId = solu.subStageId;
+			
+			petPreventList.add(solution);
+		}
+
+		if (petSoluList != null && petSoluList.size() != 0) {
+			dataList.addAll(petSoluList);
+		}
+		if (petPreventList != null && petPreventList.size() != 0) {
+			dataList.addAll(petPreventList);
+		}
+
+		initHeader(detial);
+
+		initListView();
 	}
 
 	/*
 	 * 填充listview的头的信息
 	 */
-	private void initHeader(HarmDetialEntity pet) {
+	private void initHeader(HarmDetialEntity detial) {
 		tv_harm_name = (TextView) header.findViewById(R.id.tv_harm_name);
 		rb_harm_grade = (RatingBar) header.findViewById(R.id.rb_harm_grade);
 		tv_harm_des = (TextView) header.findViewById(R.id.tv_harm_des);
 		iv_pic = (ImageView) header.findViewById(R.id.iv_pic);
 
-		// TODO MING:查询本地
-		tv_harm_name.setText(pet.data.petDisSpec.petDisSpecName);
+		tv_harm_name.setText(detial.data.petDisSpec.petDisSpecName);
 		// TODO MING:等待真实数据
 		rb_harm_grade.setRating(3);
-		tv_harm_des.setText(pet.data.petDisSpec.sympton + "\n" + pet.data.petDisSpec.form);
-		// tv_harm_name.setText(pet.petDisSpecName);
-		// rb_harm_grade.setRating(pet.severity);
-		// tv_harm_des.setText(pet.description);
-		LoadUtils.getInstance().loadImage(iv_pic, NetConfig.PET_IMAGE + pet.data.petDisSpec.imagePath);
+
+		String sympton = ToDBC(detial.data.petDisSpec.sympton);
+		String form = ToDBC(detial.data.petDisSpec.form);
+
+		tv_harm_des.setText(sympton + "\n\n" + form);
+
+		LoadUtils.getInstance().loadImage(iv_pic, NetConfig.PET_IMAGE + detial.data.petDisSpec.imagePath);
 
 		// TODO MING 多张图片备用
 		/*
@@ -244,11 +303,7 @@ public class HarmDetialsActivity extends BaseActivity {
 		lv_detial.addHeaderView(header, null, false);
 	}
 
-	private void queryDisease(int petDisSpecId) {
-		if (!DeviceHelper.checkNetWork(this)) {
-			showToast("请检测您的网络连接");
-			return;
-		}
+	private void queryDisease(final int petDisSpecId) {
 		startLoadingDialog();
 		RequestService.getInstance().getPetDisSpecDetial(this, petDisSpecId, HarmDetialEntity.class, new RequestListener() {
 
@@ -265,8 +320,8 @@ public class HarmDetialsActivity extends BaseActivity {
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				// TODO MING 待统一
 				dismissLoadingDialog();
+				initData(petDisSpecId);
 			}
 		});
 	}
@@ -285,5 +340,24 @@ public class HarmDetialsActivity extends BaseActivity {
 		intent.putExtra("petDisSpecId", petDisSpecId);
 		intent.putExtra("type", flag);
 		return intent;
+	}
+
+	/**
+	 * 半角转全角
+	 * 
+	 * @param input
+	 * @return
+	 */
+	public static String ToDBC(String input) {
+		char[] c = input.toCharArray();
+		for (int i = 0; i < c.length; i++) {
+			if (c[i] == 12288) {
+				c[i] = (char) 32;
+				continue;
+			}
+			if (c[i] > 65280 && c[i] < 65375)
+				c[i] = (char) (c[i] - 65248);
+		}
+		return new String(c);
 	}
 }

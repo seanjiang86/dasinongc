@@ -191,4 +191,8 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getGetPetDisSpecDetial(petDisSpecId);
 		new NetRequest(context).get(RequestCode.GET_PET_DIS_SPEC_DETIAL, params, SubUrl.GET_PET_DIS_SPEC_DETIAL, callBack, clazz);
 	}
+	public void getPetSolu(Context context, int petSoluId ,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetPetSolu(petSoluId);
+		new NetRequest(context).get(RequestCode.GET_PET_SOLU, params, SubUrl.GET_PET_SOLU, callBack, clazz);
+	}
 }

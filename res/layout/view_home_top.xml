@@ -13,21 +13,22 @@
 
         <TextView
             android:id="@+id/field"
-            android:textSize="@dimen/home_text_size_40"
+            android:textSize="@dimen/home_text_size_36"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="暂无田地"
+            android:drawablePadding="5dp"
             android:layout_marginTop="15dp"
-            android:textColor="@android:color/white" />
+            android:textColor="@drawable/topbar_text_selector" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_alignParentRight="true"
             android:orientation="vertical"
             android:id="@+id/add_field"
-            android:paddingLeft="35dp"
-            android:paddingRight="35dp"
+            android:paddingLeft="30dp"
+            android:paddingRight="15dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:layout_height="wrap_content">

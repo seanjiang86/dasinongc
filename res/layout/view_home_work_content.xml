@@ -20,9 +20,9 @@
             android:layout_centerVertical="true"
             android:clickable="true"
             android:focusable="true"
-            android:paddingBottom="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_30"
             android:paddingRight="@dimen/home_dimen_35"
-            android:paddingTop="@dimen/home_dimen_40">
+            android:paddingTop="@dimen/home_dimen_30">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -32,8 +32,8 @@
 
         <RelativeLayout
             android:id="@+id/right_view"
-            android:paddingBottom="@dimen/home_dimen_40"
-            android:paddingTop="@dimen/home_dimen_40"
+            android:paddingBottom="@dimen/home_dimen_30"
+            android:paddingTop="@dimen/home_dimen_30"
             android:layout_toRightOf="@id/iv_check"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,15 +45,18 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:gravity="top|left"
+                android:layout_toLeftOf="@+id/imageview_more"
                 android:singleLine="true"
                 android:text="保持水分"
-                android:textColor="#ffffff"
+                android:textColor="@drawable/topbar_text_selector"
                 android:textSize="@dimen/home_text_size_32" />
 
             <ImageView
+                android:id="@+id/imageview_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_marginLeft="10dp"
                 android:layout_centerVertical="true"
                 android:src="@drawable/right_arrow" />
         </RelativeLayout>

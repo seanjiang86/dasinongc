@@ -93,6 +93,6 @@ public class HarmFragment extends Fragment {
 			type = "草害";
 			break;
 		}
-		list = manager.getDisease(type);
+		list = manager.getDisease(type,"水稻");
 	}
 }

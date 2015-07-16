@@ -255,6 +255,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     if (null != onAddCropClickListener) {
                         confirmDialog.dismiss();
                         onAddCropClickListener.onArrowViewClick(mCurrentPostion);
+
                         updateStageIcon();
 
                     }
@@ -281,7 +282,17 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         if(mSubStageLists==null||mSubStageLists.isEmpty()){
             return;
         }
-        updateStageIcon();
+       if(mPosition<0||mSubStageLists.get(mPosition).subStageId==10){
+           leftArrowView.setVisibility(View.GONE);
+           rightArrowView.setVisibility(View.GONE);
+           mLeafParent.setVisibility(View.GONE);
+       }else {
+           mLeafParent.setVisibility(View.VISIBLE);
+           leftArrowView.setVisibility(View.VISIBLE);
+           rightArrowView.setVisibility(View.VISIBLE);
+           updateStageIcon();
+       }
+
     }
 
     private void updateStageIcon() {
@@ -298,14 +309,16 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
             while(iterator.hasNext()){
 
                 SubStage item = iterator.next();
+                if(item==null||item.subStageId==10||item.subStageId==0){
+                    continue;
+                }
                 final LinearLayout layout = new LinearLayout(getContext());
                 layout.setTag(count++);
                 LayoutParams linLayoutParams = new LayoutParams(itemWidth, LayoutParams.WRAP_CONTENT);
-                //TODO:create imageView
-                //TODO image = getIconBySubstageId(enity.key)
                 LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 ImageView imageView = new ImageView(getContext());
-                imageView.setBackgroundResource(getIconBySubstageId(item.subStageId));
+                int resID =getIconBySubstageId(item.subStageId);
+                imageView.setBackgroundResource(resID);
                 layout.addView(imageView, params);
                 layout.setOnClickListener(new OnClickListener() {
                     @Override
@@ -333,25 +346,17 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     }
 
     private void moveToDes() {
-        DEBUG("dding当前mCurrentPostion前--：" + mCurrentPostion);
         if (mCurrentPostion > 2) {
             //移动到中间
 
             mLeafParent.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 public void onGlobalLayout() {
-                   // mLeafParent.scrollTo(0, 0);
+                    // mLeafParent.scrollTo(0, 0);
                     mLeafParent.smoothScrollTo(itemWidth * (mCurrentPostion - 2), 0);
-                }
-            });
-            mLeafParent.post(new Runnable() {
-                @Override
-                public void run() {
-                    DEBUG("post...");
-                    DEBUG("post:" + itemWidth * (mCurrentPostion - 2));
-
 
                 }
             });
+
 
         } else {
 
@@ -386,11 +391,13 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         int mCurrentStageId = mSubStages.get(mCurrentPostion).subStageId;
 
         int resId;
+
         if(mCurrentStageId>=subStageId){
             resId = cropIconResource.get(subStageId);
         }else {
             resId = cropNoIconResource.get(subStageId);
         }
+
         return resId;
 
     }
@@ -418,7 +425,9 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
 
     static {
-
+    	// TODO MING:暂时的容错处理，此处应该添加未定义周期图标
+    	cropIconResource.put(10, R.drawable.sowbefore);
+    	
         cropIconResource.put(35,R.drawable.sowbefore);
         cropIconResource.put(36,R.drawable.sow);
         cropIconResource.put(37,R.drawable.germination);

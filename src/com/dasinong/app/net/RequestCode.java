@@ -77,4 +77,8 @@ public final class RequestCode {
 	 * 获取指定的病虫草害详情
 	 */
 	public static final int GET_PET_DIS_SPEC_DETIAL = GET_STEPS + 1;
+	/**
+	 * 获取指定病虫草害解决方案所需药物
+	 */
+	public static final int  GET_PET_SOLU= GET_PET_DIS_SPEC_DETIAL + 1;
 }

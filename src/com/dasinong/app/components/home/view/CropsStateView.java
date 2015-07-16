@@ -85,6 +85,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
     private static final String PREFIX = "field";
 
+
+
     public CropsStateView(Context context) {
         super(context);
         this.context = context;
@@ -125,6 +127,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 mCurrentSubStage = mSubStageLists.get(position);
                 mCurrentTaskSpec = getTaskBySubStageId();
                 updateTask();
+                updateStageStatus();
+
                if(onAddFieldClickListener!=null){
                    onAddFieldClickListener.onDialogClick(mCurrentSubStage.subStageId);
                }
@@ -156,6 +160,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
             mFieldMap = entity.fieldList;
             updateFieldNameMenue();
+
             fieldStateView.showNormalStatus();
         } else {
             //当前没有田地--
@@ -201,13 +206,17 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         DEBUG("currentEntity daytoharvest:" + currentFieldEntity.daytoharvest);
         String harvestDay = getHarvestDay(currentFieldEntity);
         fieldStateView.updateHarvestDay(harvestDay);
-
-        String rightStateInfo = "水稻";
+        //设置当前是否是个打药，适合下地干活
+        //DONE
+        setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
+        //DONE 状态
         mCurrentSubStage = getCurrentStage(currentFieldEntity.currentStageID);
+        updateStageStatus();
+
         mSubStageLists = getSubStages();
         int size = mSubStageLists.size();
 
-        int currentPosition = 0;
+        int currentPosition = -1;
         // TODO MING TO NINGNING  当作物不为水稻时，则出现空指针  mSubStageLists 为空
         for (int i = 0; i < size; i++) {
             if(mSubStageLists.get(i)==null||mCurrentSubStage==null){
@@ -221,12 +230,17 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             }
         }
 
-        //设置当前是否是个打药，适合下地干活
-        //DONE
-        setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
 
+        if(currentPosition < 0 ){
+            return;
+        }
         fieldStateView.setPostionAndList(currentPosition, mSubStageLists);
 
+    }
+
+    private void updateStageStatus() {
+
+        String rightStateInfo = "水稻";
         if(mCurrentSubStage!=null) {
             rightStateInfo = rightStateInfo + mCurrentSubStage.stageName + mCurrentSubStage.subStageName;
         }else{
