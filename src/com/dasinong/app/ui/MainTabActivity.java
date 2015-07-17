@@ -1,5 +1,7 @@
 package com.dasinong.app.ui;
 
+import java.util.HashMap;
+
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.GeofenceClient;
@@ -132,18 +134,6 @@ public class MainTabActivity extends BaseActivity {
 		if (index != 0) {
 			mTabHost.setCurrentTab(index);
 		}
-
-	}
-	
-	// TODO MING :是否只是打开连接，是否有其他需求。
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			Bundle bundle = data.getExtras();
-			String result = bundle.getString("result");
-			showToast(result+"请求服务器");
-		} 
-		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	private View getTabItemView(int index) {

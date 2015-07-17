@@ -1,6 +1,7 @@
 package com.dasinong.app.ui;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Vector;
 
 import android.app.Activity;
@@ -28,6 +29,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.ui.view.TopbarView;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
+import com.umeng.analytics.MobclickAgent;
 import com.zxing.camera.CameraManager;
 import com.zxing.decoding.CaptureActivityHandler;
 import com.zxing.decoding.InactivityTimer;
@@ -141,7 +143,12 @@ public class CaptureActivity extends BaseActivity implements Callback {
 			// System.out.println("Result:"+resultString);
 
 			// TODO MING:6.25 待定
-
+			
+			//友盟统计自定义统计事件
+			HashMap<String,String> map = new HashMap<String,String>();
+			map.put("url",resultString);
+			MobclickAgent.onEvent(this, "ScanQRcodeSuccess", map); 
+			
 			Intent intent = new Intent(this, WebViewActivity.class);
 			
 			intent.putExtra("url", resultString);

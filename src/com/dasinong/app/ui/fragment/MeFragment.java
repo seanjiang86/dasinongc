@@ -25,6 +25,7 @@ import android.widget.RelativeLayout;
 import com.dasinong.app.R;
 import com.dasinong.app.ui.TaskDetailsActivity;
 import com.dasinong.app.ui.view.TopbarView;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName MeFragment
@@ -132,13 +133,25 @@ public class MeFragment extends Fragment implements OnClickListener {
 			Intent scanIntent = new Intent(getActivity(), CaptureActivity.class);
 			// TODO MING:怎么开启下个页面
 //			getActivity().startActivityForResult(scanIntent, 0);
+			
+			//友盟统计自定义统计事件
+			MobclickAgent.onEvent(getActivity(), "ScanQRcode"); 
+			
 			startActivity(scanIntent);
 			break;
 		case R.id.layout_recommend:// 有奖推荐
+			
+			//友盟统计自定义统计事件
+			MobclickAgent.onEvent(getActivity(), "Recommend"); 
+			
 			Intent intent = new Intent(getActivity(), RecommendActivity.class);
 			getActivity().startActivity(intent);
 			break;
 		case R.id.layout_sms_setting:// 短信订阅设置
+			
+			//友盟统计自定义统计事件
+			MobclickAgent.onEvent(getActivity(), "SmsSetting"); 
+			
 			if(!AccountManager.isLogin(getActivity())){
 				Intent myInfoIntent = new Intent(getActivity(), RegisterPhoneActivity.class);
 				getActivity().startActivity(myInfoIntent);
@@ -148,10 +161,18 @@ public class MeFragment extends Fragment implements OnClickListener {
 			}
 			break;
 		case R.id.layout_help_center:// 帮助中心
+			
+			//友盟统计自定义统计事件
+			MobclickAgent.onEvent(getActivity(), "HelpCenter"); 
+			
 			Intent loginIntent = new Intent(getActivity(),RegisterPhoneActivity.class);
 			getActivity().startActivity(loginIntent);
 			break;
 		case R.id.layout_use:// 使用教程
+			
+			//友盟统计自定义统计事件
+			MobclickAgent.onEvent(getActivity(), "UseLesson"); 
+			
 			Intent lIntent = new Intent(getActivity(),RegisterPasswordActivity.class);
 			lIntent.putExtra("phone", "13810139423");
 			lIntent.putExtra("isLogin", true);
