@@ -29,15 +29,15 @@
 
     <string-array name="wind">
         <item>微风</item>
-        <item>3-4级</item>
-        <item>4-5级</item>
-        <item>5-6级</item>
-        <item>6-7级</item>
-        <item>7-8级</item>
-        <item>8-9级</item>
-        <item>9-10级</item>
-        <item>10-11级</item>
-        <item>11-12级</item>
+        <item>风3-4级</item>
+        <item>风4-5级</item>
+        <item>风5-6级</item>
+        <item>风6-7级</item>
+        <item>风7-8级</item>
+        <item>风8-9级</item>
+        <item>风9-10级</item>
+        <item>风10-11级</item>
+        <item>风11-12级</item>
 
     </string-array>
 </resources>

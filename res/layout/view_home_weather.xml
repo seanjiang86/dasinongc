@@ -50,16 +50,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/lyWeather"
-        android:layout_marginLeft="@dimen/home_dimen_75"
+        android:layout_marginLeft="@dimen/home_dimen_55"
 
         android:layout_marginTop="@dimen/home_dimen_25"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="@dimen/home_dimen_10"
-            android:layout_height="match_parent"/>
 
         <TextView
+            android:drawableLeft="@drawable/hitemp"
+            android:drawablePadding="10dp"
             android:id="@+id/weather_max"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,11 +68,13 @@
             android:textSize="@dimen/home_text_size_32"/>
 
         <ImageView
-            android:layout_width="@dimen/home_dimen_10"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/home_dimen_50"/>
+            android:layout_width="@dimen/home_dimen_30"
+            android:layout_height="match_parent"/>
+
 
         <TextView
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/lowtemp"
             android:id="@+id/weather_min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -240,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
 
-                android:text="早上"/>
+                android:text="早上降水"/>
 
             <ImageView
                 android:id="@+id/icon_weather_morning"
@@ -279,7 +280,7 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="下午"/>
+                android:text="下午降水"/>
 
 
             <ImageView
@@ -319,7 +320,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="晚间"/>
+                android:text="晚间降水"/>
 
             <ImageView
                 android:id="@+id/icon_weather_night"
@@ -358,7 +359,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="子夜"/>
+                android:text="半夜降水"/>
 
             <ImageView
                 android:id="@+id/icon_weather_midnight"

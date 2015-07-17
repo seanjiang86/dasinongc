@@ -73,26 +73,26 @@ public class MainTabActivity extends BaseActivity {
     	if(AccountManager.isLogin(MainTabActivity.this)){
     		return;
     	}
-        RequestService.getInstance().authcodeLoginReg(MainTabActivity.this, "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
-
-            @Override
-            public void onSuccess(int requestCode, BaseEntity resultData) {
-
-                if(resultData.isOk()){
-                    LoginRegEntity entity = (LoginRegEntity) resultData;
-                    AccountManager.saveAccount(MainTabActivity.this, entity.getData());
-                    showToast("登录成功");
-                }else{
-                    Logger.d("TAG", resultData.getMessage());
-                }
-            }
-
-            @Override
-            public void onFailed(int requestCode, Exception error, String msg) {
-
-                Logger.d("TAG","msg"+msg);
-            }
-        });
+//        RequestService.getInstance().authcodeLoginReg(MainTabActivity.this, "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
+//
+//            @Override
+//            public void onSuccess(int requestCode, BaseEntity resultData) {
+//
+//                if(resultData.isOk()){
+//                    LoginRegEntity entity = (LoginRegEntity) resultData;
+//                    AccountManager.saveAccount(MainTabActivity.this, entity.getData());
+//                    showToast("登录成功");
+//                }else{
+//                    Logger.d("TAG", resultData.getMessage());
+//                }
+//            }
+//
+//            @Override
+//            public void onFailed(int requestCode, Exception error, String msg) {
+//
+//                Logger.d("TAG","msg"+msg);
+//            }
+//        });
     }
 	
 	@Override
