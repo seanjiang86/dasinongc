@@ -2,8 +2,13 @@ package com.dasinong.app.components.home.view;
 
 import android.content.Context;
 import android.media.Image;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.SubscriptSpan;
+import android.text.style.SuperscriptSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -96,9 +101,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     private static final HashMap<String, String> iconMaps = new HashMap<String, String>();
 
 
-
     private int height;
-
 
 
     private LayoutInflater mLayoutInflater;
@@ -181,8 +184,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
 
-
-
     public HomeWeatherView(Context context) {
         this(context, null);
     }
@@ -236,34 +237,33 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mMinTem = (TextView) findViewById(R.id.weather_min);
 
 
-
-
     }
 
     private void updateCurrentWeatherView(WeatherEntity.CurrentWeather item) {
 
-                if(item==null){
-                    this.setVisibility(View.GONE);
-                    return;
-                }
-                this.setVisibility(View.VISIBLE);
-                mCurrentTemp.setText(item.l1 + "°");
-                mCurrentWindowLevel.setText(item.l3 + "级");
-                mCurrentWindowDirect.setText(getCurrentWindDirect(item.l4));
-                mCurrentWeatherStatus.setText(getWeather(item.l5));
-                mCurrentWeatherIcon.setImageResource(getCurrentIconRes(item.l5));
-                mCurrentRain.setText(item.l6);
-                mCurrentWeatherUpdateTime.setText( getCurrentUpdateTime(item.l7));
+        if (item == null) {
+            this.setVisibility(View.GONE);
+            return;
+        }
+        this.setVisibility(View.VISIBLE);
+        String temp = item.l1 ;
+        //SpannableString spannableString = new SpannableString(temp);
+        //spannableString.setSpan(new SuperscriptSpan(), item.l1.length()-1, temp.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mCurrentTemp.setText(temp);
 
-
-
+        mCurrentWindowLevel.setText(item.l3 + " " + "级");
+        mCurrentWindowDirect.setText(getCurrentWindDirect(item.l4));
+        mCurrentWeatherStatus.setText(getWeather(item.l5));
+        mCurrentWeatherIcon.setImageResource(getCurrentIconRes(item.l5));
+        mCurrentRain.setText(item.l6 + "毫米");
+        mCurrentWeatherUpdateTime.setText(getCurrentUpdateTime(item.l7));
 
 
     }
 
-    private void updateCurrentTem(){
-        mMinTem.setText(String.format("%.2f", mMinTemValue)+"°");
-        mMaxTem.setText(String.format("%.2f",mMaxTemValue)+"°");
+    private void updateCurrentTem() {
+        mMinTem.setText(String.format("%.2f", mMinTemValue) + "°");
+        mMaxTem.setText(String.format("%.2f", mMaxTemValue) + "°");
     }
 
     private String getCurrentWindDirect(String level4) {
@@ -314,22 +314,22 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
             Date date = sdf.parse(Level7);
             DEBUG(Level7);
             Date serverDate = new Date();
-            serverDate.setHours(date.getHours()-1);
+            serverDate.setHours(date.getHours() - 1);
             serverDate.setMinutes(date.getMinutes());
             Date today = new Date();
-            DEBUG("srver"+serverDate.toLocaleString()+"\t"+serverDate.getTime());
-            DEBUG("now"+today.toString()+"\t"+today.getTime());
-          long time =  Math.abs(today.getTime() - serverDate.getTime());
-            DEBUG("time:"+time);
+            DEBUG("srver" + serverDate.toLocaleString() + "\t" + serverDate.getTime());
+            DEBUG("now" + today.toString() + "\t" + today.getTime());
+            long time = Math.abs(today.getTime() - serverDate.getTime());
+            DEBUG("time:" + time);
 
-            if(time/ DateUtils.SECOND_IN_MILLIS<1){
+            if (time / DateUtils.SECOND_IN_MILLIS < 1) {
                 return "刚刚";
-            }else if(time/ DateUtils.MINUTE_IN_MILLIS<60){
-                return "更新于" +time/ DateUtils.SECOND_IN_MILLIS+"分钟前";
-            }else if(time/ DateUtils.HOUR_IN_MILLIS<24){
-                return "更新于" +time/ DateUtils.HOUR_IN_MILLIS+"小时前";
-            }else {
-                return "更新于" +time/ DateUtils.DAY_IN_MILLIS+"天前";
+            } else if (time / DateUtils.MINUTE_IN_MILLIS < 60) {
+                return "发布于" + time / DateUtils.SECOND_IN_MILLIS + "分钟前";
+            } else if (time / DateUtils.HOUR_IN_MILLIS < 24) {
+                return "发布于" + time / DateUtils.HOUR_IN_MILLIS + "小时前";
+            } else {
+                return "发布于" + time / DateUtils.DAY_IN_MILLIS + "天前";
             }
 
         } catch (ParseException e) {
@@ -359,7 +359,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mWeatherMidnightIcon = (ImageView) findViewById(R.id.icon_weather_midnight);
 
 
-
     }
 
     private void updateFourSectionView(WeatherEntity.SectionWeather pop) {
@@ -377,17 +376,16 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
     private int getFourWeatherIcon(int weather) {
-        if(weather<20)
-        {
+        if (weather < 20) {
             return R.drawable.pop0;
 
-        }else if(weather<40){
+        } else if (weather < 40) {
             return R.drawable.pop1;
-        }else if(weather<=60){
+        } else if (weather <= 60) {
             return R.drawable.pop3;
-        }else if(weather<=80){
+        } else if (weather <= 80) {
             return R.drawable.pop4;
-        }else if(weather< 100){
+        } else if (weather < 100) {
             return R.drawable.pop5;
         }
 
@@ -452,7 +450,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
             mSevenDaysContainer.addView(weekWeather);
 
-            View row =  mLayoutInflater.inflate(R.layout.weather_row_line, mSevenDaysContainer, false);
+            View row = mLayoutInflater.inflate(R.layout.weather_row_line, mSevenDaysContainer, false);
             mSevenDaysContainer.addView(row);
 
         }
@@ -500,6 +498,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         return TextUtils.isEmpty(status) ? "晴" : status;
 
     }
+
     private int getSevenWeatherIcon(String weather) {
         String iconName = iconMaps.get(weather);
         int resId = 0;
@@ -559,7 +558,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private void initMinAndMax(List<WeatherEntity.Hours> hoursList) {
         int size = hoursList.size();
-        if(hoursList.isEmpty()){
+        if (hoursList.isEmpty()) {
             return;
         }
         mMinTemValue = mMaxTemValue = Double.parseDouble(hoursList.get(0).temperature);
@@ -567,14 +566,14 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
             WeatherEntity.Hours hour = hoursList.get(i);
             try {
                 double tem = Double.parseDouble(hour.temperature);
-                if(tem<=mMinTemValue){
+                if (tem <= mMinTemValue) {
                     mMinTemValue = tem;
                 }
 
-                if(tem>=mMaxTemValue){
-                   mMaxTemValue = tem;
+                if (tem >= mMaxTemValue) {
+                    mMaxTemValue = tem;
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
 
             }
 
@@ -595,7 +594,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
                 int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
 
 
-                 double distance = width / mHumView.getChildCount() * hour;
+                double distance = width / mHumView.getChildCount() * hour;
                 mHorHumView.smoothScrollTo((int) distance, 0);
             }
         });
@@ -623,10 +622,10 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
                     // gone
                     startShrinkAnimation();
                     mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week, weatherCount));
-                    
-                  //友盟统计自定义统计事件
+
+                    //友盟统计自定义统计事件
                     MobclickAgent.onEvent(this.getContext(), "OpenSevenDays");
-                    
+
                 } else {
                     mIsWeekWeatherShow = true;
                     // Visibility
