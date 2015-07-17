@@ -5,6 +5,7 @@ import java.util.List;
 import com.dasinong.app.R;
 import com.dasinong.app.ui.view.LoadingDialog;
 import com.dasinong.app.utils.ViewHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -18,13 +19,20 @@ import android.widget.Toast;
 public class BaseActivity extends FragmentActivity {
 
 	protected final String tag = getClass().getSimpleName();
-//	private LoadingDialog mLoadingDiag;
+	// private LoadingDialog mLoadingDiag;
 	private Dialog mDialog;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+	}
+	
+	//友盟统计，页面可见
+	@Override
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onResume(this);
 	}
 
 	// protected void initView(){}
@@ -75,8 +83,9 @@ public class BaseActivity extends FragmentActivity {
 	}
 
 	public void startLoadingDialog(String loadingText, boolean outeSiteCanceled) {
-//		mLoadingDiag = ViewHelper.getLoadingDialog(this, loadingText, true, outeSiteCanceled);
-//		mLoadingDiag.show();
+		// mLoadingDiag = ViewHelper.getLoadingDialog(this, loadingText, true,
+		// outeSiteCanceled);
+		// mLoadingDiag.show();
 
 		if (mDialog == null) {
 			// mDialog = ProgressDialog.show(this, "",
@@ -95,20 +104,27 @@ public class BaseActivity extends FragmentActivity {
 	}
 
 	public void dismissLoadingDialog() {
-//		if (mLoadingDiag != null) {
-//			mLoadingDiag.dismiss();
-//		}
+		// if (mLoadingDiag != null) {
+		// mLoadingDiag.dismiss();
+		// }
 		if (mDialog != null) {
 			mDialog.dismiss();
 		}
+	}
+	
+	// 友盟统计页面不可见
+	@Override
+	public void onPause() {
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-//		if (mLoadingDiag != null) {
-//			mLoadingDiag.dismiss();
-//		}
+		// if (mLoadingDiag != null) {
+		// mLoadingDiag.dismiss();
+		// }
 		if (mDialog != null) {
 			mDialog.dismiss();
 		}

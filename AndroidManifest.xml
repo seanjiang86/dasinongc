@@ -183,6 +183,10 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="e6fcf845d134fe3da528098e61435a35" />
+        
+        <!-- youmeng key -->
+        <meta-data android:value="55a8807367e58eb9b3003e77" android:name="UMENG_APPKEY"></meta-data>
+		<meta-data android:value="Tencent" android:name="UMENG_CHANNEL"/>
 
         <activity
             android:name=".ui.soil.SoilInformationActivity"

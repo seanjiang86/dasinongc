@@ -29,7 +29,9 @@ import com.dasinong.app.ui.AddFieldActivity1;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.GraphicUtils;
+import com.umeng.analytics.MobclickAgent;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -141,6 +143,10 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 // 添加作物
                 final Context context=getContext();
                 // TODO: 15/7/7 add crop
+                
+                // 友盟自定义事件统计
+                MobclickAgent.onEvent(context, "BigButtonAddField");
+                
                 if (DeviceHelper.checkNetWork(context)) {
                     if(!DeviceHelper.checkGPS(context)){
                         showRemindDialog("无法获取当前位置","请前往“设置”打开GPS卫星，设置完成后点”返回“键就可以回到今日农事","前往设置","暂不开启", new MyDialogClickListener() {
@@ -152,7 +158,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
                             @Override
                             public void onCancelButtonClick() {
-                                // TODO MING:该方法是否为检测登陆的方法
                                 if (AccountManager.checkLogin(context)) {
                                     Intent intent = new Intent(context, AddFieldActivity1.class);
                                     context.startActivity(intent);
@@ -166,7 +171,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                         }
                     }
                 } else {
-                    showRemindDialog("请先开启网络","开网啊","好","不好", new MyDialogClickListener() {
+                    showRemindDialog("呀！网络断了...","请检查你的手机是否联网，如果只是信号不好，也许等等就好啦","前往设置","取消", new MyDialogClickListener() {
 
                         @Override
                         public void onSureButtonClick() {
@@ -255,7 +260,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     if (null != onAddCropClickListener) {
                         confirmDialog.dismiss();
                         onAddCropClickListener.onArrowViewClick(mCurrentPostion);
-
+                        
                         updateStageIcon();
 
                     }
@@ -308,7 +313,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
             int count = 0;
             while(iterator.hasNext()){
 
-                SubStage item = iterator.next();
+                final SubStage item = iterator.next();
                 if(item==null||item.subStageId==10||item.subStageId==0){
                     continue;
                 }
@@ -323,6 +328,12 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 layout.setOnClickListener(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                    	
+                    	// TODO MING: 友盟统计自定义统计事件
+                    	HashMap<String,String> map = new HashMap<String,String>();
+                    	map.put("subStage",item.subStageName);
+                    	MobclickAgent.onEvent(CropsGroupUpView.this.getContext(), "ClickSubStage",map);
+                    	
                         int currentCount = (int) layout.getTag();
                         if (mCurrentPostion == currentCount) {
                             return;
@@ -534,8 +545,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         dialog.setContentView(R.layout.confirm_gps_network_dialog);
         TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
         TextView tv_title = (TextView) dialog.findViewById(R.id.tv_dialog_title);
-
-        System.out.println(tv_title+"tv _ title");
 
         tv_title.setText(title);
         tv.setTextSize(22);

@@ -146,7 +146,7 @@ public class RegisterActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 //		if (ready) {
 //			// 获取新好友个数

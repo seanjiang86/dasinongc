@@ -19,6 +19,8 @@ import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
+import com.umeng.analytics.AnalyticsConfig;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -63,6 +65,12 @@ public class MainTabActivity extends BaseActivity {
 		// mTabHost.setCurrentTab(index);
 		// }
 		// }
+		
+		// 设置友盟发送策略
+		MobclickAgent.updateOnlineConfig(this);
+		// 设置友盟日志是否加密
+		AnalyticsConfig.enableEncrypt(true);
+		
 	}
 
 	private void login() {

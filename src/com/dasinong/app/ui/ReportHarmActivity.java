@@ -207,7 +207,7 @@ public class ReportHarmActivity extends BaseActivity {
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 		if (paths != null && paths.size() > 0) {
 			noScrollgridview.setVisibility(View.VISIBLE);

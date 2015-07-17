@@ -72,7 +72,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 		SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
 		SurfaceHolder surfaceHolder = surfaceView.getHolder();
@@ -109,7 +109,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
 	}
 
 	@Override
-	protected void onPause() {
+	public void onPause() {
 		super.onPause();
 		if (handler != null) {
 			handler.quitSynchronously();

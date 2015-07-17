@@ -272,7 +272,7 @@ public class HarmDetialsActivity extends BaseActivity {
 					startActivity(intent);
 				} else {
 					// TODO MING:文字待确定
-					showRemindDialog("请先开启网络", "开网啊", "好", "不好", new MyDialogClickListener() {
+					showRemindDialog("呀！网络断了...", "请检查你的手机是否联网，如果只是信号不好，也许等等就好啦", "前往设置", "取消", new MyDialogClickListener() {
 
 						@Override
 						public void onSureButtonClick() {
