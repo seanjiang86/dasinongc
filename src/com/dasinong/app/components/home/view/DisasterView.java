@@ -131,11 +131,11 @@ public class DisasterView extends LinearLayout {
     public synchronized void updateView(List<FieldEntity.CurrentFieldEntity.Petdisspecws> list, List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
 
         this.removeAllViews();
-        addTopView();
+
         if ((list == null || list.isEmpty()) && (petdiswsEntities == null||petdiswsEntities.isEmpty())) {
             return;
         }
-
+        addTopView();
 
         updatePetdisspecws(list);
 
@@ -207,7 +207,7 @@ public class DisasterView extends LinearLayout {
             	map.put("name",item.petDisSpecName);
             	MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialItem",map);
 
-                Intent intent = HarmDetialsActivity.createIntent(item.petDisSpecId, HarmDetialsActivity.FLAG_ITEM, getContext());
+                Intent intent = HarmDetialsActivity.createIntent(item.id, HarmDetialsActivity.FLAG_ITEM, getContext());
                 getContext().startActivity(intent);
 
             }

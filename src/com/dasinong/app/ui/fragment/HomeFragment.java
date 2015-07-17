@@ -203,10 +203,14 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 if (entity != null) {
                     if (entity.currentField != null) {
                         mDisasterView.updateView(entity.currentField.petdisspecws, entity.currentField.petdisws);
+                    }else {
+                        mDisasterView.updateView(null,null);
                     }
 
 
+
                     mCropStateView.updateView(entity);
+
                     mCropStateView.setOnAddFieldClickListener(new CropsStateView.MyOnAddFieldClickListener() {
                         @Override
                         public void onWorKContentItemClick(String itemValue, int pos, boolean isSelect) {
@@ -321,6 +325,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
         String currentUserID = SharedPreferencesHelper.getString(getActivity().getApplicationContext(), SharedPreferencesHelper.Field.USER_ID, "");
         if (!mUserID.equals(currentUserID)) {
             mUserID = currentUserID;
+            Log.d("TAG","change");
             loadDataFromWithCache(true);
             return;
         }
@@ -387,6 +392,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
             }
         }
 
+
+        Log.d("TAG","-isLogin--"+AccountManager.isLogin(this.getActivity()));
         if (AccountManager.isLogin(this.getActivity())) {
             readFieldFromLocal();
 
