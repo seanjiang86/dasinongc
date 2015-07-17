@@ -262,8 +262,12 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
     private void updateCurrentTem() {
-        mMinTem.setText(String.format("%.2f", mMinTemValue) + "°c");
-        mMaxTem.setText(String.format("%.2f", mMaxTemValue) + "°c");
+
+            long min = Math.round(mMinTemValue);
+            long max = Math.round(mMaxTemValue);
+            mMinTem.setText(String.format("%d", min) + "°c");
+            mMaxTem.setText(String.format("%d", max) + "°c");
+
     }
 
     private String getCurrentWindDirect(String level4) {
