@@ -286,10 +286,14 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
            leftArrowView.setVisibility(View.GONE);
            rightArrowView.setVisibility(View.GONE);
            mLeafParent.setVisibility(View.GONE);
+           normalParentView.setVisibility(View.GONE);
+
+
        }else {
            mLeafParent.setVisibility(View.VISIBLE);
            leftArrowView.setVisibility(View.VISIBLE);
            rightArrowView.setVisibility(View.VISIBLE);
+           normalParentView.setVisibility(VISIBLE);
            updateStageIcon();
        }
 
