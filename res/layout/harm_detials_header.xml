@@ -34,6 +34,12 @@
             android:stepSize="1" />
     </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/iv_pic"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_margin="15dp" />
+
     <TextView
         android:id="@+id/tv_harm_des"
         android:layout_width="match_parent"
@@ -41,15 +47,11 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="25dp"
+        android:lineSpacingExtra="11dp"
         android:text="我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，"
         android:textColor="@color/color_333333"
         android:textSize="16sp" />
 
-    <ImageView
-        android:id="@+id/iv_pic"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_margin="15dp" />
     <!--
     <FrameLayout
         android:layout_width="match_parent"
@@ -77,7 +79,8 @@
             </LinearLayout>
         </RelativeLayout>
         
-    </FrameLayout>    -->
+    </FrameLayout>
+    -->
 
     <View
         android:layout_width="match_parent"

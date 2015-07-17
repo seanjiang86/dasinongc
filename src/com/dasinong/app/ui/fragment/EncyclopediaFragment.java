@@ -1,10 +1,13 @@
 package com.dasinong.app.ui.fragment;
 
+import java.util.HashMap;
+
 import com.dasinong.app.R;
 import com.dasinong.app.ui.ReportHarmActivity;
 import com.dasinong.app.ui.SearchResultActivity;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.DeviceHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -124,6 +127,11 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 			return;
 		}
 		
+		//友盟统计自定义统计事件
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("keyWords",keywords);
+		MobclickAgent.onEvent(getActivity(), "Search",map);
+		
 		Intent intent = new Intent(getActivity(),SearchResultActivity.class);
 		intent.putExtra("keywords", keywords);
 		getActivity().startActivity(intent);
@@ -133,11 +141,19 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_ask_for:
+			
+			//友盟统计自定义统计事件
+			MobclickAgent.onEvent(getActivity(), "AskFor");
+			
 			Intent intent = new Intent(getActivity(),ReportHarmActivity.class);
 			intent.putExtra("title", "诊断病虫草害");
 			getActivity().startActivity(intent);
 			break;
 		case R.id.layout_intelligent:
+			
+			//友盟统计自定义统计事件
+			MobclickAgent.onEvent(getActivity(), "Intelligent");
+			
 			showNotifyDialog();
 			break;
 		}

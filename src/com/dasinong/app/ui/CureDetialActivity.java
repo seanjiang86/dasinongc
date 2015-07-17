@@ -1,35 +1,33 @@
 package com.dasinong.app.ui;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dasinong.app.DsnApplication;
-import com.dasinong.app.R;
-import com.dasinong.app.database.disaster.domain.CPProduct;
-import com.dasinong.app.database.disaster.domain.PetSolu;
-import com.dasinong.app.database.disaster.service.DisasterManager;
-import com.dasinong.app.entity.BaseEntity;
-import com.dasinong.app.entity.DrugListEntity;
-import com.dasinong.app.entity.DrugListEntity.Drug;
-import com.dasinong.app.entity.HarmDetialEntity.Solutions;
-import com.dasinong.app.net.NetRequest.RequestListener;
-import com.dasinong.app.net.RequestService;
-import com.dasinong.app.ui.adapter.CureAdapter;
-import com.dasinong.app.ui.adapter.MyBaseAdapter;
-import com.dasinong.app.ui.view.TopbarView;
-import com.dasinong.app.utils.DeviceHelper;
-
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.dasinong.app.R;
+import com.dasinong.app.database.disaster.domain.CPProduct;
+import com.dasinong.app.database.disaster.service.DisasterManager;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.DrugListEntity;
+import com.dasinong.app.entity.DrugListEntity.Data;
+import com.dasinong.app.entity.DrugListEntity.Drug;
+import com.dasinong.app.entity.HarmDetialEntity.Solutions;
+import com.dasinong.app.net.NetConfig;
+import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestService;
+import com.dasinong.app.ui.adapter.CureAdapter;
+import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.DeviceHelper;
 
 public class CureDetialActivity extends BaseActivity {
 
@@ -48,6 +46,7 @@ public class CureDetialActivity extends BaseActivity {
 			initListView(drugList.data.cPProducts);
 		};
 	};
+	private Solutions solu;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -65,7 +64,7 @@ public class CureDetialActivity extends BaseActivity {
 
 		initTopBar();
 
-		Solutions solu = (Solutions) getIntent().getExtras().getSerializable("solu");
+		solu = (Solutions) getIntent().getExtras().getSerializable("solu");
 		int position = getIntent().getExtras().getInt("position");
 		int size = getIntent().getExtras().getInt("size");
 
@@ -78,7 +77,6 @@ public class CureDetialActivity extends BaseActivity {
 			char c = (char) (65 + position - 1);
 			tv_cure_name.setText("治疗方案" + c);
 		}
-		// initData(solu.petSoluId);
 		// TODO MING 临时数据
 		if (DeviceHelper.checkNetWork(this)) {
 			queryDrug(8100);
@@ -90,14 +88,16 @@ public class CureDetialActivity extends BaseActivity {
 
 	private void initHeader(Solutions solu) {
 		// TODO MING:等待数据
-		if (TextUtils.isEmpty(solu.subStageId)) {
+		if (TextUtils.isEmpty(solu.subStageId) || "0".equals(solu.subStageId)) {
 			tv_cure_stage.setVisibility(View.GONE);
 		} else {
 			tv_cure_stage.setText(solu.subStageId);
 		}
-		tv_cure_provider.setText(solu.providedBy);
-		tv_cure_content.setText(solu.petSoluDes);
 		
+		// TODO MING: 无数据隐藏
+		tv_cure_provider.setVisibility(View.GONE);
+		//tv_cure_provider.setText(solu.providedBy);
+		tv_cure_content.setText(solu.petSoluDes);
 	}
 
 	private void queryDrug(int petSoluId) {
@@ -119,6 +119,8 @@ public class CureDetialActivity extends BaseActivity {
 			
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
+				initHeader(solu);
+				initData(8100);
 				dismissLoadingDialog();
 			}
 		});
@@ -132,10 +134,29 @@ public class CureDetialActivity extends BaseActivity {
 	private void initData(int petSoluId) {
 		List<CPProduct> drugList = DisasterManager.getInstance(this).getAllDrug(petSoluId);
 		//TODO MING 增加本地查询
-//		initListView(drugList);
+		DrugListEntity drugListEntity = new DrugListEntity();
+		drugListEntity.data = new Data();
+		drugListEntity.data.cPProducts = new ArrayList<Drug>();
+		for (int i = 0; i < drugList.size(); i++) {
+			Drug drug = new Drug();
+			
+			drug.activeIngredient = drugList.get(i).activeIngredient;
+			drug.disease = drugList.get(i).disease;
+			drug.guideline = drugList.get(i).guideline;
+			drug.id = drugList.get(i).cPProductId;
+			drug.manufacturer = drugList.get(i).manufacturer;
+			drug.name = drugList.get(i).cPProductName;
+			drug.registrationId = drugList.get(i).registerationId;
+			drug.tip = drugList.get(i).tip;
+			drug.type = drugList.get(i).type;
+			drug.volumn = drugList.get(i).volume;
+			
+			drugListEntity.data.cPProducts.add(drug);
+		}
+		initListView(drugListEntity.data.cPProducts);
 	}
 
-	private void initListView(List<Drug> drugList) {
+	private void initListView(final List<Drug> drugList) {
 		lv_medicine.addHeaderView(header, null, false);
 		lv_medicine.setAdapter(new CureAdapter(this, drugList, false));
 
@@ -143,7 +164,9 @@ public class CureDetialActivity extends BaseActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				showToast("open url");
+				Intent intent = new Intent(CureDetialActivity.this, WebBrowserActivity.class);
+				intent.putExtra(WebBrowserActivity.URL, NetConfig.BAIKE_URL+"type=pesticide&id="+drugList.get(position).id);
+				startActivity(intent);
 			}
 		});
 	}

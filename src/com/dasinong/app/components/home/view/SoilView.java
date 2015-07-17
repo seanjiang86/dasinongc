@@ -15,6 +15,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.ui.soil.SoilEditorActivity;
 import com.dasinong.app.ui.soil.SoilListActivity;
 import com.dasinong.app.ui.soil.domain.DataEntity;
+import com.umeng.analytics.MobclickAgent;
 
 
 /**
@@ -52,13 +53,19 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.soil_check:
-
+            	
+            	 // 友盟自定义事件统计
+                MobclickAgent.onEvent(this.getContext(), "CheckSoil");
+                
                 getContext().startActivity(new Intent(getContext(), SoilListActivity.class));
 
 
                 break;
             default:
-
+            	
+            	// 友盟自定义事件统计
+                MobclickAgent.onEvent(this.getContext(), "EditorSoilInfo");
+            	
                 Intent intent = SoilEditorActivity.createIntent(this.getContext(),entity);
                 getContext().startActivity(intent);
                 break;

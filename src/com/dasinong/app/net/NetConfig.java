@@ -28,7 +28,7 @@ public class NetConfig {
 	// TODO MING :本地测试使用
 //	public static final String BASE_URL = "http://192.168.1.199:8080/ploughHelper/";
 	public static final String IMAGE_URL = "http://182.254.129.101:8080/avater/";
-	public static final String PET_IMAGE = "http://182.254.129.101:8080/";
+	public static final String PET_IMAGE = "http://182.254.129.101:8080/pic/";
 	public static final String BAIKE_URL = "http://182.254.129.101:8080/ploughHelper/baike?";
 
 	private static final String KEY_REQUEST = "UHTN90SPOLKIRT6131NM0SEWGLPALczmf";

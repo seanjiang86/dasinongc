@@ -5,13 +5,30 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Environment;
 
 public class FileUtils {
 
 	public static String SDPATH = Environment.getExternalStorageDirectory() + "/Photo_LJ/";
 
-	public static void saveBitmap(Bitmap bm, String picName) {
+	public static void saveBitmap(String path,String picName) {
+
+		Bitmap bitmap = BitmapFactory.decodeFile(path);
+
+		int width = bitmap.getWidth();
+		int height = bitmap.getHeight();
+		float temp = ((float) height) / ((float) width);
+		int newHeight = (int) ((800) * temp);
+		float scaleWidth = ((float) 800) / width;
+		float scaleHeight = ((float) newHeight) / height;
+		Matrix matrix = new Matrix();
+		// resize the bit map
+		matrix.postScale(scaleWidth, scaleHeight);
+		// matrix.postRotate(45);
+		Bitmap bm = Bitmap.createBitmap(bitmap, 0, 0, width, height, matrix, true);
+
 		try {
 			if (!isFileExist("")) {
 				File tempf = createSDDir("");
@@ -24,6 +41,7 @@ public class FileUtils {
 			bm.compress(Bitmap.CompressFormat.JPEG, 95, out);
 			out.flush();
 			out.close();
+			bm.recycle();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

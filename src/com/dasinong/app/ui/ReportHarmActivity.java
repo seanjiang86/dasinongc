@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.nereo.multi_image_selector.MultiImageSelectorActivity;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -44,13 +46,8 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.Logger;
-import com.king.photo.activity.AlbumActivity;
 import com.king.photo.activity.GalleryActivity;
-import com.king.photo.util.Bimp;
 import com.king.photo.util.FileUtils;
-import com.king.photo.util.ImageItem;
-import com.king.photo.util.PublicWay;
-import com.king.photo.util.Res;
 import com.liam.imageload.LoadUtils;
 
 public class ReportHarmActivity extends BaseActivity {
@@ -73,7 +70,7 @@ public class ReportHarmActivity extends BaseActivity {
 	private GridAdapter adapter;
 	private String fileName;
 	private String title;
-	private List<String> paths = new ArrayList<String>();
+	private ArrayList<String> paths = new ArrayList<String>();
 	private int flag = 0;
 	// 作物名称
 	private String cropName = "水稻";
@@ -90,14 +87,22 @@ public class ReportHarmActivity extends BaseActivity {
 	// 农事操作
 	private String fieldOperations = "";
 	private long fieldId;
+	
+	public static final int REQUEST_IMAGE = 0;
+
+	public static final int SCAN_IMAGE = 1;
+
+	public static final String CURRENT_LIST = "paths";
+	
+	public static final int MAX_NUM = 6;
 
 	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			String path = (String) msg.obj;
 			paths.add(path);
 			flag++;
-			if (flag == Bimp.tempSelectBitmap.size()) {
-				upLoadImages();
+			if (flag == paths.size()) {
+				// upLoadImages();
 			}
 			super.handleMessage(msg);
 		}
@@ -107,10 +112,6 @@ public class ReportHarmActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_report_harm);
-		Res.init(DsnApplication.getContext());
-
-		PublicWay.activityList.add(this);
-
 		title = getIntent().getStringExtra("title");
 
 		initView();
@@ -123,7 +124,19 @@ public class ReportHarmActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View arg0) {
-				showHeadViewDialog();
+				Intent intent = new Intent(ReportHarmActivity.this, MultiImageSelectorActivity.class);
+				intent.putExtra(MultiImageSelectorActivity.EXTRA_SHOW_CAMERA, true);
+
+				intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_COUNT, MAX_NUM);
+
+				intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
+				// 设置默认选择
+				if (paths != null && paths.size() > 0) {
+					// intent.putExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST,
+					// paths);
+					intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST, paths);
+				}
+				startActivityForResult(intent, REQUEST_IMAGE);
 			}
 		});
 
@@ -161,42 +174,45 @@ public class ReportHarmActivity extends BaseActivity {
 					showToast("请选择病虫草害类型");
 					return;
 				}
-				if (Bimp.tempSelectBitmap.size() < 1) {
+				if (paths.size() < 1) {
 					showToast("请选择您要上传的图片");
 					return;
 				}
 				startLoadingDialog();
 				// 压缩图片
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
-						for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
-							Bitmap revitionImageSize = Bimp.revitionImageSize(Bimp.tempSelectBitmap.get(i).getImagePath());
-							String fileName = String.valueOf(System.currentTimeMillis());
-							FileUtils.saveBitmap(revitionImageSize, fileName);
-							Message msg = handler.obtainMessage();
-							msg.what = 1;
-							msg.obj = FileUtils.SDPATH + fileName + ".JPEG";
-							handler.sendMessage(msg);
-						}
-					}
-				}).start();
+				// new Thread(new Runnable() {
+				// @Override
+				// public void run() {
+
+				//
+				// }
+				// }).start();
+				ArrayList<String> newPaths = new ArrayList<String>();
+				for (int i = 0; i < paths.size(); i++) {
+					System.out.println("size   ================= " + paths.size() + "               " + "i =========== " + i);
+					String fileName = String.valueOf(System.currentTimeMillis());
+					FileUtils.saveBitmap(paths.get(i), fileName);
+					// Message msg = handler.obtainMessage();
+					// msg.what = 1;
+					// msg.obj = FileUtils.SDPATH + fileName + ".JPEG";
+					// handler.sendMessage(msg);
+
+					newPaths.add(FileUtils.SDPATH + fileName + ".JPEG");
+				}
+
+				upLoadImages(newPaths);
 			}
 		});
 
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
-		if (Bimp.tempSelectBitmap != null && Bimp.tempSelectBitmap.size() > 0) {
+		if (paths != null && paths.size() > 0) {
 			noScrollgridview.setVisibility(View.VISIBLE);
 			initGridView();
-			
-			for (int i = 0; i < Bimp.tempSelectBitmap.size(); i++) {
-				System.out.println(Bimp.tempSelectBitmap.get(i).imagePath);
-			}
-			
+
 			// 使scrollView滚动至底部
 			handler.post(new Runnable() {
 
@@ -289,9 +305,11 @@ public class ReportHarmActivity extends BaseActivity {
 		fieldOperations = et_des.getText().toString();
 	}
 
-	protected void upLoadImages() {
+	protected void upLoadImages(List<String> newPaths) {
 
-		RequestService.getInstance().uploadPetDisPic(this, paths, cropName, disasterType, disasterName, affectedArea, eruptionTime, disasterDist,
+		System.out.println("我正在上传图片 ++++++++++++++++++++++++++++++");
+
+		RequestService.getInstance().uploadPetDisPic(this, newPaths, cropName, disasterType, disasterName, affectedArea, eruptionTime, disasterDist,
 				fieldOperations, fieldId + "", new NetRequest.RequestListener() {
 
 					@Override
@@ -318,89 +336,36 @@ public class ReportHarmActivity extends BaseActivity {
 				});
 	}
 
-	private void showHeadViewDialog() {
-
-		final Dialog dialog = new Dialog(this, R.style.CommonDialog);
-		View view = View.inflate(this, R.layout.dialog_authcode_no, null);
-		Button againBt = (Button) view.findViewById(R.id.button_get_code_again);
-		Button skipBt = (Button) view.findViewById(R.id.button_skip_auth);
-
-		againBt.setText("拍照");
-		skipBt.setText("相册");
-
-		againBt.setTextSize(18);
-		skipBt.setTextSize(18);
-
-		dialog.setContentView(view);
-		againBt.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				photo();
-				dialog.dismiss();
-			}
-		});
-
-		skipBt.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(ReportHarmActivity.this, AlbumActivity.class);
-				startActivity(intent);
-				dialog.dismiss();
-			}
-		});
-
-		dialog.setCanceledOnTouchOutside(true);
-		dialog.show();
-	}
-
 	public void initGridView() {
 
 		noScrollgridview.setSelector(new ColorDrawable(Color.TRANSPARENT));
 		adapter = new GridAdapter(this);
-		adapter.update();
 		noScrollgridview.setAdapter(adapter);
 		noScrollgridview.setOnItemClickListener(new OnItemClickListener() {
 
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 
 				Intent intent = new Intent(ReportHarmActivity.this, GalleryActivity.class);
-				intent.putExtra("position", "1");
-				intent.putExtra("ID", arg2);
-				startActivity(intent);
+				Bundle bundle = new Bundle();
+				bundle.putStringArrayList(CURRENT_LIST, paths);
+				bundle.putInt("ID", arg2);
+				bundle.putString("position", "1");
+				intent.putExtras(bundle);
+				startActivityForResult(intent, SCAN_IMAGE);
 			}
 		});
 	}
 
-	public void photo() {
-		Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		fileName = String.valueOf(System.currentTimeMillis());
-		openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(FileUtils.SDPATH + fileName + ".jpg")));
-		startActivityForResult(openCameraIntent, Activity.DEFAULT_KEYS_DIALER);
-	}
-
 	public class GridAdapter extends BaseAdapter {
 		private LayoutInflater inflater;
-		private int selectedPosition = -1;
-		private boolean shape;
-
-		public boolean isShape() {
-			return shape;
-		}
-
-		public void setShape(boolean shape) {
-			this.shape = shape;
-		}
+//		private int selectedPosition = -1;
 
 		public GridAdapter(Context context) {
 			inflater = LayoutInflater.from(context);
 		}
 
-		public void update() {
-			// loading();
-		}
-
 		public int getCount() {
-			return Bimp.tempSelectBitmap.size();
+			return paths.size();
 		}
 
 		public Object getItem(int arg0) {
@@ -408,16 +373,16 @@ public class ReportHarmActivity extends BaseActivity {
 		}
 
 		public long getItemId(int arg0) {
-			return 0;
+			return arg0;
 		}
 
-		public void setSelectedPosition(int position) {
-			selectedPosition = position;
-		}
-
-		public int getSelectedPosition() {
-			return selectedPosition;
-		}
+		// public void setSelectedPosition(int position) {
+		// selectedPosition = position;
+		// }
+		//
+		// public int getSelectedPosition() {
+		// return selectedPosition;
+		// }
 
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = null;
@@ -430,12 +395,9 @@ public class ReportHarmActivity extends BaseActivity {
 				holder = (ViewHolder) convertView.getTag();
 			}
 
-			if (Bimp.tempSelectBitmap.size() > 0) {
-
-				LoadUtils.getInstance().loadImage(holder.image, "file:///" + Bimp.tempSelectBitmap.get(position).imagePath);
-
+			if (paths.size() > 0) {
+				LoadUtils.getInstance().loadImage(holder.image, "file:///" + paths.get(position));
 			}
-
 			return convertView;
 		}
 
@@ -446,26 +408,20 @@ public class ReportHarmActivity extends BaseActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		switch (requestCode) {
-		case Activity.DEFAULT_KEYS_DIALER:
-			if (Bimp.tempSelectBitmap.size() < 6 && resultCode == RESULT_OK) {
-				Bitmap bitmap = Bimp.revitionImageSize(FileUtils.SDPATH + fileName + ".jpg");
-
-				ImageItem takePhoto = new ImageItem();
-				takePhoto.setImagePath(FileUtils.SDPATH + fileName + ".jpg");
-				Bimp.tempSelectBitmap.add(takePhoto);
+		if (requestCode == REQUEST_IMAGE) {
+			if (resultCode == RESULT_OK) {
+				paths.clear();
+				paths.addAll(data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT));
+				if (paths.size() > 6) {
+					paths.remove(0);
+				}
 			}
-			break;
+		} else if (requestCode == SCAN_IMAGE) {
+			if (resultCode == RESULT_OK) {
+				paths.clear();
+				paths = data.getStringArrayListExtra(CURRENT_LIST);
+				System.out.println("paths  " + paths);
+			}
 		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		if (Bimp.tempSelectBitmap != null && Bimp.tempSelectBitmap.size() > 0) {
-			Bimp.tempSelectBitmap.clear();
-			finish();
-		}
-
 	}
 }

@@ -347,7 +347,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="（支持多图）"
+                    android:text="（可支持单次上传六张）"
                     android:textColor="@color/color_CCCCCC"
                     android:textSize="13sp" />
             </LinearLayout>

@@ -31,6 +31,7 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.utils.DeviceHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -388,21 +389,21 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      * @param isWork  --是否适合下地;true:是；false:否
      * @param isSpray --是否适合打药;true:是；false:否
      */
-    private void setWorkState(int isWork, int isSpray) {
+    private void setWorkState(boolean isWork, boolean isSpray) {
         //值我改成了1，0，-1是宜，0是不宜，-1是不显示
         leftStateView.setVisibility(View.VISIBLE);
         rightStateView.setVisibility(View.VISIBLE);
-        if (isWork==1) {
+        if (isWork) {
             leftStateView.setText("宜下地");
-        } else if(isWork==0) {
+        } else if(isWork) {
             leftStateView.setText("不宜下地");
         }else {
             leftStateView.setVisibility(View.GONE);
         }
-        if (isSpray==1) {
+        if (isSpray) {
             rightStateView.setText("宜打药");
 
-        } else if(isSpray==0) {
+        } else if(isSpray) {
             rightStateView.setText("不宜打药");
         }else {
             rightStateView.setVisibility(View.GONE);
@@ -467,7 +468,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 break;
             case R.id.add_field:
                 //点击添加--最右上角按钮
-
+            	
+            	//友盟统计自定义统计事件
+            	MobclickAgent.onEvent(context, "LittleButtonaddField");
                 if (DeviceHelper.checkNetWork(context)) {
                 	if(!DeviceHelper.checkGPS(context)){
                 		showRemindDialog("无法获取当前位置","请前往“设置”打开GPS卫星，设置完成后点”返回“键就可以回到今日农事","前往设置","暂不开启", new MyDialogClickListener() {
@@ -493,7 +496,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 	}
                 } else {
                 	//TODO Ming 待确定文字
-                	showRemindDialog("请先开启网络","开网啊","好","不好", new MyDialogClickListener() {
+                	showRemindDialog("呀！网络断了...","请检查你的手机是否联网，如果只是信号不好，也许等等就好啦","前往设置","取消", new MyDialogClickListener() {
 						
 						@Override
 						public void onSureButtonClick() {
@@ -608,11 +611,17 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             final LinearLayout checkedView = (LinearLayout) view.findViewById(R.id.iv_check);
             contentView.setText(item.taskSpecName);
             View rightView = view.findViewById(R.id.right_view);
-
             checkedView.setSelected(item.isCheck);
+            
             rightView.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                	
+                	//友盟统计自定义统计事件
+                    HashMap<String, String> map = new HashMap<String,String>();
+                    map.put("taskName", item.taskSpecName);
+                    MobclickAgent.onEvent(context, "TaskItemClick",map);
+                	
                     //done
                     Intent intent = new Intent(getContext(), TaskDetailsActivity.class);
                     intent.putExtra(TaskDetailsActivity.TASK_ID, item.taskSpecId);
@@ -640,6 +649,11 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                         child = campaignView.getChildAt(i);
                         lists.add((TaskStatus) view.getTag());
                     }
+                    
+                    //友盟统计自定义统计事件
+                    HashMap<String, String> map = new HashMap<String,String>();
+                    map.put("taskName", item.taskSpecName);
+                    MobclickAgent.onEvent(context, "TaskItemClick",map);
 
                     saveTaskStatus(lists);
 

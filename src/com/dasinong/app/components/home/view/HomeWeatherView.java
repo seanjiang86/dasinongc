@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.WeatherEntity;
+import com.umeng.analytics.MobclickAgent;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -622,6 +623,10 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
                     // gone
                     startShrinkAnimation();
                     mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week, weatherCount));
+                    
+                  //友盟统计自定义统计事件
+                    MobclickAgent.onEvent(this.getContext(), "OpenSevenDays");
+                    
                 } else {
                     mIsWeekWeatherShow = true;
                     // Visibility
