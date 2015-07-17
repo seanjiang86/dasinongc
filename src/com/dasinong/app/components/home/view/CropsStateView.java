@@ -89,6 +89,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
     private View mTaskTitle;
 
+    private View mNoLogin;
+    private View mImageAddField;
+
 
 
     public CropsStateView(Context context) {
@@ -107,6 +110,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         weeks = getResources().getStringArray(R.array.weeks);
         View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top, this);
         mFieldNameView = (TextView) rootView.findViewById(R.id.field);
+        mNoLogin =rootView.findViewById(R.id.no_login_text);
+        mImageAddField = rootView.findViewById(R.id.iv_add_field);
         addFieldView = rootView.findViewById(R.id.add_field);
         fieldStateView = (CropsGroupUpView) rootView.findViewById(R.id.field_state);
         dayView = (TextView) rootView.findViewById(R.id.day);
@@ -159,9 +164,18 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      */
     public void updateView(FieldEntity entity) {
 
-        if (null == entity)
+        if(!AccountManager.isLogin(this.getContext()))
+        {
+            mNoLogin.setVisibility(View.VISIBLE);
+            mImageAddField.setVisibility(View.GONE);
+        }else {
+            mNoLogin.setVisibility(View.GONE);
+            mImageAddField.setVisibility(View.VISIBLE);
+        }
+        if (null == entity) {
 
             return;
+        }
 
         if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
             mFieldMap = entity.fieldList;
