@@ -33,7 +33,7 @@
                 android:id="@+id/soil_color"
                 android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
-
+                android:text="－－"
                 tools:text="红色土壤" />
 
             <TextView
@@ -70,7 +70,7 @@
                 android:textSize="@dimen/home_text_size_34"
                 android:textStyle="bold"
                 android:id="@+id/soil_fertility"
-
+                android:text="－－"
                 tools:text="中等" />
 
             <TextView
