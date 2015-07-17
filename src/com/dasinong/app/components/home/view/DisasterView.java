@@ -192,8 +192,6 @@ public class DisasterView extends LinearLayout {
 
         type.setText("易发"+getDisasterString(item.type));
         icon.setImageResource(getDisasterIcon(item.type));
-        
-//        System.out.println(item.type);
 
         desc.setText(item.sympton);
 
@@ -209,7 +207,7 @@ public class DisasterView extends LinearLayout {
             	map.put("name",item.petDisSpecName);
             	MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialItem",map);
 
-                Intent intent = HarmDetialsActivity.createIntent(item.id, HarmDetialsActivity.FLAG_ITEM, getContext());
+                Intent intent = HarmDetialsActivity.createIntent(item.petDisSpecId, HarmDetialsActivity.FLAG_ITEM, getContext());
                 getContext().startActivity(intent);
 
             }

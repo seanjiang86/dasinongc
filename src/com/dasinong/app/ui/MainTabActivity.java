@@ -67,12 +67,6 @@ public class MainTabActivity extends BaseActivity {
 		// mTabHost.setCurrentTab(index);
 		// }
 		// }
-		
-		// 设置友盟发送策略
-		MobclickAgent.updateOnlineConfig(this);
-		// 设置友盟日志是否加密
-		AnalyticsConfig.enableEncrypt(true);
-		
 	}
 
 	private void login() {
