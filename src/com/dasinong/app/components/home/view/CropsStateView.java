@@ -87,6 +87,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private static final String PREFIX = "field";
 
 
+    private View mTaskTitle;
+
+
 
     public CropsStateView(Context context) {
         super(context);
@@ -112,6 +115,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         leftStateView = (TextView) rootView.findViewById(R.id.left_state);
         rightStateView = (TextView) rootView.findViewById(R.id.right_state);
         campaignView = (LinearLayout) rootView.findViewById(R.id.campaign);
+        mTaskTitle = findViewById(R.id.task_title);
         mFieldNameView.setOnClickListener(this);
         addFieldView.setOnClickListener(this);
         fieldStateView.setOnAddCropClickListener(new CropsGroupUpView.MyAddCropOnClickListener() {
@@ -130,9 +134,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 updateTask();
                 updateStageStatus();
 
-               if(onAddFieldClickListener!=null){
-                   onAddFieldClickListener.onDialogClick(mCurrentSubStage.subStageId);
-               }
+                if (onAddFieldClickListener != null) {
+                    onAddFieldClickListener.onDialogClick(mCurrentSubStage.subStageId);
+                }
 
             }
         });
@@ -156,6 +160,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     public void updateView(FieldEntity entity) {
 
         if (null == entity)
+
             return;
 
         if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
@@ -165,7 +170,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             fieldStateView.showNormalStatus();
         } else {
             //当前没有田地--
+            mFieldList.clear();
+            mFieldNameView.setText("暂无田地");
+            mFieldNameView.setClickable(false);
+
             fieldStateView.showNOFieldStatus();
+
         }
         //设置田地的名称
         if (null != entity.currentField) {
@@ -180,7 +190,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             updateFieldName();
             //设置当前是否是个打药，适合下地干活
 
-            setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
+            //setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
 
             updateFieldTimeAndStage(entity.currentField);
             //任务相关的
@@ -188,8 +198,21 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 
             mCurrentTaskSpec = getTaskBySubStageId();
-            updateTask();
+            if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
+                mTaskTitle.setVisibility(View.VISIBLE);
+                updateTask();
+            }else{
+                campaignView.setOrientation(LinearLayout.VERTICAL);
+                campaignView.removeAllViews();
+                campaignView.setVisibility(View.GONE);
+                mTaskTitle.setVisibility(View.GONE);
+            }
 
+        }else {
+            campaignView.setOrientation(LinearLayout.VERTICAL);
+            campaignView.removeAllViews();
+            mTaskTitle.setVisibility(View.GONE);
+            campaignView.setVisibility(View.GONE);
         }
 
 
@@ -209,7 +232,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         fieldStateView.updateHarvestDay(harvestDay);
         //设置当前是否是个打药，适合下地干活
         //DONE
-        setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
+        //setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
         //DONE 状态
         mCurrentSubStage = getCurrentStage(currentFieldEntity.currentStageID);
 
@@ -597,6 +620,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      */
     private void updateTask() {
 
+        if(campaignView.getVisibility()==View.GONE){
+            campaignView.setVisibility(View.VISIBLE);
+        }
         campaignView.setOrientation(LinearLayout.VERTICAL);
         campaignView.removeAllViews();
         int length = mCurrentTaskSpec.size();
