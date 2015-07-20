@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LocationResult;
-import com.dasinong.app.entity.LoginRegEntity;
+import com.dasinong.app.entity.LoginRegEntity; 
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.fragment.EncyclopediaFragment;
