@@ -1,13 +1,15 @@
 package com.dasinong.app.ui;
 
-import java.util.HashMap;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentTabHost;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.GeofenceClient;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.location.LocationClientOption.LocationMode;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LocationResult;
@@ -21,20 +23,11 @@ import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
-import com.umeng.analytics.AnalyticsConfig;
-import com.umeng.analytics.MobclickAgent;
-import com.umeng.update.UmengUpdateAgent;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentTabHost;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TabHost.TabSpec;
-import android.widget.TextView;
-import android.widget.Toast;
+/**
+ * @ClassName MainTabActivity
+ * @author ysl
+ * @Description
+ */
 
 /**
  * @ClassName MainTabActivity
@@ -60,10 +53,6 @@ public class MainTabActivity extends BaseActivity {
 		initData();
 		initView();
 		initLocation();
-		
-		// 友盟更新
-		UmengUpdateAgent.update(this);
-		UmengUpdateAgent.silentUpdate(this);
 		// startLoadingDialog();
 
 		// if(getIntent() != null){
@@ -150,7 +139,7 @@ public class MainTabActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		login();
+		//login();
 	}
 
 	@Override

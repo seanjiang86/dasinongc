@@ -53,12 +53,10 @@
     <com.dasinong.app.components.home.view.CropsGroupUpView
         android:id="@+id/field_state"
         android:layout_marginTop="@dimen/home_dimen_25"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <LinearLayout
-
         android:layout_marginTop="@dimen/home_dimen_30"
         android:layout_marginBottom="@dimen/home_dimen_30"
         android:layout_marginLeft="@dimen/home_dimen_30"
@@ -77,6 +75,7 @@
 
         <LinearLayout
             android:layout_marginLeft="@dimen/home_dimen_15"
+            android:layout_marginStart="@dimen/home_dimen_15"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,6 +92,7 @@
             <TextView
                 android:id="@+id/wealth"
                 android:textSize="@dimen/home_text_size_28"
+                android:contentDescription="@null"
                 android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -137,6 +137,7 @@
                 android:paddingRight="10dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/home_dimen_20"
+                android:layout_marginStart="@dimen/home_dimen_20"
                 tools:text="不宜打药" />
         </LinearLayout>
 
