@@ -93,7 +93,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private View mImageAddField;
 
 
-
     public CropsStateView(Context context) {
         super(context);
         this.context = context;
@@ -110,7 +109,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         weeks = getResources().getStringArray(R.array.weeks);
         View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top, this);
         mFieldNameView = (TextView) rootView.findViewById(R.id.field);
-        mNoLogin =rootView.findViewById(R.id.no_login_text);
+        mNoLogin = rootView.findViewById(R.id.no_login_text);
         mImageAddField = rootView.findViewById(R.id.iv_add_field);
         addFieldView = rootView.findViewById(R.id.add_field);
         fieldStateView = (CropsGroupUpView) rootView.findViewById(R.id.field_state);
@@ -162,39 +161,34 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      *
      * @param entity
      */
-    public void updateView(FieldEntity entity) {
+    public void updateView(FieldEntity entity, String defaultLocation) {
 
-        if(!AccountManager.isLogin(this.getContext()))
-        {
-            mNoLogin.setVisibility(View.VISIBLE);
-            mImageAddField.setVisibility(View.GONE);
-        }else {
-            mNoLogin.setVisibility(View.GONE);
-            mImageAddField.setVisibility(View.VISIBLE);
-        }
         if (null == entity) {
 
             return;
         }
-
-        if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
-            mFieldMap = entity.fieldList;
-            updateFieldNameMenue();
-
-            fieldStateView.showNormalStatus();
+        initFieldName();
+        initTask();
+        if (!AccountManager.isLogin(this.getContext())) {
+            mNoLogin.setVisibility(View.VISIBLE);
+            mImageAddField.setVisibility(View.GONE);
+            mFieldNameView.setText(defaultLocation);
+            fieldStateView.showNOLogin();
         } else {
-            //当前没有田地--
-            mFieldList.clear();
-            mFieldNameView.setText("暂无田地");
-            mFieldNameView.setClickable(false);
-
-            fieldStateView.showNOFieldStatus();
-
+            mImageAddField.setVisibility(View.VISIBLE);
+            if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
+                mFieldMap = entity.fieldList;
+                updateFieldNameMenue();
+                fieldStateView.showNormalStatus();
+            } else {
+                fieldStateView.showNOFieldStatus();
+            }
         }
+
+
         //设置田地的名称
         if (null != entity.currentField) {
-
-            SharedPreferencesHelper.setString(this.getContext(),"current_subStage_id",entity.currentField.currentStageID+"");
+            SharedPreferencesHelper.setString(this.getContext(), "current_subStage_id", entity.currentField.currentStageID + "");
 
             FieldEntity.CurrentFieldEntity currentFieldEntity = entity.currentField;
             //DONE
@@ -215,18 +209,13 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
                 mTaskTitle.setVisibility(View.VISIBLE);
                 updateTask();
-            }else{
+            } else {
                 campaignView.setOrientation(LinearLayout.VERTICAL);
                 campaignView.removeAllViews();
                 campaignView.setVisibility(View.GONE);
                 mTaskTitle.setVisibility(View.GONE);
             }
 
-        }else {
-            campaignView.setOrientation(LinearLayout.VERTICAL);
-            campaignView.removeAllViews();
-            mTaskTitle.setVisibility(View.GONE);
-            campaignView.setVisibility(View.GONE);
         }
 
 
@@ -234,6 +223,19 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         setDatWeekAndWeatherView(entity.date);
 
 
+    }
+
+    private void initTask() {
+        campaignView.setOrientation(LinearLayout.VERTICAL);
+        campaignView.removeAllViews();
+        mTaskTitle.setVisibility(View.GONE);
+        campaignView.setVisibility(View.GONE);
+    }
+
+    private void initFieldName() {
+        mFieldList.clear();
+        mFieldNameView.setText("暂无田地");
+        mFieldNameView.setClickable(false);
     }
 
     private void updateFieldTimeAndStage(FieldEntity.CurrentFieldEntity currentFieldEntity) {
@@ -250,8 +252,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         //DONE 状态
         mCurrentSubStage = getCurrentStage(currentFieldEntity.currentStageID);
 
-        if(currentFieldEntity.currentStageID==0||currentFieldEntity.currentStageID==10){
-            mCurrentSubStage= null;
+        if (currentFieldEntity.currentStageID == 0 || currentFieldEntity.currentStageID == 10) {
+            mCurrentSubStage = null;
         }
         updateStageStatus();
 
@@ -261,7 +263,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         int currentPosition = -1;
         // TODO MING TO NINGNING  当作物不为水稻时，则出现空指针  mSubStageLists 为空
         for (int i = 0; i < size; i++) {
-            if(mSubStageLists.get(i)==null||mCurrentSubStage==null){
+            if (mSubStageLists.get(i) == null || mCurrentSubStage == null) {
                 continue;
             }
 
@@ -273,8 +275,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         }
 
 
-
-
         fieldStateView.setPostionAndList(currentPosition, mSubStageLists);
 
     }
@@ -282,10 +282,10 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private void updateStageStatus() {
 
         String rightStateInfo = "水稻";
-        if(mCurrentSubStage!=null) {
+        if (mCurrentSubStage != null) {
             rightStateInfo = rightStateInfo + mCurrentSubStage.stageName + mCurrentSubStage.subStageName;
-        }else{
-            rightStateInfo="";
+        } else {
+            rightStateInfo = "";
         }
 
         fieldStateView.updateStageStatus(rightStateInfo);
@@ -304,7 +304,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
     private void convertTask(List<FieldEntity.CurrentFieldEntity.TaskwsEntity> taskws) {
 
-        if(mCurrentSubStage==null){
+        if (mCurrentSubStage == null) {
             return;
         }
         List<TaskStatus> taskSpecs = mAllTasks.get(mCurrentSubStage.subStageId, null);
@@ -326,24 +326,23 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             taskStatus.taskSpecName = entity.taskSpecName;
             taskStatus.isCheck = entity.taskStatus;
             taskSpecs = mAllTasks.get(entity.subStageId);
-            if(taskSpecs==null){
+            if (taskSpecs == null) {
                 taskSpecs = new ArrayList<>();
             }
             taskSpecs.add(taskStatus);
             mAllTasks.delete(entity.subStageId);
-            mAllTasks.put(entity.subStageId,taskSpecs);
+            mAllTasks.put(entity.subStageId, taskSpecs);
 
         }
         //save all  task
-        if(mAllTasks!=null){
-           for(int i =0;i<mAllTasks.size();i++){
-               List<TaskStatus> statusList = mAllTasks.get(i);
-               if(statusList!=null){
-                   saveTaskStatus(statusList);
-               }
-           }
+        if (mAllTasks != null) {
+            for (int i = 0; i < mAllTasks.size(); i++) {
+                List<TaskStatus> statusList = mAllTasks.get(i);
+                if (statusList != null) {
+                    saveTaskStatus(statusList);
+                }
+            }
         }
-
 
 
     }
@@ -355,7 +354,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      */
     private List<TaskStatus> getTaskBySubStageId() {
 
-        if(mCurrentSubStage==null){
+        if (mCurrentSubStage == null) {
             return new ArrayList<>();
 
         }
@@ -379,7 +378,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
         List<TaskSpec> list = taskSpecDao.queryTaskSpecWithSubStage(mCurrentSubStage.subStageId);
         int size = list.size();
-
 
 
         for (int i = 0; i < size; i++) {
@@ -430,19 +428,19 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         //值我改成了1，0，-1是宜，0是不宜，-1是不显示
         leftStateView.setVisibility(View.VISIBLE);
         rightStateView.setVisibility(View.VISIBLE);
-        if (isWork==1) {
+        if (isWork == 1) {
             leftStateView.setText("宜下地");
-        } else if(isWork==0) {
+        } else if (isWork == 0) {
             leftStateView.setText("不宜下地");
-        }else {
+        } else {
             leftStateView.setVisibility(View.GONE);
         }
-        if (isSpray==1) {
+        if (isSpray == 1) {
             rightStateView.setText("宜打药");
 
-        } else if(isSpray==0) {
+        } else if (isSpray == 0) {
             rightStateView.setText("不宜打药");
-        }else {
+        } else {
             rightStateView.setVisibility(View.GONE);
         }
     }
@@ -507,42 +505,43 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 //点击添加--最右上角按钮
 
                 if (DeviceHelper.checkNetWork(context)) {
-                	if(!DeviceHelper.checkGPS(context)){
-                		showRemindDialog("无法获取当前位置","请前往“设置”打开GPS卫星，设置完成后点”返回“键就可以回到今日农事","前往设置","暂不开启", new MyDialogClickListener() {
-							@Override
-							public void onSureButtonClick() {
-				                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-				                context.startActivity(intent);
-							}
-							
-							@Override
-							public void onCancelButtonClick() {
-								if (AccountManager.checkLogin(context)) {
-									Intent intent = new Intent(context, AddFieldActivity1.class);
-									context.startActivity(intent);
-								}
-							}
-						});
-                	}else{
-						if (AccountManager.checkLogin(context)) {
-							Intent intent = new Intent(context, AddFieldActivity1.class);
-							context.startActivity(intent);
-						}
-                	}
+                    if (!DeviceHelper.checkGPS(context)) {
+                        showRemindDialog("无法获取当前位置", "请前往“设置”打开GPS卫星，设置完成后点”返回“键就可以回到今日农事", "前往设置", "暂不开启", new MyDialogClickListener() {
+                            @Override
+                            public void onSureButtonClick() {
+                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                context.startActivity(intent);
+                            }
+
+                            @Override
+                            public void onCancelButtonClick() {
+                                if (AccountManager.checkLogin(context)) {
+                                    Intent intent = new Intent(context, AddFieldActivity1.class);
+                                    context.startActivity(intent);
+                                }
+                            }
+                        });
+                    } else {
+                        if (AccountManager.checkLogin(context)) {
+                            Intent intent = new Intent(context, AddFieldActivity1.class);
+                            context.startActivity(intent);
+                        }
+                    }
                 } else {
-                	//TODO Ming 待确定文字
-                	showRemindDialog("请先开启网络","开网啊","好","不好", new MyDialogClickListener() {
-						
-						@Override
-						public void onSureButtonClick() {
-			                Intent intent = new Intent(Settings.ACTION_SETTINGS);
-			                context.startActivity(intent);
-						}
-						@Override
-						public void onCancelButtonClick() {
-							
-						}
-					});
+                    //TODO Ming 待确定文字
+                    showRemindDialog("请先开启网络", "开网啊", "好", "不好", new MyDialogClickListener() {
+
+                        @Override
+                        public void onSureButtonClick() {
+                            Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                            context.startActivity(intent);
+                        }
+
+                        @Override
+                        public void onCancelButtonClick() {
+
+                        }
+                    });
                 }
 
                 break;
@@ -565,7 +564,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                     return;
                 }
                 mCurrentFieldName = fieldName.toString();
-                DEBUG(""+fieldName.toString());
+                DEBUG("" + fieldName.toString());
                 updateFieldName();
                 popWindow.disMiss();
                 if (null != onAddFieldClickListener) {
@@ -600,10 +599,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
         /**
          * 更新disaster
-         *
          */
 
-        void  onDialogClick(int  substage);
+        void onDialogClick(int substage);
 
     }
 
@@ -634,13 +632,13 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      */
     private void updateTask() {
 
-        if(campaignView.getVisibility()==View.GONE){
+        if (campaignView.getVisibility() == View.GONE) {
             campaignView.setVisibility(View.VISIBLE);
         }
         campaignView.setOrientation(LinearLayout.VERTICAL);
         campaignView.removeAllViews();
         int length = mCurrentTaskSpec.size();
-        DEBUG("length:"+length);
+        DEBUG("length:" + length);
         for (int i = 0; i < length; i++) {
             final TaskStatus item = mCurrentTaskSpec.get(i);
             final View view = LayoutInflater.from(context).inflate(R.layout.view_home_work_content, null);
@@ -711,7 +709,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     }
 
 
-    private void saveTaskStatus(List<TaskStatus> lists ) {
+    private void saveTaskStatus(List<TaskStatus> lists) {
 
 
         if (lists.isEmpty()) {
@@ -740,26 +738,26 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             Log.d(TAG, msg);
         }
     }
-    
-    private void showRemindDialog(String title, String content, String sureButton,String cancelButton, final MyDialogClickListener dialogClickListener){
+
+    private void showRemindDialog(String title, String content, String sureButton, String cancelButton, final MyDialogClickListener dialogClickListener) {
         final Dialog dialog = new Dialog(context, R.style.CommonDialog);
         dialog.setContentView(R.layout.confirm_gps_network_dialog);
         TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
         TextView tv_title = (TextView) dialog.findViewById(R.id.tv_dialog_title);
-        
-        System.out.println(tv_title+"tv _ title");
-        
+
+        System.out.println(tv_title + "tv _ title");
+
         tv_title.setText(title);
         tv.setTextSize(22);
-        
+
         tv.setText(content);
         tv.setTextSize(18);
-        
+
         Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
         waitBtn.setText(cancelButton);
         waitBtn.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	dialogClickListener.onCancelButtonClick();
+                dialogClickListener.onCancelButtonClick();
                 dialog.dismiss();
             }
         });
@@ -767,17 +765,18 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         backBtn.setText(sureButton);
         backBtn.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-            	dialogClickListener.onSureButtonClick();
+                dialogClickListener.onSureButtonClick();
                 dialog.dismiss();
             }
         });
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
     }
-    
-    public interface MyDialogClickListener{
-    	public void onSureButtonClick();
-    	public void onCancelButtonClick();
+
+    public interface MyDialogClickListener {
+        public void onSureButtonClick();
+
+        public void onCancelButtonClick();
     }
 
 }

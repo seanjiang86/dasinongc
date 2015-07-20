@@ -1,8 +1,6 @@
 package com.dasinong.app.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -105,7 +103,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     private String mUserID;
 
-
+    private String mAddress;
 
     @Override
     public void onAttach(Activity activity) {
@@ -209,7 +207,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 
 
-                    mCropStateView.updateView(entity);
+                    mCropStateView.updateView(entity,mAddress);
 
                     mCropStateView.setOnAddFieldClickListener(new CropsStateView.MyOnAddFieldClickListener() {
                         @Override
@@ -543,6 +541,9 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
             param.fieldId = String.valueOf(DEFAULT_FIELD_ID);
             String lat = String.valueOf(result.getLatitude());
             String lon = String.valueOf(result.getLongitude());
+
+            mAddress = result.getCity();
+
             param.lat = lat;
             param.lon = lon;
             weatherParam.lat = lat;

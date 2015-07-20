@@ -71,6 +71,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     private LinearLayout mLeafContainer;
     private int itemWidth;
 
+    private View mNoLoginView;
 
     public CropsGroupUpView(Context context) {
         super(context);
@@ -106,7 +107,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         int width = windowManager.getDefaultDisplay().getWidth();
         itemWidth = (width - GraphicUtils.dip2px(getContext(), 100)) / 5;
 
-
+        mNoLoginView = rootView.findViewById(R.id.no_login_container);
+        mNoLoginView.findViewById(R.id.no_login_container_content).setOnClickListener(this);
 
 
     }
@@ -120,12 +122,20 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     public void showNormalStatus() {
         normalParentView.setVisibility(View.VISIBLE);
+        mNoLoginView.setVisibility(View.GONE);
         addCropViewParent.setVisibility(View.GONE);
     }
 
     public void showNOFieldStatus() {
         normalParentView.setVisibility(View.GONE);
+        mNoLoginView.setVisibility(View.GONE);
         addCropViewParent.setVisibility(View.VISIBLE);
+    }
+
+    public void showNOLogin() {
+        normalParentView.setVisibility(View.GONE);
+        mNoLoginView.setVisibility(View.VISIBLE);
+        addCropViewParent.setVisibility(View.GONE);
     }
 
 
@@ -143,47 +153,11 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 // 添加作物
                 final Context context=getContext();
                 // TODO: 15/7/7 add crop
-                
+
                 // 友盟自定义事件统计
                 MobclickAgent.onEvent(context, "BigButtonAddField");
-                
-                if (DeviceHelper.checkNetWork(context)) {
-                    if(!DeviceHelper.checkGPS(context)){
-                        showRemindDialog("无法获取当前位置","请前往“设置”打开GPS卫星，设置完成后点”返回“键就可以回到今日农事","前往设置","暂不开启", new MyDialogClickListener() {
-                            @Override
-                            public void onSureButtonClick() {
-                                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                context.startActivity(intent);
-                            }
 
-                            @Override
-                            public void onCancelButtonClick() {
-                                if (AccountManager.checkLogin(context)) {
-                                    Intent intent = new Intent(context, AddFieldActivity1.class);
-                                    context.startActivity(intent);
-                                }
-                            }
-                        });
-                    }else{
-                        if (AccountManager.checkLogin(context)) {
-                            Intent intent = new Intent(context, AddFieldActivity1.class);
-                            context.startActivity(intent);
-                        }
-                    }
-                } else {
-                    showRemindDialog("呀！网络断了...","请检查你的手机是否联网，如果只是信号不好，也许等等就好啦","前往设置","取消", new MyDialogClickListener() {
-
-                        @Override
-                        public void onSureButtonClick() {
-                            Intent intent = new Intent(Settings.ACTION_SETTINGS);
-                            context.startActivity(intent);
-                        }
-                        @Override
-                        public void onCancelButtonClick() {
-
-                        }
-                    });
-                }
+                startAddFieldActivity(context);
 
                 break;
             case R.id.left_arrow:
@@ -198,6 +172,52 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 isClickMove = false;
                 showConfirmDialog();
                 break;
+
+            case R.id.no_login_container_content:
+                //no login
+                startAddFieldActivity(this.getContext());
+                break;
+        }
+    }
+
+    private void startAddFieldActivity( final Context context) {
+
+        if (DeviceHelper.checkNetWork(context)) {
+            if(!DeviceHelper.checkGPS(context)){
+                showRemindDialog("无法获取当前位置","请前往“设置”打开GPS卫星，设置完成后点”返回“键就可以回到今日农事","前往设置","暂不开启", new MyDialogClickListener() {
+                    @Override
+                    public void onSureButtonClick() {
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        context.startActivity(intent);
+                    }
+
+                    @Override
+                    public void onCancelButtonClick() {
+                        if (AccountManager.checkLogin(context)) {
+                            Intent intent = new Intent(context, AddFieldActivity1.class);
+                            context.startActivity(intent);
+                        }
+                    }
+                });
+            }else{
+                if (AccountManager.checkLogin(context)) {
+                    Intent intent = new Intent(context, AddFieldActivity1.class);
+                    context.startActivity(intent);
+                }
+            }
+        } else {
+            showRemindDialog("呀！网络断了...","请检查你的手机是否联网，如果只是信号不好，也许等等就好啦","前往设置","取消", new MyDialogClickListener() {
+
+                @Override
+                public void onSureButtonClick() {
+                    Intent intent = new Intent(Settings.ACTION_SETTINGS);
+                    context.startActivity(intent);
+                }
+                @Override
+                public void onCancelButtonClick() {
+
+                }
+            });
         }
     }
 
@@ -218,7 +238,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     return;
                 }
 
-//            mCurrentPostion += 1;
+
 
                 mCurrentPostion = getCurrentPosition(itemWidth) + 1;
             } else {
@@ -228,7 +248,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     return;
                 }
 
-//            mCurrentPostion -= 1;
+
                 mCurrentPostion = getCurrentPosition(itemWidth) - 1;
             }
         }
@@ -251,7 +271,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 @Override
                 public void onLeftClick(Dialog dialog, String txt) {
                     confirmDialog.dismiss();
-//                    mCurrentPostion = mCurrentPostion+1;
                     mCurrentPostion = getCurrentPosition(itemWidth) + 1;
                 }
 
@@ -260,7 +279,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     if (null != onAddCropClickListener) {
                         confirmDialog.dismiss();
                         onAddCropClickListener.onArrowViewClick(mCurrentPostion);
-                        
                         updateStageIcon();
 
                     }
