@@ -225,7 +225,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
         this.mCurrentPostion = mPosition;
         this.mSubStages = mSubStageLists;
-
+        mSubStageName.setText("");
         if (mSubStageLists == null || mSubStageLists.isEmpty()) {
             return;
         }
@@ -235,7 +235,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
 
         } else {
-            mSubStageName.setText(mSubStageLists.get(mPosition).subStageName);
+            mSubStageName.setText("水稻"+mSubStageLists.get(mPosition).subStageName);
             mSubStageName.setOnClickListener(this);
             normalParentView.setVisibility(VISIBLE);
 

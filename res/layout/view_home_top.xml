@@ -67,7 +67,7 @@
         <TextView
             android:id="@+id/day"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/home_text_size_80"
+            android:textSize="42sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
