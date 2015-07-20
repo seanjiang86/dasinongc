@@ -77,12 +77,11 @@ public class CureDetialActivity extends BaseActivity {
 			char c = (char) (65 + position - 1);
 			tv_cure_name.setText("治疗方案" + c);
 		}
-		// TODO MING 临时数据
 		if (DeviceHelper.checkNetWork(this)) {
-			queryDrug(8100);
+			queryDrug(solu.petSoluId);
 		} else {
 			initHeader(solu);
-			initData(8100);
+			initData(solu.petSoluId);
 		}
 	}
 
@@ -165,7 +164,7 @@ public class CureDetialActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(CureDetialActivity.this, WebBrowserActivity.class);
-				intent.putExtra(WebBrowserActivity.URL, NetConfig.BAIKE_URL+"type=pesticide&id="+drugList.get(position).id);
+				intent.putExtra(WebBrowserActivity.URL, NetConfig.BAIKE_URL+"type=pesticide&id="+drugList.get(position-1).id);
 				startActivity(intent);
 			}
 		});
