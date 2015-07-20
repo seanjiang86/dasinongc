@@ -21,81 +21,23 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/home_dimen_100">
 
-            <ImageView
-                android:id="@+id/left_arrow"
-                android:layout_centerVertical="true"
-                android:paddingLeft="25dp"
-                android:paddingRight="10dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:src="@drawable/left_arrow"
+            <TextView
+                android:layout_centerInParent="true"
+                android:id="@+id/substage_name_text"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <ImageView
-                android:paddingRight="25dp"
                 android:paddingLeft="10dp"
-                android:paddingTop="20dp"
-                android:paddingBottom="20dp"
-                android:id="@+id/right_arrow"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/right_arrow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:paddingRight="10dp"
+                android:gravity="center"
 
-            <HorizontalScrollView
-                android:id="@+id/leaf_parent"
-                android:gravity="center_vertical"
-                android:layout_toRightOf="@id/left_arrow"
-                android:layout_toLeftOf="@id/right_arrow"
-
-                android:layout_centerVertical="true"
-                android:orientation="horizontal"
-                android:scrollbars="none"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-               <LinearLayout
-                   android:id="@+id/leaf_container"
-                   android:layout_width="match_parent"
-                   android:orientation="horizontal"
-                   android:layout_height="match_parent">
-
-
-               </LinearLayout>
-
-
-            </HorizontalScrollView>
+                android:textColor="#ffffff"
+                android:textSize="@dimen/home_text_size_36"
+                android:drawablePadding="10dp"
+                android:drawableRight="@drawable/more"
+                android:layout_height="match_parent" />
 
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:layout_marginTop="@dimen/home_dimen_30"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:id="@+id/harvest_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                tools:text="离收获还有130天"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/home_text_size_32" />
-
-            <TextView
-                android:id="@+id/right_state_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                tools:text="水稻分页器期8页"
-                android:textColor="@android:color/white"
-                android:textSize="@dimen/home_text_size_32" />
-
-        </RelativeLayout>
 
     </LinearLayout>
     <!--没有作物的view-->
@@ -105,6 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        tools:visibility="gone"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:orientation="horizontal">
@@ -131,7 +74,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone"
-        tools:visibility="visible"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

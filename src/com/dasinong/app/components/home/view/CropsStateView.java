@@ -137,7 +137,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 mCurrentSubStage = mSubStageLists.get(position);
                 mCurrentTaskSpec = getTaskBySubStageId();
                 updateTask();
-                updateStageStatus();
 
                 if (onAddFieldClickListener != null) {
                     onAddFieldClickListener.onDialogClick(mCurrentSubStage.subStageId);
@@ -252,8 +251,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         }
 
         DEBUG("currentEntity daytoharvest:" + currentFieldEntity.daytoharvest);
-        String harvestDay = getHarvestDay(currentFieldEntity);
-        fieldStateView.updateHarvestDay(harvestDay);
+
+
         //设置当前是否是个打药，适合下地干活
         //DONE
         //setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
@@ -263,7 +262,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         if (currentFieldEntity.currentStageID == 0 || currentFieldEntity.currentStageID == 10) {
             mCurrentSubStage = null;
         }
-        updateStageStatus();
+
 
         mSubStageLists = getSubStages();
         int size = mSubStageLists.size();
@@ -286,17 +285,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
     }
 
-    private void updateStageStatus() {
 
-        String rightStateInfo = "水稻";
-        if (mCurrentSubStage != null) {
-            rightStateInfo = rightStateInfo + mCurrentSubStage.stageName + mCurrentSubStage.subStageName;
-        } else {
-            rightStateInfo = "";
-        }
-
-        fieldStateView.updateStageStatus(rightStateInfo);
-    }
 
 
     private void updateFieldName() {
@@ -400,15 +389,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         return mAllTasks.get(mCurrentSubStage.subStageId);
     }
 
-    private String getHarvestDay(FieldEntity.CurrentFieldEntity currentField) {
-        String harvestDay = "";
-        if (currentField.daytoharvest > 0) {
 
-            harvestDay = "离收获还有" + currentField.daytoharvest + "天";
-        }
-
-        return harvestDay;
-    }
 
 
     //给日期，星期和天气设置相对应的值
@@ -460,7 +441,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             return;
         }
 
-
+        mFieldNameView.setClickable(true);
         mFieldList.clear();
         //有田地
         for (Map.Entry<String, Long> entrySet : mFieldMap.entrySet()) {
