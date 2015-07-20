@@ -458,8 +458,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
 
     static {
-    	// TODO MING:暂时的容错处理，此处应该添加未定义周期图标
-    	cropIconResource.put(10, R.drawable.sowbefore);
     	
         cropIconResource.put(35,R.drawable.sowbefore);
         cropIconResource.put(36,R.drawable.sow);

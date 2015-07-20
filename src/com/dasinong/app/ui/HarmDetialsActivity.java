@@ -271,7 +271,6 @@ public class HarmDetialsActivity extends BaseActivity {
 					intent.putExtra(WebBrowserActivity.URL, NetConfig.BAIKE_URL + "type=pest&id=" + detial.data.petDisSpec.id);
 					startActivity(intent);
 				} else {
-					// TODO MING:文字待确定
 					showRemindDialog("呀！网络断了...", "请检查你的手机是否联网，如果只是信号不好，也许等等就好啦", "前往设置", "取消", new MyDialogClickListener() {
 
 						@Override

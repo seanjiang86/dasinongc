@@ -132,8 +132,6 @@ public class MeFragment extends Fragment implements OnClickListener {
 			break;
 		case R.id.layout_scancode:// 扫一扫
 			Intent scanIntent = new Intent(getActivity(), CaptureActivity.class);
-			// TODO MING:怎么开启下个页面
-//			getActivity().startActivityForResult(scanIntent, 0);
 			
 			//友盟统计自定义统计事件
 			MobclickAgent.onEvent(getActivity(), "ScanQRcode"); 
