@@ -169,10 +169,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         }
         initFieldName();
         initTask();
+        mFieldNameView.setText(defaultLocation);
+        //daf
+        mFieldNameView.setCompoundDrawablesWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.gps),null);
         if (!AccountManager.isLogin(this.getContext())) {
             mNoLogin.setVisibility(View.VISIBLE);
             mImageAddField.setVisibility(View.GONE);
-            mFieldNameView.setText(defaultLocation);
             fieldStateView.showNOLogin();
         } else {
             mNoLogin.setVisibility(View.GONE);
@@ -227,9 +229,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     }
     
     //设置是否适合下地
-    public void updateWorkStage(WeatherEntity entity){
-    	setWorkState(entity.workable, entity.sprayable);
-    	System.out.println(entity.workable + "   " + entity.sprayable);
+    public void updateWorkStage(WeatherEntity entity) {
+        setWorkState(entity.workable, entity.sprayable);
+        System.out.println(entity.workable + "   " + entity.sprayable);
     }
 
     private void initTask() {
@@ -241,7 +243,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
     private void initFieldName() {
         mFieldList.clear();
-        mFieldNameView.setText("暂无田地");
         mFieldNameView.setClickable(false);
     }
 
@@ -250,7 +251,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             return;
         }
 
-        DEBUG("currentEntity daytoharvest:" + currentFieldEntity.daytoharvest);
+
 
 
         //设置当前是否是个打药，适合下地干活

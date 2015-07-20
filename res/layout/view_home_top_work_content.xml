@@ -32,7 +32,7 @@
                 android:textColor="#ffffff"
                 android:textSize="@dimen/home_text_size_36"
                 android:drawablePadding="10dp"
-                android:drawableRight="@drawable/more"
+                android:drawableRight="@drawable/right_arrow"
                 android:layout_height="match_parent" />
 
 
