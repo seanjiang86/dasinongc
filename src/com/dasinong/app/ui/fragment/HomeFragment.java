@@ -250,6 +250,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 WeatherEntity weatherEntity = (WeatherEntity) response;
 
                 mHomeWeatherView.setWeatherData(weatherEntity);
+                
+                mCropStateView.updataWorkStage(weatherEntity);
 
                 isWeatherSuccess = true;
                 break;

@@ -18,6 +18,7 @@ import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.domain.TaskStatus;
+import com.dasinong.app.components.domain.WeatherEntity;
 import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
 
 import com.dasinong.app.database.task.dao.impl.SubStageDaoImpl;
@@ -223,6 +224,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         setDatWeekAndWeatherView(entity.date);
 
 
+    }
+    
+    //设置是否适合下地
+    public void updataWorkStage(WeatherEntity entity){
+    	setWorkState(entity.workable, entity.sprayable);
+    	System.out.println(entity.workable+"   "+entity.sprayable);
     }
 
     private void initTask() {

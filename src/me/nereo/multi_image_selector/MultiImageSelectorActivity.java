@@ -138,6 +138,8 @@ public class MultiImageSelectorActivity extends FragmentActivity implements Mult
             resultList.add(imageFile.getAbsolutePath());
             data.putStringArrayListExtra(EXTRA_RESULT, resultList);
             setResult(RESULT_OK, data);
+            
+            
             finish();
         }
     }

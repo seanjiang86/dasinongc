@@ -26,6 +26,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.ui.TaskDetailsActivity;
 import com.dasinong.app.ui.view.TopbarView;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 /**
  * @ClassName MeFragment
@@ -182,6 +183,10 @@ public class MeFragment extends Fragment implements OnClickListener {
 
 			break;
 		case R.id.layout_check_update:// 检查更新
+			
+			// 友盟更新
+			UmengUpdateAgent.forceUpdate(this.getActivity());
+			
 			Intent taskIntent = new Intent(getActivity(), TaskDetailsActivity.class);
 			getActivity().startActivity(taskIntent);
 			break;
