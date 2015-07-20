@@ -1,17 +1,19 @@
 package com.dasinong.app.ui;
 
-import java.util.HashMap;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentTabHost;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.GeofenceClient;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
-import com.baidu.location.LocationClientOption.LocationMode;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LocationResult;
-import com.dasinong.app.entity.LoginRegEntity;
+import com.dasinong.app.entity.LoginRegEntity; 
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.fragment.EncyclopediaFragment;
@@ -21,19 +23,11 @@ import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
-import com.umeng.analytics.AnalyticsConfig;
-import com.umeng.analytics.MobclickAgent;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.FragmentTabHost;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TabHost.TabSpec;
-import android.widget.TextView;
-import android.widget.Toast;
+/**
+ * @ClassName MainTabActivity
+ * @author ysl
+ * @Description
+ */
 
 /**
  * @ClassName MainTabActivity
