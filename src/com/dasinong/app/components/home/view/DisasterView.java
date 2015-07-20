@@ -190,7 +190,7 @@ public class DisasterView extends LinearLayout {
         type.setBackgroundResource(R.drawable.natdisaster_bg);
 
 
-        type.setText("易发"+getDisasterString(item.type));
+        type.setText("近期易发"+getDisasterString(item.type));
         icon.setImageResource(getDisasterIcon(item.type));
 
         desc.setText(item.sympton);
