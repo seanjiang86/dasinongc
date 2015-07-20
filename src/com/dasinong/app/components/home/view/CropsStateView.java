@@ -176,6 +176,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             mFieldNameView.setText(defaultLocation);
             fieldStateView.showNOLogin();
         } else {
+            mNoLogin.setVisibility(View.GONE);
             mImageAddField.setVisibility(View.VISIBLE);
             if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
                 mFieldMap = entity.fieldList;
