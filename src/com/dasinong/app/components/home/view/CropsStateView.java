@@ -176,6 +176,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             mFieldNameView.setText(defaultLocation);
             fieldStateView.showNOLogin();
         } else {
+            mNoLogin.setVisibility(View.GONE);
             mImageAddField.setVisibility(View.VISIBLE);
             if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
                 mFieldMap = entity.fieldList;
@@ -227,9 +228,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     }
     
     //设置是否适合下地
-    public void updataWorkStage(WeatherEntity entity){
+    public void updateWorkStage(WeatherEntity entity){
     	setWorkState(entity.workable, entity.sprayable);
-    	System.out.println(entity.workable+"   "+entity.sprayable);
+    	System.out.println(entity.workable + "   " + entity.sprayable);
     }
 
     private void initTask() {
