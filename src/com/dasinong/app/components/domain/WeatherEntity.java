@@ -14,6 +14,8 @@ public class WeatherEntity extends BaseResponse {
     public SectionWeather POP;
 
     public CurrentWeather current;
+    public int workable;
+    public int sprayable;
 
     public static class SevenDay {
 

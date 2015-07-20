@@ -23,6 +23,7 @@ import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
 import com.umeng.analytics.AnalyticsConfig;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,6 +60,10 @@ public class MainTabActivity extends BaseActivity {
 		initData();
 		initView();
 		initLocation();
+		
+		// 友盟更新
+		UmengUpdateAgent.update(this);
+		UmengUpdateAgent.silentUpdate(this);
 		// startLoadingDialog();
 
 		// if(getIntent() != null){
