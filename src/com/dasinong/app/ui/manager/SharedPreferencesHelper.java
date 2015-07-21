@@ -32,6 +32,7 @@ public final class SharedPreferencesHelper {
         FIELDID,
         MONITOR_LOCATION_ID,
         USER_FIELDS,
+        IS_FIRST,
 
     }
 

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:gravity="center"
+        android:minHeight="37dp"
+        android:paddingBottom="20dp"
+        android:paddingTop="24dp"
+        android:text="请选择当前阶段"
+        android:textSize="20sp" />
+
+    <ListView
+        android:id="@+id/substage_listview"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:cacheColorHint="#ffffffff"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:overScrollFooter="@android:color/transparent"
+        android:overScrollHeader="@android:color/transparent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp">
+
+
+        <View
+            android:id="@+id/id_divider"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true" />
+
+        <Button
+            android:id="@+id/substage_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/id_divider"
+            android:background="@drawable/button_white_bg_selector"
+            android:gravity="center"
+            android:text="暂不修改"
+            android:textColor="@color/color_098AF1"
+            android:textSize="16sp" />
+
+
+        <Button
+            android:id="@+id/substage_ok"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/id_divider"
+            android:layout_weight="1.0"
+            android:background="@drawable/button_white_bg_selector"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/color_098AF1"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

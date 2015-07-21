@@ -78,7 +78,7 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 	}
 
 	@Override
-	protected void onResume() {
+	public void onResume() {
 		super.onResume();
 		initLocation();
 	}

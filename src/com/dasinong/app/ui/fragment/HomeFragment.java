@@ -1,8 +1,6 @@
 package com.dasinong.app.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -105,7 +103,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     private String mUserID;
 
-
+    private String mAddress;
 
     @Override
     public void onAttach(Activity activity) {
@@ -203,10 +201,14 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 if (entity != null) {
                     if (entity.currentField != null) {
                         mDisasterView.updateView(entity.currentField.petdisspecws, entity.currentField.petdisws);
+                    }else {
+                        mDisasterView.updateView(null,null);
                     }
 
 
-                    mCropStateView.updateView(entity);
+
+                    mCropStateView.updateView(entity,mAddress);
+
                     mCropStateView.setOnAddFieldClickListener(new CropsStateView.MyOnAddFieldClickListener() {
                         @Override
                         public void onWorKContentItemClick(String itemValue, int pos, boolean isSelect) {
@@ -248,6 +250,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 WeatherEntity weatherEntity = (WeatherEntity) response;
 
                 mHomeWeatherView.setWeatherData(weatherEntity);
+                
+                mCropStateView.updateWorkStage(weatherEntity);
 
                 isWeatherSuccess = true;
                 break;
@@ -321,6 +325,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
         String currentUserID = SharedPreferencesHelper.getString(getActivity().getApplicationContext(), SharedPreferencesHelper.Field.USER_ID, "");
         if (!mUserID.equals(currentUserID)) {
             mUserID = currentUserID;
+            Log.d("TAG","change");
             loadDataFromWithCache(true);
             return;
         }
@@ -387,6 +392,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
             }
         }
 
+
+        Log.d("TAG","-isLogin--"+AccountManager.isLogin(this.getActivity()));
         if (AccountManager.isLogin(this.getActivity())) {
             readFieldFromLocal();
 
@@ -536,6 +543,9 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
             param.fieldId = String.valueOf(DEFAULT_FIELD_ID);
             String lat = String.valueOf(result.getLatitude());
             String lon = String.valueOf(result.getLongitude());
+
+            mAddress = result.getCity();
+
             param.lat = lat;
             param.lon = lon;
             weatherParam.lat = lat;
@@ -546,6 +556,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
             loadFieldData(param);
             loadWeatherData(weatherParam);
+
             loadBanner(bannerParam);
 
         }

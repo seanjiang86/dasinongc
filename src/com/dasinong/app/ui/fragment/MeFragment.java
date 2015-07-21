@@ -3,6 +3,8 @@ package com.dasinong.app.ui.fragment;
 import com.dasinong.app.R;
 import com.dasinong.app.ui.AuthCodeActivity;
 import com.dasinong.app.ui.CaptureActivity;
+import com.dasinong.app.ui.ContactUsActivity;
+import com.dasinong.app.ui.GuideActivity;
 import com.dasinong.app.ui.MyInfoActivity;
 import com.dasinong.app.ui.RecommendActivity;
 import com.dasinong.app.ui.RegisterPasswordActivity;
@@ -21,10 +23,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.dasinong.app.R;
 import com.dasinong.app.ui.TaskDetailsActivity;
 import com.dasinong.app.ui.view.TopbarView;
+import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateResponse;
+import com.umeng.update.UpdateStatus;
 
 /**
  * @ClassName MeFragment
@@ -82,21 +90,21 @@ public class MeFragment extends Fragment implements OnClickListener {
 		mContactUsLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_contact_us);
 		mCheckUpdateLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_check_update);
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(!AccountManager.isLogin(getActivity())){
+		if (!AccountManager.isLogin(getActivity())) {
 			mTopbarView.setRightText("登录");
 			mTopbarView.setRightClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
-					Intent intent = new Intent(getActivity(),RegisterPhoneActivity.class);
+					Intent intent = new Intent(getActivity(), RegisterPhoneActivity.class);
 					getActivity().startActivity(intent);
 				}
 			});
-		}else{
+		} else {
 			mTopbarView.setRightText("");
 			mTopbarView.setRightClickListener(null);
 		}
@@ -120,50 +128,101 @@ public class MeFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_my_info:// 个人信息
-			if(!AccountManager.isLogin(getActivity())){
+			if (!AccountManager.isLogin(getActivity())) {
 				Intent myInfoIntent = new Intent(getActivity(), RegisterPhoneActivity.class);
 				getActivity().startActivity(myInfoIntent);
-			}else{
+			} else {
 				Intent myInfoIntent = new Intent(getActivity(), MyInfoActivity.class);
 				getActivity().startActivity(myInfoIntent);
 			}
 			break;
 		case R.id.layout_scancode:// 扫一扫
 			Intent scanIntent = new Intent(getActivity(), CaptureActivity.class);
-			// TODO MING:怎么开启下个页面
-//			getActivity().startActivityForResult(scanIntent, 0);
+
+			// 友盟统计自定义统计事件
+			MobclickAgent.onEvent(getActivity(), "ScanQRcode");
+
 			startActivity(scanIntent);
 			break;
 		case R.id.layout_recommend:// 有奖推荐
+
+			// 友盟统计自定义统计事件
+			MobclickAgent.onEvent(getActivity(), "Recommend");
+
 			Intent intent = new Intent(getActivity(), RecommendActivity.class);
 			getActivity().startActivity(intent);
 			break;
 		case R.id.layout_sms_setting:// 短信订阅设置
-			if(!AccountManager.isLogin(getActivity())){
+
+			// 友盟统计自定义统计事件
+			MobclickAgent.onEvent(getActivity(), "SmsSetting");
+
+			if (!AccountManager.isLogin(getActivity())) {
 				Intent myInfoIntent = new Intent(getActivity(), RegisterPhoneActivity.class);
 				getActivity().startActivity(myInfoIntent);
-			}else{
+			} else {
 				Intent smsIntent = new Intent(getActivity(), SmsSettingActivity.class);
 				getActivity().startActivity(smsIntent);
 			}
 			break;
 		case R.id.layout_help_center:// 帮助中心
-			Intent loginIntent = new Intent(getActivity(),RegisterPhoneActivity.class);
+
+			// 友盟统计自定义统计事件
+			MobclickAgent.onEvent(getActivity(), "HelpCenter");
+
+			Intent loginIntent = new Intent(getActivity(), RegisterPhoneActivity.class);
 			getActivity().startActivity(loginIntent);
 			break;
 		case R.id.layout_use:// 使用教程
-			Intent lIntent = new Intent(getActivity(),RegisterPasswordActivity.class);
-			lIntent.putExtra("phone", "13810139423");
-			lIntent.putExtra("isLogin", true);
-			getActivity().startActivity(lIntent);
+
+			// 友盟统计自定义统计事件
+			MobclickAgent.onEvent(getActivity(), "UseLesson");
+
+			Intent guideIntent = new Intent(getActivity(), GuideActivity.class);
+			guideIntent.putExtra("isFirst", false);
+			startActivity(guideIntent);
+
+			// Intent lIntent = new
+			// Intent(getActivity(),RegisterPasswordActivity.class);
+			// lIntent.putExtra("phone", "13810139423");
+			// lIntent.putExtra("isLogin", true);
+			// getActivity().startActivity(lIntent);
 			break;
 		case R.id.layout_contact_us:// 联系我们
-
+			Intent contactIntent = new Intent(getActivity(), ContactUsActivity.class);
+			getActivity().startActivity(contactIntent);
 			break;
 		case R.id.layout_check_update:// 检查更新
-			Intent taskIntent = new Intent(getActivity(), TaskDetailsActivity.class);
-			getActivity().startActivity(taskIntent);
-			break;
+
+			// 友盟更新
+			UmengUpdateAgent.forceUpdate(this.getActivity());
+			UmengUpdateAgent.setUpdateAutoPopup(false);
+			UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
+
+				@Override
+				public void onUpdateReturned(int updateStatus,UpdateResponse updateInfo) {
+					switch (updateStatus) {
+					case UpdateStatus.Yes: // has update
+						UmengUpdateAgent.showUpdateDialog(getActivity(), updateInfo);
+						break;
+					case UpdateStatus.No: // has no update
+						Toast.makeText(getActivity(), "没有更新", Toast.LENGTH_SHORT).show();
+						break;
+					case UpdateStatus.NoneWifi: // none wifi
+						Toast.makeText(getActivity(), "没有wifi连接， 只在wifi下更新", Toast.LENGTH_SHORT).show();
+						break;
+					case UpdateStatus.Timeout: // time out
+						Toast.makeText(getActivity(), "超时", Toast.LENGTH_SHORT).show();
+						break;
+					}
+				}
+			});
+			UmengUpdateAgent.update(getActivity());
+
+			// Intent taskIntent = new Intent(getActivity(),
+			// TaskDetailsActivity.class);
+			// getActivity().startActivity(taskIntent);
+			// break;
 		}
 	}
 

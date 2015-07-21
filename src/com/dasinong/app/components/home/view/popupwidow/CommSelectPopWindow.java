@@ -67,14 +67,13 @@ public class CommSelectPopWindow {
         mPopWindow.update();
         hiddenSoftInput(anchor);
 
-        int[] loaction = new int[2];
-        anchor.getLocationInWindow(loaction);
+        int[] location = new int[2];
+        anchor.getLocationInWindow(location);
         int height = anchor.getMeasuredHeight();
         int height2 = anchor.getRootView().getMeasuredHeight();
-        DisplayMetrics displayMetrics = mContext.getResources().getDisplayMetrics();
 
-        int down = height2 - loaction[1] - height;
-        int up = loaction[1];
+        int down = height2 - location[1] - height;
+        int up = location[1];
         //2014/07/01  弹出逻辑修改，上下哪个空间大向哪里弹出
         //
         if (up > down + 50) {
@@ -92,14 +91,7 @@ public class CommSelectPopWindow {
             mPopWindow.showAsDropDown(anchor, xoff, yoff);
         }
 
-    	/*if(height2 < height+loaction[1]+tmpHeight){
-            mPopWindow.setWidth(popWidth+15);
-    		rootView.setBackgroundResource(R.drawable.pop_arraow_up);
-    		rootView.setPadding(5, MEBPublicUtils.dip2px(mContext, 5), 5, MEBPublicUtils.dip2px(mContext, 20));
-    		mPopWindow.showAsDropDown(anchor, xoff-8, -(height+tmpHeight+MEBPublicUtils.dip2px(mContext, 15)));
-    		return ;
-    	}
-    	*/
+
     }
 
     public void showAsDropDown(View anchor) {

@@ -32,10 +32,18 @@
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:layout_height="wrap_content">
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/no_login_text"
+                android:text="登录"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         <ImageView
             android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-
+            android:id="@+id/iv_add_field"
             android:layout_height="wrap_content"
             android:background="@drawable/field_add_selector"
              />
@@ -45,12 +53,10 @@
     <com.dasinong.app.components.home.view.CropsGroupUpView
         android:id="@+id/field_state"
         android:layout_marginTop="@dimen/home_dimen_25"
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <LinearLayout
-
         android:layout_marginTop="@dimen/home_dimen_30"
         android:layout_marginBottom="@dimen/home_dimen_30"
         android:layout_marginLeft="@dimen/home_dimen_30"
@@ -61,7 +67,7 @@
         <TextView
             android:id="@+id/day"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/home_text_size_80"
+            android:textSize="42sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -69,6 +75,7 @@
 
         <LinearLayout
             android:layout_marginLeft="@dimen/home_dimen_15"
+            android:layout_marginStart="@dimen/home_dimen_15"
             android:layout_gravity="center_vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -84,8 +91,8 @@
 
             <TextView
                 android:id="@+id/wealth"
-                android:layout_marginTop="@dimen/home_dimen_10"
                 android:textSize="@dimen/home_text_size_28"
+                android:contentDescription="@null"
                 android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -130,15 +137,28 @@
                 android:paddingRight="10dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/home_dimen_20"
+                android:layout_marginStart="@dimen/home_dimen_20"
                 tools:text="不宜打药" />
         </LinearLayout>
 
     </LinearLayout>
-    <View
-        android:background="#159e13"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/home_dimen_line_height_1"/>
+    <!--<View-->
+        <!--android:background="#159e13"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/home_dimen_line_height_1"/>-->
 
+    <TextView
+        android:id="@+id/task_title"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:text="我的待办田事"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/home_text_size_36"
+        android:layout_marginLeft="@dimen/home_dimen_30"
+        android:layout_marginRight="@dimen/home_dimen_30"
+        android:paddingBottom="15dp"
+        />
     <LinearLayout
         android:id="@+id/campaign"
         android:minHeight="0dp"

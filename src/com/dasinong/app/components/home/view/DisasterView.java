@@ -30,8 +30,10 @@ import com.dasinong.app.database.disaster.dao.impl.PetDisspecDaoImpl;
 import com.dasinong.app.database.disaster.domain.PetDisspec;
 import com.dasinong.app.ui.HarmDetialsActivity;
 import com.dasinong.app.ui.HarmListActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -64,7 +66,7 @@ public class DisasterView extends LinearLayout {
 
     private int mPetDisasterRes;
 
-    private PetDisspecDaoImpl dao;
+
 
 
     public DisasterView(Context context) {
@@ -95,9 +97,9 @@ public class DisasterView extends LinearLayout {
 
         initBottomView();
 
-        //updateView(null, null);
 
-        dao = new PetDisspecDaoImpl(this.getContext());
+
+
 
     }
 
@@ -129,11 +131,11 @@ public class DisasterView extends LinearLayout {
     public synchronized void updateView(List<FieldEntity.CurrentFieldEntity.Petdisspecws> list, List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
 
         this.removeAllViews();
-        addTopView();
-        if ((list == null || list.isEmpty()) && (petdiswsEntities == null && petdiswsEntities.isEmpty())) {
+
+        if ((list == null || list.isEmpty()) && (petdiswsEntities == null||petdiswsEntities.isEmpty())) {
             return;
         }
-
+        addTopView();
 
         updatePetdisspecws(list);
 
@@ -188,19 +190,24 @@ public class DisasterView extends LinearLayout {
         type.setBackgroundResource(R.drawable.natdisaster_bg);
 
 
-        type.setText("易发"+getDisasterString(item.type));
+        type.setText("近期易发"+getDisasterString(item.type));
         icon.setImageResource(getDisasterIcon(item.type));
 
         desc.setText(item.sympton);
 
-
+        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.id ,item.petDisSpecName));
+        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.id ,item.petDisSpecName));
         child.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //TODO: flag editor
-                //TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
-                Intent intent = HarmDetialsActivity.createIntent(2000, HarmDetialsActivity.FLAG_ITEM, getContext());
+            	
+            	//友盟统计自定义统计事件
+            	HashMap<String,String> map = new HashMap<String,String>();
+            	map.put("name",item.petDisSpecName);
+            	MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialItem",map);
+
+                Intent intent = HarmDetialsActivity.createIntent(item.id, HarmDetialsActivity.FLAG_ITEM, getContext());
                 getContext().startActivity(intent);
 
             }
@@ -239,17 +246,21 @@ public class DisasterView extends LinearLayout {
 
         type.setText(getDisasterString(item.type) + "预警");
         icon.setImageResource(getDisasterIcon(item.type));
-
+        
+        
         desc.setText(item.description);
-
-
+        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.id , item.petDisSpecName));
+        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.id ,item.petDisSpecName));
         child.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //TODO: flag editor
-                //TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
-                Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_ITEM, getContext());
+                //DONE
+            	//友盟统计自定义统计事件
+            	HashMap<String,String> map = new HashMap<String,String>();
+            	map.put("name",item.petDisSpecName);
+            	MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialItem",map);
+                Intent intent = HarmDetialsActivity.createIntent(item.id, HarmDetialsActivity.FLAG_ITEM, getContext());
                 getContext().startActivity(intent);
 
             }
@@ -283,6 +294,10 @@ public class DisasterView extends LinearLayout {
     class BottomClickListener implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+        	
+        	//友盟统计自定义统计事件
+        	MobclickAgent.onEvent(DisasterView.this.getContext(), "MoreHarm");
+        	
             Intent intent = new Intent(v.getContext(), HarmListActivity.class);
             v.getContext().startActivity(intent);
         }
@@ -290,36 +305,47 @@ public class DisasterView extends LinearLayout {
 
     class PreVentClickListener implements View.OnClickListener {
 
-        private int petDisspecId;
+        private int id;
+        private String name;
 
-        public PreVentClickListener(int petDisspecId) {
-            this.petDisspecId = petDisspecId;
-
+        public PreVentClickListener(int id , String petDisSpecName) {
+            this.id = id;
+            this.name = petDisSpecName;
         }
 
         @Override
         public void onClick(View v) {
             //需要标明你是点击防治，预防，还是该条item跳进来的
-            //TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
-            Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_PREVENT, getContext());
+        	
+        	//友盟统计自定义统计事件
+        	HashMap<String,String> map = new HashMap<String,String>();
+        	map.put("name",name);
+        	MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialPrevent",map);
+        	
+            Intent intent = HarmDetialsActivity.createIntent(id, HarmDetialsActivity.FLAG_PREVENT, getContext());
             v.getContext().startActivity(intent);
 
         }
     }
 
     class CureClickListener implements View.OnClickListener {
-        private int petDisspecId;
+        private int id;
+        private String name;
 
-        public CureClickListener(int petDisspecId) {
-            this.petDisspecId = petDisspecId;
-
+        public CureClickListener(int id , String petDisSpecName) {
+            this.id = id;
+            this.name = petDisSpecName;
         }
 
         @Override
         public void onClick(View v) {
+        	
+        	//友盟统计自定义统计事件
+        	HashMap<String,String> map = new HashMap<String,String>();
+        	map.put("name",name);
+        	MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialCure",map);
 
-            //TODO : 修改petDisSpecId 为正常值（该方法第一个参数即为petDisSpecId）
-            Intent intent = HarmDetialsActivity.createIntent(16, HarmDetialsActivity.FLAG_CURE, getContext());
+            Intent intent = HarmDetialsActivity.createIntent(id, HarmDetialsActivity.FLAG_CURE, getContext());
             v.getContext().startActivity(intent);
         }
     }

@@ -46,6 +46,9 @@
     <dimen name="expand_tab_eara_height">380dp</dimen>
     <dimen name="head_bar_height">45dp</dimen>
     <!-- 上传图片 -->
-    <dimen name="ui_10_dip">10dip</dimen> 
+    <dimen name="ui_10_dip">10dip</dimen>
+    <dimen name="image_size">120dp</dimen>
+    <dimen name="space_size">2dp</dimen>
+    <dimen name="folder_cover_size">72dp</dimen>
 
 </resources>

@@ -50,16 +50,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/lyWeather"
-        android:layout_marginLeft="@dimen/home_dimen_75"
+        android:layout_marginLeft="@dimen/home_dimen_55"
 
         android:layout_marginTop="@dimen/home_dimen_25"
         android:orientation="horizontal">
 
-        <ImageView
-            android:layout_width="@dimen/home_dimen_10"
-            android:layout_height="match_parent"/>
 
         <TextView
+            android:drawableLeft="@drawable/hitemp"
+            android:drawablePadding="10dp"
             android:id="@+id/weather_max"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,11 +68,13 @@
             android:textSize="@dimen/home_text_size_32"/>
 
         <ImageView
-            android:layout_width="@dimen/home_dimen_10"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/home_dimen_50"/>
+            android:layout_width="@dimen/home_dimen_30"
+            android:layout_height="match_parent"/>
+
 
         <TextView
+            android:drawablePadding="10dp"
+            android:drawableLeft="@drawable/lowtemp"
             android:id="@+id/weather_min"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -93,18 +94,33 @@
         android:orientation="horizontal"
         android:paddingBottom="@dimen/home_dimen_60">
 
-        <TextView
-            android:id="@+id/tvTemperature"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:includeFontPadding="false"
+        <LinearLayout
 
-            android:minHeight="0dp"
-            android:padding="0dp"
+            android:layout_weight="1.0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
 
-            android:textColor="@color/home_w_black"
-            android:textSize="100sp"
-            tool:text="30°"/>
+            <TextView
+                android:id="@+id/tvTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:minHeight="0dp"
+                android:padding="0dp"
+                android:textColor="@color/home_w_black"
+                android:textSize="100sp"
+                tool:text="30"/>
+
+            <TextView
+                android:layout_gravity="right"
+                android:text="°c"
+                android:paddingTop="15dp"
+                android:textSize="35sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
 
         <View
             android:layout_width="1dp"
@@ -118,7 +134,8 @@
             />
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_weight="1.0"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -187,7 +204,7 @@
                     android:layout_below="@id/tvRainfall"
                     android:layout_marginTop="@dimen/home_dimen_10"
                     android:layout_toRightOf="@id/ivRainfall"
-                    android:text=""
+                    android:text="降水量"
                     android:textColor="@color/home_w_666666"
                     android:textSize="@dimen/home_text_size_28"/>
 
@@ -224,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
 
-                android:text="早上"/>
+                android:text="早上降水"/>
 
             <ImageView
                 android:id="@+id/icon_weather_morning"
@@ -263,7 +280,7 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="下午"/>
+                android:text="下午降水"/>
 
 
             <ImageView
@@ -303,7 +320,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="晚间"/>
+                android:text="晚间降水"/>
 
             <ImageView
                 android:id="@+id/icon_weather_night"
@@ -342,7 +359,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
-                android:text="子夜"/>
+                android:text="半夜降水"/>
 
             <ImageView
                 android:id="@+id/icon_weather_midnight"

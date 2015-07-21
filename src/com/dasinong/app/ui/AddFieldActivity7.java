@@ -66,9 +66,9 @@ public class AddFieldActivity7 extends BaseActivity {
 									showToast("请求成功");
 									long fieldId = ((AddFieldEntity) resultData).data.fieldId;
 									int monitorLocationId = ((AddFieldEntity) resultData).data.monitorLocationId;
-									
+
 									SharedPreferencesHelper.setLong(AddFieldActivity7.this, SharedPreferencesHelper.Field.FIELDID, fieldId);
-									SharedPreferencesHelper.setInt(AddFieldActivity7.this, "FIELD_"+fieldId, monitorLocationId);
+									SharedPreferencesHelper.setInt(AddFieldActivity7.this, "FIELD_" + fieldId, monitorLocationId);
 									backToHome();
 									dismissLoadingDialog();
 								} else {
@@ -82,7 +82,6 @@ public class AddFieldActivity7 extends BaseActivity {
 								dismissLoadingDialog();
 								showToast("请求失败，请检查网络或稍候再试");
 							}
-
 						});
 			}
 		});

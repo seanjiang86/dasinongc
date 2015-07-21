@@ -1,34 +1,60 @@
-# Android generated
-/TODO
-bin/
-gen/
-.settings/
-doc/*.txt # 会忽略 doc/notes.txt 但不包括 doc/server/arch.txt
 
-# Ant
-build.xml
-local.properties
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/bin/
+/gen
 
-# Maven
-target/
-pom.xml.*
-release.properties
-
-# Eclipse
-.classpath
-.project
-.externalToolBuilders/
-
-# IntelliJ
-*.iml
-*.ipr
-*.iws
-.idea/
-out/
-
-# Mac 
-.DS_Store
-
-# Ignore gradle files
-.gradle/
-build/
+/.classpath
+/bin

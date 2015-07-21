@@ -65,10 +65,7 @@ public class FieldEntity extends BaseResponse {
         public String fieldName;
 
 
-        public int  daytoharvest;    //int只给 离收获还有多少天（）(小于0不显示)
-
-        public boolean workable;//不宜下地
-        public boolean sprayable;//不宜打药
+        public int  daytoharvest;    //int只给 离收获boo还有多少天（）(小于0不显示)
 
 
 
@@ -93,7 +90,7 @@ public class FieldEntity extends BaseResponse {
 
             public boolean petDisStatus;
             public String petDisSpecName;
-            public int petDisSpecId;
+            public int id;
             public int fieldId;
             public int petDisId;
             public  String description;
@@ -120,7 +117,7 @@ public class FieldEntity extends BaseResponse {
 
             public boolean petDisStatus;
             public String petDisSpecName;
-            public int petDisSpecId;
+            public int id;
             public int fieldId;
             public int petDisId;
             public  String sympton;

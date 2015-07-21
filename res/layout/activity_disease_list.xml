@@ -11,6 +11,13 @@
         android:layout_height="wrap_content" >
     </com.dasinong.app.ui.view.TopbarView>
 
-    
+    <ListView 
+        android:id="@+id/list_sms_list"
+        android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:cacheColorHint="@android:color/transparent"
+    	android:divider="@android:color/transparent"
+    	android:scrollbars="none"
+        ></ListView>
     
 </LinearLayout>

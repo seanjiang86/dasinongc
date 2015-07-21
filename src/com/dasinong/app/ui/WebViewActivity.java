@@ -114,7 +114,6 @@ public class WebViewActivity extends BaseActivity {
 	class MyWebChromeClient extends WebChromeClient{
 		@Override
 		public void onProgressChanged(WebView view, int newProgress) {
-			// TODO MING 进度条是否需要
 			System.out.println(newProgress);
 		}
 	}

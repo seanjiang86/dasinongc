@@ -1,6 +1,7 @@
 package com.dasinong.app.ui;
 
 import com.dasinong.app.R;
+import com.dasinong.app.database.encyclopedias.PetdisspecbrowseDao;
 import com.dasinong.app.ui.view.TopbarView;
 
 import android.content.Intent;
@@ -40,7 +41,6 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 		
 		initView();
 		setUpView();
-		
 	}
 
 	private void initView() {

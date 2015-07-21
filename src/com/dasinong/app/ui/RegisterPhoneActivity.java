@@ -300,10 +300,9 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	private String[] getCurrentCountry() {
 		String mcc = getMCC();
 		String[] country = null;
-		if (!TextUtils.isEmpty(mcc)) {
-			country = SMSSDK.getCountryByMCC(mcc);
-		}
-
+//		if (!TextUtils.isEmpty(mcc)) {
+//			country = SMSSDK.getCountryByMCC(mcc);
+//		}
 		if (country == null) {
 			Log.w("SMSSDK", "no country found by MCC: " + mcc);
 			country = SMSSDK.getCountry(DEFAULT_COUNTRY_ID);
@@ -515,6 +514,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 			// Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
 			// }
 			showToast(R.string.smssdk_write_mobile_phone);
+			dismissLoadingDialog();
 			return;
 		}
 
@@ -530,6 +530,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 			// }
 
 			showToast(R.string.smssdk_write_right_mobile_phone);
+			dismissLoadingDialog();
 			return;
 		}
 		// showDialog(phone, code);
