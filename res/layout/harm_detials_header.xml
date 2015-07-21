@@ -38,8 +38,20 @@
         android:id="@+id/iv_pic"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:layout_margin="15dp" />
-
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:scaleType="fitXY" />
+	
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="20dp"
+        android:text="为害症状"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/color_333333" />
+    
     <TextView
         android:id="@+id/tv_harm_des"
         android:layout_width="match_parent"

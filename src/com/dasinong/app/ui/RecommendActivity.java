@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.dasinong.app.R;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.google.zxing.WriterException;
 import com.zxing.encoding.EncodingHandler;
 
@@ -18,9 +20,13 @@ public class RecommendActivity extends BaseActivity {
 		setContentView(R.layout.activity_create_qrcoder);
 		qr_coder = (ImageView) findViewById(R.id.qr_coder);
 		
+		// TODO MING 使用真实下载链接,此地不对
 		
-		// TODO MING:生成二维码,修改为用户id
-		Bitmap bitmap = creatQRCoder("你好世界" , 300);
+		String userId = SharedPreferencesHelper.getString(this, Field.USER_ID, "");
+		
+		showToast("修改真实链接"+userId);
+		
+		Bitmap bitmap = creatQRCoder(userId , 300);
 		
 		qr_coder.setImageBitmap(bitmap);
 	}
