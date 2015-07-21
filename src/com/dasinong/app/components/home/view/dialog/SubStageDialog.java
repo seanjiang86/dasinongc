@@ -3,11 +3,13 @@ package com.dasinong.app.components.home.view.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.dasinong.app.R;
@@ -22,7 +24,7 @@ import java.util.List;
 /**
  * @author
  */
-public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClickListener {
+public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClickListener, View.OnClickListener {
 
     private ViewGroup contentView;
 
@@ -30,6 +32,9 @@ public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClic
 
     private List<SubStage> mSubStageList;
 
+    private int mCurrentPosition;
+
+    public OnItemClickLisenter mOnItemClickLisenter;
 
     public SubStageDialog(Context context) {
         super(context);
@@ -44,9 +49,8 @@ public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClic
 
     @Override
     protected void initView() {
-        mListView = (ListView)contentView.findViewById(R.id.substage_listview);
-        mListView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        mListView.setOnItemClickListener(this);
+        mListView = (ListView) contentView.findViewById(R.id.substage_listview);
+
     }
 
     @Override
@@ -55,8 +59,9 @@ public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClic
 
     }
 
-    public void setDataSource(List<SubStage> subStages){
+    public void setDataSource(List<SubStage> subStages, int position) {
         this.mSubStageList = subStages;
+        mCurrentPosition = position;
         mListView.setAdapter(new CommonAdapter<SubStage>(mSubStageList) {
             @Override
             protected int getResourceId() {
@@ -64,27 +69,64 @@ public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClic
             }
 
             @Override
-            protected void updateView(SubStage result, ViewHolder viewHolder) {
-
-
-                viewHolder.setTextValue(R.id.substage_item_text,result.subStageName);
+            protected void updateView(SubStage result, ViewHolder viewHolder, int position) {
+                viewHolder.setTextValue(R.id.substage_item_text, result.subStageName);
+                RadioButton radioButton = viewHolder.getView(R.id.rb_check);
+                if (mCurrentPosition == position) {
+                    radioButton.setChecked(true);
+                } else {
+                    radioButton.setChecked(false);
+                }
 
             }
         });
 
-    }
 
+    }
 
 
     @Override
     protected void setListener() {
-
-
+        mListView.setOnItemClickListener(this);
+        findViewById(R.id.substage_ok).setOnClickListener(this);
+        findViewById(R.id.substage_cancel).setOnClickListener(this);
     }
 
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        CommonAdapter adapter = (CommonAdapter) parent.getAdapter();
+        mCurrentPosition = position;
+        adapter.notifyDataSetChanged();
 
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.substage_ok:
+
+                if (mOnItemClickLisenter != null) {
+                    mOnItemClickLisenter.onItemClick(mCurrentPosition);
+                }
+
+                this.dismiss();
+                break;
+            case R.id.substage_cancel:
+                this.dismiss();
+                break;
+        }
+    }
+
+    public void setOnItemClickLisenter(OnItemClickLisenter lisenter) {
+        this.mOnItemClickLisenter = lisenter;
+
+    }
+
+
+    public interface OnItemClickLisenter {
+
+        public void onItemClick(int position);
+    }
+
 }

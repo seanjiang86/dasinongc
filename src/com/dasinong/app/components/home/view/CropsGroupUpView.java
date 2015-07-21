@@ -34,14 +34,13 @@ import java.util.TreeMap;
  */
 public class CropsGroupUpView extends LinearLayout implements View.OnClickListener {
     //收获时间，时候时间右侧的状态，添加作物view(当没有作物的时候显示),叶子后面的内容
-    private TextView  addCropView;//leafContent;
+    private TextView addCropView;//leafContent;
     //正常view的父View,没有作物的parent
     private View normalParentView, addCropViewParent;
 
     //添加农作物
     private MyAddCropOnClickListener onAddCropClickListener;
-    //private ImageView leftArrowView, rightArrowView;
-    // private ConfirmDialog confirmDialog;
+
     private SubStageDialog confirmDialog;
     private int mCurrentPostion;
     private List<SubStage> mSubStages;
@@ -194,10 +193,10 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
 
         initDialog();
-        if(confirmDialog.isShowing()){
+        if (confirmDialog.isShowing()) {
             return;
         }
-        confirmDialog.setDataSource(mSubStages);
+        confirmDialog.setDataSource(mSubStages, mCurrentPostion);
         confirmDialog.show();
 
 
@@ -206,7 +205,21 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     private void initDialog() {
         if (null == confirmDialog) {
             confirmDialog = new SubStageDialog(getContext());
+            confirmDialog.setOnItemClickLisenter(new SubStageDialog.OnItemClickLisenter() {
+                @Override
+                public void onItemClick(int position) {
 
+                    if (mCurrentPostion == position) {
+                        return;
+                    }
+                    mCurrentPostion = position;
+                    mSubStageName.setText("水稻" + mSubStages.get(position).stageName);
+                    normalParentView.setVisibility(VISIBLE);
+                    onAddCropClickListener.onArrowViewClick(position);
+
+
+                }
+            });
         }
 
     }
@@ -221,7 +234,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         this.onAddCropClickListener = onAddCropClickListener;
     }
 
-    public void setPostionAndList(int mPosition, List<SubStage> mSubStageLists) {
+    public void setPositionAndList(int mPosition, List<SubStage> mSubStageLists) {
 
         this.mCurrentPostion = mPosition;
         this.mSubStages = mSubStageLists;
@@ -235,7 +248,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
 
         } else {
-            mSubStageName.setText("水稻"+mSubStageLists.get(mPosition).subStageName);
+            mSubStageName.setText("水稻" + mSubStageLists.get(mPosition).subStageName);
             mSubStageName.setOnClickListener(this);
             normalParentView.setVisibility(VISIBLE);
 
@@ -264,102 +277,13 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         }
     }
 
-
-    static {
-
-        cropIconResource.put(35, R.drawable.sowbefore);
-        cropIconResource.put(36, R.drawable.sow);
-        cropIconResource.put(37, R.drawable.germination);
-        cropIconResource.put(38, R.drawable.leafe);
-
-
-        cropIconResource.put(39, R.drawable.twiceleafe);
-        cropIconResource.put(40, R.drawable.threeleafe);
-
-        cropIconResource.put(41, R.drawable.pretransplant);
-        cropIconResource.put(42, R.drawable.transplant);
-
-
-        cropIconResource.put(43, R.drawable.seedling);
-
-
-        cropIconResource.put(44, R.drawable.tillering);
-        cropIconResource.put(45, R.drawable.twicetillering);
-        cropIconResource.put(46, R.drawable.threetillering);
-
-
-        cropIconResource.put(47, R.drawable.fourperiod);
-        cropIconResource.put(48, R.drawable.threeperiod);
-        cropIconResource.put(49, R.drawable.twoperiod);
-        cropIconResource.put(50, R.drawable.oneperiod);
-
-
-        cropIconResource.put(51, R.drawable.flowerhead);
-        cropIconResource.put(52, R.drawable.head);
-        cropIconResource.put(53, R.drawable.fullhead);
-
-        cropIconResource.put(54, R.drawable.startfill);
-        cropIconResource.put(55, R.drawable.fill);
-        cropIconResource.put(56, R.drawable.fillstage);
-        cropIconResource.put(57, R.drawable.yellowfill);
-
-
-        cropIconResource.put(58, R.drawable.lastbefore);
-        cropIconResource.put(59, R.drawable.last);
-
-
-        //非点亮
-        cropNoIconResource.put(35, R.drawable.sowbeforeno);
-        cropNoIconResource.put(36, R.drawable.sowno);
-        cropNoIconResource.put(37, R.drawable.germinationno);
-        cropNoIconResource.put(38, R.drawable.leafeno);
-
-
-        cropNoIconResource.put(39, R.drawable.twiceleafeno);
-        cropNoIconResource.put(40, R.drawable.threeleafeno);
-
-        cropNoIconResource.put(41, R.drawable.pretransplantno);
-        cropNoIconResource.put(42, R.drawable.transplantno);
-
-
-        cropNoIconResource.put(43, R.drawable.seedlingno);
-
-
-        cropNoIconResource.put(44, R.drawable.tilleringno);
-        cropNoIconResource.put(45, R.drawable.twicetilleringno);
-        cropNoIconResource.put(46, R.drawable.threetilleringno);
-
-
-        cropNoIconResource.put(47, R.drawable.fourperiodno);
-        cropNoIconResource.put(48, R.drawable.threeperiodno);
-        cropNoIconResource.put(49, R.drawable.twoperiodno);
-        cropNoIconResource.put(50, R.drawable.oneperiodno);
-
-
-        cropNoIconResource.put(51, R.drawable.flowerheadno);
-        cropNoIconResource.put(52, R.drawable.headno);
-        cropNoIconResource.put(53, R.drawable.fullheadno);
-
-        cropNoIconResource.put(54, R.drawable.startfillno);
-        cropNoIconResource.put(55, R.drawable.fillno);
-        cropNoIconResource.put(56, R.drawable.fillstageno);
-        cropNoIconResource.put(57, R.drawable.yellowfillno);
-
-
-        cropNoIconResource.put(58, R.drawable.lastbeforeno);
-        cropNoIconResource.put(59, R.drawable.lastno);
-
-
-    }
-
-
     private void showRemindDialog(String title, String content, String sureButton, String cancelButton, final MyDialogClickListener dialogClickListener) {
         final Dialog dialog = new Dialog(getContext(), R.style.CommonDialog);
         dialog.setContentView(R.layout.confirm_gps_network_dialog);
         TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
         TextView tv_title = (TextView) dialog.findViewById(R.id.tv_dialog_title);
 
-        System.out.println(tv_title + "tv _ title");
+
 
         tv_title.setText(title);
         tv.setTextSize(22);

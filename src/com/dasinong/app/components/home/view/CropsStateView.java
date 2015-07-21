@@ -32,7 +32,6 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.utils.DeviceHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -282,7 +281,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         }
 
 
-        fieldStateView.setPostionAndList(currentPosition, mSubStageLists);
+        fieldStateView.setPositionAndList(currentPosition, mSubStageLists);
 
     }
 

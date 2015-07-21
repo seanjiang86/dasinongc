@@ -27,41 +27,44 @@
         android:overScrollFooter="@android:color/transparent"
         android:overScrollHeader="@android:color/transparent" />
 
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:minHeight="50dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:minHeight="50dp">
 
+
+        <View
+            android:id="@+id/id_divider"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true" />
+
+        <Button
+            android:id="@+id/substage_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/id_divider"
+            android:background="@drawable/button_white_bg_selector"
+            android:gravity="center"
+            android:text="暂不修改"
+            android:textColor="@color/color_098AF1"
+            android:textSize="16sp" />
 
 
         <Button
             android:id="@+id/substage_ok"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.0"
-            android:gravity="center"
-            android:text="暂不修改"
-            android:background="@drawable/button_white_bg_selector"
-            android:textColor="@color/color_098AF1"
-            android:textSize="16sp" />
-
-
-        <Button
-            android:id="@+id/substage_cancel"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
+            android:layout_toRightOf="@id/id_divider"
             android:layout_weight="1.0"
-            android:gravity="center"
             android:background="@drawable/button_white_bg_selector"
+            android:gravity="center"
             android:text="确定"
             android:textColor="@color/color_098AF1"
             android:textSize="16sp" />
 
-    </LinearLayout>
-
-
+    </RelativeLayout>
 
 
 </LinearLayout>
