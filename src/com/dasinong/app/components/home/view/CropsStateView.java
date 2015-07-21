@@ -169,7 +169,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         initFieldName();
         initTask();
         mFieldNameView.setText(defaultLocation);
-        //daf
+
         mFieldNameView.setCompoundDrawablesWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.gps),null);
         if (!AccountManager.isLogin(this.getContext())) {
             mNoLogin.setVisibility(View.VISIBLE);
@@ -229,8 +229,11 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     
     //设置是否适合下地
     public void updateWorkStage(WeatherEntity entity) {
-        setWorkState(entity.workable, entity.sprayable);
-        System.out.println(entity.workable + "   " + entity.sprayable);
+        if(entity!=null){
+            setWorkState(entity.workable, entity.sprayable);
+        }
+
+
     }
 
     private void initTask() {
@@ -555,7 +558,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                     return;
                 }
                 mCurrentFieldName = fieldName.toString();
-                DEBUG("" + fieldName.toString());
+
                 updateFieldName();
                 popWindow.disMiss();
                 if (null != onAddFieldClickListener) {
