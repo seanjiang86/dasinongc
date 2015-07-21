@@ -637,6 +637,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
                     mOpenSevenDays.setText(getContext().getString(R.string.weather_close_one_week, weatherCount));
                 }
                 break;
+            default:
+                break;
         }
     }
 

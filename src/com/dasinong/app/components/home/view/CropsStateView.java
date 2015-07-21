@@ -533,6 +533,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 }
 
                 break;
+            default:
+                break;
+
         }
     }
 

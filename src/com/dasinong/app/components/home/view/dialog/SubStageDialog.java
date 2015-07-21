@@ -109,6 +109,8 @@ public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClic
             case R.id.substage_cancel:
                 this.dismiss();
                 break;
+            default:
+                break;
         }
     }
 
