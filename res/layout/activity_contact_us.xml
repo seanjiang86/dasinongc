@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.dasinong.app.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.dasinong.app.ui.view.TopbarView>
+
+    <ImageView
+        android:layout_width="165dp"
+        android:layout_height="145dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/close_eye_smile" />
+
+    <Button
+        android:id="@+id/btn_send_email"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_green_bg_selector"
+        android:text="给我们写信"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="@dimen/sp_16" />
+
+    <Button
+        android:id="@+id/btn_call_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/button_white_bg_selector"
+        android:text="联系客服"
+        android:textColor="#1768bc"
+        android:textSize="@dimen/home_text_size_32" />
+
+</LinearLayout>

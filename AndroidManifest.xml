@@ -115,6 +115,10 @@
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
             android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait" />
+        <activity android:name="com.dasinong.app.ui.ContactUsActivity"
+            android:screenOrientation="portrait"/>
+        
+        
         <activity
             android:name=".ui.RegisterActivity"
             android:screenOrientation="portrait" >
