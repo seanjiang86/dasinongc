@@ -34,7 +34,7 @@ import java.util.TreeMap;
  */
 public class CropsGroupUpView extends LinearLayout implements View.OnClickListener {
     //收获时间，时候时间右侧的状态，添加作物view(当没有作物的时候显示),叶子后面的内容
-    private TextView addCropView;//leafContent;
+
     //正常view的父View,没有作物的parent
     private View normalParentView, addCropViewParent;
 
@@ -53,7 +53,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     private static TreeMap<Integer, Integer> cropNoIconResource = new TreeMap<Integer, Integer>();
 
-    private boolean isLeft;
+
 
     private static final String TAG = "CropsGroupUpView";
 
@@ -80,7 +80,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         normalParentView = rootView.findViewById(R.id.normal_state);
 
         addCropViewParent = rootView.findViewById(R.id.add_crop_parent);
-        addCropView = (TextView) rootView.findViewById(R.id.add_crop);
 
         mSubStageName = (TextView) findViewById(R.id.substage_name_text);
 
@@ -138,6 +137,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
             case R.id.substage_name_text:
                 showDialog();
+                break;
+            default:
                 break;
         }
     }
