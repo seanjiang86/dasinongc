@@ -3,6 +3,7 @@ package com.dasinong.app.ui.fragment;
 import com.dasinong.app.R;
 import com.dasinong.app.ui.AuthCodeActivity;
 import com.dasinong.app.ui.CaptureActivity;
+import com.dasinong.app.ui.ContactUsActivity;
 import com.dasinong.app.ui.MyInfoActivity;
 import com.dasinong.app.ui.RecommendActivity;
 import com.dasinong.app.ui.RegisterPasswordActivity;
@@ -178,7 +179,8 @@ public class MeFragment extends Fragment implements OnClickListener {
 			getActivity().startActivity(lIntent);
 			break;
 		case R.id.layout_contact_us:// 联系我们
-
+			Intent contactIntent = new Intent(getActivity(), ContactUsActivity.class);
+			getActivity().startActivity(contactIntent);
 			break;
 		case R.id.layout_check_update:// 检查更新
 			
