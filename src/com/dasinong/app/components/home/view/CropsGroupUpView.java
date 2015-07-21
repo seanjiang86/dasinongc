@@ -214,13 +214,14 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                         return;
                     }
                     mCurrentPostion = position;
-                    mSubStageName.setText("水稻" + mSubStages.get(position).stageName);
+                    mSubStageName.setText("水稻" + mSubStages.get(position).subStageName);
                     normalParentView.setVisibility(VISIBLE);
                     onAddCropClickListener.onArrowViewClick(position);
 
 
                 }
             });
+
         }
 
     }
