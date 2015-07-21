@@ -44,7 +44,7 @@ public class HarmAdapter<T> extends MyBaseAdapter<T> {
 		
 		LoadUtils.getInstance().loadImage(holder.iv_harm_pic, NetConfig.PET_IMAGE+path);
 		holder.tv_harm_name.setText(pet.petDisSpecName);
-		holder.tv_harm_des.setText(pet.sympthon);
+		holder.tv_harm_des.setText(pet.sympthon.replace("[为害症状]", ""));
 
 		return view;
 	}

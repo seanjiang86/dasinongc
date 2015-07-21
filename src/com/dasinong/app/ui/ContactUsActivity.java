@@ -3,6 +3,7 @@ package com.dasinong.app.ui;
 import java.util.Date;
 
 import com.dasinong.app.R;
+import com.dasinong.app.ui.view.TopbarView;
 import com.mob.tools.utils.Data;
 
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 public class ContactUsActivity extends BaseActivity {
 	private TextView btn_send_email;
 	private TextView btn_call_phone;
+	private TopbarView topBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -24,6 +26,9 @@ public class ContactUsActivity extends BaseActivity {
 		
 		btn_send_email = (TextView) findViewById(R.id.btn_send_email);
 		btn_call_phone = (TextView) findViewById(R.id.btn_call_phone);
+		topBar = (TopbarView) findViewById(R.id.topbar);
+		
+		initTopBar();
 		
 		
 		btn_send_email.setOnClickListener(new OnClickListener() {
@@ -65,5 +70,10 @@ public class ContactUsActivity extends BaseActivity {
 				}
 			}
 		});
+	}
+
+	private void initTopBar() {
+		topBar.setCenterText("联系我们");
+		topBar.setLeftView(true, true);
 	}
 }

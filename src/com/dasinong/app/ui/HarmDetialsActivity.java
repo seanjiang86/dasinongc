@@ -176,7 +176,7 @@ public class HarmDetialsActivity extends BaseActivity {
 		detial.data.petDisSpec.imagePath = pet.pictureIds;
 		detial.data.petDisSpec.petDisSpecName = pet.petDisSpecName;
 		detial.data.petDisSpec.rule = pet.rules;
-		detial.data.petDisSpec.sympton = pet.sympthon;
+		detial.data.petDisSpec.sympton = pet.sympthon.replace("[为害症状]", "");
 
 		// 获取治疗方案
 		locaPetSoluList = manager.getCureSolution(petDisSpecId);

@@ -23,6 +23,7 @@ import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
+import com.umeng.update.UmengUpdateAgent;
 /**
  * @ClassName MainTabActivity
  * @author ysl
@@ -53,6 +54,7 @@ public class MainTabActivity extends BaseActivity {
 		initData();
 		initView();
 		initLocation();
+		
 		// startLoadingDialog();
 
 		// if(getIntent() != null){
