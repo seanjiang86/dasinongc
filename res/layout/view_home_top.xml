@@ -67,7 +67,7 @@
         <TextView
             android:id="@+id/day"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/home_text_size_80"
+            android:textSize="42sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -142,10 +142,10 @@
         </LinearLayout>
 
     </LinearLayout>
-    <View
-        android:background="#159e13"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/home_dimen_line_height_1"/>
+    <!--<View-->
+        <!--android:background="#159e13"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/home_dimen_line_height_1"/>-->
 
     <TextView
         android:id="@+id/task_title"

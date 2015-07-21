@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="@drawable/button_white_bg_selector"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    android:background="@drawable/button_white_bg_selector"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,8 +23,8 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:layout_weight="1.0"
-				android:layout_gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
@@ -33,24 +32,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/disaster_bg"
+                    android:paddingBottom="5dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
+                    android:text="病害预警"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/home_text_size_26"
-
-                    android:text="病害预警" />
+                    android:textSize="@dimen/home_text_size_32" />
 
                 <TextView
                     android:id="@+id/disaster_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:includeFontPadding="false"
+                    tools:text="稻瘟病"
                     android:textColor="#333333"
-                    android:textSize="@dimen/home_text_size_36"
-                    android:text="稻瘟病" />
+                    android:textSize="@dimen/home_text_size_40" />
 
             </LinearLayout>
 
@@ -67,14 +65,14 @@
             android:id="@+id/disaster_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
+            android:ellipsize="end"
             android:lineSpacingExtra="@dimen/home_dimen_10"
+            android:maxLines="5"
             android:textColor="#333333"
             android:textSize="@dimen/home_text_size_32"
-            android:maxLines="2"
-            android:ellipsize="end"
 
-        android:text="稻瘟病是水稻重要病害之一 可引起大幅度减产，严重时减产40%～50%，甚至颗粒无收。世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多，发生后可造成不同程度减产可造成白穗以致绝产。" />
+            tools:text="稻瘟病是水稻重要病害之一 可引起大幅度减产，严重时减产40%～50%，甚至颗粒无收。世界各稻区均匀发生。本病在各地均有发生，其中以叶部、节部发生为多，发生后可造成不同程度减产可造成白穗以致绝产。" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -86,9 +84,11 @@
                 android:id="@+id/disaster_prevent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:text="我要预防"
                 android:textColor="#1768bc"
                 android:textSize="@dimen/home_text_size_32"
-                android:text="我要预防"
                 tools:text="我要预防"
                 tools:visibility="visible" />
 
@@ -97,9 +97,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/home_dimen_80"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:text="我要治疗"
                 android:textColor="#1768bc"
                 android:textSize="@dimen/home_text_size_32"
-                android:text="我要治疗"
                 tools:text="我要治疗" />
 
 
