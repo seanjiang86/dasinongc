@@ -205,7 +205,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     private void initDialog() {
         if (null == confirmDialog) {
             confirmDialog = new SubStageDialog(getContext());
-            confirmDialog.setOnItemClickLisenter(new SubStageDialog.OnItemClickLisenter() {
+            confirmDialog.setOnItemClickListener(new SubStageDialog.OnItemClickListener() {
                 @Override
                 public void onItemClick(int position) {
 

@@ -1,22 +1,16 @@
 package com.dasinong.app.components.home.view.dialog;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
-import android.widget.TextView;
 
 import com.dasinong.app.R;
 import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.ui.soil.adapter.CommonAdapter;
 import com.dasinong.app.ui.soil.adapter.ViewHolder.ViewHolder;
-import com.dasinong.app.ui.soil.domain.DataEntity;
 
 import java.util.List;
 
@@ -34,7 +28,7 @@ public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClic
 
     private int mCurrentPosition;
 
-    public OnItemClickLisenter mOnItemClickLisenter;
+    public OnItemClickListener mOnItemClickLisenter;
 
     public SubStageDialog(Context context) {
         super(context);
@@ -118,15 +112,15 @@ public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClic
         }
     }
 
-    public void setOnItemClickLisenter(OnItemClickLisenter lisenter) {
-        this.mOnItemClickLisenter = lisenter;
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.mOnItemClickLisenter = listener;
 
     }
 
 
-    public interface OnItemClickLisenter {
+    public interface OnItemClickListener {
 
-        public void onItemClick(int position);
+         void onItemClick(int position);
     }
 
 }
