@@ -69,37 +69,52 @@
             android:theme="@android:style/Theme.NoTitleBar" >
         </activity>
         -->
-        <activity android:name=".ui.HarmListActivity" />
-        <activity android:name=".ui.HarmDetialsActivity" />
-        <activity android:name=".ui.CureDetialActivity" />
-        <activity android:name=".ui.AddFieldActivity1" />
-        <activity android:name=".ui.AddFieldActivity2" />
-        <activity android:name=".ui.AddFieldActivity3" />
-        <activity android:name=".ui.AddFieldActivity4" />
-        <activity android:name=".ui.AddFieldActivity8" />
-        <activity android:name=".ui.AddFieldActivity5" />
-        <activity android:name=".ui.AddFieldActivity6" />
-        <activity android:name=".ui.AddFieldActivity7" />
+        <activity android:name=".ui.HarmListActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.HarmDetialsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.CureDetialActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.AddFieldActivity1"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.AddFieldActivity2"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.AddFieldActivity3"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.AddFieldActivity4"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.AddFieldActivity8"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.AddFieldActivity5"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.AddFieldActivity6"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.AddFieldActivity7"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ReportHarmActivity"
-            android:launchMode="singleTask" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.ScanQRCoderActivity"
-            android:theme="@style/AppBaseTheme" />
+            android:theme="@style/AppBaseTheme"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.CaptureActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppBaseTheme"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-        </activity>
-        <activity android:name=".ui.RecommendActivity" />
-        <activity android:name=".ui.WebViewActivity" />
-        <activity android:name="com.king.photo.activity.GalleryActivity" >
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".ui.RecommendActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.WebViewActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name="com.king.photo.activity.GalleryActivity"
+            android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name="me.nereo.multi_image_selector.MultiImageSelectorActivity"
-            android:configChanges="orientation|screenSize" />
+            android:configChanges="orientation|screenSize"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.RegisterActivity"
             android:screenOrientation="portrait" >

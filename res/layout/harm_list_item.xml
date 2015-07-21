@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="130dp"
     android:orientation="horizontal"
+    android:paddingTop="20dp"
     android:background="@drawable/button_white_bg_selector" >
 
     <ImageView
@@ -11,15 +12,14 @@
         android:layout_height="100dp"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
-        android:src="@drawable/test_pic" />
+        android:src="@drawable/test_pic"
+        android:scaleType="fitXY" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="15dp"
         android:layout_marginRight="15dp"
         android:orientation="vertical" >
 
@@ -35,7 +35,7 @@
             android:id="@+id/tv_harm_des"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="15dp"
             android:ellipsize="end"
             android:maxLines="3"
             android:text="你好，你好你好，你好，年号抚摸过宠物要记得及时，，您的退款申请已提交,退步要过分的亲密宠物"

@@ -249,7 +249,7 @@ public class HarmDetialsActivity extends BaseActivity {
 		tv_harm_name.setText(detial.data.petDisSpec.petDisSpecName);
 		// TODO MING:等待真实数据
 		rb_harm_grade.setRating(3);
-		String sympton = "[为害症状]\n" + detial.data.petDisSpec.sympton;
+		String sympton = detial.data.petDisSpec.sympton;
 
 		tv_harm_des.setText(sympton);
 
