@@ -53,12 +53,12 @@ public abstract class CommonAdapter<T> extends BaseAdapter {
         }
 
         T result = mData.get(position);
-        updateView(result, viewHolder);
+        updateView(result, viewHolder,position);
         return viewHolder.getRootView();
     }
 
     protected abstract int getResourceId();
 
 
-    protected abstract void updateView(T result, ViewHolder viewHolder);
+    protected abstract void updateView(T result, ViewHolder viewHolder,int position);
 }

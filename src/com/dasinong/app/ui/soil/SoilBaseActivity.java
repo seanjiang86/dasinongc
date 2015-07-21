@@ -23,7 +23,6 @@ public abstract class SoilBaseActivity extends BaseActivity implements INetReque
         setContentView(R.layout.activity_soil_base);
         initTopBar();
         LinearLayout container = (LinearLayout) findViewById(R.id.soil_container);
-        getMainResourceId();
         View root = View.inflate(this, getMainResourceId(), null);
         container.addView(root, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         initView();

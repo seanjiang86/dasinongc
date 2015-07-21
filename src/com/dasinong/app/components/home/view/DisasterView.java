@@ -66,7 +66,7 @@ public class DisasterView extends LinearLayout {
 
     private int mPetDisasterRes;
 
-    private PetDisspecDaoImpl dao;
+
 
 
     public DisasterView(Context context) {
@@ -97,9 +97,9 @@ public class DisasterView extends LinearLayout {
 
         initBottomView();
 
-        //updateView(null, null);
 
-        dao = new PetDisspecDaoImpl(this.getContext());
+
+
 
     }
 
