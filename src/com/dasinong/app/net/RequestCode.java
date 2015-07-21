@@ -81,4 +81,6 @@ public final class RequestCode {
 	 * 获取指定病虫草害解决方案所需药物
 	 */
 	public static final int  GET_PET_SOLU= GET_PET_DIS_SPEC_DETIAL + 1;
+	public static final int  PETDIS_BYTYPE= GET_PET_SOLU + 1;
+	public static final int  CPPRODUCT_BYMODEL= PETDIS_BYTYPE + 1;
 }

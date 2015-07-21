@@ -161,6 +161,26 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name=".ui.EncyclopediasPesticideActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.EncyclopediasDiseaseActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.EncyclopediasVarietiesActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.SearchDiseaseResultActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.SearchPesticideResultActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@android:style/Theme.NoTitleBar"

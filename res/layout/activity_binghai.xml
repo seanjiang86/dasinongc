@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@android:color/transparent"
-                android:hint="搜索种子、病虫草害、药物信息"
+                android:hint="搜索病虫草害"
                 android:imeOptions="actionSearch"
                 android:singleLine="true" />
         </LinearLayout>
@@ -69,7 +69,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="品种大全"
+                android:text="病害"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_18" />
 
@@ -77,7 +77,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="找到最合适您的优良品种"
+                android:text="认识各种疾病"
                 android:textColor="@color/color_999999"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>
@@ -122,7 +122,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="农药大全"
+                android:text="虫害"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_18" />
 
@@ -130,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="上万种农药和使用方法"
+                android:text="认识各种害虫"
                 android:textColor="@color/color_999999"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>
@@ -175,7 +175,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="病虫草害大全"
+                android:text="草害"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_18" />
 
@@ -183,7 +183,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="植物保护的必备大全"
+                android:text="认识各种杂草"
                 android:textColor="@color/color_999999"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>

@@ -1,6 +1,9 @@
 package com.dasinong.app.ui.fragment;
 
 import com.dasinong.app.R;
+import com.dasinong.app.ui.EncyclopediasDiseaseActivity;
+import com.dasinong.app.ui.EncyclopediasPesticideActivity;
+import com.dasinong.app.ui.EncyclopediasVarietiesActivity;
 import com.dasinong.app.ui.ReportHarmActivity;
 import com.dasinong.app.ui.SearchResultActivity;
 import com.dasinong.app.ui.view.TopbarView;
@@ -46,6 +49,8 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 
 	private EditText mSearchEdit;
 	private RelativeLayout mAskforLayout;
+	private RelativeLayout mNongyaoLayout;
+	private RelativeLayout mBinghaiLayout;
 	private RelativeLayout mIntelligentLayout;
 	
 	private ImageView mSearchView;
@@ -79,6 +84,8 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 		mTopbarView = (TopbarView) mContentView.findViewById(R.id.topbar);
 		mSearchEdit = (EditText) mContentView.findViewById(R.id.edittext_search);
 		mAskforLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_ask_for);
+		mNongyaoLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_nongyao);
+		mBinghaiLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_bingchongcaohai);
 		mIntelligentLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_intelligent);
 		mSearchView = (ImageView) mContentView.findViewById(R.id.imageview_search);
 	}
@@ -88,6 +95,8 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 		mTopbarView.setCenterText("百科");
 		
 		mAskforLayout.setOnClickListener(this);
+		mNongyaoLayout.setOnClickListener(this);
+		mBinghaiLayout.setOnClickListener(this);
 		mIntelligentLayout.setOnClickListener(this);
 		
 		mSearchEdit.setOnKeyListener(new OnKeyListener() {
@@ -133,9 +142,16 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_ask_for:
-			Intent intent = new Intent(getActivity(),ReportHarmActivity.class);
-			intent.putExtra("title", "诊断病虫草害");
+			Intent intent = new Intent(getActivity(),EncyclopediasVarietiesActivity.class);
 			getActivity().startActivity(intent);
+			break;
+		case R.id.layout_nongyao:
+			Intent pesticideIntent = new Intent(getActivity(),EncyclopediasPesticideActivity.class);
+			getActivity().startActivity(pesticideIntent);
+			break;
+		case R.id.layout_bingchongcaohai:
+			Intent diseaseIntent = new Intent(getActivity(),EncyclopediasDiseaseActivity.class);
+			getActivity().startActivity(diseaseIntent);
 			break;
 		case R.id.layout_intelligent:
 			showNotifyDialog();
