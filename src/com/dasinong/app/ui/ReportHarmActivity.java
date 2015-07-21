@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.nereo.multi_image_selector.MultiImageSelectorActivity;
+import me.nereo.multi_image_selector.utils.FileUtils;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -35,19 +36,14 @@ import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
 
-import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
-import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
-import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
-import com.dasinong.app.utils.Logger;
 import com.king.photo.activity.GalleryActivity;
-import com.king.photo.util.FileUtils;
 import com.liam.imageload.LoadUtils;
 
 public class ReportHarmActivity extends BaseActivity {
@@ -87,22 +83,25 @@ public class ReportHarmActivity extends BaseActivity {
 	// 农事操作
 	private String fieldOperations = "";
 	private long fieldId;
-	
+
 	public static final int REQUEST_IMAGE = 0;
 
 	public static final int SCAN_IMAGE = 1;
 
 	public static final String CURRENT_LIST = "paths";
-	
+
 	public static final int MAX_NUM = 6;
 
+	private ArrayList<String> newPahts;
+	
 	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			String path = (String) msg.obj;
-			paths.add(path);
+			newPahts = new ArrayList<String>();
+			newPahts.add(path);
 			flag++;
 			if (flag == paths.size()) {
-				// upLoadImages();
+				 upLoadImages(newPahts);
 			}
 			super.handleMessage(msg);
 		}
@@ -132,8 +131,6 @@ public class ReportHarmActivity extends BaseActivity {
 				intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
 				// 设置默认选择
 				if (paths != null && paths.size() > 0) {
-					// intent.putExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST,
-					// paths);
 					intent.putStringArrayListExtra(MultiImageSelectorActivity.EXTRA_DEFAULT_SELECTED_LIST, paths);
 				}
 				startActivityForResult(intent, REQUEST_IMAGE);
@@ -180,27 +177,26 @@ public class ReportHarmActivity extends BaseActivity {
 				}
 				startLoadingDialog();
 				// 压缩图片
-				// new Thread(new Runnable() {
-				// @Override
-				// public void run() {
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						for (int i = 0; i < paths.size(); i++) {
+							String fileName = String.valueOf(System.currentTimeMillis());
+							FileUtils.saveBitmap(paths.get(i), fileName);
 
-				//
-				// }
-				// }).start();
-				ArrayList<String> newPaths = new ArrayList<String>();
-				for (int i = 0; i < paths.size(); i++) {
-					System.out.println("size   ================= " + paths.size() + "               " + "i =========== " + i);
-					String fileName = String.valueOf(System.currentTimeMillis());
-					FileUtils.saveBitmap(paths.get(i), fileName);
-					// Message msg = handler.obtainMessage();
-					// msg.what = 1;
-					// msg.obj = FileUtils.SDPATH + fileName + ".JPEG";
-					// handler.sendMessage(msg);
+							Message msg = handler.obtainMessage();
+							msg.what = 1;
+							msg.obj = FileUtils.SDPATH + fileName + ".JPEG";
+							handler.sendMessage(msg);
 
-					newPaths.add(FileUtils.SDPATH + fileName + ".JPEG");
-				}
+							// newPaths.add(FileUtils.SDPATH + fileName +
+							// ".JPEG");
+						}
+					}
+				}).start();
+				// ArrayList<String> newPaths = new ArrayList<String>();
 
-				upLoadImages(newPaths);
+				// upLoadImages(newPaths);
 			}
 		});
 
@@ -326,14 +322,21 @@ public class ReportHarmActivity extends BaseActivity {
 							showToast("上传失败");
 							dismissLoadingDialog();
 						}
+						clearList();
 					}
 
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
+						dismissLoadingDialog();
 						showToast("网络异常，请检测您的网络或稍后再试");
+						clearList();
 						error.printStackTrace();
 					}
 				});
+	}
+
+	protected void clearList() {
+		newPahts.clear();
 	}
 
 	public void initGridView() {
@@ -358,7 +361,8 @@ public class ReportHarmActivity extends BaseActivity {
 
 	public class GridAdapter extends BaseAdapter {
 		private LayoutInflater inflater;
-//		private int selectedPosition = -1;
+
+		// private int selectedPosition = -1;
 
 		public GridAdapter(Context context) {
 			inflater = LayoutInflater.from(context);

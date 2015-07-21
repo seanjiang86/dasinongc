@@ -47,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="25dp"
         android:text="为害症状"
         android:textSize="@dimen/sp_16"
         android:textColor="@color/color_333333" />
@@ -58,7 +58,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:lineSpacingExtra="11dp"
         android:text="我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，"
         android:textColor="@color/color_333333"
