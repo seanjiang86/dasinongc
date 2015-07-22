@@ -19,6 +19,9 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 	private ListView mListview;
 	
 	private Handler mHandler = new Handler();
+
+	private String type;
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -33,10 +36,13 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 	}
 
 	private void initData() {
+		
+		type = getIntent().getStringExtra("type");
+		
 		new Thread(){
 			public void run() {
 				PetdisspecbrowseDao dao = new PetdisspecbrowseDao(SearchDiseaseResultActivity.this);
-				final List<Petdisspecbrowse> query = dao.query("虫害");
+				final List<Petdisspecbrowse> query = dao.query(type);
 				mHandler.post(new Runnable() {
 					
 					@Override

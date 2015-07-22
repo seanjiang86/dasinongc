@@ -150,21 +150,20 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_ask_for:
-//			Intent intent = new Intent(getActivity(),EncyclopediasVarietiesActivity.class);
 			//友盟统计自定义统计事件
 			MobclickAgent.onEvent(getActivity(), "AskFor");
-//			getActivity().startActivity(intent);
+			Intent intent = new Intent(getActivity(),EncyclopediasVarietiesActivity.class);
+			getActivity().startActivity(intent);
 			break;
 		case R.id.layout_nongyao:
-//			Intent pesticideIntent = new Intent(getActivity(),EncyclopediasPesticideActivity.class);
-//			getActivity().startActivity(pesticideIntent);
+			Intent pesticideIntent = new Intent(getActivity(),EncyclopediasPesticideActivity.class);
+			getActivity().startActivity(pesticideIntent);
 			break;
 		case R.id.layout_bingchongcaohai:
-//			Intent diseaseIntent = new Intent(getActivity(),EncyclopediasDiseaseActivity.class);
-//			getActivity().startActivity(diseaseIntent);
+			Intent diseaseIntent = new Intent(getActivity(),EncyclopediasDiseaseActivity.class);
+			getActivity().startActivity(diseaseIntent);
 			break;
 		case R.id.layout_intelligent:
-			
 			//友盟统计自定义统计事件
 			MobclickAgent.onEvent(getActivity(), "Intelligent");
 			
