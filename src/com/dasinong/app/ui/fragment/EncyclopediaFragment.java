@@ -154,14 +154,17 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 			//友盟统计自定义统计事件
 			MobclickAgent.onEvent(getActivity(), "AskFor");
 //			getActivity().startActivity(intent);
+			showNotifyDialog();
 			break;
 		case R.id.layout_nongyao:
 //			Intent pesticideIntent = new Intent(getActivity(),EncyclopediasPesticideActivity.class);
 //			getActivity().startActivity(pesticideIntent);
-			break;
+			showNotifyDialog();
+			break; 
 		case R.id.layout_bingchongcaohai:
 //			Intent diseaseIntent = new Intent(getActivity(),EncyclopediasDiseaseActivity.class);
 //			getActivity().startActivity(diseaseIntent);
+			showNotifyDialog();
 			break;
 		case R.id.layout_intelligent:
 			
@@ -177,7 +180,7 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 		final Dialog dialog = new Dialog(getActivity(), R.style.CommonDialog);
 		dialog.setContentView(R.layout.smssdk_back_verify_dialog);
 		TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
-		tv.setText("此功能稍后推出,敬请期待...");
+		tv.setText("可以直接搜索关键字哦，其他功能很快开放");
 		tv.setTextSize(18);
 		Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
 		waitBtn.setText("知道了");
