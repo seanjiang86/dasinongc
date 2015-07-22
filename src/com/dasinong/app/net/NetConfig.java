@@ -24,15 +24,8 @@ import com.dasinong.app.utils.StringHelper;
 public class NetConfig {
 
 //	public static final String BASE_URL = "http://115.29.111.179/ploughHelper/";
-	// TODO MING :本地测试使用
-//	public static final String BASE_URL = "http://192.168.1.199:8080/ploughHelper/";
-	
-//	public static final String BASE_URL = "http://182.254.129.101:8080/ploughHelper/";
-//	public static final String IMAGE_URL = "http://182.254.129.101:8080/avater/";
-//	public static final String PET_IMAGE = "http://182.254.129.101:8080/pic/";
-//	public static final String BAIKE_URL = "http://182.254.129.101:8080/ploughHelper/baike?";
-	
 	public static final String BASE_URL = "http://120.26.208.198:8080/ploughHelper/";
+	
 	public static final String IMAGE_URL = "http://120.26.208.198:8080/avater/";
 	public static final String PET_IMAGE = "http://120.26.208.198:8080/pic/";
 	public static final String BAIKE_URL = "http://120.26.208.198:8080/ploughHelper/baike?";
@@ -104,6 +97,10 @@ public class NetConfig {
 		public static final String GET_PET_DIS_SPEC_DETIAL ="getPetDisSpecDetial";
 		/**获取相关药物*/
 		public static final String GET_PET_SOLU ="getPetSolu";
+		/**百科-获取病虫草害*/
+		public static final String PETDIS_BYTYPE ="browsePetDisByType";
+		/**百科-农药*/
+		public static final String CPPRODUCT_BYMODEL ="browseCPProductByModel";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -163,6 +160,8 @@ public class NetConfig {
 		public static final String taskSpecId = "taskSpecId";
 		public static final String petDisSpecId = "petDisSpecId";
 		public static final String petSoluId = "petSoluId";
+		public static final String type = "type";
+		public static final String model = "model";
 		
 	}
 	
@@ -454,6 +453,16 @@ public class NetConfig {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		String strPetSoluId = String.valueOf(petSoluId);
 		paramsMap.put(Params.petSoluId, strPetSoluId);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> browsePetDisByTypeParams(String type) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.type, type);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> browseCPProductByModelParams(String model) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.model, model);
 		return getBaseParams(false, paramsMap);
 	}
 	

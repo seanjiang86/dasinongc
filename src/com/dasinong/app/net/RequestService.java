@@ -195,4 +195,12 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getGetPetSolu(petSoluId);
 		new NetRequest(context).get(RequestCode.GET_PET_SOLU, params, SubUrl.GET_PET_SOLU, callBack, clazz);
 	}
+	public void browsePetDisByType(Context context, String type ,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.browsePetDisByTypeParams(type);
+		new NetRequest(context).get(RequestCode.PETDIS_BYTYPE, params, SubUrl.PETDIS_BYTYPE, callBack, clazz);
+	}
+	public void browseCPProductByModel(Context context, String type ,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.browseCPProductByModelParams(type);
+		new NetRequest(context).get(RequestCode.CPPRODUCT_BYMODEL, params, SubUrl.CPPRODUCT_BYMODEL, callBack, clazz);
+	}
 }
