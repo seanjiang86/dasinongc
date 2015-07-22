@@ -1,5 +1,6 @@
 package com.dasinong.app.ui.fragment;
 
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.ui.AuthCodeActivity;
 import com.dasinong.app.ui.CaptureActivity;
@@ -208,7 +209,7 @@ public class MeFragment extends Fragment implements OnClickListener {
 				public void onUpdateReturned(int updateStatus,UpdateResponse updateInfo) {
 					switch (updateStatus) {
 					case UpdateStatus.Yes: // has update
-						UmengUpdateAgent.showUpdateDialog(getActivity(), updateInfo);
+						UmengUpdateAgent.showUpdateDialog(DsnApplication.getContext(), updateInfo);
 						break;
 					case UpdateStatus.No: // has no update
 						Toast.makeText(getActivity(), "没有更新", Toast.LENGTH_SHORT).show();

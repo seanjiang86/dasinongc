@@ -55,6 +55,10 @@ public class MainTabActivity extends BaseActivity {
 		initView();
 		initLocation();
 		
+		// 友盟更新
+		UmengUpdateAgent.update(this);
+		UmengUpdateAgent.setUpdateOnlyWifi(false);
+		
 		// startLoadingDialog();
 
 		// if(getIntent() != null){
