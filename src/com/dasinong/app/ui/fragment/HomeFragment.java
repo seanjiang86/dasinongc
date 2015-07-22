@@ -102,7 +102,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     private String mUserID;
 
-    private String mAddress;
+    private String mAddress ="";
 
     @Override
     public void onAttach(Activity activity) {
@@ -442,7 +442,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
             //get postion
             if (mMotionId == DEFAULT_FIELD_ID) {
-
                 int position = 0;
                 if (userFields != null) {
                     for (int i = 0; i < userFields.length; i++) {
