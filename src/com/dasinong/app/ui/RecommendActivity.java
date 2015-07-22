@@ -4,9 +4,11 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.utils.GraphicUtils;
 import com.google.zxing.WriterException;
 import com.zxing.encoding.EncodingHandler;
 
@@ -22,18 +24,16 @@ public class RecommendActivity extends BaseActivity {
 		
 		// TODO MING 使用真实下载链接,此地不对
 		
-		String userId = SharedPreferencesHelper.getString(this, Field.USER_ID, "");
+		String userId = SharedPreferencesHelper.getString(this, Field.USER_PHONE, "");
 		
-		showToast("修改真实链接"+userId);
-		
-		Bitmap bitmap = creatQRCoder(userId , 300);
+		Bitmap bitmap = creatQRCoder("http://a.app.qq.com/o/simple.jsp?pkgname=com.dasinong.app" , 300);
 		
 		qr_coder.setImageBitmap(bitmap);
 	}
 
 	private Bitmap creatQRCoder(String url , int size) {
 		try {
-			return EncodingHandler.createQRCode(url,300);
+			return EncodingHandler.createQRCode(url,GraphicUtils.dip2px(this, 300));
 		} catch (WriterException e) {
 			e.printStackTrace();
 		}

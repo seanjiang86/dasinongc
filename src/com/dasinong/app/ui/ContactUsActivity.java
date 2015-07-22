@@ -64,7 +64,7 @@ public class ContactUsActivity extends BaseActivity {
 					intent.setAction(Intent.ACTION_CALL);
 					//设置要拨打的电话号号码
 					// TODO MING:400电话
-					intent.setData(Uri.parse("tel:13137736397"));//uriString的格式为“tel:电话号码”
+					intent.setData(Uri.parse("tel:4000556050"));//uriString的格式为“tel:电话号码”
 					//开始调整到打电话的活动
 					startActivity(intent);
 				}
