@@ -1,5 +1,6 @@
 package com.dasinong.app.ui.fragment;
 
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.ui.AuthCodeActivity;
 import com.dasinong.app.ui.CaptureActivity;
@@ -12,6 +13,7 @@ import com.dasinong.app.ui.RegisterPhoneActivity;
 import com.dasinong.app.ui.SmsSettingActivity;
 import com.dasinong.app.ui.SmsSubscribeActivity;
 import com.dasinong.app.ui.TaskDetailsActivity;
+import com.dasinong.app.ui.WebBrowserActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.view.TopbarView;
 
@@ -169,9 +171,13 @@ public class MeFragment extends Fragment implements OnClickListener {
 
 			// 友盟统计自定义统计事件
 			MobclickAgent.onEvent(getActivity(), "HelpCenter");
+			Intent helpIntent = new Intent(getActivity(), WebBrowserActivity.class);
+			helpIntent.putExtra("url", "file:///android_asset/HelpCenter.html");
+			helpIntent.putExtra("title", "帮助中心");
+			startActivity(helpIntent);
 
-			Intent loginIntent = new Intent(getActivity(), RegisterPhoneActivity.class);
-			getActivity().startActivity(loginIntent);
+//			Intent loginIntent = new Intent(getActivity(), RegisterPhoneActivity.class);
+//			getActivity().startActivity(loginIntent);
 			break;
 		case R.id.layout_use:// 使用教程
 
@@ -203,7 +209,7 @@ public class MeFragment extends Fragment implements OnClickListener {
 				public void onUpdateReturned(int updateStatus,UpdateResponse updateInfo) {
 					switch (updateStatus) {
 					case UpdateStatus.Yes: // has update
-						UmengUpdateAgent.showUpdateDialog(getActivity(), updateInfo);
+						UmengUpdateAgent.showUpdateDialog(DsnApplication.getContext(), updateInfo);
 						break;
 					case UpdateStatus.No: // has no update
 						Toast.makeText(getActivity(), "没有更新", Toast.LENGTH_SHORT).show();
