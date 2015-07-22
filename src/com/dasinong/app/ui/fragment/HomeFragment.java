@@ -314,6 +314,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     @Override
     public void onResume() {
         super.onResume();
+        Log.e("TAG", "onResume");
         String currentUserID = SharedPreferencesHelper.getString(getActivity().getApplicationContext(), SharedPreferencesHelper.Field.USER_ID, "");
         if (!mUserID.equals(currentUserID)) {
             mUserID = currentUserID;
@@ -423,35 +424,41 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     private void readFieldFromLocal() {
         mMotionId = SharedPreferencesHelper.getInt(this.getActivity(), "FIELD_" + mFiledId, -1);
+
         String[] userFields = AccountManager.getUserFields(this.getActivity().getApplicationContext());
         String[] motionIds = AccountManager.getLocations(this.getActivity().getApplicationContext());
         if (mFiledId == DEFAULT_FIELD_ID) {
+
             if (userFields != null && userFields.length > 0) {
                 mFiledId = Long.parseLong(userFields[0].trim());
             }
 
             if (motionIds != null && motionIds.length > 0) {
-                DEBUG("motionID:" + motionIds[0]);
+
                 mMotionId = Integer.parseInt(motionIds[0]);
                 SharedPreferencesHelper.setInt(this.getActivity(), "FIELD_" + mFiledId, mMotionId);
             }
         } else {
+
             //get postion
-            int position = 0;
-            if (userFields != null) {
-                for (int i = 0; i < userFields.length; i++) {
-                    if (Long.parseLong(userFields[i]) == mFiledId) {
-                        position = i;
-                        break;
+            if (mMotionId == DEFAULT_FIELD_ID) {
+
+                int position = 0;
+                if (userFields != null) {
+                    for (int i = 0; i < userFields.length; i++) {
+                        if (Long.parseLong(userFields[i]) == mFiledId) {
+                            position = i;
+                            break;
+                        }
                     }
                 }
-            }
 
-            if (userFields != null && position < userFields.length) {
-                mMotionId = Integer.parseInt(motionIds[position]);
-                SharedPreferencesHelper.setInt(this.getActivity(), "FIELD_" + mFiledId, mMotionId);
-            } else {
-                mMotionId = (int) DEFAULT_FIELD_ID;
+                if (motionIds != null && position < motionIds.length) {
+                    mMotionId = Integer.parseInt(motionIds[position]);
+                    SharedPreferencesHelper.setInt(this.getActivity(), "FIELD_" + mFiledId, mMotionId);
+                } else {
+                    mMotionId = (int) DEFAULT_FIELD_ID;
+                }
             }
         }
     }
