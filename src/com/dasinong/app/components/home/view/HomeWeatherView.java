@@ -199,7 +199,6 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
         mLayoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         weeks = getResources().getStringArray(R.array.weeks);
-        //winds = getResources().getStringArray(R.array.wind);
         windDirect = getResources().getStringArray(R.array.winddirect);
 
         mRoot = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather, null);
