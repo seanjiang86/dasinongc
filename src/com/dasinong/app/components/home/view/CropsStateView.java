@@ -169,8 +169,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         initFieldName();
         initTask();
         mFieldNameView.setText(defaultLocation);
-
-        mFieldNameView.setCompoundDrawablesWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.gps),null);
+        mFieldNameView.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.gps), null);
         if (!AccountManager.isLogin(this.getContext())) {
             mNoLogin.setVisibility(View.VISIBLE);
             mImageAddField.setVisibility(View.GONE);
@@ -200,7 +199,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             updateFieldName();
             //设置当前是否是个打药，适合下地干活
 
-            //setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
 
             updateFieldTimeAndStage(entity.currentField);
             //任务相关的
@@ -226,10 +224,10 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 
     }
-    
+
     //设置是否适合下地
     public void updateWorkStage(WeatherEntity entity) {
-        if(entity!=null){
+        if (entity != null) {
             setWorkState(entity.workable, entity.sprayable);
         }
 
@@ -253,12 +251,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             return;
         }
 
-
-
-
-        //设置当前是否是个打药，适合下地干活
-        //DONE
-        //setWorkState(currentFieldEntity.workable, currentFieldEntity.sprayable);
         //DONE 状态
         mCurrentSubStage = getCurrentStage(currentFieldEntity.currentStageID);
 
@@ -287,8 +279,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         fieldStateView.setPositionAndList(currentPosition, mSubStageLists);
 
     }
-
-
 
 
     private void updateFieldName() {
@@ -391,8 +381,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         mAllTasks.put(mCurrentSubStage.subStageId, status);
         return mAllTasks.get(mCurrentSubStage.subStageId);
     }
-
-
 
 
     //给日期，星期和天气设置相对应的值
@@ -520,7 +508,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                     }
                 } else {
                     //TODO Ming 待确定文字
-                    showRemindDialog("无法获取当前位置","请前往“设置”打开GPS卫星，设置完成后点”返回“键就可以回到今日农事","前往设置","暂不开启", new MyDialogClickListener() {
+                    showRemindDialog("无法获取当前位置", "请前往“设置”打开GPS卫星，设置完成后点”返回“键就可以回到今日农事", "前往设置", "暂不开启", new MyDialogClickListener() {
 
                         @Override
                         public void onSureButtonClick() {
@@ -631,8 +619,19 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         }
         campaignView.setOrientation(LinearLayout.VERTICAL);
         campaignView.removeAllViews();
+
+        if (mCurrentTaskSpec == null || mCurrentTaskSpec.isEmpty()) {
+            mTaskTitle.setVisibility(View.GONE);
+            campaignView.setVisibility(View.GONE);
+            campaignView.setOrientation(LinearLayout.VERTICAL);
+            campaignView.removeAllViews();
+            campaignView.setVisibility(View.GONE);
+            mTaskTitle.setVisibility(View.GONE);
+            return;
+        }
+
         int length = mCurrentTaskSpec.size();
-        DEBUG("length:" + length);
+
         for (int i = 0; i < length; i++) {
             final TaskStatus item = mCurrentTaskSpec.get(i);
             final View view = LayoutInflater.from(context).inflate(R.layout.view_home_work_content, null);
@@ -667,10 +666,10 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                     TaskStatus item = (TaskStatus) view.getTag();
                     item.isCheck = checkedView.isSelected();
                     int childCount = campaignView.getChildCount();
-                    View child;
+
                     List<TaskStatus> lists = new ArrayList<TaskStatus>();
                     for (int i = 0; i < childCount; i++) {
-                        child = campaignView.getChildAt(i);
+
                         lists.add((TaskStatus) view.getTag());
                     }
 
@@ -680,6 +679,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             });
 
             campaignView.addView(view);
+            mTaskTitle.setVisibility(View.VISIBLE);
 
 
         }
@@ -713,11 +713,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         Gson gson = new Gson();
         SharedPreferencesHelper.setString(this.getContext(), key, gson.toJson(lists));
 
-        DEBUG(lists.toString());
-        DEBUG(lists.size() + "");
-        for (int i = 0; i < lists.size(); i++) {
-            DEBUG("status:" + lists.get(i).isCheck);
-        }
 
     }
 
@@ -738,8 +733,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         dialog.setContentView(R.layout.confirm_gps_network_dialog);
         TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
         TextView tv_title = (TextView) dialog.findViewById(R.id.tv_dialog_title);
-
-        System.out.println(tv_title + "tv _ title");
 
         tv_title.setText(title);
         tv.setTextSize(22);
@@ -768,9 +761,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     }
 
     public interface MyDialogClickListener {
-        public void onSureButtonClick();
+        void onSureButtonClick();
 
-        public void onCancelButtonClick();
+        void onCancelButtonClick();
     }
 
 }
