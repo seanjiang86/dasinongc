@@ -75,7 +75,7 @@
 
             <EditText
                 android:id="@+id/et_field_size"
-                android:layout_width="278dp"
+                android:layout_width="275dp"
                 android:layout_height="45dp"
                 android:background="@drawable/text_bg"
                 android:hint="农田多大呀?例如100"

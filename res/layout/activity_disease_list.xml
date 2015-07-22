@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -16,8 +16,18 @@
         android:layout_width="match_parent"
     	android:layout_height="match_parent"
     	android:cacheColorHint="@android:color/transparent"
-    	android:divider="@android:color/transparent"
+    	android:divider="@color/color_DCE3E6"
+    	android:dividerHeight="0.5dp"
     	android:scrollbars="none"
+    	android:layout_below="@+id/topbar"
         ></ListView>
     
-</LinearLayout>
+    <com.dasinong.app.ui.view.LetterView
+        android:id="@+id/letterview"
+        android:layout_width="30dp"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/topbar" 
+        android:layout_above="@+id/tv_num"/>
+    
+</RelativeLayout>

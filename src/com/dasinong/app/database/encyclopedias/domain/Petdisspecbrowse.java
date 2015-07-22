@@ -7,4 +7,7 @@ public class Petdisspecbrowse {
 	public String petDisSpecName;
 	public String petDisSpecNamePY;
 	
+	public boolean isTitle;
+	public String title;
+	
 }

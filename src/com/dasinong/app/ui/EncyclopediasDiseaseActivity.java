@@ -54,7 +54,8 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 	}
 
 	private void setUpView() {
-mTopbarView.setCenterText("百科");
+		mTopbarView.setCenterText("病虫草害大全");
+		mTopbarView.setLeftView(true, true);
 		
 		mAskforLayout.setOnClickListener(this);
 		mNongyaoLayout.setOnClickListener(this);

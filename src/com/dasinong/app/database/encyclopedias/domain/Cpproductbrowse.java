@@ -1,6 +1,8 @@
 package com.dasinong.app.database.encyclopedias.domain;
 
-public class Cpproductbrowse {
+import com.dasinong.app.entity.BaseEntity;
+
+public class Cpproductbrowse  extends BaseEntity{
 
 	public int cPProductId;
 	public String model;

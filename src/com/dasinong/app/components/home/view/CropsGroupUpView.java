@@ -3,18 +3,15 @@ package com.dasinong.app.components.home.view;
 
 import android.app.Dialog;
 import android.content.Context;
-
 import android.content.Intent;
 import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Log;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
@@ -33,16 +30,14 @@ import java.util.TreeMap;
  * Created by lnn on 15/6/2.
  */
 public class CropsGroupUpView extends LinearLayout implements View.OnClickListener {
-    //收获时间，时候时间右侧的状态，添加作物view(当没有作物的时候显示),叶子后面的内容
-
     //正常view的父View,没有作物的parent
-    private View normalParentView, addCropViewParent;
+    private View normalParentView;
 
     //添加农作物
     private MyAddCropOnClickListener onAddCropClickListener;
 
     private SubStageDialog confirmDialog;
-    private int mCurrentPostion;
+    private int mCurrentPosition;
     private List<SubStage> mSubStages;
 
     private TextView mSubStageName;
@@ -52,7 +47,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
 
     private static TreeMap<Integer, Integer> cropNoIconResource = new TreeMap<Integer, Integer>();
-
 
 
     private static final String TAG = "CropsGroupUpView";
@@ -79,7 +73,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         View rootView = LayoutInflater.from(context).inflate(R.layout.view_home_top_work_content, this);
         normalParentView = rootView.findViewById(R.id.normal_state);
 
-        addCropViewParent = rootView.findViewById(R.id.add_crop_parent);
+        // addCropViewParent = rootView.findViewById(R.id.add_crop_parent);
 
         mSubStageName = (TextView) findViewById(R.id.substage_name_text);
 
@@ -91,7 +85,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     }
 
     private void setEvent() {
-        addCropViewParent.setOnClickListener(this);
+
 
     }
 
@@ -99,40 +93,33 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     public void showNormalStatus() {
         normalParentView.setVisibility(View.VISIBLE);
         mNoLoginView.setVisibility(View.GONE);
-        addCropViewParent.setVisibility(View.GONE);
+
     }
 
     public void showNOFieldStatus() {
         normalParentView.setVisibility(View.GONE);
-        mNoLoginView.setVisibility(View.GONE);
-        addCropViewParent.setVisibility(View.VISIBLE);
+        mNoLoginView.setVisibility(View.VISIBLE);
+        showNOLogin();
     }
 
     public void showNOLogin() {
         normalParentView.setVisibility(View.GONE);
         mNoLoginView.setVisibility(View.VISIBLE);
-        addCropViewParent.setVisibility(View.GONE);
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.add_crop_parent:
-                // 添加作物
+            case R.id.no_login_container_content:
+                //no login || no field
                 final Context context = getContext();
-                // TODO: 15/7/7 add crop
-
-                // 友盟自定义事件统计
-                MobclickAgent.onEvent(context, "BigButtonAddField");
+                if (AccountManager.isLogin(context)) {
+                    MobclickAgent.onEvent(context, "BigButtonAddField");
+                }
 
                 startAddFieldActivity(context);
 
-                break;
-
-            case R.id.no_login_container_content:
-                //no login
-                startAddFieldActivity(this.getContext());
                 break;
 
             case R.id.substage_name_text:
@@ -197,7 +184,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         if (confirmDialog.isShowing()) {
             return;
         }
-        confirmDialog.setDataSource(mSubStages, mCurrentPostion);
+        confirmDialog.setDataSource(mSubStages, mCurrentPosition);
         confirmDialog.show();
 
 
@@ -210,10 +197,10 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 @Override
                 public void onItemClick(int position) {
 
-                    if (mCurrentPostion == position) {
+                    if (mCurrentPosition == position) {
                         return;
                     }
-                    mCurrentPostion = position;
+                    mCurrentPosition = position;
                     mSubStageName.setText("水稻" + mSubStages.get(position).subStageName);
                     normalParentView.setVisibility(VISIBLE);
                     onAddCropClickListener.onArrowViewClick(position);
@@ -238,7 +225,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     public void setPositionAndList(int mPosition, List<SubStage> mSubStageLists) {
 
-        this.mCurrentPostion = mPosition;
+        this.mCurrentPosition = mPosition;
         this.mSubStages = mSubStageLists;
         mSubStageName.setText("");
         if (mSubStageLists == null || mSubStageLists.isEmpty()) {
@@ -284,7 +271,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         dialog.setContentView(R.layout.confirm_gps_network_dialog);
         TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
         TextView tv_title = (TextView) dialog.findViewById(R.id.tv_dialog_title);
-
 
 
         tv_title.setText(title);

@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     private static final String URL_WEATHER = NetConfig.BASE_URL + "loadWeather";
     private static final String URL_BANNER = NetConfig.BASE_URL + "getLaoNong";
-    private static final String URL_DISASTER= NetConfig.BASE_URL + "getPetDisBySubStage";
+    private static final String URL_DISASTER = NetConfig.BASE_URL + "getPetDisBySubStage";
 
 
     private ViewGroup mRoot;
@@ -100,10 +100,9 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     private LocationListener mLocationListener;
 
 
-
     private String mUserID;
 
-    private String mAddress;
+    private String mAddress ="";
 
     @Override
     public void onAttach(Activity activity) {
@@ -164,14 +163,9 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 
     private void initRefreshLayout() {
-        // 为BGARefreshLayout设置代理
         mRefreshLayout.setDelegate(this);
-        // 设置下拉刷新和上拉加载更多的风格     参数1：应用程序上下文，参数2：是否具有上拉加载更多功能
         BGARefreshViewHolder refreshViewHolder = new BGAStickinessRefreshViewHolder(getActivity(), false);
-        // 设置下拉刷新控件的背景颜色资源id
         refreshViewHolder.setRefreshViewBackgroundColorRes(R.color.color_view_home_top_bg);
-        // 设置自定义头部视图（也可以不用设置）     参数1：自定义头部视图（例如广告位）， 参数2：上拉加载更多是否可用
-        //mRefreshLayout.setCustomHeaderView(mBanner, false);
         mRefreshLayout.setRefreshViewHolder(refreshViewHolder);
 
     }
@@ -201,13 +195,12 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 if (entity != null) {
                     if (entity.currentField != null) {
                         mDisasterView.updateView(entity.currentField.petdisspecws, entity.currentField.petdisws);
-                    }else {
-                        mDisasterView.updateView(null,null);
+                    } else {
+                        mDisasterView.updateView(null, null);
                     }
 
 
-
-                    mCropStateView.updateView(entity,mAddress);
+                    mCropStateView.updateView(entity, mAddress);
 
                     mCropStateView.setOnAddFieldClickListener(new CropsStateView.MyOnAddFieldClickListener() {
                         @Override
@@ -250,7 +243,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 WeatherEntity weatherEntity = (WeatherEntity) response;
 
                 mHomeWeatherView.setWeatherData(weatherEntity);
-                
+
                 mCropStateView.updateWorkStage(weatherEntity);
 
                 isWeatherSuccess = true;
@@ -264,9 +257,9 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                 }
                 isBannerSuccess = true;
                 break;
-            case  REQUEST_CODE_DISASTER:
+            case REQUEST_CODE_DISASTER:
                 DisasterEntity disasterEntity = (DisasterEntity) response;
-                mDisasterView.updateView(disasterEntity.data,null);
+                mDisasterView.updateView(disasterEntity.data, null);
                 break;
             default:
                 break;
@@ -318,14 +311,13 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
+        Log.e("TAG", "onResume");
         String currentUserID = SharedPreferencesHelper.getString(getActivity().getApplicationContext(), SharedPreferencesHelper.Field.USER_ID, "");
         if (!mUserID.equals(currentUserID)) {
             mUserID = currentUserID;
-            Log.d("TAG","change");
             loadDataFromWithCache(true);
             return;
         }
@@ -387,13 +379,12 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
         } else {
             mStartTime = SystemClock.currentThreadTimeMillis();
             if (mBaseActivity != null && isShowDialog) {
-//                mRoot.setVisibility(View.GONE);
-                ((BaseActivity)getActivity()).startLoadingDialog();
+
+                ((BaseActivity) getActivity()).startLoadingDialog();
             }
         }
 
 
-        Log.d("TAG","-isLogin--"+AccountManager.isLogin(this.getActivity()));
         if (AccountManager.isLogin(this.getActivity())) {
             readFieldFromLocal();
 
@@ -433,30 +424,41 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     private void readFieldFromLocal() {
         mMotionId = SharedPreferencesHelper.getInt(this.getActivity(), "FIELD_" + mFiledId, -1);
+
         String[] userFields = AccountManager.getUserFields(this.getActivity().getApplicationContext());
         String[] motionIds = AccountManager.getLocations(this.getActivity().getApplicationContext());
         if (mFiledId == DEFAULT_FIELD_ID) {
+
             if (userFields != null && userFields.length > 0) {
                 mFiledId = Long.parseLong(userFields[0].trim());
             }
 
             if (motionIds != null && motionIds.length > 0) {
-                DEBUG("motionID:"+motionIds[0]);
+
                 mMotionId = Integer.parseInt(motionIds[0]);
-                SharedPreferencesHelper.setInt(this.getActivity(), "FIELD_" + mFiledId,mMotionId);
+                SharedPreferencesHelper.setInt(this.getActivity(), "FIELD_" + mFiledId, mMotionId);
             }
-        }else{
+        } else {
+
             //get postion
-            int position = 0;
-            for (int i = 0; i < userFields.length; i++) {
-                if(Long.parseLong(userFields[i])==mFiledId){
-                    position = i;
-                    break;
+            if (mMotionId == DEFAULT_FIELD_ID) {
+                int position = 0;
+                if (userFields != null) {
+                    for (int i = 0; i < userFields.length; i++) {
+                        if (Long.parseLong(userFields[i]) == mFiledId) {
+                            position = i;
+                            break;
+                        }
+                    }
+                }
+
+                if (motionIds != null && position < motionIds.length) {
+                    mMotionId = Integer.parseInt(motionIds[position]);
+                    SharedPreferencesHelper.setInt(this.getActivity(), "FIELD_" + mFiledId, mMotionId);
+                } else {
+                    mMotionId = (int) DEFAULT_FIELD_ID;
                 }
             }
-            DEBUG("position:"+position);
-            mMotionId = Integer.parseInt(motionIds[position]);
-            SharedPreferencesHelper.setInt(this.getActivity(), "FIELD_" + mFiledId,mMotionId);
         }
     }
 
@@ -511,13 +513,12 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 
     }
+
     private void DEBUG(String msg) {
         if (BuildConfig.DEBUG) {
             Log.d(TAG, msg);
         }
     }
-
-
 
 
     private void resetSuccessFlag() {
@@ -531,7 +532,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
         super.onDetach();
         mBaseActivity = null;
     }
-
 
 
     private class LocationListener implements LocationUtils.LocationListener {

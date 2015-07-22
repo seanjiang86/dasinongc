@@ -27,7 +27,7 @@ public class AccountManager {
 	 */
 	public static final boolean isLogin(Context context) {
 		boolean result = false;
-		if (!TextUtils.isEmpty(getAuthToken(context))) {
+		if (!TextUtils.isEmpty(getUserPhone(context))) {
 			result = true;
 		}
 		return result;
@@ -45,6 +45,10 @@ public class AccountManager {
 	
 	public static String getAuthToken(Context context){
 		return SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "");
+	}
+	
+	public static String getUserPhone(Context context){
+		return SharedPreferencesHelper.getString(context, Field.USER_PHONE, "");
 	}
 	
 	public static String[] getUserFields(Context context){
