@@ -1,14 +1,8 @@
 package com.dasinong.app.components.home.view;
 
 import android.content.Context;
-import android.media.Image;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.text.style.AbsoluteSizeSpan;
-import android.text.style.SubscriptSpan;
-import android.text.style.SuperscriptSpan;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +11,6 @@ import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.dasinong.app.BuildConfig;
@@ -39,7 +32,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 
     private View mRoot;
-    private boolean mIsWeekWeatherShow = false;
+    private boolean mIsWeekWeatherShow = true;
     private HumidityView mHumView;
     private HorizontalScrollView mHorHumView;
 
@@ -410,8 +403,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mSevenDaysContainer = (TableLayout) mRoot.findViewById(R.id.lyWeekWeather);
         mOpenSevenDays = (TextView) mRoot.findViewById(R.id.tvCloseWeekTemp);
 
-        mIsWeekWeatherShow = false;
-        // mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week));
+        mIsWeekWeatherShow = true;
+
     }
 
 
@@ -460,7 +453,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         }
 
 
-        mSevenDaysContainer.setVisibility(View.GONE);
+        mSevenDaysContainer.setVisibility(View.VISIBLE);
         mSevenDaysContainer.measure(0, 0);
 
         height = mSevenDaysContainer.getMeasuredHeight();
