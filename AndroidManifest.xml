@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dasinong.app"
     android:versionCode="4"
-    android:versionName="1.01.2" >
+    android:versionName="1.01.3" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -210,7 +210,7 @@
         
         <!-- youmeng key -->
         <meta-data android:value="55a8807367e58eb9b3003e77" android:name="UMENG_APPKEY"></meta-data>
-		<meta-data android:value="Ument" android:name="UMENG_CHANNEL"/>
+		<meta-data android:value="Tencent" android:name="UMENG_CHANNEL"/>
 
         <activity
             android:name=".ui.soil.SoilInformationActivity"
