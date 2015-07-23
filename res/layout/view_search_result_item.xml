@@ -70,9 +70,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="textview_description"
+                android:text="打开了方式感觉到开始了国际法的老师开关机辅导老师"
                 android:textColor="@color/color_666666"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_16" 
+                android:maxLines="2"
+                android:ellipsize="end"
+                />
         </LinearLayout>
 
         <ImageView

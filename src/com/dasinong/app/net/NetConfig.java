@@ -406,9 +406,10 @@ public class NetConfig {
 		paramsMap.put(Params.id, id);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> getSearchWordParams(String key) {
+	public static Map<String, String> getSearchWordParams(String key,String type) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.key, key);
+		paramsMap.put(Params.type, type);
 		return getBaseParams(false, paramsMap);
 	}
 	public static Map<String, String> getRequestSecurityCodeParams(String key) {

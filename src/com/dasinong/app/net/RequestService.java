@@ -159,8 +159,8 @@ public class RequestService {
 		new NetRequest(context).upload(0, NetConfig.BASE_URL + "uploadAvater", filePath, BaseEntity.class, callBack);
 	}
 	
-	public void searchWord(Context context, String key, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getSearchWordParams(key);
+	public void searchWord(Context context, String key,String type, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getSearchWordParams(key,type);
 		new NetRequest(context).get(RequestCode.SEARCH_WORD, params, SubUrl.SEARCH_WORD, callBack, clazz);
 	}
 	public void requestSecurityCode(Context context, String cellphone, Class<? extends BaseEntity> clazz, RequestListener callBack) {

@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/icon_baike_huizhen" />
+            android:src="@drawable/binghai" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/icon_baike_huizhen" />
+            android:src="@drawable/chonghai" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -162,7 +162,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/icon_baike_huizhen" />
+            android:src="@drawable/caohai" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -215,7 +215,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/icon_baike_zhineng" />
+            android:src="@drawable/icon_baike_huizhen" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -228,7 +228,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="智能诊断"
+                android:text="申请会诊"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_18" />
 
@@ -236,7 +236,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="帮您判断田里的问题"
+                android:text="上传照片咨询"
                 android:textColor="@color/color_999999"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>

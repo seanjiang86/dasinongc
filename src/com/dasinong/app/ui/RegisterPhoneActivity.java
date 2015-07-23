@@ -53,6 +53,7 @@ import cn.smssdk.UserInterruptException;
 
 import com.dasinong.app.R;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.DeviceHelper;
 import com.mob.tools.FakeActivity;
 
 /** 短信注册页面 */
@@ -223,6 +224,16 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 			}
 		};
 
+		if(!isAuthPhone){
+			new Handler().postDelayed(new Runnable() {
+				
+				@Override
+				public void run() {
+					DeviceHelper.showIME(mPhoneEdit);
+				}
+			}, 500);
+		}
+		
 	}
 
 	private void initView() {

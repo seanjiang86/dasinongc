@@ -102,8 +102,9 @@ public class EncyclopediasPesticideActivity extends BaseActivity implements OnCl
 			return;
 		}
 		
-		Intent intent = new Intent(this,SearchResultActivity.class);
+		Intent intent = new Intent(this,SearchTypeResultActivity.class);
 		intent.putExtra("keywords", keywords);
+		intent.putExtra("type", "cpproduct");
 		this.startActivity(intent);
 	}
 	

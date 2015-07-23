@@ -92,13 +92,14 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 		mTopbarView.setCenterText("品种大全");
 		mTopbarView.setLeftView(true, true);
 		
-		VarietiesFirstListAdapter adapter = new VarietiesFirstListAdapter(this, null, false);
+		final VarietiesFirstListAdapter adapter = new VarietiesFirstListAdapter(this, null, false);
 		mFirstList.setAdapter(adapter);
 		
 		mFirstList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				adapter.setSelectPosition(position);
 				String type = (String) mFirstList.getItemAtPosition(position);
 				initData(type);
 			}
@@ -149,8 +150,9 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 			return;
 		}
 		
-		Intent intent = new Intent(this,SearchResultActivity.class);
+		Intent intent = new Intent(this,SearchTypeResultActivity.class);
 		intent.putExtra("keywords", keywords);
+		intent.putExtra("type", "variety");
 		this.startActivity(intent);
 	}
 	

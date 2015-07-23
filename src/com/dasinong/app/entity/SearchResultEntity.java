@@ -5,7 +5,7 @@ import java.util.List;
 public class SearchResultEntity extends BaseEntity {
 
 	private SearchData data;
-
+	
 	public SearchData getData() {
 		return data;
 	}

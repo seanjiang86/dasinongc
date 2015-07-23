@@ -7,4 +7,7 @@ public class Varietybrowse {
 	public String varietyName;
 	public String varietyNamePY;
 	
+	public boolean isTitle;
+	public String title;
+	
 }

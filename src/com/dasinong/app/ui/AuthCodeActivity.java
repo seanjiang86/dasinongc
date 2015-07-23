@@ -600,11 +600,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				((BaseActivity)AuthCodeActivity.this).dismissLoadingDialog();
 				if(resultData.isOk()){
-					Intent intent = new Intent(AuthCodeActivity.this,RegisterPasswordActivity.class);
-					intent.putExtra("phone", phone);
-					intent.putExtra("isLogin", true);
-					AuthCodeActivity.this.startActivity(intent);
-					finish();
+					checkPwd();
 				}else if(resultData.isCode(ResponseCode.CODE_100)){
 					Intent intent = new Intent(AuthCodeActivity.this,RegisterPasswordActivity.class);
 					intent.putExtra("phone", phone);
@@ -622,6 +618,32 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 				
 			}
 		});
+	}
+	
+	private void checkPwd() {
+		
+		RequestService.getInstance().requestSecurityCode(this, phone, BaseEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				if(resultData.isOk()){
+					showToast("验证码重新发送成功");
+					isAuthPempPwd = true;
+					tvUnreceiveIdentify.setVisibility(View.GONE);
+					mCallPhoneText.setVisibility(View.VISIBLE);
+				}else{
+					showToast(resultData.getMessage());
+				}
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+				showToast(R.string.please_check_netword);
+			}
+		});
+		
 	}
 
 	/**

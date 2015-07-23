@@ -37,7 +37,8 @@
                 android:layout_marginTop="5dp"
                 android:text="textview_description"
                 android:textColor="@color/color_666666"
-                android:textSize="@dimen/sp_16" />
+                android:textSize="@dimen/sp_16" 
+                />
         </LinearLayout>
 
         <!-- <ImageView

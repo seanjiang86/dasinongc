@@ -12,6 +12,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.database.encyclopedias.domain.Cpproductbrowse;
 import com.dasinong.app.database.encyclopedias.domain.Petdisspecbrowse;
 import com.dasinong.app.entity.DiseaseEntity;
+import com.dasinong.app.ui.adapter.DiseaseListAdapter.ViewHolder;
 
 public class PesticideListAdapter extends MyBaseAdapter<Cpproductbrowse> {
 	
@@ -24,21 +25,22 @@ public class PesticideListAdapter extends MyBaseAdapter<Cpproductbrowse> {
 		ViewHolder holder;
 		if(view == null){
 			holder = new ViewHolder();
-			view = View.inflate(context, R.layout.view_sms_sub_item, null);
-			holder.deleteImage = (ImageView) view.findViewById(R.id.imageview_delete_image);
-			holder.nameText = (TextView) view.findViewById(R.id.textview_item_name);
+			view = View.inflate(context, R.layout.view_disease_item, null);
+			holder.nameText = (TextView) view.findViewById(R.id.textview_title);
+			holder.desText = (TextView) view.findViewById(R.id.textview_description);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
 		final Cpproductbrowse item = list.get(pos);
 		holder.nameText.setText(item.activeIngredient);
+		holder.desText.setVisibility(View.GONE);
 		return view;
 	}
 
 	public static class ViewHolder {
-		ImageView  deleteImage;
 		TextView  nameText;
+		TextView  desText;
 	}
 	
 }

@@ -158,6 +158,11 @@
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
+            android:name=".ui.SearchTypeResultActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
+        <activity
             android:name=".ui.MyInfoActivity"
             android:screenOrientation="portrait" >
         </activity>

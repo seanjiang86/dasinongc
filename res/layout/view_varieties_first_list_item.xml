@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical" 
+    android:background="@drawable/varieties_first_list_bg_selector"
+    android:padding="10dp"
+    >
+
+    <ImageView
+        android:id="@+id/imageview_icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/icon_liangshi" />
+
+    <TextView
+        android:id="@+id/textview_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="true"
+        android:text="粮食作物"
+        android:textColor="@color/color_333333"
+        android:layout_marginTop="10dp"
+        android:textSize="@dimen/sp_16" />
+
+</LinearLayout>

@@ -53,15 +53,29 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="match_parent"
-            android:cacheColorHint="@android:color/transparent" >
+            android:cacheColorHint="@android:color/transparent" 
+            android:divider="@color/color_DCE3E6"
+            android:dividerHeight="0.5dp"
+            android:scrollbars="none"
+            >
         </ListView>
 
+        <View 
+            android:layout_width="0.5dp"
+        android:layout_height="match_parent"
+        android:background="@color/color_DCE3E6"
+            />
+        
         <ListView
             android:id="@+id/listview_type_list_second"
             android:layout_width="0dp"
             android:layout_weight="2.5"
             android:layout_height="match_parent"
-            android:cacheColorHint="@android:color/transparent" >
+            android:cacheColorHint="@android:color/transparent" 
+            android:scrollbars="none"
+            android:divider="@color/color_DCE3E6"
+            android:dividerHeight="0.5dp"
+            >
         </ListView>
     </LinearLayout>
 

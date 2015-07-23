@@ -8,6 +8,7 @@ import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.SearchItem;
 import com.dasinong.app.entity.SearchResultEntity;
 import com.dasinong.app.entity.SearchResultEntity.SearchData;
+import com.dasinong.app.entity.SearchTypeResultEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.RequestService;
@@ -32,14 +33,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-public class SearchResultActivity extends BaseActivity {
+public class SearchTypeResultActivity extends BaseActivity {
 
-	private static final String TYPE_DISEASE = "Disease";
-	private static final String TYPE_PEST = "Pest";
-	private static final String TYPE_WEEDS = "Weeds";
-	private static final String TYPE_VARIETY = "Variety";
-	private static final String TYPE_CPPRODUCT = "Cpproduct";
-	
 	private TopbarView mTopbarView;
 	
 	private EditText mSearchEdit;
@@ -68,13 +63,13 @@ public class SearchResultActivity extends BaseActivity {
 
 	private void requestData(String key) {
 		startLoadingDialog();
-		RequestService.getInstance().searchWord(this, key,type, SearchResultEntity.class, new RequestListener() {
+		RequestService.getInstance().searchWord(this, key,type, SearchTypeResultEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				dismissLoadingDialog();
 				if(resultData.isOk()){
-					SearchResultEntity entity = (SearchResultEntity) resultData;
+					SearchTypeResultEntity entity = (SearchTypeResultEntity) resultData;
 					updateUi(entity);
 				}else{
 					showToast(resultData.getMessage());
@@ -89,56 +84,12 @@ public class SearchResultActivity extends BaseActivity {
 		});
 	}
 
-	protected void updateUi(SearchResultEntity entity) {//病害 虫害 草害 品种  药物
+	protected void updateUi(SearchTypeResultEntity entity) {//病害 虫害 草害 品种  药物
 		if(entity == null){
 			return;
 		}
 		
-		SearchData data = entity.getData();
-		
-		List<SearchItem> searchData = new ArrayList<SearchItem>();
-		if(!data.getDisease().isEmpty()){
-			SearchItem item =  new SearchItem();
-			item.setType(true);
-			item.setName("病害");
-			item.setResId(R.drawable.binghai);
-			searchData.add(item);
-			searchData.addAll(data.getDisease());
-		}
-		if(!data.getPest().isEmpty()){
-			SearchItem item =  new SearchItem();
-			item.setType(true);
-			item.setName("虫害");
-			item.setResId(R.drawable.chonghai);
-			searchData.add(item);
-			searchData.addAll(data.getPest());
-		}
-		if(!data.getWeeds().isEmpty()){
-			SearchItem item =  new SearchItem();
-			item.setType(true);
-			item.setName("草害");
-			item.setResId(R.drawable.caohai);
-			searchData.add(item);
-			searchData.addAll(data.getWeeds());
-		}
-		if(!data.getVariety().isEmpty()){
-			SearchItem item =  new SearchItem();
-			item.setType(true);
-			item.setName("品类");
-			item.setResId(R.drawable.pinzhong);
-			searchData.add(item);
-			searchData.addAll(data.getVariety());
-		}
-		if(!data.getCpproduct().isEmpty()){
-			SearchItem item =  new SearchItem();
-			item.setType(true);
-			item.setName("药物");
-			item.setResId(R.drawable.nongyao);
-			searchData.add(item);
-			searchData.addAll(data.getCpproduct());
-		}
-		
-		mAdapter.setData(searchData);
+		mAdapter.setData(entity.getData());
 //		mResultListview.requestFocusFromTouch();
 		mResultListview.setSelection(0);
 		ViewHelper.setListVIewEmptyView(this, mResultListview);
@@ -202,7 +153,7 @@ public class SearchResultActivity extends BaseActivity {
 				SearchItem item = (SearchItem) parent.getItemAtPosition(position);
 				if(item.isType()){
 				} else {
-					Intent intent = new Intent(SearchResultActivity.this, WebBrowserActivity.class);
+					Intent intent = new Intent(SearchTypeResultActivity.this, WebBrowserActivity.class);
 					intent.putExtra(WebBrowserActivity.URL, NetConfig.getBaikeUrl(item.getType(), item.getId()));
 					if(TextUtils.isEmpty(item.getName())){
 						intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getSource()).toString());
@@ -229,7 +180,7 @@ public class SearchResultActivity extends BaseActivity {
 		
 		String keywords = mSearchEdit.getText().toString().trim();
 		if(TextUtils.isEmpty(keywords)){
-			Toast.makeText(SearchResultActivity.this, "请输入要搜索的内容", 0).show();
+			Toast.makeText(SearchTypeResultActivity.this, "请输入要搜索的内容", 0).show();
 			return;
 		}
 		

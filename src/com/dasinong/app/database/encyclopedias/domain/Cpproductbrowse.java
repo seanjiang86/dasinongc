@@ -9,4 +9,7 @@ public class Cpproductbrowse  extends BaseEntity{
 	public String activeIngredient;
 	public String activeIngredientPY;
 	
+	public boolean isTitle;
+	public String title;
+	
 }

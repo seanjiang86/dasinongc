@@ -95,8 +95,9 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 			return;
 		}
 		
-		Intent intent = new Intent(this,SearchResultActivity.class);
+		Intent intent = new Intent(this,SearchTypeResultActivity.class);
 		intent.putExtra("keywords", keywords);
+		intent.putExtra("type", "petdisspec");
 		this.startActivity(intent);
 	}
 	

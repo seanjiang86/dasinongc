@@ -20,6 +20,8 @@ public class VarietiesFirstListAdapter extends MyBaseAdapter<String> {
 			R.drawable.icon_shuiguo,R.drawable.icon_junlei,R.drawable.icon_jianguo,
 			R.drawable.icon_huahui,R.drawable.icon_caoliao,R.drawable.icon_yaocai};
 	
+	private int selectPosition = 0;
+	
 	public VarietiesFirstListAdapter(Context ctx, List<String> list, boolean flag) {
 		super(ctx, Arrays.asList(strs), flag);
 	}
@@ -29,16 +31,29 @@ public class VarietiesFirstListAdapter extends MyBaseAdapter<String> {
 		ViewHolder holder;
 		if(view == null){
 			holder = new ViewHolder();
-			view = View.inflate(context, R.layout.view_sms_sub_item, null);
-			holder.deleteImage = (ImageView) view.findViewById(R.id.imageview_delete_image);
-			holder.nameText = (TextView) view.findViewById(R.id.textview_item_name);
+			view = View.inflate(context, R.layout.view_varieties_first_list_item, null);
+			holder.deleteImage = (ImageView) view.findViewById(R.id.imageview_icon);
+			holder.nameText = (TextView) view.findViewById(R.id.textview_title);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
 		final String item = list.get(pos);
 		holder.nameText.setText(item);
+		holder.deleteImage.setImageResource(resIds[pos]);
+		
+		if(selectPosition == pos){
+			view.setActivated(true);
+		}else{
+			view.setActivated(false);
+		}
+		
 		return view;
+	}
+	
+	public void setSelectPosition(int position){
+		this.selectPosition  = position;
+		notifyDataSetChanged();
 	}
 
 	public static class ViewHolder {

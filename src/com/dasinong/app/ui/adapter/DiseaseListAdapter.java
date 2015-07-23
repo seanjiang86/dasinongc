@@ -33,6 +33,7 @@ public class DiseaseListAdapter extends MyBaseAdapter<Petdisspecbrowse> {
 		final Petdisspecbrowse item = list.get(pos);
 		holder.nameText.setText(item.petDisSpecName);
 		holder.desText.setText(item.type);
+		holder.desText.setVisibility(View.GONE);
 		return view;
 	}
 
