@@ -230,6 +230,7 @@
                 android:background="@color/color_DCE3E6" />
 
             <RelativeLayout
+                android:id="@+id/layout_shamanji"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:background="@drawable/button_white_bg_selector" >
@@ -273,6 +274,7 @@
                 android:background="@color/color_DCE3E6" />
 
             <RelativeLayout
+                android:id="@+id/layout_laoshuji"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
                 android:background="@drawable/button_white_bg_selector" >

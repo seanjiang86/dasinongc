@@ -54,7 +54,8 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 	}
 
 	private void setUpView() {
-mTopbarView.setCenterText("百科");
+		mTopbarView.setCenterText("病虫草害大全");
+		mTopbarView.setLeftView(true, true);
 		
 		mAskforLayout.setOnClickListener(this);
 		mNongyaoLayout.setOnClickListener(this);
@@ -103,13 +104,20 @@ mTopbarView.setCenterText("百科");
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_ask_for:
-			Intent intent = new Intent(this,SearchDiseaseResultActivity.class);
-			startActivity(intent);
+			Intent intent1 = new Intent(this,SearchDiseaseResultActivity.class);
+			intent1.putExtra("type", "病害");
+			startActivity(intent1);
 			break;
 		case R.id.layout_nongyao:
+			Intent intent2 = new Intent(this,SearchDiseaseResultActivity.class);
+			intent2.putExtra("type", "虫害");
+			startActivity(intent2);
 			
 			break;
 		case R.id.layout_bingchongcaohai:
+			Intent intent3 = new Intent(this,SearchDiseaseResultActivity.class);
+			intent3.putExtra("type", "草害");
+			startActivity(intent3);
 			
 			break;
 		case R.id.layout_intelligent:

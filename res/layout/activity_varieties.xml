@@ -43,5 +43,26 @@
         </LinearLayout>
     </RelativeLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+
+        <ListView
+            android:id="@+id/listview_type_list_first"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent" >
+        </ListView>
+
+        <ListView
+            android:id="@+id/listview_type_list_second"
+            android:layout_width="0dp"
+            android:layout_weight="2.5"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent" >
+        </ListView>
+    </LinearLayout>
 
 </LinearLayout>

@@ -30,6 +30,8 @@ public class EncyclopediasPesticideActivity extends BaseActivity implements OnCl
 	private RelativeLayout mNongyaoLayout;
 	private RelativeLayout mBinghaiLayout;
 	private RelativeLayout mIntelligentLayout;
+	private RelativeLayout mShamanjiLayout;
+	private RelativeLayout mLaoshujiLayout;
 	
 	private ImageView mSearchView;
 	
@@ -51,15 +53,21 @@ public class EncyclopediasPesticideActivity extends BaseActivity implements OnCl
 		mBinghaiLayout = (RelativeLayout) this.findViewById(R.id.layout_bingchongcaohai);
 		mIntelligentLayout = (RelativeLayout) this.findViewById(R.id.layout_intelligent);
 		mSearchView = (ImageView) this.findViewById(R.id.imageview_search);
+		
+		mShamanjiLayout = (RelativeLayout) this.findViewById(R.id.layout_shamanji);
+		mLaoshujiLayout = (RelativeLayout) this.findViewById(R.id.layout_laoshuji);
 	}
 
 	private void setUpView() {
-mTopbarView.setCenterText("百科");
+		mTopbarView.setCenterText("农药大全");
+		mTopbarView.setLeftView(true, true);
 		
 		mAskforLayout.setOnClickListener(this);
 		mNongyaoLayout.setOnClickListener(this);
 		mBinghaiLayout.setOnClickListener(this);
 		mIntelligentLayout.setOnClickListener(this);
+		mShamanjiLayout.setOnClickListener(this);
+		mLaoshujiLayout.setOnClickListener(this);
 		
 		mSearchEdit.setOnKeyListener(new OnKeyListener() {
 			
@@ -103,17 +111,34 @@ mTopbarView.setCenterText("百科");
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_ask_for:
-			Intent intent = new Intent(this,SearchPesticideResultActivity.class);
-			startActivity(intent);
+			Intent intent1 = new Intent(this,SearchPesticideResultActivity.class);
+			intent1.putExtra("type", "杀菌剂");
+			startActivity(intent1);
 			break;
 		case R.id.layout_nongyao:
-			
+			Intent intent2 = new Intent(this,SearchPesticideResultActivity.class);
+			intent2.putExtra("type", "杀虫剂");
+			startActivity(intent2);
 			break;
 		case R.id.layout_bingchongcaohai:
-			
+			Intent intent3 = new Intent(this,SearchPesticideResultActivity.class);
+			intent3.putExtra("type", "除草剂");
+			startActivity(intent3);
 			break;
 		case R.id.layout_intelligent:
-			
+			Intent intent4 = new Intent(this,SearchPesticideResultActivity.class);
+			intent4.putExtra("type", "生长调节剂");
+			startActivity(intent4);
+			break;
+		case R.id.layout_shamanji:
+			Intent intent5 = new Intent(this,SearchPesticideResultActivity.class);
+			intent5.putExtra("type", "杀螨剂");
+			startActivity(intent5);
+			break;
+		case R.id.layout_laoshuji:
+			Intent intent6 = new Intent(this,SearchPesticideResultActivity.class);
+			intent6.putExtra("type", "老鼠剂");
+			startActivity(intent6);
 			break;
 		}
 	}
