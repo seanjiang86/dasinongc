@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
@@ -40,6 +41,7 @@ import cn.smssdk.gui.SMSReceiver;
 
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.IsPassSetEntity;
 import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.net.NetConfig.ResponseCode;
 import com.dasinong.app.net.NetRequest.RequestListener;
@@ -621,29 +623,62 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	}
 	
 	private void checkPwd() {
+		startLoadingDialog();
+		RequestService.getInstance().isPassSet(this, IsPassSetEntity.class, new RequestListener() {
+            
+            @Override
+            public void onSuccess(int requestCode, BaseEntity resultData) {
+                dismissLoadingDialog();
+                if(resultData.isOk()){
+                    IsPassSetEntity entity = (IsPassSetEntity) resultData;
+                    
+                    if(!entity.isData()){
+                        requestCode();
+                    }else{
+                        Intent intent = new Intent(AuthCodeActivity.this,RegisterPasswordActivity.class);
+                        intent.putExtra("phone", phone);
+                        intent.putExtra("isLogin", true);
+                        AuthCodeActivity.this.startActivity(intent);
+                        finish();
+                    }
+                    
+                }else{
+                    showToast(resultData.getMessage());
+                }
+            }
+            
+            @Override
+            public void onFailed(int requestCode, Exception error, String msg) {
+                dismissLoadingDialog();
+                showToast(R.string.please_check_netword);
+            }
+        });
 		
-		RequestService.getInstance().requestSecurityCode(this, phone, BaseEntity.class, new RequestListener() {
-			
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
-				dismissLoadingDialog();
-				if(resultData.isOk()){
-					showToast("验证码重新发送成功");
-					isAuthPempPwd = true;
-					tvUnreceiveIdentify.setVisibility(View.GONE);
-					mCallPhoneText.setVisibility(View.VISIBLE);
-				}else{
-					showToast(resultData.getMessage());
-				}
-			}
-			
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
-				dismissLoadingDialog();
-				showToast(R.string.please_check_netword);
-			}
-		});
-		
+	}
+	
+	private void requestCode(){
+	    startLoadingDialog();
+	    RequestService.getInstance().requestSecurityCode(this, phone, BaseEntity.class, new RequestListener() {
+            
+            @Override
+            public void onSuccess(int requestCode, BaseEntity resultData) {
+                dismissLoadingDialog();
+                if(resultData.isOk()){
+                    showToast("验证码重新发送成功");
+                    isAuthPempPwd = true;
+                    tvUnreceiveIdentify.setVisibility(View.GONE);
+                    mCallPhoneText.setVisibility(View.VISIBLE);
+                }else{
+                    showToast(resultData.getMessage());
+                }
+            }
+            
+            @Override
+            public void onFailed(int requestCode, Exception error, String msg) {
+                dismissLoadingDialog();
+                showToast(R.string.please_check_netword);
+            }
+        });
 	}
 
 	/**
