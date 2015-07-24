@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Iterator; 
 
 /**
  * Created by  lxn on 15/6/5.
@@ -68,6 +69,16 @@ public class HumidityView extends LinearLayout {
             return;
         }
 
+       
+        Iterator<WeatherEntity.Hours> iterator = hoursList.iterator();
+        while(iterator.hasNext()){
+            WeatherEntity.Hours item = iterator.next();
+            if(item==null){
+                iterator.remove();
+            }
+            
+        }
+        
         int size = hoursList.size();
         removeAllViews();
         for (int i = 0; i < size; i++) {
