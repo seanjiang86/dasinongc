@@ -1,27 +1,47 @@
 package com.dasinong.app.ui;
 
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
-import com.umeng.update.UmengUpdateAgent;
-import com.umeng.update.UmengUpdateListener;
-import com.umeng.update.UpdateResponse;
-import com.umeng.update.UpdateStatus;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.text.TextUtils;
-import android.util.Log;
 
 public class SplashActivity extends BaseActivity {
+	private TextView tv_version;
+	private String versionName;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
+
+		tv_version = (TextView) findViewById(R.id.tv_version);
+
+		PackageManager pm = getPackageManager();
+		try {
+			PackageInfo packageInfo = pm.getPackageInfo(this.getPackageName(), PackageManager.GET_CONFIGURATIONS);
+			versionName = packageInfo.versionName;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		if (!TextUtils.isEmpty(versionName)) {
+			tv_version.setText("当前版本：" + versionName);
+		} else {
+			tv_version.setVisibility(View.GONE);
+		}
 
 		autoLogin();
 
@@ -51,11 +71,11 @@ public class SplashActivity extends BaseActivity {
 			};
 		}.sendEmptyMessageDelayed(0, 2000);
 	}
-	
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		
+
 	}
 
 	private void autoLogin() {

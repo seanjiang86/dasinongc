@@ -26,19 +26,19 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="95.0dip"
-        android:layout_marginLeft="30.0dip"
-        android:layout_marginTop="45.0dip" >
+        android:layout_height="95dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="45dp" >
 
         <ImageView
-            android:layout_width="95.0dip"
-            android:layout_height="95.0dip"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
             android:src="@drawable/relax" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:layout_marginLeft="25.0dip"
+            android:layout_marginLeft="25dp"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -47,14 +47,14 @@
                 android:layout_height="wrap_content"
                 android:text="这可是我的拿手活,现"
                 android:textColor="@color/color_333333"
-                android:textSize="16.0dip" />
+                android:textSize="16sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="在长到什么阶段了?"
                 android:textColor="@color/color_333333"
-                android:textSize="16.0dip" />
+                android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -99,14 +99,14 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30.0dip"
-        android:layout_marginRight="30.0dip"
-        android:layout_marginTop="40.0dip" >
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal" >
 
         <Button
             android:id="@+id/btn_no_sure_substage"
-            android:layout_width="145.0dip"
-            android:layout_height="45.0dip"
+            android:layout_width="145dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="30dp"
             android:background="@drawable/gray_button_selector"
             android:text="我不确定"
             android:textColor="@color/color_666666"
@@ -114,9 +114,10 @@
 
         <Button
             android:id="@+id/btn_sure_substage"
-            android:layout_width="145.0dip"
-            android:layout_height="45.0dip"
-            android:layout_marginLeft="10.0dip"
+            android:layout_width="145dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="30dp"
             android:background="@drawable/green_button_selector"
             android:text="确定"
             android:textColor="@color/color_FFFFFF"

@@ -19,14 +19,15 @@
         android:orientation="horizontal" >
 
         <ImageView
-            android:layout_width="165dp"
-            android:layout_height="145dp"
+            android:layout_width="137dp"
+            android:layout_height="120dp"
             android:scaleType="fitXY"
             android:src="@drawable/close_eye_smile" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="你在使用过程中遇到任何问题或有什么建议和需求，都可以联系我们，我们会尽快答复哦！"
+            android:layout_marginLeft="15dp"
+            android:text="遇到任何问题或建议，都可以联系我们，我们会尽快答复哦！"
             android:textSize="17sp"
             android:layout_gravity="center_vertical" />
         
@@ -40,7 +41,7 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="20dp"
         android:background="@drawable/button_green_bg_selector"
-        android:text="给我们写信"
+        android:text="邮件联系我们"
         android:textColor="@color/color_FFFFFF"
         android:textSize="@dimen/sp_16" />
 
@@ -51,8 +52,8 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="20dp"
-        android:background="@drawable/button_white_bg_selector"
-        android:text="联系客服"
+        android:background="@null"
+        android:text="电话联系"
         android:textColor="#1768bc"
         android:textSize="@dimen/home_text_size_32" />
 

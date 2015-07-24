@@ -14,4 +14,15 @@
         android:layout_height="fill_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/splash_image" />
+    
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textColor="@color/color_FFFFFF"
+        android:text="当前版本：1.01.4"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp" />
 </RelativeLayout>
