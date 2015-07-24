@@ -634,6 +634,12 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
                     
                     if(!entity.isData()){
                         requestCode();
+                    }else{
+                        Intent intent = new Intent(AuthCodeActivity.this,RegisterPasswordActivity.class);
+                        intent.putExtra("phone", phone);
+                        intent.putExtra("isLogin", true);
+                        AuthCodeActivity.this.startActivity(intent);
+                        finish();
                     }
                     
                 }else{
