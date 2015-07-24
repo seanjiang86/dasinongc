@@ -79,7 +79,10 @@ public class HumidityView extends LinearLayout {
 
             //time
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(hour.time);
+            // TODO MING TO NING  服务器给的数据hour有时候可能为空，容错处理
+            if(hour != null){
+            	calendar.setTimeInMillis(hour.time);
+            
             int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
             tvTime.setText(String.valueOf(hourOfDay) + ":00");
 
@@ -93,7 +96,7 @@ public class HumidityView extends LinearLayout {
 
 
             tvTimeHTemp.setText(hour.temperature + " ℃");
-
+            }
 
             LayoutParams layoutParams = new LayoutParams(mItemWidth, LayoutParams.MATCH_PARENT);
             addView(timeItem, layoutParams);

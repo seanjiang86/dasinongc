@@ -245,10 +245,13 @@ public class HarmDetialsActivity extends BaseActivity {
 		tv_harm_des = (TextView) header.findViewById(R.id.tv_harm_des);
 		iv_pic = (ImageView) header.findViewById(R.id.iv_pic);
 		ll_rapid_diagnosis = (LinearLayout) header.findViewById(R.id.ll_rapid_diagnosis);
-
 		tv_harm_name.setText(detial.data.petDisSpec.petDisSpecName);
-		// TODO MING:等待真实数据
-		rb_harm_grade.setRating(3);
+		if(detial.data.petDisSpec.severity == 0){
+			rb_harm_grade.setVisibility(View.GONE);
+		}else{
+			rb_harm_grade.setRating(detial.data.petDisSpec.severity);
+		}
+		rb_harm_grade.setRating(detial.data.petDisSpec.severity);
 		String sympton = detial.data.petDisSpec.sympton;
 
 		tv_harm_des.setText(sympton);

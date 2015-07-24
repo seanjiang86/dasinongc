@@ -22,6 +22,7 @@ public class HarmDetialEntity extends BaseEntity {
 		public String petDisSpecName;
 		public String rule;
 		public String sympton;
+		public int severity;
 	}
 	
 	public static class Solutions implements Serializable{
