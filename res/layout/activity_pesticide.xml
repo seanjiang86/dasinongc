@@ -277,6 +277,7 @@
                 android:id="@+id/layout_laoshuji"
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
+                android:visibility="gone"
                 android:background="@drawable/button_white_bg_selector" >
 
                 <LinearLayout
@@ -312,10 +313,10 @@
                     android:src="@drawable/icon_more" />
             </RelativeLayout>
 
-            <View
+            <!-- <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@color/color_DCE3E6" />
+                android:background="@color/color_DCE3E6" /> -->
         </LinearLayout>
     </ScrollView>
 

@@ -52,8 +52,15 @@ import cn.smssdk.SMSSDK;
 import cn.smssdk.UserInterruptException;
 
 import com.dasinong.app.R;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.IsPassSetEntity;
+import com.dasinong.app.net.RequestService;
+import com.dasinong.app.net.NetConfig.ResponseCode;
+import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.DeviceHelper;
+import com.dasinong.app.utils.StringHelper;
+import com.google.zxing.common.StringUtils;
 import com.mob.tools.FakeActivity;
 
 /** 短信注册页面 */
@@ -383,15 +390,19 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		// countryPage.showForResult(RegisterPage.this, null, this);
 		// break;
 		case R.id.button_next:
-			
-			startLoadingDialog();
-			if (countryRules == null || countryRules.size() <= 0) {
-				SMSSDK.getSupportedCountries();
-			} else {
-				String phone = mPhoneEdit.getText().toString().trim().replaceAll("\\s*", "");
-//				String code = tvCountryNum.getText().toString().trim();
-				checkPhoneNum(phone);
-			}
+		    phone = mPhoneEdit.getText().toString().trim().replaceAll("\\s*", "");
+		    
+		    if(TextUtils.isEmpty(phone)){
+		        showToast(R.string.smssdk_write_mobile_phone);
+		        return;
+		    }
+		    
+		    if(!StringHelper.isPhoneNumber(phone)){
+	            showToast(R.string.smssdk_write_right_mobile_phone);
+	            return;
+		    }
+		    
+			checkUser(phone);
 			break;
 //		case R.id.iv_clear:
 //			// 清除电话号码输入框
@@ -437,6 +448,78 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		// }
 	}
 
+	
+	private void checkUser(final String phone) {
+        ((BaseActivity)RegisterPhoneActivity.this).startLoadingDialog();
+        RequestService.getInstance().checkUser(RegisterPhoneActivity.this, phone, BaseEntity.class, new RequestListener() {
+            
+            @Override
+            public void onSuccess(int requestCode, BaseEntity resultData) {
+                ((BaseActivity)RegisterPhoneActivity.this).dismissLoadingDialog();
+                if(resultData.isOk()){
+                    checkPwd();
+                }else if(resultData.isCode(ResponseCode.CODE_100)){
+                    
+                }else{
+                    startLoadingDialog();
+                    if (countryRules == null || countryRules.size() <= 0) {
+                        SMSSDK.getSupportedCountries();
+                    } else {
+//                      String code = tvCountryNum.getText().toString().trim();
+                        checkPhoneNum(phone);
+                    }
+//                    ((BaseActivity)RegisterPhoneActivity.this).showToast(resultData.getMessage());
+                }
+            }
+            
+            @Override
+            public void onFailed(int requestCode, Exception error, String msg) {
+                ((BaseActivity)RegisterPhoneActivity.this).dismissLoadingDialog();
+                
+            }
+        });
+    }
+	
+	private void checkPwd() {
+        startLoadingDialog();
+        RequestService.getInstance().isPassSet(this, IsPassSetEntity.class, new RequestListener() {
+            
+            @Override
+            public void onSuccess(int requestCode, BaseEntity resultData) {
+                dismissLoadingDialog();
+                if(resultData.isOk()){
+                    IsPassSetEntity entity = (IsPassSetEntity) resultData;
+                    
+                    if(!entity.isData()){
+                        startLoadingDialog();
+                        if (countryRules == null || countryRules.size() <= 0) {
+                            SMSSDK.getSupportedCountries();
+                        } else {
+//                          String code = tvCountryNum.getText().toString().trim();
+                            checkPhoneNum(phone);
+                        }
+                    }else{
+                        Intent intent = new Intent(RegisterPhoneActivity.this,RegisterPasswordActivity.class);
+                        intent.putExtra("phone", phone);
+                        intent.putExtra("isLogin", true);
+                        startActivity(intent);
+                        finish();
+                    }
+                    
+                }else{
+                    showToast(resultData.getMessage());
+                }
+            }
+            
+            @Override
+            public void onFailed(int requestCode, Exception error, String msg) {
+                dismissLoadingDialog();
+                showToast(R.string.please_check_netword);
+            }
+        });
+        
+    }
+	
 //	@SuppressWarnings("unchecked")
 //	public void onResult(HashMap<String, Object> data) {
 //		if (data != null) {

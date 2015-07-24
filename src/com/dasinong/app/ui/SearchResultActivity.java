@@ -138,6 +138,13 @@ public class SearchResultActivity extends BaseActivity {
 			searchData.addAll(data.getCpproduct());
 		}
 		
+		if(searchData.isEmpty()){
+		    Intent intent = new Intent(this, WebBrowserActivity.class);
+            intent.putExtra(WebBrowserActivity.URL, "https://www.baidu.com/s?wd="+keywords);
+            intent.putExtra(WebBrowserActivity.TITLE, "搜索结果");
+            startActivity(intent);
+		}
+		
 		mAdapter.setData(searchData);
 //		mResultListview.requestFocusFromTouch();
 		mResultListview.setSelection(0);
@@ -227,7 +234,7 @@ public class SearchResultActivity extends BaseActivity {
 	private void search() {
 		DeviceHelper.hideIME(mSearchEdit);
 		
-		String keywords = mSearchEdit.getText().toString().trim();
+		keywords = mSearchEdit.getText().toString().trim();
 		if(TextUtils.isEmpty(keywords)){
 			Toast.makeText(SearchResultActivity.this, "请输入要搜索的内容", 0).show();
 			return;

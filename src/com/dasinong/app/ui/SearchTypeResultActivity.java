@@ -89,6 +89,13 @@ public class SearchTypeResultActivity extends BaseActivity {
 			return;
 		}
 		
+		if(entity.getData().isEmpty()){
+            Intent intent = new Intent(this, WebBrowserActivity.class);
+            intent.putExtra(WebBrowserActivity.URL, "https://www.baidu.com/s?wd="+keywords);
+            intent.putExtra(WebBrowserActivity.TITLE, "搜索结果");
+            startActivity(intent);
+        }
+		
 		mAdapter.setData(entity.getData());
 //		mResultListview.requestFocusFromTouch();
 		mResultListview.setSelection(0);
