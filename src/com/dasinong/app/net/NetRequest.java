@@ -103,6 +103,7 @@ public class NetRequest {
 					}
 
 					if (result.isAuthTokenInvalid()) {
+					    Toast.makeText(DsnApplication.getContext(), "登录过期,请您重新登录!", 0).show();
 						 Intent intent = new Intent(context,RegisterPhoneActivity.class);
 						 // intent.putExtra(AccountManager.CHECK_LOGIN,true);
 						 context.startActivity(intent);
@@ -182,6 +183,7 @@ public class NetRequest {
 					}
 
 					if (result.isAuthTokenInvalid()) {
+					    Toast.makeText(DsnApplication.getContext(), "登录过期,请您重新登录!", 0).show();
 						 Intent intent = new Intent(context,RegisterPhoneActivity.class);
 						 // intent.putExtra(AccountManager.CHECK_LOGIN,true);
 						 context.startActivity(intent);
