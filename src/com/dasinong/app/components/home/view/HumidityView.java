@@ -71,8 +71,9 @@ public class HumidityView extends LinearLayout {
 
        
         Iterator<WeatherEntity.Hours> iterator = hoursList.iterator();
+        WeatherEntity.Hours item;
         while(iterator.hasNext()){
-            WeatherEntity.Hours item = iterator.next();
+            item = iterator.next();
             if(item==null){
                 iterator.remove();
             }
