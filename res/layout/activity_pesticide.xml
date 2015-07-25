@@ -202,7 +202,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="生长调节剂"
+                        android:text="植物生长调节剂"
                         android:textColor="@color/color_333333"
                         android:textSize="@dimen/sp_18" />
 

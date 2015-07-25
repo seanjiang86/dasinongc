@@ -119,9 +119,8 @@ public class SearchPesticideResultActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Cpproductbrowse item = (Cpproductbrowse) parent.getItemAtPosition(position);
-				Intent intent = new Intent(SearchPesticideResultActivity.this, WebBrowserActivity.class);
-				intent.putExtra(WebBrowserActivity.URL, NetConfig.getBaikeUrl("pesticide", item.cPProductId+""));
-				intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.activeIngredient).toString());
+				Intent intent = new Intent(SearchPesticideResultActivity.this, SearchPesticideNamedResultActivity.class);
+				intent.putExtra("type", item.activeIngredient);
 				startActivity(intent);
 			}
 		});

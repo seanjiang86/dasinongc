@@ -124,9 +124,8 @@ public class SearchVarietyResultActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Varietybrowse item = (Varietybrowse) parent.getItemAtPosition(position);
-				Intent intent = new Intent(SearchVarietyResultActivity.this, WebBrowserActivity.class);
-				intent.putExtra(WebBrowserActivity.URL, NetConfig.getBaikeUrl("variety", item.varietyId+""));
-				intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.varietyName).toString());
+				Intent intent = new Intent(SearchVarietyResultActivity.this, SearchVarietyNamedResultActivity.class);
+				intent.putExtra("type", item.varietyName);
 				startActivity(intent);
 			}
 		});
