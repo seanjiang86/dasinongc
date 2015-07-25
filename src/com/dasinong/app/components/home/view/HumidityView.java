@@ -17,9 +17,8 @@ import com.dasinong.app.components.domain.WeatherEntity;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
-import java.util.Iterator; 
 
 /**
  * Created by  lxn on 15/6/5.
@@ -65,7 +64,7 @@ public class HumidityView extends LinearLayout {
     public void setOneDayWeatherData(List<WeatherEntity.Hours> hoursList) {
 
         if (hoursList == null || hoursList.isEmpty()) {
-            DEBUG("24 hour is empty");
+
             return;
         }
 
@@ -75,7 +74,7 @@ public class HumidityView extends LinearLayout {
         while(iterator.hasNext()){
             item = iterator.next();
             if(item==null){
-                iterator.remove();
+                return;
             }
             
         }
