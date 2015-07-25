@@ -4,11 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Debug;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,22 +17,14 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dasinong.app.R;
-
 import com.dasinong.app.components.domain.FieldEntity;
-
-
-import com.dasinong.app.database.disaster.dao.impl.PetDisspecDaoImpl;
-import com.dasinong.app.database.disaster.domain.PetDisspec;
 import com.dasinong.app.ui.HarmDetialsActivity;
 import com.dasinong.app.ui.HarmListActivity;
 import com.umeng.analytics.MobclickAgent;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
@@ -65,6 +55,8 @@ public class DisasterView extends LinearLayout {
 
 
     private int mPetDisasterRes;
+
+    private static  final  int MAX_LIMIT_COUNT = 4;
 
 
 
@@ -166,9 +158,17 @@ public class DisasterView extends LinearLayout {
     private void updatePetdisspecws(List<FieldEntity.CurrentFieldEntity.Petdisspecws> items) {
         View child;
         if (items != null && !items.isEmpty()) {
+            int count = 0;
             for (FieldEntity.CurrentFieldEntity.Petdisspecws item : items) {
+                if(item==null){
+                    continue;
+                }
+                if(count==MAX_LIMIT_COUNT){
+                    return;
+                }
                 child = createPetdisspecws(item);
                 this.addView(child);
+                count++;
             }
         }
 
