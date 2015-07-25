@@ -284,7 +284,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private void updateFieldName() {
         if (!TextUtils.isEmpty(mCurrentFieldName)) {
             mFieldNameView.setText(mCurrentFieldName);
-            SharedPreferencesHelper.setLong(this.getContext(), SharedPreferencesHelper.Field.FIELDID, mFieldMap.get(mCurrentFieldName));
+            if(mFieldMap!=null&&!mFieldMap.isEmpty()&&mFieldMap.get(mCurrentFieldName)!=null) {
+                SharedPreferencesHelper.setLong(this.getContext(), SharedPreferencesHelper.Field.FIELDID, mFieldMap.get(mCurrentFieldName));
+            }
 
         }
 
