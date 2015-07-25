@@ -464,7 +464,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
         height = mSevenDaysContainer.getMeasuredHeight();
 
-        mOpenSevenDays.setText(getContext().getString(R.string.weather_open_one_week, weatherCount));
+        mOpenSevenDays.setText(getContext().getString(R.string.weather_close_one_week, weatherCount));
 
 
     }
