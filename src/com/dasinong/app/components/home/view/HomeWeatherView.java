@@ -240,7 +240,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
             return;
         }
         this.setVisibility(View.VISIBLE);
-        String temp = item.l1 ;
+        String temp = item.l1;
         //SpannableString spannableString = new SpannableString(temp);
         //spannableString.setSpan(new SuperscriptSpan(), item.l1.length()-1, temp.length()-1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         mCurrentTemp.setText(temp);
@@ -257,10 +257,10 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private void updateCurrentTem() {
 
-            long min = Math.round(mMinTemValue);
-            long max = Math.round(mMaxTemValue);
-            mMinTem.setText(String.format("%d", min) + "°c");
-            mMaxTem.setText(String.format("%d", max) + "°c");
+        long min = Math.round(mMinTemValue);
+        long max = Math.round(mMaxTemValue);
+        mMinTem.setText(String.format("%d", min) + "°c");
+        mMaxTem.setText(String.format("%d", max) + "°c");
 
     }
 
@@ -379,18 +379,17 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
     }
 
     private int getFourWeatherIcon(int weather) {
-        if (weather < 20) {
+        if (weather == 0) {
             return R.drawable.pop0;
 
         } else if (weather < 40) {
             return R.drawable.pop1;
-        } else if (weather <= 60) {
+        } else if (weather < 80) {
             return R.drawable.pop3;
-        } else if (weather <= 80) {
-            return R.drawable.pop4;
         } else if (weather < 100) {
-            return R.drawable.pop5;
+            return R.drawable.pop4;
         }
+
 
         return R.drawable.pop5;
 
