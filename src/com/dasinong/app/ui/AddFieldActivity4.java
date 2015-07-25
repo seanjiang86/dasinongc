@@ -141,6 +141,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 						tv_variety_name.setClickable(false);
 						tv_variety_num.setClickable(false);
 						showToast("更多作物正在完善，敬请期待,请点击确定按钮");
+						cropMenu.dismiss();
 						return;
 					} else {
 						tv_variety_name.setClickable(true);

@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -38,15 +39,16 @@ public class CureDetialActivity extends BaseActivity {
 	private TextView tv_cure_content;
 	private TopbarView topbar;
 	private View header;
-	
-	private Handler handler = new Handler(){
+	private Solutions solu;
+	private LinearLayout ll_medicine_title;
+
+	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			DrugListEntity drugList = (DrugListEntity) msg.obj;
 			initHeader(drugList.data.petSolutions);
 			initListView(drugList.data.cPProducts);
 		};
 	};
-	private Solutions solu;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -54,13 +56,14 @@ public class CureDetialActivity extends BaseActivity {
 		setContentView(R.layout.activity_cure_detials);
 		lv_medicine = (ListView) findViewById(R.id.lv_medicine);
 		topbar = (TopbarView) findViewById(R.id.topbar);
-		
+
 		header = View.inflate(this, R.layout.cure_detials_header, null);
 
 		tv_cure_name = (TextView) header.findViewById(R.id.tv_cure_name);
 		tv_cure_stage = (TextView) header.findViewById(R.id.tv_cure_stage);
 		tv_cure_provider = (TextView) header.findViewById(R.id.tv_cure_provider);
 		tv_cure_content = (TextView) header.findViewById(R.id.tv_cure_content);
+		ll_medicine_title = (LinearLayout) header.findViewById(R.id.ll_medicine_title);
 
 		initTopBar();
 
@@ -92,34 +95,34 @@ public class CureDetialActivity extends BaseActivity {
 		} else {
 			tv_cure_stage.setText(solu.subStageId);
 		}
-		
+
 		// TODO MING: 无数据隐藏
 		tv_cure_provider.setVisibility(View.GONE);
-		//tv_cure_provider.setText(solu.providedBy);
+		// tv_cure_provider.setText(solu.providedBy);
 		tv_cure_content.setText(solu.petSoluDes);
 	}
 
 	private void queryDrug(int petSoluId) {
 		startLoadingDialog();
 		RequestService.getInstance().getPetSolu(this, petSoluId, DrugListEntity.class, new RequestListener() {
-			
+
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
-				if(resultData.isOk()){
+				if (resultData.isOk()) {
 					DrugListEntity drugList = (DrugListEntity) resultData;
-					
+
 					Message msg = handler.obtainMessage();
 					msg.obj = drugList;
 					handler.sendMessage(msg);
-					
+
 					dismissLoadingDialog();
 				}
 			}
-			
+
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				initHeader(solu);
-				initData(8100);
+				initData(solu.petDisSpecId);
 				dismissLoadingDialog();
 			}
 		});
@@ -132,13 +135,13 @@ public class CureDetialActivity extends BaseActivity {
 
 	private void initData(int petSoluId) {
 		List<CPProduct> drugList = DisasterManager.getInstance(this).getAllDrug(petSoluId);
-		//TODO MING 增加本地查询
+		// TODO MING 增加本地查询
 		DrugListEntity drugListEntity = new DrugListEntity();
 		drugListEntity.data = new Data();
 		drugListEntity.data.cPProducts = new ArrayList<Drug>();
 		for (int i = 0; i < drugList.size(); i++) {
 			Drug drug = new Drug();
-			
+
 			drug.activeIngredient = drugList.get(i).activeIngredient;
 			drug.disease = drugList.get(i).disease;
 			drug.guideline = drugList.get(i).guideline;
@@ -149,13 +152,18 @@ public class CureDetialActivity extends BaseActivity {
 			drug.tip = drugList.get(i).tip;
 			drug.type = drugList.get(i).type;
 			drug.volumn = drugList.get(i).volume;
-			
+
 			drugListEntity.data.cPProducts.add(drug);
 		}
 		initListView(drugListEntity.data.cPProducts);
 	}
 
 	private void initListView(final List<Drug> drugList) {
+		if (drugList == null || drugList.size() < 1) {
+			ll_medicine_title.setVisibility(View.GONE);
+		} else {
+			ll_medicine_title.setVisibility(View.VISIBLE);
+		}
 		lv_medicine.addHeaderView(header, null, false);
 		lv_medicine.setAdapter(new CureAdapter(this, drugList, false));
 
@@ -164,7 +172,7 @@ public class CureDetialActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(CureDetialActivity.this, WebBrowserActivity.class);
-				intent.putExtra(WebBrowserActivity.URL, NetConfig.BAIKE_URL+"type=pesticide&id="+drugList.get(position-1).id);
+				intent.putExtra(WebBrowserActivity.URL, NetConfig.BAIKE_URL + "type=pesticide&id=" + drugList.get(position - 1).id);
 				startActivity(intent);
 			}
 		});

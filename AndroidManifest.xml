@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dasinong.app"
     android:versionCode="5"
-    android:versionName="1.01.3-build1" >
+    android:versionName="1.01.3" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -36,7 +36,11 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-
+    
+    <!-- 创建桌面快捷方式权限 -->
+	<uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/> 
+	
+	
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
 

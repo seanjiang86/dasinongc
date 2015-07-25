@@ -16,6 +16,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class GuideActivity extends BaseActivity {
 	private LinearLayout ll_view_group;
@@ -31,7 +32,7 @@ public class GuideActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_guide);
-		
+
 		isFirst = getIntent().getBooleanExtra("isFirst", false);
 
 		vp = (ViewPager) findViewById(R.id.vp);
@@ -42,10 +43,10 @@ public class GuideActivity extends BaseActivity {
 
 		for (int i = 0; i < 7; i++) {
 			imageView = new ImageView(this);
-			
+
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(20, 20);
 			params.setMargins(10, 0, 10, 0);
-			
+
 			imageView.setLayoutParams(params);
 			imageView.setPadding(30, 0, 30, 0);
 
@@ -62,17 +63,17 @@ public class GuideActivity extends BaseActivity {
 
 		vp.setAdapter(new MyPagerAdapter());
 		vp.setOnPageChangeListener(new MyOnPageChangeListener());
-		
+
 		btn_start_app.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
-				if(isFirst){
+				if (isFirst) {
 					Intent intent = new Intent(GuideActivity.this, MainTabActivity.class);
 					startActivity(intent);
 					finish();
 					return;
-				}else{
+				} else {
 					finish();
 				}
 			}
@@ -97,46 +98,65 @@ public class GuideActivity extends BaseActivity {
 		}
 
 		@Override
-		public Object instantiateItem(ViewGroup container, int position) {
+		public Object instantiateItem(ViewGroup container, final int position) {
 			View view = View.inflate(GuideActivity.this, R.layout.guide_item, null);
 			ImageView iv = (ImageView) view.findViewById(R.id.iv);
 			iv.setImageResource(ids[position]);
-			
+
 			container.addView(view);
-			
+
+			view.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					if (position == 6) {
+						if (isFirst) {
+							Intent intent = new Intent(GuideActivity.this, MainTabActivity.class);
+							startActivity(intent);
+							finish();
+							return;
+						} else {
+							finish();
+						}
+					} else {
+						vp.setCurrentItem(position + 1);
+					}
+				}
+			});
+
 			return view;
 		}
 
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
-			container.removeView(((View)object));
+			container.removeView(((View) object));
 		}
 	}
-	
-	class MyOnPageChangeListener implements OnPageChangeListener{
+
+	class MyOnPageChangeListener implements OnPageChangeListener {
 
 		@Override
 		public void onPageScrollStateChanged(int arg0) {
-			
+
 		}
 
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2) {
-			
+
 		}
 
 		@Override
 		public void onPageSelected(int arg0) {
 			for (int i = 0; i < imageViews.length; i++) {
-				if(i == arg0){
+				if (i == arg0) {
 					imageViews[i].setBackgroundResource(R.drawable.page_indicator_focused);
-				}else {
+				} else {
 					imageViews[i].setBackgroundResource(R.drawable.page_indicator);
 				}
 			}
-			if(arg0 == 6){
+			if (arg0 == 6) {
 				btn_start_app.setVisibility(View.VISIBLE);
-			}else {
+			} else {
 				btn_start_app.setVisibility(View.GONE);
 			}
 		}

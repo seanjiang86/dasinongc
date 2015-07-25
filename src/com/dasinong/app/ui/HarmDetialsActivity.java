@@ -252,7 +252,7 @@ public class HarmDetialsActivity extends BaseActivity {
 			rb_harm_grade.setRating(detial.data.petDisSpec.severity);
 		}
 		rb_harm_grade.setRating(detial.data.petDisSpec.severity);
-		String sympton = detial.data.petDisSpec.sympton;
+		String sympton = detial.data.petDisSpec.sympton.replace("[为害症状]", "");
 
 		tv_harm_des.setText(sympton);
 

@@ -4,25 +4,29 @@
     android:layout_height="fill_parent"
     android:background="@drawable/splash_image" >
 
-    <!-- android:scaleType="fitXY"填充满背景 
+    <!--
+         android:scaleType="fitXY"填充满背景 
          android:src="@drawable/splash_horse_newyear"前景
          android:background=""背景
-         android:scaleType="centerCrop"从前景图片中去截取一块跟背景成比例的图片出来-->
+         android:scaleType="centerCrop"从前景图片中去截取一块跟背景成比例的图片出来
+    -->
+
     <ImageView
         android:id="@+id/splash_iv"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/splash_image" />
-    
+
     <TextView
         android:id="@+id/tv_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="@color/color_FFFFFF"
-        android:text="当前版本：1.01.4"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp" />
+        android:layout_marginBottom="50dp"
+        android:text="当前版本：1.01.4"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="16sp" />
+
 </RelativeLayout>

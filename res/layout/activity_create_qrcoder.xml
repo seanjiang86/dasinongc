@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
 
     <com.dasinong.app.ui.view.TopbarView
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
     </com.dasinong.app.ui.view.TopbarView>
+    <TextView 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center_vertical"
+        android:textSize="16sp"
+        android:text="这是您的专属二维码哦！\n请您的家人、朋友扫描以下二维码下载“今日农事“，我们将会为您记录推荐人数，换取年终大奖！"/>
 
     <ImageView
         android:id="@+id/qr_coder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_marginTop="30dp" 
+        android:layout_gravity="center_horizontal"/>
 
-</RelativeLayout>
+</LinearLayout>

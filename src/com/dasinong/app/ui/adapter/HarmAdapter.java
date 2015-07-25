@@ -41,8 +41,8 @@ public class HarmAdapter<T> extends MyBaseAdapter<T> {
 		} else {
 			path = pet.pictureIds;
 		}
-		
-		LoadUtils.getInstance().loadImage(holder.iv_harm_pic, NetConfig.PET_IMAGE+path);
+		// TODO Ming 设置合适的默认图片
+		LoadUtils.getInstance().loadImage(holder.iv_harm_pic, NetConfig.PET_IMAGE+path,R.drawable.test_pic);
 		holder.tv_harm_name.setText(pet.petDisSpecName);
 		holder.tv_harm_des.setText(pet.sympthon.replace("[为害症状]", ""));
 

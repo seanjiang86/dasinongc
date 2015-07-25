@@ -193,7 +193,7 @@ public class DisasterView extends LinearLayout {
         type.setText("近期易发"+getDisasterString(item.type));
         icon.setImageResource(getDisasterIcon(item.type));
 
-        desc.setText(item.sympton);
+        desc.setText(item.sympton.replace("[为害症状]", ""));
 
         child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.id ,item.petDisSpecName));
         child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.id ,item.petDisSpecName));

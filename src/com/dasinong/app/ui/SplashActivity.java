@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -58,6 +59,7 @@ public class SplashActivity extends BaseActivity {
 					Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
 					intent.putExtra("isFirst", isFirst);
 					startActivity(intent);
+					createShortCut();
 					finish();
 
 				} else {
@@ -76,6 +78,25 @@ public class SplashActivity extends BaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 
+	}
+
+	private void createShortCut() {
+		// 创建添加快捷方式的Intent
+		Intent addShortCut = new Intent("com.android.launcher.action.INSTALL_SHORTCUT");
+		// 加载app名
+		String title = getResources().getString(R.string.app_name);
+		// 加载app的logo
+		Parcelable icon = Intent.ShortcutIconResource.fromContext(SplashActivity.this, R.drawable.ic_launcher);
+		// 点击快捷方式后操作Intent,快捷方式建立后，再次启动该程序
+		Intent intent = new Intent(SplashActivity.this, SplashActivity.class);
+		// 设置快捷方式的标题
+		addShortCut.putExtra(Intent.EXTRA_SHORTCUT_NAME, title);
+		// 设置快捷方式的图标
+		addShortCut.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, icon);
+		// 设置快捷方式对应的Intent
+		addShortCut.putExtra(Intent.EXTRA_SHORTCUT_INTENT, intent);
+		// 发送广播添加快捷方式
+		sendBroadcast(addShortCut);
 	}
 
 	private void autoLogin() {

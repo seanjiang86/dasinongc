@@ -284,7 +284,10 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private void updateFieldName() {
         if (!TextUtils.isEmpty(mCurrentFieldName)) {
             mFieldNameView.setText(mCurrentFieldName);
+            if(mFieldMap!=null&&!mFieldMap.isEmpty()){
+            	
             SharedPreferencesHelper.setLong(this.getContext(), SharedPreferencesHelper.Field.FIELDID, mFieldMap.get(mCurrentFieldName));
+            }
 
         }
 
@@ -508,7 +511,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                     }
                 } else {
                     //TODO Ming 待确定文字
-                    showRemindDialog("无法获取当前位置", "请前往“设置”打开GPS卫星，设置完成后点”返回“键就可以回到今日农事", "前往设置", "暂不开启", new MyDialogClickListener() {
+                    showRemindDialog("呀！网络断了...", "请检查你的手机是否联网，如果只是信号不好，也许等等就好啦", "前往设置", "取消", new MyDialogClickListener() {
 
                         @Override
                         public void onSureButtonClick() {
@@ -526,7 +529,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 break;
             default:
                 break;
-
         }
     }
 
