@@ -91,9 +91,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	}
 
 	private void initData() {
-		// intent.putExtra("phone", phone);
-		// intent.putExtra("code", code);
-		// intent.putExtra("formatedPhone", formatedPhone);
 		phone = getIntent().getStringExtra("phone");
 		code = getIntent().getStringExtra("code");
 		formatedPhone = getIntent().getStringExtra("formatedPhone");
@@ -141,11 +138,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		tvUnreceiveIdentify.setText(Html.fromHtml(unReceive));
 		tvUnreceiveIdentify.setOnClickListener(this);
 		tvUnreceiveIdentify.setEnabled(false);
-//		ivClear = (ImageView) findViewById(R.id.iv_clear);
-//		ivClear.setOnClickListener(this);
-		// resId = getIdRes(activity, "btn_sounds");
-		// btnSounds = (Button) findViewById(resId);
-		// btnSounds.setOnClickListener(this);
 
 		handler = new EventHandler() {
 			public void afterEvent(int event, int result, Object data) {
@@ -221,87 +213,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		dialog.show();
 	}
 
-	// public void onCreate() {
-	//
-	// initData();
-	//
-	// int resId = getLayoutRes(activity, "smssdk_input_identify_num_page");
-	// if (resId > 0) {
-	// activity.setContentView(resId);
-	// // resId = getIdRes(activity, "ll_back");
-	// // activity.findViewById(resId).setOnClickListener(this);
-	// resId = getIdRes(activity, "btn_submit");
-	// btnSubmit = (Button) activity.findViewById(resId);
-	// btnSubmit.setOnClickListener(this);
-	// btnSubmit.setEnabled(false);
-	//
-	// resId = getIdRes(activity, "tv_title");
-	// // tvTitle = (TextView) activity.findViewById(resId);
-	// resId = getStringRes(activity, "smssdk_write_identify_code");
-	// // if (resId > 0) {
-	// // tvTitle.setText(resId);
-	// // }
-	// resId = getIdRes(activity, "et_put_identify");
-	// etIdentifyNum = (EditText) activity.findViewById(resId);
-	// etIdentifyNum.addTextChangedListener(this);
-	// resId = getIdRes(activity, "tv_identify_notify");
-	// tvIdentifyNotify = (TextView) activity.findViewById(resId);
-	// resId = getStringRes(activity, "smssdk_send_mobile_detail");
-	// if (resId > 0) {
-	// String text = getContext().getString(resId);
-	// tvIdentifyNotify.setText(Html.fromHtml(text));
-	// }
-	// resId = getIdRes(activity, "tv_phone");
-	// tvPhone = (TextView) activity.findViewById(resId);
-	// tvPhone.setText(formatedPhone);
-	// resId = getIdRes(activity, "tv_unreceive_identify");
-	// tvUnreceiveIdentify = (TextView) activity.findViewById(resId);
-	// resId = getStringRes(activity, "smssdk_receive_msg");
-	// if (resId > 0) {
-	// String unReceive = getContext().getString(resId, time);
-	// tvUnreceiveIdentify.setText(Html.fromHtml(unReceive));
-	// }
-	// tvUnreceiveIdentify.setOnClickListener(this);
-	// tvUnreceiveIdentify.setEnabled(false);
-	// resId = getIdRes(activity, "iv_clear");
-	// ivClear = (ImageView) activity.findViewById(resId);
-	// ivClear.setOnClickListener(this);
-	// resId = getIdRes(activity, "btn_sounds");
-	// // btnSounds = (Button) findViewById(resId);
-	// // btnSounds.setOnClickListener(this);
-	//
-	// handler = new EventHandler() {
-	// public void afterEvent(int event, int result, Object data) {
-	// if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
-	// /** 提交验证码 */
-	// afterSubmit(result, data);
-	// } else if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
-	// /** 获取验证码成功后的执行动作 */
-	// afterGet(result, data);
-	// }else if (event == SMSSDK.EVENT_GET_VOICE_VERIFICATION_CODE) {
-	// /** 获取语音版验证码成功后的执行动作 */
-	// afterGetVoice(result, data);
-	// }
-	// }
-	// };
-	// SMSSDK.registerEventHandler(handler);
-	// countDown();
-	// }
-	//
-	// smsReceiver = new SMSReceiver(new SMSSDK.VerifyCodeReadListener() {
-	// @Override
-	// public void onReadVerifyCode(final String verifyCode) {
-	// runOnUIThread(new Runnable() {
-	// @Override
-	// public void run() {
-	// etIdentifyNum.setText(verifyCode);
-	// }
-	// });
-	// }
-	// });
-	// activity.registerReceiver(smsReceiver, new IntentFilter(
-	// "android.provider.Telephony.SMS_RECEIVED"));
-	// }
 
 	@Override
 	public void onResume() {
@@ -374,18 +285,8 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		// 如果输入框木有，就隐藏delbtn
 		if (s.length() > 0) {
 			btnSubmit.setEnabled(true);
-//			ivClear.setVisibility(View.VISIBLE);
-			// int resId = getBitmapRes(activity, "smssdk_btn_enable");
-			// if (resId > 0) {
-			// btnSubmit.setBackgroundResource(resId);
-			// }
 		} else {
 			btnSubmit.setEnabled(false);
-//			ivClear.setVisibility(View.GONE);
-			// int resId = getBitmapRes(activity, "smssdk_btn_disenable");
-			// if (resId > 0) {
-			// btnSubmit.setBackgroundResource(resId);
-			// }
 		}
 	}
 
@@ -411,75 +312,18 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					startLoadingDialog();
 					SMSSDK.submitVerificationCode(code, phone, verificationCode);
 				} else {
-					// int resId = getStringRes(activity,
-					// "smssdk_write_identify_code");
-					// if (resId > 0) {
-					// Toast.makeText(getContext(), resId,
-					// Toast.LENGTH_SHORT).show();
-					// }
 					showToast(R.string.smssdk_write_identify_code);
 				}
 			}
 			
-//			loginRegister(phone);
 			
 			break;
-//		case R.id.iv_clear:
-//			etIdentifyNum.getText().clear();
-//			break;
 		case R.id.tv_unreceive_identify:
 //			SHOWDIALOGTYPE = 1;
 			// 没有接收到短信
 			showDialog1();
 			break;
-		// case R.id.btn_sounds:
-		//
-		// break;
 		}
-
-		// int id = v.getId();
-		// int id_ll_back = getIdRes(activity, "ll_back");
-		// int id_btn_submit = getIdRes(activity, "btn_submit");
-		// int id_tv_unreceive_identify = getIdRes(activity,
-		// "tv_unreceive_identify");
-		// int id_iv_clear = getIdRes(activity, "iv_clear");
-		// int id_btn_sounds = getIdRes(activity, "btn_sounds");
-
-		// if (id == id_ll_back) {
-		// runOnUIThread(new Runnable() {
-		// public void run() {
-		// showNotifyDialog();
-		// }
-		// });
-		// } else if (id == id_btn_submit) {
-		// // 提交验证码
-		// String verificationCode = etIdentifyNum.getText().toString().trim();
-		// if (!TextUtils.isEmpty(code)) {
-		// if (pd != null && pd.isShowing()) {
-		// pd.dismiss();
-		// }
-		// pd = CommonDialog.ProgressDialog(activity);
-		// if (pd != null) {
-		// pd.show();
-		// }
-		// SMSSDK.submitVerificationCode(code, phone, verificationCode);
-		// } else {
-		// int resId = getStringRes(activity, "smssdk_write_identify_code");
-		// if (resId > 0) {
-		// Toast.makeText(getContext(), resId, Toast.LENGTH_SHORT).show();
-		// }
-		// }
-		// } else if (id == id_tv_unreceive_identify) {
-		// SHOWDIALOGTYPE = 1;
-		// // 没有接收到短信
-		// showDialog(SHOWDIALOGTYPE);
-		// } else if (id == id_iv_clear) {
-		// etIdentifyNum.getText().clear();
-		// } else if (id == id_btn_sounds) {
-		// SHOWDIALOGTYPE = 2;
-		// // 发送语音验证码
-		// showDialog(SHOWDIALOGTYPE);
-		// }
 	}
 
 	private void authPempPwd(String verificationCode) {
@@ -517,18 +361,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 	/** 弹出重新发送短信对话框,或发送语音窗口 */
 	private void showDialog1() {
-//		if (type == 1) {
 			final Dialog dialog = new Dialog(this, R.style.CommonDialog);
-//			TextView tv = new TextView(this);
-//			if (type == 1) {
-//				tv.setText(R.string.smssdk_resend_identify_code);
-//			} else {
-//				tv.setText(R.string.smssdk_send_sounds_identify_code);
-//			}
-//			tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-//			tv.setTextColor(getResources().getColor(R.color.smssdk_white));
-//			int dp_10 = dipToPx(this, 10);
-//			tv.setPadding(dp_10, dp_10, dp_10, dp_10);
 
 			View view = View.inflate(this, R.layout.dialog_authcode_no, null);
 			Button againBt = (Button) view.findViewById(R.id.button_get_code_again);
@@ -551,11 +384,8 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 				
 				@Override
 				public void onClick(View v) {
-//					Intent intent = new Intent(AuthCodeActivity.this,RegisterPasswordActivity.class);
-//					startActivity(intent);
 					dialog.dismiss();
 					checkUser(phone);
-//					finish();
 				}
 			});
 
@@ -568,48 +398,27 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 				}
 			});
 			dialog.show();
-//		} else if (type == 2) {
-//			final Dialog dialog = new Dialog(this, R.style.CommonDialog);
-//			dialog.setContentView(R.layout.smssdk_send_msg_dialog);
-//			TextView tv_title = (TextView) dialog.findViewById(R.id.tv_dialog_title);
-//			tv_title.setText(R.string.smssdk_make_sure_send_sounds);
-//			TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
-//			String text = getString(R.string.smssdk_send_sounds_identify_code);
-//			tv.setText(text);
-//			((Button) dialog.findViewById(R.id.btn_dialog_ok)).setOnClickListener(new OnClickListener() {
-//				public void onClick(View v) {
-//					// TODO 发送语言
-//					dialog.dismiss();
-//					SMSSDK.getVoiceVerifyCode(phone, code);
-//				}
-//			});
-//			((Button) dialog.findViewById(R.id.btn_dialog_cancel)).setOnClickListener(new OnClickListener() {
-//				public void onClick(View v) {
-//					dialog.dismiss();
-//				}
-//			});
-//			dialog.setCanceledOnTouchOutside(true);
-//			dialog.show();
-//		}
 
 	}
 	
 	private void checkUser(final String phone) {
 		((BaseActivity)AuthCodeActivity.this).startLoadingDialog();
-		RequestService.getInstance().checkUser(AuthCodeActivity.this, phone, BaseEntity.class, new RequestListener() {
+		RequestService.getInstance().checkUser(AuthCodeActivity.this, phone, IsPassSetEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				((BaseActivity)AuthCodeActivity.this).dismissLoadingDialog();
 				if(resultData.isOk()){
-//					checkPwd();
-					requestCode();
-				}else if(resultData.isCode(ResponseCode.CODE_100)){
-					Intent intent = new Intent(AuthCodeActivity.this,RegisterPasswordActivity.class);
-					intent.putExtra("phone", phone);
-					intent.putExtra("isLogin", false);
-					AuthCodeActivity.this.startActivity(intent);
-					finish();
+					IsPassSetEntity entity = (IsPassSetEntity) resultData;
+					if(entity.isData()){
+						requestCode();
+					}else{
+						Intent intent = new Intent(AuthCodeActivity.this,RegisterPasswordActivity.class);
+						intent.putExtra("phone", phone);
+						intent.putExtra("isLogin", false);
+						AuthCodeActivity.this.startActivity(intent);
+						finish();
+					}
 				}else{
 					((BaseActivity)AuthCodeActivity.this).showToast(resultData.getMessage());
 				}
@@ -898,20 +707,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		dialog.show();
 	}
 
-//	@Override
-//	public boolean onKeyEvent(int keyCode, KeyEvent event) {
-//		if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-//			runOnUIThread(new Runnable() {
-//				public void run() {
-//					showNotifyDialog();
-//				}
-//			});
-//			return true;
-//		} else {
-//			return false;
-//		}
-//	}
-	
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

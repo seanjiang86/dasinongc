@@ -258,7 +258,7 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 		for (Crop userInfoEntity : data) {
 			if (TextUtils.isEmpty(userInfoEntity.pinyin)) {
 				String name = userInfoEntity.cropName;
-				String pinyin = com.dasinong.app.ui.view.HanziToPingyin.getPinYin(name);
+				String pinyin = HanziToPingyin.getPinYin(name);
 				pinyin = TextUtils.isEmpty(pinyin) ? "~" : pinyin;
 				userInfoEntity.pinyin = pinyin;
 			}
