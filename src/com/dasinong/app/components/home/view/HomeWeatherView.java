@@ -99,6 +99,8 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
     private LayoutInflater mLayoutInflater;
 
+    private View mFourSectionContainer;
+
 
     static {
 
@@ -354,13 +356,18 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         mWeatherNightIcon = (ImageView) findViewById(R.id.icon_weather_night);
         mWeatherMidnightIcon = (ImageView) findViewById(R.id.icon_weather_midnight);
 
+        mFourSectionContainer = findViewById(R.id.lyHumidity);
+
 
     }
 
     private void updateFourSectionView(WeatherEntity.SectionWeather pop) {
         if (pop == null) {
+            mFourSectionContainer.setVisibility(View.GONE);
             return;
         }
+        mFourSectionContainer.setVisibility(View.VISIBLE);
+
         mWeatherMorning.setText(pop.morning + "%");
         mWeatherMorningIcon.setImageResource(getFourWeatherIcon(pop.morning));
         mWeatherAfternoon.setText(pop.noon + "%");
