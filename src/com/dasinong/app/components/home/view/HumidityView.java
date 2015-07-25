@@ -74,7 +74,7 @@ public class HumidityView extends LinearLayout {
         while(iterator.hasNext()){
             item = iterator.next();
             if(item==null){
-                return;
+                iterator.remove();
             }
             
         }
