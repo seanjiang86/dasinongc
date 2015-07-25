@@ -15,6 +15,7 @@ import com.dasinong.app.database.encyclopedias.domain.Varietybrowse;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.PesticideListEntity;
 import com.dasinong.app.entity.VarietyNamedListEntity;
+import com.dasinong.app.entity.PesticideNamedListEntity.Pesticide;
 import com.dasinong.app.entity.VarietyNamedListEntity.Variety;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.RequestService;
@@ -65,6 +66,17 @@ public class SearchVarietyNamedResultActivity extends BaseActivity {
 
 
 	protected void setAdapter(List<Variety> query) {
+		
+		if(query!=null && query.size()==1){
+			Variety item = query.get(0);
+			Intent intent = new Intent(SearchVarietyNamedResultActivity.this, WebBrowserActivity.class);
+			intent.putExtra(WebBrowserActivity.URL, NetConfig.getBaikeUrl("variety", item.getId()+""));
+			intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getVarietyName()).toString());
+			startActivity(intent);
+			finish();
+			return;
+		}
+		
 		VarietyNamedListAdapter adapter = new VarietyNamedListAdapter(this, query, false);
 		mListView.setAdapter(adapter);
 	}

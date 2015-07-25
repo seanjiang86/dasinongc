@@ -1,5 +1,6 @@
 package com.dasinong.app.ui;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.database.encyclopedias.VarietybrowseDao;
 import com.dasinong.app.database.encyclopedias.PetdisspecbrowseDao;
 import com.dasinong.app.database.encyclopedias.VarietybrowseDao;
+import com.dasinong.app.database.encyclopedias.domain.Crop;
 import com.dasinong.app.database.encyclopedias.domain.Varietybrowse;
 import com.dasinong.app.database.encyclopedias.domain.Petdisspecbrowse;
 import com.dasinong.app.database.encyclopedias.domain.Varietybrowse;
@@ -78,6 +80,17 @@ public class SearchVarietyResultActivity extends BaseActivity {
 			public void run() {
 				VarietybrowseDao dao = new VarietybrowseDao(SearchVarietyResultActivity.this);
 				query = dao.query(type);
+				
+				List<Varietybrowse> deleteList = new ArrayList<>();
+				for(Varietybrowse crop:query){
+					if(crop.varietyName!=null){
+						if(crop.varietyName.contains("通用") || crop.varietyName.contains("重复")){
+							deleteList.add(crop);
+						}
+					}
+				}
+				query.removeAll(deleteList);
+				
 				query = sortContact(query);
 
 				alphaIndexer.clear();

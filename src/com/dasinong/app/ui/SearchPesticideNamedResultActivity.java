@@ -62,6 +62,17 @@ public class SearchPesticideNamedResultActivity extends BaseActivity {
 
 
 	protected void setAdapter(List<Pesticide> query) {
+		
+		if(query!=null && query.size()==1){
+			Pesticide item = query.get(0);
+			Intent intent = new Intent(SearchPesticideNamedResultActivity.this, WebBrowserActivity.class);
+			intent.putExtra(WebBrowserActivity.URL, NetConfig.getBaikeUrl("pesticide", item.getId()+""));
+			intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getActiveIngredient()).toString());
+			startActivity(intent);
+			finish();
+			return;
+		}
+		
 		PesticideNamedListAdapter adapter = new PesticideNamedListAdapter(this, query, false);
 		mListView.setAdapter(adapter);
 	}
