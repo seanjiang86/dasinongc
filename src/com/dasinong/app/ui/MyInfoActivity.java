@@ -140,7 +140,7 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 				mHomephoneText.setText(user.getTelephone());
 			}
 			if(user.isAuthenticated()){
-				mAuthPhoneButton.setVisibility(View.VISIBLE);
+				mAuthPhoneButton.setVisibility(View.GONE);
 			}else{
 				mAuthPhoneButton.setVisibility(View.VISIBLE);
 			}

@@ -101,6 +101,10 @@ public class NetConfig {
 		public static final String PETDIS_BYTYPE ="browsePetDisByType";
 		/**百科-农药*/
 		public static final String CPPRODUCT_BYMODEL ="browseCPProductByModel";
+		/**百科-同名农药*/
+		public static final String CPPRODUCT_BYMODEL_NAMED ="getCPProdcutsByIngredient";
+		/**百科-同名品种*/
+		public static final String CPPRODUCT_VARIETYS_NAMED ="getVarietysByName";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -162,6 +166,8 @@ public class NetConfig {
 		public static final String petSoluId = "petSoluId";
 		public static final String type = "type";
 		public static final String model = "model";
+		public static final String name = "name";
+		public static final String ingredient = "ingredient";
 		
 	}
 	
@@ -464,6 +470,16 @@ public class NetConfig {
 	public static Map<String, String> browseCPProductByModelParams(String model) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.model, model);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getCPProdcutsByIngredientParams(String ingredient) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.ingredient, ingredient);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getVarietysByNameParams(String name) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.name, name);
 		return getBaseParams(false, paramsMap);
 	}
 	

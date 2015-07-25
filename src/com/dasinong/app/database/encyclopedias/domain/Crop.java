@@ -6,4 +6,8 @@ public class Crop {
 	public String cropName;
 	public String type;
 	
+	public String pinyin;
+	public boolean isTitle;
+	public String title;
+	
 }

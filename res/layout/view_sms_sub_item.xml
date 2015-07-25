@@ -15,10 +15,11 @@
 
         <ImageView 
             android:id="@+id/imageview_delete_image"
-            android:layout_width="wrap_content"
-        	android:layout_height="30dp"
+            android:layout_width="50dp"
+        	android:layout_height="50dp"
+        	android:padding="12dp"
             android:layout_centerVertical="true"
-        	android:src="@drawable/harm_icon"
+        	android:src="@drawable/delete"
         	android:layout_marginRight="10dp"
             />
         

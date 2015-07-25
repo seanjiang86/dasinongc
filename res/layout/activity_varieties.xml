@@ -77,6 +77,16 @@
             android:dividerHeight="0.5dp"
             >
         </ListView>
+        
+        <com.dasinong.app.ui.view.LetterView
+        android:id="@+id/letterview"
+        android:layout_width="0dp"
+        android:layout_weight="0.3"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/topbar" 
+        android:layout_above="@+id/tv_num"/>
+        
     </LinearLayout>
 
 </LinearLayout>

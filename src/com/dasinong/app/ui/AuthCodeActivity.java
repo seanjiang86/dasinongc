@@ -602,7 +602,8 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				((BaseActivity)AuthCodeActivity.this).dismissLoadingDialog();
 				if(resultData.isOk()){
-					checkPwd();
+//					checkPwd();
+					requestCode();
 				}else if(resultData.isCode(ResponseCode.CODE_100)){
 					Intent intent = new Intent(AuthCodeActivity.this,RegisterPasswordActivity.class);
 					intent.putExtra("phone", phone);
@@ -622,39 +623,39 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		});
 	}
 	
-	private void checkPwd() {
-		startLoadingDialog();
-		RequestService.getInstance().isPassSet(this, IsPassSetEntity.class, new RequestListener() {
-            
-            @Override
-            public void onSuccess(int requestCode, BaseEntity resultData) {
-                dismissLoadingDialog();
-                if(resultData.isOk()){
-                    IsPassSetEntity entity = (IsPassSetEntity) resultData;
-                    
-                    if(!entity.isData()){
-                        requestCode();
-                    }else{
-                        Intent intent = new Intent(AuthCodeActivity.this,RegisterPasswordActivity.class);
-                        intent.putExtra("phone", phone);
-                        intent.putExtra("isLogin", true);
-                        AuthCodeActivity.this.startActivity(intent);
-                        finish();
-                    }
-                    
-                }else{
-                    showToast(resultData.getMessage());
-                }
-            }
-            
-            @Override
-            public void onFailed(int requestCode, Exception error, String msg) {
-                dismissLoadingDialog();
-                showToast(R.string.please_check_netword);
-            }
-        });
-		
-	}
+//	private void checkPwd() {
+//		startLoadingDialog();
+//		RequestService.getInstance().isPassSet(this, IsPassSetEntity.class, new RequestListener() {
+//            
+//            @Override
+//            public void onSuccess(int requestCode, BaseEntity resultData) {
+//                dismissLoadingDialog();
+//                if(resultData.isOk()){
+//                    IsPassSetEntity entity = (IsPassSetEntity) resultData;
+//                    
+//                    if(!entity.isData()){
+//                        requestCode();
+//                    }else{
+//                        Intent intent = new Intent(AuthCodeActivity.this,RegisterPasswordActivity.class);
+//                        intent.putExtra("phone", phone);
+//                        intent.putExtra("isLogin", true);
+//                        AuthCodeActivity.this.startActivity(intent);
+//                        finish();
+//                    }
+//                    
+//                }else{
+//                    showToast(resultData.getMessage());
+//                }
+//            }
+//            
+//            @Override
+//            public void onFailed(int requestCode, Exception error, String msg) {
+//                dismissLoadingDialog();
+//                showToast(R.string.please_check_netword);
+//            }
+//        });
+//		
+//	}
 	
 	private void requestCode(){
 	    startLoadingDialog();

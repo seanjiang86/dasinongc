@@ -203,4 +203,12 @@ public class RequestService {
 		Map<String, String> params = NetConfig.browseCPProductByModelParams(type);
 		new NetRequest(context).get(RequestCode.CPPRODUCT_BYMODEL, params, SubUrl.CPPRODUCT_BYMODEL, callBack, clazz);
 	}
+	public void getCPProdcutsByIngredient(Context context, String type ,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getCPProdcutsByIngredientParams(type);
+		new NetRequest(context).get(RequestCode.CPPRODUCT_BYMODEL_NAMED, params, SubUrl.CPPRODUCT_BYMODEL_NAMED, callBack, clazz);
+	}
+	public void getVarietysByName(Context context, String type ,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getVarietysByNameParams(type);
+		new NetRequest(context).get(RequestCode.CPPRODUCT_VARIETYS_NAMED, params, SubUrl.CPPRODUCT_VARIETYS_NAMED, callBack, clazz);
+	}
 }
