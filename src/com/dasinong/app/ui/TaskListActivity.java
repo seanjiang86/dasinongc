@@ -166,14 +166,14 @@ public class TaskListActivity extends BaseActivity {
 	private void setUpView() {
 		mTopbarView.setCenterText("全部农事");
 		mTopbarView.setLeftView(true, true);
-		mTopbarView.setRightText("提交");
-		mTopbarView.setRightClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				updateTaskStates();
-			}
-		});
+//		mTopbarView.setRightText("提交");
+//		mTopbarView.setRightClickListener(new OnClickListener() {
+//
+//			@Override
+//			public void onClick(View v) {
+//				updateTaskStates();
+//			}
+//		});
 	}
 
 	protected void updateTaskStates() {

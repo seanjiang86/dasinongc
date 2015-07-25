@@ -93,6 +93,7 @@ public class SoilInformationActivity extends SoilBaseActivity implements View.On
 
         this.soilcheck.setOnClickListener(this);
 
+
     }
 
     @Override

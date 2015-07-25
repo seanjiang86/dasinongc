@@ -2,7 +2,6 @@ package com.dasinong.app.components.home.view;
 
 import android.content.Context;
 import android.content.Intent;
-import android.opengl.Visibility;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BannerEntity;
@@ -51,10 +49,10 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
         mImageContainer = (ViewGroup) findViewById(R.id.banner_img_container);
         mImageTitleContainer = (ViewGroup) findViewById(R.id.banner_title_container);
 
-        visibilityAllView();
+        initViewStatus();
     }
 
-    private void visibilityAllView() {
+    private void initViewStatus() {
         mAllContainer.setVisibility(View.GONE);
         mImageContainer.setVisibility(View.GONE);
         mImageTitleContainer.setVisibility(View.GONE);
@@ -86,7 +84,7 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
         }
         
         url = banner.data.url;
-        visibilityAllView();
+        initViewStatus();
         switch (banner.data.type) {
 
             case 1:

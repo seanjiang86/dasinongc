@@ -128,7 +128,7 @@ public class EncyclopediasPesticideActivity extends BaseActivity implements OnCl
 			break;
 		case R.id.layout_intelligent:
 			Intent intent4 = new Intent(this,SearchPesticideResultActivity.class);
-			intent4.putExtra("type", "生长调节剂");
+			intent4.putExtra("type", "植物生长调节剂");
 			startActivity(intent4);
 			break;
 		case R.id.layout_shamanji:

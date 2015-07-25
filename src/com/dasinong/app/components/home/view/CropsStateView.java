@@ -284,9 +284,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private void updateFieldName() {
         if (!TextUtils.isEmpty(mCurrentFieldName)) {
             mFieldNameView.setText(mCurrentFieldName);
-            if(mFieldMap!=null&&!mFieldMap.isEmpty()){
-            	
-            SharedPreferencesHelper.setLong(this.getContext(), SharedPreferencesHelper.Field.FIELDID, mFieldMap.get(mCurrentFieldName));
+
+            if(mFieldMap!=null&&!mFieldMap.isEmpty()&&mFieldMap.get(mCurrentFieldName)!=null) {
+                SharedPreferencesHelper.setLong(this.getContext(), SharedPreferencesHelper.Field.FIELDID, mFieldMap.get(mCurrentFieldName));
             }
 
         }
@@ -346,14 +346,14 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      */
     private List<TaskStatus> getTaskBySubStageId() {
 
-        if (mCurrentSubStage == null) {
-            return new ArrayList<>();
-
-        }
-
-        if (mAllTasks.get(mCurrentSubStage.subStageId, null) != null) {
-            return mAllTasks.get(mCurrentSubStage.subStageId);
-        }
+//        if (mCurrentSubStage == null) {
+//            return new ArrayList<>();
+//
+//        }
+//
+//        if (mAllTasks.get(mCurrentSubStage.subStageId, null) != null) {
+//            return mAllTasks.get(mCurrentSubStage.subStageId);
+//        }
 
 
         //read local
@@ -671,8 +671,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
                     List<TaskStatus> lists = new ArrayList<TaskStatus>();
                     for (int i = 0; i < childCount; i++) {
-
-                        lists.add((TaskStatus) view.getTag());
+                        View childView = campaignView.getChildAt(i);
+                        lists.add((TaskStatus) childView.getTag());
                     }
 
                     saveTaskStatus(lists);
@@ -692,8 +692,13 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private List<TaskStatus> readTaskStatus() {
 
         Gson gson = new Gson();
-        String key = getSaveKey();
-        String result = SharedPreferencesHelper.getString(getContext(), key, null);
+
+        String result = null;
+        if(mFieldMap!=null&&mFieldMap.get(mCurrentFieldName)!=null) {
+                String key = getSaveKey();
+             result = SharedPreferencesHelper.getString(getContext(), key, null);
+        }
+
         List<TaskStatus> lists = new ArrayList<TaskStatus>();
         if (result != null) {
             lists.clear();
@@ -713,6 +718,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         }
         String key = getSaveKey();
         Gson gson = new Gson();
+        mAllTasks.put(mCurrentSubStage.subStageId,lists);
         SharedPreferencesHelper.setString(this.getContext(), key, gson.toJson(lists));
 
 

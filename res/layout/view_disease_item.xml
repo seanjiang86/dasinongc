@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_weight="5"
             android:orientation="vertical"
             android:paddingBottom="10dp"
@@ -36,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="textview_description"
-                android:textColor="@color/color_666666"
+                android:textColor="@color/color_99666666"
                 android:textSize="@dimen/sp_16" 
                 />
         </LinearLayout>

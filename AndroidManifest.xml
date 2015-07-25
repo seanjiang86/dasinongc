@@ -274,6 +274,14 @@
             android:name=".ui.SearchVarietyResultActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".ui.SearchPesticideNamedResultActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".ui.SearchVarietyNamedResultActivity"
+            android:screenOrientation="portrait" >
+        </activity>
         <!-- 友盟自动更新 -->
         <service
             android:name="com.umeng.update.net.DownloadingService"
