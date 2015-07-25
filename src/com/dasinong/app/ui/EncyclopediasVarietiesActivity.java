@@ -9,6 +9,7 @@ import java.util.List;
 import com.dasinong.app.R;
 import com.dasinong.app.database.encyclopedias.EncyclopediasDao;
 import com.dasinong.app.database.encyclopedias.domain.Crop;
+import com.dasinong.app.database.encyclopedias.domain.Varietybrowse;
 import com.dasinong.app.ui.adapter.VarietiesFirstListAdapter;
 import com.dasinong.app.ui.adapter.VarietiesSecondListAdapter;
 import com.dasinong.app.ui.view.LetterView;
@@ -81,6 +82,17 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 				EncyclopediasDao dao = new EncyclopediasDao(EncyclopediasVarietiesActivity.this);
 				
 				query = dao.queryStageCategory(type);
+				
+				List<Crop> deleteList = new ArrayList<>();
+				for(Crop crop:query){
+					if(crop.cropName!=null){
+						if(crop.cropName.contains("通用") || crop.cropName.contains("重复")){
+							deleteList.add(crop);
+						}
+					}
+				}
+				query.removeAll(deleteList);
+				
 				query = sortContactTitle(query);
 
 				alphaIndexer.clear();
