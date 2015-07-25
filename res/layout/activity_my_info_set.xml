@@ -8,53 +8,18 @@
     <com.dasinong.app.ui.view.TopbarView
         android:id="@+id/topbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+         >
     </com.dasinong.app.ui.view.TopbarView>
-
-    <EditText
-        android:id="@+id/edittext_info"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="30dp"
-        android:background="@drawable/edittext_style"
-        android:inputType="text"
-        android:padding="5dp" 
-        android:visibility="gone"
-        />
-    <EditText
-        android:id="@+id/edittext_password_new"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/edittext_style"
-        android:inputType="text"
-        android:padding="5dp" 
-        android:visibility="gone"
-        />
-    <EditText
-        android:id="@+id/edittext_password_sure"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/edittext_style"
-        android:inputType="text"
-        android:padding="5dp" 
-        android:visibility="gone"
-        />
 
     <LinearLayout
         android:id="@+id/layout_select_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center_vertical"
         android:orientation="vertical" 
         android:visibility="gone"
@@ -185,5 +150,43 @@
                 android:src="@drawable/drop_down" />
         </RelativeLayout>
     </LinearLayout>
+    
+    <EditText
+        android:id="@+id/edittext_info"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/edittext_style"
+        android:inputType="text"
+        android:padding="5dp" 
+        android:visibility="gone"
+        />
+    <EditText
+        android:id="@+id/edittext_password_new"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_style"
+        android:inputType="text"
+        android:padding="5dp" 
+        android:visibility="gone"
+        />
+    <EditText
+        android:id="@+id/edittext_password_sure"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edittext_style"
+        android:inputType="text"
+        android:padding="5dp" 
+        android:visibility="gone"
+        />
+
+    
 
 </LinearLayout>

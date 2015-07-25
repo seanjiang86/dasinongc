@@ -109,9 +109,9 @@ public class MyInfoSetActivity extends BaseActivity {
 			break;
 		case EDIT_ADDRESS:
 			mSelectAreaLayout.setVisibility(View.VISIBLE);
-
+			mEditText.setVisibility(View.VISIBLE);
 			mTopbarView.setCenterText("我的地址");
-			mEditText.setHint("我的地址");
+			mEditText.setHint("您的详细地址");
 			initProvince();
 			break;
 		case EDIT_HOME_PHONE:
@@ -271,12 +271,18 @@ public class MyInfoSetActivity extends BaseActivity {
 				showToast("请选择镇");
 				return;
 			}
+			String editText = mEditText.getText().toString().trim();
+			if (TextUtils.isEmpty(editText)) {
+				showToast("请输入您的详细地址");
+				return;
+			}
+			
 			String province = (String) mProvinceSp.getSelectedItem();
 			String city = (String) mCitySp.getSelectedItem();
 			String area = (String) mAreaSp.getSelectedItem();
 			String towns = (String) mTownsSp.getSelectedItem();
 
-			info = province + " " + city + " " + area + " " + towns;
+			info = province + " " + city + " " + area + " " + towns+" "+editText;
 
 			address = info;
 			
