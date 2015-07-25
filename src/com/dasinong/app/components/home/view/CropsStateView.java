@@ -488,7 +488,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 //点击添加--最右上角按钮
 
                 if (DeviceHelper.checkNetWork(context)) {
-                    if (!DeviceHelper.checkGPS(context)) {
+
+                    if (!DeviceHelper.checkGPS(context) && AccountManager.isLogin(context) ) {
                         showRemindDialog("无法获取当前位置", "请前往“设置”打开GPS卫星，设置完成后点”返回“键就可以回到今日农事", "前往设置", "暂不开启", new MyDialogClickListener() {
                             @Override
                             public void onSureButtonClick() {
