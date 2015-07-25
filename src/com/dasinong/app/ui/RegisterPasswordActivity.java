@@ -168,15 +168,15 @@ public class RegisterPasswordActivity extends BaseActivity {
 				// Toast.makeText(RegisterActivity.this, "注册协议",
 				// Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(RegisterPasswordActivity.this, RegisterServiceActivity.class);
-				intent.putExtra("url", "register.html");
-				intent.putExtra("title", "服务协议条款");
+				intent.putExtra("url", "agreement.html");
+				intent.putExtra("title", "服务协议条款");  
 				startActivity(intent);
 			}
 
 			@Override
 			public void updateDrawState(TextPaint ds) {
 				// TODO Auto-generated method stub
-				super.updateDrawState(ds);
+				super.updateDrawState(ds);  
 				ds.setUnderlineText(false);
 			}
 

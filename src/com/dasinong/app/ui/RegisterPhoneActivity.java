@@ -241,7 +241,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 				// Toast.makeText(RegisterActivity.this, "注册协议",
 				// Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(RegisterPhoneActivity.this, RegisterServiceActivity.class);
-				intent.putExtra("url", "register.html");
+				intent.putExtra("url", "agreement.html");
 				intent.putExtra("title", "服务协议条款");
 				startActivity(intent);
 			}
