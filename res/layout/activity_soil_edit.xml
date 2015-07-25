@@ -235,7 +235,7 @@
                     <TextView
                         style="@style/soil_editor_item_unit_txt"
 
-                        android:text="@string/unit_g" />
+                        android:text="@string/unit_mg" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -497,7 +497,7 @@
             <TextView
                 style="@style/soil_information_title"
 
-                android:text="@string/soil_other" />
+                android:text="中量元素" />
 
 
         </RelativeLayout>

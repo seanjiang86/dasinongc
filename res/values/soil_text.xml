@@ -7,7 +7,7 @@
     <string name="soil_tem">土壤湿度</string>
     <string name="soil_report">测土报告录入</string>
     <string name="soil_time">测试时间</string>
-    <string name="soil_ph">酸碱度PH</string>
+    <string name="soil_ph">酸碱度pH</string>
     <string name="soil_organics">有机质</string>
     <string name="soil_an">全氮</string>
     <string name="soil_qn">碱解氮</string>
@@ -30,7 +30,7 @@
     <string name="soil_si">硅Si</string>
 
     <string name="unit_g">g/km</string>
-    <string name="unit_mg">mg/km</string>
+    <string name="unit_mg">mg/kg</string>
     <string name="soil_effect">土壤湿度有什么用?</string>
     <string name="soil_all_report">全部报告</string>
     <string name="soil_check">申请测土</string>
