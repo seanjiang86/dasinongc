@@ -204,8 +204,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
             //任务相关的
             convertTask(currentFieldEntity.taskws);
 
-
-            mCurrentTaskSpec = getTaskBySubStageId();
+            if(mCurrentSubStage!=null) {
+                mCurrentTaskSpec = getTaskBySubStageId();
+            }
             if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
                 mTaskTitle.setVisibility(View.VISIBLE);
                 updateTask();
