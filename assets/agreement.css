@@ -1,0 +1,20 @@
+html {
+  font-family: Roboto,sans-serif;
+}
+body {
+  margin: 20px 0px 0px 0px;
+  font-size: 16px;
+  line-height: 150%;
+  word-break: break-all;
+}
+ul {
+  list-style: none;
+    -webkit-padding-start: 10px;
+}
+li{
+  padding-bottom: 10px;
+}
+h2{
+  font-size: 20px;
+  font-style: bold;
+}

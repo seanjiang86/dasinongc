@@ -50,6 +50,7 @@
         android:cacheColorHint="@android:color/transparent" 
         android:divider="@color/color_DCE3E6"
         android:dividerHeight="0.5dp"
+        android:scrollbars="none"
         android:visibility="gone"
         >
     </ListView>
