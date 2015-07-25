@@ -694,7 +694,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
         Gson gson = new Gson();
 
         String result = null;
-        if(mFieldMap!=null&&mFieldMap.get(mCurrentFieldName)!=null) {
+        if(mFieldMap!=null&&mFieldMap.get(mCurrentFieldName)!=null&&mCurrentSubStage!=null) {
                 String key = getSaveKey();
              result = SharedPreferencesHelper.getString(getContext(), key, null);
         }
