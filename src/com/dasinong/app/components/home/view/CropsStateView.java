@@ -692,8 +692,13 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
     private List<TaskStatus> readTaskStatus() {
 
         Gson gson = new Gson();
-        String key = getSaveKey();
-        String result = SharedPreferencesHelper.getString(getContext(), key, null);
+
+        String result = null;
+        if(mFieldMap!=null&&mFieldMap.get(mCurrentFieldName)!=null) {
+                String key = getSaveKey();
+             result = SharedPreferencesHelper.getString(getContext(), key, null);
+        }
+
         List<TaskStatus> lists = new ArrayList<TaskStatus>();
         if (result != null) {
             lists.clear();
