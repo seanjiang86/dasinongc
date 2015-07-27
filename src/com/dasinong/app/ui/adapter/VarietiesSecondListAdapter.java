@@ -29,6 +29,7 @@ public class VarietiesSecondListAdapter extends MyBaseAdapter<Crop> {
 			view = View.inflate(context, R.layout.view_disease_item, null);
 			holder.nameText = (TextView) view.findViewById(R.id.textview_title);
 			holder.desText = (TextView) view.findViewById(R.id.textview_description);
+//			holder.moreImage = (ImageView) view.findViewById(R.id.imageview_more);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
@@ -36,12 +37,14 @@ public class VarietiesSecondListAdapter extends MyBaseAdapter<Crop> {
 		final Crop item = list.get(pos);
 		holder.nameText.setText(item.cropName);
 		holder.desText.setVisibility(View.GONE);
+//		holder.moreImage.setVisibility(View.VISIBLE);
 		return view;
 	}
 
 	public static class ViewHolder {
 		TextView  nameText;
 		TextView  desText;
+//		ImageView moreImage;
 	}
 	
 }
