@@ -63,13 +63,13 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="vertical" >
 
         <TextView
             android:id="@+id/tv_crop"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_weight="1"
+            android:layout_margin="10dp"
             android:background="@drawable/text_bg"
             android:drawableRight="@drawable/drop_down"
             android:paddingRight="5dp"
@@ -81,10 +81,9 @@
 
         <TextView
             android:id="@+id/tv_variety_name"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginLeft="8dp"
-            android:layout_weight="1"
+            android:layout_margin="10dp"
             android:background="@drawable/text_bg"
             android:drawableRight="@drawable/drop_down"
             android:paddingRight="5dp"
@@ -96,10 +95,9 @@
 
         <TextView
             android:id="@+id/tv_variety_num"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginLeft="7dp"
-            android:layout_weight="1"
+            android:layout_margin="10dp"
             android:background="@drawable/text_bg"
             android:drawableRight="@drawable/drop_down"
             android:paddingRight="5dp"

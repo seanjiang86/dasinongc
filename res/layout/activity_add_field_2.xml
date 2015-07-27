@@ -56,8 +56,8 @@
     <com.dasinong.app.ui.view.ExpandTabView
         android:id="@+id/etv"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp" >
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp" >
     </com.dasinong.app.ui.view.ExpandTabView>
 
     <Button
@@ -66,7 +66,7 @@
         android:layout_height="45dp"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:background="@drawable/green_button_selector"
         android:text="确定"
         android:textColor="@color/color_FFFFFF"

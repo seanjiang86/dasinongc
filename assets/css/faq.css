@@ -1,0 +1,44 @@
+html {
+  font-family: Roboto,sans-serif;
+}
+body {
+  font-size: 16px;
+  line-height: 120%;
+  word-break: break-all;
+}
+ul {
+  list-style: none;
+  padding-left: 20px;
+}
+.disc {
+  list-style: disc;
+}
+.check {
+  list-style: none;
+  background: url("ok.png") no-repeat;
+  background-size: 15px;
+}
+li{
+  padding-bottom: 10px;
+}
+
+.question {
+  color: #3c3c3c;
+  font-weight: bold;
+  font-size: 18px;
+  background: url("question.jpg") no-repeat;
+  background-size: 20px;
+  padding-left: 28px;
+  line-height: 20px;
+}
+.answer_item {
+  padding-left: 28px;
+  padding-bottom: 10px;
+}
+.table_item {
+  width:120px;
+    padding-top:10px;
+}
+td {
+  vertical-align: text-top
+}

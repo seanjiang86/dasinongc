@@ -31,46 +31,76 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text=""
-            android:inputType="number"
-            android:textColor="@color/color_333333"
             android:background="@android:color/transparent"
+            android:inputType="number"
+            android:text=""
+            android:textColor="@color/color_333333"
             android:textSize="@dimen/sp_30" />
     </LinearLayout>
 
-    
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:background="@color/color_DCE3E6" />
-    
-    <Button 
+
+    <Button
         android:id="@+id/button_next"
         android:layout_width="match_parent"
-            android:layout_height="45dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:background="@drawable/button_green_bg_selector"
-            android:text="下一步"
-            android:textSize="@dimen/sp_16"
-            android:textColor="@android:color/white"
-        />
-    
+        android:background="@drawable/button_green_bg_selector"
+        android:text="下一步"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/sp_16" />
+
     <TextView
         android:id="@+id/textview_agreement"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:text="点击上边的按钮,即表示你同意《软件许可及服务协议》"
-            android:textColor="@color/color_666666"
-            android:textSize="@dimen/sp_12" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="15dp"
+        android:text="点击上边的按钮,即表示你同意《软件许可及服务协议》"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/sp_12" />
 
-    <!-- <EditText
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="30dp" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="免费承诺"
+                android:textColor="@color/color_33AB33"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:text="这是一个免费版软件，我们不会以任何方式向用户收费，发送到你手机的全部短信由我们向运营商支付费用，请放心使用，如果在使用过程中有任何疑问，欢迎联系我们"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <!--
+    <EditText
         android:id="@+id/edittext_username"
         android:layout_width="match_parent"
         android:layout_height="45dp"
@@ -110,6 +140,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:text="注册" /> -->
+        android:text="注册" />
+    -->
 
 </LinearLayout>

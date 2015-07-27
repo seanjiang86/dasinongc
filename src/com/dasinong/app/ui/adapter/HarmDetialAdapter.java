@@ -21,9 +21,7 @@ public class HarmDetialAdapter extends MyBaseAdapter<Solutions> {
 		super(ctx, list, flag);
 		this.soluSize = soluSize;
 	}
-	
 
-	
 	@Override
 	public View getView(int pos, View view, ViewGroup group) {
 		ViewHolder holder = null;
@@ -57,27 +55,29 @@ public class HarmDetialAdapter extends MyBaseAdapter<Solutions> {
 			holder.small_line.setVisibility(View.GONE);
 			holder.big_line.setVisibility(View.GONE);
 		}
-		if(pos < soluSize){
-			char c = (char) (65+pos);
-			holder.tv_method_name.setText("治疗方案"+c);
+		if (pos < soluSize) {
+			char c = (char) (65 + pos);
+			holder.tv_method_name.setText("治疗方案" + c);
 		} else {
-			char c = (char) (65+pos-soluSize);
+			char c = (char) (65 + pos - soluSize);
 			holder.tv_title.setText("预防方法");
-			holder.tv_method_name.setText("预防方案"+c);
+			holder.tv_method_name.setText("预防方案" + c);
 		}
-		
+
 		holder.tv_content.setText(list.get(pos).petSoluDes);
-		
+
 		// TODO MING:等待数据
-		if(TextUtils.isEmpty(list.get(pos).subStageId) || "0".equals(list.get(pos).subStageId)){
+		if (TextUtils.isEmpty(list.get(pos).subStageId) || "0".equals(list.get(pos).subStageId)) {
 			holder.tv_crop_stage.setVisibility(View.GONE);
 		} else {
 			holder.tv_crop_stage.setVisibility(View.VISIBLE);
 			holder.tv_crop_stage.setText(list.get(pos).subStageId);
 		}
-		// TODO MING：暂时没有提供者，第一个版本隐藏该控件
-		holder.tv_provider.setVisibility(View.GONE);
-//		holder.tv_provider.setText(list.get(pos).providedBy);
+		if (TextUtils.isEmpty(list.get(pos).providedBy)) {
+			holder.tv_provider.setVisibility(View.GONE);
+		} else {
+			holder.tv_provider.setText(list.get(pos).providedBy);
+		}
 		return view;
 	}
 

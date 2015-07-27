@@ -89,15 +89,19 @@ public class CureDetialActivity extends BaseActivity {
 	}
 
 	private void initHeader(Solutions solu) {
-		// TODO MING:等待数据
 		if (TextUtils.isEmpty(solu.subStageId) || "0".equals(solu.subStageId)) {
 			tv_cure_stage.setVisibility(View.GONE);
 		} else {
 			tv_cure_stage.setText(solu.subStageId);
 		}
-
-		// TODO MING: 无数据隐藏
-		tv_cure_provider.setVisibility(View.GONE);
+		
+		if(TextUtils.isEmpty(solu.providedBy)){
+			tv_cure_provider.setVisibility(View.GONE);
+		} else {
+			tv_cure_provider.setVisibility(View.VISIBLE);
+			tv_cure_provider.setText(solu.providedBy);
+		}
+		
 		// tv_cure_provider.setText(solu.providedBy);
 		tv_cure_content.setText(solu.petSoluDes);
 	}
@@ -173,6 +177,7 @@ public class CureDetialActivity extends BaseActivity {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Intent intent = new Intent(CureDetialActivity.this, WebBrowserActivity.class);
 				intent.putExtra(WebBrowserActivity.URL, NetConfig.BAIKE_URL + "type=pesticide&id=" + drugList.get(position - 1).id);
+				intent.putExtra("title", drugList.get(position-1).name);
 				startActivity(intent);
 			}
 		});

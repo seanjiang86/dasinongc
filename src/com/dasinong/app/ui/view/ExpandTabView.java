@@ -5,7 +5,9 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.DashPathEffect;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import com.dasinong.app.R;
+import com.dasinong.app.utils.GraphicUtils;
 
 /**
  * 菜单控件头部，封装了下拉动画，动态生成头部按钮个数
@@ -84,17 +87,22 @@ public class ExpandTabView extends LinearLayout implements OnDismissListener {
 			RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, maxHeight);
 			rl.leftMargin = 10;
 			rl.rightMargin = 10;
+			rl.topMargin = GraphicUtils.px2dip(mContext, 200);
 			r.addView(viewArray.get(i), rl);
 			mViewArray.add(r);
 			r.setTag(SMALL);
 			ToggleButton tButton = (ToggleButton) inflater.inflate(R.layout.toggle_button, this, false);
+			setOrientation(LinearLayout.VERTICAL);
 			addView(tButton);
-			View line = new TextView(mContext);
-			line.setBackgroundResource(R.drawable.choosebar_line);
-			if (i < viewArray.size() - 1) {
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
-				addView(line, lp);
+			if(i != 0){
+				tButton.setVisibility(View.GONE);
 			}
+//			View line = new TextView(mContext);
+//			line.setBackgroundResource(R.drawable.choosebar_line);
+//			if (i < viewArray.size() - 1) {
+//				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(2, LinearLayout.LayoutParams.MATCH_PARENT);
+//				addView(line, lp);
+//			}
 			mToggleButton.add(tButton);
 			tButton.setTag(i);
 			tButton.setText(mTextArray.get(i));
@@ -160,7 +168,8 @@ public class ExpandTabView extends LinearLayout implements OnDismissListener {
 		if (popupWindow.getContentView() != mViewArray.get(position)) {
 			popupWindow.setContentView(mViewArray.get(position));
 		}
-		popupWindow.showAsDropDown(this, 0, 0);
+//		popupWindow.showAsDropDown(this, 0, 0);
+		popupWindow.showAtLocation((View) this.getParent(), Gravity.CENTER, 0, 0);
 	}
 
 	/**
@@ -193,6 +202,10 @@ public class ExpandTabView extends LinearLayout implements OnDismissListener {
 		displayWidth = ((Activity) mContext).getWindowManager().getDefaultDisplay().getWidth();
 		displayHeight = ((Activity) mContext).getWindowManager().getDefaultDisplay().getHeight();
 		setOrientation(LinearLayout.HORIZONTAL);
+	}
+	
+	public void setButtonVisible(int index){
+		mToggleButton.get(index).setVisibility(View.VISIBLE);
 	}
 
 	@Override

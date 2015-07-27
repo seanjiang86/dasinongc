@@ -46,7 +46,7 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 	private Button btn_no_in_field;
 	private TopbarView topbar;
 	private RunnableTask task = new RunnableTask();
-	private static final int MAX_DELAY_COUNT = 2;
+	private static final int MAX_DELAY_COUNT = 1;
 	private int count = 0;
 
 	private Handler handler = new Handler() {

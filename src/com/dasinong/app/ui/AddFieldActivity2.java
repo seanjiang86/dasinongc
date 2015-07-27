@@ -68,8 +68,9 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	private int countyPosition;
 	private int districtPostion;
 
-	private String firstButtonText = "请选择";
-	private String secondButtonText = "请选择";
+	private String firstButtonText = "省 - 市";
+	private String secondButtonText = "县 - 乡";
+	private String thirdButtonText = "村";
 	private LinearLayout ll_all;
 
 	private MyComparator mComparator = new MyComparator();
@@ -132,6 +133,8 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		countyView = new ViewMiddle(this);
 		countyView.setBackgroundResource(R.drawable.choosearea_bg_mid);
 		villageView = new ViewRight(this);
+		
+		btn_sure_location.setVisibility(View.GONE);
 	}
 
 	private void initValue() {
@@ -148,7 +151,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		}
 		textList.add(firstButtonText);
 		textList.add(secondButtonText);
-		textList.add("请选择");
+		textList.add(thirdButtonText);
 		etv.setValue(textList, viewList);
 
 		etv.setOnButtonClickListener(new OnButtonClickListener() {
@@ -222,14 +225,16 @@ public class AddFieldActivity2 extends MyBaseActivity {
 					county = null;
 					district = null;
 
-					etv.setTitle("请选择", 1);
-					etv.setTitle("请选择", 2);
+					etv.setTitle("县 - 乡", 1);
+					etv.setTitle(thirdButtonText, 2);
 				}
 				countyList = dao.getCounty(city);
 				Collections.sort(countyList, mComparator);
 				onrefresh(provinceView, province + "-" + city);
 				countyPosition = 0;
 				districtPostion = 0;
+				
+				etv.setButtonVisible(1);
 			}
 		});
 	}
@@ -267,13 +272,15 @@ public class AddFieldActivity2 extends MyBaseActivity {
 
 					village = null;
 
-					etv.setTitle("请选择", 2);
+					etv.setTitle(thirdButtonText, 2);
 				}
 
 				districtPostion = position;
 				onrefresh(countyView, county + "-" + district);
 
 				queryVillage(province, city, county, district);
+				
+				etv.setButtonVisible(2);
 			}
 		});
 	}
@@ -288,6 +295,8 @@ public class AddFieldActivity2 extends MyBaseActivity {
 				villageId = villageMap.get(village);
 
 				onrefresh(villageView, village);
+				
+				btn_sure_location.setVisibility(View.VISIBLE);
 			}
 		});
 	}
@@ -356,7 +365,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	}
 
 	private void gotoThree() {
-		if ("请选择".equals(etv.getTitle(2))) {
+		if (thirdButtonText.equals(etv.getTitle(2))) {
 			showToast("请完善您的地理信息");
 			return;
 		}
