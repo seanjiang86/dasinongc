@@ -30,8 +30,11 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="95dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="45dp" >
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="45dp"
+        android:gravity="center_horizontal" >
+        
 
         <ImageView
             android:layout_width="95dp"
@@ -49,7 +52,7 @@
                 android:id="@+id/tv_user_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="从今天起,记得每天打开\nApp,查查今天适宜的农事,\n并给出反馈,我们会不断\n优化你的种植方案。"
+                android:text="从今天起,记得每天打开App,查查今天适宜的农事,并给出反馈,我们会不断优化你的种植方案。"
                 android:textColor="@color/color_333333"
                 android:textSize="16sp" />
         </LinearLayout>
@@ -61,19 +64,19 @@
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginTop="45dp"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:gravity="center_horizontal" >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="本季目标产量:"
+            android:text="本季目标产量："
             android:textSize="16sp" />
 
         <EditText
             android:id="@+id/et_target_production"
-            android:layout_width="150dp"
+            android:layout_width="105dp"
             android:layout_height="45dp"
-            android:layout_marginLeft="20dp"
             android:background="@drawable/text_bg"
             android:inputType="numberDecimal" />
 

@@ -27,8 +27,9 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="95dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="45dp" >
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="25dp" >
 
         <ImageView
             android:layout_width="95dp"
@@ -58,7 +59,8 @@
         </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
+    <!--
+         <LinearLayout
         android:id="@+id/substage_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -95,6 +97,14 @@
             android:text="小生长期"
             android:textColor="@color/color_999999" />
     </LinearLayout>
+    -->
+
+    <com.dasinong.app.ui.view.ExpandTabView
+        android:id="@+id/etv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp" >
+    </com.dasinong.app.ui.view.ExpandTabView>
 
     <LinearLayout
         android:layout_width="fill_parent"

@@ -50,21 +50,21 @@ public class SoilListActivity extends SoilBaseActivity implements AdapterView.On
 		switch (position) {
 		case 0:
 			intent.setClass(this, WebBrowserActivity.class);
-			intent.putExtra("url", "file:///android_asset/SamplingImportance.html");
-			intent.putExtra("title", "为什么要测土");
+			intent.putExtra(WebBrowserActivity.URL, "file:///android_asset/SamplingImportance.html");
+			intent.putExtra(WebBrowserActivity.TITLE, "为什么要测土");
 			startActivity(intent);
 			break;
 		case 1:
 			intent.setClass(this, WebBrowserActivity.class);
-			intent.putExtra("url", "file:///android_asset/SamplingNotice.html");
-			intent.putExtra("title", "采样须知");
+			intent.putExtra(WebBrowserActivity.URL, "file:///android_asset/SamplingNotice.html");
+			intent.putExtra(WebBrowserActivity.TITLE, "采样须知");
 			startActivity(intent);
 			break;
 		case 2:
 
 			intent.setClass(this, WebBrowserActivity.class);
-			intent.putExtra("url", "file:///android_asset/soiltest-sample.html");
-			intent.putExtra("title", "测土报告解读");
+			intent.putExtra(WebBrowserActivity.URL, "file:///android_asset/soiltest-sample.html");
+			intent.putExtra(WebBrowserActivity.TITLE, "测土报告解读");
 			startActivity(intent);
 			break;
 		case 3:

@@ -38,6 +38,7 @@ public class ExpandTabView extends LinearLayout implements OnDismissListener {
 	private int displayHeight;
 	private PopupWindow popupWindow;
 	private int selectPosition;
+	private String valueText;
 
 	public ExpandTabView(Context context) {
 		super(context);
@@ -54,8 +55,16 @@ public class ExpandTabView extends LinearLayout implements OnDismissListener {
 	 */
 	public void setTitle(String valueText, int position) {
 		if (position < mToggleButton.size()) {
+			this.valueText = valueText;
 			mToggleButton.get(position).setText(valueText);
 		}
+	}
+	
+	/**
+	 * 获取正在显示的文字
+	 */
+	public String getText(int position){
+		return valueText;
 	}
 
 	public void setTitle(String title){
@@ -87,7 +96,7 @@ public class ExpandTabView extends LinearLayout implements OnDismissListener {
 			RelativeLayout.LayoutParams rl = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, maxHeight);
 			rl.leftMargin = 10;
 			rl.rightMargin = 10;
-			rl.topMargin = GraphicUtils.px2dip(mContext, 200);
+			rl.topMargin = GraphicUtils.dip2px(mContext, 70);
 			r.addView(viewArray.get(i), rl);
 			mViewArray.add(r);
 			r.setTag(SMALL);

@@ -13,26 +13,28 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+import butterknife.OnClick;
 
 import com.dasinong.app.R;
 import com.dasinong.app.database.task.dao.impl.SubStageDaoImpl;
 import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.ui.adapter.MyBaseAdapter;
+import com.dasinong.app.ui.adapter.TextAdapter.OnItemClickListener;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.ui.view.ExpandTabView;
 import com.dasinong.app.ui.view.PPCPopMenu;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.ui.view.ViewMiddle;
+import com.dasinong.app.ui.view.ViewThree;
 
 public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener {
 	private String varietyId;
 	private List<String> bigSubStageList;
 	private ArrayList<String> smallSubStageList;
 	private Map<String, Integer> smallSubStageMap = new LinkedHashMap<String, Integer>();
-	private TextView tv_big_substage;
-	private TextView tv_small_substage;
 	private Button btn_no_sure_substage;
 	private Button btn_sure_substage;
 	private String currentStage;
@@ -40,18 +42,23 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	private String subStageId;
 	private TopbarView topbar;
 	private SubStageDaoImpl dao;
-	private PPCPopMenu bigStageMenu;
-	private PPCPopMenu smallStageMenu;
 	private String seedingMethod;
+	private ExpandTabView etv;
+	private ViewMiddle viewMiddle;
+	private List<View> viewList = new ArrayList<View>();
+	private List<String> textList = new ArrayList<String>();
+	private int bigPosition;
+	private int smallPosition;
+	private String bigSubStage;
+	private String smallSubStage;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(0, 0);
 		setContentView(R.layout.activity_add_field_5);
+		etv = (ExpandTabView) findViewById(R.id.etv);
 
-		tv_big_substage = (TextView) findViewById(R.id.tv_big_substage);
-		tv_small_substage = (TextView) findViewById(R.id.tv_small_substage);
 		btn_no_sure_substage = (Button) findViewById(R.id.btn_no_sure_substage);
 		btn_sure_substage = (Button) findViewById(R.id.btn_sure_substage);
 		topbar = (TopbarView) findViewById(R.id.topbar);
@@ -62,21 +69,16 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 
 		dao = new SubStageDaoImpl(this);
 
-		final Context context = AddFieldActivity5.this;
-		tv_big_substage.post(new Runnable() {
+		viewMiddle = new ViewMiddle(this);
+		viewList.add(viewMiddle);
+		textList.add("请选择品种");
 
-			@Override
-			public void run() {
-				bigStageMenu = new PPCPopMenu(context, tv_big_substage, tv_big_substage.getWidth());
-				smallStageMenu = new PPCPopMenu(context, tv_small_substage, tv_small_substage.getWidth());
-				queryBigSubStage();
-			}
-		});
+		etv.setValue(textList, viewList);
+
+		queryBigSubStage();
 
 		initTopBar();
 
-		tv_big_substage.setOnClickListener(this);
-		tv_small_substage.setOnClickListener(this);
 		btn_no_sure_substage.setOnClickListener(this);
 		btn_sure_substage.setOnClickListener(this);
 	}
@@ -85,54 +87,12 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	public void onClick(View v) {
 		int id = v.getId();
 		switch (id) {
-		case R.id.tv_big_substage:
-			bigStageMenu.showAsDropDown();
-			bigStageMenu.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					currentStage = bigSubStageList.get(position);
-					if (!currentStage.equals(lastStage)) {
-						tv_big_substage.setText(currentStage);
-						tv_small_substage.setText("小生长期");
-						if (smallSubStageList != null) {
-							smallSubStageList.clear();
-							smallStageMenu.addItems(smallSubStageList);
-						}
-						subStageId = "";
-						lastStage = currentStage;
-					}
-					querySmallSubStage(currentStage);
-					bigStageMenu.dismiss();
-				}
-			});
-			break;
-		case R.id.tv_small_substage:
-			if (currentStage == null) {
-				showToast("请先选择大生长期");
-				return;
-			}
-			smallStageMenu.showAsDropDown();
-			smallStageMenu.setOnItemClickListener(new OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					String smallSubStage = smallSubStageList.get(position);
-					
-					tv_small_substage.setText(smallSubStage);
-					
-					if("我不确定".equals(smallSubStage)){
-						smallSubStage = smallSubStageList.get(1);
-					}
-					subStageId = String.valueOf(smallSubStageMap.get(smallSubStage));
-					smallStageMenu.dismiss();
-				}
-			});
-			break;
 		case R.id.btn_no_sure_substage:
 			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, "");
 			goToNext();
 			break;
 		case R.id.btn_sure_substage:
-			if(TextUtils.isEmpty(subStageId)){
+			if (TextUtils.isEmpty(subStageId)) {
 				showToast("请完善作物生长阶段，或者选择我不知道");
 				return;
 			}
@@ -164,7 +124,23 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	 * 填充大生长期
 	 */
 	protected void initBigSubStage() {
-		bigStageMenu.addItems(bigSubStageList);
+		viewMiddle.initBigAreaData(bigSubStageList, bigPosition);
+		viewMiddle.setOnBigAreaItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(View view, int position) {
+				if (!bigSubStageList.get(position).equals(bigSubStage)) {
+					bigSubStage = bigSubStageList.get(position);
+					smallSubStage = null;
+					smallPosition = 0;
+				}
+				bigSubStage = bigSubStageList.get(position);
+
+				bigPosition = position;
+
+				querySmallSubStage(bigSubStage);
+			}
+		});
 	}
 
 	/**
@@ -186,13 +162,31 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	 * 填充小生长期
 	 */
 	private void initSmallSubStage() {
-		if (TextUtils.isEmpty(currentStage)) {
-			showToast("请先选择大生长期");
-			return;
-		}
 		smallSubStageList = new ArrayList<String>(smallSubStageMap.keySet());
 		smallSubStageList.add(0, "我不确定");
-		smallStageMenu.addItems(smallSubStageList);
+		viewMiddle.initSmallAreaData(smallSubStageList, smallPosition);
+		viewMiddle.setOnSmallAreaItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(View view, int position) {
+				smallSubStage = smallSubStageList.get(position);
+				smallPosition = position;
+				onrefresh(bigSubStage + "-" + smallSubStage);
+
+				if ("我不确定".equals(smallSubStage)) {
+					smallSubStage = smallSubStageList.get(1);
+				}
+				subStageId = String.valueOf(smallSubStageMap.get(smallSubStage));
+			}
+		});
+	}
+
+	private void onrefresh(String showText) {
+		etv.onPressBack();
+
+		if (!etv.getTitle(0).equals(showText) && !TextUtils.isEmpty(showText)) {
+			etv.setTitle(showText, 0);
+		}
 	}
 
 	private void goToNext() {

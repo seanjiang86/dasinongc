@@ -21,17 +21,23 @@
             android:textColor="@color/color_333333"
             android:textSize="20sp" />
 
-        <RatingBar
-            android:id="@+id/rb_harm_grade"
-            style="@style/CustomRatingBar"
+        <RelativeLayout
+            android:id="@+id/rl_rb"
             android:layout_width="wrap_content"
             android:layout_height="24dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:isIndicator="true"
-            android:numStars="5"
-            android:rating="5"
-            android:stepSize="1" />
+            android:layout_centerVertical="true" >
+
+            <RatingBar
+                android:id="@+id/rb_harm_grade"
+                style="@style/CustomRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="24dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="5"
+                android:stepSize="1" />
+        </RelativeLayout>
     </RelativeLayout>
 
     <ImageView
@@ -42,16 +48,16 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:scaleType="fitXY" />
-	
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="25dp"
         android:text="为害症状"
-        android:textSize="@dimen/sp_16"
-        android:textColor="@color/color_333333" />
-    
+        android:textColor="@color/color_333333"
+        android:textSize="@dimen/sp_16" />
+
     <TextView
         android:id="@+id/tv_harm_des"
         android:layout_width="match_parent"
@@ -91,8 +97,7 @@
             </LinearLayout>
         </RelativeLayout>
         
-    </FrameLayout>
-    -->
+    </FrameLayout>    -->
 
     <View
         android:layout_width="match_parent"

@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -183,9 +184,6 @@ public class HarmDetialsActivity extends BaseActivity {
 		// 获取预防方案
 		locaPetPreventList = manager.getPreventSolution(petDisSpecId);
 
-		System.out.println(locaPetPreventList.size());
-		System.out.println(locaPetSoluList.size());
-
 		for (int i = 0; i < locaPetSoluList.size(); i++) {
 			Solutions solution = new Solutions();
 			if (locaPetSoluList.get(i).isCPSolu == 1) {
@@ -245,6 +243,9 @@ public class HarmDetialsActivity extends BaseActivity {
 		tv_harm_des = (TextView) header.findViewById(R.id.tv_harm_des);
 		iv_pic = (ImageView) header.findViewById(R.id.iv_pic);
 		ll_rapid_diagnosis = (LinearLayout) header.findViewById(R.id.ll_rapid_diagnosis);
+		RelativeLayout rl_rb = (RelativeLayout) header.findViewById(R.id.rl_rb);
+		
+		
 		tv_harm_name.setText(detial.data.petDisSpec.petDisSpecName);
 		if(detial.data.petDisSpec.severity == 0){
 			rb_harm_grade.setVisibility(View.GONE);
@@ -265,6 +266,17 @@ public class HarmDetialsActivity extends BaseActivity {
 		}
 
 		LoadUtils.getInstance().loadImage(iv_pic, NetConfig.PET_IMAGE + path);
+		
+		rl_rb.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(HarmDetialsActivity.this, WebBrowserActivity.class);
+				intent.putExtra(WebBrowserActivity.URL, "file:///android_asset/DisasterLevel.html");
+				intent.putExtra(WebBrowserActivity.TITLE, "危害等级介绍");
+				startActivity(intent);
+			}
+		});
 
 		ll_rapid_diagnosis.setOnClickListener(new OnClickListener() {
 			@Override
@@ -272,6 +284,7 @@ public class HarmDetialsActivity extends BaseActivity {
 				if (DeviceHelper.checkNetWork(HarmDetialsActivity.this)) {
 					Intent intent = new Intent(HarmDetialsActivity.this, WebBrowserActivity.class);
 					intent.putExtra(WebBrowserActivity.URL, NetConfig.BAIKE_URL + "type=pest&id=" + detial.data.petDisSpec.id);
+					intent.putExtra(WebBrowserActivity.TITLE, detial.data.petDisSpec.petDisSpecName);
 					startActivity(intent);
 				} else {
 					showRemindDialog("呀！网络断了...", "请检查你的手机是否联网，如果只是信号不好，也许等等就好啦", "前往设置", "取消", new MyDialogClickListener() {
@@ -288,7 +301,7 @@ public class HarmDetialsActivity extends BaseActivity {
 				}
 			}
 		});
-
+		
 		lv_detial.addHeaderView(header, null, false);
 
 		// TODO MING 多张图片备用

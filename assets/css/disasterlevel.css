@@ -1,0 +1,44 @@
+html {
+  font-family: Roboto,sans-serif;
+}
+body {
+  margin: 50px 30px 30px 30px;
+  font-size: 16px;
+  line-height: 200%;
+  word-break: break-all;
+}
+ul {
+  list-style: none;
+  -webkit-padding-start: 0px;
+}
+li{
+  padding-top: 25px;
+  padding-bottom: 20px;
+}
+.one {
+  background: url(levelone.png) no-repeat;
+  background-size: auto 20px;
+}
+
+.two {
+  background: url(leveltwo.png) no-repeat;
+  background-size: auto 20px;
+}
+
+.three {
+  background: url(levelthree.png) no-repeat;
+  background-size: auto 20px;
+}
+.four {
+  background: url(levelfour.png) no-repeat;
+  background-size: auto 20px;
+}
+.five {
+  background: url(levelfive.png) no-repeat;
+  background-size: auto 20px;
+}
+h1{
+  font-size: 1.7em;
+  font-style: bold;
+  padding-bottom: 10px;
+}

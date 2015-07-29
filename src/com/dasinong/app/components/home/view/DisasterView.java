@@ -375,7 +375,7 @@ public class DisasterView extends LinearLayout {
             return R.drawable.weed;
         }
         if (type.contains("病害")) {
-            return R.drawable.disease;
+            return R.drawable.binghai;
 
         } else if (type.contains("虫害")) {
             return R.drawable.pest;

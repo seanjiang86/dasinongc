@@ -33,6 +33,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
             android:gravity="center_vertical"
             android:orientation="vertical" >
 
@@ -71,11 +72,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginTop="10dp" >
+            android:layout_marginTop="10dp">
 
             <EditText
                 android:id="@+id/et_field_size"
-                android:layout_width="275dp"
+                android:layout_width="235dp"
                 android:layout_height="45dp"
                 android:background="@drawable/text_bg"
                 android:hint="农田多大呀?例如100"
