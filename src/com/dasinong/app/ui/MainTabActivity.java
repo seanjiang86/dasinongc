@@ -68,22 +68,21 @@ public class MainTabActivity extends BaseActivity {
 		// 友盟更新
 		UmengUpdateAgent.update(this);
 		UmengUpdateAgent.setUpdateOnlyWifi(false);
+
+		MobclickAgent.updateOnlineConfig(this);
 		
-		MobclickAgent.updateOnlineConfig( this );
-		
+		// 强制更新代码
 		String minVersion = MobclickAgent.getConfigParams(this, "minVersion");
-		
-		showToast(minVersion+"");
 
 		try {
 
 			int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-			if(!TextUtils.isEmpty(minVersion)){
-			
+			if (!TextUtils.isEmpty(minVersion)) {
+
 				if (versionCode < Integer.valueOf(minVersion)) {
 					isMustUpdate = true;
 				}
-				
+
 			}
 		} catch (NameNotFoundException e) {
 
@@ -134,7 +133,7 @@ public class MainTabActivity extends BaseActivity {
 			}
 		});
 	}
-	
+
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
@@ -185,31 +184,6 @@ public class MainTabActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-//		UmengUpdateAgent.forceUpdate(this);
-//		UmengUpdateAgent.setUpdateAutoPopup(false);
-//		UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
-//
-//			@Override
-//			public void onUpdateReturned(int updateStatus,UpdateResponse updateInfo) {
-//				switch (updateStatus) {
-//				case UpdateStatus.Yes: // has update
-//					UmengUpdateAgent.showUpdateDialog(DsnApplication.getContext(), updateInfo);
-//					break;
-//				case UpdateStatus.No: // has no update
-////					Toast.makeText(this, "没有更新", Toast.LENGTH_SHORT).show();
-//					break;
-//				case UpdateStatus.NoneWifi: // none wifi
-////					Toast.makeText(this, "没有wifi连接， 只在wifi下更新", Toast.LENGTH_SHORT).show();
-//					break;
-//				case UpdateStatus.Timeout: // time out
-////					Toast.makeText(this, "超时", Toast.LENGTH_SHORT).show();
-//					break;
-//				}
-//			}
-//		});
-//		UmengUpdateAgent.update(this);
-		
-		// login();
 	}
 
 	@Override
