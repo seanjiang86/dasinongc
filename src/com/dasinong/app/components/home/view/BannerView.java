@@ -108,10 +108,13 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
 
     private void dealTitleImageContainer(BannerEntity banner) {
         ImageView icon = (ImageView) findViewById(R.id.banner_title_container_icon);
-        if(!TextUtils.isEmpty(banner.data.picUrl)) {
-            LoadUtils.getInstance().loadImage(icon, banner.data.picUrl);
+//        if(!TextUtils.isEmpty(banner.data.picUrl)) {
+//            LoadUtils.getInstance().loadImage(icon, banner.data.picUrl);
+//        }
+        int resId = this.getContext().getResources().getIdentifier(banner.data.picUrl, "drawable", getContext().getPackageName());
+        if(resId!=0){
+        	icon.setImageResource(resId);
         }
-
         TextView title = (TextView) findViewById(R.id.banner_title_container_title);
         title.setText(banner.data.content);
         // TextView content = (TextView) findViewById(R.id.banner_all_container_content_above);
@@ -121,9 +124,14 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
     private void dealAllView(BannerEntity banner) {
 
         ImageView icon = (ImageView) findViewById(R.id.banner_all_container_icon);
-        if(!TextUtils.isEmpty(banner.data.picUrl)) {
-            LoadUtils.getInstance().loadImage(icon, banner.data.picUrl);
+//        if(!TextUtils.isEmpty(banner.data.picUrl)) {
+//            LoadUtils.getInstance().loadImage(icon, banner.data.picUrl);
+//        }
+        int resId = this.getContext().getResources().getIdentifier(banner.data.picUrl, "drawable", getContext().getPackageName());
+        if(resId!=0){
+        	icon.setImageResource(resId);
         }
+        
 
         TextView title = (TextView) findViewById(R.id.banner_all_container_title);
         title.setText(banner.data.title);
