@@ -135,7 +135,7 @@ public class HumidityView extends LinearLayout {
         } else {
             DEBUG("icon is empty");
         }
-        return R.drawable.ic_weather_dafeng;
+        return R.drawable.cloudy;
     }
 
 
@@ -717,6 +717,46 @@ public class HumidityView extends LinearLayout {
         weatherIconMap.put("partlycloudyverylightsleetnight", "sunnywithicenight");
         weatherIconMap.put("partlycloudyverylightsnow", "sunnysnowday");
         weatherIconMap.put("partlycloudyverylightsnownight", "sunnysnownight");
+
+
+
+
+        weatherIconMap.put("sunnyday", "sunnyday");
+        weatherIconMap.put("cloudyday", "cloudyday");
+        weatherIconMap.put("cloudy", "cloudy");
+        weatherIconMap.put("rainscatteredday", "rainscatteredday");
+        weatherIconMap.put("stormday", "stormday");
+        weatherIconMap.put("stormhail", "stormhail");
+        weatherIconMap.put("rainsnow", "rainsnow");
+        weatherIconMap.put("rainsmall", "rainsmall");
+        weatherIconMap.put("rainmid", "rainmid");
+        weatherIconMap.put("rainbig", "rainbig");
+        weatherIconMap.put("rainheavy", "rainheavy");
+        weatherIconMap.put("rainheavier", "rainheavier");
+        weatherIconMap.put("rainsevereextreme", "rainsevereextreme");
+        weatherIconMap.put("snowscatteredday", "snowscatteredday");
+        weatherIconMap.put("snowsmall", "snowsmall");
+        weatherIconMap.put("snowmid", "snowmid");
+        weatherIconMap.put("snowbig", "snowbig");
+        weatherIconMap.put("snowbigheavy", "snowbigheavy");
+        weatherIconMap.put("fogday", "fogday");
+        weatherIconMap.put("frozenrain", "frozenrain");
+        weatherIconMap.put("duststorm", "duststorm");
+        weatherIconMap.put("rainsmallmid", "rainsmallmid");
+        weatherIconMap.put("rainmidbig", "rainmidbig");
+        weatherIconMap.put("rainbigheavy", "rainbigheavy");
+        weatherIconMap.put("rainheavyheavier", "rainheavyheavier");
+        weatherIconMap.put("rainheaviersevere", "rainheaviersevere");
+        weatherIconMap.put("snowsmallmid", "snowsmallmid");
+        weatherIconMap.put("snowmidbig", "snowmidbig");
+        weatherIconMap.put("snowbigheavy", "snowbigheavy");
+        weatherIconMap.put("dust", "dust");
+        weatherIconMap.put("dustmid", "dustmid");
+        weatherIconMap.put("duststormheavy", "duststormheavy");
+        weatherIconMap.put("haze", "haze");
+        weatherIconMap.put("na", "na");
+
+
 
     }
 
