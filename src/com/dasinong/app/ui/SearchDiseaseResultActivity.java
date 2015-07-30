@@ -73,7 +73,11 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 		new Thread() {
 			public void run() {
 				PetdisspecbrowseDao dao = new PetdisspecbrowseDao(SearchDiseaseResultActivity.this);
-				query = dao.query(type);
+				if("草害".equals(type)){
+					query = dao.queryCaohai(type);
+				}else{
+					query = dao.query(type);
+				}
 				query = sortContact(query);
 
 				alphaIndexer.clear();

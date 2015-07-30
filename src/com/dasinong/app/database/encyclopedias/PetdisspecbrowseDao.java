@@ -23,5 +23,8 @@ public class PetdisspecbrowseDao extends DaoSupportImpl<Petdisspecbrowse> {
 	public List<Petdisspecbrowse> query(String type) {
 		return query("type = ? ",new String[]{type});
 	}
+	public List<Petdisspecbrowse> queryCaohai(String type) {
+		return query("type LIKE ? ",new String[]{"%草%"});
+	}
 	
 }
