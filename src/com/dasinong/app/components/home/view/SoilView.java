@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -77,8 +78,9 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
         if(!TextUtils.isEmpty(soilHum)){
             TextView humidity = (TextView) this.findViewById(R.id.soil_tem);
             try {
+
                 double tem = Double.parseDouble(soilHum) * 100;
-                humidity.setText(String.format("%.1d", tem) + "%");
+                humidity.setText(String.format("%.f", tem) + "%");
             }finally {
 
             }
