@@ -8,7 +8,8 @@ import com.dasinong.app.components.domain.BaseResponse;
 public class SoilPostEntity extends BaseResponse {
 
     public static  class Param {
-
+    	public String reportId = "";
+        public String userId = "";
         public String fieldId = "10";
         public String type ="" ;
         public String color="";

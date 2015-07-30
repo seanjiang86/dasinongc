@@ -4,6 +4,7 @@ import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,7 +43,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	private List<String> cropList = new ArrayList<String>();
 	private List<String> varietyNameList;
 	private List<String> varietyNumList;
-	private Map<String, String> varietyNumMap;
+	private Map<String, String> varietyNumMap = new HashMap<String, String>();
 	private VarietyInfo varietyInfo;
 	private String varietyId;
 	private Button btn_sure_crop;
@@ -184,8 +185,10 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 							varietyInfo = (VarietyInfo) resultData;
 							varietyNameList = new ArrayList<String>(varietyInfo.data.keySet());
 							Collections.sort(varietyNameList, comparator);
-							varietyNameList.remove("通用" + crop);
-							varietyNameList.add(0 , ("通用" + crop));
+							if (varietyNameList.contains("其他" + crop)) {
+								varietyNameList.remove("其他" + crop);
+								varietyNameList.add(0, ("其他" + crop));
+							}
 							handler.sendEmptyMessage(0);
 						} else {
 							// TODO MING:请求不到时会出现空toast
@@ -200,7 +203,6 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 						showToast("请求失败，请检查网络或稍候再试");
 						Logger.d("MING", "msg =============== " + msg);
 					}
-
 				});
 	}
 
@@ -229,6 +231,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		namePosition = position;
 
 		varietyNumMap = varietyInfo.data.get(varietyName);
+
 		varietyNumList = new ArrayList<String>(varietyNumMap.keySet());
 
 		initVarietyNumList();

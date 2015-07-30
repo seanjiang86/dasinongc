@@ -24,11 +24,15 @@ import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
 import com.umeng.update.UmengUpdateAgent;
+import com.umeng.update.UmengDialogButtonListener;
+import com.umeng.update.UpdateStatus;
 /**
  * @ClassName MainTabActivity
  * @author ysl
  * @Description
  */
+import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateResponse;
 
 /**
  * @ClassName MainTabActivity
@@ -58,6 +62,27 @@ public class MainTabActivity extends BaseActivity {
 		// 友盟更新
 		UmengUpdateAgent.update(this);
 		UmengUpdateAgent.setUpdateOnlyWifi(false);
+		
+		
+		// TODO MING:强制更新
+		UmengUpdateAgent.setDialogListener(new UmengDialogButtonListener() {
+			
+			@Override
+			public void onClick(int status) {
+				switch (status) {
+				case UpdateStatus.Update:
+					
+					break;
+				case UpdateStatus.Ignore:
+					
+					break;
+				case UpdateStatus.NotNow:
+					
+					break;
+						
+				}
+			}
+		});
 		
 		// startLoadingDialog();
 

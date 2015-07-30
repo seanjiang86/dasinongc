@@ -47,7 +47,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
-                        android:hint="搜索病虫草害"
+                        android:hint="搜索农药"
                         android:imeOptions="actionSearch"
                         android:singleLine="true" />
                 </LinearLayout>

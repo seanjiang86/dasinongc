@@ -6,9 +6,12 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.net.NetConfig;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.soil.adapter.CommonAdapter;
 import com.dasinong.app.ui.soil.adapter.ViewHolder.ViewHolder;
 import com.dasinong.app.ui.soil.domain.DataEntity;
@@ -56,13 +59,14 @@ public class SoilAllListActivity extends SoilBaseActivity implements AdapterView
 
     @Override
     protected void initEvent() {
-
         mListView.setOnItemClickListener(this);
     }
 
     private void loadDataFromServer() {
         startLoadingDialog();
-        SoilAllEntity.Param param = new SoilAllEntity.Param();
+        Long fieldId = SharedPreferencesHelper.getLong(DsnApplication.getContext(), Field.FIELDID, 0);
+        SoilAllEntity.Param param = new SoilAllEntity.Param(fieldId);
+        
         VolleyManager.getInstance().addGetRequestWithNoCache(
                 REQUEST_CODE_SOIL_LIST,
                 URL,

@@ -16,9 +16,15 @@ import android.widget.TextView;
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.home.view.dialog.SubStageDialog;
+import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.database.task.domain.SubStage;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.AddFieldActivity1;
 import com.dasinong.app.ui.manager.AccountManager;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.utils.DeviceHelper;
 import com.umeng.analytics.MobclickAgent;
 
@@ -202,9 +208,27 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     }
                     mCurrentPosition = position;
                     mSubStageName.setText("水稻" + mSubStages.get(position).subStageName);
+                    //TODO ming
+                    //send to ploughHelper/changeStage?fieldId=&currentStage=
+                    int subStageId = mSubStages.get(position).subStageId;
+                    long fieldId = SharedPreferencesHelper.getLong(getContext(), Field.FIELDID, 0);
+                    
+                    // TODO MING 此处使用松霖网络请求接口
+                    RequestService.getInstance().changeStage(getContext(), ""+fieldId, ""+subStageId, BaseEntity.class,new RequestListener() {
+						
+						@Override
+						public void onSuccess(int requestCode, BaseEntity resultData) {
+						}
+						
+						@Override
+						public void onFailed(int requestCode, Exception error, String msg) {
+						}
+					});
+                    
+                    
                     normalParentView.setVisibility(VISIBLE);
                     onAddCropClickListener.onArrowViewClick(position);
-
+                    
 
                 }
             });

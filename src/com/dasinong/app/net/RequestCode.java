@@ -80,9 +80,11 @@ public final class RequestCode {
 	/**
 	 * 获取指定病虫草害解决方案所需药物
 	 */
-	public static final int  GET_PET_SOLU= GET_PET_DIS_SPEC_DETIAL + 1;
-	public static final int  PETDIS_BYTYPE= GET_PET_SOLU + 1;
-	public static final int  CPPRODUCT_BYMODEL= PETDIS_BYTYPE + 1;
-	public static final int  CPPRODUCT_BYMODEL_NAMED= CPPRODUCT_BYMODEL + 1;
-	public static final int  CPPRODUCT_VARIETYS_NAMED= CPPRODUCT_BYMODEL_NAMED + 1;
+	public static final int GET_PET_SOLU = GET_PET_DIS_SPEC_DETIAL + 1;
+	public static final int PETDIS_BYTYPE = GET_PET_SOLU + 1;
+	public static final int CPPRODUCT_BYMODEL = PETDIS_BYTYPE + 1;
+	public static final int CPPRODUCT_BYMODEL_NAMED = CPPRODUCT_BYMODEL + 1;
+	public static final int CPPRODUCT_VARIETYS_NAMED = CPPRODUCT_BYMODEL_NAMED + 1;
+	/** 更换当前作物生长周期 */
+	public static final int CHANGE_STAGE = CPPRODUCT_VARIETYS_NAMED + 1;
 }

@@ -105,6 +105,8 @@ public class NetConfig {
 		public static final String CPPRODUCT_BYMODEL_NAMED ="getCPProdcutsByIngredient";
 		/**百科-同名品种*/
 		public static final String CPPRODUCT_VARIETYS_NAMED ="getVarietysByName";
+		/** 切换首页生长周期*/
+		public static final String CHANGE_STAGE ="changeStage";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -480,6 +482,12 @@ public class NetConfig {
 	public static Map<String, String> getVarietysByNameParams(String name) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.name, name);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getChangeStageParams(String fieldId ,String currentStageId) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.fieldId, fieldId);
+		paramsMap.put(Params.currentStageId, currentStageId);
 		return getBaseParams(false, paramsMap);
 	}
 	

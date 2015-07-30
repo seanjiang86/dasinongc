@@ -309,6 +309,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 
     }
+    
 
 
     @Override

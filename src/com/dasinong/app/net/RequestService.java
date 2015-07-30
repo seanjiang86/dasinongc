@@ -211,4 +211,8 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getVarietysByNameParams(type);
 		new NetRequest(context).get(RequestCode.CPPRODUCT_VARIETYS_NAMED, params, SubUrl.CPPRODUCT_VARIETYS_NAMED, callBack, clazz);
 	}
+	public void changeStage(Context context, String fieldId , String currentStageId ,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getChangeStageParams(fieldId, currentStageId);
+		new NetRequest(context).get(RequestCode.CHANGE_STAGE, params, SubUrl.CHANGE_STAGE, callBack, clazz);
+	}
 }
