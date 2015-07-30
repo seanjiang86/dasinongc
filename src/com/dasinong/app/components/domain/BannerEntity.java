@@ -25,6 +25,7 @@ public class BannerEntity extends BaseResponse {
         public int type;
         public String url;
         public String picUrl;
+        public String picName;
 
 
     }

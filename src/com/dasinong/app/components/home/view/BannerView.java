@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BannerEntity;
 import com.dasinong.app.net.NetConfig;
@@ -83,6 +84,7 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
 		}
 
 		url = banner.data.url;
+
 		initViewStatus();
 		switch (banner.data.type) {
 
@@ -109,8 +111,9 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
 		// if(!TextUtils.isEmpty(banner.data.picUrl)) {
 		// LoadUtils.getInstance().loadImage(icon, banner.data.picUrl);
 		// }
-		if (!TextUtils.isEmpty(banner.data.picUrl)) {
-			int resId = this.getContext().getResources().getIdentifier(banner.data.picUrl, "drawable", getContext().getPackageName());
+		if (!TextUtils.isEmpty(banner.data.picName)) {
+			
+			int resId = this.getContext().getResources().getIdentifier(banner.data.picName, "drawable", getContext().getPackageName());
 			if (resId != 0) {
 				icon.setImageResource(resId);
 			}
@@ -129,8 +132,9 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
 		// LoadUtils.getInstance().loadImage(icon, banner.data.picUrl);
 		// }
 
-		if (!TextUtils.isEmpty(banner.data.picUrl)) {
-			int resId = this.getContext().getResources().getIdentifier(banner.data.picUrl, "drawable", getContext().getPackageName());
+		if (!TextUtils.isEmpty(banner.data.picName)) {
+			int resId = this.getContext().getResources().getIdentifier(banner.data.picName, "drawable", getContext().getPackageName());
+			
 			if (resId != 0) {
 				icon.setImageResource(resId);
 			}
