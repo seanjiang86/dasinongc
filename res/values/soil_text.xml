@@ -54,7 +54,7 @@
 
 
     <string name="soil_report_title">测土报告</string>
-    <string name="soil_edit">edit</string>
+    <string name="soil_edit">编辑</string>
 
 
     <array name="soil_type">
