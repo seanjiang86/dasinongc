@@ -124,7 +124,7 @@ public class HumidityView extends LinearLayout {
         icon = weatherIconMap.get(icon);
         if (!TextUtils.isEmpty(icon)) {
 
-            int resId = getResources().getIdentifier(icon, "drawable", getContext().getPackageName());
+            int resId = getResources().getIdentifier(icon.trim(), "drawable", getContext().getPackageName());
 
             DEBUG("icon is " + icon + " resId:" + resId);
             if (resId != 0) {
