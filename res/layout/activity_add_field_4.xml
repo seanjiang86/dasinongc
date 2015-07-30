@@ -31,7 +31,7 @@
         <ImageView
             android:layout_width="95dp"
             android:layout_height="95dp"
-            android:src="@drawable/happy_surprise" />
+            android:src="@drawable/happysurprise" />
 
         <LinearLayout
             android:layout_width="fill_parent"

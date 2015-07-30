@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:id="@+id/banner_all_container_icon"
-            android:src="@drawable/close_eye_smile" />
+            android:src="@drawable/closeeyesmile" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/banner_img_icon"
-            android:src="@drawable/close_eye_smile"
+            android:src="@drawable/closeeyesmile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:id="@+id/banner_title_container_icon"
-            android:src="@drawable/close_eye_smile" />
+            android:src="@drawable/closeeyesmile" />
 
         <LinearLayout
             android:layout_width="match_parent"

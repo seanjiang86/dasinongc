@@ -27,7 +27,7 @@
         <ImageView
             android:layout_width="95dp"
             android:layout_height="95dp"
-            android:src="@drawable/smirk_look" />
+            android:src="@drawable/smirklook" />
 
         <LinearLayout
             android:layout_width="fill_parent"

@@ -1,8 +1,10 @@
 package com.dasinong.app.ui;
 
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,10 +12,11 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LocationResult;
-import com.dasinong.app.entity.LoginRegEntity; 
+import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.fragment.EncyclopediaFragment;
@@ -23,6 +26,7 @@ import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengDialogButtonListener;
 import com.umeng.update.UpdateStatus;
@@ -46,11 +50,13 @@ public class MainTabActivity extends BaseActivity {
 
 	private Class fragmentArray[] = { HomeFragment.class, EncyclopediaFragment.class, MeFragment.class };
 
-	private int mImageViewArray[] = {R.drawable.main_tab1_selector,R.drawable.main_tab2_selector,R.drawable.main_tab3_selector};
+	private int mImageViewArray[] = { R.drawable.main_tab1_selector, R.drawable.main_tab2_selector, R.drawable.main_tab3_selector };
 
-	private String mTextviewArray[] = {"我的田", "农事百科", "我"};
+	private String mTextviewArray[] = { "我的田", "农事百科", "我" };
 
 	private int index;
+
+	public static boolean isMustUpdate = false;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,32 +64,41 @@ public class MainTabActivity extends BaseActivity {
 		initData();
 		initView();
 		initLocation();
-		
+
 		// 友盟更新
 		UmengUpdateAgent.update(this);
 		UmengUpdateAgent.setUpdateOnlyWifi(false);
 		
+		MobclickAgent.updateOnlineConfig( this );
 		
-		// TODO MING:强制更新
-		UmengUpdateAgent.setDialogListener(new UmengDialogButtonListener() {
+		String minVersion = MobclickAgent.getConfigParams(this, "minVersion");
+		
+		showToast(minVersion+"");
+
+		try {
+
+			int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+			if(!TextUtils.isEmpty(minVersion)){
 			
+				if (versionCode < Integer.valueOf(minVersion)) {
+					isMustUpdate = true;
+				}
+				
+			}
+		} catch (NameNotFoundException e) {
+
+		}
+
+		UmengUpdateAgent.setDialogListener(new UmengDialogButtonListener() {
+
 			@Override
 			public void onClick(int status) {
-				switch (status) {
-				case UpdateStatus.Update:
-					
-					break;
-				case UpdateStatus.Ignore:
-					
-					break;
-				case UpdateStatus.NotNow:
-					
-					break;
-						
+				if (isMustUpdate) {
+					MainTabActivity.this.finish();
 				}
 			}
 		});
-		
+
 		// startLoadingDialog();
 
 		// if(getIntent() != null){
@@ -95,30 +110,30 @@ public class MainTabActivity extends BaseActivity {
 	}
 
 	private void login() {
-    	if(AccountManager.isLogin(MainTabActivity.this)){
-    		return;
-    	}
-        RequestService.getInstance().authcodeLoginReg(MainTabActivity.this, "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
+		if (AccountManager.isLogin(MainTabActivity.this)) {
+			return;
+		}
+		RequestService.getInstance().authcodeLoginReg(MainTabActivity.this, "13112345678", LoginRegEntity.class, new NetRequest.RequestListener() {
 
-            @Override
-            public void onSuccess(int requestCode, BaseEntity resultData) {
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
 
-                if(resultData.isOk()){
-                    LoginRegEntity entity = (LoginRegEntity) resultData;
-                    AccountManager.saveAccount(MainTabActivity.this, entity.getData());
-                    showToast("登录成功");
-                }else{
-                    Logger.d("TAG", resultData.getMessage());
-                }
-            }
+				if (resultData.isOk()) {
+					LoginRegEntity entity = (LoginRegEntity) resultData;
+					AccountManager.saveAccount(MainTabActivity.this, entity.getData());
+					showToast("登录成功");
+				} else {
+					Logger.d("TAG", resultData.getMessage());
+				}
+			}
 
-            @Override
-            public void onFailed(int requestCode, Exception error, String msg) {
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
 
-                Logger.d("TAG","msg"+msg);
-            }
-        });
-    }
+				Logger.d("TAG", "msg" + msg);
+			}
+		});
+	}
 	
 	@Override
 	protected void onNewIntent(Intent intent) {
@@ -142,14 +157,14 @@ public class MainTabActivity extends BaseActivity {
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
 		mTabHost.getTabWidget().setDividerDrawable(null);
-		
+
 		int count = fragmentArray.length;
 
 		for (int i = 0; i < count; i++) {
 			TabSpec tabSpec = mTabHost.newTabSpec(mTextviewArray[i]).setIndicator(getTabItemView(i));
 			mTabHost.addTab(tabSpec, fragmentArray[i], null);
 		}
-		
+
 		if (index != 0) {
 			mTabHost.setCurrentTab(index);
 		}
@@ -170,7 +185,31 @@ public class MainTabActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		//login();
+//		UmengUpdateAgent.forceUpdate(this);
+//		UmengUpdateAgent.setUpdateAutoPopup(false);
+//		UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
+//
+//			@Override
+//			public void onUpdateReturned(int updateStatus,UpdateResponse updateInfo) {
+//				switch (updateStatus) {
+//				case UpdateStatus.Yes: // has update
+//					UmengUpdateAgent.showUpdateDialog(DsnApplication.getContext(), updateInfo);
+//					break;
+//				case UpdateStatus.No: // has no update
+////					Toast.makeText(this, "没有更新", Toast.LENGTH_SHORT).show();
+//					break;
+//				case UpdateStatus.NoneWifi: // none wifi
+////					Toast.makeText(this, "没有wifi连接， 只在wifi下更新", Toast.LENGTH_SHORT).show();
+//					break;
+//				case UpdateStatus.Timeout: // time out
+////					Toast.makeText(this, "超时", Toast.LENGTH_SHORT).show();
+//					break;
+//				}
+//			}
+//		});
+//		UmengUpdateAgent.update(this);
+		
+		// login();
 	}
 
 	@Override
@@ -183,18 +222,17 @@ public class MainTabActivity extends BaseActivity {
 		LocationUtils.getInstance().unRegisterLocationListener();
 		super.onStop();
 	}
-	
-	
+
 	private void initLocation() {
 		LocationUtils.getInstance().registerLocationListener(new LocationListener() {
-			
+
 			@Override
 			public void locationNotify(LocationResult result) {
-				
-//				Toast.makeText(MainTabActivity.this, result.getCity()+" -- "+result.getStreet(), 0).show();
+
+				// Toast.makeText(MainTabActivity.this,
+				// result.getCity()+" -- "+result.getStreet(), 0).show();
 			}
 		});
 	}
-
 
 }
