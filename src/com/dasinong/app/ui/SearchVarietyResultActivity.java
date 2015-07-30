@@ -84,7 +84,7 @@ public class SearchVarietyResultActivity extends BaseActivity {
 				List<Varietybrowse> deleteList = new ArrayList<>();
 				for(Varietybrowse crop:query){
 					if(crop.varietyName!=null){
-						if(crop.varietyName.contains("通用") || crop.varietyName.contains("重复")){
+						if(crop.varietyName.contains("通用") || crop.varietyName.contains("重复") || crop.varietyName.contains("其他")){
 							deleteList.add(crop);
 						}
 					}

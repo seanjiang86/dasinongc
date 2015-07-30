@@ -86,7 +86,7 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 				List<Crop> deleteList = new ArrayList<>();
 				for(Crop crop:query){
 					if(crop.cropName!=null){
-						if(crop.cropName.contains("通用") || crop.cropName.contains("重复")){
+						if(crop.cropName.contains("通用") || crop.cropName.contains("重复") || crop.cropName.contains("其他")){
 							deleteList.add(crop);
 						}
 					}
