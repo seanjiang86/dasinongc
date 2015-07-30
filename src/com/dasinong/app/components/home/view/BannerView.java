@@ -113,7 +113,9 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
 		// }
 		if (!TextUtils.isEmpty(banner.data.picName)) {
 			
-			int resId = this.getContext().getResources().getIdentifier(banner.data.picName, "drawable", getContext().getPackageName());
+			String name =banner.data.picName.substring(0,banner.data.picName.lastIndexOf("."));
+			int resId = this.getContext().getResources().getIdentifier(name, "drawable", getContext().getPackageName());
+			System.out.println("resid:"+resId);
 			if (resId != 0) {
 				icon.setImageResource(resId);
 			}
@@ -133,7 +135,9 @@ public class BannerView extends LinearLayout implements View.OnClickListener {
 		// }
 
 		if (!TextUtils.isEmpty(banner.data.picName)) {
-			int resId = this.getContext().getResources().getIdentifier(banner.data.picName, "drawable", getContext().getPackageName());
+			
+			String name =banner.data.picName.substring(0,banner.data.picName.lastIndexOf("."));
+			int resId = this.getContext().getResources().getIdentifier(name, "drawable", getContext().getPackageName());
 			
 			if (resId != 0) {
 				icon.setImageResource(resId);
