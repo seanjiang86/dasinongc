@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.dasinong.app.R;
 import com.dasinong.app.ui.soil.SoilEditorActivity;
@@ -77,8 +76,13 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
     public void updateView(DataEntity latestReport,String soilHum) {
         if(!TextUtils.isEmpty(soilHum)){
             TextView humidity = (TextView) this.findViewById(R.id.soil_tem);
+            try {
 
-            humidity.setText(soilHum);
+                double tem = Double.parseDouble(soilHum) * 100;
+                humidity.setText(String.format("%.1f", tem) + "%");
+            }finally {
+
+            }
 
         }else {
             soilHum="";
