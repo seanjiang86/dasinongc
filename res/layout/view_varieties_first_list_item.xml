@@ -12,7 +12,7 @@
         android:id="@+id/imageview_icon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/icon_liangshi" />
+        android:src="@drawable/icon_liangshizuowu" />
 
     <TextView
         android:id="@+id/textview_title"
