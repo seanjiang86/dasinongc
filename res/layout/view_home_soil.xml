@@ -105,8 +105,8 @@
                 android:textSize="@dimen/home_text_size_34"
                 android:id="@+id/soil_tem"
                 android:textStyle="bold"
-                android:text=""
 
+                android:minHeight="34sp"
                 tools:text="34％" />
 
             <TextView
