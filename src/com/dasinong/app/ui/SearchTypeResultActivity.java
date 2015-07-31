@@ -185,7 +185,7 @@ public class SearchTypeResultActivity extends BaseActivity {
 	private void search() {
 		DeviceHelper.hideIME(mSearchEdit);
 		
-		String keywords = mSearchEdit.getText().toString().trim();
+		keywords = mSearchEdit.getText().toString().trim();
 		if(TextUtils.isEmpty(keywords)){
 			Toast.makeText(SearchTypeResultActivity.this, "请输入要搜索的内容", 0).show();
 			return;

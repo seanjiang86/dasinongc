@@ -401,8 +401,17 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	            showToast(R.string.smssdk_write_right_mobile_phone);
 	            return;
 		    }
-		    
-			checkUser(phone);
+		    if(isAuthPhone){
+		    	startLoadingDialog();
+                if (countryRules == null || countryRules.size() <= 0) {
+                    SMSSDK.getSupportedCountries();
+                } else {
+//                  String code = tvCountryNum.getText().toString().trim();
+                    checkPhoneNum(phone);
+                }
+		    }else{
+		    	checkUser(phone);
+		    }
 			break;
 //		case R.id.iv_clear:
 //			// 清除电话号码输入框
