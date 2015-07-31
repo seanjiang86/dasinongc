@@ -99,7 +99,7 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
             int len = soilHum.length();
             int destLen = dest.length();
             tem.setSpan(new SuperscriptSpan(),len+1,len+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            tem.setSpan(new SuperscriptSpan(),destLen-1,len, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            tem.setSpan(new SuperscriptSpan(),destLen-1,destLen, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
             humidity.setText(tem);
 //            try {
 //
