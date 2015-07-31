@@ -54,7 +54,6 @@ public class SplashActivity extends BaseActivity {
 
 				if (isFirst) {
 					// 第一次进入应用，进入导航界面
-					Log.i(tag, "是第一次进入");
 					SharedPreferencesHelper.setBoolean(SplashActivity.this, Field.IS_FIRST, false);
 					Intent intent = new Intent(SplashActivity.this, GuideActivity.class);
 					intent.putExtra("isFirst", isFirst);
@@ -64,7 +63,6 @@ public class SplashActivity extends BaseActivity {
 
 				} else {
 					// 不是第一次进入应用,直接跳转到主界面
-					Log.i(tag, "是第二次进入");
 					Intent intent = new Intent(SplashActivity.this, MainTabActivity.class);
 					startActivity(intent);
 					finish();

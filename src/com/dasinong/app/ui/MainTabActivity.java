@@ -1,5 +1,7 @@
 package com.dasinong.app.ui;
 
+import org.json.JSONObject;
+
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -27,6 +29,7 @@ import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.analytics.onlineconfig.UmengOnlineConfigureListener;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengDialogButtonListener;
 import com.umeng.update.UpdateStatus;
@@ -73,7 +76,7 @@ public class MainTabActivity extends BaseActivity {
 		
 		// 强制更新代码
 		String minVersion = MobclickAgent.getConfigParams(this, "minVersion");
-
+		
 		try {
 
 			int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
@@ -86,6 +89,10 @@ public class MainTabActivity extends BaseActivity {
 			}
 		} catch (NameNotFoundException e) {
 
+		}
+		
+		if(isMustUpdate){
+			UmengUpdateAgent.forceUpdate(this);
 		}
 
 		UmengUpdateAgent.setDialogListener(new UmengDialogButtonListener() {

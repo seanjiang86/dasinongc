@@ -90,7 +90,8 @@
                     android:layout_marginLeft="30dp"
                     android:text="@string/soil_effect"
                     android:textColor="#1768be"
-                    android:textSize="@dimen/home_text_size_32" />
+                    android:textSize="@dimen/home_text_size_32"
+                    android:clickable="true" />
             </LinearLayout>
 
 
@@ -610,7 +611,8 @@
             android:paddingTop="@dimen/home_dimen_35"
             android:text="如何解读测土报告?"
             android:textColor="#1768be"
-            android:textSize="@dimen/home_text_size_32" />
+            android:textSize="@dimen/home_text_size_32"
+            android:clickable="true" />
 
     </LinearLayout>
 </ScrollView>

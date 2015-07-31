@@ -80,6 +80,8 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 	private int day;
 
 	private boolean isEditor = false; //True for update, false for insert
+	private TextView soil_tem;
+	private TextView soil_check;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -280,6 +282,10 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
 		mSoilSI = (EditText) findViewById(R.id.soil_si);
 		mSoilSI.addTextChangedListener(new DecimalLimit(mSoilSI, 10, 2));
+		
+		soil_tem = (TextView) findViewById(R.id.soil_tem);
+		soil_check = (TextView) findViewById(R.id.soil_check);
+		
 
 	}
 
@@ -290,6 +296,8 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 		mSoilFertility.setOnClickListener(this);
 		mSoilTime.setOnClickListener(this);
 		findViewById(R.id.soil_all_report).setOnClickListener(this);
+		soil_tem.setOnClickListener(this);
+		soil_check.setOnClickListener(this);
 
 	}
 
@@ -536,7 +544,11 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 
             case R.id.soil_tem:
                 //TODO:H5 土壤湿度
-                Toast.makeText(this, "H5 open", Toast.LENGTH_SHORT).show();
+            	Intent temIntent = new Intent();
+            	temIntent.setClass(this, WebBrowserActivity.class);
+            	temIntent.putExtra(WebBrowserActivity.URL, "file:///android_asset/SoilHumidity.html");
+            	temIntent.putExtra(WebBrowserActivity.TITLE, "土壤湿度解读");
+    			startActivity(temIntent);
                 break;
 
             case R.id.soil_check:
@@ -700,12 +712,17 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 				return;
 			}
 			String[] split = text.split("\\.");
+			
+			for (int i = 0; i < split.length; i++) {
+				System.out.println(split[i]);
+			}
+			
 			if (split.length == 1) {
 				int start = Integer.parseInt(split[0]);
 				if (start > max) {
 					String t = split[0].substring(0, split[0].length() - 1);
 					mEditeText.setText(t);
-					mEditeText.setSelection(t.length());
+					mEditeText.setSelection(1);
 				}
 
 			} else if (split.length == 2) {
@@ -715,7 +732,11 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 					mEditeText.setSelection(value.length());
 					return;
 				}
-				int start = Integer.parseInt(split[0]);
+				
+				int start = 0;
+				if(!TextUtils.isEmpty(split[0])){
+					start = Integer.parseInt(split[0]);
+				}
 				int end = Integer.parseInt(split[1]);
 				if (start == max) {
 					if (end > 0) {

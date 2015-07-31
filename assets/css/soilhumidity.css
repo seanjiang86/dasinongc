@@ -1,0 +1,23 @@
+.soilcontent {
+  margin: 50px 30px 50px 30px;
+}
+body {
+    line-height: 1.7em;
+}
+h1   {
+  font-size: 1.7em;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+h3{
+  font-size: 1.2em;
+  font-weight: bold;
+  padding-top: 10px;
+}
+p    {
+  font-size: 1em;
+  padding-bottom: 5px;
+}
+ul{
+    padding-left: 20px;
+}

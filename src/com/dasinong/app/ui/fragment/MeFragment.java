@@ -6,6 +6,7 @@ import com.dasinong.app.ui.AuthCodeActivity;
 import com.dasinong.app.ui.CaptureActivity;
 import com.dasinong.app.ui.ContactUsActivity;
 import com.dasinong.app.ui.GuideActivity;
+import com.dasinong.app.ui.MainTabActivity;
 import com.dasinong.app.ui.MyInfoActivity;
 import com.dasinong.app.ui.RecommendActivity;
 import com.dasinong.app.ui.RegisterPasswordActivity;
@@ -31,8 +32,10 @@ import com.dasinong.app.R;
 import com.dasinong.app.ui.TaskDetailsActivity;
 import com.dasinong.app.ui.view.TopbarView;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.update.UmengDialogButtonListener;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
+import com.umeng.update.UpdateDialogActivity;
 import com.umeng.update.UpdateResponse;
 import com.umeng.update.UpdateStatus;
 
@@ -199,17 +202,31 @@ public class MeFragment extends Fragment implements OnClickListener {
 			getActivity().startActivity(contactIntent);
 			break;
 		case R.id.layout_check_update:// 检查更新
+			
+			Toast.makeText(getActivity(), "正在检测更新", 0).show();
 
 			// 友盟更新
 			UmengUpdateAgent.forceUpdate(this.getActivity());
+			UmengUpdateAgent.setDefault();
 			UmengUpdateAgent.setUpdateAutoPopup(false);
+			
+			
 			UmengUpdateAgent.setUpdateListener(new UmengUpdateListener() {
-
+				
 				@Override
 				public void onUpdateReturned(int updateStatus,UpdateResponse updateInfo) {
 					switch (updateStatus) {
 					case UpdateStatus.Yes: // has update
-						UmengUpdateAgent.showUpdateDialog(DsnApplication.getContext(), updateInfo);
+						UmengUpdateAgent.showUpdateDialog(getActivity(), updateInfo);
+						UmengUpdateAgent.setDialogListener(new UmengDialogButtonListener() {
+							
+							@Override
+							public void onClick(int status) {
+								if(MainTabActivity.isMustUpdate){
+									((MainTabActivity)getActivity()).finish();
+								}
+							}
+						});
 						break;
 					case UpdateStatus.No: // has no update
 						Toast.makeText(getActivity(), "没有更新", Toast.LENGTH_SHORT).show();
@@ -223,7 +240,6 @@ public class MeFragment extends Fragment implements OnClickListener {
 					}
 				}
 			});
-			UmengUpdateAgent.update(getActivity());
 
 			// Intent taskIntent = new Intent(getActivity(),
 			// TaskDetailsActivity.class);
