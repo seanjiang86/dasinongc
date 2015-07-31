@@ -1,6 +1,7 @@
 package com.dasinong.app.ui.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
@@ -26,14 +27,13 @@ import com.dasinong.app.components.home.view.SoilView;
 import com.dasinong.app.components.net.INetRequest;
 import com.dasinong.app.components.net.NetError;
 import com.dasinong.app.components.net.VolleyManager;
-
 import com.dasinong.app.entity.LocationResult;
-
 import com.dasinong.app.net.NetConfig;
-
 import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.soil.SoilEditorActivity;
+import com.dasinong.app.ui.soil.domain.DataEntity;
 import com.dasinong.app.utils.LocationUtils;
 
 import cn.bingoogolapple.refreshlayout.BGARefreshLayout;
@@ -102,7 +102,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
     private String mUserID;
 
-    private String mAddress ="";
+    private String mAddress = "";
 
     @Override
     public void onAttach(Activity activity) {
@@ -234,6 +234,15 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                     });
 
                     mSoilView.updateView(entity.latestReport, entity.soilHum);
+
+                    mSoilView.setonEditorListener(new SoilView.OnEditorListener() {
+                        @Override
+                        public void onEditListener(DataEntity entity) {
+                            Intent intent = SoilEditorActivity.createIntent(HomeFragment.this.getActivity(), entity);
+                            HomeFragment.this.startActivityForResult(intent, 101);
+
+                        }
+                    });
                 }
 
                 isHomeSuccess = true;
@@ -309,7 +318,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 
     }
-    
 
 
     @Override
@@ -370,6 +378,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 
     private void loadDataFromWithCache(boolean isForce) {
+
+        resetSuccessFlag();
         if (!isForce) {
             long distance = SystemClock.currentThreadTimeMillis() - mStartTime;
             if (distance < TIME_DISTANCE) {
@@ -414,7 +424,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
             }
 
         } else {
-
 
             initLocation();
 
@@ -560,6 +569,14 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
             loadBanner(bannerParam);
 
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Activity.RESULT_OK && requestCode == 101) {
+            loadFieldData(param);
         }
     }
 }

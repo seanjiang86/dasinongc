@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dasinong.app.R;
-import com.dasinong.app.ui.soil.SoilEditorActivity;
 import com.dasinong.app.ui.soil.SoilListActivity;
 import com.dasinong.app.ui.soil.domain.DataEntity;
 import com.umeng.analytics.MobclickAgent;
@@ -25,6 +24,9 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
     private TextView mSoilCheck;
 
     private DataEntity entity;
+
+
+    private OnEditorListener mOnEditorListener;
 
 
     public SoilView(Context context) {
@@ -63,10 +65,11 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
             default:
             	
             	// 友盟自定义事件统计
-                MobclickAgent.onEvent(this.getContext(), "EditorSoilInfo");
-            	
-                Intent intent = SoilEditorActivity.createIntent(this.getContext(),entity);
-                getContext().startActivity(intent);
+                if( this.mOnEditorListener!=null) {
+                    MobclickAgent.onEvent(this.getContext(), "EditorSoilInfo");
+                    this.mOnEditorListener.onEditListener(entity);
+
+                }
                 break;
         }
 
@@ -74,8 +77,20 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
 
 
     public void updateView(DataEntity latestReport,String soilHum) {
+        TextView humidity = (TextView) this.findViewById(R.id.soil_tem);
+        TextView color = (TextView) this.findViewById(R.id.soil_color);
+        TextView fertility = (TextView) this.findViewById(R.id.soil_fertility);
+        TextView qn = (TextView) this.findViewById(R.id.soil_qn);
+        TextView p = (TextView) this.findViewById(R.id.soil_P);
+        TextView k = (TextView) this.findViewById(R.id.soil_qk);
+        humidity.setText("－－");
+        color.setText("－－");
+        fertility.setText("－－");
+        qn.setText("－－");
+        p.setText("－－");
+        k.setText("－－");
         if(!TextUtils.isEmpty(soilHum)){
-            TextView humidity = (TextView) this.findViewById(R.id.soil_tem);
+
             try {
 
                 double tem = Double.parseDouble(soilHum) * 100;
@@ -93,12 +108,13 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
 
         entity =latestReport;
         entity.humidity = soilHum;
-        TextView color = (TextView) this.findViewById(R.id.soil_color);
+
+
         if(!TextUtils.isEmpty(latestReport.color)){
             color.setText(latestReport.color+latestReport.type);
         }
 
-        TextView fertility = (TextView) this.findViewById(R.id.soil_fertility);
+
 
         if (!TextUtils.isEmpty(latestReport.fertility)) {
             fertility.setText(latestReport.fertility);
@@ -108,21 +124,35 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
 
 
 
-        TextView qn = (TextView) this.findViewById(R.id.soil_qn);
+
         if (!TextUtils.isEmpty(latestReport.qn)&&!"0.0".equals(latestReport.qn)) {
             qn.setText(latestReport.qn);
 
         }
-        TextView p = (TextView) this.findViewById(R.id.soil_P);
+
         if (!TextUtils.isEmpty(latestReport.qn)&&!"0.0".equals(latestReport.p)) {
             p.setText(latestReport.p);
 
         }
-        TextView k = (TextView) this.findViewById(R.id.soil_qk);
+
         if (!TextUtils.isEmpty(latestReport.qK)&&!"0.0".equals(latestReport.qK)) {
             k.setText(latestReport.qK);
 
         }
+
+    }
+
+
+    public void setonEditorListener(SoilView.OnEditorListener l){
+
+        this.mOnEditorListener = l;
+
+    }
+
+
+    public interface OnEditorListener{
+
+        void onEditListener(DataEntity entity);
 
     }
 }
