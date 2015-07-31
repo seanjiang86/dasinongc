@@ -21,6 +21,7 @@ import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
 import com.dasinong.app.components.net.NetError;
 import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.net.NetConfig;
+import com.dasinong.app.ui.WebBrowserActivity;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.soil.domain.DataEntity;
@@ -539,8 +540,11 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
                 break;
 
             case R.id.soil_check:
-                //TODO:H5(possible) 解读测土报告
-                Toast.makeText(this, "h5 report", Toast.LENGTH_SHORT).show();
+            	Intent unscrambleIntent = new Intent();
+            	unscrambleIntent.setClass(this, WebBrowserActivity.class);
+            	unscrambleIntent.putExtra(WebBrowserActivity.URL, "file:///android_asset/soiltest-sample.html");
+            	unscrambleIntent.putExtra(WebBrowserActivity.TITLE, "测土报告解读");
+    			startActivity(unscrambleIntent);
                 break;
 
             case R.id.soil_time:
