@@ -3,7 +3,10 @@ package com.dasinong.app.components.home.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.SuperscriptSpan;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -91,13 +94,20 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
         k.setText("－－");
         if(!TextUtils.isEmpty(soilHum)){
 
-            try {
-
-                double tem = Double.parseDouble(soilHum) * 100;
-                humidity.setText(String.format("%.1f", tem) + "%");
-            }finally {
-
-            }
+            String dest = soilHum+"m3/m3";
+            SpannableString tem = new SpannableString(dest);
+            int len = soilHum.length();
+            int destLen = dest.length();
+            tem.setSpan(new SuperscriptSpan(),len+1,len+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            tem.setSpan(new SuperscriptSpan(),destLen-1,len, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            humidity.setText(tem);
+//            try {
+//
+//                double tem = Double.parseDouble(soilHum) * 100;
+//                humidity.setText(String.format("%.1f", tem) + "%");
+//            }finally {
+//
+//            }
 
         }else {
             soilHum="";
