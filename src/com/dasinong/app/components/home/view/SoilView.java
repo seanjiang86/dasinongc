@@ -94,13 +94,13 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
         k.setText("－－");
         if(!TextUtils.isEmpty(soilHum)){
 
-            String dest = soilHum+"m3/m3";
-            SpannableString tem = new SpannableString(dest);
-            int len = soilHum.length();
-            int destLen = dest.length();
-            tem.setSpan(new SuperscriptSpan(),len+1,len+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            tem.setSpan(new SuperscriptSpan(),destLen-1,destLen, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            humidity.setText(tem);
+            String dest = soilHum+"  m³/m³";
+//            SpannableString tem = new SpannableString(dest);
+//            int len = soilHum.length();
+//            int destLen = dest.length();
+//            tem.setSpan(new SuperscriptSpan(),len+1,len+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+//            tem.setSpan(new SuperscriptSpan(),destLen-1,destLen, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            humidity.setText(dest);
 //            try {
 //
 //                double tem = Double.parseDouble(soilHum) * 100;
