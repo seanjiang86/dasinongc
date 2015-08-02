@@ -575,7 +575,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == Activity.RESULT_OK && requestCode == 101) {
+        if (resultCode == Activity.RESULT_OK && requestCode == 101) {
+
             loadFieldData(param);
         }
     }

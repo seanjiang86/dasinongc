@@ -505,6 +505,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
         String iconName = iconMaps.get(weather);
         int resId = 0;
         if (!TextUtils.isEmpty(iconName)) {
+
             resId = getResources().getIdentifier(iconName, "drawable", getContext().getPackageName());
         }
         DEBUG("getSevenWeatherIcon" + resId + "name" + iconName);
