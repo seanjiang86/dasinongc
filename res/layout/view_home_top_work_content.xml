@@ -28,7 +28,7 @@
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:gravity="center"
-
+				
                 android:textColor="#ffffff"
                 android:textSize="@dimen/home_text_size_36"
                 android:drawablePadding="10dp"

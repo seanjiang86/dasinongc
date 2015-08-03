@@ -128,7 +128,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
                 break;
 
-            case R.id.substage_name_text:
+            case R.id.normal_state:
                 showDialog();
                 break;
             default:
@@ -262,7 +262,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
         } else {
             mSubStageName.setText("水稻" + mSubStageLists.get(mPosition).subStageName);
-            mSubStageName.setOnClickListener(this);
+            normalParentView.setOnClickListener(this);
             normalParentView.setVisibility(VISIBLE);
 
         }

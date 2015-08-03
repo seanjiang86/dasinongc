@@ -36,6 +36,7 @@ public class HarmDetialAdapter extends MyBaseAdapter<Solutions> {
 			holder.tv_provider = (TextView) view.findViewById(R.id.tv_provider);
 			holder.tv_content = (TextView) view.findViewById(R.id.tv_content);
 			holder.big_line = view.findViewById(R.id.big_line);
+			holder.tv_drug = (TextView) view.findViewById(R.id.tv_drug);
 
 			view.setTag(holder);
 
@@ -73,10 +74,19 @@ public class HarmDetialAdapter extends MyBaseAdapter<Solutions> {
 			holder.tv_crop_stage.setVisibility(View.VISIBLE);
 			holder.tv_crop_stage.setText(list.get(pos).subStageId);
 		}
-		if (TextUtils.isEmpty(list.get(pos).providedBy)) {
+		
+		if (TextUtils.isEmpty(list.get(pos).providedBy) || "0".equals(list.get(pos).providedBy)) {
 			holder.tv_provider.setVisibility(View.GONE);
 		} else {
+			holder.tv_provider.setVisibility(View.VISIBLE);
 			holder.tv_provider.setText(list.get(pos).providedBy);
+		}
+		
+		if(TextUtils.isEmpty(list.get(pos).snapshotCP)){
+			holder.tv_drug.setVisibility(View.GONE);
+		} else {
+			holder.tv_drug.setVisibility(View.VISIBLE);
+			holder.tv_drug.setText("相关药物："+list.get(pos).snapshotCP);
 		}
 		return view;
 	}
@@ -89,6 +99,7 @@ public class HarmDetialAdapter extends MyBaseAdapter<Solutions> {
 		TextView tv_crop_stage;
 		TextView tv_provider;
 		TextView tv_content;
+		TextView tv_drug;
 		View big_line;
 	}
 

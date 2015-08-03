@@ -81,6 +81,7 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
 
     public void updateView(DataEntity latestReport,String soilHum) {
         TextView humidity = (TextView) this.findViewById(R.id.soil_tem);
+        TextView soil_tem_unit = (TextView) this.findViewById(R.id.soil_tem_unit);
         TextView color = (TextView) this.findViewById(R.id.soil_color);
         TextView fertility = (TextView) this.findViewById(R.id.soil_fertility);
         TextView qn = (TextView) this.findViewById(R.id.soil_qn);
@@ -93,14 +94,15 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
         p.setText("－－");
         k.setText("－－");
         if(!TextUtils.isEmpty(soilHum)){
+        	humidity.setText(soilHum);
 
-            String dest = soilHum+"  m³/m³";
+//            String dest = soilHum+"  m³/m³";
 //            SpannableString tem = new SpannableString(dest);
 //            int len = soilHum.length();
 //            int destLen = dest.length();
 //            tem.setSpan(new SuperscriptSpan(),len+1,len+2, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
 //            tem.setSpan(new SuperscriptSpan(),destLen-1,destLen, Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-            humidity.setText(dest);
+//            humidity.setText(dest);
 //            try {
 //
 //                double tem = Double.parseDouble(soilHum) * 100;
@@ -111,6 +113,7 @@ public class SoilView extends LinearLayout implements View.OnClickListener {
 
         }else {
             soilHum="";
+            soil_tem_unit.setVisibility(View.GONE);
         }
         if (latestReport == null) {
             return;

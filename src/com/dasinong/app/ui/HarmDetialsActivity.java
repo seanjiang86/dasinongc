@@ -244,12 +244,11 @@ public class HarmDetialsActivity extends BaseActivity {
 		iv_pic = (ImageView) header.findViewById(R.id.iv_pic);
 		ll_rapid_diagnosis = (LinearLayout) header.findViewById(R.id.ll_rapid_diagnosis);
 		RelativeLayout rl_rb = (RelativeLayout) header.findViewById(R.id.rl_rb);
-		
-		
+
 		tv_harm_name.setText(detial.data.petDisSpec.petDisSpecName);
-		if(detial.data.petDisSpec.severity == 0){
+		if (detial.data.petDisSpec.severity == 0) {
 			rb_harm_grade.setVisibility(View.GONE);
-		}else{
+		} else {
 			rb_harm_grade.setRating(detial.data.petDisSpec.severity);
 		}
 		rb_harm_grade.setRating(detial.data.petDisSpec.severity);
@@ -266,9 +265,9 @@ public class HarmDetialsActivity extends BaseActivity {
 		}
 
 		LoadUtils.getInstance().loadImage(iv_pic, NetConfig.PET_IMAGE + path);
-		
+
 		rl_rb.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(HarmDetialsActivity.this, WebBrowserActivity.class);
@@ -294,6 +293,7 @@ public class HarmDetialsActivity extends BaseActivity {
 							Intent intent = new Intent(Settings.ACTION_SETTINGS);
 							startActivity(intent);
 						}
+
 						@Override
 						public void onCancelButtonClick() {
 						}
@@ -301,7 +301,7 @@ public class HarmDetialsActivity extends BaseActivity {
 				}
 			}
 		});
-		
+
 		lv_detial.addHeaderView(header, null, false);
 
 		// TODO MING 多张图片备用
@@ -369,8 +369,6 @@ public class HarmDetialsActivity extends BaseActivity {
 		dialog.setContentView(R.layout.confirm_gps_network_dialog);
 		TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
 		TextView tv_title = (TextView) dialog.findViewById(R.id.tv_dialog_title);
-
-		System.out.println(tv_title + "tv _ title");
 
 		tv_title.setText(title);
 		tv.setTextSize(22);

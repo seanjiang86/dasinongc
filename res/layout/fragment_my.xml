@@ -222,6 +222,7 @@
                     android:layout_centerVertical="true"
                     android:src="@drawable/icon_more" />
             </RelativeLayout>
+            
         </LinearLayout>
     </ScrollView>
 

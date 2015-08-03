@@ -34,5 +34,6 @@ public class HarmDetialEntity extends BaseEntity {
 		public String providedBy;
 		public int rank;
 		public String subStageId;
+		public String snapshotCP;
 	}
 }

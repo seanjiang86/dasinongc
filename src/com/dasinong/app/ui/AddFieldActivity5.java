@@ -71,7 +71,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 
 		viewMiddle = new ViewMiddle(this);
 		viewList.add(viewMiddle);
-		textList.add("请选择品种");
+		textList.add("请选择生长阶段");
 
 		etv.setValue(textList, viewList);
 

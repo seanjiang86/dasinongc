@@ -96,20 +96,38 @@
             android:layout_height="wrap_content"
             android:layout_weight="1.0"
             android:paddingBottom="12dp"
-        android:paddingTop="35dp"
+       	 	android:paddingTop="35dp"
             android:orientation="vertical">
-
-            <TextView
+			
+            <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textColor="#333333"
                 android:textSize="@dimen/home_text_size_34"
                 android:id="@+id/soil_tem"
                 android:textStyle="bold"
-
                 android:minHeight="34sp"
+                android:text="5.358s"
                 tools:text="34％" />
+            
+            <TextView
+                android:id="@+id/soil_tem_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="#333333"
+                android:textSize="@dimen/home_text_size_24"
+                android:textStyle="bold"
+                android:minHeight="24sp"
+                android:text="   m³/m³" />
+                
+            </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
