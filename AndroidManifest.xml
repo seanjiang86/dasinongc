@@ -218,7 +218,7 @@
         
         <!-- youmeng key -->
         <meta-data android:value="55a8807367e58eb9b3003e77" android:name="UMENG_APPKEY"></meta-data>
-		<meta-data android:value="Tencent" android:name="UMENG_CHANNEL"/>
+		<meta-data android:value="AndroidMark" android:name="UMENG_CHANNEL"/>
 
         <activity
             android:name=".ui.soil.SoilInformationActivity"

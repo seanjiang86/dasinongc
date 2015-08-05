@@ -19,8 +19,8 @@ public class WeatherEntity extends BaseResponse {
 
     public static class SevenDay {
 
-        public String ff_level;//风力编码
-        public String dd_level;//风向编码（3－4级
+        public String ff_level;//风向编码（3－4级
+        public String dd_level;//风力编码
         public String min_temp;//最低温
         public String temp;//平均温度
         public String weather;//天气现象编码(晴转多云)
@@ -70,6 +70,8 @@ public class WeatherEntity extends BaseResponse {
         public String l5;
         public String l6;
         public String l7;
+        public String daymax;
+        public String daymin;
     }
 
 
