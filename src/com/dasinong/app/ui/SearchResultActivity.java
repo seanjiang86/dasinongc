@@ -124,7 +124,7 @@ public class SearchResultActivity extends BaseActivity {
 		if(!data.getVariety().isEmpty()){
 			SearchItem item =  new SearchItem();
 			item.setType(true);
-			item.setName("品类");
+			item.setName("品种");
 			item.setResId(R.drawable.pinzhong);
 			searchData.add(item);
 			searchData.addAll(data.getVariety());
