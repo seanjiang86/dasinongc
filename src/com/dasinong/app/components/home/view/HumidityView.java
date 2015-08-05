@@ -15,7 +15,9 @@ import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.WeatherEntity;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +30,7 @@ public class HumidityView extends LinearLayout {
 
     private static final String TAG = "HumidityView";
     private int mItemWidth;
+    private String previousHour;
 
 
     //weather icon
@@ -93,9 +96,15 @@ public class HumidityView extends LinearLayout {
             calendar.setTimeInMillis(hour.time);
             
             int hourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
+            
+            if(!TextUtils.isEmpty(previousHour)){
+            	if(Integer.valueOf(previousHour)<12 && hourOfDay == 0){
+            		hourOfDay = 12;
+            	}
+            }
+            
             tvTime.setText(String.valueOf(hourOfDay) + ":00");
-
-
+            
             //icon
             icon.setImageResource(getIcon(hour.icon));
 
@@ -108,8 +117,12 @@ public class HumidityView extends LinearLayout {
 
             LayoutParams layoutParams = new LayoutParams(mItemWidth, LayoutParams.MATCH_PARENT);
             addView(timeItem, layoutParams);
+            
+            previousHour = String.valueOf(hourOfDay);
 
         }
+        
+        
     }
 
 

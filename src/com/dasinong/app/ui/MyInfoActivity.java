@@ -125,6 +125,8 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			
 			mPhoneText.setText(user.getCellPhone());
 			if(TextUtils.isEmpty(user.getUserName())){
+				System.out.println(user.getUserName());
+				
 				mNameText.setTextColor(Color.RED);
 				mNameText.setText("未添加");
 			}else{

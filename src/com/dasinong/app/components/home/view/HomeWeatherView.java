@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.WeatherEntity;
+import com.dasinong.app.utils.TimeUtils;
 import com.umeng.analytics.MobclickAgent;
 
 import java.text.ParseException;
@@ -94,6 +95,10 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 	private LayoutInflater mLayoutInflater;
 
 	private View mFourSectionContainer;
+	private TextView tv_time1;
+	private TextView tv_time2;
+	private TextView tv_time3;
+	private TextView tv_time4;
 
 	static {
 
@@ -332,6 +337,11 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 	 */
 	private void initFourSectionView() {
 
+		tv_time1 = (TextView) findViewById(R.id.tv_time1);
+		tv_time2 = (TextView) findViewById(R.id.tv_time2);
+		tv_time3 = (TextView) findViewById(R.id.tv_time3);
+		tv_time4 = (TextView) findViewById(R.id.tv_time4);
+
 		mWeatherMorning = (TextView) findViewById(R.id.weather_morning);
 		mWeatherAfternoon = (TextView) findViewById(R.id.weather_afternoon);
 		mWeatherNight = (TextView) findViewById(R.id.weather_night);
@@ -351,16 +361,41 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 			mFourSectionContainer.setVisibility(View.GONE);
 			return;
 		}
+
 		mFourSectionContainer.setVisibility(View.VISIBLE);
 
-		mWeatherMorning.setText(pop.morning + "%");
-		mWeatherMorningIcon.setImageResource(getFourWeatherIcon(pop.morning));
-		mWeatherAfternoon.setText(pop.noon + "%");
-		mWeatherAfternoonIcon.setImageResource(getFourWeatherIcon(pop.noon));
-		mWeatherNight.setText(pop.night + "%");
-		mWeatherNightIcon.setImageResource(getFourWeatherIcon(pop.night));
-		mWeatherMidnight.setText(pop.nextmidnight + "%");
-		mWeatherMidnightIcon.setImageResource(getFourWeatherIcon(pop.nextmidnight));
+		String strTime = TimeUtils.getFormatedDateString(8);
+		int intTime = Integer.valueOf(strTime);
+
+		// TODO MING: 12点问题
+		
+		if (intTime < 8 || intTime > 19) {
+			tv_time1.setText("晚间降水");
+			mWeatherMorning.setText(pop.night + "%");
+			mWeatherMorningIcon.setImageResource(getFourWeatherIcon(pop.night));
+
+			tv_time2.setText("半夜降水");
+			mWeatherAfternoon.setText(pop.nextmidnight + "%");
+			mWeatherAfternoonIcon.setImageResource(getFourWeatherIcon(pop.nextmidnight));
+
+			tv_time3.setText("明早降水");
+			mWeatherNight.setText(pop.morning + "%");
+			mWeatherNightIcon.setImageResource(getFourWeatherIcon(pop.morning));
+
+			tv_time4.setText("明午降水");
+			mWeatherMidnight.setText(pop.noon + "%");
+			mWeatherMidnightIcon.setImageResource(getFourWeatherIcon(pop.noon));
+
+		} else {
+			mWeatherMorning.setText(pop.morning + "%");
+			mWeatherMorningIcon.setImageResource(getFourWeatherIcon(pop.morning));
+			mWeatherAfternoon.setText(pop.noon + "%");
+			mWeatherAfternoonIcon.setImageResource(getFourWeatherIcon(pop.noon));
+			mWeatherNight.setText(pop.night + "%");
+			mWeatherNightIcon.setImageResource(getFourWeatherIcon(pop.night));
+			mWeatherMidnight.setText(pop.nextmidnight + "%");
+			mWeatherMidnightIcon.setImageResource(getFourWeatherIcon(pop.nextmidnight));
+		}
 	}
 
 	private int getFourWeatherIcon(int weather) {
@@ -523,7 +558,10 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 				mHumView.setOneDayWeatherData(hours);
 
-				autoScrollPosition();
+				mHorHumView.smoothScrollTo(0, 0);
+
+				// TODO MING 下边被注释的方法是否需要保留
+				// autoScrollPosition();
 
 				// initMinAndMax(hours);
 			}

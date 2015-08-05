@@ -238,6 +238,7 @@
             android:paddingBottom="@dimen/home_dimen_30">
 
             <TextView
+                android:id="@+id/tv_time1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
@@ -277,6 +278,7 @@
             android:paddingBottom="@dimen/home_dimen_30">
 
             <TextView
+                android:id="@+id/tv_time2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -317,7 +319,7 @@
             android:paddingBottom="@dimen/home_dimen_30">
 
             <TextView
-
+				android:id="@+id/tv_time3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"
@@ -356,7 +358,7 @@
             android:paddingBottom="@dimen/home_dimen_30">
 
             <TextView
-
+				android:id="@+id/tv_time4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/home_dimen_30"

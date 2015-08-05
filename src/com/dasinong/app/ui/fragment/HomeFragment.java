@@ -240,7 +240,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                         public void onEditListener(DataEntity entity) {
                             Intent intent = SoilEditorActivity.createIntent(HomeFragment.this.getActivity(), entity);
                             HomeFragment.this.startActivityForResult(intent, 101);
-
+                            
+                            
                         }
                     });
                 }
@@ -575,8 +576,10 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        
+        System.out.println(resultCode == Activity.RESULT_OK);
+        
         if (resultCode == Activity.RESULT_OK && requestCode == 101) {
-
             loadFieldData(param);
         }
     }

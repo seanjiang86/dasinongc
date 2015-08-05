@@ -622,13 +622,13 @@ public class SoilEditorActivity extends SoilBaseActivity implements View.OnClick
 	public void onTaskSuccess(int requestCode, Object response) {
 
 		dismissLoadingDialog();
-		this.finish();
 		setResult(RESULT_OK);
+		this.finish();
+		
 	}
 
 	@Override
 	public void onTaskFailedSuccess(int requestCode, NetError error) {
-
 	}
 
 	@Override

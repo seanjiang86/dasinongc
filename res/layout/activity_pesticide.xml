@@ -78,7 +78,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="治疗细菌类疾病"
+                        android:text="治疗细菌、真菌等菌类疾病"
                         android:textColor="@color/color_999999"
                         android:textSize="@dimen/sp_15" />
                 </LinearLayout>
