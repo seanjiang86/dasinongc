@@ -63,7 +63,6 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 		btn_sure_substage = (Button) findViewById(R.id.btn_sure_substage);
 		topbar = (TopbarView) findViewById(R.id.topbar);
 
-		// TODO MING:默认值
 		varietyId = SharedPreferencesHelper.getString(this, Field.VARIETY_ID, "");
 		seedingMethod = SharedPreferencesHelper.getString(this, Field.SEEDING_METHOD, "");
 

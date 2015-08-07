@@ -37,6 +37,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hybridsquad.android.library.CropHelper;
+import org.hybridsquad.android.library.CropParams;
+
 import me.nereo.multi_image_selector.adapter.FolderAdapter;
 import me.nereo.multi_image_selector.adapter.ImageGridAdapter;
 import me.nereo.multi_image_selector.bean.Folder;
@@ -102,6 +105,8 @@ public class MultiImageSelectorFragment extends Fragment {
     private int mGridWidth, mGridHeight;
 
     private File mTmpFile;
+    
+    CropParams mCropParams = new CropParams();
 
     @Override
     public void onAttach(Activity activity) {
@@ -329,6 +334,12 @@ public class MultiImageSelectorFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         // 相机拍照完成后，返回图片路径
+        
+        System.out.println("requestCode   " + requestCode);
+        System.out.println("ok   " + Activity.RESULT_OK);
+        System.out.println("resultCode   " + resultCode);
+        System.out.println(mTmpFile == null);
+        
         if(requestCode == REQUEST_CAMERA){
             if(resultCode == Activity.RESULT_OK) {
                 if (mTmpFile != null) {
@@ -398,6 +409,9 @@ public class MultiImageSelectorFragment extends Fragment {
             mTmpFile = FileUtils.createTmpFile(getActivity());
             cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mTmpFile));
             startActivityForResult(cameraIntent, REQUEST_CAMERA);
+        	
+//			Intent intent = CropHelper.buildCaptureIntent(mCropParams.uri);
+//			startActivityForResult(intent, CropHelper.REQUEST_CAMERA);
         }else{
             Toast.makeText(getActivity(), R.string.msg_no_camera, Toast.LENGTH_SHORT).show();
         }

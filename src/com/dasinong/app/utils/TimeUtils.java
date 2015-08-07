@@ -18,7 +18,7 @@ public class TimeUtils {
 	 * @param timeZoneOffset
 	 * @return
 	 */
-	public static String getFormatedDateString(float timeZoneOffset) {
+	public static String getFormatedDateString(float timeZoneOffset , Date date) {
 		if (timeZoneOffset > 13 || timeZoneOffset < -12) {
 			timeZoneOffset = 0;
 		}
@@ -36,6 +36,6 @@ public class TimeUtils {
 
 		SimpleDateFormat sdf = new SimpleDateFormat("HH");
 		sdf.setTimeZone(timeZone);
-		return sdf.format(new Date());
+		return sdf.format(date);
 	}
 }

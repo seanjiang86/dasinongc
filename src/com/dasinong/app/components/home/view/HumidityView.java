@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.WeatherEntity;
+import com.dasinong.app.utils.TimeUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -67,8 +68,7 @@ public class HumidityView extends LinearLayout {
     public void setOneDayWeatherData(List<WeatherEntity.Hours> hoursList) {
 
         if (hoursList == null || hoursList.isEmpty()) {
-
-            return;
+        	return;
         }
 
        
@@ -103,7 +103,13 @@ public class HumidityView extends LinearLayout {
             	}
             }
             
-            tvTime.setText(String.valueOf(hourOfDay) + ":00");
+//            System.out.println(hour.time);
+//            
+//            String hourOfDay = TimeUtils.getFormatedDateString(8, new Date(hour.time));
+//            
+//            System.out.println(hourOfDay);
+            
+            tvTime.setText(hourOfDay + ":00");
             
             //icon
             icon.setImageResource(getIcon(hour.icon));

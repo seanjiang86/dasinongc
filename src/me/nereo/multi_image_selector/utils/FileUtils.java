@@ -31,6 +31,9 @@ public class FileUtils {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
             String fileName = "multi_image_"+timeStamp+"";
             File tmpFile = new File(pic, fileName+".jpg");
+            if(!pic.exists()){
+            	pic.mkdir();
+            }
             return tmpFile;
         }else{
             File cacheDir = context.getCacheDir();

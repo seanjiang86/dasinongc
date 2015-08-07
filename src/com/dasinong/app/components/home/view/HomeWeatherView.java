@@ -364,12 +364,19 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 		mFourSectionContainer.setVisibility(View.VISIBLE);
 
-		String strTime = TimeUtils.getFormatedDateString(8);
+		String strTime = TimeUtils.getFormatedDateString(8 , new Date());
 		int intTime = Integer.valueOf(strTime);
-
-		// TODO MING: 12点问题
 		
-		if (intTime < 8 || intTime > 19) {
+		if(intTime > 8 && intTime < 20){
+			mWeatherMorning.setText(pop.morning + "%");
+			mWeatherMorningIcon.setImageResource(getFourWeatherIcon(pop.morning));
+			mWeatherAfternoon.setText(pop.noon + "%");
+			mWeatherAfternoonIcon.setImageResource(getFourWeatherIcon(pop.noon));
+			mWeatherNight.setText(pop.night + "%");
+			mWeatherNightIcon.setImageResource(getFourWeatherIcon(pop.night));
+			mWeatherMidnight.setText(pop.nextmidnight + "%");
+			mWeatherMidnightIcon.setImageResource(getFourWeatherIcon(pop.nextmidnight));
+		} else {
 			tv_time1.setText("晚间降水");
 			mWeatherMorning.setText(pop.night + "%");
 			mWeatherMorningIcon.setImageResource(getFourWeatherIcon(pop.night));
@@ -384,17 +391,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 			tv_time4.setText("明午降水");
 			mWeatherMidnight.setText(pop.noon + "%");
-			mWeatherMidnightIcon.setImageResource(getFourWeatherIcon(pop.noon));
-
-		} else {
-			mWeatherMorning.setText(pop.morning + "%");
-			mWeatherMorningIcon.setImageResource(getFourWeatherIcon(pop.morning));
-			mWeatherAfternoon.setText(pop.noon + "%");
-			mWeatherAfternoonIcon.setImageResource(getFourWeatherIcon(pop.noon));
-			mWeatherNight.setText(pop.night + "%");
-			mWeatherNightIcon.setImageResource(getFourWeatherIcon(pop.night));
-			mWeatherMidnight.setText(pop.nextmidnight + "%");
-			mWeatherMidnightIcon.setImageResource(getFourWeatherIcon(pop.nextmidnight));
+			mWeatherMidnightIcon.setImageResource(getFourWeatherIcon(pop.noon));	
 		}
 	}
 

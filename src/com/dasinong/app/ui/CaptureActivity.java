@@ -140,9 +140,6 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		if (resultString.equals("")) {
 			Toast.makeText(CaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
 		} else {
-			// System.out.println("Result:"+resultString);
-
-			// TODO MING:6.25 待定
 			
 			//友盟统计自定义统计事件
 			HashMap<String,String> map = new HashMap<String,String>();

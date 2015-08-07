@@ -72,7 +72,6 @@ public class AddFieldActivity7 extends BaseActivity {
 									backToHome();
 									dismissLoadingDialog();
 								} else {
-									// TODO MING:待定显示什么内容
 									dismissLoadingDialog();
 									showToast("创建失败");
 								}

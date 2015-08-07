@@ -191,7 +191,6 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 							}
 							handler.sendEmptyMessage(0);
 						} else {
-							// TODO MING:请求不到时会出现空toast
 							showToast(resultData.getMessage() + requestCode);
 						}
 						dismissLoadingDialog();
