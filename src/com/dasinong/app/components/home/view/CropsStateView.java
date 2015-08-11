@@ -161,13 +161,13 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
      * @param entity
      */
     public void updateView(FieldEntity entity, String defaultLocation) {
-
+        initFieldName();
+        initTask();
         if (null == entity) {
 
             return;
         }
-        initFieldName();
-        initTask();
+
         mFieldNameView.setText(defaultLocation);
         mFieldNameView.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.gps), null);
         if (!AccountManager.isLogin(this.getContext())) {
@@ -206,8 +206,11 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
             if(mCurrentSubStage!=null) {
                 mCurrentTaskSpec = getTaskBySubStageId();
+            }else {
+                mCurrentTaskSpec.clear();
             }
-            if (null != entity.fieldList && !entity.fieldList.isEmpty()) {
+
+            if (null != entity.fieldList && !entity.fieldList.isEmpty()&&mCurrentSubStage!=null) {
                 mTaskTitle.setVisibility(View.VISIBLE);
                 updateTask();
             } else {
@@ -215,6 +218,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
                 campaignView.removeAllViews();
                 campaignView.setVisibility(View.GONE);
                 mTaskTitle.setVisibility(View.GONE);
+
             }
 
         }
