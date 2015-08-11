@@ -7,11 +7,18 @@ import cn.smssdk.SMSSDK;
 
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.TokenEntity;
+import com.dasinong.app.entity.UserInfoEntity;
+import com.dasinong.app.listener.BaseUIListener;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestCode;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.StringHelper;
+import com.google.gson.Gson;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQAuth;
+import com.tencent.tauth.Tencent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,12 +43,41 @@ public class RegisterActivity extends BaseActivity {
 	private EditText mPhoneEdit;
 	private Button mNextButton;
 	private TextView mAgreementText;
+	private Button btn_qq_login;
+	private Button btn_wx_login;
+	public static QQAuth mQQAuth;
+	private Tencent mTencent;
+	private static final int GET_OPEN_ID = 0;
+	private static final int GET_USER_INFO = 1;
+	private TokenEntity tokenEntity;
+	private UserInfoEntity userInfo;
+
+	private Handler handler = new Handler() {
+
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case GET_OPEN_ID:
+				String token =  (String) msg.obj;
+				tokenEntity = new Gson().fromJson(token,TokenEntity.class );
+				break;
+			case GET_USER_INFO:
+				String info = (String) msg.obj;
+				userInfo = new Gson().fromJson(info, UserInfoEntity.class);
+				
+				
+				break;
+			}
+		};
+	};
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
+		
+		mTencent = Tencent.createInstance("1104723671", this.getApplicationContext());
+		mQQAuth = QQAuth.createInstance("1104723671", this);
+		
 		
 		initView();
 		setView();
@@ -64,6 +100,10 @@ public class RegisterActivity extends BaseActivity {
 //		mAddressEdit = (EditText) this.findViewById(R.id.edittext_address);
 		
 //		mRegisterButton = (Button) this.findViewById(R.id.button_register);
+		
+		btn_qq_login = (Button) findViewById(R.id.btn_qq_login);
+		btn_wx_login = (Button) findViewById(R.id.btn_wx_login);
+		
 	}
 
 	private void setView() {
@@ -78,6 +118,52 @@ public class RegisterActivity extends BaseActivity {
 			}
 		});
 		
+		btn_qq_login.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if (!mTencent.isSessionValid()) {
+					mTencent.login(RegisterActivity.this, "all", new BaseUIListener(RegisterActivity.this){
+						@Override
+						public void onComplete(Object response) {
+							super.onComplete(response);
+							Message msg = handler.obtainMessage();
+							msg.what = GET_OPEN_ID;
+							msg.obj = response;
+							handler.sendMessage(msg);
+						}
+					});
+				}
+				getInfo();
+			}
+		});
+		
+		btn_wx_login.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
+		
+	}
+	
+	protected void getInfo() {
+		if(mTencent.isSessionValid()){
+			UserInfo info = new UserInfo(this, mTencent.getQQToken());
+			
+			info.getUserInfo(new BaseUIListener(this,"get_simple_userinfo"){
+				@Override
+				public void onComplete(Object response) {
+					super.onComplete(response);
+					Message msg = handler.obtainMessage();
+					msg.what = GET_USER_INFO;
+					msg.obj = response;
+					handler.sendMessage(msg);
+				}
+			});
+			
+		}
 	}
 
 	protected void register() {
@@ -194,6 +280,8 @@ public class RegisterActivity extends BaseActivity {
 			// registerUser(country, phone);
 			showToast("提交注册信息"+country + "--"+phone);
 		}
+		
+		mTencent.onActivityResult(arg0, arg1, arg2);
 		
 	}
 	

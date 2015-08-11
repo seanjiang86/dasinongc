@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:text="从今天起,记得每天打开App,查查今天适宜的农事,并给出反馈,我们会不断优化你的种植方案。"
                 android:textColor="@color/color_333333"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -75,7 +75,7 @@
 
         <EditText
             android:id="@+id/et_target_production"
-            android:layout_width="105dp"
+            android:layout_width="100dp"
             android:layout_height="45dp"
             android:background="@drawable/text_bg"
             android:inputType="numberDecimal" />

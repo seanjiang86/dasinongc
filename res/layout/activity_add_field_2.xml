@@ -43,14 +43,14 @@
                 android:layout_height="wrap_content"
                 android:text="我猜猜..."
                 android:textColor="@color/color_333333"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="你的农田是不是在..."
                 android:textColor="@color/color_333333"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
         </LinearLayout>
     </LinearLayout>
 

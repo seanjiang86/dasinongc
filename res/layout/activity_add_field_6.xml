@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:text="哪天移植的?"
                 android:textColor="@color/color_333333"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
         </LinearLayout>
     </LinearLayout>
 

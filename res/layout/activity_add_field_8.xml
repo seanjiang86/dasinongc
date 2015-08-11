@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="你的种植方式是？"
                 android:textColor="@color/color_333333"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
         </RelativeLayout>
     </LinearLayout>
 

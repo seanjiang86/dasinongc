@@ -33,14 +33,14 @@
                     android:layout_height="wrap_content"
                     android:text="作物名称： "
                     android:textColor="@color/color_666666"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="水稻"
                     android:textColor="@color/color_333333"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:text="灾害类型： "
                     android:textColor="@color/color_666666"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
 
                 <RadioGroup
                     android:id="@+id/rg_harm_type"
@@ -71,7 +71,8 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="4dp"
                         android:text="病害"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
 
                     <RadioButton
                         android:id="@+id/rb_pet_harm"
@@ -81,7 +82,8 @@
                         android:layout_marginLeft="10dp"
                         android:paddingLeft="4dp"
                         android:text="虫害"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
 
                     <RadioButton
                         android:id="@+id/rb_grass_harm"
@@ -91,7 +93,8 @@
                         android:layout_marginLeft="10dp"
                         android:paddingLeft="4dp"
                         android:text="草害"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
 
                     <RadioButton
                         android:id="@+id/rb_nosure_harm"
@@ -101,7 +104,8 @@
                         android:layout_marginLeft="10dp"
                         android:paddingLeft="4dp"
                         android:text="不确定"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -121,13 +125,14 @@
                     android:layout_height="wrap_content"
                     android:text="灾害名称： "
                     android:textColor="@color/color_666666"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
 
                 <EditText
                     android:id="@+id/et_harm_name"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:background="@drawable/text_bg" />
+                    android:background="@drawable/text_bg"
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -143,7 +148,7 @@
                     android:layout_height="wrap_content"
                     android:text="影响部位： "
                     android:textColor="@color/color_666666"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -157,7 +162,8 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="4dp"
                         android:text="根"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
 
                     <CheckBox
                         android:id="@+id/cb_part_stems"
@@ -167,7 +173,8 @@
                         android:layout_marginLeft="8dp"
                         android:paddingLeft="4dp"
                         android:text="茎"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
 
                     <CheckBox
                         android:id="@+id/cb_part_leaves"
@@ -177,7 +184,8 @@
                         android:layout_marginLeft="8dp"
                         android:paddingLeft="4dp"
                         android:text="叶"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
 
                     <CheckBox
                         android:id="@+id/cb_part_ear"
@@ -187,7 +195,8 @@
                         android:layout_marginLeft="8dp"
                         android:paddingLeft="4dp"
                         android:text="穗"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
 
                     <CheckBox
                         android:id="@+id/cb_part_grain"
@@ -197,7 +206,8 @@
                         android:layout_marginLeft="8dp"
                         android:paddingLeft="4dp"
                         android:text="籽粒"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -213,7 +223,7 @@
                     android:layout_height="wrap_content"
                     android:text="爆发时间： "
                     android:textColor="@color/color_666666"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
 
                 <RadioGroup
                     android:id="@+id/rg_happened"
@@ -228,7 +238,8 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="4dp"
                         android:text="突然爆发"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
 
                     <RadioButton
                         android:id="@+id/rb_recently"
@@ -238,7 +249,8 @@
                         android:layout_marginTop="23dp"
                         android:paddingLeft="4dp"
                         android:text="近几天逐渐爆发"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
 
                     <RadioButton
                         android:id="@+id/rb_recurrence"
@@ -248,7 +260,8 @@
                         android:layout_marginTop="23dp"
                         android:paddingLeft="4dp"
                         android:text="之前爆发过的，是复发"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -264,7 +277,7 @@
                     android:layout_height="wrap_content"
                     android:text="灾害分布： "
                     android:textColor="@color/color_666666"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
 
                 <RadioGroup
                     android:id="@+id/rg_distribution"
@@ -279,7 +292,8 @@
                         android:layout_height="wrap_content"
                         android:paddingLeft="4dp"
                         android:text="整片田均匀受害"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
 
                     <RadioButton
                         android:id="@+id/rb_uneven"
@@ -289,7 +303,8 @@
                         android:layout_marginTop="23dp"
                         android:paddingLeft="4dp"
                         android:text="田里不规则爆发"
-                        android:textColor="@color/color_333333" />
+                        android:textColor="@color/color_333333"
+                        android:textSize="16dp" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -309,7 +324,7 @@
                     android:layout_marginTop="8dp"
                     android:text="田事操作： "
                     android:textColor="@color/color_666666"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
 
                 <EditText
                     android:id="@+id/et_des"
@@ -320,7 +335,7 @@
                     android:hint="  近期打药或施肥情况"
                     android:lines="6"
                     android:textColorHint="@color/color_CCCCCC"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -335,7 +350,7 @@
                     android:layout_height="wrap_content"
                     android:text="添加照片："
                     android:textColor="@color/color_666666"
-                    android:textSize="16sp" />
+                    android:textSize="16dp" />
 
                 <ImageButton
                     android:id="@+id/btn_upload_images"
@@ -349,7 +364,7 @@
                     android:layout_height="wrap_content"
                     android:text="（可支持单次上传六张）"
                     android:textColor="@color/color_CCCCCC"
-                    android:textSize="13sp" />
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <GridView
@@ -376,7 +391,7 @@
                 android:background="@drawable/green_button_selector"
                 android:text="提交"
                 android:textColor="@color/color_FFFFFF"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
         </LinearLayout>
     </ScrollView>
 

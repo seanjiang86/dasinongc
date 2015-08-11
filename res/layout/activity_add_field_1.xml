@@ -20,36 +20,39 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="95dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="45dp"
-        android:layout_marginRight="25dp" >
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="45dp" >
 
         <ImageView
             android:layout_width="95dp"
             android:layout_height="95dp"
             android:src="@drawable/closeeyesmile" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_marginLeft="25dp" >
+            android:layout_height="match_parent"
+            android:layout_marginLeft="25dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="想知道自己头顶上的天气？\n想种好你的这片田？"
+                android:text="想知道头顶上的天气？\n想种好你的这片田？"
                 android:textColor="@color/color_333333"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
+                android:layout_marginTop="10dp"
                 android:text="位置定位越详细越好哦"
                 android:textColor="@color/color_333333"
-                android:textSize="16sp" />
-        </RelativeLayout>
+                android:textSize="16dp" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

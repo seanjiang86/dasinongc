@@ -43,14 +43,14 @@
                 android:layout_height="wrap_content"
                 android:text="啊呀,你附近有140个用户"
                 android:textColor="@color/color_333333"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="也在使用我们服务哦"
                 android:textColor="@color/color_333333"
-                android:textSize="16sp" />
+                android:textSize="16dp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -72,11 +72,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="45dp"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/et_field_size"
-                android:layout_width="235dp"
+                android:layout_width="wrap_content"
+                android:minWidth="235dp"
                 android:layout_height="45dp"
                 android:background="@drawable/text_bg"
                 android:hint="农田多大呀?例如100"

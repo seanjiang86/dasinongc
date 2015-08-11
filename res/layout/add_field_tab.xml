@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15.0dip"
                 android:text="农田位置"
-                android:textSize="12.0sp"
+                android:textSize="12.0dp"
                 android:textColor="@color/color_2BAD2A" />
 
             <TextView
@@ -81,7 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="46.0dip"
                 android:text="作物信息"
-                android:textSize="12.0sp" />
+                android:textSize="12.0dp" />
 
             <TextView
                 android:id="@+id/tv_crop_info"
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="46.0dip"
                 android:text="种植方式"
-                android:textSize="12.0sp" />
+                android:textSize="12.0dp" />
 
             <TextView
                 android:id="@+id/tv_crop_date"
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="46.0dip"
                 android:text="种植周期"
-                android:textSize="12.0sp" />
+                android:textSize="12.0dp" />
         </LinearLayout>
     </LinearLayout>
 
