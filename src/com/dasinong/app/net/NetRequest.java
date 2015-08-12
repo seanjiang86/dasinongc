@@ -412,5 +412,77 @@ public class NetRequest {
 
 		void onFailed(int requestCode, Exception error, String msg);
 	}
+	
+//	appid=" + APP_ID + "&secret=" + WX_SECRET + "&code=" + WX_CODE + "&grant_type=authorization_code"
+
+	public <T> void getWXAccessToken(final int requestCode, String url,String appid, String secret,String code, final Class<? extends BaseEntity> clazz, final RequestListener callback) {
+		HttpUtils http = new HttpUtils();
+		
+		http.send(HttpMethod.GET, url+ "appid=" + appid + "&secret=" + secret + "&code=" + code + "&grant_type=authorization_code",  new RequestCallBack<String>() {
+
+			@Override
+			public void onFailure(HttpException error, String msg) {
+				Logger.d(LogTag.HTTP, "error:" + Log.getStackTraceString(error) + "--msg:" + msg);
+				callback.onFailed(requestCode, error, msg);
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo) {
+				Logger.d(LogTag.HTTP, "total:" + responseInfo.result);
+				String response = responseInfo.result;
+				try {
+					Logger.d(LogTag.HTTP, response);
+
+					BaseEntity result = new Gson().fromJson(response, clazz);
+					if (result == null) {
+						callback.onFailed(requestCode, new NullPointerException(), "data:" + response);
+						return;
+					}
+					callback.onSuccess(requestCode, result);
+				} catch (Exception e) {
+					callback.onFailed(requestCode, e, e.getClass().toString());
+				}
+				
+			}
+		});
+	}
+	
+//	https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openId
+	public <T> void getWXUserInfo(final int requestCode, String url,String access_token, String openid, final Class<? extends BaseEntity> clazz, final RequestListener callback) {
+		HttpUtils http = new HttpUtils();
+		
+		http.send(HttpMethod.GET, url+"access_token=" + access_token + "&openid=" + openid, new RequestCallBack<String>() {
+
+			@Override
+			public void onFailure(HttpException error, String msg) {
+				Logger.d(LogTag.HTTP, "error:" + Log.getStackTraceString(error) + "--msg:" + msg);
+				callback.onFailed(requestCode, error, msg);
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo) {
+				Logger.d(LogTag.HTTP, "total:" + responseInfo.result);
+				String response = responseInfo.result;
+				try {
+					Logger.d(LogTag.HTTP, response);
+
+					BaseEntity result = new Gson().fromJson(response, clazz);
+					if (result == null) {
+						callback.onFailed(requestCode, new NullPointerException(), "data:" + response);
+						return;
+					}
+
+					if (result.isAuthTokenInvalid()) {
+						AccountManager.logout(context);
+					}
+
+					callback.onSuccess(requestCode, result);
+				} catch (Exception e) {
+					callback.onFailed(requestCode, e, e.getClass().toString());
+				}
+				
+			}
+		});
+	}
 
 }

@@ -87,4 +87,8 @@ public final class RequestCode {
 	public static final int CPPRODUCT_VARIETYS_NAMED = CPPRODUCT_BYMODEL_NAMED + 1;
 	/** 更换当前作物生长周期 */
 	public static final int CHANGE_STAGE = CPPRODUCT_VARIETYS_NAMED + 1;
+	/** QQ登陆接口 */
+	public static final int QQ_AUTH_REG_LOG = CHANGE_STAGE + 1;
+	/** 微信登陆接口 */
+	public static final int WX_AUTH_REG_LOG = QQ_AUTH_REG_LOG + 1;
 }

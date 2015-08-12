@@ -205,7 +205,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
                     mCropStateView.setOnAddFieldClickListener(new CropsStateView.MyOnAddFieldClickListener() {
                         @Override
                         public void onWorKContentItemClick(String itemValue, int pos, boolean isSelect) {
-
+                        	
 
                         }
 

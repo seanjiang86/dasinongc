@@ -34,18 +34,33 @@ public class SubStageDaoImpl extends DaoSupportImpl<SubStage> {
     }
 
     /**
+    *
+    * @return
+    */
+   public List<String> queryStageCategory()
+   {
+
+       StringBuffer sb = new StringBuffer();
+       sb.append("select distinct stageName ")
+               .append("from ")
+               .append("substage ");
+       return querySingleColumn(sb.toString());
+   }
+    
+    /**
      *
      * @return
      */
-    public List<String> queryStageCategory()
+    public List<String> queryStageCategory(int min, int max)
     {
 
         StringBuffer sb = new StringBuffer();
         sb.append("select distinct stageName ")
                 .append("from ")
-                .append("substage");
+                .append("substage ")
+                .append("where substageId>"+ (min-1) +" and substageId<" + (max+1));
 
-
+        
         return querySingleColumn(sb.toString());
     }
 

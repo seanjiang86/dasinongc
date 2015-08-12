@@ -33,6 +33,9 @@ public final class SharedPreferencesHelper {
         MONITOR_LOCATION_ID,
         USER_FIELDS,
         IS_FIRST,
+        QQ_TOKEN,
+        WEIXIN_TOKEN,
+        CROP,
 
     }
 

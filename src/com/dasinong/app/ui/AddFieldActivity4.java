@@ -269,8 +269,12 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		Intent intent = null;
 		if (etv.getText(0).startsWith("水稻")) {
 			intent = new Intent(this, AddFieldActivity8.class);
+		} else if(etv.getText(0).startsWith("小麦")){
+			intent = new Intent(this, AddFieldActivity5.class);
+			intent.putExtra("crop", "小麦");
 		} else {
 			intent = new Intent(this, AddFieldActivity7.class);
+			
 			SharedPreferencesHelper.setString(this, Field.SEEDING_METHOD, "false");
 			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, "");
 			SharedPreferencesHelper.setString(this, Field.PLANTING_DATE, "");

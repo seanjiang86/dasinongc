@@ -51,6 +51,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	private int smallPosition;
 	private String bigSubStage;
 	private String smallSubStage;
+	private String crop;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,8 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 		overridePendingTransition(0, 0);
 		setContentView(R.layout.activity_add_field_5);
 		etv = (ExpandTabView) findViewById(R.id.etv);
+
+		crop = getIntent().getStringExtra("crop");
 
 		btn_no_sure_substage = (Button) findViewById(R.id.btn_no_sure_substage);
 		btn_sure_substage = (Button) findViewById(R.id.btn_sure_substage);
@@ -110,11 +113,16 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	 * 请求大长期数据
 	 */
 	private void queryBigSubStage() {
-		bigSubStageList = dao.queryStageCategory();
-		bigSubStageList.remove("收获后");
-		if (AddFieldActivity8.DIRECT.equals(seedingMethod)) {
-			bigSubStageList.remove("移栽");
-			bigSubStageList.remove("返青期");
+
+		if ("小麦".equals(crop)) {
+			bigSubStageList = dao.queryStageCategory(60, 73);
+		} else {
+			bigSubStageList = dao.queryStageCategory(35, 59);
+			bigSubStageList.remove("收获后");
+			if (AddFieldActivity8.DIRECT.equals(seedingMethod)) {
+				bigSubStageList.remove("移栽");
+				bigSubStageList.remove("返青期");
+			}
 		}
 		initBigSubStage();
 	}
@@ -123,6 +131,9 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	 * 填充大生长期
 	 */
 	protected void initBigSubStage() {
+
+		System.out.println("bigSubStageList   " + bigSubStageList);
+
 		viewMiddle.initBigAreaData(bigSubStageList, bigPosition);
 		viewMiddle.setOnBigAreaItemClickListener(new OnItemClickListener() {
 
@@ -147,12 +158,23 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	 */
 	private void querySmallSubStage(String stageName) {
 		List<SubStage> list = dao.queryStageSubCategory(stageName);
-		smallSubStageMap.clear();
-		for (int i = 0; i < list.size(); i++) {
-			SubStage stage = list.get(i);
-			if (AddFieldActivity8.DIRECT.equals(seedingMethod) && "移栽前准备".equals(stage.subStageName))
-				continue;
-			smallSubStageMap.put(stage.subStageName, stage.subStageId);
+		if ("小麦".equals(crop)) {
+			smallSubStageMap.clear();
+			for (SubStage subStage : list) {
+				if (subStage.subStageId > 59) {
+					smallSubStageMap.put(subStage.subStageName, subStage.subStageId);
+				}
+			}
+		} else {
+			smallSubStageMap.clear();
+			for (int i = 0; i < list.size(); i++) {
+				SubStage stage = list.get(i);
+				if (AddFieldActivity8.DIRECT.equals(seedingMethod) && "移栽前准备".equals(stage.subStageName))
+					continue;
+				if (stage.subStageId <= 59) {
+					smallSubStageMap.put(stage.subStageName, stage.subStageId);
+				}
+			}
 		}
 		initSmallSubStage();
 	}

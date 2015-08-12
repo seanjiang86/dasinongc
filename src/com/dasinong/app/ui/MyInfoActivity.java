@@ -1,6 +1,9 @@
 package com.dasinong.app.ui;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 import org.hybridsquad.android.library.CropHandler;
 import org.hybridsquad.android.library.CropHelper;
@@ -31,6 +34,7 @@ import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+import com.tencent.tauth.Tencent;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -120,12 +124,21 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		User user = entity.getData();
 		if(user != null){
 			
-			LoadUtils.getInstance().loadImage(mHeadviewImage, NetConfig.IMAGE_URL+user.getPictureId());
+			if(user.getPictureId().startsWith("http")){
+				String url = null;
+				try {
+					url = URLDecoder.decode(user.getPictureId(), "utf-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				LoadUtils.getInstance().loadImage(mHeadviewImage, url);
+			}else {
+				LoadUtils.getInstance().loadImage(mHeadviewImage, NetConfig.IMAGE_URL+user.getPictureId());
+			}
 			
 			
 			mPhoneText.setText(user.getCellPhone());
 			if(TextUtils.isEmpty(user.getUserName())){
-				System.out.println(user.getUserName());
 				
 				mNameText.setTextColor(Color.RED);
 				mNameText.setText("未添加");
@@ -307,6 +320,12 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		backBtn.setText("确定");
 		backBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
+				
+				Tencent mTencent = Tencent.createInstance("1104723671", getApplicationContext());
+				if(mTencent != null && mTencent.isSessionValid()){
+					mTencent.logout(MyInfoActivity.this);
+				}
+				
 				AccountManager.logout(MyInfoActivity.this);
 				dialog.dismiss();
 				finish();

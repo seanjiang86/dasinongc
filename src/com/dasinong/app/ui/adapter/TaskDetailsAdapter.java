@@ -66,7 +66,7 @@ public class TaskDetailsAdapter extends MyBaseAdapter<Steps> {
 		if (TextUtils.isEmpty(item.picture)) {
 			holder.stepImage.setVisibility(View.GONE);
 		} else {
-			LoadUtils.getInstance().loadImage(holder.stepImage, "http://120.26.208.198:8080/nongshi/" + item.picture + ".jpg");
+			LoadUtils.getInstance().loadImage(holder.stepImage, "http://182.254.129.101:8080/nongshi/" + item.picture + ".jpg");
 		}
 
 		holder.nameText.setText(item.stepName);

@@ -11,6 +11,24 @@ public class User {
 	private String address;
 	private String[] fields;
 	private String[] monitorLocationId;
+	private String qqtoken;
+	private String weixintoken;
+
+	public String getQqtoken() {
+		return qqtoken;
+	}
+
+	public void setQqtoken(String qqtoken) {
+		this.qqtoken = qqtoken;
+	}
+
+	public String getWeixintoken() {
+		return weixintoken;
+	}
+
+	public void setWeixintoken(String weixintoken) {
+		this.weixintoken = weixintoken;
+	}
 
 	public String getTelephone() {
 		return telephone;

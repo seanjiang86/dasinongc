@@ -99,6 +99,13 @@ public class SplashActivity extends BaseActivity {
 
 	private void autoLogin() {
 		String phone = SharedPreferencesHelper.getString(this, Field.USER_PHONE, "");
+		String qqToken = SharedPreferencesHelper.getString(this, Field.QQ_TOKEN, "");
+		String weixinToken = SharedPreferencesHelper.getString(this, Field.WEIXIN_TOKEN, "");
+
+		String logKey = null;
+		logKey = TextUtils.isEmpty(phone) ? phone : "";
+		logKey = TextUtils.isEmpty(qqToken) ? qqToken : "";
+		logKey = TextUtils.isEmpty(weixinToken) ? weixinToken : "";
 
 		if (!TextUtils.isEmpty(phone)) {
 			RequestService.getInstance().authcodeLoginReg(this, phone, BaseEntity.class, new RequestListener() {
@@ -111,6 +118,20 @@ public class SplashActivity extends BaseActivity {
 				public void onFailed(int requestCode, Exception error, String msg) {
 				}
 			});
+		} else if (!TextUtils.isEmpty(qqToken)) {
+			RequestService.getInstance().qqAuthRegLog(this, qqToken, "", "", BaseEntity.class, new RequestListener() {
+
+				@Override
+				public void onSuccess(int requestCode, BaseEntity resultData) {
+				}
+
+				@Override
+				public void onFailed(int requestCode, Exception error, String msg) {
+				}
+			});
+		} else if (!TextUtils.isEmpty(weixinToken)) {
+			// TODO MING 微信登陆
+
 		}
 	}
 }

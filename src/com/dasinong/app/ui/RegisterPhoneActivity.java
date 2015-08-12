@@ -12,6 +12,8 @@ import static com.mob.tools.utils.R.getLayoutRes;
 import static com.mob.tools.utils.R.getStringRes;
 import static com.mob.tools.utils.R.getStyleRes;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.regex.Matcher;
@@ -54,14 +56,29 @@ import cn.smssdk.UserInterruptException;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.IsPassSetEntity;
+import com.dasinong.app.entity.LoginRegEntity;
+import com.dasinong.app.entity.TokenEntity;
+import com.dasinong.app.entity.QQUserInfoEntity;
+import com.dasinong.app.entity.WXAccessTokenEntity;
+import com.dasinong.app.entity.WXUserInfoEntity;
+import com.dasinong.app.listener.BaseUIListener;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.net.NetConfig.ResponseCode;
 import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.StringHelper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.zxing.common.StringUtils;
 import com.mob.tools.FakeActivity;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQAuth;
+import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.tauth.Tencent;
 
 /** 短信注册页面 */
 public class RegisterPhoneActivity extends BaseActivity implements OnClickListener, TextWatcher {
@@ -75,31 +92,95 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	private EditText mPhoneEdit;
 	private Button mNextButton;
 	private TextView mAgreementText;
-	
-//	// 国家
-//	private TextView tvCountry;
-//	// 手机号码
-//	private EditText etPhoneNum;
-//	// 国家编号
-//	private TextView tvCountryNum;
-//	// clear 号码
-//	private ImageView ivClear;
 
-//	private String currentId;
+	// // 国家
+	// private TextView tvCountry;
+	// // 手机号码
+	// private EditText etPhoneNum;
+	// // 国家编号
+	// private TextView tvCountryNum;
+	// // clear 号码
+	// private ImageView ivClear;
+
+	// private String currentId;
 	private String currentCode;
 	private EventHandler handler;
 	// 国家号码规则
 	private HashMap<String, String> countryRules;
 	private OnSendMessageHandler osmHandler;
-	
-//	private static String APPKEY = "7ddca5c23518";
-//	private static String APPSECRET = "674b27af7f64b70e317f147098bc782b";
+
+	// private static String APPKEY = "7ddca5c23518";
+	// private static String APPSECRET = "674b27af7f64b70e317f147098bc782b";
 	private static String APPKEY = "80424b5493c0";
 	private static String APPSECRET = "3c1b73e6af8f059c2e6b25f7065d77a3";
 
 	private String phone;
 	private boolean isAuthPhone = false;
-	
+
+	private Button btn_qq_login;
+	private Button btn_wx_login;
+	public static QQAuth mQQAuth;
+	private Tencent mTencent;
+	private static final int GET_OPEN_ID = 0;
+	private static final int GET_USER_INFO = 1;
+	private static final int GET_WX_TOKEN = 2;
+	private static final int GET_WX_INFO = 3;
+	private TokenEntity tokenEntity;
+	private QQUserInfoEntity userInfo;
+	// 自己微信应用的 appId
+	public static String APP_ID = "wx4d695a8b93857af1";
+	// 自己微信应用的 appSecret
+	public static String WX_SECRET = "e4d2e28f0dc7123145aeacfb93e70ca7";
+
+	public static String WX_CODE = "";
+
+	public static IWXAPI wxApi;
+	public static boolean isWXLogin = false;
+
+	private Handler mHandler = new Handler() {
+
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case GET_OPEN_ID:
+				String token = ((JSONObject) msg.obj).toString();
+				tokenEntity = new Gson().fromJson(token, TokenEntity.class);
+				getInfo();
+				break;
+			case GET_USER_INFO:
+				String info = ((JSONObject) msg.obj).toString();
+				userInfo = new Gson().fromJson(info, QQUserInfoEntity.class);
+				startLoadingDialog();
+				String QQHeadImageUrl = null;
+				try {
+					QQHeadImageUrl = URLEncoder.encode(userInfo.figureurl_qq_2, "utf-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+
+				qqRegLog(tokenEntity.openid, QQHeadImageUrl, userInfo.nickname);
+				break;
+			case GET_WX_TOKEN:
+				 WXAccessTokenEntity WXTokenentity = (WXAccessTokenEntity) msg.obj;
+				 String accessToken = WXTokenentity.access_token;
+				 String openId = WXTokenentity.openid;
+				
+				 loadWXUserInfo(accessToken, openId);
+				break;
+			case GET_WX_INFO:
+				WXUserInfoEntity wxInfoEntity = (WXUserInfoEntity) msg.obj;
+				startLoadingDialog();
+				String WXHeaderimageUrl = null;
+				try {
+					WXHeaderimageUrl = URLEncoder.encode(wxInfoEntity.headimgurl, "utf-8");
+				} catch (UnsupportedEncodingException e) {
+					e.printStackTrace();
+				}
+				wxRegLog(wxInfoEntity.openid, WXHeaderimageUrl, wxInfoEntity.nickname);
+				break;
+			}
+		};
+	};
+
 	private void initSDK() {
 		SMSSDK.initSDK(this, APPKEY, APPSECRET);
 		final Handler handler = new Handler();
@@ -138,42 +219,48 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 		setContentView(R.layout.activity_register);
 
+		mTencent = Tencent.createInstance("1104723671", this.getApplicationContext());
+		mQQAuth = QQAuth.createInstance("1104723671", this);
+
+		wxApi = WXAPIFactory.createWXAPI(this, APP_ID, true);
+		wxApi.registerApp(APP_ID);
+
 		initData();
 		initSDK();
 		initView();
 
-//		currentId = DEFAULT_COUNTRY_ID;
+		// currentId = DEFAULT_COUNTRY_ID;
 
-//		View viewCountry = findViewById(R.id.rl_country);
-//		btnNext = (Button) findViewById(R.id.btn_next);
+		// View viewCountry = findViewById(R.id.rl_country);
+		// btnNext = (Button) findViewById(R.id.btn_next);
 
-//		tvCountry = (TextView) findViewById(R.id.tv_country);
+		// tvCountry = (TextView) findViewById(R.id.tv_country);
 
 		String[] country = getCurrentCountry();
 		// String[] country = SMSSDK.getCountry(currentId);
 		if (country != null) {
 			currentCode = country[1];
-//			tvCountry.setText(country[0]);
+			// tvCountry.setText(country[0]);
 		}
-//		tvCountryNum = (TextView) findViewById(R.id.tv_country_num);
-//		tvCountryNum.setText("+" + currentCode);
+		// tvCountryNum = (TextView) findViewById(R.id.tv_country_num);
+		// tvCountryNum.setText("+" + currentCode);
 
-//		etPhoneNum = (EditText) findViewById(R.id.et_write_phone);
-//		etPhoneNum.setText("");
-//		etPhoneNum.addTextChangedListener(this);
-//		etPhoneNum.requestFocus();
-//		if (etPhoneNum.getText().length() > 0) {
-//			btnNext.setEnabled(true);
-//			ivClear = (ImageView) findViewById(R.id.iv_clear);
-//			ivClear.setVisibility(View.VISIBLE);
-//		}
+		// etPhoneNum = (EditText) findViewById(R.id.et_write_phone);
+		// etPhoneNum.setText("");
+		// etPhoneNum.addTextChangedListener(this);
+		// etPhoneNum.requestFocus();
+		// if (etPhoneNum.getText().length() > 0) {
+		// btnNext.setEnabled(true);
+		// ivClear = (ImageView) findViewById(R.id.iv_clear);
+		// ivClear.setVisibility(View.VISIBLE);
+		// }
 
-//		ivClear = (ImageView) findViewById(R.id.iv_clear);
-//
-//		// llBack.setOnClickListener(this);
-//		btnNext.setOnClickListener(this);
-//		ivClear.setOnClickListener(this);
-//		viewCountry.setOnClickListener(this);
+		// ivClear = (ImageView) findViewById(R.id.iv_clear);
+		//
+		// // llBack.setOnClickListener(this);
+		// btnNext.setOnClickListener(this);
+		// ivClear.setOnClickListener(this);
+		// viewCountry.setOnClickListener(this);
 
 		handler = new EventHandler() {
 			@SuppressWarnings("unchecked")
@@ -181,8 +268,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 				runOnUiThread(new Runnable() {
 					public void run() {
-						
-						
+
 						if (result == SMSSDK.RESULT_COMPLETE) {
 							if (event == SMSSDK.EVENT_GET_SUPPORTED_COUNTRIES) {
 								// 请求支持国家列表
@@ -192,11 +278,10 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 								afterVerificationCodeRequested();
 							}
 						} else {
-							
+
 							dismissLoadingDialog();
-							
-							if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE && data != null
-									&& (data instanceof UserInterruptException)) {
+
+							if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE && data != null && (data instanceof UserInterruptException)) {
 								// 由于此处是开发者自己决定要中断发送的，因此什么都不用做
 								return;
 							}
@@ -231,16 +316,16 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 			}
 		};
 
-		if(!isAuthPhone){
+		if (!isAuthPhone) {
 			new Handler().postDelayed(new Runnable() {
-				
+
 				@Override
 				public void run() {
 					DeviceHelper.showIME(mPhoneEdit);
 				}
 			}, 500);
 		}
-		
+
 	}
 
 	private void initView() {
@@ -249,34 +334,94 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		mAgreementText = (TextView) this.findViewById(R.id.textview_agreement);
 
 		mNextButton = (Button) this.findViewById(R.id.button_next);
-		
-		mTopbarView.setCenterText("填写手机号");
+
+		btn_qq_login = (Button) findViewById(R.id.btn_qq_login);
+		btn_wx_login = (Button) findViewById(R.id.btn_wx_login);
+
+		mTopbarView.setCenterText("登陆");
 		mTopbarView.setLeftView(true, true);
-		
+
 		mPhoneEdit.setText("");
 		mPhoneEdit.addTextChangedListener(this);
 		mPhoneEdit.requestFocus();
 		if (mPhoneEdit.getText().length() > 0) {
 			mPhoneEdit.setEnabled(true);
-//			ivClear = (ImageView) findViewById(R.id.iv_clear);
-//			ivClear.setVisibility(View.VISIBLE);
+			// ivClear = (ImageView) findViewById(R.id.iv_clear);
+			// ivClear.setVisibility(View.VISIBLE);
 		}
-		
+
 		mNextButton.setOnClickListener(this);
-		
+		btn_qq_login.setOnClickListener(this);
+		btn_wx_login.setOnClickListener(this);
+
 		mPhoneEdit.setText(phone);
-		if(isAuthPhone){
+		if (isAuthPhone) {
 			onClick(mNextButton);
 		}
-		
+
 		mAgreementText.setText(getClickableSpan());
 		mAgreementText.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 	
+	/**
+	 * QQ 注册
+	 * @param qqtoken
+	 * @param avater
+	 * @param username
+	 */
+	protected void qqRegLog(String qqtoken, String avater, String username) {
+		RequestService.getInstance().qqAuthRegLog(this, qqtoken, avater, username, LoginRegEntity.class, new RequestListener() {
+
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				if (resultData.isOk()) {
+					LoginRegEntity entity = (LoginRegEntity) resultData;
+					AccountManager.saveAccount(RegisterPhoneActivity.this, entity.getData());
+
+					Intent intent = new Intent(RegisterPhoneActivity.this, MainTabActivity.class);
+					startActivity(intent);
+				} else {
+					showToast(resultData.getMessage());
+				}
+
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+			}
+		});
+	}
+	protected void wxRegLog(String WXToken, String avater, String username) {
+		RequestService.getInstance().qqAuthRegLog(this, WXToken, avater, username, LoginRegEntity.class, new RequestListener() {
+
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				if (resultData.isOk()) {
+					LoginRegEntity entity = (LoginRegEntity) resultData;
+					AccountManager.saveAccount(RegisterPhoneActivity.this, entity.getData());
+
+					Intent intent = new Intent(RegisterPhoneActivity.this, MainTabActivity.class);
+					startActivity(intent);
+				} else {
+					// TODO Ming 请求失败获取不到 msg 怎么处理
+					showToast(resultData.getMessage());
+				}
+
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+			}
+		});
+	}
+
 	private SpannableString getClickableSpan() {
 
-		SpannableString spanableInfo = new SpannableString(mAgreementText.getText()
-				.toString());
+		SpannableString spanableInfo = new SpannableString(mAgreementText.getText().toString());
 		int start = 14;
 		int end = spanableInfo.length();
 		spanableInfo.setSpan(new ClickableSpan() {
@@ -299,28 +444,25 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 			}
 
 		}, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		spanableInfo.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_33AB33)), start, end,
-				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-		spanableInfo.setSpan(new BackgroundColorSpan(Color.WHITE), start, end,
-				Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spanableInfo.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_33AB33)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+		spanableInfo.setSpan(new BackgroundColorSpan(Color.WHITE), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
 		mAgreementText.setHighlightColor(Color.TRANSPARENT);
 
 		return spanableInfo;
 	}
-	
+
 	private void initData() {
 		phone = getIntent().getStringExtra("phone");
 		isAuthPhone = getIntent().getBooleanExtra("isAuthPhone", false);
 	}
 
-
 	private String[] getCurrentCountry() {
 		String mcc = getMCC();
 		String[] country = null;
-//		if (!TextUtils.isEmpty(mcc)) {
-//			country = SMSSDK.getCountryByMCC(mcc);
-//		}
+		// if (!TextUtils.isEmpty(mcc)) {
+		// country = SMSSDK.getCountryByMCC(mcc);
+		// }
 		if (country == null) {
 			Log.w("SMSSDK", "no country found by MCC: " + mcc);
 			country = SMSSDK.getCountry(DEFAULT_COUNTRY_ID);
@@ -343,6 +485,9 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	public void onResume() {
 		super.onResume();
 		SMSSDK.registerEventHandler(handler);
+		if (isWXLogin) {
+			getAccessToken();
+		}
 	}
 
 	public void onPause() {
@@ -357,14 +502,14 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	public void onTextChanged(CharSequence s, int start, int before, int count) {
 		if (s.length() > 0) {
 			mNextButton.setEnabled(true);
-//			ivClear.setVisibility(View.VISIBLE);
+			// ivClear.setVisibility(View.VISIBLE);
 			// int resId = getBitmapRes(activity, "smssdk_btn_enable");
 			// if (resId > 0) {
 			// btnNext.setBackgroundResource(resId);
 			// }
 		} else {
 			mNextButton.setEnabled(false);
-//			ivClear.setVisibility(View.GONE);
+			// ivClear.setVisibility(View.GONE);
 			// int resId = getBitmapRes(activity, "smssdk_btn_disenable");
 			// if (resId > 0) {
 			// btnNext.setBackgroundResource(resId);
@@ -390,33 +535,58 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		// countryPage.showForResult(RegisterPage.this, null, this);
 		// break;
 		case R.id.button_next:
-		    phone = mPhoneEdit.getText().toString().trim().replaceAll("\\s*", "");
-		    
-		    if(TextUtils.isEmpty(phone)){
-		        showToast(R.string.smssdk_write_mobile_phone);
-		        return;
-		    }
-		    
-		    if(!StringHelper.isPhoneNumber(phone)){
-	            showToast(R.string.smssdk_write_right_mobile_phone);
-	            return;
-		    }
-		    if(isAuthPhone){
-		    	startLoadingDialog();
-                if (countryRules == null || countryRules.size() <= 0) {
-                    SMSSDK.getSupportedCountries();
-                } else {
-//                  String code = tvCountryNum.getText().toString().trim();
-                    checkPhoneNum(phone);
-                }
-		    }else{
-		    	checkUser(phone);
-		    }
+			phone = mPhoneEdit.getText().toString().trim().replaceAll("\\s*", "");
+
+			if (TextUtils.isEmpty(phone)) {
+				showToast(R.string.smssdk_write_mobile_phone);
+				return;
+			}
+
+			if (!StringHelper.isPhoneNumber(phone)) {
+				showToast(R.string.smssdk_write_right_mobile_phone);
+				return;
+			}
+			if (isAuthPhone) {
+				startLoadingDialog();
+				if (countryRules == null || countryRules.size() <= 0) {
+					SMSSDK.getSupportedCountries();
+				} else {
+					// String code = tvCountryNum.getText().toString().trim();
+					checkPhoneNum(phone);
+				}
+			} else {
+				checkUser(phone);
+			}
 			break;
-//		case R.id.iv_clear:
-//			// 清除电话号码输入框
-//			mPhoneEdit.getText().clear();
-//			break;
+		case R.id.btn_qq_login:
+			if (!mTencent.isSessionValid()) {
+				mTencent.login(this, "all", new BaseUIListener(this) {
+					@Override
+					public void onComplete(Object response) {
+						super.onComplete(response);
+						Message msg = mHandler.obtainMessage();
+						msg.what = GET_OPEN_ID;
+						msg.obj = response;
+						mHandler.sendMessage(msg);
+					}
+				});
+			} else {
+				getInfo();
+			}
+
+			break;
+		case R.id.btn_wx_login:
+
+			isWXLogin = true;
+			SendAuth.Req req = new SendAuth.Req();
+			req.scope = "snsapi_userinfo";
+			req.state = "wechat_sdk_demo";
+			wxApi.sendReq(req);
+			break;
+		// case R.id.iv_clear:
+		// // 清除电话号码输入框
+		// mPhoneEdit.getText().clear();
+		// break;
 		}
 
 		// int id = v.getId();
@@ -457,126 +627,201 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		// }
 	}
 
+	/**
+	 * QQ登陆获取用户信息
+	 */
+	protected void getInfo() {
+		if (mTencent.isSessionValid()) {
+			UserInfo info = new UserInfo(this, mTencent.getQQToken());
+
+			info.getUserInfo(new BaseUIListener(this, "get_simple_userinfo") {
+				@Override
+				public void onComplete(Object response) {
+					super.onComplete(response);
+					Message msg = mHandler.obtainMessage();
+					msg.what = GET_USER_INFO;
+					msg.obj = response;
+					mHandler.sendMessage(msg);
+				}
+			});
+
+		}
+	}
+
+	/**
+	 * 微信登陆获取微信端 token
+	 */
+	private void getAccessToken() {
+
+		System.out.println("获取token");
+
+		RequestService.getInstance().getWXAccessToken(this, APP_ID, WX_SECRET, WX_CODE, WXAccessTokenEntity.class, new RequestListener() {
+
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				if (resultData != null) {
+					WXAccessTokenEntity entity = (WXAccessTokenEntity) resultData;
+
+					Message msg = mHandler.obtainMessage();
+					msg.obj = entity;
+					msg.what = GET_WX_TOKEN;
+					mHandler.sendMessage(msg);
+				}
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				showToast("获取TOKEN信息失败");
+			}
+		});
+	}
+	
+	/**
+	 * 加载微信用户信息
+	 * @param accessToken
+	 * @param openId
+	 */
+	private void loadWXUserInfo(String accessToken, String openId) {
+		RequestService.getInstance().getWXUserInfo(this, accessToken, openId, WXUserInfoEntity.class, new RequestListener() {
+
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				Message msg = mHandler.obtainMessage();
+				msg.what = GET_WX_INFO;
+				msg.obj = resultData;
+				mHandler.sendMessage(msg);
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				showToast("获取用户信息失败");
+			}
+		});
+		isWXLogin = false;
+	}
 	
 	private void checkUser(final String phone) {
-        ((BaseActivity)RegisterPhoneActivity.this).startLoadingDialog();
-        RequestService.getInstance().checkUser(RegisterPhoneActivity.this, phone, IsPassSetEntity.class, new RequestListener() {
-            
-            @Override
-            public void onSuccess(int requestCode, BaseEntity resultData) {
-                ((BaseActivity)RegisterPhoneActivity.this).dismissLoadingDialog();
-                if(resultData.isOk()){
-                    
-                    IsPassSetEntity entity = (IsPassSetEntity) resultData;
-                    
-                    if(entity.isData()){
-                        checkPwd();
-                    }else{
-                        startLoadingDialog();
-                        if (countryRules == null || countryRules.size() <= 0) {
-                            SMSSDK.getSupportedCountries();
-                        } else {
-//                          String code = tvCountryNum.getText().toString().trim();
-                            checkPhoneNum(phone);
-                        }
-                    }
-                }else{
-                    ((BaseActivity)RegisterPhoneActivity.this).showToast(resultData.getMessage());
-                }
-            }
-            
-            @Override
-            public void onFailed(int requestCode, Exception error, String msg) {
-                ((BaseActivity)RegisterPhoneActivity.this).dismissLoadingDialog();
-                
-            }
-        });
-    }
-	
+		((BaseActivity) RegisterPhoneActivity.this).startLoadingDialog();
+		RequestService.getInstance().checkUser(RegisterPhoneActivity.this, phone, IsPassSetEntity.class, new RequestListener() {
+
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				((BaseActivity) RegisterPhoneActivity.this).dismissLoadingDialog();
+				if (resultData.isOk()) {
+
+					IsPassSetEntity entity = (IsPassSetEntity) resultData;
+
+					if (entity.isData()) {
+						checkPwd();
+					} else {
+						startLoadingDialog();
+						if (countryRules == null || countryRules.size() <= 0) {
+							SMSSDK.getSupportedCountries();
+						} else {
+							// String code =
+							// tvCountryNum.getText().toString().trim();
+							checkPhoneNum(phone);
+						}
+					}
+				} else {
+					((BaseActivity) RegisterPhoneActivity.this).showToast(resultData.getMessage());
+				}
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				((BaseActivity) RegisterPhoneActivity.this).dismissLoadingDialog();
+
+			}
+		});
+	}
+
 	private void checkPwd() {
-        startLoadingDialog();
-        RequestService.getInstance().isPassSet(this, IsPassSetEntity.class, new RequestListener() {
-            
-            @Override
-            public void onSuccess(int requestCode, BaseEntity resultData) {
-                dismissLoadingDialog();
-                if(resultData.isOk()){
-                    IsPassSetEntity entity = (IsPassSetEntity) resultData;
-                    
-                    if(!entity.isData()){
-                        startLoadingDialog();
-                        if (countryRules == null || countryRules.size() <= 0) {
-                            SMSSDK.getSupportedCountries();
-                        } else {
-//                          String code = tvCountryNum.getText().toString().trim();
-                            checkPhoneNum(phone);
-                        }
-                    }else{
-                        Intent intent = new Intent(RegisterPhoneActivity.this,RegisterPasswordActivity.class);
-                        intent.putExtra("phone", phone);
-                        intent.putExtra("isLogin", true);
-                        startActivity(intent);
-                        finish();
-                    }
-                    
-                }else{
-                    showToast(resultData.getMessage());
-                }
-            }
-            
-            @Override
-            public void onFailed(int requestCode, Exception error, String msg) {
-                dismissLoadingDialog();
-                showToast(R.string.please_check_netword);
-            }
-        });
-        
-    }
-	
-//	@SuppressWarnings("unchecked")
-//	public void onResult(HashMap<String, Object> data) {
-//		if (data != null) {
-//			int page = (Integer) data.get("page");
-//			if (page == 1) {
-//				// 国家列表返回
-////				currentId = (String) data.get("id");
-////				countryRules = (HashMap<String, String>) data.get("rules");
-////				String[] country = SMSSDK.getCountry(currentId);
-////				if (country != null) {
-////					currentCode = country[1];
-////					tvCountryNum.setText("+" + currentCode);
-////					tvCountry.setText(country[0]);
-////				}
-//			} else if (page == 2) {
-//				// 验证码校验返回
-//				// Object res = data.get("res");
-//				HashMap<String, Object> phoneMap = (HashMap<String, Object>) data.get("phone");
-//				// if (res != null && phoneMap != null) {
-//				// int resId = getStringRes(activity,
-//				// "smssdk_your_ccount_is_verified");
-//				// if (resId > 0) {
-//				// Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show();
-//				// }
-//				showToast(R.string.smssdk_your_ccount_is_verified);
-//
-//				// if (callback != null) {
-//				// callback.afterEvent(
-//				// SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE,
-//				// SMSSDK.RESULT_COMPLETE, phoneMap);
-//				// }
-//
-//				Intent intent = new Intent();
-//				// String country = (String) phoneMap.get("country");
-//				// String phone = (String) phoneMap.get("phone");
-//				intent.putExtra("country", (String) phoneMap.get("country"));
-//				intent.putExtra("phone", (String) phoneMap.get("phone"));
-//				setResult(RESULT_OK, intent);
-//
-//				finish();
-//				// }
-//			}
-//		}
-//	}
+		startLoadingDialog();
+		RequestService.getInstance().isPassSet(this, IsPassSetEntity.class, new RequestListener() {
+
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				if (resultData.isOk()) {
+					IsPassSetEntity entity = (IsPassSetEntity) resultData;
+
+					if (!entity.isData()) {
+						startLoadingDialog();
+						if (countryRules == null || countryRules.size() <= 0) {
+							SMSSDK.getSupportedCountries();
+						} else {
+							// String code =
+							// tvCountryNum.getText().toString().trim();
+							checkPhoneNum(phone);
+						}
+					} else {
+						Intent intent = new Intent(RegisterPhoneActivity.this, RegisterPasswordActivity.class);
+						intent.putExtra("phone", phone);
+						intent.putExtra("isLogin", true);
+						startActivity(intent);
+						finish();
+					}
+
+				} else {
+					showToast(resultData.getMessage());
+				}
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+				showToast(R.string.please_check_netword);
+			}
+		});
+
+	}
+
+	// @SuppressWarnings("unchecked")
+	// public void onResult(HashMap<String, Object> data) {
+	// if (data != null) {
+	// int page = (Integer) data.get("page");
+	// if (page == 1) {
+	// // 国家列表返回
+	// // currentId = (String) data.get("id");
+	// // countryRules = (HashMap<String, String>) data.get("rules");
+	// // String[] country = SMSSDK.getCountry(currentId);
+	// // if (country != null) {
+	// // currentCode = country[1];
+	// // tvCountryNum.setText("+" + currentCode);
+	// // tvCountry.setText(country[0]);
+	// // }
+	// } else if (page == 2) {
+	// // 验证码校验返回
+	// // Object res = data.get("res");
+	// HashMap<String, Object> phoneMap = (HashMap<String, Object>)
+	// data.get("phone");
+	// // if (res != null && phoneMap != null) {
+	// // int resId = getStringRes(activity,
+	// // "smssdk_your_ccount_is_verified");
+	// // if (resId > 0) {
+	// // Toast.makeText(activity, resId, Toast.LENGTH_SHORT).show();
+	// // }
+	// showToast(R.string.smssdk_your_ccount_is_verified);
+	//
+	// // if (callback != null) {
+	// // callback.afterEvent(
+	// // SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE,
+	// // SMSSDK.RESULT_COMPLETE, phoneMap);
+	// // }
+	//
+	// Intent intent = new Intent();
+	// // String country = (String) phoneMap.get("country");
+	// // String phone = (String) phoneMap.get("phone");
+	// intent.putExtra("country", (String) phoneMap.get("country"));
+	// intent.putExtra("phone", (String) phoneMap.get("phone"));
+	// setResult(RESULT_OK, intent);
+	//
+	// finish();
+	// // }
+	// }
+	// }
+	// }
 
 	private void onCountryListGot(ArrayList<HashMap<String, Object>> countries) {
 		// 解析国家列表
@@ -594,7 +839,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		}
 		// 检查手机号码
 		String phone = mPhoneEdit.getText().toString().trim().replaceAll("\\s*", "");
-//		String code = tvCountryNum.getText().toString().trim();
+		// String code = tvCountryNum.getText().toString().trim();
 		checkPhoneNum(phone);
 	}
 
@@ -628,7 +873,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		String rule = countryRules.get(currentCode);
 		Pattern p = Pattern.compile(rule);
 		Matcher m = p.matcher(phone);
-//		int resId = 0;
+		// int resId = 0;
 		if (!m.matches()) {
 			// resId = getStringRes(activity,
 			// "smssdk_write_right_mobile_phone");
@@ -643,108 +888,111 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		// showDialog(phone, code);
 		dismissLoadingDialog();
 		startLoadingDialog();
-		new Thread(){
+		new Thread() {
 			public void run() {
 				SMSSDK.getVerificationCode(currentCode, phone.trim(), osmHandler);
 			};
 		}.start();
 	}
 
-//	/** 是否请求发送验证码，对话框 */
-//	public void showDialog(final String phone, final String code) {
-		// int resId = getStyleRes(activity, "CommonDialog");
-		// if (resId > 0) {
-		// final String phoneNum = "+" + code + " " + splitPhoneNum(phone);
-		// final Dialog dialog = new Dialog(getContext(), resId);
-		// resId = getLayoutRes(activity, "smssdk_send_msg_dialog");
-		// if (resId > 0) {
-		// dialog.setContentView(resId);
-		// resId = getIdRes(activity, "tv_phone");
-		// ((TextView) dialog.findViewById(resId)).setText(phoneNum);
-		// resId = getIdRes(activity, "tv_dialog_hint");
-		// TextView tv = (TextView) dialog.findViewById(resId);
-		// resId = getStringRes(activity, "smssdk_make_sure_mobile_detail");
-		// if (resId > 0) {
-		// String text = getContext().getString(resId);
-		// tv.setText(Html.fromHtml(text));
-		// }
-		// resId = getIdRes(activity, "btn_dialog_ok");
-		// if (resId > 0) {
-		// ((Button) dialog.findViewById(resId))
-		// .setOnClickListener(new OnClickListener() {
-		// public void onClick(View v) {
-		// // 跳转到验证码页面
-		// dialog.dismiss();
-		//
-		// if (pd != null && pd.isShowing()) {
-		// pd.dismiss();
-		// }
-		// pd = CommonDialog.ProgressDialog(activity);
-		// if (pd != null) {
-		// pd.show();
-		// }
-		// Log.e("verification phone ==>>", phone);
-		// SMSSDK.getVerificationCode(code,
-		// phone.trim(), osmHandler);
-		// }
-		// });
-		// }
-		// resId = getIdRes(activity, "btn_dialog_cancel");
-		// if (resId > 0) {
-		// ((Button) dialog.findViewById(resId)).setOnClickListener(new
-		// OnClickListener() {
-		// public void onClick(View v) {
-		// dialog.dismiss();
-		// }
-		// });
-		// }
-		// dialog.setCanceledOnTouchOutside(true);
-		// dialog.show();
-		// }
-		// }
-//		int resId = R.style.CommonDialog;
-//		if (resId > 0) {
-//			final String phoneNum = "+" + code + " " + splitPhoneNum(phone);
-//			final Dialog dialog = new Dialog(this, resId);
-//			if (resId > 0) {
-//				dialog.setContentView(R.layout.smssdk_send_msg_dialog);
-//				((TextView) dialog.findViewById(R.id.tv_phone)).setText(phoneNum);
-//				TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
-//				if (resId > 0) {
-//					String text = getString(R.string.smssdk_make_sure_mobile_detail);
-//					tv.setText(Html.fromHtml(text));
-//				}
-//				if (resId > 0) {
-//					((Button) dialog.findViewById(R.id.btn_dialog_ok)).setOnClickListener(new OnClickListener() {
-//						public void onClick(View v) {
-//							// 跳转到验证码页面
-//							dialog.dismiss();
-//
-//							startLoadingDialog();
-//
-//							Log.e("verification phone ==>>", phone);
-//							SMSSDK.getVerificationCode(code, phone.trim(), osmHandler);
-//						}
-//					});
-//				}
-//				if (resId > 0) {
-//					((Button) dialog.findViewById(R.id.btn_dialog_cancel)).setOnClickListener(new OnClickListener() {
-//						public void onClick(View v) {
-//							dialog.dismiss();
-//						}
-//					});
-//				}
-//				dialog.setCanceledOnTouchOutside(true);
-//				dialog.show();
-//			}
-//		}
-//	}
+	// /** 是否请求发送验证码，对话框 */
+	// public void showDialog(final String phone, final String code) {
+	// int resId = getStyleRes(activity, "CommonDialog");
+	// if (resId > 0) {
+	// final String phoneNum = "+" + code + " " + splitPhoneNum(phone);
+	// final Dialog dialog = new Dialog(getContext(), resId);
+	// resId = getLayoutRes(activity, "smssdk_send_msg_dialog");
+	// if (resId > 0) {
+	// dialog.setContentView(resId);
+	// resId = getIdRes(activity, "tv_phone");
+	// ((TextView) dialog.findViewById(resId)).setText(phoneNum);
+	// resId = getIdRes(activity, "tv_dialog_hint");
+	// TextView tv = (TextView) dialog.findViewById(resId);
+	// resId = getStringRes(activity, "smssdk_make_sure_mobile_detail");
+	// if (resId > 0) {
+	// String text = getContext().getString(resId);
+	// tv.setText(Html.fromHtml(text));
+	// }
+	// resId = getIdRes(activity, "btn_dialog_ok");
+	// if (resId > 0) {
+	// ((Button) dialog.findViewById(resId))
+	// .setOnClickListener(new OnClickListener() {
+	// public void onClick(View v) {
+	// // 跳转到验证码页面
+	// dialog.dismiss();
+	//
+	// if (pd != null && pd.isShowing()) {
+	// pd.dismiss();
+	// }
+	// pd = CommonDialog.ProgressDialog(activity);
+	// if (pd != null) {
+	// pd.show();
+	// }
+	// Log.e("verification phone ==>>", phone);
+	// SMSSDK.getVerificationCode(code,
+	// phone.trim(), osmHandler);
+	// }
+	// });
+	// }
+	// resId = getIdRes(activity, "btn_dialog_cancel");
+	// if (resId > 0) {
+	// ((Button) dialog.findViewById(resId)).setOnClickListener(new
+	// OnClickListener() {
+	// public void onClick(View v) {
+	// dialog.dismiss();
+	// }
+	// });
+	// }
+	// dialog.setCanceledOnTouchOutside(true);
+	// dialog.show();
+	// }
+	// }
+	// int resId = R.style.CommonDialog;
+	// if (resId > 0) {
+	// final String phoneNum = "+" + code + " " + splitPhoneNum(phone);
+	// final Dialog dialog = new Dialog(this, resId);
+	// if (resId > 0) {
+	// dialog.setContentView(R.layout.smssdk_send_msg_dialog);
+	// ((TextView) dialog.findViewById(R.id.tv_phone)).setText(phoneNum);
+	// TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
+	// if (resId > 0) {
+	// String text = getString(R.string.smssdk_make_sure_mobile_detail);
+	// tv.setText(Html.fromHtml(text));
+	// }
+	// if (resId > 0) {
+	// ((Button) dialog.findViewById(R.id.btn_dialog_ok)).setOnClickListener(new
+	// OnClickListener() {
+	// public void onClick(View v) {
+	// // 跳转到验证码页面
+	// dialog.dismiss();
+	//
+	// startLoadingDialog();
+	//
+	// Log.e("verification phone ==>>", phone);
+	// SMSSDK.getVerificationCode(code, phone.trim(), osmHandler);
+	// }
+	// });
+	// }
+	// if (resId > 0) {
+	// ((Button)
+	// dialog.findViewById(R.id.btn_dialog_cancel)).setOnClickListener(new
+	// OnClickListener() {
+	// public void onClick(View v) {
+	// dialog.dismiss();
+	// }
+	// });
+	// }
+	// dialog.setCanceledOnTouchOutside(true);
+	// dialog.show();
+	// }
+	// }
+	// }
 
 	/** 请求验证码后，跳转到验证码填写页面 */
 	private void afterVerificationCodeRequested() {
-		
+
 		dismissLoadingDialog();
-		
+
 		String phone = mPhoneEdit.getText().toString().trim().replaceAll("\\s*", "");
 		String code = currentCode;
 		if (code.startsWith("+")) {
@@ -761,11 +1009,11 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		intent.putExtra("code", code);
 		intent.putExtra("formatedPhone", formatedPhone);
 		intent.putExtra("isAuthPhone", isAuthPhone);
-		if(isAuthPhone){
+		if (isAuthPhone) {
 			intent.setFlags(Intent.FLAG_ACTIVITY_FORWARD_RESULT);
 			startActivity(intent);
 			finish();
-		}else{
+		} else {
 			startActivityForResult(intent, 0);
 		}
 	}

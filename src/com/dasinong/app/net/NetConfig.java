@@ -24,11 +24,11 @@ import com.dasinong.app.utils.StringHelper;
 public class NetConfig {
 
 //	public static final String BASE_URL = "http://115.29.111.179/ploughHelper/";
-	public static final String BASE_URL = "http://120.26.208.198:8080/ploughHelper/";
+	public static final String BASE_URL = "http://182.254.129.101:8080/ploughHelper/";
 	
-	public static final String IMAGE_URL = "http://120.26.208.198:8080/avater/";
-	public static final String PET_IMAGE = "http://120.26.208.198:8080/pic/";
-	public static final String BAIKE_URL = "http://120.26.208.198:8080/ploughHelper/baike?";
+	public static final String IMAGE_URL = "http://182.254.129.101:8080/avater/";
+	public static final String PET_IMAGE = "http://182.254.129.101:8080/pic/";
+	public static final String BAIKE_URL = "http://182.254.129.101:8080/ploughHelper/baike?";
 
 	private static final String KEY_REQUEST = "UHTN90SPOLKIRT6131NM0SEWGLPALczmf";
 
@@ -107,6 +107,10 @@ public class NetConfig {
 		public static final String CPPRODUCT_VARIETYS_NAMED ="getVarietysByName";
 		/** 切换首页生长周期*/
 		public static final String CHANGE_STAGE ="changeStage";
+		/** QQ登陆与注册 */
+		public static final String QQ_AUTH_REG_LOG ="qqAuthRegLog";
+		/** 微信登陆与注册 */
+		public static final String WX_AUTH_REG_LOG ="weixinAuthRegLog";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -170,6 +174,9 @@ public class NetConfig {
 		public static final String model = "model";
 		public static final String name = "name";
 		public static final String ingredient = "ingredient";
+		public static final String qqtoken = "qqtoken";
+		public static final String avater = "avater";
+		public static final String weixintoken = "weixintoken";
 		
 	}
 	
@@ -490,6 +497,19 @@ public class NetConfig {
 		paramsMap.put(Params.currentStageId, currentStageId);
 		return getBaseParams(false, paramsMap);
 	}
-	
+	public static Map<String, String> getQQAuthRegLogParams(String qqtoken ,String avater,String username) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.qqtoken, qqtoken);
+		paramsMap.put(Params.avater, avater);
+		paramsMap.put(Params.username, username);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getWXAuthRegLogParams(String weixintoken ,String avater,String username) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.weixintoken, weixintoken);
+		paramsMap.put(Params.avater, avater);
+		paramsMap.put(Params.username, username);
+		return getBaseParams(false, paramsMap);
+	}
 }
 

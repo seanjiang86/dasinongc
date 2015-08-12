@@ -1,14 +1,12 @@
 package com.dasinong.app.ui.manager;
 
-import com.dasinong.app.entity.AccountEntity;
+import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
+
 import com.dasinong.app.entity.User;
 import com.dasinong.app.ui.RegisterPhoneActivity;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
-
-import android.content.Context;
-import android.content.Intent;
-import android.support.v4.app.FragmentActivity;
-import android.text.TextUtils;
 
 
 /**
@@ -38,6 +36,8 @@ public class AccountManager {
 		SharedPreferencesHelper.setString(context, Field.USER_ID, user.getUserId());
 		SharedPreferencesHelper.setString(context, Field.USER_PHONE, user.getCellPhone());
 		SharedPreferencesHelper.setString(context, Field.USER_ADDRESS, user.getAddress());
+		SharedPreferencesHelper.setString(context, Field.QQ_TOKEN, user.getQqtoken());
+		SharedPreferencesHelper.setString(context, Field.WEIXIN_TOKEN, user.getWeixintoken());
 		
 		SharedPreferencesHelper.setArrayString(context, Field.USER_FIELDS, user.getFields());
 		SharedPreferencesHelper.setArrayString(context, Field.MONITOR_LOCATION_ID, user.getMonitorLocationId());
@@ -48,7 +48,7 @@ public class AccountManager {
 	}
 	
 	public static String getUserPhone(Context context){
-		return SharedPreferencesHelper.getString(context, Field.USER_PHONE, "");
+		return SharedPreferencesHelper.getString(context, Field.USER_ID, "");
 	}
 	
 	public static String[] getUserFields(Context context){

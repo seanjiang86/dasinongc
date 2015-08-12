@@ -208,8 +208,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     }
                     mCurrentPosition = position;
                     mSubStageName.setText("水稻" + mSubStages.get(position).subStageName);
-                    //TODO ming
-                    //send to ploughHelper/changeStage?fieldId=&currentStage=
                     int subStageId = mSubStages.get(position).subStageId;
                     long fieldId = SharedPreferencesHelper.getLong(getContext(), Field.FIELDID, 0);
                     

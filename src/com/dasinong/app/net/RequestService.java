@@ -215,4 +215,27 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getChangeStageParams(fieldId, currentStageId);
 		new NetRequest(context).get(RequestCode.CHANGE_STAGE, params, SubUrl.CHANGE_STAGE, callBack, clazz);
 	}
+	public void qqAuthRegLog(Context context, String qqtoken , String avater , String username, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getQQAuthRegLogParams(qqtoken, avater , username);
+		new NetRequest(context).get(RequestCode.QQ_AUTH_REG_LOG, params, SubUrl.QQ_AUTH_REG_LOG, callBack, clazz);
+	}
+	public void getWXAccessToken(Context context, String appid, String secret,String code,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		try {
+			new NetRequest(context).getWXAccessToken(0, "https://api.weixin.qq.com/sns/oauth2/access_token?", appid, secret, code, clazz, callBack);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void getWXUserInfo(Context context, String access_token, String openid,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		try {
+			new NetRequest(context).getWXUserInfo(0, "https://api.weixin.qq.com/sns/userinfo?", access_token, openid, clazz, callBack);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public void weixinAuthRegLog(Context context, String weixintoken , String avater , String username, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getWXAuthRegLogParams(weixintoken, avater , username);
+		new NetRequest(context).get(RequestCode.WX_AUTH_REG_LOG, params, SubUrl.WX_AUTH_REG_LOG, callBack, clazz);
+	} 
+	
 }
