@@ -394,7 +394,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		});
 	}
 	protected void wxRegLog(String WXToken, String avater, String username) {
-		RequestService.getInstance().qqAuthRegLog(this, WXToken, avater, username, LoginRegEntity.class, new RequestListener() {
+		RequestService.getInstance().weixinAuthRegLog(this, WXToken, avater, username, LoginRegEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {

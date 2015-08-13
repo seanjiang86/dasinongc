@@ -42,6 +42,8 @@ public class FieldEntity extends BaseResponse {
         public int currentStageID;
         //病害
         public List<PetdiswsEntity> petdisws;
+        //作物名
+        public String cropName;
         //not show
         public int yield;
         //任务清单
