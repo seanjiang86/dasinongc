@@ -149,14 +149,18 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 			case GET_USER_INFO:
 				String info = ((JSONObject) msg.obj).toString();
 				userInfo = new Gson().fromJson(info, QQUserInfoEntity.class);
+				
 				startLoadingDialog();
-				String QQHeadImageUrl = null;
+				String QQHeadImageUrl = userInfo.figureurl_qq_2.replace("http://q.qlogo.cn/", "");
+				
 				try {
-					QQHeadImageUrl = URLEncoder.encode(userInfo.figureurl_qq_2, "utf-8");
+					QQHeadImageUrl = URLEncoder.encode(QQHeadImageUrl, "utf-8");
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
-
+				
+				System.out.println(QQHeadImageUrl);
+				
 				qqRegLog(tokenEntity.openid, QQHeadImageUrl, userInfo.nickname);
 				break;
 			case GET_WX_TOKEN:
@@ -169,12 +173,16 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 			case GET_WX_INFO:
 				WXUserInfoEntity wxInfoEntity = (WXUserInfoEntity) msg.obj;
 				startLoadingDialog();
-				String WXHeaderimageUrl = null;
+				String WXHeaderimageUrl = wxInfoEntity.headimgurl.replace("http://wx.qlogo.cn/", "");
+				
 				try {
-					WXHeaderimageUrl = URLEncoder.encode(wxInfoEntity.headimgurl, "utf-8");
+					WXHeaderimageUrl = URLEncoder.encode(WXHeaderimageUrl, "utf-8");
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
+				
+				System.out.println(WXHeaderimageUrl);
+				
 				wxRegLog(wxInfoEntity.openid, WXHeaderimageUrl, wxInfoEntity.nickname);
 				break;
 			}

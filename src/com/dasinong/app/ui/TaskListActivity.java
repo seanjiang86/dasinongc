@@ -128,26 +128,26 @@ public class TaskListActivity extends BaseActivity {
 	private void initData() {
 		filedId = SharedPreferencesHelper.getLong(this, Field.FIELDID, 0);
 
-		// TODO MING 增加小麦之后此处有错，
 		SubStageDaoImpl dao = new SubStageDaoImpl(this);
 		List<String> queryStageCategory = null;
 		queryStageCategory = dao.queryStageCategory();
 		// TODO MING 获取究竟是什么作物
-//		if("水稻".equals(crop)){
-//			queryStageCategory = dao.queryStageCategory(35,59);
-//		} else if ("小麦".equals(crop)){
-//			queryStageCategory = dao.queryStageCategory(60, 73);
-//		}
+		String cropName = SharedPreferencesHelper.getString(this, Field.CROP_NAME, "水稻");
+		if("水稻".equals(cropName)){
+			queryStageCategory = dao.queryStageCategory(35,59);
+		} else if ("小麦".equals(cropName)){
+			queryStageCategory = dao.queryStageCategory(60, 73);
+		}
 		for(String queryStage : queryStageCategory){
 			List<SubStage> queryStageSubCategory = dao.queryStageSubCategory(queryStage);
 			
 			TaskSpecDaoImpl dao1 = new TaskSpecDaoImpl(this);
 			for (SubStage subStage : queryStageSubCategory) {
-//				if("水稻".equals(crop) && subStage.subStageId > 59){
-//					continue;
-//				} else if ("小麦".equals(crop) && subStage.subStageId < 60){
-//					continue;
-//				}
+				if("水稻".equals(cropName) && subStage.subStageId > 59){
+					continue;
+				} else if ("小麦".equals(cropName) && subStage.subStageId < 60){
+					continue;
+				}
 				GroupItem item = new GroupItem();
 				item.subStage = subStage;
 				List<TaskStatus> readTaskStatus = readTaskStatus(subStage);

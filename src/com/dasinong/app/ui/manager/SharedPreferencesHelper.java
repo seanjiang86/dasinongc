@@ -35,7 +35,7 @@ public final class SharedPreferencesHelper {
         IS_FIRST,
         QQ_TOKEN,
         WEIXIN_TOKEN,
-        CROP,
+        CROP_NAME,
 
     }
 

@@ -50,10 +50,10 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 		
 		seedingMethod = SharedPreferencesHelper.getString(this, Field.SEEDING_METHOD, "false");
 		
-		if("true".equals(seedingMethod)){
-			tv_prompt.setText("哪天播种的？");
-		} else {
+		if("false".equals(seedingMethod)){
 			tv_prompt.setText("哪天移栽的？");
+		} else {
+			tv_prompt.setText("哪天播种的？");
 		}
 
 		initTopBar();

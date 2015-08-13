@@ -32,6 +32,7 @@ import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.soil.SoilEditorActivity;
 import com.dasinong.app.ui.soil.domain.DataEntity;
 import com.dasinong.app.utils.LocationUtils;
@@ -190,11 +191,14 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     public void onTaskSuccess(int requestCode, Object response) {
         switch (requestCode) {
             case REQUEST_CODE_HOME_FIELD:
+            	
                 FieldEntity entity = (FieldEntity) response;
 
                 if (entity != null) {
                     if (entity.currentField != null) {
+                    	
                         mDisasterView.updateView(entity.currentField.petdisspecws, entity.currentField.petdisws);
+                        SharedPreferencesHelper.setString(this.getActivity(), Field.CROP_NAME, entity.currentField.cropName);
                     } else {
                         mDisasterView.updateView(null, null);
                     }
@@ -576,8 +580,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        
-        System.out.println(resultCode == Activity.RESULT_OK);
         
         if (resultCode == Activity.RESULT_OK && requestCode == 101) {
             loadFieldData(param);

@@ -207,7 +207,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                         return;
                     }
                     mCurrentPosition = position;
-                    mSubStageName.setText("水稻" + mSubStages.get(position).subStageName);
+                    // TODO MING 区分水稻和小麦
+                    mSubStageName.setText(mSubStages.get(position).subStageName);
                     int subStageId = mSubStages.get(position).subStageId;
                     long fieldId = SharedPreferencesHelper.getLong(getContext(), Field.FIELDID, 0);
                     
@@ -253,13 +254,16 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         if (mSubStageLists == null || mSubStageLists.isEmpty()) {
             return;
         }
+        
+        System.out.println(mPosition);
+        
         if (mPosition < 0 || mSubStageLists.get(mPosition).subStageId == 10) {
 
             normalParentView.setVisibility(View.GONE);
 
 
         } else {
-            mSubStageName.setText("水稻" + mSubStageLists.get(mPosition).subStageName);
+            mSubStageName.setText(mSubStageLists.get(mPosition).subStageName);
             normalParentView.setOnClickListener(this);
             normalParentView.setVisibility(VISIBLE);
 

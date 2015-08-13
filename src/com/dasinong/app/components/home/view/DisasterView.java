@@ -123,7 +123,7 @@ public class DisasterView extends LinearLayout {
     public synchronized void updateView(List<FieldEntity.CurrentFieldEntity.Petdisspecws> list, List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
 
         this.removeAllViews();
-
+        
         if ((list == null || list.isEmpty()) && (petdiswsEntities == null||petdiswsEntities.isEmpty())) {
             return;
         }

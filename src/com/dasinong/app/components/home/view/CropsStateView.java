@@ -30,6 +30,7 @@ import com.dasinong.app.ui.AddFieldActivity1;
 import com.dasinong.app.ui.TaskDetailsActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.utils.DeviceHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -84,6 +85,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 	private View mNoLogin;
 	private View mImageAddField;
+	
 
 	public CropsStateView(Context context) {
 		super(context);
@@ -154,6 +156,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 	 * @param entity
 	 */
 	public void updateView(FieldEntity entity, String defaultLocation) {
+		
+//		这里可以拿到当前田地的所有数据
+		
 		initFieldName();
 		initTask();
 		if (null == entity) {
@@ -250,7 +255,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 		if (currentFieldEntity.currentStageID == 0 || currentFieldEntity.currentStageID == 10) {
 			mCurrentSubStage = null;
 		}
-
+		
+		// 这里获取到当前生长周期的对象
+		
 		mSubStageLists = getSubStages();
 		int size = mSubStageLists.size();
 
@@ -354,10 +361,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 			taskSpecDao = new TaskSpecDaoImpl(this.getContext());
 		}
 		
-		// TODO MING 此处应该怎么做？
+		// TODO MING 解决任务重复问题，崩溃问题所在，for循环角标越界
 		
 		List<TaskSpec> list = taskSpecDao.queryTaskSpecWithSubStage(mCurrentSubStage.subStageId);
-		// int size = list.size();
 
 		List<TaskStatus> listStagus = mAllTasks.get(mCurrentSubStage.subStageId, null);
 		int size = 0;
@@ -366,6 +372,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 		}
 
 		for (int i = 0; i < size; i++) {
+			if(i >= size)
+				continue;
 			TaskSpec spec = list.get(i);
 			TaskStatus taskStatus = new TaskStatus();
 			taskStatus.taskSpecName = spec.taskSpecName;
@@ -594,9 +602,20 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 	}
 
 	private List<SubStage> getSubStages() {
-
+		
+		List<SubStage> list;
+		
 		SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
-		return dao.queryAllOderBy();
+		
+		String cropName = SharedPreferencesHelper.getString(this.getContext(), Field.CROP_NAME, "水稻");
+		
+		if("水稻".equals(cropName)) {
+			list = dao.queryByCropName(35, 59);
+		} else {
+			list = dao.queryByCropName(60, 73);
+		}
+		
+		return list;
 
 	}
 
