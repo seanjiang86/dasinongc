@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dasinong.app"
-    android:versionCode="17"
-    android:versionName="1.02.2-build3" >
+    android:versionCode="8"
+    android:versionName="1.2.2" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -234,11 +234,11 @@
         <!-- youmeng key -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="55b213b467e58edd11001c32" >
+            android:value="55a8807367e58eb9b3003e77" >
         </meta-data>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="Umeng" />
+            android:value="Tencent" />
 
         <activity
             android:name=".ui.soil.SoilInformationActivity"
@@ -323,7 +323,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="1104698311" />
+                <data android:scheme="tencent1104698311" />
             </intent-filter>
         </activity>
         <activity

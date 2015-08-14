@@ -70,34 +70,64 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/btn_qq_login"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="qq登陆" />
-
-        <Button
-            android:id="@+id/btn_wx_login"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="WX登陆" />
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="30dp"
-            android:orientation="vertical" >
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:orientation="horizontal"
+            android:gravity="center" >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/btn_qq_login"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/qq_login_icon"
+                    android:text="" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="QQ登陆" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/btn_wx_login"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@drawable/wx_login_icon"
+                    android:text="" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="微信登陆" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:orientation="vertical"
+            android:gravity="center" >
 
             <TextView
                 android:layout_width="match_parent"
@@ -112,12 +142,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="8dp"
                 android:text="这是一个免费版软件，我们不会以任何方式向用户收费，发送到你手机的全部短信由我们向运营商支付费用，请放心使用，如果在使用过程中有任何疑问，欢迎联系我们"
                 android:textColor="@color/color_666666"
                 android:textSize="@dimen/sp_12" />
         </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout>
 
     <!--
     <EditText
@@ -160,6 +190,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
-        android:text="注册" />    -->
+        android:text="注册" />
+    -->
 
 </LinearLayout>

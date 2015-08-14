@@ -43,6 +43,8 @@ import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -227,8 +229,8 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 		setContentView(R.layout.activity_register);
 
-		mTencent = Tencent.createInstance("1104723671", this.getApplicationContext());
-		mQQAuth = QQAuth.createInstance("1104723671", this);
+		mTencent = Tencent.createInstance("1104698311", this.getApplicationContext());
+		mQQAuth = QQAuth.createInstance("1104698311", this);
 
 		wxApi = WXAPIFactory.createWXAPI(this, APP_ID, true);
 		wxApi.registerApp(APP_ID);
@@ -346,7 +348,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		btn_qq_login = (Button) findViewById(R.id.btn_qq_login);
 		btn_wx_login = (Button) findViewById(R.id.btn_wx_login);
 
-		mTopbarView.setCenterText("登陆");
+		mTopbarView.setCenterText("登录");
 		mTopbarView.setLeftView(true, true);
 
 		mPhoneEdit.setText("");

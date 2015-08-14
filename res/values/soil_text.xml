@@ -29,7 +29,7 @@
     <string name="soil_s">硫S</string>
     <string name="soil_si">硅Si</string>
 
-    <string name="unit_g">g/km</string>
+    <string name="unit_g">g/kg</string>
     <string name="unit_mg">mg/kg</string>
     <string name="soil_effect">土壤湿度有什么用?</string>
     <string name="soil_all_report">全部报告</string>
