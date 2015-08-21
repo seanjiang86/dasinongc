@@ -86,8 +86,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
         mNoLoginView = rootView.findViewById(R.id.no_login_container);
         mNoLoginView.findViewById(R.id.no_login_container_content).setOnClickListener(this);
-
-
+        
     }
 
     private void setEvent() {
@@ -208,7 +207,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     }
                     mCurrentPosition = position;
                     // TODO MING 区分水稻和小麦
-                    mSubStageName.setText(mSubStages.get(position).subStageName);
+                    String crop = SharedPreferencesHelper.getString(getContext(), Field.CROP_NAME, "");
+                    mSubStageName.setText(crop+"-"+mSubStages.get(position).subStageName);
                     int subStageId = mSubStages.get(position).subStageId;
                     long fieldId = SharedPreferencesHelper.getLong(getContext(), Field.FIELDID, 0);
                     
@@ -255,20 +255,18 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
             return;
         }
         
-        System.out.println(mPosition);
-        
         if (mPosition < 0 || mSubStageLists.get(mPosition).subStageId == 10) {
 
             normalParentView.setVisibility(View.GONE);
 
 
         } else {
-            mSubStageName.setText(mSubStageLists.get(mPosition).subStageName);
+        	String crop = SharedPreferencesHelper.getString(getContext(), Field.CROP_NAME, "");
+            mSubStageName.setText(crop+"-"+mSubStageLists.get(mPosition).subStageName);
             normalParentView.setOnClickListener(this);
             normalParentView.setVisibility(VISIBLE);
 
         }
-
     }
 
 

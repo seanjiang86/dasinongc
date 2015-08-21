@@ -22,8 +22,7 @@
         android:layout_marginBottom="10dp"
         android:gravity="center_vertical"
         android:orientation="vertical" 
-        android:visibility="gone"
-        >
+        android:visibility="gone" >
 
         <RelativeLayout
             android:layout_width="match_parent"

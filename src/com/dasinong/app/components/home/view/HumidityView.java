@@ -61,8 +61,22 @@ public class HumidityView extends LinearLayout {
         WindowManager windownManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
         int width = windownManager.getDefaultDisplay().getWidth();
         mItemWidth = width / 6;
+        
 
-
+    }
+    
+    public void setCurrentWeather(String temp,int resId){
+        View timeItem = LayoutInflater.from(getContext()).inflate(R.layout.view_home_weather_time_item, null);
+        TextView tvTime = (TextView) timeItem.findViewById(R.id.tvTime);
+        TextView tvTimeHTemp = (TextView) timeItem.findViewById(R.id.tvTimeHTemp);
+        ImageView icon = (ImageView) timeItem.findViewById(R.id.ivTime);
+        tvTime.setText("现在");
+        tvTimeHTemp.setText(temp);
+        icon.setImageResource(resId);
+        
+        LayoutParams layoutParams = new LayoutParams(mItemWidth, LayoutParams.MATCH_PARENT);
+        
+        addView(timeItem, 0, layoutParams);
     }
 
     public void setOneDayWeatherData(List<WeatherEntity.Hours> hoursList) {

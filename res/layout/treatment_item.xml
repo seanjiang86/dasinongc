@@ -44,12 +44,15 @@
 
         <TextView
             android:id="@+id/tv_crop_stage"
-            android:layout_width="63dp"
+            android:layout_width="wrap_content"
             android:layout_height="23dp"
             android:layout_alignParentRight="true"
             android:background="@drawable/crop_stage_bg"
             android:gravity="center"
-            android:text="种子阶段"
+            android:text="种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,"
+            android:maxWidth="140dp"
+            android:lines="1"
+            android:ellipsize="end"
             android:textColor="@android:color/white" />
     </RelativeLayout>
 

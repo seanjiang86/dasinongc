@@ -4,31 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/tv_cure_name"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp" >
-
-        <TextView
-            android:id="@+id/tv_cure_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="防治方案A"
-            android:textColor="@color/color_333333"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/tv_cure_stage"
-            android:layout_width="wrap_content"
-            android:layout_height="23dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/crop_stage_bg"
-            android:gravity="center"
-            android:text="种子阶段"
-            android:textColor="@android:color/white" />
-    </RelativeLayout>
+        android:text="防治方案A"
+        android:textColor="@color/color_333333"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/tv_cure_provider"
@@ -40,6 +24,18 @@
         android:text="防止中心提供"
         android:textColor="@color/color_999999"
         android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_cure_stage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/crop_stage_bg"
+        android:text="种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,"
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tv_cure_content"
@@ -58,7 +54,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" >
-        <View
+
+        <View
             android:id="@+id/view_big_line"
             android:layout_width="match_parent"
             android:layout_height="10dp"

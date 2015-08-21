@@ -92,7 +92,7 @@ public class CureDetialActivity extends BaseActivity {
 		if (TextUtils.isEmpty(solu.subStageId) || "0".equals(solu.subStageId)) {
 			tv_cure_stage.setVisibility(View.GONE);
 		} else {
-			tv_cure_stage.setText(solu.subStageId);
+			tv_cure_stage.setText("适宜时期：" + solu.subStageId);
 		}
 		
 		if(TextUtils.isEmpty(solu.providedBy)){

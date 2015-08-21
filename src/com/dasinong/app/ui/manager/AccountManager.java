@@ -59,6 +59,14 @@ public class AccountManager {
 		return SharedPreferencesHelper.getArrayString(context, Field.MONITOR_LOCATION_ID, null);
 	}
 	
+	public static String getQQToken(Context context){
+		return SharedPreferencesHelper.getString(context, Field.QQ_TOKEN, "");
+	}
+	
+	public static String getWXToken(Context context){
+		return SharedPreferencesHelper.getString(context, Field.WEIXIN_TOKEN, "");
+	}
+	
 	public static void logout(Context context){
 		SharedPreferencesHelper.setString(context, Field.USER_NAME, "");
 		SharedPreferencesHelper.setString(context, Field.USER_ID, "");
@@ -66,7 +74,6 @@ public class AccountManager {
 		SharedPreferencesHelper.setString(context, Field.USER_ADDRESS, "");
 		SharedPreferencesHelper.setString(context, Field.USER_AUTH_TOKEN, "");
 	}
-	
 	
 	public static boolean checkLogin(Context context){
 		if(isLogin(context)){

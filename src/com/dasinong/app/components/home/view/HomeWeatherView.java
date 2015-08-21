@@ -548,18 +548,21 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 		mHumView = (HumidityView) mRoot.findViewById(R.id.humView);
 	}
 
-	private void updateHoursView(List<WeatherEntity.Hours> hours) {
+	private void updateHoursView(List<WeatherEntity.Hours> hours , WeatherEntity.CurrentWeather current) {
 
 		if (null != hours && !hours.isEmpty()) {
 			{
+				
 
 				mHumView.setOneDayWeatherData(hours);
+				
+				mHumView.setCurrentWeather(current.l1, getCurrentIconRes(current.l5));
 
 				mHorHumView.smoothScrollTo(0, 0);
 
 				// TODO MING 下边被注释的方法是否需要保留
 				// autoScrollPosition();
-
+				
 				// initMinAndMax(hours);
 			}
 
@@ -651,7 +654,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 		if (entity == null) {
 			return;
 		}
-		updateHoursView(entity.n12h);
+		updateHoursView(entity.n12h,entity.current);
 		updateCurrentWeatherView(entity.current);
 		updateSevenDayView(entity.n7d);
 
