@@ -1,7 +1,6 @@
 package com.dasinong.app.entity;
 
 import java.util.List;
-import java.util.Map;
 
 public class AddFieldEntity extends BaseEntity {
 	public FieldInfo data;

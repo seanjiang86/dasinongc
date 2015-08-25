@@ -15,10 +15,12 @@ import android.widget.TextView;
 
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
+import com.dasinong.app.components.domain.FieldEntity.CurrentFieldEntity.SubStageEntity;
 import com.dasinong.app.components.home.view.dialog.SubStageDialog;
 import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.ChangeStageEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.AddFieldActivity1;
@@ -44,7 +46,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     private SubStageDialog confirmDialog;
     private int mCurrentPosition;
-    private List<SubStage> mSubStages;
+    private List<SubStageEntity> mSubStages;
 
     private TextView mSubStageName;
 
@@ -59,6 +61,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
 
     private View mNoLoginView;
+
+	private MyStageChangeListener stageChangerlistener;
 
     public CropsGroupUpView(Context context) {
         super(context);
@@ -93,7 +97,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
 
     }
-
+    
 
     public void showNormalStatus() {
         normalParentView.setVisibility(View.VISIBLE);
@@ -192,7 +196,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         confirmDialog.setDataSource(mSubStages, mCurrentPosition);
         confirmDialog.show();
 
-
     }
 
     private void initDialog() {
@@ -213,10 +216,18 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     long fieldId = SharedPreferencesHelper.getLong(getContext(), Field.FIELDID, 0);
                     
                     // TODO MING 此处使用松霖网络请求接口
-                    RequestService.getInstance().changeStage(getContext(), ""+fieldId, ""+subStageId, BaseEntity.class,new RequestListener() {
+                    RequestService.getInstance().changeStage(getContext(), ""+fieldId, ""+subStageId, ChangeStageEntity.class,new RequestListener() {
 						
 						@Override
 						public void onSuccess(int requestCode, BaseEntity resultData) {
+							
+							if(resultData.isOk()){
+								ChangeStageEntity entity = (ChangeStageEntity) resultData;
+								
+								if(entity != null){
+									stageChangerlistener.onchange(entity.data.dayToHarvest);
+								}
+							}
 						}
 						
 						@Override
@@ -235,7 +246,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         }
 
     }
-
+    
 
     /**
      * 添加农作物
@@ -245,13 +256,18 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
     public void setOnAddCropClickListener(MyAddCropOnClickListener onAddCropClickListener) {
         this.onAddCropClickListener = onAddCropClickListener;
     }
+    
+    public void setOnStageChangeListener(MyStageChangeListener stageChangerlistener){
+    	this.stageChangerlistener = stageChangerlistener;
+    }
 
-    public void setPositionAndList(int mPosition, List<SubStage> mSubStageLists) {
+    public void setPositionAndList(int mPosition, List<SubStageEntity> mSubStageLists) {
 
         this.mCurrentPosition = mPosition;
         this.mSubStages = mSubStageLists;
         mSubStageName.setText("");
         if (mSubStageLists == null || mSubStageLists.isEmpty()) {
+        	normalParentView.setVisibility(View.GONE);
             return;
         }
         
@@ -282,7 +298,11 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
          */
         void onArrowViewClick(int position);
     }
-
+    
+    // 作物生长周期改变的回调
+    public interface MyStageChangeListener {
+    	void onchange(int day);
+    }
 
     private void DEBUG(String msg) {
         if (BuildConfig.DEBUG) {

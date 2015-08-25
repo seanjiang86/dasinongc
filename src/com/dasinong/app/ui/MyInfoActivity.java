@@ -141,12 +141,26 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 					e.printStackTrace();
 				}
 				url = "http://wx.qlogo.cn/" + url;
+				
 				LoadUtils.getInstance().loadImage(mHeadviewImage, url);
 			} else {
 				LoadUtils.getInstance().loadImage(mHeadviewImage, NetConfig.IMAGE_URL + user.getPictureId());
 			}
-
-			mPhoneText.setText(user.getCellPhone());
+			
+			if(TextUtils.isEmpty(user.getCellPhone())){
+				mNameText.setTextColor(Color.RED);
+				mNameText.setText("未添加");
+				mAuthPhoneButton.setVisibility(View.GONE);
+			} else {
+				if(user.isAuthenticated()){
+					mAuthPhoneButton.setVisibility(View.GONE);
+					mPhoneText.setText(user.getCellPhone());
+				} else {
+					System.out.println("我已经运行");
+					mAuthPhoneButton.setVisibility(View.VISIBLE);
+				}
+			}
+			
 			if (TextUtils.isEmpty(user.getUserName())) {
 
 				mNameText.setTextColor(Color.RED);
@@ -170,11 +184,11 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 				mHomephoneText.setTextColor(Color.parseColor("#999999"));
 				mHomephoneText.setText(user.getTelephone());
 			}
-			if (user.isAuthenticated()) {
-				mAuthPhoneButton.setVisibility(View.GONE);
-			} else {
-				mAuthPhoneButton.setVisibility(View.VISIBLE);
-			}
+//			if (user.isAuthenticated()) {
+//				mAuthPhoneButton.setVisibility(View.GONE);
+//			} else {
+//				mAuthPhoneButton.setVisibility(View.VISIBLE);
+//			}
 		}
 	}
 

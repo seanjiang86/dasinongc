@@ -1,80 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/home_dimen_30"
-                android:paddingRight="@dimen/home_dimen_30">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingLeft="@dimen/home_dimen_30"
+    android:paddingRight="@dimen/home_dimen_30" >
 
     <LinearLayout
         android:id="@+id/normal_state"
-        android:visibility="gone"
-        tools:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible" >
 
-        android:orientation="vertical">
-        <!--叶子view-->
+        <!-- 叶子view -->
+
         <RelativeLayout
-            android:background="@drawable/leaf_bg"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/home_dimen_100">
+            android:layout_height="@dimen/home_dimen_100"
+            android:background="@drawable/leaf_bg" >
 
             <TextView
-                android:layout_centerInParent="true"
                 android:id="@+id/substage_name_text"
                 android:layout_width="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:gravity="center"
-				
-                android:textColor="#ffffff"
-                android:textSize="@dimen/home_text_size_36"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
                 android:drawablePadding="10dp"
                 android:drawableRight="@drawable/right_arrow"
-                android:layout_height="match_parent" />
-
-
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/home_text_size_36" />
         </RelativeLayout>
 
-
     </LinearLayout>
-
 
     <LinearLayout
         android:id="@+id/no_login_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:visibility="gone"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:visibility="gone" >
 
         <LinearLayout
             android:id="@+id/no_login_container_content"
-            android:orientation="vertical"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/home_inside_field"
+            android:gravity="center"
             android:minHeight="150dp"
             android:minWidth="150dp"
-            android:gravity="center"
-            android:background="@drawable/home_inside_field"
-            android:layout_height="wrap_content">
-        <TextView
-            android:textColor="#ffffff"
-            android:layout_width="wrap_content"
-            android:text="进入"
-            android:textSize="18sp"
-            android:layout_gravity="center"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:textColor="#ffffff"
-            android:layout_width="wrap_content"
-            android:textSize="18sp"
-            android:layout_height="wrap_content"
-            android:text="我的田地"
-            />
-        </LinearLayout>
+            android:orientation="vertical" >
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="进入"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的田地"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
+        </LinearLayout>
     </LinearLayout>
+
 </RelativeLayout>

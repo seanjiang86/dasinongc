@@ -175,6 +175,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 			case GET_WX_INFO:
 				WXUserInfoEntity wxInfoEntity = (WXUserInfoEntity) msg.obj;
 				startLoadingDialog();
+				
 				String WXHeaderimageUrl = wxInfoEntity.headimgurl.replace("http://wx.qlogo.cn/", "");
 				
 				try {
@@ -182,8 +183,6 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
-				
-				System.out.println(WXHeaderimageUrl);
 				
 				wxRegLog(wxInfoEntity.openid, WXHeaderimageUrl, wxInfoEntity.nickname);
 				break;

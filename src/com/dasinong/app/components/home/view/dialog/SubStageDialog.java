@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 
 import com.dasinong.app.R;
+import com.dasinong.app.components.domain.FieldEntity.CurrentFieldEntity.SubStageEntity;
 import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.ui.soil.adapter.CommonAdapter;
 import com.dasinong.app.ui.soil.adapter.ViewHolder.ViewHolder;
@@ -24,7 +25,7 @@ public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClic
 
     private ListView mListView;
 
-    private List<SubStage> mSubStageList;
+    private List<SubStageEntity> mSubStageList;
 
     private int mCurrentPosition;
 
@@ -53,17 +54,17 @@ public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClic
 
     }
 
-    public void setDataSource(List<SubStage> subStages, int position) {
+    public void setDataSource(List<SubStageEntity> subStages, int position) {
         this.mSubStageList = subStages;
         mCurrentPosition = position;
-        mListView.setAdapter(new CommonAdapter<SubStage>(mSubStageList) {
+        mListView.setAdapter(new CommonAdapter<SubStageEntity>(mSubStageList) {
             @Override
             protected int getResourceId() {
                 return R.layout.substage_item;
             }
 
             @Override
-            protected void updateView(SubStage result, ViewHolder viewHolder, int position) {
+            protected void updateView(SubStageEntity result, ViewHolder viewHolder, int position) {
                 viewHolder.setTextValue(R.id.substage_item_text, result.subStageName);
                 RadioButton radioButton = viewHolder.getView(R.id.rb_check);
                 if (mCurrentPosition == position) {

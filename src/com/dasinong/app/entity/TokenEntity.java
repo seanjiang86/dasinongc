@@ -17,7 +17,6 @@ public class TokenEntity {
 	
 	
 	public String access_token;
-	public int authority_cost;
 	public int expires_in;
 	public int login_cost;
 	public String msg;

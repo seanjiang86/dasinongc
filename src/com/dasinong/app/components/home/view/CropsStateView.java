@@ -17,8 +17,10 @@ import android.widget.TextView;
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
+import com.dasinong.app.components.domain.FieldEntity.CurrentFieldEntity.SubStageEntity;
 import com.dasinong.app.components.domain.TaskStatus;
 import com.dasinong.app.components.domain.WeatherEntity;
+import com.dasinong.app.components.home.view.CropsGroupUpView.MyStageChangeListener;
 import com.dasinong.app.components.home.view.popupwidow.CommSelectPopWindow;
 
 import com.dasinong.app.database.task.dao.impl.SubStageDaoImpl;
@@ -58,9 +60,9 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 	// 农活内容点击事件
 	private MyOnAddFieldClickListener onAddFieldClickListener;
 
-	private List<SubStage> mSubStageLists;
+	private List<SubStageEntity> mSubStageLists;
 
-	private SubStage mCurrentSubStage;
+	private SubStageEntity mCurrentSubStage;
 
 	/* 田地id,name的map */
 	private Map<String, Long> mFieldMap = new HashMap<String, Long>();
@@ -85,6 +87,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 	private View mNoLogin;
 	private View mImageAddField;
+	private TextView dayToHarvest;
 	
 
 	public CropsStateView(Context context) {
@@ -114,6 +117,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 		rightStateView = (TextView) rootView.findViewById(R.id.right_state);
 		campaignView = (LinearLayout) rootView.findViewById(R.id.campaign);
 		mTaskTitle = findViewById(R.id.task_title);
+		dayToHarvest = (TextView) rootView.findViewById(R.id.day_to_harvest);
+		
 		mFieldNameView.setOnClickListener(this);
 		addFieldView.setOnClickListener(this);
 		fieldStateView.setOnAddCropClickListener(new CropsGroupUpView.MyAddCropOnClickListener() {
@@ -135,6 +140,19 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 					onAddFieldClickListener.onDialogClick(mCurrentSubStage.subStageId);
 				}
 
+			}
+		});
+		
+		fieldStateView.setOnStageChangeListener(new MyStageChangeListener() {
+			
+			@Override
+			public void onchange(int day) {
+				if(day == 0){
+					dayToHarvest.setVisibility(View.GONE);
+				} else {
+					dayToHarvest.setVisibility(View.VISIBLE);
+					dayToHarvest.setText("距离收获还有"+day+"天");
+				}
 			}
 		});
 
@@ -218,6 +236,13 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 			}
 
 		}
+		
+		if(entity.currentField != null && entity.currentField.dayToHarvest != 0){
+			dayToHarvest.setVisibility(View.VISIBLE);
+			dayToHarvest.setText("距离收获还有"+entity.currentField.dayToHarvest+"天");
+		} else {
+			dayToHarvest.setVisibility(View.GONE);
+		}
 
 		// 设置日期，星期几和天气
 		setDatWeekAndWeatherView(entity.date);
@@ -250,7 +275,10 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 		}
 
 		// DONE 状态
-		mCurrentSubStage = getCurrentStage(currentFieldEntity.currentStageID);
+//		mCurrentSubStage = getCurrentStage(currentFieldEntity.currentStageID);
+		
+		mCurrentSubStage = new SubStageEntity();
+		mCurrentSubStage.subStageId = currentFieldEntity.currentStageID;
 
 		if (currentFieldEntity.currentStageID == 0 || currentFieldEntity.currentStageID == 10) {
 			mCurrentSubStage = null;
@@ -258,7 +286,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 		
 		// 这里获取到当前生长周期的对象
 		
-		mSubStageLists = getSubStages();
+//		mSubStageLists = getSubStages();
+		mSubStageLists = currentFieldEntity.stagelist;
 		int size = mSubStageLists.size();
 
 		int currentPosition = -1;
@@ -268,6 +297,8 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 			}
 
 			if (mSubStageLists.get(i).subStageId == mCurrentSubStage.subStageId) {
+				mCurrentSubStage.stageName = mSubStageLists.get(i).stageName;
+				mCurrentSubStage.subStageName = mSubStageLists.get(i).subStageName;
 				currentPosition = i;
 				break;
 			}
@@ -589,35 +620,37 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 	}
 
+	// TODO : MING 此处不能查询数据库了
+	
 	/**
 	 * 得到当前的subStage
 	 * 
 	 * @param currentStageID
 	 * @return
 	 */
-	private SubStage getCurrentStage(int currentStageID) {
-		SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
-		return dao.queryStageByID(String.valueOf(currentStageID));
+//	private SubStage getCurrentStage(int currentStageID) {
+//		SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
+//		return dao.queryStageByID(String.valueOf(currentStageID));
+//
+//	}
 
-	}
-
-	private List<SubStage> getSubStages() {
-		
-		List<SubStage> list;
-		
-		SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
-		
-		String cropName = SharedPreferencesHelper.getString(this.getContext(), Field.CROP_NAME, "水稻");
-		
-		if("水稻".equals(cropName)) {
-			list = dao.queryByCropName(35, 59);
-		} else {
-			list = dao.queryByCropName(60, 73);
-		}
-		
-		return list;
-
-	}
+//	private List<SubStage> getSubStages() {
+//		
+//		List<SubStage> list;
+//		
+//		SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
+//		
+//		String cropName = SharedPreferencesHelper.getString(this.getContext(), Field.CROP_NAME, "水稻");
+//		
+//		if("水稻".equals(cropName)) {
+//			list = dao.queryByCropName(35, 59);
+//		} else {
+//			list = dao.queryByCropName(60, 73);
+//		}
+//		
+//		return list;
+//
+//	}
 
 	/**
 	 * 更新任务

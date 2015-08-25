@@ -25,7 +25,7 @@ public class AccountManager {
 	 */
 	public static final boolean isLogin(Context context) {
 		boolean result = false;
-		if (!TextUtils.isEmpty(getUserPhone(context))) {
+		if (!TextUtils.isEmpty(getUserId(context))) {
 			result = true;
 		}
 		return result;
@@ -47,7 +47,7 @@ public class AccountManager {
 		return SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "");
 	}
 	
-	public static String getUserPhone(Context context){
+	public static String getUserId(Context context){
 		return SharedPreferencesHelper.getString(context, Field.USER_ID, "");
 	}
 	
@@ -73,6 +73,7 @@ public class AccountManager {
 		SharedPreferencesHelper.setString(context, Field.USER_PHONE, "");
 		SharedPreferencesHelper.setString(context, Field.USER_ADDRESS, "");
 		SharedPreferencesHelper.setString(context, Field.USER_AUTH_TOKEN, "");
+		SharedPreferencesHelper.setLong(context, Field.FIELDID, -1);
 	}
 	
 	public static boolean checkLogin(Context context){
