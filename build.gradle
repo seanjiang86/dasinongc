@@ -18,6 +18,10 @@ dependencies {
 android {
     compileSdkVersion 19
     buildToolsVersion "19.1.0"
+    
+  	lintOptions {  
+      abortOnError false  
+  	} 
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
@@ -49,5 +53,81 @@ android {
         // by a similar customization.
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
+        
+                    //批量打包--指定配置文件    
+        //不同的渠道商对应的各自AndroidManifest    
+        //AndroidManifest的application标签只用配置渠道号的值    
+        //其他公共配置都放在公共的AndroidManifest.xml中    
+    Umeng {    
+       manifest.srcFile 'tests/AndroidManifest1.xml'    
+    }    
+    Tencent  {    
+       manifest.srcFile 'tests/AndroidManifest2.xml'    
     }
-}
+    MyService  {    
+       manifest.srcFile 'tests/AndroidManifest3.xml'    
+    } 
+    BaiDu  {    
+       manifest.srcFile 'tests/AndroidManifest4.xml'    
+    }     
+    //91Mark  { 
+      // manifest.srcFile 'tests/AndroidManifest5.xml'    
+    //}     
+    AndroidMark  {    
+       manifest.srcFile 'tests/AndroidManifest6.xml'    
+    }     
+    //360Market  {    
+      // manifest.srcFile 'tests/AndroidManifest7.xml'    
+    //}     
+    WanDouJia  {    
+       manifest.srcFile 'tests/AndroidManifest8.xml'    
+    }     
+    Sogou  {    
+       manifest.srcFile 'tests/AndroidManifest9.xml'    
+    }     
+    XiaoMi  {    
+       manifest.srcFile 'tests/AndroidManifest10.xml'    
+    }     
+    Oppo  {    
+       manifest.srcFile 'tests/AndroidManifest11.xml'    
+    }         
+        instrumentTest.setRoot('tests')    
+          
+    }  
+          
+     //批量打包--声明    
+    productFlavors {    
+    Umeng {  
+    		//这里可以配置不同的包名   
+    }    
+    Tencent  {    
+    }
+    MyService  {    
+    } 
+    BaiDu  {    
+    }     
+    //91Mark  {    
+    //}     
+    AndroidMark  {    
+    }     
+    //360Market  {    
+    //}     
+    WanDouJia  {    
+    }     
+    Sogou  {    
+    }     
+    XiaoMi  {    
+    }     
+    Oppo  {    
+    }    
+    }   
+      //签名    
+    signingConfigs {    
+      myConfig {
+          storeFile file("DasinongApkKey")      //签名文件    
+          storePassword "dasinong"        
+          keyAlias "dasinongkey"                 
+          keyPassword "dasinong"  //签名密码 
+      }    
+    }    
+}  

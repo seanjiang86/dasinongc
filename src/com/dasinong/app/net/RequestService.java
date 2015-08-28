@@ -237,5 +237,9 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getWXAuthRegLogParams(weixintoken, avater , username);
 		new NetRequest(context).get(RequestCode.WX_AUTH_REG_LOG, params, SubUrl.WX_AUTH_REG_LOG, callBack, clazz);
 	} 
+	public void getStages(Context context, String varietyId ,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetStagesParams(varietyId);
+		new NetRequest(context).get(RequestCode.GET_STAGES, params, SubUrl.GET_STAGES, callBack, clazz);
+	}
 	
 }

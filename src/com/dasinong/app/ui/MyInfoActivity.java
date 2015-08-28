@@ -152,13 +152,14 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 				mNameText.setText("未添加");
 				mAuthPhoneButton.setVisibility(View.GONE);
 			} else {
-				if(user.isAuthenticated()){
-					mAuthPhoneButton.setVisibility(View.GONE);
-					mPhoneText.setText(user.getCellPhone());
-				} else {
-					System.out.println("我已经运行");
-					mAuthPhoneButton.setVisibility(View.VISIBLE);
-				}
+				mAuthPhoneButton.setVisibility(View.GONE);
+				mPhoneText.setText(user.getCellPhone());
+//				if(user.isAuthenticated()){
+//					mAuthPhoneButton.setVisibility(View.GONE);
+//					mPhoneText.setText(user.getCellPhone());
+//				} else {
+//					mAuthPhoneButton.setVisibility(View.VISIBLE);
+//				}
 			}
 			
 			if (TextUtils.isEmpty(user.getUserName())) {

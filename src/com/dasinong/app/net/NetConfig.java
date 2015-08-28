@@ -116,6 +116,8 @@ public class NetConfig {
 		public static final String QQ_AUTH_REG_LOG ="qqAuthRegLog";
 		/** 微信登陆与注册 */
 		public static final String WX_AUTH_REG_LOG ="weixinAuthRegLog";
+		/** 获取生长周期接口*/
+		public static final String GET_STAGES ="getStages";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -631,6 +633,11 @@ public class NetConfig {
 		paramsMap.put(Params.weixintoken, weixintoken);
 		paramsMap.put(Params.avater, avater);
 		paramsMap.put(Params.username, username);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getGetStagesParams(String varietyId) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.varietyId, varietyId);
 		return getBaseParams(false, paramsMap);
 	}
 }

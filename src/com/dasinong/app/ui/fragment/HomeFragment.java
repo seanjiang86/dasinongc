@@ -128,7 +128,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			return mRoot;
 		}
 		mRoot = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
-		mFiledId = SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
+		
 		mStartTime = -1L;
 		resetSuccessFlag();
 		isShowDialog = true;
@@ -185,12 +185,11 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 		case REQUEST_CODE_HOME_FIELD:
 
 			FieldEntity entity = (FieldEntity) response;
-			
-			if(entity.currentField != null && !entity.currentField.stagelist.isEmpty()){
-				Collections.sort(entity.currentField.stagelist);
-			}
-			
+
 			if (entity != null) {
+				if (entity.currentField != null && !entity.currentField.stagelist.isEmpty()) {
+					Collections.sort(entity.currentField.stagelist);
+				}
 				if (entity.currentField != null) {
 
 					mDisasterView.updateView(entity.currentField.petdisspecws, entity.currentField.petdisws);
@@ -315,6 +314,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 	public void onResume() {
 		super.onResume();
 		Log.e("TAG", "onResume");
+		mFiledId = SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
 		String currentUserID = SharedPreferencesHelper.getString(getActivity().getApplicationContext(), SharedPreferencesHelper.Field.USER_ID, "");
 		if (!mUserID.equals(currentUserID)) {
 			mUserID = currentUserID;
@@ -381,12 +381,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 				((BaseActivity) getActivity()).startLoadingDialog();
 			}
 		}
-		
-		// TODO MING 明天继续观察
-		
-		System.out.println("登陆状态为 " + AccountManager.isLogin(this.getActivity()));
-		System.out.println("当前的土地id为 " + mFiledId);
-		
+
 		if (AccountManager.isLogin(this.getActivity())) {
 			readFieldFromLocal();
 
@@ -394,11 +389,13 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 				param.fieldId = String.valueOf(mFiledId);
 				String key = "field" + mFiledId + SharedPreferencesHelper.getString(this.getActivity(), "current_subStage_id", "-1");
 				String value = SharedPreferencesHelper.getString(getActivity(), key, null);
-				if (TextUtils.isEmpty(value)) {
-					param.task = FieldEntity.TASK_TYPE_ALL;
-				} else {
-					param.task = FieldEntity.TASK_TYPE_NONE;
-				}
+				param.task = FieldEntity.TASK_TYPE_ALL;
+				//  TODO MING : 缓存问题
+//				if (TextUtils.isEmpty(value)) {
+//					param.task = FieldEntity.TASK_TYPE_ALL;
+//				} else {
+//					param.task = FieldEntity.TASK_TYPE_NONE;
+//				}
 				param.lat = "";
 				param.lon = "";
 				weatherParam.lat = "";
@@ -411,12 +408,10 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 				loadWeatherData(weatherParam);
 				loadBanner(bannerParam);
 			} else {
-				System.out.println("这是是因为mfield = -1");
 				initLocation();
 			}
 
 		} else {
-			System.out.println("这里是因为没有登录");
 			initLocation();
 
 		}

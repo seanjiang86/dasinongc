@@ -38,8 +38,6 @@ public class TaskDetailsActivity extends BaseActivity {
 	private int taskSpecId;
 	private String mTitle;
 
-	private long filedId;
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,7 +51,7 @@ public class TaskDetailsActivity extends BaseActivity {
 
 	private void requestData() {
 		startLoadingDialog();
-		RequestService.getInstance().getSteps(this, filedId+"", taskSpecId+"", StepsListEntity.class, new RequestListener() {
+		RequestService.getInstance().getSteps(this, "0", taskSpecId+"", StepsListEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -80,7 +78,6 @@ public class TaskDetailsActivity extends BaseActivity {
 	}
 
 	private void initData() {
-		filedId = SharedPreferencesHelper.getLong(this, Field.FIELDID, 0);
 		taskSpecId = getIntent().getIntExtra(TASK_ID, 0);
 		mTitle = getIntent().getStringExtra(TASK_TITLE);
 		

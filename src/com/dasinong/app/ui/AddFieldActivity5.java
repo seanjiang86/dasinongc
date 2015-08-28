@@ -9,6 +9,8 @@ import java.util.Map;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +22,11 @@ import butterknife.OnClick;
 import com.dasinong.app.R;
 import com.dasinong.app.database.task.dao.impl.SubStageDaoImpl;
 import com.dasinong.app.database.task.domain.SubStage;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.StagesEntity;
+import com.dasinong.app.entity.StagesEntity.StageEntity;
+import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.adapter.MyBaseAdapter;
 import com.dasinong.app.ui.adapter.TextAdapter.OnItemClickListener;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
@@ -34,14 +41,11 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	private String varietyId;
 	private List<String> bigSubStageList;
 	private ArrayList<String> smallSubStageList;
-	private Map<String, Integer> smallSubStageMap = new LinkedHashMap<String, Integer>();
 	private Button btn_no_sure_substage;
 	private Button btn_sure_substage;
-	private String currentStage;
 	protected String lastStage;
 	private String subStageId;
 	private TopbarView topbar;
-	private SubStageDaoImpl dao;
 	private String seedingMethod;
 	private ExpandTabView etv;
 	private ViewMiddle viewMiddle;
@@ -52,7 +56,15 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	private String bigSubStage;
 	private String smallSubStage;
 	private String crop;
+	private Map<String,Map<String , Integer>> stagesMap = new LinkedHashMap<String, Map<String,Integer>>();
 
+	private Handler handler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			List<StageEntity> list = (List<StageEntity>) msg.obj;
+			convertData(list);
+		};
+	};
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,20 +81,58 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 		varietyId = SharedPreferencesHelper.getString(this, Field.VARIETY_ID, "");
 		seedingMethod = SharedPreferencesHelper.getString(this, Field.SEEDING_METHOD, "");
 
-		dao = new SubStageDaoImpl(this);
-
 		viewMiddle = new ViewMiddle(this);
 		viewList.add(viewMiddle);
 		textList.add("请选择生长阶段");
 
 		etv.setValue(textList, viewList);
-
-		queryBigSubStage();
+		
+		queryStages();
 
 		initTopBar();
 
 		btn_no_sure_substage.setOnClickListener(this);
 		btn_sure_substage.setOnClickListener(this);
+	}
+
+
+	private void queryStages() {
+		RequestService.getInstance().getStages(this, varietyId, StagesEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				if(resultData.isOk()){
+					StagesEntity entity = (StagesEntity) resultData;
+					Message msg = handler.obtainMessage();
+					msg.obj = entity.data;
+					handler.sendMessage(msg);
+				}
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				showToast("解析错误");
+			}
+		});
+	}
+	
+	protected void convertData(List<StageEntity> list) {
+		
+		for (StageEntity stageEntity : list) {
+			if(stagesMap.keySet().contains(stageEntity.stageName)){
+				Map<String, Integer> map = stagesMap.get(stageEntity.stageName);
+				map.put(stageEntity.subStageName, stageEntity.subStageId);
+				stagesMap.put(stageEntity.stageName, map);
+			} else {
+				Map<String, Integer> map = new LinkedHashMap<String , Integer>();
+				map.put(stageEntity.subStageName, stageEntity.subStageId);
+				stagesMap.put(stageEntity.stageName, map);
+			}
+		}
+		
+		System.out.println("bigKeySet  == " + stagesMap.keySet());
+		
+		initBigSubStage();
 	}
 
 	@Override
@@ -110,30 +160,21 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	}
 
 	/**
-	 * 请求大长期数据
+	 * 填充大生长期
 	 */
-	private void queryBigSubStage() {
-
-		if ("小麦".equals(crop)) {
-			bigSubStageList = dao.queryStageCategory(60, 73);
-		} else {
-			bigSubStageList = dao.queryStageCategory(35, 59);
+	protected void initBigSubStage() {
+		
+		bigSubStageList = new ArrayList<String>(stagesMap.keySet());
+		if(!"小麦".equals(crop)){
 			bigSubStageList.remove("收获后");
 			if (AddFieldActivity8.DIRECT.equals(seedingMethod)) {
 				bigSubStageList.remove("移栽");
 				bigSubStageList.remove("返青期");
 			}
 		}
-		initBigSubStage();
-	}
-
-	/**
-	 * 填充大生长期
-	 */
-	protected void initBigSubStage() {
-
+		
 		System.out.println("bigSubStageList   " + bigSubStageList);
-
+		
 		viewMiddle.initBigAreaData(bigSubStageList, bigPosition);
 		viewMiddle.setOnBigAreaItemClickListener(new OnItemClickListener() {
 
@@ -148,42 +189,20 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 
 				bigPosition = position;
 
-				querySmallSubStage(bigSubStage);
+//				querySmallSubStage(bigSubStage);
+				
+				initSmallSubStage(bigSubStage);
 			}
 		});
 	}
 
 	/**
-	 * 请求小长期数据
-	 */
-	private void querySmallSubStage(String stageName) {
-		List<SubStage> list = dao.queryStageSubCategory(stageName);
-		if ("小麦".equals(crop)) {
-			smallSubStageMap.clear();
-			for (SubStage subStage : list) {
-				if (subStage.subStageId > 59) {
-					smallSubStageMap.put(subStage.subStageName, subStage.subStageId);
-				}
-			}
-		} else {
-			smallSubStageMap.clear();
-			for (int i = 0; i < list.size(); i++) {
-				SubStage stage = list.get(i);
-				if (AddFieldActivity8.DIRECT.equals(seedingMethod) && "移栽前准备".equals(stage.subStageName))
-					continue;
-				if (stage.subStageId <= 59) {
-					smallSubStageMap.put(stage.subStageName, stage.subStageId);
-				}
-			}
-		}
-		initSmallSubStage();
-	}
-
-	/**
 	 * 填充小生长期
 	 */
-	private void initSmallSubStage() {
-		smallSubStageList = new ArrayList<String>(smallSubStageMap.keySet());
+	private void initSmallSubStage(final String bigSubStage) {
+		
+		smallSubStageList = new ArrayList<String>(stagesMap.get(bigSubStage).keySet());
+		
 		smallSubStageList.add(0, "我不确定");
 		viewMiddle.initSmallAreaData(smallSubStageList, smallPosition);
 		viewMiddle.setOnSmallAreaItemClickListener(new OnItemClickListener() {
@@ -197,7 +216,9 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 				if ("我不确定".equals(smallSubStage)) {
 					smallSubStage = smallSubStageList.get(1);
 				}
-				subStageId = String.valueOf(smallSubStageMap.get(smallSubStage));
+				subStageId = String.valueOf(stagesMap.get(bigSubStage).get(smallSubStage));
+				
+				System.out.println(subStageId);
 			}
 		});
 	}

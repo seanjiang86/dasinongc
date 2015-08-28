@@ -137,8 +137,6 @@ public class TaskListActivity extends BaseActivity {
 						List<TaskDetialEntity> list = entity.data.get(i);
 
 						GroupItem groupItem = new GroupItem();
-						
-						System.out.println(i);
 
 						for (int j = 0; j < list.size(); j++) {
 							TaskStatus taskStatus = new TaskStatus();
@@ -149,8 +147,6 @@ public class TaskListActivity extends BaseActivity {
 								groupItem.subStage.stageName = list.get(j).stageName;
 								groupItem.subStage.subStageName = list.get(j).subStageName;
 								groupItem.subStage.subStageId = list.get(j).subStageId;
-								
-								System.out.println(list.get(j).subStageName);
 							}
 							
 							taskStatus.subStageId = list.get(j).subStageId;

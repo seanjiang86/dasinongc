@@ -65,7 +65,7 @@ public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClic
 
             @Override
             protected void updateView(SubStageEntity result, ViewHolder viewHolder, int position) {
-                viewHolder.setTextValue(R.id.substage_item_text, result.subStageName);
+                viewHolder.setTextValue(R.id.substage_item_text,result.stageName+"-"+result.subStageName);
                 RadioButton radioButton = viewHolder.getView(R.id.rb_check);
                 if (mCurrentPosition == position) {
                     radioButton.setChecked(true);
