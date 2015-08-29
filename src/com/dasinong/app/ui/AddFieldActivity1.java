@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -258,5 +259,17 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 	protected void onStop() {
 		LocationUtils.getInstance().unRegisterLocationListener();
 		super.onStop();
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if(keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0){
+			Intent intent = new Intent(this, MainTabActivity.class);
+			intent.putExtra(MainTabActivity.TARGET_TAB, 1);
+			startActivity(intent);
+			finish();
+			return true;
+		}
+		return super.onKeyDown(keyCode, event);
 	}
 }

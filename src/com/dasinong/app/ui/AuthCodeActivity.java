@@ -338,7 +338,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					
 					AccountManager.saveAccount(AuthCodeActivity.this, entity.getData());
 					
-					Intent intent = new Intent(AuthCodeActivity.this,MainTabActivity.class);
+					Intent intent = new Intent(AuthCodeActivity.this,AddFieldActivity1.class);
 					startActivity(intent);
 					
 					Intent setIntent = new Intent(AuthCodeActivity.this, MyInfoSetActivity.class);
@@ -567,7 +567,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					
 					AccountManager.saveAccount(AuthCodeActivity.this, entity.getData());
 					
-					Intent intent = new Intent(AuthCodeActivity.this,MainTabActivity.class);
+					Intent intent = new Intent(AuthCodeActivity.this,AddFieldActivity1.class);
 					startActivity(intent);
 					
 					finish();

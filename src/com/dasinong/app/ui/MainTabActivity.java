@@ -47,6 +47,9 @@ import com.umeng.update.UpdateResponse;
  * @Description
  */
 public class MainTabActivity extends BaseActivity {
+	
+	public static final String TARGET_TAB = "tagTab";
+	
 	private FragmentTabHost mTabHost;
 
 	private LayoutInflater layoutInflater;
@@ -104,7 +107,19 @@ public class MainTabActivity extends BaseActivity {
 				}
 			}
 		});
+		
+		// TODO MING :如何回到我的田模块
+		
+//		int targetTab = getIntent().getIntExtra(TARGET_TAB, -1);
+//		
+//		System.out.println(targetTab);
+//		
+//		if(targetTab > 0){
+//			System.out.println("我已经执行");
+//			mTabHost.setCurrentTab(targetTab);
+//		}
 
+		
 		// startLoadingDialog();
 
 		// if(getIntent() != null){
