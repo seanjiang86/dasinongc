@@ -398,12 +398,16 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 //				}
 				param.lat = "";
 				param.lon = "";
+				
 				weatherParam.lat = "";
 				weatherParam.lon = "";
 				weatherParam.monitorLocationId = String.valueOf(mMotionId);
+				
 				bannerParam.lat = "";
 				bannerParam.lon = "";
 				bannerParam.monitorLocationId = String.valueOf(mMotionId);
+				
+				
 				loadFieldData(param);
 				loadWeatherData(weatherParam);
 				loadBanner(bannerParam);

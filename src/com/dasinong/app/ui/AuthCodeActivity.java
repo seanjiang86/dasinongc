@@ -49,6 +49,7 @@ import com.dasinong.app.net.RequestCode;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.AppInfoUtils;
 import com.mob.tools.FakeActivity;
 
 public class AuthCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
@@ -557,7 +558,8 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 	private void loginRegister(String cellphone) {
 		startLoadingDialog();
-		RequestService.getInstance().authcodeLoginReg(this, cellphone, LoginRegEntity.class, new RequestListener() {
+		String channel = AppInfoUtils.getChannelCode(this);
+		RequestService.getInstance().authcodeLoginReg(this, cellphone, channel, LoginRegEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {

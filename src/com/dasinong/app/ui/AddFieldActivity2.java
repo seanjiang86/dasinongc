@@ -227,12 +227,13 @@ public class AddFieldActivity2 extends MyBaseActivity {
 
 					etv.setTitle("县 - 乡", 1);
 					etv.setTitle(thirdButtonText, 2);
+					
+					countyPosition = 0;
+					districtPostion = 0;
 				}
 				countyList = dao.getCounty(city);
 				Collections.sort(countyList, mComparator);
 				onrefresh(provinceView, province + "-" + city);
-				countyPosition = 0;
-				districtPostion = 0;
 				
 				etv.setButtonVisible(1);
 			}

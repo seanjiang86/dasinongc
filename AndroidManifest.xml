@@ -236,9 +236,9 @@
             android:value="55a8807367e58eb9b3003e77" >
         </meta-data>
         
-<!--         <meta-data
+        <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="360Market" /> -->
+            android:value="360Market" />
 
         <activity
             android:name=".ui.soil.SoilInformationActivity"

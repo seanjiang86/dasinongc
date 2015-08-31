@@ -69,6 +69,7 @@ import com.dasinong.app.net.NetConfig.ResponseCode;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.AppInfoUtils;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.StringHelper;
 import com.google.gson.Gson;
@@ -138,6 +139,8 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 	public static IWXAPI wxApi;
 	public static boolean isWXLogin = false;
+	
+	private String channel;
 
 	private Handler mHandler = new Handler() {
 
@@ -160,8 +163,6 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 				} catch (UnsupportedEncodingException e) {
 					e.printStackTrace();
 				}
-				
-				System.out.println(QQHeadImageUrl);
 				
 				qqRegLog(tokenEntity.openid, QQHeadImageUrl, userInfo.nickname);
 				break;
@@ -189,6 +190,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 			}
 		};
 	};
+
 
 	private void initSDK() {
 		SMSSDK.initSDK(this, APPKEY, APPSECRET);
@@ -379,7 +381,9 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	 * @param username
 	 */
 	protected void qqRegLog(String qqtoken, String avater, String username) {
-		RequestService.getInstance().qqAuthRegLog(this, qqtoken, avater, username, LoginRegEntity.class, new RequestListener() {
+		channel = AppInfoUtils.getChannelCode(this);
+		
+		RequestService.getInstance().qqAuthRegLog(this, qqtoken, avater, username, channel, LoginRegEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -403,7 +407,9 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		});
 	}
 	protected void wxRegLog(String WXToken, String avater, String username) {
-		RequestService.getInstance().weixinAuthRegLog(this, WXToken, avater, username, LoginRegEntity.class, new RequestListener() {
+		channel = AppInfoUtils.getChannelCode(this);
+		
+		RequestService.getInstance().weixinAuthRegLog(this, WXToken, avater, username, channel, LoginRegEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {

@@ -231,12 +231,17 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 
 		varietyNumMap = varietyInfo.data.get(varietyName);
 
-		varietyNumList = new ArrayList<String>(varietyNumMap.keySet());
+		varietyNumList = new ArrayList<String>();
+		
+		varietyNumList.addAll(varietyNumMap.keySet());
 
 		initVarietyNumList();
 	}
 
 	protected void initVarietyNumList() {
+		
+		Collections.sort(varietyNumList);
+		
 		viewThree.initLastData(varietyNumList, numPosition);
 
 		viewThree.setOnLastItemClickListener(new OnItemClickListener() {

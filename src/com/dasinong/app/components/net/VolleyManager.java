@@ -196,6 +196,12 @@ public class VolleyManager {
                 encodedParams.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
                 encodedParams.append('&');
             }
+            
+            String deviceTyep = android.os.Build.PRODUCT;
+            String deviceId = DeviceHelper.getDeviceId(mContext);
+            String apikey = "yxxwhgz";
+            
+            encodedParams.append("deviceTyep="+deviceTyep+"&deviceId="+deviceId+"&apikey="+apikey+"&");
             return encodedParams.toString();
         } catch (UnsupportedEncodingException uee) {
             throw new RuntimeException("Encoding not supported: " + "UTF-8", uee);

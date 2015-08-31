@@ -108,7 +108,7 @@ public class SplashActivity extends BaseActivity {
 		logKey = TextUtils.isEmpty(weixinToken) ? weixinToken : "";
 
 		if (!TextUtils.isEmpty(phone)) {
-			RequestService.getInstance().authcodeLoginReg(this, phone, BaseEntity.class, new RequestListener() {
+			RequestService.getInstance().authcodeLoginReg(this, phone, "",BaseEntity.class, new RequestListener() {
 
 				@Override
 				public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -119,7 +119,7 @@ public class SplashActivity extends BaseActivity {
 				}
 			});
 		} else if (!TextUtils.isEmpty(qqToken)) {
-			RequestService.getInstance().qqAuthRegLog(this, qqToken, "", "", BaseEntity.class, new RequestListener() {
+			RequestService.getInstance().qqAuthRegLog(this, qqToken, "", "","",BaseEntity.class, new RequestListener() {
 
 				@Override
 				public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -130,8 +130,20 @@ public class SplashActivity extends BaseActivity {
 				}
 			});
 		} else if (!TextUtils.isEmpty(weixinToken)) {
-			// TODO MING 微信登陆
-
+			RequestService.getInstance().weixinAuthRegLog(this, weixinToken, "", "", "", BaseEntity.class, new RequestListener() {
+				
+				@Override
+				public void onSuccess(int requestCode, BaseEntity resultData) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void onFailed(int requestCode, Exception error, String msg) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
 		}
 	}
 }
