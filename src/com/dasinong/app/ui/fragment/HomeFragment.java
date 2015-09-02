@@ -1,6 +1,10 @@
 package com.dasinong.app.ui.fragment;
 
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -29,8 +33,11 @@ import com.dasinong.app.components.home.view.SoilView;
 import com.dasinong.app.components.net.INetRequest;
 import com.dasinong.app.components.net.NetError;
 import com.dasinong.app.components.net.VolleyManager;
+import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LocationResult;
 import com.dasinong.app.net.NetConfig;
+import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
@@ -101,6 +108,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 	private String mUserID;
 
 	private String mAddress = "";
+	private String msg;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -128,7 +136,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			return mRoot;
 		}
 		mRoot = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
-		
+
 		mStartTime = -1L;
 		resetSuccessFlag();
 		isShowDialog = true;
@@ -246,6 +254,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 			WeatherEntity weatherEntity = (WeatherEntity) response;
 
+			checkData(weatherEntity);
+
 			mHomeWeatherView.setWeatherData(weatherEntity);
 
 			mCropStateView.updateWorkStage(weatherEntity);
@@ -280,6 +290,68 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			}
 		}
 
+	}
+
+	private void checkData(WeatherEntity entity) {
+		int hourCount = 0;
+		StringBuilder hourSb = new StringBuilder();
+		for (int i = 0; i < entity.n12h.size(); i++) {
+			if (entity.n12h.get(i) == null) {
+				hourSb.append(i);
+				hourSb.append(",");
+				hourCount++;
+			}
+		}
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		if (hourCount > 1) {
+			Date date = new Date();
+			String currentDate = simpleDateFormat.format(date);
+
+			msg = "当前时间为" + currentDate + ",这是24小时数据错误,缺失" + hourCount + "条数据,错误数据的下标为" + hourSb.toString();
+			sendErrorMsg(mMotionId, msg);
+		}
+
+		int dayCount = 0;
+		StringBuilder daySb = new StringBuilder();
+		for (int i = 0; i < entity.n7d.size(); i++) {
+			if (entity.n7d.get(i) == null) {
+				daySb.append(i);
+				daySb.append(",");
+				dayCount++;
+			}
+		}
+		if (dayCount > 1) {
+			Date date = new Date();
+			String currentDate = simpleDateFormat.format(date);
+			
+			msg = "当前时间为" + currentDate + ",这是7天数据错误,缺失" + dayCount + "条数据,错误数据的下标为" + daySb.toString();
+			sendErrorMsg(mMotionId, msg);
+		}
+	}
+
+	/**
+	 * 用来上传天气中的数据错误
+	 * 
+	 * @param monitorLocationId
+	 * @param msg
+	 */
+	private void sendErrorMsg(int monitorLocationId, String msg) {
+		if (monitorLocationId < 0) {
+			return;
+		}
+
+		RequestService.getInstance().weatherIssue(getActivity(), monitorLocationId + "", msg, BaseEntity.class, new RequestListener() {
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+
+			}
+		});
 	}
 
 	@Override
@@ -390,24 +462,23 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 				String key = "field" + mFiledId + SharedPreferencesHelper.getString(this.getActivity(), "current_subStage_id", "-1");
 				String value = SharedPreferencesHelper.getString(getActivity(), key, null);
 				param.task = FieldEntity.TASK_TYPE_ALL;
-				//  TODO MING : 缓存问题
-//				if (TextUtils.isEmpty(value)) {
-//					param.task = FieldEntity.TASK_TYPE_ALL;
-//				} else {
-//					param.task = FieldEntity.TASK_TYPE_NONE;
-//				}
+				// TODO MING : 缓存问题
+				// if (TextUtils.isEmpty(value)) {
+				// param.task = FieldEntity.TASK_TYPE_ALL;
+				// } else {
+				// param.task = FieldEntity.TASK_TYPE_NONE;
+				// }
 				param.lat = "";
 				param.lon = "";
-				
+
 				weatherParam.lat = "";
 				weatherParam.lon = "";
 				weatherParam.monitorLocationId = String.valueOf(mMotionId);
-				
+
 				bannerParam.lat = "";
 				bannerParam.lon = "";
 				bannerParam.monitorLocationId = String.valueOf(mMotionId);
-				
-				
+
 				loadFieldData(param);
 				loadWeatherData(weatherParam);
 				loadBanner(bannerParam);

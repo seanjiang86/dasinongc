@@ -220,6 +220,15 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 	private void initTopBar() {
 		topbar.setCenterText("添加农田");
 		topbar.setLeftView(true, true);
+		topbar.setLeftClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(AddFieldActivity1.this, MainTabActivity.class);
+				intent.putExtra(MainTabActivity.TARGET_TAB, 1);
+				startActivity(intent);
+			}
+		});
 	}
 
 	class RunnableTask implements Runnable {

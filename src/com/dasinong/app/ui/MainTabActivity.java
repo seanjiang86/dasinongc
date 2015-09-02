@@ -30,6 +30,8 @@ import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.analytics.onlineconfig.UmengOnlineConfigureListener;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengRegistrar;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengDialogButtonListener;
 import com.umeng.update.UpdateStatus;
@@ -108,17 +110,12 @@ public class MainTabActivity extends BaseActivity {
 			}
 		});
 		
-		// TODO MING :如何回到我的田模块
-		
-//		int targetTab = getIntent().getIntExtra(TARGET_TAB, -1);
-//		
-//		System.out.println(targetTab);
-//		
-//		if(targetTab > 0){
-//			System.out.println("我已经执行");
-//			mTabHost.setCurrentTab(targetTab);
-//		}
-
+		// Umeng 消息推送
+		PushAgent mPushAgent = PushAgent.getInstance(this);
+		mPushAgent.enable();
+		// 获取用户唯一标示
+		String device_token = UmengRegistrar.getRegistrationId(this);
+		System.out.println(device_token);
 		
 		// startLoadingDialog();
 
@@ -206,6 +203,13 @@ public class MainTabActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
+//		int targetTab = getIntent().getIntExtra(TARGET_TAB, -1);
+//		
+//		System.out.println("targetTab  " + targetTab);
+//		
+//		if(targetTab > 0){
+//			mTabHost.setCurrentTab(targetTab);
+//		}
 	}
 
 	@Override

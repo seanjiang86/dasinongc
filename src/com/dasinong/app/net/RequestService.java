@@ -241,5 +241,9 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getGetStagesParams(varietyId);
 		new NetRequest(context).get(RequestCode.GET_STAGES, params, SubUrl.GET_STAGES, callBack, clazz);
 	}
+	public void weatherIssue(Context context, String monitorLocationId , String issue,Class<? extends BaseEntity> clazz, RequestListener callBack){
+		Map<String, String> params = NetConfig.getWeatherIssueParams(monitorLocationId , issue);
+		new NetRequest(context).get(RequestCode.WEATHER_ISSUE, params, SubUrl.WEATHER_ISSUE, callBack, clazz);
+	}
 	
 }

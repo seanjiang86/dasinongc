@@ -93,4 +93,6 @@ public final class RequestCode {
 	public static final int WX_AUTH_REG_LOG = QQ_AUTH_REG_LOG + 1;
 	/** 获取生长周期接口*/
 	public static final int GET_STAGES = WX_AUTH_REG_LOG + 1;
+	/** 提交天气信息错误接口 */
+	public static final int WEATHER_ISSUE = GET_STAGES + 1;
 }

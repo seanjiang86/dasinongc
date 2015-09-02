@@ -119,6 +119,8 @@ public class NetConfig {
 		public static final String WX_AUTH_REG_LOG ="weixinAuthRegLog";
 		/** 获取生长周期接口*/
 		public static final String GET_STAGES ="getStages";
+		/** 提交天气信息错误接口 */
+		public static final String WEATHER_ISSUE ="weatherIssue";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -185,12 +187,13 @@ public class NetConfig {
 		public static final String qqtoken = "qqtoken";
 		public static final String avater = "avater";
 		public static final String weixintoken = "weixintoken";
-		// TODO MING 增加userid，此处userid以那个为标准
 		public static final String userId = "userid";
 		public static final String deviceType = "devicetype";
 		public static final String deviceId = "deviceId";
 		public static final String apikey = "apikey";
 		public static final String channel = "channel";
+		public static final String monitorLocationId = "monitorLocationId";
+		public static final String issue = "issue";
 	}
 	
 	public static class ResponseCode {
@@ -579,6 +582,11 @@ public class NetConfig {
 	public static Map<String, String> getGetStagesParams(String varietyId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.varietyId, varietyId);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getWeatherIssueParams( String monitorLocationId , String issue) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.monitorLocationId, Params.issue);
 		return getBaseParams(false, paramsMap);
 	}
 }

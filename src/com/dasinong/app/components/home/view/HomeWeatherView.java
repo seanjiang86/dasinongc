@@ -562,40 +562,11 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 
 				// TODO MING 下边被注释的方法是否需要保留
 				// autoScrollPosition();
-				
-				// initMinAndMax(hours);
 			}
 
 		}
 
 	}
-
-	// private void initMinAndMax(List<WeatherEntity.Hours> hoursList) {
-	// int size = hoursList.size();
-	// if (hoursList.isEmpty()) {
-	// return;
-	// }
-	// mMinTemValue = mMaxTemValue =
-	// Double.parseDouble(hoursList.get(0).temperature);
-	// for (int i = 0; i < size; i++) {
-	// WeatherEntity.Hours hour = hoursList.get(i);
-	// try {
-	// double tem = Double.parseDouble(hour.temperature);
-	// if (tem <= mMinTemValue) {
-	// mMinTemValue = tem;
-	// }
-	//
-	// if (tem >= mMaxTemValue) {
-	// mMaxTemValue = tem;
-	// }
-	// } catch (Exception e) {
-	//
-	// }
-	//
-	// updateCurrentTem();
-	//
-	// }
-	// }
 
 	private void autoScrollPosition() {
 

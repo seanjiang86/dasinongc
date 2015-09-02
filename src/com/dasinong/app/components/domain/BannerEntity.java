@@ -1,5 +1,7 @@
 package com.dasinong.app.components.domain;
 
+import java.util.List;
+
 /**
  * Created by liuningning on 15/6/28.
  */
@@ -7,6 +9,8 @@ public class BannerEntity extends BaseResponse {
 
 
     public ItemEntity data;
+    
+    public List<ItemEntity> newdata;
 
 
     public class ItemEntity {
@@ -26,7 +30,6 @@ public class BannerEntity extends BaseResponse {
         public String url;
         public String picUrl;
         public String picName;
-
 
     }
 

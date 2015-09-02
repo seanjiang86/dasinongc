@@ -12,6 +12,7 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.DeviceHelper;
+import com.umeng.message.PushAgent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -70,6 +71,11 @@ public class AddFieldActivity7 extends BaseActivity {
 									SharedPreferencesHelper.setLong(AddFieldActivity7.this, SharedPreferencesHelper.Field.FIELDID, fieldId);
 									SharedPreferencesHelper.setInt(AddFieldActivity7.this, "FIELD_" + fieldId, monitorLocationId);
 									backToHome();
+									
+									String province = SharedPreferencesHelper.getString(AddFieldActivity7.this, Field.PROVINCE, "");
+									String cropName = SharedPreferencesHelper.getString(AddFieldActivity7.this, Field.CROP_NAME, "");
+									setUserTag(province+"-"+cropName);
+									
 									dismissLoadingDialog();
 								} else {
 									dismissLoadingDialog();
@@ -85,6 +91,20 @@ public class AddFieldActivity7 extends BaseActivity {
 						});
 			}
 		});
+	}
+	
+	private void setUserTag(final String tag) {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					PushAgent.getInstance(AddFieldActivity7.this).getTagManager().add(tag);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	private void getData() {
@@ -109,8 +129,6 @@ public class AddFieldActivity7 extends BaseActivity {
 	}
 
 	protected void backToHome() {
-		// TODO Ming：发送请求
-
 		Intent intent = new Intent(this, MainTabActivity.class);
 		startActivity(intent);
 	}

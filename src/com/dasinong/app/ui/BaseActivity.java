@@ -6,6 +6,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.ui.view.LoadingDialog;
 import com.dasinong.app.utils.ViewHelper;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.message.PushAgent;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -26,6 +27,7 @@ public class BaseActivity extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		PushAgent.getInstance(this).onAppStart();
 	}
 	
 	//友盟统计，页面可见
