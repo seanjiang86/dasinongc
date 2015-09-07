@@ -23,18 +23,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.Html;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import cn.smssdk.gui.SMSReceiver;
@@ -43,14 +39,13 @@ import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.IsPassSetEntity;
 import com.dasinong.app.entity.LoginRegEntity;
-import com.dasinong.app.net.NetConfig.ResponseCode;
 import com.dasinong.app.net.NetRequest.RequestListener;
-import com.dasinong.app.net.RequestCode;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.AccountManager;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.AppInfoUtils;
-import com.mob.tools.FakeActivity;
 
 public class AuthCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
 
@@ -330,7 +325,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	private void authPempPwd(String verificationCode) {
 		startLoadingDialog();
 		RequestService.getInstance().loginWithSecCode(this, phone, verificationCode, LoginRegEntity.class, new RequestListener() {
-			
+
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				dismissLoadingDialog();
@@ -339,7 +334,23 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					
 					AccountManager.saveAccount(AuthCodeActivity.this, entity.getData());
 					
-					Intent intent = new Intent(AuthCodeActivity.this,AddFieldActivity1.class);
+					boolean isEnterAddField = SharedPreferencesHelper.getBoolean(AuthCodeActivity.this, Field.IS_ENTER_ADDFIELD, false);
+					boolean haveField;
+					Class clazz;
+					
+					if(entity.getData().getFields().length > 0){
+						haveField = false;
+					} else {
+						haveField = true;
+					}
+					if(isEnterAddField && !haveField){
+						clazz = AddFieldActivity1.class;
+					}else{
+						clazz = MainTabActivity.class;
+					}
+					
+					Intent intent = new Intent(AuthCodeActivity.this,clazz);
+					
 					startActivity(intent);
 					
 					Intent setIntent = new Intent(AuthCodeActivity.this, MyInfoSetActivity.class);
@@ -569,7 +580,21 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					
 					AccountManager.saveAccount(AuthCodeActivity.this, entity.getData());
 					
-					Intent intent = new Intent(AuthCodeActivity.this,AddFieldActivity1.class);
+					boolean isEnterAddField = SharedPreferencesHelper.getBoolean(AuthCodeActivity.this, Field.IS_ENTER_ADDFIELD, false);
+					boolean haveField;
+					Class clazz;
+					if(entity.getData().getFields().length > 0){
+						haveField = false;
+					} else {
+						haveField = true;
+					}
+					if(isEnterAddField && !haveField){
+						clazz = AddFieldActivity1.class;
+					}else{
+						clazz = MainTabActivity.class;
+					}
+					
+					Intent intent = new Intent(AuthCodeActivity.this,clazz);
 					startActivity(intent);
 					
 					finish();

@@ -66,7 +66,6 @@ public class HarmFragment extends Fragment {
 				Bundle bundle = new Bundle();
 				bundle.putString("type", HarmDetialsActivity.FLAG_ITEM);
 				bundle.putInt("petDisSpecId", pet.petDisSpecId);
-				System.out.println(pet.petDisSpecId);
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}

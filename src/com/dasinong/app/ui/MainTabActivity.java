@@ -115,7 +115,6 @@ public class MainTabActivity extends BaseActivity {
 		mPushAgent.enable();
 		// 获取用户唯一标示
 		String device_token = UmengRegistrar.getRegistrationId(this);
-		System.out.println(device_token);
 		
 		// startLoadingDialog();
 

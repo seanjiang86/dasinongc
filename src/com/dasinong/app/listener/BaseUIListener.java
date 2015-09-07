@@ -25,7 +25,6 @@ public class BaseUIListener implements IUiListener {
 			case ON_COMPLETE:
 				JSONObject response = (JSONObject) msg.obj;
 				
-				System.out.println(response);
 //				Util.showResultDialog(mContext, response.toString(), "onComplete");
 //				Util.dismissDialog();
 				break;

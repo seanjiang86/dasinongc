@@ -548,13 +548,12 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 		mHumView = (HumidityView) mRoot.findViewById(R.id.humView);
 	}
 
-	private void updateHoursView(List<WeatherEntity.Hours> hours , WeatherEntity.CurrentWeather current) {
+	private void updateHoursView(List<WeatherEntity.Hours> hours , WeatherEntity.CurrentWeather current ,WeatherEntity entity) {
 
 		if (null != hours && !hours.isEmpty()) {
 			{
 				
-
-				mHumView.setOneDayWeatherData(hours);
+				mHumView.setOneDayWeatherData(hours , entity.sunrise , entity.sunset);
 				
 				mHumView.setCurrentWeather(current.l1, getCurrentIconRes(current.l5));
 
@@ -625,7 +624,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 		if (entity == null) {
 			return;
 		}
-		updateHoursView(entity.n12h,entity.current);
+		updateHoursView(entity.n12h,entity.current, entity);
 		updateCurrentWeatherView(entity.current);
 		updateSevenDayView(entity.n7d);
 

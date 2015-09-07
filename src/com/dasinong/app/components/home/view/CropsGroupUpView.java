@@ -123,8 +123,11 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
             case R.id.no_login_container_content:
                 //no login || no field
                 final Context context = getContext();
-                if (AccountManager.isLogin(context)) {
-                    MobclickAgent.onEvent(context, "BigButtonAddField");
+                
+                if (!AccountManager.isLogin(context)) {
+                    SharedPreferencesHelper.setBoolean(context, Field.IS_ENTER_ADDFIELD, true);
+                } else {
+                	MobclickAgent.onEvent(context, "BigButtonAddField");
                 }
 
                 startAddFieldActivity(context);

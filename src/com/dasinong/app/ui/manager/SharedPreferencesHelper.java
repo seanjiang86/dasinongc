@@ -36,7 +36,7 @@ public final class SharedPreferencesHelper {
         QQ_TOKEN,
         WEIXIN_TOKEN,
         CROP_NAME,
-
+        IS_ENTER_ADDFIELD,
     }
 
     ;

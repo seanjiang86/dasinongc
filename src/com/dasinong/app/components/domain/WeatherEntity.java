@@ -16,6 +16,9 @@ public class WeatherEntity extends BaseResponse {
     public CurrentWeather current;
     public int workable;
     public int sprayable;
+    
+    public long sunrise;
+    public long sunset;
 
     public static class SevenDay {
 
@@ -45,8 +48,7 @@ public class WeatherEntity extends BaseResponse {
         public String windSpeed_10m;//－－
         public String windDirection_10m;//－－
         public String temperature;//温度一个
-
-
+        
     }
 
     public static class SectionWeather {

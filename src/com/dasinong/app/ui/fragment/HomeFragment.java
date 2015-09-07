@@ -141,6 +141,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 		resetSuccessFlag();
 		isShowDialog = true;
 		mUserID = SharedPreferencesHelper.getString(getActivity().getApplicationContext(), SharedPreferencesHelper.Field.USER_ID, "");
+		mFiledId = SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
 		initView();
 		initRefreshLayout();
 		initEvent();
@@ -267,6 +268,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 			BannerEntity banner = (BannerEntity) response;
 			if (banner != null) {
+				mBannerView.setOffscreenPageLimit(0);
 				mBannerView.updateView(banner);
 			}
 			isBannerSuccess = true;
@@ -295,6 +297,9 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 	private void checkData(WeatherEntity entity) {
 		int hourCount = 0;
 		StringBuilder hourSb = new StringBuilder();
+		if(entity == null){
+			return;
+		}
 		for (int i = 0; i < entity.n12h.size(); i++) {
 			if (entity.n12h.get(i) == null) {
 				hourSb.append(i);
@@ -326,6 +331,22 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			String currentDate = simpleDateFormat.format(date);
 			
 			msg = "当前时间为" + currentDate + ",这是7天数据错误,缺失" + dayCount + "条数据,错误数据的下标为" + daySb.toString();
+			sendErrorMsg(mMotionId, msg);
+		}
+		
+		if(entity.sunset == 0){
+			Date date = new Date();
+			String currentDate = simpleDateFormat.format(date);
+			
+			msg = "当前时间为" + currentDate + ",这是日落数据空缺";
+			sendErrorMsg(mMotionId, msg);
+		}
+		
+		if(entity.sunrise == 0){
+			Date date = new Date();
+			String currentDate = simpleDateFormat.format(date);
+			
+			msg = "当前时间为" + currentDate + ",这是日出数据空缺";
 			sendErrorMsg(mMotionId, msg);
 		}
 	}
@@ -386,8 +407,11 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 	public void onResume() {
 		super.onResume();
 		Log.e("TAG", "onResume");
-		mFiledId = SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
+		
+		
+//		mFiledId = SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
 		String currentUserID = SharedPreferencesHelper.getString(getActivity().getApplicationContext(), SharedPreferencesHelper.Field.USER_ID, "");
+		
 		if (!mUserID.equals(currentUserID)) {
 			mUserID = currentUserID;
 			loadDataFromWithCache(true);
@@ -449,7 +473,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 		} else {
 			mStartTime = SystemClock.currentThreadTimeMillis();
 			if (mBaseActivity != null && isShowDialog) {
-
 				((BaseActivity) getActivity()).startLoadingDialog();
 			}
 		}

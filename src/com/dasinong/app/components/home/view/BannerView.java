@@ -92,6 +92,7 @@ public class BannerView extends ViewPager {
 
 			@Override
 			public Object instantiateItem(ViewGroup container, final int position) {
+				
 				view = View.inflate(context, R.layout.view_home_banner, null);
 				mAllContainer = (ViewGroup) view.findViewById(R.id.banner_all_container);
 				mImageContainer = (ViewGroup) view.findViewById(R.id.banner_img_container);
@@ -129,7 +130,6 @@ public class BannerView extends ViewPager {
 							intent.putExtra(WebBrowserActivity.URL, NetConfig.BASE_URL + banner.newdata.get(position).url);
 							getContext().startActivity(intent);
 						}
-
 					}
 				});
 

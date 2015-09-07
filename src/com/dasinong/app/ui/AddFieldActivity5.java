@@ -130,8 +130,6 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 			}
 		}
 		
-		System.out.println("bigKeySet  == " + stagesMap.keySet());
-		
 		initBigSubStage();
 	}
 
@@ -172,8 +170,6 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 				bigSubStageList.remove("返青期");
 			}
 		}
-		
-		System.out.println("bigSubStageList   " + bigSubStageList);
 		
 		viewMiddle.initBigAreaData(bigSubStageList, bigPosition);
 		viewMiddle.setOnBigAreaItemClickListener(new OnItemClickListener() {
@@ -217,8 +213,6 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 					smallSubStage = smallSubStageList.get(1);
 				}
 				subStageId = String.valueOf(stagesMap.get(bigSubStage).get(smallSubStage));
-				
-				System.out.println(subStageId);
 			}
 		});
 	}
