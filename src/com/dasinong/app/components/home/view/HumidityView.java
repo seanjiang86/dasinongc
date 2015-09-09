@@ -175,7 +175,11 @@ public class HumidityView extends LinearLayout {
 			tvTime.setText(sunriseHour + ":" + sunriseMinute);
 		}
 
-		icon.setImageResource(R.color.black);
+		if("日出".equals(text)){
+			icon.setImageResource(R.drawable.sunrise);
+		}else{
+			icon.setImageResource(R.drawable.sunset);
+		}
 
 		tvTimeHTemp.setText(text);
 

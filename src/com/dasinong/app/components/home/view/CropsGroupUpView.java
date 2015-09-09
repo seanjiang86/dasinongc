@@ -92,13 +92,11 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
         mNoLoginView.findViewById(R.id.no_login_container_content).setOnClickListener(this);
         
     }
-
+    
     private void setEvent() {
-
-
+    	
     }
     
-
     public void showNormalStatus() {
         normalParentView.setVisibility(View.VISIBLE);
         mNoLoginView.setVisibility(View.GONE);
@@ -235,6 +233,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 						
 						@Override
 						public void onFailed(int requestCode, Exception error, String msg) {
+							
 						}
 					});
                     
@@ -242,7 +241,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     normalParentView.setVisibility(VISIBLE);
                     onAddCropClickListener.onArrowViewClick(position);
                     
-
+                    
                 }
             });
 
