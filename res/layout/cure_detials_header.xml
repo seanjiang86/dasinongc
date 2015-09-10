@@ -33,7 +33,11 @@
         android:layout_marginRight="15dp"
         android:layout_marginTop="15dp"
         android:background="@drawable/crop_stage_bg"
-        android:text="种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,"
+        android:paddingBottom="3dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="3dp"
+        android:text="种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,"
         android:textColor="@android:color/white"
         android:textSize="16sp" />
 

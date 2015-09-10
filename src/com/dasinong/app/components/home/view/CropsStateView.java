@@ -590,7 +590,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 					}
 				}
 			} else {
-				// TODO Ming 待确定文字
 				showRemindDialog("呀！网络断了...", "请检查你的手机是否联网，如果只是信号不好，也许等等就好啦", "前往设置", "取消", new MyDialogClickListener() {
 
 					@Override

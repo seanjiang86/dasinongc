@@ -71,11 +71,11 @@ public class AddFieldActivity7 extends BaseActivity {
 									SharedPreferencesHelper.setLong(AddFieldActivity7.this, SharedPreferencesHelper.Field.FIELDID, fieldId);
 									SharedPreferencesHelper.setInt(AddFieldActivity7.this, "FIELD_" + fieldId, monitorLocationId);
 									backToHome();
-									
+
 									String province = SharedPreferencesHelper.getString(AddFieldActivity7.this, Field.PROVINCE, "");
-									String cropName = SharedPreferencesHelper.getString(AddFieldActivity7.this, Field.CROP_NAME, "");
-									setUserTag(province+"-"+cropName);
-									
+									String cropName = SharedPreferencesHelper.getString(AddFieldActivity7.this, Field.NEW_CROP, "");
+									setUserTag(province, cropName);
+
 									dismissLoadingDialog();
 								} else {
 									dismissLoadingDialog();
@@ -92,14 +92,14 @@ public class AddFieldActivity7 extends BaseActivity {
 			}
 		});
 	}
-	
-	private void setUserTag(final String tag) {
+
+	private void setUserTag(final String... tags) {
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
-					PushAgent.getInstance(AddFieldActivity7.this).getTagManager().add(tag);
+					PushAgent.getInstance(AddFieldActivity7.this).getTagManager().add(tags);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

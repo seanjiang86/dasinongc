@@ -45,7 +45,7 @@
         <TextView
             android:id="@+id/tv_crop_stage"
             android:layout_width="wrap_content"
-            android:layout_height="23dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@drawable/crop_stage_bg"
             android:gravity="center"
@@ -53,7 +53,11 @@
             android:maxWidth="140dp"
             android:lines="1"
             android:ellipsize="end"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp" />
     </RelativeLayout>
 
     <TextView

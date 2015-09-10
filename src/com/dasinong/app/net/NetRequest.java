@@ -305,7 +305,7 @@ public class NetRequest {
 			}
 		});
 	}
-	//TODO MING:修改方法名
+	
 	public <T> void uploadImages(final int requestCode, String url, List<String> paths,String cropName, String disasterType,String disasterName,String affectedArea,String eruptionTime, String disasterDist,String fieldOperations,String fieldId , final Class<? extends BaseEntity> clazz,
 			final RequestListener callback) {
 		RequestParams params = new RequestParams();

@@ -2,18 +2,22 @@ package com.dasinong.app;
 
 import java.io.File;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.DashPathEffect;
+import android.os.Environment;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.dasinong.app.components.net.VolleyManager;
+import com.dasinong.app.ui.WebBrowserActivity;
 import com.dasinong.app.ui.manager.CrashHandler;
 import com.dasinong.app.utils.Logger;
 import com.liam.imageload.LoadUtils;
-
-import android.app.Activity;
-import android.app.Application;
-import android.app.Application.ActivityLifecycleCallbacks;
-import android.content.Context;
-import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengNotificationClickHandler;
+import com.umeng.message.entity.UMessage;
 
 public class DsnApplication extends Application {
 	private static Context mContext;
@@ -25,6 +29,28 @@ public class DsnApplication extends Application {
 		VolleyManager.getInstance().init(this);
 		initExceptionCrash();
 		LoadUtils.init(getContext());
+		
+		umengMsgCustomAction();
+	}
+
+	private void umengMsgCustomAction() {
+		/**
+		 * 该Handler是在BroadcastReceiver中被调用，故
+		 * 如果需启动Activity，需添加Intent.FLAG_ACTIVITY_NEW_TASK
+		 * */
+		UmengNotificationClickHandler notificationClickHandler = new UmengNotificationClickHandler(){
+		    @Override
+		    public void dealWithCustomAction(Context context, UMessage msg) {
+//		        Toast.makeText(context, msg.custom, Toast.LENGTH_LONG).show();
+		    	
+		    	Intent intent = new Intent(DsnApplication.this,WebBrowserActivity.class);
+		    	intent.putExtra(WebBrowserActivity.URL, msg.custom);
+		    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		    	startActivity(intent);
+		    	
+		    }
+		};
+		PushAgent.getInstance(this).setNotificationClickHandler(notificationClickHandler);
 	}
 
 	private void initExceptionCrash() {

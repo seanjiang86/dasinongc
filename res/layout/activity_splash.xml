@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/splash_image" >
+    android:background="@drawable/splash_image_classical" >
 
     <!--
          android:scaleType="fitXY"填充满背景 
@@ -16,7 +16,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/splash_image" />
+        android:src="@drawable/splash_image_classical" />
 
     <TextView
         android:id="@+id/tv_version"

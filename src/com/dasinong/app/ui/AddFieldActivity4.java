@@ -284,6 +284,9 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, "");
 			SharedPreferencesHelper.setString(this, Field.PLANTING_DATE, "");
 		}
+		
+		SharedPreferencesHelper.setString(this, Field.NEW_CROP, crop);
+		
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
 		overridePendingTransition(0, 0);

@@ -2,7 +2,9 @@ package com.dasinong.app.utils;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 
 public class AppInfoUtils {
 	public static String getChannelCode(Context context) {
@@ -24,5 +26,16 @@ public class AppInfoUtils {
 			//
 		}
 		return null;
+	}
+	
+	public static String getVersionName(Context context){
+		PackageManager pm = context.getPackageManager();
+		try {
+			PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
+			return packageInfo.versionName;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 }

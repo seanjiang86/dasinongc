@@ -10,6 +10,7 @@ import android.os.Parcelable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dasinong.app.R;
@@ -18,10 +19,13 @@ import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.utils.AppInfoUtils;
+import com.umeng.message.PushAgent;
+import com.umeng.message.UmengRegistrar;
 
 public class SplashActivity extends BaseActivity {
 	private TextView tv_version;
-	private String versionName;
+	private ImageView splash_iv;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -29,14 +33,19 @@ public class SplashActivity extends BaseActivity {
 		setContentView(R.layout.activity_splash);
 
 		tv_version = (TextView) findViewById(R.id.tv_version);
-
-		PackageManager pm = getPackageManager();
-		try {
-			PackageInfo packageInfo = pm.getPackageInfo(this.getPackageName(), PackageManager.GET_CONFIGURATIONS);
-			versionName = packageInfo.versionName;
-		} catch (NameNotFoundException e) {
-			e.printStackTrace();
+		splash_iv = (ImageView) findViewById(R.id.splash_iv);
+		
+		
+		String channelCode = AppInfoUtils.getChannelCode(this);
+		String versionName = AppInfoUtils.getVersionName(this);
+		
+		if(!TextUtils.isEmpty(channelCode) && "TaoShi".equals(channelCode)){
+			splash_iv.setImageResource(R.drawable.splash_image_taoshi);
+			setUserTag("陶氏");
+		} else {
+			setUserTag("普通");
 		}
+		
 
 		if (!TextUtils.isEmpty(versionName)) {
 			tv_version.setText("当前版本：" + versionName);
@@ -70,6 +79,20 @@ public class SplashActivity extends BaseActivity {
 
 			};
 		}.sendEmptyMessageDelayed(0, 2000);
+	}
+
+	private void setUserTag(final String channelTag) {
+		new Thread(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					PushAgent.getInstance(SplashActivity.this).getTagManager().add(channelTag);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
 	}
 
 	@Override
@@ -134,13 +157,11 @@ public class SplashActivity extends BaseActivity {
 				
 				@Override
 				public void onSuccess(int requestCode, BaseEntity resultData) {
-					// TODO Auto-generated method stub
 					
 				}
 				
 				@Override
 				public void onFailed(int requestCode, Exception error, String msg) {
-					// TODO Auto-generated method stub
 					
 				}
 			});

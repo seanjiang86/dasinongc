@@ -37,6 +37,7 @@ public final class SharedPreferencesHelper {
         WEIXIN_TOKEN,
         CROP_NAME,
         IS_ENTER_ADDFIELD,
+        NEW_CROP,
     }
 
     ;
