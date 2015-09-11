@@ -153,9 +153,10 @@ public class MeFragment extends Fragment implements OnClickListener {
 
 			// 友盟统计自定义统计事件
 			MobclickAgent.onEvent(getActivity(), "Recommend");
-
-			Intent intent = new Intent(getActivity(), RecommendActivity.class);
-			getActivity().startActivity(intent);
+			if(AccountManager.checkLogin(getActivity())){
+				Intent intent = new Intent(getActivity(), RecommendActivity.class);
+				getActivity().startActivity(intent);
+			}
 			break;
 		case R.id.layout_sms_setting:// 短信订阅设置
 

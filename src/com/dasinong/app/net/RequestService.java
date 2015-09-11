@@ -245,5 +245,9 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getWeatherIssueParams(monitorLocationId , issue);
 		new NetRequest(context).get(RequestCode.WEATHER_ISSUE, params, SubUrl.WEATHER_ISSUE, callBack, clazz);
 	}
+	public void setRef(Context context, String refcode ,Class<? extends BaseEntity> clazz, RequestListener callBack){
+		Map<String, String> params = NetConfig.getSetRefParams(refcode);
+		new NetRequest(context).get(RequestCode.SETREF, params, SubUrl.SET_REF, callBack, clazz);
+	}
 	
 }

@@ -108,7 +108,7 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 	}
 
 	private void initView() {
-		 mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
+		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
 		
 		mListview = (ListView) this.findViewById(R.id.list_sms_list);
 
@@ -140,7 +140,7 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
-
+				
 			}
 
 			@Override

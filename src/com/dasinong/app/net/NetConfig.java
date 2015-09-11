@@ -121,6 +121,8 @@ public class NetConfig {
 		public static final String GET_STAGES ="getStages";
 		/** 提交天气信息错误接口 */
 		public static final String WEATHER_ISSUE ="weatherIssue";
+		/** 提交邀请码接口 */
+		public static final String SET_REF ="setRef";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -194,6 +196,7 @@ public class NetConfig {
 		public static final String channel = "channel";
 		public static final String monitorLocationId = "monitorLocationId";
 		public static final String issue = "issue";
+		public static final String refcode = "refcode";
 	}
 	
 	public static class ResponseCode {
@@ -586,7 +589,13 @@ public class NetConfig {
 	}
 	public static Map<String, String> getWeatherIssueParams( String monitorLocationId , String issue) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
-		paramsMap.put(Params.monitorLocationId, Params.issue);
+		paramsMap.put(Params.monitorLocationId, monitorLocationId);
+		paramsMap.put(Params.issue, issue);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getSetRefParams( String refcode) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.refcode, refcode);
 		return getBaseParams(false, paramsMap);
 	}
 }

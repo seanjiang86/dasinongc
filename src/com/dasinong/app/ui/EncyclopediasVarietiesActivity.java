@@ -12,6 +12,7 @@ import com.dasinong.app.database.encyclopedias.domain.Crop;
 import com.dasinong.app.database.encyclopedias.domain.Varietybrowse;
 import com.dasinong.app.ui.adapter.VarietiesFirstListAdapter;
 import com.dasinong.app.ui.adapter.VarietiesSecondListAdapter;
+import com.dasinong.app.ui.fragment.EncyclopediaFragment;
 import com.dasinong.app.ui.view.LetterView;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.ui.view.LetterView.OnTouchingLetterChangedListener;
@@ -62,11 +63,14 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 	private WindowManager mWindowManager;
 	private TextView mOverlay;
 	protected List<Crop> query;
+	private String varietyHarm;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_varieties);
+		
+		varietyHarm = getIntent().getStringExtra(EncyclopediaFragment.TYPE);
 		
 		initView();
 		setUpView();
@@ -159,8 +163,14 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Crop crop = (Crop) parent.getItemAtPosition(position);
-				Intent intent = new Intent(EncyclopediasVarietiesActivity.this,SearchVarietyResultActivity.class);
-				intent.putExtra("type", crop.cropId+"");
+				Intent intent = new Intent();
+				if(EncyclopediaFragment.VARIETY.equals(varietyHarm)){
+					intent.setClass(EncyclopediasVarietiesActivity.this,SearchVarietyResultActivity.class);
+					intent.putExtra("type", crop.cropId+"");
+				} else {
+					intent.setClass(EncyclopediasVarietiesActivity.this,EncyclopediasDiseaseActivity.class);
+					intent.putExtra("type", crop.cropName);
+				}
 				startActivity(intent);
 			}
 		});

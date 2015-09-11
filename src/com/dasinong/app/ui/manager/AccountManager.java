@@ -38,6 +38,7 @@ public class AccountManager {
 		SharedPreferencesHelper.setString(context, Field.USER_ADDRESS, user.getAddress());
 		SharedPreferencesHelper.setString(context, Field.QQ_TOKEN, user.getQqtoken());
 		SharedPreferencesHelper.setString(context, Field.WEIXIN_TOKEN, user.getWeixintoken());
+		SharedPreferencesHelper.setString(context, Field.REFCODE, user.getRefcode());
 		
 		SharedPreferencesHelper.setArrayString(context, Field.USER_FIELDS, user.getFields());
 		SharedPreferencesHelper.setArrayString(context, Field.MONITOR_LOCATION_ID, user.getMonitorLocationId());
@@ -74,6 +75,9 @@ public class AccountManager {
 		SharedPreferencesHelper.setString(context, Field.USER_ADDRESS, "");
 		SharedPreferencesHelper.setString(context, Field.USER_AUTH_TOKEN, "");
 		SharedPreferencesHelper.setLong(context, Field.FIELDID, -1);
+		SharedPreferencesHelper.setString(context, Field.REFCODE, "");
+		SharedPreferencesHelper.setString(context, Field.QQ_TOKEN, "");
+		SharedPreferencesHelper.setString(context, Field.WEIXIN_TOKEN, "");
 	}
 	
 	public static boolean checkLogin(Context context){

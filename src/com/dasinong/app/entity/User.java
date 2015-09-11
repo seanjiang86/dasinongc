@@ -13,6 +13,24 @@ public class User {
 	private String[] monitorLocationId;
 	private String qqtoken;
 	private String weixintoken;
+	private String refcode;
+	private int refuid;
+
+	public String getRefcode() {
+		return refcode;
+	}
+
+	public void setRefcode(String refcode) {
+		this.refcode = refcode;
+	}
+
+	public int getRefuid() {
+		return refuid;
+	}
+
+	public void setRefuid(int refuid) {
+		this.refuid = refuid;
+	}
 
 	public String getQqtoken() {
 		return qqtoken;

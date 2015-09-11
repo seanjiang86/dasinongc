@@ -58,6 +58,10 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 	
 	private ImageView mSearchView;
 	
+	public static final String TYPE = "type";
+	public static final String VARIETY = "variety";
+	public static final String DISEASE = "disease";
+	
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -153,6 +157,7 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 			//友盟统计自定义统计事件
 			MobclickAgent.onEvent(getActivity(), "AskFor");
 			Intent intent = new Intent(getActivity(),EncyclopediasVarietiesActivity.class);
+			intent.putExtra(TYPE, VARIETY);
 			getActivity().startActivity(intent);
 //			showNotifyDialog();
 			break;
@@ -162,7 +167,8 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 //			showNotifyDialog();
 			break;
 		case R.id.layout_bingchongcaohai:
-			Intent diseaseIntent = new Intent(getActivity(),EncyclopediasDiseaseActivity.class);
+			Intent diseaseIntent = new Intent(getActivity(),EncyclopediasVarietiesActivity.class);
+			diseaseIntent.putExtra(TYPE, DISEASE);
 			getActivity().startActivity(diseaseIntent);
 //			showNotifyDialog();
 			break;

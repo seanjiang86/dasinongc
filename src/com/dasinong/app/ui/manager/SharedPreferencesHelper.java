@@ -38,6 +38,7 @@ public final class SharedPreferencesHelper {
         CROP_NAME,
         IS_ENTER_ADDFIELD,
         NEW_CROP,
+        REFCODE,
     }
 
     ;

@@ -33,11 +33,15 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 	private RelativeLayout mIntelligentLayout;
 	
 	private ImageView mSearchView;
+
+	private String cropName;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_binghai);
+		
+		cropName = getIntent().getStringExtra("type");
 		
 		initView();
 		setUpView();
@@ -107,17 +111,20 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 		case R.id.layout_ask_for:
 			Intent intent1 = new Intent(this,SearchDiseaseResultActivity.class);
 			intent1.putExtra("type", "病害");
+			intent1.putExtra("cropName", cropName);
 			startActivity(intent1);
 			break;
 		case R.id.layout_nongyao:
 			Intent intent2 = new Intent(this,SearchDiseaseResultActivity.class);
 			intent2.putExtra("type", "虫害");
+			intent2.putExtra("cropName", cropName);
 			startActivity(intent2);
 			
 			break;
 		case R.id.layout_bingchongcaohai:
 			Intent intent3 = new Intent(this,SearchDiseaseResultActivity.class);
 			intent3.putExtra("type", "草害");
+			intent3.putExtra("cropName", cropName);
 			startActivity(intent3);
 			
 			break;
