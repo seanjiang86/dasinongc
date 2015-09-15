@@ -27,8 +27,12 @@ import com.dasinong.app.BuildConfig;
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.components.domain.BaseResponse;
 import com.dasinong.app.components.domain.WeatherEntity;
+import com.dasinong.app.net.NetConfig.Params;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.FieldUtils;
+import com.dasinong.app.utils.StringHelper;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
@@ -109,8 +113,19 @@ public class VolleyManager {
 
         final Response.ErrorListener errorListener = createErrorListener(requestCode, weakReference);
         HashMap<String, String> map = FieldUtils.convertToHashMap(param);
-        //TODO:userid
-        map.put("userId", "15");
+        
+        // TODO MING: 原来的userId 是 15
+        
+        String userId = SharedPreferencesHelper.getString(mContext, Field.USER_ID, "");
+        String product = android.os.Build.PRODUCT;
+        String deviceId = DeviceHelper.getDeviceId(DsnApplication.getContext());
+        String apiKey = StringHelper.encrypt(deviceId);
+        
+        map.put("userId", userId);
+        map.put(Params.deviceType, product);
+        map.put(Params.deviceId, deviceId);
+        map.put("apikey", apiKey);
+		
         DEBUG(map.toString());
         final GsonRequest<T> request = new GsonRequest(url, map, clazz, successListener, errorListener);
 
@@ -199,7 +214,7 @@ public class VolleyManager {
             
             String deviceTyep = android.os.Build.PRODUCT;
             String deviceId = DeviceHelper.getDeviceId(mContext);
-            String apikey = "yxxwhgz";
+            String apikey = StringHelper.encrypt(deviceId);
             
             encodedParams.append("deviceTyep="+deviceTyep+"&deviceId="+deviceId+"&apikey="+apikey+"&");
             return encodedParams.toString();

@@ -15,6 +15,15 @@ public class User {
 	private String weixintoken;
 	private String refcode;
 	private int refuid;
+	private String channel;
+
+	public String getChannel() {
+		return channel;
+	}
+
+	public void setChannel(String channel) {
+		this.channel = channel;
+	}
 
 	public String getRefcode() {
 		return refcode;

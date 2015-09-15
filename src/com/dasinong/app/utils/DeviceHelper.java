@@ -133,7 +133,7 @@ public class DeviceHelper {
 
 		// get internal android device id
 		try {
-			androidDeviceId = android.provider.Settings.Secure.getString(context.getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+			androidDeviceId = Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
 			if (androidDeviceId == null) {
 				androidDeviceId = "NoAndroidId";
 			}

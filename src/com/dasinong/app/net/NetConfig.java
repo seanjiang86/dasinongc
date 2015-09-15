@@ -314,12 +314,13 @@ public class NetConfig {
 		String WXToken = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.WEIXIN_TOKEN, "");
 		
 		String product = android.os.Build.PRODUCT;
-		paramsMap.put(Params.deviceType, product);
-		
 		String deviceId = DeviceHelper.getDeviceId(DsnApplication.getContext());
-		paramsMap.put(Params.deviceId, deviceId);
+		String apiKey = StringHelper.encrypt(deviceId);
 		
-		paramsMap.put(Params.apikey, "yxxwhgz");
+		paramsMap.put(Params.deviceType, product);
+		paramsMap.put(Params.deviceId, deviceId);
+		paramsMap.put(Params.apikey, apiKey);
+		
 		
 		if(phone != null){
 			paramsMap.put(Params.userId, phone);
@@ -353,12 +354,12 @@ public class NetConfig {
 		String WXToken = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.WEIXIN_TOKEN, "");
 		
 		String product = android.os.Build.PRODUCT;
-		paramsMap.put(Params.deviceType, product);
-		
 		String deviceId = DeviceHelper.getDeviceId(DsnApplication.getContext());
-		paramsMap.put(Params.deviceId, deviceId);
+		String apiKey = StringHelper.encrypt(deviceId);
 		
-		paramsMap.put(Params.apikey, "yxxwhgz");
+		paramsMap.put(Params.deviceType, product);
+		paramsMap.put(Params.deviceId, deviceId);
+		paramsMap.put(Params.apikey, apiKey);
 		
 		if(phone != null){
 			paramsMap.put(Params.userId, phone);

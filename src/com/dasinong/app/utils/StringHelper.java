@@ -1,38 +1,41 @@
 package com.dasinong.app.utils;
 
+import java.net.URLEncoder;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
 import android.text.TextUtils;
+import android.util.Base64;
 
 public class StringHelper {
-	
+
 	private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
 	public static boolean isLoginUserName(String name) {
-		Pattern p = Pattern
-				.compile("(?!^\\d[A-Za-z0-9_-]*$)^[A-Za-z0-9\u4e00-\u9fa5_-]{2,25}$");
+		Pattern p = Pattern.compile("(?!^\\d[A-Za-z0-9_-]*$)^[A-Za-z0-9\u4e00-\u9fa5_-]{2,25}$");
 		Matcher m = p.matcher(name);
 		return m.matches();
 	}
-	
+
 	public static boolean isPassword(String pwd) {
-		Pattern p = Pattern
-				.compile("^[A-Za-z0-9\\^\\$\\.\\+\\*_@!#%&~=-]{6,32}$");
+		Pattern p = Pattern.compile("^[A-Za-z0-9\\^\\$\\.\\+\\*_@!#%&~=-]{6,32}$");
 		Matcher m = p.matcher(pwd);
 		return m.matches();
 	}
-	
+
 	public static boolean isRegisterUserName(String pwd) {
-		Pattern p = Pattern
-				.compile("(?!^\\d[A-Za-z0-9_-]*$)^[A-Za-z0-9_-]{5,20}$");
+		Pattern p = Pattern.compile("(?!^\\d[A-Za-z0-9_-]*$)^[A-Za-z0-9_-]{5,20}$");
 		Matcher m = p.matcher(pwd);
 		return m.matches();
 	}
-	
+
 	public static boolean isPhoneNumber(String phoneNum) {
 		if (!TextUtils.isEmpty(phoneNum) && phoneNum.length() == 11) {
 			Pattern p = Pattern.compile("^((13[0-9])|(14[0-9])|(15[0-9])|(17[0-9])|(18[0-9]))\\d{8}$");
@@ -42,7 +45,7 @@ public class StringHelper {
 			return false;
 		}
 	}
-	
+
 	public static String toMD5(String plainText) {
 		try {
 			// 生成实现指定摘要算法的 MessageDigest 对象。
@@ -62,7 +65,7 @@ public class StringHelper {
 					buf.append("0");
 				buf.append(Integer.toHexString(i));
 			}
-			
+
 			return buf.toString();// 32 buf.toString().substring(8, 24)
 			// 16（32位截取）
 		} catch (Exception e) {
@@ -70,13 +73,11 @@ public class StringHelper {
 		}
 		return null;
 	}
-	
+
 	public static boolean invalidString(Object obj) {
-        return obj == null || "".equals(obj.toString())
-                || "null".equals(obj.toString());
-    }
-	
-	
+		return obj == null || "".equals(obj.toString()) || "null".equals(obj.toString());
+	}
+
 	public static String formatDate(String time) {
 		try {
 			return format.format(Long.parseLong(time));
@@ -85,5 +86,22 @@ public class StringHelper {
 		}
 		return null;
 	}
-	
+
+	public static String encrypt(String deviceId) {
+		byte[] skey = "yxxwhgz".getBytes();
+		SecretKeySpec signingKey = new SecretKeySpec(skey, "HmacSHA1");
+		Mac mac;
+		String finalkey = null;
+		try {
+			mac = Mac.getInstance("HmacSHA1");
+			mac.init(signingKey);
+			byte[] rawHmac = mac.doFinal(deviceId.getBytes());
+			byte[] encodeBytes = Base64.encode(rawHmac, Base64.DEFAULT);
+			finalkey = new String(encodeBytes, "utf-8");
+			finalkey = URLEncoder.encode(finalkey, "utf-8");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return finalkey;
+	}
 }

@@ -39,6 +39,7 @@ public final class SharedPreferencesHelper {
         IS_ENTER_ADDFIELD,
         NEW_CROP,
         REFCODE,
+        REFUID,
     }
 
     ;

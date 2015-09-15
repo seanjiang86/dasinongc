@@ -35,6 +35,7 @@
     <color name="possible_result_points">#c0ffff00</color>
     <color name="color_098AF1">#098AF1</color>
     <color name="color_EAEAEA">#EAEAEA</color>
+    <color name="color_F7FCFE">#F7FCFE</color>
 
     <!-- 二级下拉菜单 -->
     <color name="popup_main_background">#b0000000</color>

@@ -22,6 +22,7 @@ import com.android.volley.Request;
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BannerEntity;
+import com.dasinong.app.components.domain.BannerEntity.ItemEntity;
 import com.dasinong.app.components.domain.DisasterEntity;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.domain.WeatherEntity;
@@ -268,8 +269,27 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 			BannerEntity banner = (BannerEntity) response;
 			if (banner != null) {
-				mBannerView.setOffscreenPageLimit(0);
-				mBannerView.updateView(banner);
+				
+				BannerEntity bEntity = new BannerEntity();
+				ItemEntity itemEntity = bEntity.new ItemEntity();
+				itemEntity.type = 1;
+				itemEntity.picUrl="http://a0.att.hudong.com/70/15/01300000287245125050159032413.jpg";
+				banner.newdata.add(itemEntity);
+				
+				BannerEntity bEntity1 = new BannerEntity();
+				ItemEntity itemEntity1 = bEntity1.new ItemEntity();
+				itemEntity1.type = 1;
+				itemEntity1.picUrl="http://img1.imgtn.bdimg.com/it/u=4290945281,3620528886&fm=21&gp=0.jpg";
+				banner.newdata.add(itemEntity1);
+				
+				BannerEntity bEntity2 = new BannerEntity();
+				ItemEntity itemEntity2 = bEntity2.new ItemEntity();
+				itemEntity2.type = 1;
+				itemEntity2.picUrl="http://img1.imgtn.bdimg.com/it/u=4290945281,3620528886&fm=21&gp=0.jpg";
+				banner.newdata.add(itemEntity2);
+				
+				
+				mBannerView.initView(banner);
 			}
 			isBannerSuccess = true;
 			break;
