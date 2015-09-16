@@ -3,6 +3,7 @@
 
     <string-array name="cropList">
         <item>水稻</item>
+        <item>小麦</item>
         <item>大白菜</item>
         <item>大豆</item>
         <item>大麦</item>
@@ -15,7 +16,6 @@
         <item>棉花</item>
         <item>苹果</item>
         <item>葡萄</item>
-        <item>小麦</item>
         <item>甜菜</item>
         <item>油菜</item>
         <item>烟草</item>

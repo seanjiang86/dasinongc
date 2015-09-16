@@ -2,8 +2,6 @@ package com.dasinong.app.utils;
 
 import java.net.URLEncoder;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -98,6 +96,7 @@ public class StringHelper {
 			byte[] rawHmac = mac.doFinal(deviceId.getBytes());
 			byte[] encodeBytes = Base64.encode(rawHmac, Base64.DEFAULT);
 			finalkey = new String(encodeBytes, "utf-8");
+			finalkey = finalkey.substring(0,finalkey.length()-1);
 			finalkey = URLEncoder.encode(finalkey, "utf-8");
 		} catch (Exception e) {
 			e.printStackTrace();

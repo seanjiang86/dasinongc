@@ -49,6 +49,9 @@ public class WebBrowserActivity extends BaseActivity {
 		setContentView(R.layout.activity_web_browser);
 
 		mUrlStr = this.getIntent().getStringExtra(URL);
+		
+		System.out.println(mUrlStr);
+		
 		mTitleStr = this.getIntent().getStringExtra(TITLE);
 
 		mWebView = (WebView) this.findViewById(R.id.web_browser);
