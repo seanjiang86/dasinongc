@@ -2,6 +2,7 @@ package com.dasinong.app.net;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -123,6 +124,8 @@ public class NetConfig {
 		public static final String WEATHER_ISSUE ="weatherIssue";
 		/** 提交邀请码接口 */
 		public static final String SET_REF ="setRef";
+		/** 短信推荐接口 */
+		public static final String REFAPP ="refapp";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -197,6 +200,8 @@ public class NetConfig {
 		public static final String monitorLocationId = "monitorLocationId";
 		public static final String issue = "issue";
 		public static final String refcode = "refcode";
+		public static final String time = "time";
+		public static final String cellPhones = "cellPhones";
 	}
 	
 	public static class ResponseCode {
@@ -315,11 +320,33 @@ public class NetConfig {
 		
 		String product = android.os.Build.PRODUCT;
 		String deviceId = DeviceHelper.getDeviceId(DsnApplication.getContext());
-		String apiKey = StringHelper.encrypt(deviceId);
+		
+		Calendar cal = Calendar.getInstance();
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int minute = cal.get(Calendar.MINUTE);
+		String strHour = null;
+		String strMinu = null;
+
+		if (String.valueOf(hour).length() == 1) {
+			strHour = "0" + String.valueOf(hour);
+		} else {
+			strHour = String.valueOf(hour);
+		}
+
+		if (String.valueOf(minute).length() == 1) {
+			strMinu = "0" + String.valueOf(minute);
+		} else {
+			strMinu = String.valueOf(minute);
+		}
+
+		String time = strHour + strMinu;
+		
+		String apiKey = StringHelper.encrypt(deviceId,time);
 		
 		paramsMap.put(Params.deviceType, product);
 		paramsMap.put(Params.deviceId, deviceId);
 		paramsMap.put(Params.apikey, apiKey);
+		paramsMap.put(Params.time, time);
 		
 		
 		if(phone != null){
@@ -355,11 +382,33 @@ public class NetConfig {
 		
 		String product = android.os.Build.PRODUCT;
 		String deviceId = DeviceHelper.getDeviceId(DsnApplication.getContext());
-		String apiKey = StringHelper.encrypt(deviceId);
+		
+		Calendar cal = Calendar.getInstance();
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int minute = cal.get(Calendar.MINUTE);
+		String strHour = null;
+		String strMinu = null;
+
+		if (String.valueOf(hour).length() == 1) {
+			strHour = "0" + String.valueOf(hour);
+		} else {
+			strHour = String.valueOf(hour);
+		}
+
+		if (String.valueOf(minute).length() == 1) {
+			strMinu = "0" + String.valueOf(minute);
+		} else {
+			strMinu = String.valueOf(minute);
+		}
+
+		String time = strHour + strMinu;
+		
+		String apiKey = StringHelper.encrypt(deviceId,time);
 		
 		paramsMap.put(Params.deviceType, product);
 		paramsMap.put(Params.deviceId, deviceId);
 		paramsMap.put(Params.apikey, apiKey);
+		paramsMap.put(Params.time, time);
 		
 		if(phone != null){
 			paramsMap.put(Params.userId, phone);
@@ -597,6 +646,11 @@ public class NetConfig {
 	public static Map<String, String> getSetRefParams( String refcode) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.refcode, refcode);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getRefAppParams( String cellPhones) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.cellPhones, cellPhones);
 		return getBaseParams(false, paramsMap);
 	}
 }

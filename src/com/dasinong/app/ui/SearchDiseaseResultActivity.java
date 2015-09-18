@@ -1,6 +1,5 @@
 package com.dasinong.app.ui;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -24,7 +23,6 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -41,6 +39,7 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 	private Handler mHandler = new Handler();
 
 	private String type;
+	private String cropId;
 
 	private LetterView letterView;
 	private HashMap<String, Integer> alphaIndexer;
@@ -58,7 +57,8 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 		setContentView(R.layout.activity_disease_list);
 
 		type = getIntent().getStringExtra("type");
-		
+		cropId = getIntent().getStringExtra("cropId");
+
 		initView();
 		setUpView();
 		initOverlay();
@@ -73,10 +73,10 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 		new Thread() {
 			public void run() {
 				PetdisspecbrowseDao dao = new PetdisspecbrowseDao(SearchDiseaseResultActivity.this);
-				if("草害".equals(type)){
-					query = dao.queryCaohai(type);
-				}else{
-					query = dao.query(type);
+				if ("草害".equals(type)) {
+					query = dao.queryCaohai(type, cropId);
+				} else {
+					query = dao.query(type, cropId);
 				}
 				query = sortContact(query);
 
@@ -100,8 +100,6 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 		}.start();
 	}
 
-	
-
 	protected void setAdapter(List<Petdisspecbrowse> query) {
 		DiseaseListAdapter adapter = new DiseaseListAdapter(this, query, false);
 		mListview.setAdapter(adapter);
@@ -109,7 +107,7 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 
 	private void initView() {
 		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
-		
+
 		mListview = (ListView) this.findViewById(R.id.list_sms_list);
 
 		letterView = (LetterView) findViewById(R.id.letterview);
@@ -121,7 +119,7 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 	private void setUpView() {
 		mTopbarView.setCenterText(type);
 		mTopbarView.setLeftView(true, true);
-		
+
 		mListview.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -140,7 +138,7 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
-				
+
 			}
 
 			@Override
@@ -206,7 +204,7 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 		}
 
 	}
-	
+
 	public static List<Petdisspecbrowse> sortContact(List<Petdisspecbrowse> data) {
 		if (data == null) {
 			return null;
@@ -233,7 +231,7 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 		});
 
 		char mc = '*';
-//		List<Petdisspecbrowse> newData = new ArrayList<Petdisspecbrowse>();
+		// List<Petdisspecbrowse> newData = new ArrayList<Petdisspecbrowse>();
 		for (int i = 0; i < data.size(); i++) {
 			Petdisspecbrowse friend = data.get(i);
 			friend.isTitle = false;
@@ -245,22 +243,23 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 
 			if (mc != c) {
 				mc = c;
-//				Petdisspecbrowse f = new Petdisspecbrowse();
-//				f.isTitle = true;
-//				newData.add(f);
-				
+				// Petdisspecbrowse f = new Petdisspecbrowse();
+				// f.isTitle = true;
+				// newData.add(f);
+
 				friend.isTitle = true;
 				friend.title = String.valueOf(c);
 			}
-//			newData.add(friend);
+			// newData.add(friend);
 		}
-		
+
 		return data;
 	}
+
 	private static char getFirstPy(String pinyin) {
-		if(null == pinyin || pinyin.length() == 0){
+		if (null == pinyin || pinyin.length() == 0) {
 			return '#';
-		}else{
+		} else {
 			return Character.toUpperCase(pinyin.charAt(0));
 		}
 	}

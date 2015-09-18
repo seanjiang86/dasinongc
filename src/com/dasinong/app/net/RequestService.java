@@ -249,5 +249,8 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getSetRefParams(refcode);
 		new NetRequest(context).get(RequestCode.SETREF, params, SubUrl.SET_REF, callBack, clazz);
 	}
-	
+	public void refApp(Context context, String cellPhones ,Class<? extends BaseEntity> clazz, RequestListener callBack){
+		Map<String, String> params = NetConfig.getRefAppParams(cellPhones);
+		new NetRequest(context).get(RequestCode.REFAPP, params, SubUrl.REFAPP, callBack, clazz);
+	}
 }

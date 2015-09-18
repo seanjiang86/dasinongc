@@ -20,11 +20,12 @@ public class PetdisspecbrowseDao extends DaoSupportImpl<Petdisspecbrowse> {
 		super(context);
 	}
 
-	public List<Petdisspecbrowse> query(String type) {
-		return query("type = ?",new String[]{type});
+	public List<Petdisspecbrowse> query(String type, String cropId) {
+		return query("type = ? and  cropId = ? ", new String[] { type , cropId });
 	}
-	public List<Petdisspecbrowse> queryCaohai(String type) {
-		return query("type LIKE ?",new String[]{"%草%"});
+
+	public List<Petdisspecbrowse> queryCaohai(String type , String cropId) {
+		return query("type LIKE ? and cropId = ? ", new String[] { "%草%" ,cropId});
 	}
-	
+
 }

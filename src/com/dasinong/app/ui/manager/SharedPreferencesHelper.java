@@ -40,6 +40,7 @@ public final class SharedPreferencesHelper {
         NEW_CROP,
         REFCODE,
         REFUID,
+        CURRENT_VILLAGE_ID,
     }
 
     ;

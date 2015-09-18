@@ -169,7 +169,7 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 					intent.putExtra("type", crop.cropId+"");
 				} else {
 					intent.setClass(EncyclopediasVarietiesActivity.this,EncyclopediasDiseaseActivity.class);
-					intent.putExtra("type", crop.cropName);
+					intent.putExtra("type", crop.cropId+"");
 				}
 				startActivity(intent);
 			}

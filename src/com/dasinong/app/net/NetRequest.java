@@ -121,6 +121,7 @@ public class NetRequest {
 			@Override
 			public void onErrorResponse(VolleyError error) {
 				Logger.e(LogTag.HTTP, Log.getStackTraceString(error));
+				error.printStackTrace();
 				callback.onFailed(requestCode, error, error.getMessage());
 			}
 		}) {

@@ -38,6 +38,5 @@ public class BannerEntity extends BaseResponse {
         public String lat;
         public String lon;
         public String monitorLocationId;
-
     }
 }

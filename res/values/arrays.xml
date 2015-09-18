@@ -4,6 +4,7 @@
     <string-array name="cropList">
         <item>水稻</item>
         <item>小麦</item>
+        <item>芒果</item>
         <item>大白菜</item>
         <item>大豆</item>
         <item>大麦</item>

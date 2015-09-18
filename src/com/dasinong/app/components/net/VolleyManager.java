@@ -36,297 +36,326 @@ import com.dasinong.app.utils.StringHelper;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-
 import java.io.File;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.net.URLEncoder;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
 
 /**
  * Created by liuningning on 15/6/13.
  */
 public class VolleyManager {
 
-    private static final String TAG = "VolleyManager";
-    private volatile static VolleyManager instance;
-    private RequestQueue mRequestQueue;
+	private static final String TAG = "VolleyManager";
+	private volatile static VolleyManager instance;
+	private RequestQueue mRequestQueue;
 
-    private Context mContext;
-    private volatile Boolean isInit;
+	private Context mContext;
+	private volatile Boolean isInit;
 
+	private VolleyManager() {
+		isInit = false;
+	}
 
-    private VolleyManager() {
-        isInit = false;
-    }
+	public static VolleyManager getInstance() {
 
-    public static VolleyManager getInstance() {
+		if (instance == null) {
+			synchronized (VolleyManager.class) {
+				if (instance == null) {
+					instance = new VolleyManager();
+				}
+			}
+		}
 
-        if (instance == null) {
-            synchronized (VolleyManager.class) {
-                if (instance == null) {
-                    instance = new VolleyManager();
-                }
-            }
-        }
+		return instance;
+	}
 
-        return instance;
-    }
+	public void init(Context context) {
 
-    public void init(Context context) {
+		if (isInit) {
+			return;
+		} else {
 
-        if (isInit) {
-            return;
-        } else {
+			synchronized (isInit) {
+				if (!isInit) {
+					mContext = context.getApplicationContext();
+					mRequestQueue = createRequestQueue();
 
-            synchronized (isInit) {
-                if (!isInit) {
-                    mContext = context.getApplicationContext();
-                    mRequestQueue = createRequestQueue();
+				}
+			}
 
-                }
-            }
+		}
+	}
 
-        }
-    }
+	public <T extends BaseResponse> Request addGetRequestWithNoCache(final int requestCode, String url, Object param, final Class<T> clazz,
+			final INetRequest netRequest) {
 
-    public <T extends BaseResponse> Request addGetRequestWithNoCache(final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest netRequest) {
+		return addGetRequest(false, requestCode, url, param, clazz, netRequest);
 
-        return addGetRequest(false, requestCode, url, param, clazz, netRequest);
+	}
 
-    }
+	public <T extends BaseResponse> Request addGetRequestWithCache(final int requestCode, String url, Object param, final Class<T> clazz,
+			final INetRequest netRequest) {
 
-    public <T extends BaseResponse> Request addGetRequestWithCache(final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest netRequest) {
+		return addGetRequest(true, requestCode, url, param, clazz, netRequest);
 
-        return addGetRequest(true, requestCode, url, param, clazz, netRequest);
+	}
 
-    }
+	public <T extends BaseResponse> Request addPostRequest(int requestCode, String url, Object param, Class<? extends BaseResponse> clazz,
+			final INetRequest netReqeust) {
+		final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
+		final Response.Listener<T> successListener = createSuccessListener(requestCode, weakReference);
 
+		final Response.ErrorListener errorListener = createErrorListener(requestCode, weakReference);
+		HashMap<String, String> map = FieldUtils.convertToHashMap(param);
 
-    public <T extends BaseResponse> Request addPostRequest(int requestCode, String url, Object param, Class<? extends BaseResponse> clazz, final INetRequest netReqeust) {
-        final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
-        final Response.Listener<T> successListener = createSuccessListener(requestCode, weakReference);
+		// TODO MING: 原来的userId 是 15
 
+		String userId = SharedPreferencesHelper.getString(mContext, Field.USER_ID, "");
+		String product = android.os.Build.PRODUCT;
+		String deviceId = DeviceHelper.getDeviceId(DsnApplication.getContext());
 
-        final Response.ErrorListener errorListener = createErrorListener(requestCode, weakReference);
-        HashMap<String, String> map = FieldUtils.convertToHashMap(param);
-        
-        // TODO MING: 原来的userId 是 15
-        
-        String userId = SharedPreferencesHelper.getString(mContext, Field.USER_ID, "");
-        String product = android.os.Build.PRODUCT;
-        String deviceId = DeviceHelper.getDeviceId(DsnApplication.getContext());
-        String apiKey = StringHelper.encrypt(deviceId);
-        
-        map.put("userId", userId);
-        map.put(Params.deviceType, product);
-        map.put(Params.deviceId, deviceId);
-        map.put("apikey", apiKey);
-		
-        DEBUG(map.toString());
-        final GsonRequest<T> request = new GsonRequest(url, map, clazz, successListener, errorListener);
+		Calendar cal = Calendar.getInstance();
+		int hour = cal.get(Calendar.HOUR_OF_DAY);
+		int minute = cal.get(Calendar.MINUTE);
+		String strHour = null;
+		String strMinu = null;
 
-        request.setShouldCache(false);
+		if (String.valueOf(hour).length() == 1) {
+			strHour = "0" + String.valueOf(hour);
+		} else {
+			strHour = String.valueOf(hour);
+		}
 
-        mRequestQueue.add(request);
-        return request;
+		if (String.valueOf(minute).length() == 1) {
+			strMinu = "0" + String.valueOf(minute);
+		} else {
+			strMinu = String.valueOf(minute);
+		}
 
-    }
+		String time = strHour + strMinu;
 
-    private RequestQueue createRequestQueue() {
-        File cacheDir = new File(mContext.getCacheDir(), "network");
+		String apiKey = StringHelper.encrypt(deviceId, time);
 
-        if (!cacheDir.exists()) {
-            cacheDir.mkdirs();
-        }
+		map.put("userId", userId);
+		map.put(Params.deviceType, product);
+		map.put(Params.deviceId, deviceId);
+		map.put(Params.apikey, apiKey);
+		map.put(Params.time, time);
 
-        String userAgent = "";
+		DEBUG(map.toString());
+		final GsonRequest<T> request = new GsonRequest(url, map, clazz, successListener, errorListener);
 
-        try {
-            String network = mContext.getPackageName();
-            PackageInfo queue = mContext.getPackageManager().getPackageInfo(network, 0);
-            userAgent = network + "/" + queue.versionCode;
-        } catch (PackageManager.NameNotFoundException var6) {
+		request.setShouldCache(false);
 
-        }
-        HttpStack stack;
-        if (Build.VERSION.SDK_INT >= 9) {
-            stack = new HurlStack();
-        } else {
-            stack = new HttpClientStack(AndroidHttpClient.newInstance(userAgent));
-        }
+		mRequestQueue.add(request);
+		return request;
 
+	}
 
-        BasicNetwork network = new BasicNetwork(stack);
-        RequestQueue queue = new RequestQueue(new DiskBasedCache(cacheDir), network);
+	private RequestQueue createRequestQueue() {
+		File cacheDir = new File(mContext.getCacheDir(), "network");
 
-        queue.start();
-        return queue;
+		if (!cacheDir.exists()) {
+			cacheDir.mkdirs();
+		}
 
-    }
+		String userAgent = "";
 
+		try {
+			String network = mContext.getPackageName();
+			PackageInfo queue = mContext.getPackageManager().getPackageInfo(network, 0);
+			userAgent = network + "/" + queue.versionCode;
+		} catch (PackageManager.NameNotFoundException var6) {
 
-    private <T extends BaseResponse> Request addGetRequest(boolean needCache, final int requestCode, String url, Object param, final Class<T> clazz, final INetRequest netReqeust) {
-        final String finalUrl = createUrl(url, param);
+		}
+		HttpStack stack;
+		if (Build.VERSION.SDK_INT >= 9) {
+			stack = new HurlStack();
+		} else {
+			stack = new HttpClientStack(AndroidHttpClient.newInstance(userAgent));
+		}
 
-        final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
-        final Response.Listener<T> successListener = createSuccessListener(requestCode, weakReference);
+		BasicNetwork network = new BasicNetwork(stack);
+		RequestQueue queue = new RequestQueue(new DiskBasedCache(cacheDir), network);
 
-        final Response.ErrorListener errorListener = createErrorListener(requestCode, weakReference);
+		queue.start();
+		return queue;
 
+	}
 
-        final GsonRequest<T> request = new GsonRequest(finalUrl, clazz, successListener, errorListener);
+	private <T extends BaseResponse> Request addGetRequest(boolean needCache, final int requestCode, String url, Object param, final Class<T> clazz,
+			final INetRequest netReqeust) {
+		final String finalUrl = createUrl(url, param);
 
-        request.setShouldCache(needCache);
-        mRequestQueue.add(request);
+		final WeakReference<INetRequest> weakReference = new WeakReference<INetRequest>(netReqeust);
+		final Response.Listener<T> successListener = createSuccessListener(requestCode, weakReference);
 
+		final Response.ErrorListener errorListener = createErrorListener(requestCode, weakReference);
 
+		final GsonRequest<T> request = new GsonRequest(finalUrl, clazz, successListener, errorListener);
 
-        return request;
+		request.setShouldCache(needCache);
+		mRequestQueue.add(request);
 
-    }
+		return request;
 
+	}
 
-    private String buildUrl(String url, Object param) {
+	private String buildUrl(String url, Object param) {
 
-        StringBuilder urlWithParm = new StringBuilder(url);
-        if (param != null) {
-            String positionParam = encodeParameters(FieldUtils.convertToHashMap(param));
+		StringBuilder urlWithParm = new StringBuilder(url);
+		if (param != null) {
+			String positionParam = encodeParameters(FieldUtils.convertToHashMap(param));
 
-            urlWithParm.append(positionParam);
-        }
-        return urlWithParm.toString();
-    }
+			urlWithParm.append(positionParam);
+		}
+		return urlWithParm.toString();
+	}
 
+	private String encodeParameters(Map<String, String> params) {
+		StringBuilder encodedParams = new StringBuilder("?");
+		try {
+			for (Map.Entry<String, String> entry : params.entrySet()) {
+				encodedParams.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
+				encodedParams.append('=');
+				encodedParams.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+				encodedParams.append('&');
+			}
 
-    private String encodeParameters(Map<String, String> params) {
-        StringBuilder encodedParams = new StringBuilder("?");
-        try {
-            for (Map.Entry<String, String> entry : params.entrySet()) {
-                encodedParams.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
-                encodedParams.append('=');
-                encodedParams.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
-                encodedParams.append('&');
-            }
-            
-            String deviceTyep = android.os.Build.PRODUCT;
-            String deviceId = DeviceHelper.getDeviceId(mContext);
-            String apikey = StringHelper.encrypt(deviceId);
-            
-            encodedParams.append("deviceTyep="+deviceTyep+"&deviceId="+deviceId+"&apikey="+apikey+"&");
-            return encodedParams.toString();
-        } catch (UnsupportedEncodingException uee) {
-            throw new RuntimeException("Encoding not supported: " + "UTF-8", uee);
-        }
-    }
+			String deviceTyep = android.os.Build.PRODUCT;
+			String deviceId = DeviceHelper.getDeviceId(mContext);
 
+			Calendar cal = Calendar.getInstance();
+			int hour = cal.get(Calendar.HOUR_OF_DAY);
+			int minute = cal.get(Calendar.MINUTE);
+			String strHour = null;
+			String strMinu = null;
 
-    private String createUrl(String url, Object param) {
-        if (param != null) {
-            url = buildUrl(url, param);
-        }
+			if (String.valueOf(hour).length() == 1) {
+				strHour = "0" + String.valueOf(hour);
+			} else {
+				strHour = String.valueOf(hour);
+			}
 
-        return url;
-    }
+			if (String.valueOf(minute).length() == 1) {
+				strMinu = "0" + String.valueOf(minute);
+			} else {
+				strMinu = String.valueOf(minute);
+			}
 
-    private Response.ErrorListener createErrorListener(final int requestcode, final WeakReference<INetRequest> weakReference) {
-        return new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+			String time = strHour + strMinu;
 
-                INetRequest tem = weakReference.get();
-                if (tem != null) {
-                    NetError netError;
+			String apikey = StringHelper.encrypt(deviceId, time);
 
-                    if (error instanceof TimeoutError) {
-                        netError = new NetError(NetError.NET_TIMEOUT);
+			encodedParams.append("deviceTyep=" + deviceTyep + "&deviceId=" + deviceId + "&apikey=" + apikey + "&time=" + time+"&");
+			return encodedParams.toString();
+		} catch (UnsupportedEncodingException uee) {
+			throw new RuntimeException("Encoding not supported: " + "UTF-8", uee);
+		}
+	}
 
-                    } else if (error instanceof ParseError) {
-                        netError = new NetError(NetError.PARSE_ERROR);
+	private String createUrl(String url, Object param) {
+		if (param != null) {
+			url = buildUrl(url, param);
+		}
 
-                    } else if (error instanceof AuthFailureError) {
-                        netError = new NetError(NetError.NET_AUTHFAILURE);
+		return url;
+	}
 
-                    } else if (error instanceof TimeoutError) {
-                        netError = new NetError(NetError.NET_TIMEOUT);
+	private Response.ErrorListener createErrorListener(final int requestcode, final WeakReference<INetRequest> weakReference) {
+		return new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
 
-                    } else if (error instanceof NetworkError) {
-                        netError = new NetError(NetError.NET_ERROR);
+				INetRequest tem = weakReference.get();
+				if (tem != null) {
+					NetError netError;
 
-                    } else if (error instanceof ServerError) {
-                        netError = new NetError(NetError.SERVER_ERROR);
+					if (error instanceof TimeoutError) {
+						netError = new NetError(NetError.NET_TIMEOUT);
 
-                    } else {
-                        netError = new NetError(NetError.UNKNOW_ERROR);
-                    }
+					} else if (error instanceof ParseError) {
+						netError = new NetError(NetError.PARSE_ERROR);
 
-                    tem.onTaskFailedSuccess(requestcode, netError);
-                }
+					} else if (error instanceof AuthFailureError) {
+						netError = new NetError(NetError.NET_AUTHFAILURE);
 
-            }
-        };
-    }
+					} else if (error instanceof TimeoutError) {
+						netError = new NetError(NetError.NET_TIMEOUT);
 
-    private <T extends BaseResponse> Response.Listener<T> createSuccessListener(final int requestCode, final WeakReference<INetRequest> weakReference) {
-        return new Response.Listener<T>() {
-            @Override
-            public void onResponse(T response) {
+					} else if (error instanceof NetworkError) {
+						netError = new NetError(NetError.NET_ERROR);
 
-                INetRequest tem = weakReference.get();
-                if (tem != null) {
-                    tem.onTaskSuccess(requestCode, response);
-                }
-            }
+					} else if (error instanceof ServerError) {
+						netError = new NetError(NetError.SERVER_ERROR);
 
-        };
-    }
+					} else {
+						netError = new NetError(NetError.UNKNOW_ERROR);
+					}
 
+					tem.onTaskFailedSuccess(requestcode, netError);
+				}
 
-    private Cache.Entry getCache(Request request) {
+			}
+		};
+	}
 
-        if(request!=null&& !TextUtils.isEmpty(request.getUrl())){
-            return mRequestQueue.getCache().get(request.getUrl());
-        }
+	private <T extends BaseResponse> Response.Listener<T> createSuccessListener(final int requestCode, final WeakReference<INetRequest> weakReference) {
+		return new Response.Listener<T>() {
+			@Override
+			public void onResponse(T response) {
 
-        return  null;
+				INetRequest tem = weakReference.get();
+				if (tem != null) {
+					tem.onTaskSuccess(requestCode, response);
+				}
+			}
 
-    }
+		};
+	}
 
-    public <T> T getCacheDomain(Request request, Class<T> clazz) {
+	private Cache.Entry getCache(Request request) {
 
-        Cache.Entry entry = getCache(request);
+		if (request != null && !TextUtils.isEmpty(request.getUrl())) {
+			return mRequestQueue.getCache().get(request.getUrl());
+		}
 
-        if (entry != null) {
+		return null;
 
-            String result = new String(entry.data).trim();
+	}
 
+	public <T> T getCacheDomain(Request request, Class<T> clazz) {
 
-            try {
+		Cache.Entry entry = getCache(request);
 
-                JsonReader reader = new JsonReader(new StringReader(result));
-                reader.setLenient(true);
+		if (entry != null) {
 
-                return new Gson().fromJson(reader, clazz);
-            } catch (Exception e) {
-                DEBUG("cache json parse" + request.getUrl());
-                e.printStackTrace();
+			String result = new String(entry.data).trim();
 
-            }
+			try {
 
+				JsonReader reader = new JsonReader(new StringReader(result));
+				reader.setLenient(true);
 
-        }
-        return null;
-    }
+				return new Gson().fromJson(reader, clazz);
+			} catch (Exception e) {
+				DEBUG("cache json parse" + request.getUrl());
+				e.printStackTrace();
 
-    private void DEBUG(String msg) {
-        if (BuildConfig.DEBUG) {
-            Log.d(TAG, msg);
-        }
-    }
+			}
+
+		}
+		return null;
+	}
+
+	private void DEBUG(String msg) {
+		if (BuildConfig.DEBUG) {
+			Log.d(TAG, msg);
+		}
+	}
 }
-
-
-

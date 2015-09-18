@@ -22,7 +22,10 @@ public class EncyclopediasDao extends DaoSupportImpl<Crop> {
 	}
 
 	public List<Crop> queryStageCategory(String type) {
-		return query("type LIKE ? ",new String[]{"%" + type + "%"});
+		return query("type LIKE ? ", new String[] { "%" + type + "%" });
 	}
 
+	public List<Crop> queryCropId(String cropName) {
+		return query("cropName = ?", new String[] { cropName });
+	}
 }

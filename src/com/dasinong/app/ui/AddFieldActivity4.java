@@ -28,6 +28,7 @@ import com.dasinong.app.entity.VarietyInfo;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.adapter.TextAdapter.OnItemClickListener;
+import com.dasinong.app.ui.adapter.VarietyListAdapter;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.ExpandTabView;
@@ -200,7 +201,6 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 					public void onFailed(int requestCode, Exception error, String msg) {
 						dismissLoadingDialog();
 						showToast("请求失败，请检查网络或稍候再试");
-						Logger.d("MING", "msg =============== " + msg);
 					}
 				});
 	}
@@ -234,6 +234,11 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		varietyNumList = new ArrayList<String>();
 		
 		varietyNumList.addAll(varietyNumMap.keySet());
+		
+		if(varietyNumList.size() == 1 && TextUtils.isEmpty(varietyNumList.get(0))){
+			varietyNumList.clear();
+			varietyNumList.add(varietyName);
+		}
 
 		initVarietyNumList();
 	}
@@ -252,6 +257,12 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 				numPosition = position;
 				onrefresh(crop + "-" + varietyName + "-" + varietyNum);
 				varietyId = varietyNumMap.get(varietyNum);
+				
+				// TODO MING 作物最后一级为空，需要服务器来出来，临时解决方案如下
+				
+				if(TextUtils.isEmpty(varietyId)){
+					varietyId = varietyNumMap.get("");
+				}
 			}
 		});
 	}
@@ -277,6 +288,10 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		} else if(etv.getText(0).startsWith("小麦")){
 			intent = new Intent(this, AddFieldActivity5.class);
 			intent.putExtra("crop", "小麦");
+		} else if(etv.getText(0).startsWith("芒果")){
+			intent = new Intent(this, AddFieldActivity5.class);
+			intent.putExtra("crop", "芒果");
+
 		} else {
 			intent = new Intent(this, AddFieldActivity7.class);
 			

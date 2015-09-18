@@ -85,7 +85,7 @@ public class StringHelper {
 		return null;
 	}
 
-	public static String encrypt(String deviceId) {
+	public static String encrypt(String deviceId , String time) {
 		byte[] skey = "yxxwhgz".getBytes();
 		SecretKeySpec signingKey = new SecretKeySpec(skey, "HmacSHA1");
 		Mac mac;
@@ -93,7 +93,7 @@ public class StringHelper {
 		try {
 			mac = Mac.getInstance("HmacSHA1");
 			mac.init(signingKey);
-			byte[] rawHmac = mac.doFinal(deviceId.getBytes());
+			byte[] rawHmac = mac.doFinal((deviceId+time).getBytes());
 			byte[] encodeBytes = Base64.encode(rawHmac, Base64.DEFAULT);
 			finalkey = new String(encodeBytes, "utf-8");
 			finalkey = finalkey.substring(0,finalkey.length()-1);

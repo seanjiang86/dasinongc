@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.dasinong.app.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.dasinong.app.ui.view.TopbarView>
+
+    <LinearLayout
+        android:id="@+id/ll_not_fill_code"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/color_F7FCFE"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical"
+                android:text="推荐他人安装使用今日农事，要在TA的手机上输入您的邀请码，才能收到奖励哦！"
+                android:textColor="@color/color_999999"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_my_invitation_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:text="您的专属邀请码：123456"
+                android:textSize="15sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="请绑定合作机构："
+                    android:textColor="@color/color_999999"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/et_organization_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/text_bg"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp" />
+
+                <Button
+                    android:id="@+id/btn_sure_organization_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:layout_marginLeft="15dp"
+                    android:background="@drawable/green_button_selector"
+                    android:text="绑定"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_froget_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="8dp"
+                android:gravity="right"
+                android:text="忘记机构代码？"
+                android:textColor="@color/color_1768BE"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btn_recommend_sms"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/gray_button_selector"
+                android:text="免费发送短信推荐"
+                android:textColor="@color/color_2BAD2A"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_DCE3E6" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center_horizontal"
+                android:text="请输入邀请码"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/et_other_invitation_code"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/text_bg"
+                android:hint="6位邀请码"
+                android:padding="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="8dp"
+                android:text="如果你有推荐人，请提供TA的邀请码"
+                android:textColor="@color/color_999999"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btn_sure_invitation_code"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/green_button_selector"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_fill_code"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_F7FCFE"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="这是你的专属邀请码"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:text="推荐他人安装使用今日农事，要在TA的手机上输入您的邀请码，才能收到奖励哦！"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_my_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center_horizontal"
+            android:text="123456"
+            android:textSize="32sp" />
+
+        <Button
+            android:id="@+id/btn_recom_sms"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/green_button_selector"
+            android:text="免费发送短信推荐"
+            android:textColor="@color/white"
+            android:textSize="18sp"
+            android:onClick="click" />
+    </LinearLayout>
+
+</LinearLayout>

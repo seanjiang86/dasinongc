@@ -132,6 +132,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			if (parent != null) {
 
 				parent.removeView(mRoot);
+				
 			}
 
 			return mRoot;
@@ -204,6 +205,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 					mDisasterView.updateView(entity.currentField.petdisspecws, entity.currentField.petdisws);
 					SharedPreferencesHelper.setString(this.getActivity(), Field.CROP_NAME, entity.currentField.cropName);
+					SharedPreferencesHelper.setString(this.getActivity(), Field.CURRENT_VILLAGE_ID, entity.currentField.varietyId+"");
 				} else {
 					mDisasterView.updateView(null, null);
 				}
@@ -233,6 +235,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 					@Override
 					public void onDialogClick(int substage) {
 						diasterParam.subStageId = String.valueOf(substage);
+						diasterParam.varietyId = SharedPreferencesHelper.getString(HomeFragment.this.getActivity(), Field.VARIETY_ID, "");
 						loadDisaster();
 					}
 
@@ -269,28 +272,27 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 			BannerEntity banner = (BannerEntity) response;
 			if (banner != null) {
-				
-//				BannerEntity bEntity = new BannerEntity();
-//				ItemEntity itemEntity = bEntity.new ItemEntity();
-//				itemEntity.type = 1;
-//				itemEntity.picUrl="http://a0.att.hudong.com/70/15/01300000287245125050159032413.jpg";
-//				banner.newdata.add(itemEntity);
-//				
-//				BannerEntity bEntity1 = new BannerEntity();
-//				ItemEntity itemEntity1 = bEntity1.new ItemEntity();
-//				itemEntity1.type = 1;
-//				itemEntity1.picUrl="http://img1.imgtn.bdimg.com/it/u=4290945281,3620528886&fm=21&gp=0.jpg";
-//				banner.newdata.add(itemEntity1);
-//				
-//				BannerEntity bEntity2 = new BannerEntity();
-//				ItemEntity itemEntity2 = bEntity2.new ItemEntity();
-//				itemEntity2.type = 1;
-//				itemEntity2.picUrl="http://img1.imgtn.bdimg.com/it/u=4290945281,3620528886&fm=21&gp=0.jpg";
-//				banner.newdata.add(itemEntity2);
 
-				
+				// BannerEntity bEntity = new BannerEntity();
+				// ItemEntity itemEntity = bEntity.new ItemEntity();
+				// itemEntity.type = 1;
+				// itemEntity.picUrl="http://a0.att.hudong.com/70/15/01300000287245125050159032413.jpg";
+				// banner.newdata.add(itemEntity);
+				//
+				// BannerEntity bEntity1 = new BannerEntity();
+				// ItemEntity itemEntity1 = bEntity1.new ItemEntity();
+				// itemEntity1.type = 1;
+				// itemEntity1.picUrl="http://img1.imgtn.bdimg.com/it/u=4290945281,3620528886&fm=21&gp=0.jpg";
+				// banner.newdata.add(itemEntity1);
+				//
+				// BannerEntity bEntity2 = new BannerEntity();
+				// ItemEntity itemEntity2 = bEntity2.new ItemEntity();
+				// itemEntity2.type = 1;
+				// itemEntity2.picUrl="http://img1.imgtn.bdimg.com/it/u=4290945281,3620528886&fm=21&gp=0.jpg";
+				// banner.newdata.add(itemEntity2);
+
 				mBannerView.initView(banner);
-				
+
 			}
 			isBannerSuccess = true;
 			break;
@@ -318,17 +320,25 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 	private void checkData(WeatherEntity entity) {
 		int hourCount = 0;
 		StringBuilder hourSb = new StringBuilder();
-		if(entity == null){
+		if (entity == null) {
 			return;
 		}
-		for (int i = 0; i < entity.n12h.size(); i++) {
-			if (entity.n12h.get(i) == null) {
-				hourSb.append(i);
-				hourSb.append(",");
-				hourCount++;
-			}
-		}
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		if(entity.n12h != null){
+			for (int i = 0; i < entity.n12h.size(); i++) {
+				if (entity.n12h.get(i) == null) {
+					hourSb.append(i);
+					hourSb.append(",");
+					hourCount++;
+				}
+			}
+		} else {
+			Date date = new Date();
+			String currentDate = simpleDateFormat.format(date);
+
+			msg = "当前时间为" + currentDate + ",这是24小时数据错误,24小时数据为空";
+			sendErrorMsg(mMotionId, msg);
+		}
 
 		if (hourCount > 1) {
 			Date date = new Date();
@@ -340,33 +350,42 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 		int dayCount = 0;
 		StringBuilder daySb = new StringBuilder();
-		for (int i = 0; i < entity.n7d.size(); i++) {
-			if (entity.n7d.get(i) == null) {
-				daySb.append(i);
-				daySb.append(",");
-				dayCount++;
+		
+		if(entity.n7d != null){
+			for (int i = 0; i < entity.n7d.size(); i++) {
+				if (entity.n7d.get(i) == null) {
+					daySb.append(i);
+					daySb.append(",");
+					dayCount++;
+				}
 			}
+		} else {
+			Date date = new Date();
+			String currentDate = simpleDateFormat.format(date);
+			msg = "当前时间为" + currentDate + ",这是7天数据错误,七天数据为空";
+			sendErrorMsg(mMotionId, msg);
 		}
+		
 		if (dayCount > 1) {
 			Date date = new Date();
 			String currentDate = simpleDateFormat.format(date);
-			
+
 			msg = "当前时间为" + currentDate + ",这是7天数据错误,缺失" + dayCount + "条数据,错误数据的下标为" + daySb.toString();
 			sendErrorMsg(mMotionId, msg);
 		}
-		
-		if(entity.sunset == 0){
+
+		if (entity.sunset == 0) {
 			Date date = new Date();
 			String currentDate = simpleDateFormat.format(date);
-			
+
 			msg = "当前时间为" + currentDate + ",这是日落数据空缺";
 			sendErrorMsg(mMotionId, msg);
 		}
-		
-		if(entity.sunrise == 0){
+
+		if (entity.sunrise == 0) {
 			Date date = new Date();
 			String currentDate = simpleDateFormat.format(date);
-			
+
 			msg = "当前时间为" + currentDate + ",这是日出数据空缺";
 			sendErrorMsg(mMotionId, msg);
 		}
@@ -428,11 +447,11 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 	public void onResume() {
 		super.onResume();
 		Log.e("TAG", "onResume");
-		
-		
-//		mFiledId = SharedPreferencesHelper.getLong(this.getActivity(), SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
+
+		// mFiledId = SharedPreferencesHelper.getLong(this.getActivity(),
+		// SharedPreferencesHelper.Field.FIELDID, DEFAULT_FIELD_ID);
 		String currentUserID = SharedPreferencesHelper.getString(getActivity().getApplicationContext(), SharedPreferencesHelper.Field.USER_ID, "");
-		
+
 		if (!mUserID.equals(currentUserID)) {
 			mUserID = currentUserID;
 			loadDataFromWithCache(true);

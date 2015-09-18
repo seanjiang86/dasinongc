@@ -1,32 +1,22 @@
 package com.dasinong.app.ui;
 
-import java.util.logging.LogRecord;
-
-import android.graphics.Bitmap;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
-import com.dasinong.app.entity.LoginRegEntity;
-import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
-import com.dasinong.app.utils.GraphicUtils;
-import com.google.zxing.WriterException;
-import com.zxing.encoding.EncodingHandler;
 
 public class RecommendActivity extends BaseActivity implements OnClickListener {
 
@@ -40,11 +30,12 @@ public class RecommendActivity extends BaseActivity implements OnClickListener {
 	private View ll_fill_code;
 	private View ll_not_fill_code;
 	private TextView tv_my_code;
+	private Button btn_recommend_sms;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_create_qrcoder);
+		setContentView(R.layout.activity_recommend);
 		topBar = (TopbarView) findViewById(R.id.topbar);
 
 		initTopBar();
@@ -58,6 +49,7 @@ public class RecommendActivity extends BaseActivity implements OnClickListener {
 		ll_not_fill_code = findViewById(R.id.ll_not_fill_code);
 		ll_fill_code = findViewById(R.id.ll_fill_code);
 		tv_my_code = (TextView) findViewById(R.id.tv_my_code);
+		btn_recommend_sms = (Button) findViewById(R.id.btn_recommend_sms);
 
 		String refCode = SharedPreferencesHelper.getString(this, Field.REFCODE, "");
 		int refuId = SharedPreferencesHelper.getInt(this, Field.REFUID, -1);
@@ -75,9 +67,12 @@ public class RecommendActivity extends BaseActivity implements OnClickListener {
 		if (!TextUtils.isEmpty(refCode)) {
 			tv_my_invitation_code.setText(String.format("您的专属邀请码：%s", refCode));
 		}
+		
 		btn_sure_organization_code.setOnClickListener(this);
 		tv_froget_code.setOnClickListener(this);
 		btn_sure_invitation_code.setOnClickListener(this);
+		btn_recommend_sms.setOnClickListener(this);
+		
 	}
 
 	private void initTopBar() {
@@ -87,8 +82,7 @@ public class RecommendActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		int id = v.getId();
-		switch (id) {
+		switch (v.getId()) {
 		case R.id.btn_sure_organization_code:
 
 			String orgCode = et_organization_code.getText().toString().trim();
@@ -158,7 +152,20 @@ public class RecommendActivity extends BaseActivity implements OnClickListener {
 			}
 
 			break;
+		case R.id.btn_recommend_sms :
+			goToFillSMSActivity();
+			break;
 		}
+	}
+	
+	// TODO MING 此方法需修改，为何设置点击事件点击无效！！！！
+	public void click(View v){
+		goToFillSMSActivity();
+	}
+
+	private void goToFillSMSActivity() {
+		Intent intent = new Intent(this, RecommendSMSActivity.class);
+		startActivity(intent);
 	}
 
 }

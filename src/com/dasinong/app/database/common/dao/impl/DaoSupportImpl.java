@@ -68,6 +68,7 @@ public class DaoSupportImpl<T> implements DaoSupport<T> {
 
 		List<T> result = new ArrayList<>();
 		String sql = SQLiteQueryBuilder.buildQueryString(false, mTableName, null, selection, null, null, orderBy, null);
+		System.out.println(sql);
 		if (BuildConfig.DEBUG) {
 			Log.d("SQL", sql);
 		}

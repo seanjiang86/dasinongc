@@ -20,8 +20,12 @@ import android.widget.TextView;
 
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
+import com.dasinong.app.ui.EncyclopediasDiseaseActivity;
+import com.dasinong.app.ui.EncyclopediasVarietiesActivity;
 import com.dasinong.app.ui.HarmDetialsActivity;
 import com.dasinong.app.ui.HarmListActivity;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.HashMap;
@@ -30,362 +34,338 @@ import java.util.List;
 import static android.util.TypedValue.COMPLEX_UNIT_DIP;
 import static android.util.TypedValue.applyDimension;
 
-
 /**
- * disaster item view
- * Created by lxn on 15/6/5.
+ * disaster item view Created by lxn on 15/6/5.
  */
 public class DisasterView extends LinearLayout {
 
+	private int mDefaultBottomPadding = 2;
 
-    private int mDefaultBottomPadding = 2;
+	private LayoutInflater mLayoutInflater;
 
-    private LayoutInflater mLayoutInflater;
+	private TextView mBottomView;
 
-    private TextView mBottomView;
+	private LinearLayout.LayoutParams mBottomLayoutParam;
 
-    private LinearLayout.LayoutParams mBottomLayoutParam;
+	private BottomClickListener mBottomClickListener;
 
-    private BottomClickListener mBottomClickListener;
+	private View mTopView;
 
+	private LinearLayout.LayoutParams mTopLayoutParam;
 
-    private View mTopView;
+	private int mPetDisasterRes;
 
-    private LinearLayout.LayoutParams mTopLayoutParam;
+	private static final int MAX_LIMIT_COUNT = 4;
 
+	public DisasterView(Context context) {
+		super(context);
+		initView();
+	}
 
-    private int mPetDisasterRes;
+	public DisasterView(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		initView();
+	}
 
-    private static  final  int MAX_LIMIT_COUNT = 4;
+	private void initView() {
+		setOrientation(VERTICAL);
+		this.setBackgroundColor(Color.WHITE);
+		/* get displayMetrics */
+		DisplayMetrics displayMetrics = new DisplayMetrics();
+		WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
+		windowManager.getDefaultDisplay().getMetrics(displayMetrics);
+		mDefaultBottomPadding = (int) applyDimension(COMPLEX_UNIT_DIP, mDefaultBottomPadding, displayMetrics);
 
+		mLayoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
+		mPetDisasterRes = R.drawable.disaster_bg;
 
+		initTopView();
 
-    public DisasterView(Context context) {
-        super(context);
-        initView();
-    }
+		initBottomView();
 
-    public DisasterView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        initView();
-    }
+	}
 
-    private void initView() {
-        setOrientation(VERTICAL);
-        this.setBackgroundColor(Color.WHITE);
-        /*get displayMetrics*/
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        WindowManager windowManager = (WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE);
-        windowManager.getDefaultDisplay().getMetrics(displayMetrics);
-        mDefaultBottomPadding = (int) applyDimension(COMPLEX_UNIT_DIP, mDefaultBottomPadding, displayMetrics);
+	private void initTopView() {
+		mTopView = new View(this.getContext());
+		mTopLayoutParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.home_dimen_20));
+		mTopView.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ededed")));
 
-        mLayoutInflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	}
 
+	private void initBottomView() {
+		int padding = (int) getResources().getDimension(R.dimen.home_dimen_30);
+		mBottomView = new TextView(this.getContext());
+		mBottomView.setPadding(padding, padding, padding, padding);
+		mBottomView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+		mBottomView.setText(R.string.disaster_show);
+		mBottomView.setGravity(Gravity.CENTER);
+		mBottomView.setBackgroundResource(R.drawable.button_white_bg_selector);
+		mBottomView.setTextColor(Color.parseColor("#1768bc"));
+		mBottomLayoutParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+		// set event
+		mBottomClickListener = new BottomClickListener();
+		mBottomView.setOnClickListener(mBottomClickListener);
 
-        mPetDisasterRes = R.drawable.disaster_bg;
+	}
 
-        initTopView();
+	// false,true
 
-        initBottomView();
+	public synchronized void updateView(List<FieldEntity.CurrentFieldEntity.Petdisspecws> list,
+			List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
 
+		this.removeAllViews();
 
+		if ((list == null || list.isEmpty()) && (petdiswsEntities == null || petdiswsEntities.isEmpty())) {
+			return;
+		}
+		addTopView();
 
+		updatePetdisspecws(list);
 
+		updatePetView(petdiswsEntities);
 
-    }
+		addBottomView();
 
-    private void initTopView() {
-        mTopView = new View(this.getContext());
-        mTopLayoutParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.home_dimen_20));
-        mTopView.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ededed")));
+	}
 
-    }
+	private void addTopView() {
 
-    private void initBottomView() {
-        int padding = (int) getResources().getDimension(R.dimen.home_dimen_30);
-        mBottomView = new TextView(this.getContext());
-        mBottomView.setPadding(padding, padding, padding, padding);
-        mBottomView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        mBottomView.setText(R.string.disaster_show);
-        mBottomView.setGravity(Gravity.CENTER);
-        mBottomView.setBackgroundResource(R.drawable.button_white_bg_selector);
-        mBottomView.setTextColor(Color.parseColor("#1768bc"));
-        mBottomLayoutParam = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        //set event
-        mBottomClickListener = new BottomClickListener();
-        mBottomView.setOnClickListener(mBottomClickListener);
+		ViewParent parent = mTopView.getParent();
+		if (parent != null) {
+			ViewGroup container = (ViewGroup) parent;
+			container.removeView(mTopView);
+		}
 
-    }
+		this.addView(mTopView, 0, mTopLayoutParam);
 
-    //false,true
+	}
 
-    public synchronized void updateView(List<FieldEntity.CurrentFieldEntity.Petdisspecws> list, List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
+	private void updatePetdisspecws(List<FieldEntity.CurrentFieldEntity.Petdisspecws> items) {
+		View child;
+		if (items != null && !items.isEmpty()) {
+			int count = 0;
+			for (FieldEntity.CurrentFieldEntity.Petdisspecws item : items) {
+				if (item == null) {
+					continue;
+				}
+				if (count == MAX_LIMIT_COUNT) {
+					return;
+				}
+				child = createPetdisspecws(item);
+				this.addView(child);
+				count++;
+			}
+		}
 
-        this.removeAllViews();
-        
-        if ((list == null || list.isEmpty()) && (petdiswsEntities == null||petdiswsEntities.isEmpty())) {
-            return;
-        }
-        addTopView();
+	}
 
-        updatePetdisspecws(list);
+	private View createPetdisspecws(final FieldEntity.CurrentFieldEntity.Petdisspecws item) {
 
-        updatePetView(petdiswsEntities);
+		View child = mLayoutInflater.inflate(R.layout.view_home_disaster, this, false);
 
+		TextView desc = (TextView) child.findViewById(R.id.disaster_desc);
+		ImageView icon = (ImageView) child.findViewById(R.id.disaster_icon);
+		TextView name = (TextView) child.findViewById(R.id.disaster_name);
+		TextView type = (TextView) child.findViewById(R.id.disaster_type);
 
-        addBottomView();
+		name.setText(item.petDisSpecName);
 
-    }
+		type.setBackgroundResource(R.drawable.natdisaster_bg);
 
+		type.setText("近期易发" + getDisasterString(item.type));
+		icon.setImageResource(getDisasterIcon(item.type));
 
+		desc.setText(item.sympton.replace("[为害症状]", ""));
 
+		child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.id, item.petDisSpecName));
+		child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.id, item.petDisSpecName));
+		child.setOnClickListener(new View.OnClickListener() {
 
-    private void addTopView() {
+			@Override
+			public void onClick(View v) {
 
-        ViewParent parent = mTopView.getParent();
-        if (parent != null) {
-            ViewGroup container = (ViewGroup) parent;
-            container.removeView(mTopView);
-        }
+				// 友盟统计自定义统计事件
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("name", item.petDisSpecName);
+				MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialItem", map);
 
-        this.addView(mTopView, 0, mTopLayoutParam);
+				Intent intent = HarmDetialsActivity.createIntent(item.id, HarmDetialsActivity.FLAG_ITEM, getContext());
+				getContext().startActivity(intent);
 
-    }
+			}
 
+		});
+		return child;
 
+	}
 
-    private void updatePetdisspecws(List<FieldEntity.CurrentFieldEntity.Petdisspecws> items) {
-        View child;
-        if (items != null && !items.isEmpty()) {
-            int count = 0;
-            for (FieldEntity.CurrentFieldEntity.Petdisspecws item : items) {
-                if(item==null){
-                    continue;
-                }
-                if(count==MAX_LIMIT_COUNT){
-                    return;
-                }
-                child = createPetdisspecws(item);
-                this.addView(child);
-                count++;
-            }
-        }
+	private void updatePetView(List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
+		View child;
+		if (petdiswsEntities != null && !petdiswsEntities.isEmpty()) {
+			for (FieldEntity.CurrentFieldEntity.PetdiswsEntity item : petdiswsEntities) {
+				child = createPetView(item);
+				this.addView(child);
+			}
+		}
 
-    }
+	}
 
+	private View createPetView(final FieldEntity.CurrentFieldEntity.PetdiswsEntity item) {
 
+		View child = mLayoutInflater.inflate(R.layout.view_home_disaster, this, false);
 
-    private View createPetdisspecws(final FieldEntity.CurrentFieldEntity.Petdisspecws item) {
+		TextView desc = (TextView) child.findViewById(R.id.disaster_desc);
+		ImageView icon = (ImageView) child.findViewById(R.id.disaster_icon);
+		TextView name = (TextView) child.findViewById(R.id.disaster_name);
+		TextView type = (TextView) child.findViewById(R.id.disaster_type);
 
-        View child = mLayoutInflater.inflate(R.layout.view_home_disaster, this, false);
+		name.setText(item.petDisSpecName);
 
-        TextView desc = (TextView) child.findViewById(R.id.disaster_desc);
-        ImageView icon = (ImageView) child.findViewById(R.id.disaster_icon);
-        TextView name = (TextView) child.findViewById(R.id.disaster_name);
-        TextView type = (TextView) child.findViewById(R.id.disaster_type);
+		type.setBackgroundResource(mPetDisasterRes);
 
-        name.setText(item.petDisSpecName);
+		type.setText(getDisasterString(item.type) + "预警");
+		icon.setImageResource(getDisasterIcon(item.type));
 
-        type.setBackgroundResource(R.drawable.natdisaster_bg);
+		desc.setText(item.description);
+		child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.id, item.petDisSpecName));
+		child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.id, item.petDisSpecName));
+		child.setOnClickListener(new View.OnClickListener() {
 
+			@Override
+			public void onClick(View v) {
+				// DONE
+				// 友盟统计自定义统计事件
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("name", item.petDisSpecName);
+				MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialItem", map);
+				Intent intent = HarmDetialsActivity.createIntent(item.id, HarmDetialsActivity.FLAG_ITEM, getContext());
+				getContext().startActivity(intent);
 
-        type.setText("近期易发"+getDisasterString(item.type));
-        icon.setImageResource(getDisasterIcon(item.type));
+			}
 
-        desc.setText(item.sympton.replace("[为害症状]", ""));
+		});
+		return child;
 
-        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.id ,item.petDisSpecName));
-        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.id ,item.petDisSpecName));
-        child.setOnClickListener(new View.OnClickListener() {
+	}
 
-            @Override
-            public void onClick(View v) {
-            	
-            	//友盟统计自定义统计事件
-            	HashMap<String,String> map = new HashMap<String,String>();
-            	map.put("name",item.petDisSpecName);
-            	MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialItem",map);
+	private void addBottomView() {
+		ViewParent parent = mBottomView.getParent();
+		if (parent != null) {
+			ViewGroup container = (ViewGroup) parent;
+			container.removeView(mBottomView);
+		}
 
-                Intent intent = HarmDetialsActivity.createIntent(item.id, HarmDetialsActivity.FLAG_ITEM, getContext());
-                getContext().startActivity(intent);
+		this.addView(mBottomView, -1, mBottomLayoutParam);
+	}
 
-            }
+	@Override
+	protected void onDetachedFromWindow() {
+		super.onDetachedFromWindow();
 
+	}
 
-        });
-        return child;
+	class BottomClickListener implements View.OnClickListener {
+		@Override
+		public void onClick(View v) {
 
-    }
+			// 友盟统计自定义统计事件
+			MobclickAgent.onEvent(DisasterView.this.getContext(), "MoreHarm");
 
+			String cropName = SharedPreferencesHelper.getString(getContext(), Field.CROP_NAME, "水稻");
+			Intent intent = null;
+			if ("水稻".equals(cropName)) {
+				intent = new Intent(v.getContext(), HarmListActivity.class);
+			} else {
+				intent = new Intent(v.getContext(), EncyclopediasDiseaseActivity.class);
+			}
 
-    private void updatePetView(List<FieldEntity.CurrentFieldEntity.PetdiswsEntity> petdiswsEntities) {
-        View child;
-        if (petdiswsEntities != null && !petdiswsEntities.isEmpty()) {
-            for (FieldEntity.CurrentFieldEntity.PetdiswsEntity item : petdiswsEntities) {
-                child = createPetView(item);
-                this.addView(child);
-            }
-        }
+			intent.putExtra("cropName", cropName);
 
-    }
+			v.getContext().startActivity(intent);
+		}
+	}
 
-    private View createPetView(final FieldEntity.CurrentFieldEntity.PetdiswsEntity item) {
+	class PreVentClickListener implements View.OnClickListener {
 
-        View child = mLayoutInflater.inflate(R.layout.view_home_disaster, this, false);
+		private int id;
+		private String name;
 
-        TextView desc = (TextView) child.findViewById(R.id.disaster_desc);
-        ImageView icon = (ImageView) child.findViewById(R.id.disaster_icon);
-        TextView name = (TextView) child.findViewById(R.id.disaster_name);
-        TextView type = (TextView) child.findViewById(R.id.disaster_type);
+		public PreVentClickListener(int id, String petDisSpecName) {
+			this.id = id;
+			this.name = petDisSpecName;
+		}
 
-        name.setText(item.petDisSpecName);
+		@Override
+		public void onClick(View v) {
+			// 需要标明你是点击防治，预防，还是该条item跳进来的
 
-        type.setBackgroundResource(mPetDisasterRes);
+			// 友盟统计自定义统计事件
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("name", name);
+			MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialPrevent", map);
 
+			Intent intent = HarmDetialsActivity.createIntent(id, HarmDetialsActivity.FLAG_PREVENT, getContext());
+			v.getContext().startActivity(intent);
 
-        type.setText(getDisasterString(item.type) + "预警");
-        icon.setImageResource(getDisasterIcon(item.type));
-        
-        
-        desc.setText(item.description);
-        child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.id , item.petDisSpecName));
-        child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.id ,item.petDisSpecName));
-        child.setOnClickListener(new View.OnClickListener() {
+		}
+	}
 
-            @Override
-            public void onClick(View v) {
-                //DONE
-            	//友盟统计自定义统计事件
-            	HashMap<String,String> map = new HashMap<String,String>();
-            	map.put("name",item.petDisSpecName);
-            	MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialItem",map);
-                Intent intent = HarmDetialsActivity.createIntent(item.id, HarmDetialsActivity.FLAG_ITEM, getContext());
-                getContext().startActivity(intent);
+	class CureClickListener implements View.OnClickListener {
+		private int id;
+		private String name;
 
-            }
+		public CureClickListener(int id, String petDisSpecName) {
+			this.id = id;
+			this.name = petDisSpecName;
+		}
 
+		@Override
+		public void onClick(View v) {
 
-        });
-        return child;
+			// 友盟统计自定义统计事件
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("name", name);
+			MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialCure", map);
 
-    }
+			Intent intent = HarmDetialsActivity.createIntent(id, HarmDetialsActivity.FLAG_CURE, getContext());
+			v.getContext().startActivity(intent);
+		}
+	}
 
+	public String getDisasterString(String type) {
+		if (TextUtils.isEmpty(type)) {
+			return "病害";
+		}
+		if (type.contains("病害")) {
+			return "病害";
 
-    private void addBottomView() {
-        ViewParent parent = mBottomView.getParent();
-        if (parent != null) {
-            ViewGroup container = (ViewGroup) parent;
-            container.removeView(mBottomView);
-        }
+		} else if (type.contains("虫害")) {
+			return "虫害";
 
-        this.addView(mBottomView, -1, mBottomLayoutParam);
-    }
+		} else if (type.contains("草害")) {
 
+			return "草害";
+		} else {
+			return "病害";
+		}
+	}
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
+	public int getDisasterIcon(String type) {
+		if (TextUtils.isEmpty(type)) {
+			return R.drawable.weed;
+		}
+		if (type.contains("病害")) {
+			return R.drawable.binghai;
 
+		} else if (type.contains("虫害")) {
+			return R.drawable.pest;
 
-    }
+		} else if (type.contains("草害")) {
 
-
-    class BottomClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View v) {
-        	
-        	//友盟统计自定义统计事件
-        	MobclickAgent.onEvent(DisasterView.this.getContext(), "MoreHarm");
-        	
-            Intent intent = new Intent(v.getContext(), HarmListActivity.class);
-            v.getContext().startActivity(intent);
-        }
-    }
-
-    class PreVentClickListener implements View.OnClickListener {
-
-        private int id;
-        private String name;
-
-        public PreVentClickListener(int id , String petDisSpecName) {
-            this.id = id;
-            this.name = petDisSpecName;
-        }
-
-        @Override
-        public void onClick(View v) {
-            //需要标明你是点击防治，预防，还是该条item跳进来的
-        	
-        	//友盟统计自定义统计事件
-        	HashMap<String,String> map = new HashMap<String,String>();
-        	map.put("name",name);
-        	MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialPrevent",map);
-        	
-            Intent intent = HarmDetialsActivity.createIntent(id, HarmDetialsActivity.FLAG_PREVENT, getContext());
-            v.getContext().startActivity(intent);
-
-        }
-    }
-
-    class CureClickListener implements View.OnClickListener {
-        private int id;
-        private String name;
-
-        public CureClickListener(int id , String petDisSpecName) {
-            this.id = id;
-            this.name = petDisSpecName;
-        }
-
-        @Override
-        public void onClick(View v) {
-        	
-        	//友盟统计自定义统计事件
-        	HashMap<String,String> map = new HashMap<String,String>();
-        	map.put("name",name);
-        	MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialCure",map);
-
-            Intent intent = HarmDetialsActivity.createIntent(id, HarmDetialsActivity.FLAG_CURE, getContext());
-            v.getContext().startActivity(intent);
-        }
-    }
-
-
-    public String getDisasterString(String type) {
-     if(TextUtils.isEmpty(type)){
-         return "病害";
-     }
-        if (type.contains("病害")) {
-            return "病害";
-
-        } else if (type.contains("虫害")) {
-            return "虫害";
-
-        } else if (type.contains("草害")) {
-
-            return "草害";
-        } else {
-            return "病害";
-        }
-    }
-
-
-    public int getDisasterIcon(String type) {
-        if(TextUtils.isEmpty(type)){
-            return R.drawable.weed;
-        }
-        if (type.contains("病害")) {
-            return R.drawable.binghai;
-
-        } else if (type.contains("虫害")) {
-            return R.drawable.pest;
-
-        } else if (type.contains("草害")) {
-
-            return R.drawable.weed;
-        } else {
-            return R.drawable.naturaldis;
-        }
-    }
+			return R.drawable.weed;
+		} else {
+			return R.drawable.naturaldis;
+		}
+	}
 }
- 

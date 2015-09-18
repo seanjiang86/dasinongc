@@ -97,5 +97,7 @@ public final class RequestCode {
 	public static final int WEATHER_ISSUE = GET_STAGES + 1;
 	/** 提交推荐码接口 */
 	public static final int SETREF = WEATHER_ISSUE + 1;
+	/** 短信推荐接口 */
+	public static final int REFAPP = SETREF + 1;
 	
 }

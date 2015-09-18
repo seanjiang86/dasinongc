@@ -138,6 +138,9 @@
         <activity
             android:name=".ui.RecommendActivity"
             android:screenOrientation="portrait" />
+        <activity 
+            android:name=".ui.RecommendSMSActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.WebViewActivity"
             android:screenOrientation="portrait" />
