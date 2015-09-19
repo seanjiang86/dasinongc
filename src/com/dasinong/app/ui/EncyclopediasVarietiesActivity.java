@@ -64,6 +64,8 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 	private TextView mOverlay;
 	protected List<Crop> query;
 	private String varietyHarm;
+	private RelativeLayout rl_search_box;
+	private String title;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,9 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 		setContentView(R.layout.activity_varieties);
 		
 		varietyHarm = getIntent().getStringExtra(EncyclopediaFragment.TYPE);
+		
+		title = getIntent().getStringExtra("title");
+		title = title == null ? "品种大全" : title;
 		
 		initView();
 		setUpView();
@@ -133,6 +138,8 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 		mSecondList = (ListView) this.findViewById(R.id.listview_type_list_second);
 		mSearchView = (ImageView) this.findViewById(R.id.imageview_search);
 		mSearchEdit = (EditText) this.findViewById(R.id.edittext_search);
+		rl_search_box = (RelativeLayout) this.findViewById(R.id.rl_search_box);
+		
 		
 		letterView = (LetterView) findViewById(R.id.letterview);
 		letterView.setOnTouchingLetterChangedListener(new letterViewListener());
@@ -142,8 +149,12 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 
 	private void setUpView() {
 		
-		mTopbarView.setCenterText("品种大全");
+		mTopbarView.setCenterText(title);
 		mTopbarView.setLeftView(true, true);
+		
+		if(EncyclopediaFragment.DISEASE.equals(varietyHarm)){
+			rl_search_box.setVisibility(View.GONE);
+		}
 		
 		final VarietiesFirstListAdapter adapter = new VarietiesFirstListAdapter(this, null, false);
 		mFirstList.setAdapter(adapter);
@@ -169,7 +180,8 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 					intent.putExtra("type", crop.cropId+"");
 				} else {
 					intent.setClass(EncyclopediasVarietiesActivity.this,EncyclopediasDiseaseActivity.class);
-					intent.putExtra("type", crop.cropId+"");
+					intent.putExtra("cropId", crop.cropId+"");
+					intent.putExtra("cropName", crop.cropName);
 				}
 				startActivity(intent);
 			}

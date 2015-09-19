@@ -67,6 +67,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/tv_binghai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="病害"
@@ -120,6 +121,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/tv_chonghai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="虫害"
@@ -173,6 +175,7 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/tv_caohai"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="草害"

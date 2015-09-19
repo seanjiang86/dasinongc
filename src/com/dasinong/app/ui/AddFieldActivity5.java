@@ -37,7 +37,8 @@ import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.ui.view.ViewMiddle;
 import com.dasinong.app.ui.view.ViewThree;
 
-public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener {
+public class AddFieldActivity5 extends MyBaseActivity implements
+		OnClickListener {
 	private String varietyId;
 	private List<String> bigSubStageList;
 	private ArrayList<String> smallSubStageList;
@@ -56,15 +57,15 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	private String bigSubStage;
 	private String smallSubStage;
 	private String crop;
-	private Map<String,Map<String , Integer>> stagesMap = new LinkedHashMap<String, Map<String,Integer>>();
+	private Map<String, Map<String, Integer>> stagesMap = new LinkedHashMap<String, Map<String, Integer>>();
 
-	private Handler handler = new Handler(){
+	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
 			List<StageEntity> list = (List<StageEntity>) msg.obj;
 			convertData(list);
 		};
 	};
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -78,15 +79,17 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 		btn_sure_substage = (Button) findViewById(R.id.btn_sure_substage);
 		topbar = (TopbarView) findViewById(R.id.topbar);
 
-		varietyId = SharedPreferencesHelper.getString(this, Field.VARIETY_ID, "");
-		seedingMethod = SharedPreferencesHelper.getString(this, Field.SEEDING_METHOD, "");
+		varietyId = SharedPreferencesHelper.getString(this, Field.VARIETY_ID,
+				"");
+		seedingMethod = SharedPreferencesHelper.getString(this,
+				Field.SEEDING_METHOD, "");
 
 		viewMiddle = new ViewMiddle(this);
 		viewList.add(viewMiddle);
 		textList.add("请选择生长阶段");
 
 		etv.setValue(textList, viewList);
-		
+
 		queryStages();
 
 		initTopBar();
@@ -95,41 +98,42 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 		btn_sure_substage.setOnClickListener(this);
 	}
 
-
 	private void queryStages() {
-		RequestService.getInstance().getStages(this, varietyId, StagesEntity.class, new RequestListener() {
-			
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
-				if(resultData.isOk()){
-					StagesEntity entity = (StagesEntity) resultData;
-					Message msg = handler.obtainMessage();
-					msg.obj = entity.data;
-					handler.sendMessage(msg);
-				}
-			}
-			
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast("解析错误");
-			}
-		});
+		RequestService.getInstance().getStages(this, varietyId,
+				StagesEntity.class, new RequestListener() {
+
+					@Override
+					public void onSuccess(int requestCode, BaseEntity resultData) {
+						if (resultData.isOk()) {
+							StagesEntity entity = (StagesEntity) resultData;
+							Message msg = handler.obtainMessage();
+							msg.obj = entity.data;
+							handler.sendMessage(msg);
+						}
+					}
+
+					@Override
+					public void onFailed(int requestCode, Exception error,
+							String msg) {
+						showToast("解析错误");
+					}
+				});
 	}
-	
+
 	protected void convertData(List<StageEntity> list) {
-		
+
 		for (StageEntity stageEntity : list) {
-			if(stagesMap.keySet().contains(stageEntity.stageName)){
+			if (stagesMap.keySet().contains(stageEntity.stageName)) {
 				Map<String, Integer> map = stagesMap.get(stageEntity.stageName);
 				map.put(stageEntity.subStageName, stageEntity.subStageId);
 				stagesMap.put(stageEntity.stageName, map);
 			} else {
-				Map<String, Integer> map = new LinkedHashMap<String , Integer>();
+				Map<String, Integer> map = new LinkedHashMap<String, Integer>();
 				map.put(stageEntity.subStageName, stageEntity.subStageId);
 				stagesMap.put(stageEntity.stageName, map);
 			}
 		}
-		
+
 		initBigSubStage();
 	}
 
@@ -146,7 +150,8 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 				showToast("请完善作物生长阶段，或者选择我不知道");
 				return;
 			}
-			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, subStageId);
+			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID,
+					subStageId);
 			goToNext();
 			break;
 		}
@@ -161,16 +166,16 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	 * 填充大生长期
 	 */
 	protected void initBigSubStage() {
-		
+
 		bigSubStageList = new ArrayList<String>(stagesMap.keySet());
-		if(!"小麦".equals(crop)){
+		if (!"小麦".equals(crop)) {
 			bigSubStageList.remove("收获后");
 			if (AddFieldActivity8.DIRECT.equals(seedingMethod)) {
 				bigSubStageList.remove("移栽");
 				bigSubStageList.remove("返青期");
 			}
 		}
-		
+
 		viewMiddle.initBigAreaData(bigSubStageList, bigPosition);
 		viewMiddle.setOnBigAreaItemClickListener(new OnItemClickListener() {
 
@@ -185,8 +190,8 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 
 				bigPosition = position;
 
-//				querySmallSubStage(bigSubStage);
-				
+				// querySmallSubStage(bigSubStage);
+
 				initSmallSubStage(bigSubStage);
 			}
 		});
@@ -196,9 +201,10 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	 * 填充小生长期
 	 */
 	private void initSmallSubStage(final String bigSubStage) {
-		
-		smallSubStageList = new ArrayList<String>(stagesMap.get(bigSubStage).keySet());
-		
+
+		smallSubStageList = new ArrayList<String>(stagesMap.get(bigSubStage)
+				.keySet());
+
 		smallSubStageList.add(0, "我不确定");
 		viewMiddle.initSmallAreaData(smallSubStageList, smallPosition);
 		viewMiddle.setOnSmallAreaItemClickListener(new OnItemClickListener() {
@@ -212,7 +218,8 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 				if ("我不确定".equals(smallSubStage)) {
 					smallSubStage = smallSubStageList.get(1);
 				}
-				subStageId = String.valueOf(stagesMap.get(bigSubStage).get(smallSubStage));
+				subStageId = String.valueOf(stagesMap.get(bigSubStage).get(
+						smallSubStage));
 			}
 		});
 	}
@@ -226,7 +233,12 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	}
 
 	private void goToNext() {
-		Intent intent = new Intent(this, AddFieldActivity6.class);
+		Intent intent = null;
+		if ("芒果".equals(crop)) {
+			intent = new Intent(this, AddFieldActivity7.class);
+		} else {
+			intent = new Intent(this, AddFieldActivity6.class);
+		}
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
 		overridePendingTransition(0, 0);

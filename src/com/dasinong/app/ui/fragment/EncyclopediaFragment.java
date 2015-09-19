@@ -169,6 +169,7 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 		case R.id.layout_bingchongcaohai:
 			Intent diseaseIntent = new Intent(getActivity(),EncyclopediasVarietiesActivity.class);
 			diseaseIntent.putExtra(TYPE, DISEASE);
+			diseaseIntent.putExtra("title", "请选择作物");
 			getActivity().startActivity(diseaseIntent);
 //			showNotifyDialog();
 			break;

@@ -116,7 +116,7 @@ public class RecommendActivity extends BaseActivity implements OnClickListener {
 			}
 			break;
 		case R.id.tv_froget_code:
-			showToast("忘了如何找回？");
+			showToast("机构代码为四位数英文字母，如果遗失请联系公司项目负责人，不要随便填写其他公司的代码哦");
 			break;
 		case R.id.btn_sure_invitation_code:
 
