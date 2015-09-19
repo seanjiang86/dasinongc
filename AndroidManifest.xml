@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dasinong.app"
-    android:versionCode="28"
-    android:versionName="1.2.4-buidl6" >
+    android:versionCode="9"
+    android:versionName="1.2.3" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -250,12 +250,12 @@
         <!-- Umeng key -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="55b213b467e58edd11001c32" >
+            android:value="55a8807367e58eb9b3003e77" >
         </meta-data>
         <!-- Umeng Secret -->
         <meta-data
             android:name="UMENG_MESSAGE_SECRET"
-            android:value="be13c05801a87c73573993e15f4a8d7f" >
+            android:value="e7a156e7b03b945c065504dda5a4737e" >
         </meta-data>
         <!-- Umeng channel -->
         <meta-data
