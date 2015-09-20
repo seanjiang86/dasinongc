@@ -124,9 +124,9 @@ android {
     signingConfigs {
         myConfig {
             storeFile file("DasinongApkKey")     //签名文件
-            storePassword "dasinong"
+            storePassword System.console().readLine("\nKeystore password: ")
             keyAlias "dasinongkey"
-            keyPassword "dasinong" //签名密码
+            keyPassword System.console().readLine("\nKey password: ") //签名密码
         }
     }
     buildTypes{
