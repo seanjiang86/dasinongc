@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
@@ -131,12 +132,15 @@ public class SplashActivity extends BaseActivity {
 		logKey = TextUtils.isEmpty(weixinToken) ? weixinToken : "";
 
 		if (!TextUtils.isEmpty(phone)) {
-			RequestService.getInstance().authcodeLoginReg(this, phone, "",BaseEntity.class, new RequestListener() {
+			RequestService.getInstance().authcodeLoginReg(this, phone, "",LoginRegEntity.class, new RequestListener() {
 
 				@Override
 				public void onSuccess(int requestCode, BaseEntity resultData) {
+					if(resultData.isOk()){
+						LoginRegEntity entity = (LoginRegEntity) resultData;
+						SharedPreferencesHelper.setString(SplashActivity.this, Field.REFCODE, entity.getData().getRefcode());
+					}
 				}
-
 				@Override
 				public void onFailed(int requestCode, Exception error, String msg) {
 				}
