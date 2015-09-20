@@ -201,6 +201,11 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 				if (entity.currentField != null && !entity.currentField.stagelist.isEmpty()) {
 					Collections.sort(entity.currentField.stagelist);
 				}
+				
+				if(entity != null && !entity.currentField.taskws.isEmpty()){
+					Collections.sort(entity.currentField.taskws);
+				}
+				
 				if (entity.currentField != null) {
 
 					mDisasterView.updateView(entity.currentField.petdisspecws, entity.currentField.petdisws);

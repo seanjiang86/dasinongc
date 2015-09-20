@@ -116,7 +116,7 @@ public class FieldEntity extends BaseResponse {
 
 		}
 
-		public class TaskwsEntity {
+		public class TaskwsEntity implements Comparable<TaskwsEntity>{
 
 			public boolean taskStatus;// 状态
 			public int fieldId;
@@ -126,6 +126,14 @@ public class FieldEntity extends BaseResponse {
 			public String taskSpecName;// desc
 			public String stageName;
 			public String subStageName;
+			@Override
+			public int compareTo(TaskwsEntity another) {
+				if (taskSpecId < another.taskSpecId)
+					return -1;
+				if (taskSpecId > another.taskSpecId)
+					return 1;
+				return 0;
+			}
 
 		}
 
