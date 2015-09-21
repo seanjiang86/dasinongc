@@ -1,5 +1,6 @@
 package com.dasinong.app.ui;
 
+import android.accounts.Account;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.utils.AppInfoUtils;
@@ -36,11 +38,13 @@ public class SplashActivity extends BaseActivity {
 		tv_version = (TextView) findViewById(R.id.tv_version);
 		splash_iv = (ImageView) findViewById(R.id.splash_iv);
 		
+		autoLogin();
 		
 		String channelCode = AppInfoUtils.getChannelCode(this);
 		String versionName = AppInfoUtils.getVersionName(this);
+		String channel = SharedPreferencesHelper.getString(this, Field.CHANNEL, "");
 		
-		if(!TextUtils.isEmpty(channelCode) && "TaoShi".equals(channelCode)){
+		if((!TextUtils.isEmpty(channelCode) && "TaoShi".equals(channelCode)) || (!TextUtils.isEmpty(channel) && "陶氏".endsWith(channel))){
 			splash_iv.setImageResource(R.drawable.splash_image_taoshi);
 			setUserTag("陶氏");
 		} else {
@@ -54,8 +58,7 @@ public class SplashActivity extends BaseActivity {
 			tv_version.setVisibility(View.GONE);
 		}
 
-		autoLogin();
-
+		
 		// 发送一个延时的消息
 		new Handler() {
 			public void handleMessage(android.os.Message msg) {
@@ -138,7 +141,7 @@ public class SplashActivity extends BaseActivity {
 				public void onSuccess(int requestCode, BaseEntity resultData) {
 					if(resultData.isOk()){
 						LoginRegEntity entity = (LoginRegEntity) resultData;
-						SharedPreferencesHelper.setString(SplashActivity.this, Field.REFCODE, entity.getData().getRefcode());
+						AccountManager.saveAccount(SplashActivity.this, entity.getData());
 					}
 				}
 				@Override
@@ -150,6 +153,10 @@ public class SplashActivity extends BaseActivity {
 
 				@Override
 				public void onSuccess(int requestCode, BaseEntity resultData) {
+					if(resultData.isOk()){
+						LoginRegEntity entity = (LoginRegEntity) resultData;
+						AccountManager.saveAccount(SplashActivity.this, entity.getData());
+					}
 				}
 
 				@Override
@@ -161,12 +168,14 @@ public class SplashActivity extends BaseActivity {
 				
 				@Override
 				public void onSuccess(int requestCode, BaseEntity resultData) {
-					
+					if(resultData.isOk()){
+						LoginRegEntity entity = (LoginRegEntity) resultData;
+						AccountManager.saveAccount(SplashActivity.this, entity.getData());
+					}
 				}
 				
 				@Override
 				public void onFailed(int requestCode, Exception error, String msg) {
-					
 				}
 			});
 		}

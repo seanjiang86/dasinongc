@@ -57,8 +57,11 @@ public class BannerView extends ViewPager {
 				View adBanner = View.inflate(context, R.layout.view_home_banner_ad, null);
 				ImageView adImage = (ImageView) adBanner.findViewById(R.id.banner_ad_img);
 				if (!TextUtils.isEmpty(itemEntity.picName)) {
-					LoadUtils.getInstance().loadImage(adImage, "http://" + itemEntity.picName);
-//					LoadUtils.getInstance().loadImage(adImage, "http://chuantu.biz/t2/13/1442571866x-954498374.png");
+					if(itemEntity.picName.startsWith("http://")){
+						LoadUtils.getInstance().loadImage(adImage, itemEntity.picName);
+					} else {
+						LoadUtils.getInstance().loadImage(adImage, "http://" + itemEntity.picName);
+					}
 				}
 
 				viewList.add(adBanner);

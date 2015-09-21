@@ -1,7 +1,5 @@
 package com.dasinong.app.entity;
 
-import com.dasinong.app.ui.BaseActivity;
-
 public class LoginRegEntity extends BaseEntity {
 
 	private User data;
@@ -13,5 +11,4 @@ public class LoginRegEntity extends BaseEntity {
 	public void setData(User data) {
 		this.data = data;
 	}
-
 }
