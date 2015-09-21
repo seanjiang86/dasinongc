@@ -41,6 +41,7 @@ public final class SharedPreferencesHelper {
         REFCODE,
         REFUID,
         CURRENT_VILLAGE_ID,
+        CHANNEL,
     }
 
     ;
