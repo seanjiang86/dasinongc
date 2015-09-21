@@ -20,10 +20,9 @@
         <ImageView
             android:id="@+id/banner_ad_img"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:minHeight="96dp"
+            android:layout_height="96dp"
             android:scaleType="fitXY"
-            android:src="@drawable/closeeyesmile" />
+            android:src="@drawable/transparent_pic" />
     </LinearLayout>
 
     <View
