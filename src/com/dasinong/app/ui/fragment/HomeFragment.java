@@ -11,12 +11,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.android.volley.Request;
 import com.dasinong.app.BuildConfig;
@@ -110,6 +113,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 	private String mAddress = "";
 	private String msg;
+	private LinearLayout ll_view_group;
+	private ImageView[] imageViews;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -132,7 +137,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			if (parent != null) {
 
 				parent.removeView(mRoot);
-				
+
 			}
 
 			return mRoot;
@@ -162,6 +167,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 		mDisasterView = (DisasterView) mRoot.findViewById(R.id.home_disaster);
 
 		mBannerView = (BannerView) mRoot.findViewById(R.id.home_banner);
+
+		ll_view_group = (LinearLayout) mRoot.findViewById(R.id.ll_view_group);
 	}
 
 	private void initEvent() {
@@ -201,16 +208,16 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 				if (entity.currentField != null && !entity.currentField.stagelist.isEmpty()) {
 					Collections.sort(entity.currentField.stagelist);
 				}
-				
-				if (entity.currentField != null && !entity.currentField.taskws.isEmpty()){
+
+				if (entity.currentField != null && !entity.currentField.taskws.isEmpty()) {
 					Collections.sort(entity.currentField.taskws);
 				}
-				
+
 				if (entity.currentField != null) {
 
 					mDisasterView.updateView(entity.currentField.petdisspecws, entity.currentField.petdisws);
 					SharedPreferencesHelper.setString(this.getActivity(), Field.CROP_NAME, entity.currentField.cropName);
-					SharedPreferencesHelper.setString(this.getActivity(), Field.CURRENT_VILLAGE_ID, entity.currentField.varietyId+"");
+					SharedPreferencesHelper.setString(this.getActivity(), Field.CURRENT_VILLAGE_ID, entity.currentField.varietyId + "");
 				} else {
 					mDisasterView.updateView(null, null);
 				}
@@ -296,7 +303,16 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 				// itemEntity2.picUrl="http://img1.imgtn.bdimg.com/it/u=4290945281,3620528886&fm=21&gp=0.jpg";
 				// banner.newdata.add(itemEntity2);
 
+				if (banner.newdata != null && banner.newdata.size() > 1) {
+					Collections.sort(banner.newdata);
+					initPoint(banner.newdata);
+				} else if (banner.newdata == null || banner.newdata.isEmpty()) {
+					mBannerView.setVisibility(View.GONE);
+				}
+
 				mBannerView.initView(banner);
+
+				mBannerView.setOnPageChangeListener(new MyOnPageChangeListener());
 
 			}
 			isBannerSuccess = true;
@@ -322,6 +338,34 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 	}
 
+	private void initPoint(List<ItemEntity> newdata) {
+		imageViews = new ImageView[newdata.size()];
+		
+		if(ll_view_group.getChildCount() > 0){
+			ll_view_group.removeAllViews();
+		}
+		
+		for (int i = 0; i < imageViews.length; i++) {
+			ImageView imageView = new ImageView(getActivity());
+
+			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(20, 20);
+			params.setMargins(10, 0, 10, 0);
+
+			imageView.setLayoutParams(params);
+			imageView.setPadding(30, 0, 30, 0);
+
+			imageViews[i] = imageView;
+
+			if (i == 0) {
+				imageViews[i].setBackgroundResource(R.drawable.page_indicator_focused);
+			} else {
+				imageViews[i].setBackgroundResource(R.drawable.page_indicator);
+			}
+			
+			ll_view_group.addView(imageView);
+		}
+	}
+
 	private void checkData(WeatherEntity entity) {
 		int hourCount = 0;
 		StringBuilder hourSb = new StringBuilder();
@@ -329,7 +373,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			return;
 		}
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if(entity.n12h != null){
+		if (entity.n12h != null) {
 			for (int i = 0; i < entity.n12h.size(); i++) {
 				if (entity.n12h.get(i) == null) {
 					hourSb.append(i);
@@ -355,8 +399,8 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 		int dayCount = 0;
 		StringBuilder daySb = new StringBuilder();
-		
-		if(entity.n7d != null){
+
+		if (entity.n7d != null) {
 			for (int i = 0; i < entity.n7d.size(); i++) {
 				if (entity.n7d.get(i) == null) {
 					daySb.append(i);
@@ -370,7 +414,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			msg = "当前时间为" + currentDate + ",这是7天数据错误,七天数据为空";
 			sendErrorMsg(mMotionId, msg);
 		}
-		
+
 		if (dayCount > 1) {
 			Date date = new Date();
 			String currentDate = simpleDateFormat.format(date);
@@ -661,7 +705,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			bannerParam.lat = lat;
 			bannerParam.lon = lon;
 			bannerParam.monitorLocationId = String.valueOf(mMotionId);
-			
 
 			loadFieldData(param);
 			loadWeatherData(weatherParam);
@@ -677,6 +720,30 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 		if (resultCode == Activity.RESULT_OK && requestCode == 101) {
 			loadFieldData(param);
+		}
+	}
+
+	class MyOnPageChangeListener implements OnPageChangeListener {
+
+		@Override
+		public void onPageScrollStateChanged(int arg0) {
+
+		}
+
+		@Override
+		public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+		}
+
+		@Override
+		public void onPageSelected(int arg0) {
+			for (int i = 0; i < imageViews.length; i++) {
+				if (i == arg0) {
+					imageViews[i].setBackgroundResource(R.drawable.page_indicator_focused);
+				} else {
+					imageViews[i].setBackgroundResource(R.drawable.page_indicator);
+				}
+			}
 		}
 	}
 }

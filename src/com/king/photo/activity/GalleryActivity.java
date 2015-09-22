@@ -20,7 +20,7 @@ import com.dasinong.app.ui.BaseActivity;
 import com.dasinong.app.ui.ReportHarmActivity;
 import com.king.photo.zoom.PhotoView;
 import com.king.photo.zoom.ViewPagerFixed;
-import com.liam.imageload.LoadUtils;
+import com.lidroid.xutils.BitmapUtils;
 
 /**
  * 这个是用于进行图片浏览时的界面
@@ -104,7 +104,9 @@ public class GalleryActivity extends BaseActivity {
 			listViews = new ArrayList<View>();
 		PhotoView img = new PhotoView(this);
 		img.setBackgroundColor(0xff000000);
-		LoadUtils.getInstance().loadImage(img, "file:///" + path);
+		BitmapUtils bitmapUtils = new BitmapUtils(this);
+		bitmapUtils.display(img, "file:///" + path);
+//		LoadUtils.getInstance().loadImage(img, "file:///" + path);
 		img.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 		listViews.add(img);
 	}

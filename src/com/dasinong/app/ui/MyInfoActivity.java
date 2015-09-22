@@ -23,11 +23,7 @@ import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.GraphicUtils;
 import com.dasinong.app.utils.Logger;
 import com.dasinong.app.utils.PhotoUtils;
-import com.liam.imageload.DisplayImageOptions;
-import com.liam.imageload.LoadUtils;
-import com.liam.imageload.CacheConsts.ImageShowType;
-import com.liam.imageload.DisplayImageOptions.Builder;
-import com.liam.imageload.LoadUtils.LoadImageListener;
+import com.lidroid.xutils.BitmapUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
@@ -123,7 +119,9 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 	protected void updateUi(LoginRegEntity entity) {
 		User user = entity.getData();
 		if (user != null) {
-
+			
+			BitmapUtils bitmapUtils = new BitmapUtils(this);
+			
 			if (user.getPictureId().startsWith("qqapp")) {
 				String url = null;
 				try {
@@ -132,7 +130,8 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 					e.printStackTrace();
 				}
 				url = "http://q.qlogo.cn/" + url;
-				LoadUtils.getInstance().loadImage(mHeadviewImage, url);
+				bitmapUtils.display(mHeadviewImage, url);
+//				LoadUtils.getInstance().loadImage(mHeadviewImage, url);
 			} else if (user.getPictureId().startsWith("mmopen")) {
 				String url = null;
 				try {
@@ -141,10 +140,11 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 					e.printStackTrace();
 				}
 				url = "http://wx.qlogo.cn/" + url;
-				
-				LoadUtils.getInstance().loadImage(mHeadviewImage, url);
+				bitmapUtils.display(mHeadviewImage, url);
+//				LoadUtils.getInstance().loadImage(mHeadviewImage, url);
 			} else {
-				LoadUtils.getInstance().loadImage(mHeadviewImage, NetConfig.IMAGE_URL + user.getPictureId());
+//				LoadUtils.getInstance().loadImage(mHeadviewImage, NetConfig.IMAGE_URL + user.getPictureId());
+				bitmapUtils.display(mHeadviewImage, NetConfig.IMAGE_URL + user.getPictureId());
 			}
 			
 			if(TextUtils.isEmpty(user.getCellPhone())){

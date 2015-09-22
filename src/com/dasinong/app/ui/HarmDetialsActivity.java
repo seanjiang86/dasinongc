@@ -47,7 +47,7 @@ import com.dasinong.app.ui.fragment.HarmFragment;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.GraphicUtils;
-import com.liam.imageload.LoadUtils;
+import com.lidroid.xutils.BitmapUtils;
 
 /**
  * @author Ming 此类为显示病虫草害详情的页面
@@ -92,11 +92,13 @@ public class HarmDetialsActivity extends BaseActivity {
 	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
 			HarmDetialEntity detial = (HarmDetialEntity) msg.obj;
-			for (Solutions solution : detial.data.petSolutions) {
-				if (solution.isRemedy) {
-					petSoluList.add(solution);
-				} else {
-					petPreventList.add(solution);
+			if(detial.data.petSolutions != null && !detial.data.petSolutions.isEmpty()){
+				for (Solutions solution : detial.data.petSolutions) {
+					if (solution.isRemedy) {
+						petSoluList.add(solution);
+					} else {
+						petPreventList.add(solution);
+					}
 				}
 			}
 			dataList.addAll(petSoluList);
@@ -264,7 +266,9 @@ public class HarmDetialsActivity extends BaseActivity {
 			path = detial.data.petDisSpec.imagePath;
 		}
 
-		LoadUtils.getInstance().loadImage(iv_pic, NetConfig.PET_IMAGE + path);
+//		LoadUtils.getInstance().loadImage(iv_pic, NetConfig.PET_IMAGE + path);
+		BitmapUtils bitmapUtils = new BitmapUtils(this);
+		bitmapUtils.display(iv_pic, NetConfig.PET_IMAGE + path);
 
 		rl_rb.setOnClickListener(new OnClickListener() {
 

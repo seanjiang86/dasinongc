@@ -16,7 +16,7 @@ import com.dasinong.app.ui.MyInfoActivity;
 import com.dasinong.app.ui.RegisterPhoneActivity;
 import com.dasinong.app.ui.RegisterServiceActivity;
 import com.dasinong.app.ui.manager.AccountManager;
-import com.liam.imageload.LoadUtils;
+import com.lidroid.xutils.BitmapUtils;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -66,7 +66,9 @@ public class TaskDetailsAdapter extends MyBaseAdapter<Steps> {
 		if (TextUtils.isEmpty(item.picture)) {
 			holder.stepImage.setVisibility(View.GONE);
 		} else {
-			LoadUtils.getInstance().loadImage(holder.stepImage, "http://120.26.208.198:8080/nongshi/" + item.picture + ".jpg");
+//			LoadUtils.getInstance().loadImage(holder.stepImage, "http://120.26.208.198:8080/nongshi/" + item.picture + ".jpg");
+			BitmapUtils bitmapUtils = new BitmapUtils(context);
+			bitmapUtils.display(holder.stepImage, "http://120.26.208.198:8080/nongshi/" + item.picture + ".jpg");
 		}
 
 		holder.nameText.setText(item.stepName);

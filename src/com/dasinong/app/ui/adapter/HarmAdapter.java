@@ -12,12 +12,15 @@ import com.dasinong.app.R;
 import com.dasinong.app.database.disaster.domain.NatDisspec;
 import com.dasinong.app.database.disaster.domain.PetDisspec;
 import com.dasinong.app.net.NetConfig;
-import com.liam.imageload.LoadUtils;
+import com.lidroid.xutils.BitmapUtils;
 
 public class HarmAdapter<T> extends MyBaseAdapter<T> {
 
+	private BitmapUtils bitmapUtils;
+
 	public HarmAdapter(Context ctx, List<T> list, boolean flag) {
 		super(ctx, list, flag);
+		bitmapUtils = new BitmapUtils(context);
 	}
 
 	@Override
@@ -42,7 +45,10 @@ public class HarmAdapter<T> extends MyBaseAdapter<T> {
 			path = pet.pictureIds;
 		}
 		// TODO Ming 设置合适的默认图片
-		LoadUtils.getInstance().loadImage(holder.iv_harm_pic, NetConfig.PET_IMAGE+path,R.drawable.test_pic);
+//		LoadUtils.getInstance().loadImage(holder.iv_harm_pic, NetConfig.PET_IMAGE+path,R.drawable.test_pic);
+		
+		bitmapUtils.display(holder.iv_harm_pic, NetConfig.PET_IMAGE+path);
+		
 		holder.tv_harm_name.setText(pet.petDisSpecName);
 		holder.tv_harm_des.setText(pet.sympthon.replace("[为害症状]", ""));
 

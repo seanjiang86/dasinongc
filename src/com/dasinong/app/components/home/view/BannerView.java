@@ -19,7 +19,7 @@ import com.dasinong.app.components.domain.BannerEntity;
 import com.dasinong.app.components.domain.BannerEntity.ItemEntity;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.ui.WebBrowserActivity;
-import com.liam.imageload.LoadUtils;
+import com.lidroid.xutils.BitmapUtils;
 
 public class BannerView extends ViewPager {
 
@@ -56,11 +56,15 @@ public class BannerView extends ViewPager {
 			case 1:
 				View adBanner = View.inflate(context, R.layout.view_home_banner_ad, null);
 				ImageView adImage = (ImageView) adBanner.findViewById(R.id.banner_ad_img);
+				BitmapUtils bitmapUtils = new BitmapUtils(context);
+				
 				if (!TextUtils.isEmpty(itemEntity.picName)) {
 					if(itemEntity.picName.startsWith("http://")){
-						LoadUtils.getInstance().loadImage(adImage, itemEntity.picName);
+//						LoadUtils.getInstance().loadImage(adImage, itemEntity.picName);
+						bitmapUtils.display(adImage, itemEntity.picName);
 					} else {
-						LoadUtils.getInstance().loadImage(adImage, "http://" + itemEntity.picName);
+//						LoadUtils.getInstance().loadImage(adImage, "http://" + itemEntity.picName);
+						bitmapUtils.display(adImage, "http://" + itemEntity.picName);
 					}
 				}
 

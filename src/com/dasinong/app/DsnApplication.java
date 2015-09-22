@@ -14,7 +14,6 @@ import com.dasinong.app.components.net.VolleyManager;
 import com.dasinong.app.ui.WebBrowserActivity;
 import com.dasinong.app.ui.manager.CrashHandler;
 import com.dasinong.app.utils.Logger;
-import com.liam.imageload.LoadUtils;
 import com.umeng.message.PushAgent;
 import com.umeng.message.UmengNotificationClickHandler;
 import com.umeng.message.entity.UMessage;
@@ -28,7 +27,7 @@ public class DsnApplication extends Application {
 		mContext = DsnApplication.this;
 		VolleyManager.getInstance().init(this);
 		initExceptionCrash();
-		LoadUtils.init(getContext());
+//		LoadUtils.init(getContext());
 		
 		umengMsgCustomAction();
 	}

@@ -44,7 +44,7 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
 import com.king.photo.activity.GalleryActivity;
-import com.liam.imageload.LoadUtils;
+import com.lidroid.xutils.BitmapUtils;
 
 public class ReportHarmActivity extends BaseActivity {
 
@@ -400,7 +400,9 @@ public class ReportHarmActivity extends BaseActivity {
 			}
 
 			if (paths.size() > 0) {
-				LoadUtils.getInstance().loadImage(holder.image, "file:///" + paths.get(position));
+//				LoadUtils.getInstance().loadImage(holder.image, "file:///" + paths.get(position));
+				BitmapUtils bitmapUtils = new BitmapUtils(ReportHarmActivity.this);
+				bitmapUtils.display(holder.image, "file:///" + paths.get(position));
 			}
 			return convertView;
 		}
