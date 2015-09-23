@@ -11,7 +11,7 @@ public class BannerEntity extends BaseResponse {
 
 	public List<ItemEntity> newdata;
 
-	public class ItemEntity implements Comparable<ItemEntity> {
+	public static class ItemEntity implements Comparable<ItemEntity> {
 		/**
 		 * content : 高考成绩不理想真无所谓，你奋斗过，努力过，拼搏过，就不必太在乎结果。考的分低，
 		 * 不说明你蠢，但为此离家出走、自残自杀，就是蠢了。高考，只是一段分数、一个大学而已，

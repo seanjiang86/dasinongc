@@ -84,6 +84,9 @@ public class TextAdapter extends ArrayAdapter<String> {
 	public void setSelectedPositionNoNotify(int pos) {
 		selectedPos = pos;
 		if (mListData != null && pos < mListData.size()) {
+			if(pos == -1){
+				pos = 0;
+			}
 			selectedText = mListData.get(pos);
 		} else if (mArrayData != null && pos < mArrayData.length) {
 			selectedText = mArrayData[pos];

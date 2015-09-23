@@ -38,23 +38,23 @@
 
     <!-- 创建桌面快捷方式权限 -->
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-	
+
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
-    
+
     <!-- Umeng推送权限 -->
     <!-- 必选 -->
-	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-	<!-- 可选 -->
-	<uses-permission android:name="android.permission.BROADCAST_PACKAGE_ADDED" />
-	<uses-permission android:name="android.permission.BROADCAST_PACKAGE_CHANGED" />
-	<uses-permission android:name="android.permission.BROADCAST_PACKAGE_INSTALL" />
-	<uses-permission android:name="android.permission.BROADCAST_PACKAGE_REPLACED" />
-	<uses-permission android:name="android.permission.RESTART_PACKAGES" />
-	<uses-permission android:name="android.permission.GET_ACCOUNTS" />;
-
+    <!-- 可选 -->
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_ADDED" />
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_CHANGED" />
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_INSTALL" />
+    <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REPLACED" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+;
     <application
         android:name=".DsnApplication"
         android:allowBackup="true"
@@ -74,7 +74,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <!--
         <activity
             android:name="com.dasinong.app.ui.MainTabActivity"
@@ -82,8 +82,9 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateHidden" 
             android:theme="@android:style/Theme.NoTitleBar" >
-        </activity>        -->
-        
+        </activity>
+        -->
+
         <activity
             android:name=".ui.MainTabActivity"
             android:launchMode="singleTask"
@@ -138,9 +139,13 @@
         <activity
             android:name=".ui.RecommendActivity"
             android:screenOrientation="portrait" />
-        <activity 
+        <activity
             android:name=".ui.RecommendSMSActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.NotFarmWorkActivity"
+            android:screenOrientation="portrait" >
+        </activity>
         <activity
             android:name=".ui.WebViewActivity"
             android:screenOrientation="portrait" />
@@ -366,7 +371,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <!-- Umeng消息推送 -->
         <!-- 监听通知点击或者忽略处理的广播 -->
         <receiver
@@ -481,7 +486,6 @@
 
         <!-- V1.3.0添加的service，负责下载通知的资源 -->
         <service android:name="com.umeng.message.UmengDownloadResourceService" />
-
     </application>
 
 </manifest>

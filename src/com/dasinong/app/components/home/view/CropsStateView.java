@@ -13,8 +13,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dasinong.app.BuildConfig;
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.components.domain.FieldEntity.CurrentFieldEntity.SubStageEntity;
@@ -27,6 +29,7 @@ import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.database.task.domain.TaskSpec;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.AddFieldActivity1;
+import com.dasinong.app.ui.NotFarmWorkActivity;
 import com.dasinong.app.ui.TaskDetailsActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
@@ -45,7 +48,9 @@ import java.util.Map;
  * 首页--上部绿色背景View Created by lnn on 15/6/2.
  */
 public class CropsStateView extends LinearLayout implements View.OnClickListener {
-
+	
+	public static final String FARMWORK = "farmwork";
+	public static final String PESTICIDE = "pesticide";
 	private LinearLayout campaignView;// 添加农作物活动的View
 	private CropsGroupUpView fieldStateView;// 成长状态
 	private View addFieldView;
@@ -57,7 +62,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 	private String[] weeks;
 	// 农活内容点击事件
 	private MyOnAddFieldClickListener onAddFieldClickListener;
-	
+
 	private List<SubStageEntity> mSubStageLists;
 
 	private SubStageEntity mCurrentSubStage;
@@ -84,7 +89,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 	private View mNoLogin;
 	private View mImageAddField;
 	private TextView dayToHarvest;
-	
 
 	public CropsStateView(Context context) {
 		super(context);
@@ -114,9 +118,12 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 		campaignView = (LinearLayout) rootView.findViewById(R.id.campaign);
 		mTaskTitle = findViewById(R.id.task_title);
 		dayToHarvest = (TextView) rootView.findViewById(R.id.day_to_harvest);
-		
+
 		mFieldNameView.setOnClickListener(this);
 		addFieldView.setOnClickListener(this);
+		leftStateView.setOnClickListener(this);
+		rightStateView.setOnClickListener(this);
+
 		fieldStateView.setOnAddCropClickListener(new CropsGroupUpView.MyAddCropOnClickListener() {
 
 			@Override
@@ -130,13 +137,13 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 			public void onArrowViewClick(int position) {
 				mCurrentSubStage = mSubStageLists.get(position);
 				mCurrentTaskSpec = getTaskBySubStageId(mCurrentSubStage.subStageId);
-				
-//				if(mCurrentTaskSpec != null){
-//					System.out.println("切换周期 size " + mCurrentTaskSpec.size());
-//				} else {
-//					System.out.println("这里得到的mCurrentTaskSpec 为空");
-//				}
-				
+
+				// if(mCurrentTaskSpec != null){
+				// System.out.println("切换周期 size " + mCurrentTaskSpec.size());
+				// } else {
+				// System.out.println("这里得到的mCurrentTaskSpec 为空");
+				// }
+
 				updateTask();
 
 				if (onAddFieldClickListener != null) {
@@ -144,22 +151,21 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 				}
 			}
 		});
-		
+
 		fieldStateView.setOnStageChangeListener(new MyStageChangeListener() {
-			
+
 			@Override
 			public void onchange(int day) {
-				if(day == 0){
+				if (day == 0) {
 					dayToHarvest.setVisibility(View.GONE);
 				} else {
 					dayToHarvest.setVisibility(View.VISIBLE);
-					dayToHarvest.setText("距离收获还有"+day+"天");
+					dayToHarvest.setText("距离收获还有" + day + "天");
 				}
 			}
 		});
 
 	}
-
 
 	/**
 	 * 添加田地，农作物，活动内容等监听事件
@@ -177,11 +183,11 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 	 * @param entity
 	 */
 	public void updateView(FieldEntity entity, String defaultLocation) {
-		
-//		System.out.println("更换田地   +  updateView");
-		
-//		这里可以拿到当前田地的所有数据
-		
+
+		// System.out.println("更换田地   +  updateView");
+
+		// 这里可以拿到当前田地的所有数据
+
 		initFieldName();
 		initTask();
 		if (null == entity) {
@@ -224,12 +230,14 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 			if (mCurrentSubStage != null) {
 				mCurrentTaskSpec = getTaskBySubStageId(mCurrentSubStage.subStageId);
-				
-//				System.out.println("updateView id" + mCurrentSubStage.subStageId); 
-//				System.out.println("updateView size " + mCurrentTaskSpec.size());
-				
+
+				// System.out.println("updateView id" +
+				// mCurrentSubStage.subStageId);
+				// System.out.println("updateView size " +
+				// mCurrentTaskSpec.size());
+
 			} else {
-				if(mCurrentTaskSpec != null){
+				if (mCurrentTaskSpec != null) {
 					mCurrentTaskSpec.clear();
 				}
 			}
@@ -246,10 +254,10 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 			}
 
 		}
-		
-		if(entity.currentField != null && entity.currentField.dayToHarvest != 0){
+
+		if (entity.currentField != null && entity.currentField.dayToHarvest != 0) {
 			dayToHarvest.setVisibility(View.VISIBLE);
-			dayToHarvest.setText("距离收获还有"+entity.currentField.dayToHarvest+"天");
+			dayToHarvest.setText("距离收获还有" + entity.currentField.dayToHarvest + "天");
 		} else {
 			dayToHarvest.setVisibility(View.GONE);
 		}
@@ -285,18 +293,19 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 		}
 
 		// DONE 状态
-//		mCurrentSubStage = getCurrentStage(currentFieldEntity.currentStageID);
-		
+		// mCurrentSubStage =
+		// getCurrentStage(currentFieldEntity.currentStageID);
+
 		mCurrentSubStage = new SubStageEntity();
 		mCurrentSubStage.subStageId = currentFieldEntity.currentStageID;
 
 		if (currentFieldEntity.currentStageID == 0 || currentFieldEntity.currentStageID == 10) {
 			mCurrentSubStage = null;
 		}
-		
+
 		// 这里获取到当前生长周期的对象
-		
-//		mSubStageLists = getSubStages();
+
+		// mSubStageLists = getSubStages();
 		mSubStageLists = currentFieldEntity.stagelist;
 		int size = mSubStageLists.size();
 
@@ -330,40 +339,41 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 	}
 
 	private void convertTask(List<FieldEntity.CurrentFieldEntity.TaskwsEntity> taskws) {
-		
-//		System.out.println("更换田地 + convertTask");
-		
+
+		// System.out.println("更换田地 + convertTask");
+
 		if (mCurrentSubStage == null) {
 			return;
 		}
-		
-//		List<TaskStatus> taskSpecs = mAllTasks.get(mCurrentSubStage.subStageId, null);
-//
-//		if (taskSpecs != null && !taskSpecs.isEmpty() ) {
-//			System.out.println("我已经停止");
-//			return;
-//		}
+
+		// List<TaskStatus> taskSpecs =
+		// mAllTasks.get(mCurrentSubStage.subStageId, null);
+		//
+		// if (taskSpecs != null && !taskSpecs.isEmpty() ) {
+		// System.out.println("我已经停止");
+		// return;
+		// }
 
 		mAllTasks.clear();
-		
-//		System.out.println("这是从网络获取的任务的长度  " + taskws.size());
-		
+
+		// System.out.println("这是从网络获取的任务的长度  " + taskws.size());
+
 		for (FieldEntity.CurrentFieldEntity.TaskwsEntity entity : taskws) {
-//			TaskStatus taskStatus = new TaskStatus();
-//			taskStatus.subStageId = entity.subStageId;
-//			taskStatus.taskSpecId = entity.taskSpecId;
-//			taskStatus.taskSpecName = entity.taskSpecName;
-//			taskStatus.isCheck = entity.taskStatus;
-//			taskSpecs = mAllTasks.get(entity.subStageId);
-//			if (taskSpecs == null) {
-//				taskSpecs = new ArrayList<>();
-//			}
-//			taskSpecs.add(taskStatus);
-//			mAllTasks.delete(entity.subStageId);
-//			mAllTasks.put(entity.subStageId, taskSpecs);
-			
-			List<TaskStatus> list = mAllTasks.get(entity.subStageId,null);
-			if(list == null){
+			// TaskStatus taskStatus = new TaskStatus();
+			// taskStatus.subStageId = entity.subStageId;
+			// taskStatus.taskSpecId = entity.taskSpecId;
+			// taskStatus.taskSpecName = entity.taskSpecName;
+			// taskStatus.isCheck = entity.taskStatus;
+			// taskSpecs = mAllTasks.get(entity.subStageId);
+			// if (taskSpecs == null) {
+			// taskSpecs = new ArrayList<>();
+			// }
+			// taskSpecs.add(taskStatus);
+			// mAllTasks.delete(entity.subStageId);
+			// mAllTasks.put(entity.subStageId, taskSpecs);
+
+			List<TaskStatus> list = mAllTasks.get(entity.subStageId, null);
+			if (list == null) {
 				list = new ArrayList<TaskStatus>();
 				TaskStatus taskStatus = new TaskStatus();
 				taskStatus.subStageId = entity.subStageId;
@@ -377,95 +387,103 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 				taskStatus.taskSpecName = entity.taskSpecName;
 				list.add(taskStatus);
 			}
-			
+
 			mAllTasks.put(entity.subStageId, list);
 		}
-		
-//		System.out.println("我正在convertTask中获取到的所有任务列表的长度 +   " + mAllTasks.size());
-		
+
+		// System.out.println("我正在convertTask中获取到的所有任务列表的长度 +   " +
+		// mAllTasks.size());
+
 		mCurrentTaskSpec = getTaskBySubStageId(mCurrentSubStage.subStageId);
-//		System.out.println("convertTask id  生长周期ID " + mCurrentSubStage.subStageId); 
-//		System.out.println("convertTask size 当前任务列表长度 " + mCurrentTaskSpec.size());
-		
+		// System.out.println("convertTask id  生长周期ID " +
+		// mCurrentSubStage.subStageId);
+		// System.out.println("convertTask size 当前任务列表长度 " +
+		// mCurrentTaskSpec.size());
+
 		List<TaskStatus> taskSpecs = readTaskStatus();
 		if (taskSpecs != null && !taskSpecs.isEmpty()) {
 			mAllTasks.put(mCurrentSubStage.subStageId, taskSpecs);
-//			return;
+			// return;
 		}
-		
-//		System.out.println("我正在convertTask中读取本地数据后的长度   " + mAllTasks.size());
-		
+
+		// System.out.println("我正在convertTask中读取本地数据后的长度   " +
+		// mAllTasks.size());
+
 		// TODO MING 是否有必要向本地保存所有task
-		
+
 		// save all task
-//		if (mAllTasks != null) {
-//			for (int i = 0; i < mAllTasks.size(); i++) {
-//				List<TaskStatus> statusList = mAllTasks.valueAt(i);
-//				if (statusList != null) {
-//					saveTaskStatus(statusList);
-//				}
-//			}
-//		}
+		// if (mAllTasks != null) {
+		// for (int i = 0; i < mAllTasks.size(); i++) {
+		// List<TaskStatus> statusList = mAllTasks.valueAt(i);
+		// if (statusList != null) {
+		// saveTaskStatus(statusList);
+		// }
+		// }
+		// }
 
 	}
-	
+
 	protected List<TaskStatus> getTaskBySubStageId(int id) {
-//		System.out.println("wo在根据周期获取当前任务此时的所有任务列表长度为 ：     " + mAllTasks.size());
-//		System.out.println("我在这里拿到的生长周期阶段有   " + mCurrentSubStage.subStageId);
+		// System.out.println("wo在根据周期获取当前任务此时的所有任务列表长度为 ：     " +
+		// mAllTasks.size());
+		// System.out.println("我在这里拿到的生长周期阶段有   " +
+		// mCurrentSubStage.subStageId);
 		return mAllTasks.get(id);
 	}
 
 	/**
-	 * getTaskBySubStageId
-	 * 查询数据库了，这里有问题
+	 * getTaskBySubStageId 查询数据库了，这里有问题
+	 * 
 	 * @return
 	 */
-//	private List<TaskStatus> getTaskBySubStageId() {
-//
-//		// if (mCurrentSubStage == null) {
-//		// return new ArrayList<>();
-//		//
-//		// }
-//		//
-//		// if (mAllTasks.get(mCurrentSubStage.subStageId, null) != null) {
-//		// return mAllTasks.get(mCurrentSubStage.subStageId);
-//		// }
-//
-//		// read local
-//		List<TaskStatus> status = readTaskStatus();
-//		if (!status.isEmpty()) {
-//			mAllTasks.put(mCurrentSubStage.subStageId, status);
-//			return status;
-//		}
-//
-//		if (taskSpecDao == null) {
-//			taskSpecDao = new TaskSpecDaoImpl(this.getContext());
-//		}
-//		
-//		// TODO MING 解决任务重复问题，崩溃问题所在，for循环角标越界
-//		
-//		List<TaskSpec> list = taskSpecDao.queryTaskSpecWithSubStage(mCurrentSubStage.subStageId);
-//
-//		List<TaskStatus> listStagus = mAllTasks.get(mCurrentSubStage.subStageId, null);
-//		int size = 0;
-//		if (listStagus != null) {
-//			size = listStagus.size();
-//		}
-//
-//		for (int i = 0; i < size; i++) {
-//			if(i >= size)
-//				continue;
-//			TaskSpec spec = list.get(i);
-//			TaskStatus taskStatus = new TaskStatus();
-//			taskStatus.taskSpecName = spec.taskSpecName;
-//			taskStatus.subStageId = spec.subStage;
-//			taskStatus.taskSpecId = spec.taskSpecId;
-//			status.add(taskStatus);
-//		}
-//
-//		mAllTasks.put(mCurrentSubStage.subStageId, status);
-//		return mAllTasks.get(mCurrentSubStage.subStageId);
-//	}
+	// private List<TaskStatus> getTaskBySubStageId() {
+	//
+	// // if (mCurrentSubStage == null) {
+	// // return new ArrayList<>();
+	// //
+	// // }
+	// //
+	// // if (mAllTasks.get(mCurrentSubStage.subStageId, null) != null) {
+	// // return mAllTasks.get(mCurrentSubStage.subStageId);
+	// // }
+	//
+	// // read local
+	// List<TaskStatus> status = readTaskStatus();
+	// if (!status.isEmpty()) {
+	// mAllTasks.put(mCurrentSubStage.subStageId, status);
+	// return status;
+	// }
+	//
+	// if (taskSpecDao == null) {
+	// taskSpecDao = new TaskSpecDaoImpl(this.getContext());
+	// }
+	//
+	// // TODO MING 解决任务重复问题，崩溃问题所在，for循环角标越界
+	//
+	// List<TaskSpec> list =
+	// taskSpecDao.queryTaskSpecWithSubStage(mCurrentSubStage.subStageId);
+	//
+	// List<TaskStatus> listStagus = mAllTasks.get(mCurrentSubStage.subStageId,
+	// null);
+	// int size = 0;
+	// if (listStagus != null) {
+	// size = listStagus.size();
+	// }
+	//
+	// for (int i = 0; i < size; i++) {
+	// if(i >= size)
+	// continue;
+	// TaskSpec spec = list.get(i);
+	// TaskStatus taskStatus = new TaskStatus();
+	// taskStatus.taskSpecName = spec.taskSpecName;
+	// taskStatus.subStageId = spec.subStage;
+	// taskStatus.taskSpecId = spec.taskSpecId;
+	// status.add(taskStatus);
+	// }
+	//
+	// mAllTasks.put(mCurrentSubStage.subStageId, status);
+	// return mAllTasks.get(mCurrentSubStage.subStageId);
+	// }
 
 	// 给日期，星期和天气设置相对应的值
 	private void setDatWeekAndWeatherView(FieldEntity.HomeDate date) {
@@ -494,16 +512,19 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 		rightStateView.setVisibility(View.VISIBLE);
 		if (isWork == 1) {
 			leftStateView.setText("宜下地");
+			leftStateView.setClickable(false);
 		} else if (isWork == 0) {
 			leftStateView.setText("不宜下地");
+			leftStateView.setClickable(true);
 		} else {
 			leftStateView.setVisibility(View.GONE);
 		}
 		if (isSpray == 1) {
 			rightStateView.setText("宜打药");
-
+			rightStateView.setClickable(false);
 		} else if (isSpray == 0) {
 			rightStateView.setText("不宜打药");
+			rightStateView.setClickable(true);
 		} else {
 			rightStateView.setVisibility(View.GONE);
 		}
@@ -606,6 +627,16 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 			}
 
 			break;
+		case R.id.left_state:
+			Intent farmIntent = new Intent(context,NotFarmWorkActivity.class);
+			farmIntent.putExtra("type", FARMWORK);
+			context.startActivity(farmIntent);
+			break;
+		case R.id.right_state:
+			Intent pesticideIntent = new Intent(context,NotFarmWorkActivity.class);
+			pesticideIntent.putExtra("type", PESTICIDE);
+			context.startActivity(pesticideIntent);
+			break;
 		default:
 			break;
 		}
@@ -668,43 +699,43 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 	}
 
-	
 	/**
 	 * 得到当前的subStage
 	 * 
 	 * @param currentStageID
 	 * @return
 	 */
-//	private SubStage getCurrentStage(int currentStageID) {
-//		SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
-//		return dao.queryStageByID(String.valueOf(currentStageID));
-//
-//	}
+	// private SubStage getCurrentStage(int currentStageID) {
+	// SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
+	// return dao.queryStageByID(String.valueOf(currentStageID));
+	//
+	// }
 
-//	private List<SubStage> getSubStages() {
-//		
-//		List<SubStage> list;
-//		
-//		SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
-//		
-//		String cropName = SharedPreferencesHelper.getString(this.getContext(), Field.CROP_NAME, "水稻");
-//		
-//		if("水稻".equals(cropName)) {
-//			list = dao.queryByCropName(35, 59);
-//		} else {
-//			list = dao.queryByCropName(60, 73);
-//		}
-//		
-//		return list;
-//
-//	}
+	// private List<SubStage> getSubStages() {
+	//
+	// List<SubStage> list;
+	//
+	// SubStageDaoImpl dao = new SubStageDaoImpl(this.getContext());
+	//
+	// String cropName = SharedPreferencesHelper.getString(this.getContext(),
+	// Field.CROP_NAME, "水稻");
+	//
+	// if("水稻".equals(cropName)) {
+	// list = dao.queryByCropName(35, 59);
+	// } else {
+	// list = dao.queryByCropName(60, 73);
+	// }
+	//
+	// return list;
+	//
+	// }
 
 	/**
 	 * 更新任务
 	 */
 	private void updateTask() {
-		
-//		System.out.println("更换田地 + updateTask");
+
+		// System.out.println("更换田地 + updateTask");
 
 		if (campaignView.getVisibility() == View.GONE) {
 			campaignView.setVisibility(View.VISIBLE);

@@ -708,7 +708,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 			loadFieldData(param);
 			loadWeatherData(weatherParam);
-
 			loadBanner(bannerParam);
 
 		}

@@ -182,11 +182,14 @@ public class AddFieldActivity2 extends MyBaseActivity {
 
 		if (!TextUtils.isEmpty(mprovince)) {
 			provincePosition = provinceList.indexOf(mprovince);
+			// TODO MING 地址定位失败解决方案
+			provincePosition = provincePosition == -1 ? 0 : provincePosition;
 		}
 		cityList = dao.getCity(provinceList.get(provincePosition));
 		Collections.sort(cityList, mComparator);
 		if (!TextUtils.isEmpty(mcity)) {
 			cityPosition = cityList.indexOf(mcity);
+			cityPosition = cityPosition == -1 ? 0 : cityPosition;
 		}
 		provinceView.initBigAreaData(provinceList, provincePosition);
 		initCityList();
@@ -213,6 +216,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		Collections.sort(countyList, mComparator);
 		if (!TextUtils.isEmpty(mdistrict)) {
 			countyPosition = countyList.indexOf(mdistrict);
+			countyPosition = countyPosition == -1 ? 0 : countyPosition;
 		}
 
 		provinceView.setOnSmallAreaItemClickListener(new TextAdapter.OnItemClickListener() {

@@ -176,8 +176,10 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 			case GET_WX_INFO:
 				WXUserInfoEntity wxInfoEntity = (WXUserInfoEntity) msg.obj;
 				startLoadingDialog();
-				
-				String WXHeaderimageUrl = wxInfoEntity.headimgurl.replace("http://wx.qlogo.cn/", "");
+				String WXHeaderimageUrl = null;
+				if(wxInfoEntity != null && wxInfoEntity.headimgurl != null){
+					WXHeaderimageUrl = wxInfoEntity.headimgurl.replace("http://wx.qlogo.cn/", "");
+				}
 				
 				try {
 					WXHeaderimageUrl = URLEncoder.encode(WXHeaderimageUrl, "utf-8");

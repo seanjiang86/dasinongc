@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BannerEntity;
@@ -50,7 +51,7 @@ public class BannerView extends ViewPager {
 
 		List<View> viewList = new ArrayList<View>();
 		List<ItemEntity> dataList = banner.newdata;
-
+		
 		for (final ItemEntity itemEntity : dataList) {
 			switch (itemEntity.type) {
 			case 1:
