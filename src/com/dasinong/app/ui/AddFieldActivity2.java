@@ -146,9 +146,10 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		if (!TextUtils.isEmpty(mprovince) && !TextUtils.isEmpty(mcity)) {
 			firstButtonText = mprovince + "-" + mcity;
 		}
-		if (!TextUtils.isEmpty(mdistrict)) {
-			secondButtonText = mdistrict + "-";
-		}
+		// TODO MING 测试
+//		if (!TextUtils.isEmpty(mdistrict)) {
+//			secondButtonText = mdistrict + "-";
+//		}
 		textList.add(firstButtonText);
 		textList.add(secondButtonText);
 		textList.add(thirdButtonText);
@@ -214,10 +215,11 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		provinceView.initSmallAreaData(cityList, cityPosition);
 		countyList = dao.getCounty(cityList.get(cityPosition));
 		Collections.sort(countyList, mComparator);
-		if (!TextUtils.isEmpty(mdistrict)) {
-			countyPosition = countyList.indexOf(mdistrict);
-			countyPosition = countyPosition == -1 ? 0 : countyPosition;
-		}
+		// TODO MING 测试
+//		if (!TextUtils.isEmpty(mdistrict)) {
+//			countyPosition = countyList.indexOf(mdistrict);
+//			countyPosition = countyPosition == -1 ? 0 : countyPosition;
+//		}
 
 		provinceView.setOnSmallAreaItemClickListener(new TextAdapter.OnItemClickListener() {
 			@Override
