@@ -308,6 +308,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 					initPoint(banner.newdata);
 				} else if (banner.newdata == null || banner.newdata.isEmpty()) {
 					mBannerView.setVisibility(View.GONE);
+					ll_view_group.setVisibility(View.GONE);
 				}
 
 				mBannerView.initView(banner);
