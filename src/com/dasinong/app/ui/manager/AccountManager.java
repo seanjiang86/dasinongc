@@ -40,6 +40,7 @@ public class AccountManager {
 		SharedPreferencesHelper.setString(context, Field.WEIXIN_TOKEN, user.getWeixintoken());
 		SharedPreferencesHelper.setString(context, Field.REFCODE, user.getRefcode());
 		SharedPreferencesHelper.setInt(context, Field.REFUID, user.getRefuid());
+		
 		SharedPreferencesHelper.setString(context, Field.CHANNEL, user.getChannel());
 		
 		SharedPreferencesHelper.setArrayString(context, Field.USER_FIELDS, user.getFields());

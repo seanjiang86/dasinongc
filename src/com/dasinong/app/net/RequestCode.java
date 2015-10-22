@@ -99,5 +99,7 @@ public final class RequestCode {
 	public static final int SETREF = WEATHER_ISSUE + 1;
 	/** 短信推荐接口 */
 	public static final int REFAPP = SETREF + 1;
+	/** 用户退出 */
+	public static final int LOGOUT = REFAPP + 1;
 	
 }

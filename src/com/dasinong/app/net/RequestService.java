@@ -1,5 +1,6 @@
 package com.dasinong.app.net;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import com.dasinong.app.utils.FieldUtils;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.View.OnClickListener;
 
 public class RequestService {
 
@@ -40,7 +42,7 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.LOGIN_REGISTER, params, SubUrl.LOGIN_REGISTER, callBack, clazz);
 	}
 
-	public void loginByPwd(Context context, String userName, String password, Class<? extends BaseEntity> clazz,
+	public void loginByPwd(Context context, String userName, String password , Class<? extends BaseEntity> clazz,
 			RequestListener callBack) {
 		Map<String, String> params = NetConfig.getLoginParams(userName, password);
 		new NetRequest(context).get(RequestCode.LOGIN_BY_PASSWORD, params, SubUrl.LOGIN_BY_PASSWORD, callBack, clazz);
@@ -135,7 +137,9 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getDefaultParams();
 		new NetRequest(context).get(RequestCode.GET_SUBSCRIBE_LIST, params, SubUrl.GET_SUBSCRIBE_LIST, callBack, clazz);
 	}
-
+	
+	//TODO  123
+	
 	public void resetPwd(Context context, String oPassword, String nPassword, Class<? extends BaseEntity> clazz,
 			RequestListener callBack) {
 		Map<String, String> params = NetConfig.getResetPwdParams(oPassword, nPassword);
@@ -175,8 +179,8 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getStepsParams(fieldId, taskSpecId);
 		new NetRequest(context).get(RequestCode.GET_STEPS, params, SubUrl.GET_STEPS, callBack, clazz);
 	}
-	public void isPassSet(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getDefaultParams();
+	public void isPassSet(Context context,String cellphone , Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getIsPassSetParams(cellphone);
 		new NetRequest(context).get(RequestCode.IS_PWSS_SET, params, SubUrl.IS_PWSS_SET, callBack, clazz);
 	}
 	
@@ -252,5 +256,9 @@ public class RequestService {
 	public void refApp(Context context, String cellPhones ,Class<? extends BaseEntity> clazz, RequestListener callBack){
 		Map<String, String> params = NetConfig.getRefAppParams(cellPhones);
 		new NetRequest(context).get(RequestCode.REFAPP, params, SubUrl.REFAPP, callBack, clazz);
+	}
+	public void logout(Context context,Class<? extends BaseEntity> clazz, RequestListener callBack){
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.LOGOUT, params, SubUrl.LOGOUT, callBack, clazz);
 	}
 }

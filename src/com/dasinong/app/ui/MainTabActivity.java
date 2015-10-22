@@ -25,6 +25,7 @@ import com.dasinong.app.ui.fragment.EncyclopediaFragment;
 import com.dasinong.app.ui.fragment.HomeFragment;
 import com.dasinong.app.ui.fragment.MeFragment;
 import com.dasinong.app.ui.manager.AccountManager;
+import com.dasinong.app.utils.AppInfoUtils;
 import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
@@ -49,9 +50,9 @@ import com.umeng.update.UpdateResponse;
  * @Description
  */
 public class MainTabActivity extends BaseActivity {
-	
+
 	public static final String TARGET_TAB = "tagTab";
-	
+
 	private FragmentTabHost mTabHost;
 
 	private LayoutInflater layoutInflater;
@@ -78,25 +79,20 @@ public class MainTabActivity extends BaseActivity {
 		UmengUpdateAgent.setUpdateOnlyWifi(false);
 
 		MobclickAgent.updateOnlineConfig(this);
-		
+
 		// 强制更新代码
 		String minVersion = MobclickAgent.getConfigParams(this, "minVersion");
-		
-		try {
 
-			int versionCode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
-			if (!TextUtils.isEmpty(minVersion)) {
+		int versionCode = AppInfoUtils.getVersionCode(this);
+		if (!TextUtils.isEmpty(minVersion)) {
 
-				if (versionCode < Integer.valueOf(minVersion)) {
-					isMustUpdate = true;
-				}
-
+			if (versionCode < Integer.valueOf(minVersion)) {
+				isMustUpdate = true;
 			}
-		} catch (NameNotFoundException e) {
 
 		}
-		
-		if(isMustUpdate){
+
+		if (isMustUpdate) {
 			UmengUpdateAgent.forceUpdate(this);
 		}
 
@@ -109,13 +105,13 @@ public class MainTabActivity extends BaseActivity {
 				}
 			}
 		});
-		
+
 		// Umeng 消息推送
 		PushAgent mPushAgent = PushAgent.getInstance(this);
 		mPushAgent.enable();
 		// 获取用户唯一标示
 		String device_token = UmengRegistrar.getRegistrationId(this);
-		
+
 		// startLoadingDialog();
 
 		// if(getIntent() != null){
@@ -130,26 +126,27 @@ public class MainTabActivity extends BaseActivity {
 		if (AccountManager.isLogin(MainTabActivity.this)) {
 			return;
 		}
-		RequestService.getInstance().authcodeLoginReg(MainTabActivity.this, "13112345678","", LoginRegEntity.class, new NetRequest.RequestListener() {
+		RequestService.getInstance().authcodeLoginReg(MainTabActivity.this, "13112345678", "", LoginRegEntity.class,
+				new NetRequest.RequestListener() {
 
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
+					@Override
+					public void onSuccess(int requestCode, BaseEntity resultData) {
 
-				if (resultData.isOk()) {
-					LoginRegEntity entity = (LoginRegEntity) resultData;
-					AccountManager.saveAccount(MainTabActivity.this, entity.getData());
-					showToast("登录成功");
-				} else {
-					Logger.d("TAG", resultData.getMessage());
-				}
-			}
+						if (resultData.isOk()) {
+							LoginRegEntity entity = (LoginRegEntity) resultData;
+							AccountManager.saveAccount(MainTabActivity.this, entity.getData());
+							showToast("登录成功");
+						} else {
+							Logger.d("TAG", resultData.getMessage());
+						}
+					}
 
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
+					@Override
+					public void onFailed(int requestCode, Exception error, String msg) {
 
-				Logger.d("TAG", "msg" + msg);
-			}
-		});
+						Logger.d("TAG", "msg" + msg);
+					}
+				});
 	}
 
 	@Override
@@ -202,13 +199,13 @@ public class MainTabActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-//		int targetTab = getIntent().getIntExtra(TARGET_TAB, -1);
-//		
-//		System.out.println("targetTab  " + targetTab);
-//		
-//		if(targetTab > 0){
-//			mTabHost.setCurrentTab(targetTab);
-//		}
+		// int targetTab = getIntent().getIntExtra(TARGET_TAB, -1);
+		//
+		// System.out.println("targetTab  " + targetTab);
+		//
+		// if(targetTab > 0){
+		// mTabHost.setCurrentTab(targetTab);
+		// }
 	}
 
 	@Override

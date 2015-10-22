@@ -30,6 +30,7 @@ import com.dasinong.app.components.domain.WeatherEntity;
 import com.dasinong.app.net.NetConfig.Params;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.utils.AppInfoUtils;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.FieldUtils;
 import com.dasinong.app.utils.StringHelper;
@@ -140,12 +141,19 @@ public class VolleyManager {
 		String time = strHour + strMinu;
 
 		String apiKey = StringHelper.encrypt(deviceId, time);
+		
+		int version = AppInfoUtils.getVersionCode(DsnApplication.getContext());
+		
+		if(version <= 0){
+			version = 1;
+		}
 
 		map.put("userId", userId);
 		map.put(Params.deviceType, product);
 		map.put(Params.deviceId, deviceId);
 		map.put(Params.apikey, apiKey);
 		map.put(Params.time, time);
+		map.put(Params.version,String.valueOf(version));
 
 		DEBUG(map.toString());
 		final GsonRequest<T> request = new GsonRequest(url, map, clazz, successListener, errorListener);

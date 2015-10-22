@@ -27,6 +27,7 @@ import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.LocationUtils;
 import com.dasinong.app.utils.LocationUtils.LocationListener;
 import com.dasinong.app.utils.Logger;
+import com.umeng.analytics.MobclickAgent;
 
 public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener {
 
@@ -115,6 +116,10 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 			if(!TextUtils.isEmpty(mprovince)){
 				hasCurrentLocation();
 			}
+			
+			// 友盟事件统计，在田中
+			MobclickAgent.onEvent(this, "AddFieldFirst");
+			
 			goToTwo();
 			break;
 		case R.id.btn_in_field:
@@ -123,7 +128,10 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 			if (!TextUtils.isEmpty(mprovince)) {
 				flag = hasCurrentLocation();
 			}
-
+			
+			// 友盟事件统计，不在田中
+			MobclickAgent.onEvent(this, "AddFieldFirst");
+			
 			if (flag) {
 				RequestService.getInstance().searchLocation(this, latitudeText, longitudeText, mprovince, mcity, mdistrict, LocationInfo.class,
 						new NetRequest.RequestListener() {

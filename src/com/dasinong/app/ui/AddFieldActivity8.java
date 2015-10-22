@@ -10,6 +10,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
+import com.umeng.analytics.MobclickAgent;
 
 public class AddFieldActivity8 extends MyBaseActivity implements OnClickListener{
 	private Button btn_direct_seeding;
@@ -40,9 +41,11 @@ public class AddFieldActivity8 extends MyBaseActivity implements OnClickListener
 		int id = v.getId();
 		switch (id) {
 		case R.id.btn_direct_seeding:
+			MobclickAgent.onEvent(this, "AddFieldFifth");
 			SharedPreferencesHelper.setString(this, Field.SEEDING_METHOD, "true");
 			break;
 		case R.id.btn_transplanting:
+			MobclickAgent.onEvent(this, "AddFieldFifth");
 			SharedPreferencesHelper.setString(this, Field.SEEDING_METHOD, "false");
 			break;
 		}

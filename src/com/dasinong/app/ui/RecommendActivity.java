@@ -1,171 +1,59 @@
 package com.dasinong.app.ui;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-
 import com.dasinong.app.R;
-import com.dasinong.app.entity.BaseEntity;
-import com.dasinong.app.entity.LoginRegEntity;
-import com.dasinong.app.net.NetRequest.RequestListener;
-import com.dasinong.app.net.RequestService;
+import com.dasinong.app.ui.adapter.RecommendFragmentPagerAdapter;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.ui.view.PagerSlidingTabStrip;
 import com.dasinong.app.ui.view.TopbarView;
 
-public class RecommendActivity extends BaseActivity implements OnClickListener {
 
-	private TopbarView topBar;
-	private TextView tv_my_invitation_code;
-	private EditText et_organization_code;
-	private Button btn_sure_organization_code;
-	private TextView tv_froget_code;
-	private EditText et_other_invitation_code;
-	private Button btn_sure_invitation_code;
-	private View ll_fill_code;
-	private View ll_not_fill_code;
-	private TextView tv_my_code;
-	private Button btn_recommend_sms;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.WindowManager;
+import android.content.Intent;
+import android.os.Bundle;
+
+public class RecommendActivity extends BaseActivity {
+
+    private TopbarView topbar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_recommend);
-		topBar = (TopbarView) findViewById(R.id.topbar);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_recommend);
+        
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-		initTopBar();
-
-		tv_my_invitation_code = (TextView) findViewById(R.id.tv_my_invitation_code);
-		et_organization_code = (EditText) findViewById(R.id.et_organization_code);
-		btn_sure_organization_code = (Button) findViewById(R.id.btn_sure_organization_code);
-		tv_froget_code = (TextView) findViewById(R.id.tv_froget_code);
-		et_other_invitation_code = (EditText) findViewById(R.id.et_other_invitation_code);
-		btn_sure_invitation_code = (Button) findViewById(R.id.btn_sure_invitation_code);
-		ll_not_fill_code = findViewById(R.id.ll_not_fill_code);
-		ll_fill_code = findViewById(R.id.ll_fill_code);
-		tv_my_code = (TextView) findViewById(R.id.tv_my_code);
-		btn_recommend_sms = (Button) findViewById(R.id.btn_recommend_sms);
-
-		String refCode = SharedPreferencesHelper.getString(this, Field.REFCODE, "");
 		int refuId = SharedPreferencesHelper.getInt(this, Field.REFUID, -1);
-		
-		if (refuId > 0) {
-			ll_not_fill_code.setVisibility(View.GONE);
-			ll_fill_code.setVisibility(View.VISIBLE);
-			tv_my_code.setText(refCode);
-			return;
-		} else {
-			ll_not_fill_code.setVisibility(View.VISIBLE);
-			ll_fill_code.setVisibility(View.GONE);
-		}
-		
-		if (!TextUtils.isEmpty(refCode)) {
-			tv_my_invitation_code.setText(String.format("您的专属邀请码：%s", refCode));
-		}
-		
-		btn_sure_organization_code.setOnClickListener(this);
-		tv_froget_code.setOnClickListener(this);
-		btn_sure_invitation_code.setOnClickListener(this);
-		btn_recommend_sms.setOnClickListener(this);
-		
-	}
+        
+        PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        ViewPager pagers = (ViewPager) findViewById(R.id.pager);
+        topbar = (TopbarView) findViewById(R.id.topbar);
+        
+        initTopBar();
+
+        tabs.setIndicatorColorResource(R.color.color_2BAD2A);
+        tabs.setBackgroundResource(R.color.color_F0F0F0);
+        tabs.setDividerColorResource(R.color.color_F0F0F0);
+        tabs.setIndicatorHeight(5);
+        tabs.setShouldExpand(true);
+        tabs.setTextSize(32);
+        tabs.setSelectedTextColorResource(R.color.color_2BAD2A);
+        tabs.setSelectedTextSize(32);
+
+
+        RecommendFragmentPagerAdapter adapter = new RecommendFragmentPagerAdapter(getSupportFragmentManager() , refuId);
+        pagers.setOffscreenPageLimit(1);
+        pagers.setAdapter(adapter);
+
+
+        tabs.setViewPager(pagers);
+    }
 
 	private void initTopBar() {
-		topBar.setCenterText("有奖推荐");
-		topBar.setLeftView(true, true);
+		topbar.setCenterText("有奖推荐");
+		topbar.setLeftView(true, true);
 	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.btn_sure_organization_code:
-
-			String orgCode = et_organization_code.getText().toString().trim();
-			orgCode = orgCode.toLowerCase();
-			// 老正则，可以过滤纯字母或者纯数字
-			// String orgRegex = "^(?![0-9]+$)(?![a-z]+$)[0-9a-z]{4}$" ;
-			String orgRegex = "^[a-z]{4}$";
-			if (!TextUtils.isEmpty(orgCode) && orgCode.matches(orgRegex)) {
-				startLoadingDialog();
-				RequestService.getInstance().setRef(this, orgCode, LoginRegEntity.class, new RequestListener() {
-
-					@Override
-					public void onSuccess(int requestCode, BaseEntity resultData) {
-						if (resultData.isOk()) {
-							LoginRegEntity entity = (LoginRegEntity) resultData;
-							showToast("验证成功");
-							SharedPreferencesHelper.setInt(RecommendActivity.this, Field.REFUID, entity.getData().getRefuid());
-							dismissLoadingDialog();
-
-							finish();
-						}
-					}
-
-					@Override
-					public void onFailed(int requestCode, Exception error, String msg) {
-						showToast(msg);
-					}
-				});
-			} else {
-				showToast("请核对您的机构代码是否确");
-			}
-			break;
-		case R.id.tv_froget_code:
-			showToast("机构代码为四位数英文字母，如果遗失请联系公司项目负责人，不要随便填写其他公司的代码哦");
-			break;
-		case R.id.btn_sure_invitation_code:
-
-			String invCode = et_other_invitation_code.getText().toString().trim();
-			invCode = invCode.toLowerCase();
-			String invRegex = "^[0-9a-z]{6}$";
-			if (!TextUtils.isEmpty(invCode) && invCode.matches(invRegex)) {
-				startLoadingDialog();
-				RequestService.getInstance().setRef(this, invCode, LoginRegEntity.class, new RequestListener() {
-					@Override
-					public void onSuccess(int requestCode, BaseEntity resultData) {
-						if (resultData.isOk()) {
-							LoginRegEntity entity = (LoginRegEntity) resultData;
-							showToast("验证成功");
-							SharedPreferencesHelper.setInt(RecommendActivity.this, Field.REFUID, entity.getData().getRefuid());
-							finish();
-						} else {
-							showToast(resultData.getMessage());
-						}
-
-						dismissLoadingDialog();
-					}
-
-					@Override
-					public void onFailed(int requestCode, Exception error, String msg) {
-						showToast("错误信息   ： " + msg);
-
-						dismissLoadingDialog();
-					}
-				});
-			} else {
-				showToast("请核对邀请码是否确");
-			}
-
-			break;
-		case R.id.btn_recommend_sms :
-			goToFillSMSActivity();
-			break;
-		}
-	}
-	
-	// TODO MING 此方法需修改，为何设置点击事件点击无效！！！！
-	public void click(View v){
-		goToFillSMSActivity();
-	}
-
-	private void goToFillSMSActivity() {
-		Intent intent = new Intent(this, RecommendSMSActivity.class);
-		startActivity(intent);
-	}
-
 }

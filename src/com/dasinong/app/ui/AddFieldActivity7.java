@@ -12,6 +12,7 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.DeviceHelper;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.message.PushAgent;
 
 import android.content.Intent;
@@ -52,6 +53,7 @@ public class AddFieldActivity7 extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
+				MobclickAgent.onEvent(AddFieldActivity7.this, "AddFieldEighth");
 				if (!DeviceHelper.checkNetWork(AddFieldActivity7.this)) {
 					showToast("请检测您的网络连接");
 					return;

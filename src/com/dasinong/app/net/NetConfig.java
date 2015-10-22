@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import android.app.Application;
 import android.content.Context;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
@@ -19,6 +20,7 @@ import com.dasinong.app.DsnApplication;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
+import com.dasinong.app.utils.AppInfoUtils;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.Logger;
 import com.dasinong.app.utils.StringHelper;
@@ -126,6 +128,8 @@ public class NetConfig {
 		public static final String SET_REF ="setRef";
 		/** 短信推荐接口 */
 		public static final String REFAPP ="refapp";
+		
+		public static final String LOGOUT ="logout";
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -202,6 +206,7 @@ public class NetConfig {
 		public static final String refcode = "refcode";
 		public static final String time = "time";
 		public static final String cellPhones = "cellPhones";
+		public static final String version = "version";
 	}
 	
 	public static class ResponseCode {
@@ -235,7 +240,7 @@ public class NetConfig {
 		return paramsMap;
 	}
 	
-	public static Map<String, String> getLoginParams(String userName,String password) {
+	public static Map<String, String> getLoginParams(String userName,String password ) {
 		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName)
 				, getTokenParams(Params.password, password));
 		paramsMap.put(Params.username, userName);
@@ -320,6 +325,7 @@ public class NetConfig {
 		
 		String product = android.os.Build.PRODUCT;
 		String deviceId = DeviceHelper.getDeviceId(DsnApplication.getContext());
+		int version = AppInfoUtils.getVersionCode(DsnApplication.getContext());
 		
 		Calendar cal = Calendar.getInstance();
 		int hour = cal.get(Calendar.HOUR_OF_DAY);
@@ -347,6 +353,10 @@ public class NetConfig {
 		paramsMap.put(Params.deviceId, deviceId);
 		paramsMap.put(Params.apikey, apiKey);
 		paramsMap.put(Params.time, time);
+		if(version <= 0){
+			version = 1;
+		}
+		paramsMap.put(Params.version , String.valueOf(version));
 		
 		
 		if(phone != null){
@@ -563,6 +573,12 @@ public class NetConfig {
 		paramsMap.put(Params.taskSpecId, taskSpecId);
 		return getBaseParams(false, paramsMap);
 	}
+
+	public static Map<String, String> getIsPassSetParams(String cellphone) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.cellphone, cellphone);
+		return getBaseParams(false, paramsMap);
+	}
 	
 	public static Map<String, String> getCreateFieldParams(String isActive,String seedingortransplant,String area,String startDate,String locationId,String varietyId,String currentStageId,String yield) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
@@ -653,5 +669,6 @@ public class NetConfig {
 		paramsMap.put(Params.cellPhones, cellPhones);
 		return getBaseParams(false, paramsMap);
 	}
+
 }
 

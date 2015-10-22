@@ -139,9 +139,6 @@
             android:name=".ui.RecommendActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.RecommendSMSActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.NotFarmWorkActivity"
             android:screenOrientation="portrait" >
         </activity>
@@ -264,7 +261,7 @@
         <!-- Umeng channel -->
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="Tencent" />
+            android:value="TaoShi" />
 
         <activity
             android:name=".ui.soil.SoilInformationActivity"

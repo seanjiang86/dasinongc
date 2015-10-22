@@ -351,8 +351,29 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 				if (mTencent != null && mTencent.isSessionValid()) {
 					mTencent.logout(MyInfoActivity.this);
 				}
-
-				AccountManager.logout(MyInfoActivity.this);
+				startLoadingDialog();
+				RequestService.getInstance().logout(MyInfoActivity.this, BaseEntity.class, new RequestListener() {
+					
+					@Override
+					public void onSuccess(int requestCode, BaseEntity resultData) {
+						if(resultData.isOk()){
+							AccountManager.logout(MyInfoActivity.this);
+							showToast(resultData.getMessage());
+							dismissLoadingDialog();
+						} else {
+							showToast(resultData.getMessage());
+							dismissLoadingDialog();
+						}
+					}
+					
+					@Override
+					public void onFailed(int requestCode, Exception error, String msg) {
+						showToast(msg);
+						dismissLoadingDialog();
+					}
+				});
+				
+				
 				dialog.dismiss();
 				finish();
 			}

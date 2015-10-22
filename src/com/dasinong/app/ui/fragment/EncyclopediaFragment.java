@@ -8,6 +8,8 @@ import com.dasinong.app.ui.EncyclopediasPesticideActivity;
 import com.dasinong.app.ui.EncyclopediasVarietiesActivity;
 import com.dasinong.app.ui.ReportHarmActivity;
 import com.dasinong.app.ui.SearchResultActivity;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.DeviceHelper;
 import com.umeng.analytics.MobclickAgent;
@@ -130,7 +132,6 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 				search();
 			}
 		});
-		
 	}
 	
 	private void search() {
@@ -155,7 +156,7 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 		switch (v.getId()) {
 		case R.id.layout_ask_for:
 			//友盟统计自定义统计事件
-			MobclickAgent.onEvent(getActivity(), "AskFor");
+			MobclickAgent.onEvent(getActivity(), "AllVariety");
 			Intent intent = new Intent(getActivity(),EncyclopediasVarietiesActivity.class);
 			intent.putExtra(TYPE, VARIETY);
 			getActivity().startActivity(intent);

@@ -36,6 +36,9 @@
     <color name="color_098AF1">#098AF1</color>
     <color name="color_EAEAEA">#EAEAEA</color>
     <color name="color_F7FCFE">#F7FCFE</color>
+    <color name="color_F6F6F6">#F6F6F6</color>
+    <color name="color_B8B8B8">#B8B8B8</color>
+    <color name="color_FF8400">#FF8400</color>
 
     <!-- 二级下拉菜单 -->
     <color name="popup_main_background">#b0000000</color>

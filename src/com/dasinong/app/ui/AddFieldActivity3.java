@@ -9,6 +9,7 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.StringHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -47,6 +48,9 @@ public class AddFieldActivity3 extends MyBaseActivity {
 					showToast("请输入有效值");
 					return;
 				}
+				
+				MobclickAgent.onEvent(AddFieldActivity3.this, "AddFieldThird");
+				
 				SharedPreferencesHelper.setString(AddFieldActivity3.this, Field.FIELD_SIZE, fieldSize);
 
 				Intent intent = new Intent(AddFieldActivity3.this, AddFieldActivity4.class);

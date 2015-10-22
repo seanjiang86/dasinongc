@@ -10,6 +10,8 @@ import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.IsPassSetEntity;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.StringHelper;
 
@@ -155,8 +157,9 @@ public class MyInfoSetActivity extends BaseActivity {
 	}
 
 	private void isPassSet() {
+		String phone = SharedPreferencesHelper.getString(this, Field.USER_PHONE, "");
 		startLoadingDialog();
-		RequestService.getInstance().isPassSet(this, IsPassSetEntity.class, new RequestListener() {
+		RequestService.getInstance().isPassSet(this, phone , IsPassSetEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {

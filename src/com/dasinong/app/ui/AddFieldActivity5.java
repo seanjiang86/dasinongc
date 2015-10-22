@@ -36,9 +36,9 @@ import com.dasinong.app.ui.view.PPCPopMenu;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.ui.view.ViewMiddle;
 import com.dasinong.app.ui.view.ViewThree;
+import com.umeng.analytics.MobclickAgent;
 
-public class AddFieldActivity5 extends MyBaseActivity implements
-		OnClickListener {
+public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener {
 	private String varietyId;
 	private List<String> bigSubStageList;
 	private ArrayList<String> smallSubStageList;
@@ -79,10 +79,8 @@ public class AddFieldActivity5 extends MyBaseActivity implements
 		btn_sure_substage = (Button) findViewById(R.id.btn_sure_substage);
 		topbar = (TopbarView) findViewById(R.id.topbar);
 
-		varietyId = SharedPreferencesHelper.getString(this, Field.VARIETY_ID,
-				"");
-		seedingMethod = SharedPreferencesHelper.getString(this,
-				Field.SEEDING_METHOD, "");
+		varietyId = SharedPreferencesHelper.getString(this, Field.VARIETY_ID, "");
+		seedingMethod = SharedPreferencesHelper.getString(this, Field.SEEDING_METHOD, "");
 
 		viewMiddle = new ViewMiddle(this);
 		viewList.add(viewMiddle);
@@ -99,25 +97,23 @@ public class AddFieldActivity5 extends MyBaseActivity implements
 	}
 
 	private void queryStages() {
-		RequestService.getInstance().getStages(this, varietyId,
-				StagesEntity.class, new RequestListener() {
+		RequestService.getInstance().getStages(this, varietyId, StagesEntity.class, new RequestListener() {
 
-					@Override
-					public void onSuccess(int requestCode, BaseEntity resultData) {
-						if (resultData.isOk()) {
-							StagesEntity entity = (StagesEntity) resultData;
-							Message msg = handler.obtainMessage();
-							msg.obj = entity.data;
-							handler.sendMessage(msg);
-						}
-					}
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				if (resultData.isOk()) {
+					StagesEntity entity = (StagesEntity) resultData;
+					Message msg = handler.obtainMessage();
+					msg.obj = entity.data;
+					handler.sendMessage(msg);
+				}
+			}
 
-					@Override
-					public void onFailed(int requestCode, Exception error,
-							String msg) {
-						showToast("解析错误");
-					}
-				});
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				showToast("网络异常，请稍候重试");
+			}
+		});
 	}
 
 	protected void convertData(List<StageEntity> list) {
@@ -142,6 +138,9 @@ public class AddFieldActivity5 extends MyBaseActivity implements
 		int id = v.getId();
 		switch (id) {
 		case R.id.btn_no_sure_substage:
+			
+			MobclickAgent.onEvent(this, "AddFieldSixth");
+			
 			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, "");
 			goToNext();
 			break;
@@ -150,8 +149,10 @@ public class AddFieldActivity5 extends MyBaseActivity implements
 				showToast("请完善作物生长阶段，或者选择我不知道");
 				return;
 			}
-			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID,
-					subStageId);
+			
+			MobclickAgent.onEvent(this, "AddFieldSixth");
+			
+			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, subStageId);
 			goToNext();
 			break;
 		}
@@ -202,8 +203,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements
 	 */
 	private void initSmallSubStage(final String bigSubStage) {
 
-		smallSubStageList = new ArrayList<String>(stagesMap.get(bigSubStage)
-				.keySet());
+		smallSubStageList = new ArrayList<String>(stagesMap.get(bigSubStage).keySet());
 
 		smallSubStageList.add(0, "我不确定");
 		viewMiddle.initSmallAreaData(smallSubStageList, smallPosition);
@@ -218,8 +218,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements
 				if ("我不确定".equals(smallSubStage)) {
 					smallSubStage = smallSubStageList.get(1);
 				}
-				subStageId = String.valueOf(stagesMap.get(bigSubStage).get(
-						smallSubStage));
+				subStageId = String.valueOf(stagesMap.get(bigSubStage).get(smallSubStage));
 			}
 		});
 	}
@@ -233,6 +232,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements
 	}
 
 	private void goToNext() {
+
 		Intent intent = null;
 		if ("芒果".equals(crop)) {
 			intent = new Intent(this, AddFieldActivity7.class);

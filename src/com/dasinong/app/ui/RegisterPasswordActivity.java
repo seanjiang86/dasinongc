@@ -8,6 +8,7 @@ import com.dasinong.app.net.RequestCode;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.AppInfoUtils;
 import com.dasinong.app.utils.StringHelper;
 
 import android.content.Intent;
@@ -194,6 +195,7 @@ public class RegisterPasswordActivity extends BaseActivity {
 	private void login() {
 		String phone = mPhoneEdit.getText().toString().trim();
 		String password = mPwdEdit.getText().toString().trim();
+		
 		if (TextUtils.isEmpty(phone)) {
 			showToast("请输入手机号");
 			return;

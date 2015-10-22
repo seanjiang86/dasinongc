@@ -448,7 +448,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 				// Toast.makeText(RegisterActivity.this, "注册协议",
 				// Toast.LENGTH_SHORT).show();
 				Intent intent = new Intent(RegisterPhoneActivity.this, RegisterServiceActivity.class);
-				intent.putExtra("url", "register.html");
+				intent.putExtra("url", "agreement.html");
 				intent.putExtra("title", "服务协议条款");
 				startActivity(intent);
 			}
@@ -729,7 +729,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 					IsPassSetEntity entity = (IsPassSetEntity) resultData;
 
 					if (entity.isData()) {
-						checkPwd();
+						checkPwd(phone);
 					} else {
 						startLoadingDialog();
 						if (countryRules == null || countryRules.size() <= 0) {
@@ -753,9 +753,9 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		});
 	}
 
-	private void checkPwd() {
+	private void checkPwd(final String phone) {
 		startLoadingDialog();
-		RequestService.getInstance().isPassSet(this, IsPassSetEntity.class, new RequestListener() {
+		RequestService.getInstance().isPassSet(this, phone , IsPassSetEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {

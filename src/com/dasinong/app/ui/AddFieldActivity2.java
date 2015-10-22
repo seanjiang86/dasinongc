@@ -34,6 +34,7 @@ import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.ui.view.ViewMiddle;
 import com.dasinong.app.ui.view.ViewRight;
 import com.dasinong.app.utils.DeviceHelper;
+import com.umeng.analytics.MobclickAgent;
 
 public class AddFieldActivity2 extends MyBaseActivity {
 
@@ -381,6 +382,9 @@ public class AddFieldActivity2 extends MyBaseActivity {
 			showToast("请完善您的地理信息");
 			return;
 		}
+		
+		MobclickAgent.onEvent(this, "AddFieldSecond");
+		
 		SharedPreferencesHelper.setString(this, Field.VILLAGE_ID, villageId);
 		SharedPreferencesHelper.setString(this, Field.PROVINCE, province);
 		SharedPreferencesHelper.setString(this, Field.CITY, city);

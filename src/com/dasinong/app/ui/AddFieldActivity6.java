@@ -10,6 +10,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
+import com.umeng.analytics.MobclickAgent;
 
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
@@ -73,10 +74,12 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 			showDatePickerDialog();
 			break;
 		case R.id.btn_no_date:
+			MobclickAgent.onEvent(this, "AddFieldSeventh");
 			strTime = String.valueOf(System.currentTimeMillis());
 			goToNext();
 			break;
 		case R.id.btn_sure_date:
+			MobclickAgent.onEvent(this, "AddFieldSeventh");
 			String date = myear + "-" + mmonth + "-" + mday;
 			DateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
 			Date userDate = null;
@@ -138,6 +141,7 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 	}
 
 	private void goToNext() {
+		
 		SharedPreferencesHelper.setString(this, Field.PLANTING_DATE, strTime);
 		Intent intent = new Intent(this, AddFieldActivity7.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

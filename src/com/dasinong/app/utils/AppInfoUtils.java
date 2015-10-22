@@ -38,4 +38,15 @@ public class AppInfoUtils {
 		}
 		return "";
 	}
+	
+	public static int getVersionCode(Context context){
+		PackageManager pm = context.getPackageManager();
+		try {
+			PackageInfo packageInfo = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
+			return packageInfo.versionCode;
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
 }

@@ -38,6 +38,7 @@ import com.dasinong.app.ui.view.ViewThree;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.GraphicUtils;
 import com.dasinong.app.utils.Logger;
+import com.umeng.analytics.MobclickAgent;
 
 public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener {
 
@@ -280,7 +281,9 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 			showToast("请完善作物信息");
 			return;
 		}
-
+		
+		MobclickAgent.onEvent(this, "AddFieldFourth");
+		
 		SharedPreferencesHelper.setString(this, Field.VARIETY_ID, varietyId);
 		Intent intent = null;
 		if (etv.getText(0).startsWith("水稻")) {
