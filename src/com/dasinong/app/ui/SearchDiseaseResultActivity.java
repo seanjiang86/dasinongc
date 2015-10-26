@@ -9,6 +9,8 @@ import com.dasinong.app.R;
 import com.dasinong.app.database.encyclopedias.PetdisspecbrowseDao;
 import com.dasinong.app.database.encyclopedias.domain.Petdisspecbrowse;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.PetDisSpecsListEntity;
+import com.dasinong.app.entity.PetDisSpecsListEntity.Data;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.RequestService;
@@ -55,6 +57,10 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_disease_list);
+		
+		// TODO MING : CONTENUE
+		
+		PetDisSpecsListEntity.Data data = (Data) getIntent().getSerializableExtra("data");
 
 		type = getIntent().getStringExtra("type");
 		cropId = getIntent().getStringExtra("cropId");
@@ -63,7 +69,7 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 		setUpView();
 		initOverlay();
 		initData();
-		requestData();
+//		requestData();
 
 	}
 
@@ -72,12 +78,14 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 		startLoadingDialog();
 		new Thread() {
 			public void run() {
-				PetdisspecbrowseDao dao = new PetdisspecbrowseDao(SearchDiseaseResultActivity.this);
-				if ("草害".equals(type)) {
-					query = dao.queryCaohai(type, cropId);
-				} else {
-					query = dao.query(type, cropId);
-				}
+//				PetdisspecbrowseDao dao = new PetdisspecbrowseDao(SearchDiseaseResultActivity.this);
+//				if ("草害".equals(type)) {
+//					query = dao.queryCaohai(type, cropId);
+//				} else {
+//					query = dao.query(type, cropId);
+//				}
+				
+				
 				query = sortContact(query);
 
 				alphaIndexer.clear();
@@ -133,20 +141,20 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 		});
 	}
 
-	private void requestData() {
-		RequestService.getInstance().browsePetDisByType(this, "虫害", BaseEntity.class, new RequestListener() {
-
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
-
-			}
-
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
-
-			}
-		});
-	}
+//	private void requestData() {
+//		RequestService.getInstance().browsePetDisByType(this, "虫害", BaseEntity.class, new RequestListener() {
+//
+//			@Override
+//			public void onSuccess(int requestCode, BaseEntity resultData) {
+//
+//			}
+//
+//			@Override
+//			public void onFailed(int requestCode, Exception error, String msg) {
+//
+//			}
+//		});
+//	}
 
 	private void initOverlay() {
 		mHandler = new Handler();

@@ -101,5 +101,8 @@ public final class RequestCode {
 	public static final int REFAPP = SETREF + 1;
 	/** 用户退出 */
 	public static final int LOGOUT = REFAPP + 1;
+	/** 按照类型和id搜索病虫草害 */
+	public static final int BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE = LOGOUT + 1;
+	
 	
 }

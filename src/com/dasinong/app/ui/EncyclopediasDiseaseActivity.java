@@ -1,5 +1,6 @@
 package com.dasinong.app.ui;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.dasinong.app.R;
@@ -7,6 +8,11 @@ import com.dasinong.app.database.encyclopedias.EncyclopediasDao;
 import com.dasinong.app.database.encyclopedias.PetdisspecbrowseDao;
 import com.dasinong.app.database.encyclopedias.domain.Crop;
 import com.dasinong.app.database.encyclopedias.domain.Petdisspecbrowse;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.entity.PetDisSpecsListEntity;
+
+import com.dasinong.app.net.NetRequest;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.view.TopbarView;
 
 import android.content.Intent;
@@ -33,9 +39,9 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 	private TopbarView mTopbarView;
 
 	private EditText mSearchEdit;
-	private RelativeLayout mAskforLayout;
-	private RelativeLayout mNongyaoLayout;
-	private RelativeLayout mBinghaiLayout;
+	private RelativeLayout mDiseaseLayout;
+	private RelativeLayout mPestisLayout;
+	private RelativeLayout mGrassLayout;
 	private RelativeLayout mIntelligentLayout;
 
 	private ImageView mSearchView;
@@ -73,9 +79,10 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 	private void initView() {
 		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
 		mSearchEdit = (EditText) this.findViewById(R.id.edittext_search);
-		mAskforLayout = (RelativeLayout) this.findViewById(R.id.layout_ask_for);
-		mNongyaoLayout = (RelativeLayout) this.findViewById(R.id.layout_nongyao);
-		mBinghaiLayout = (RelativeLayout) this.findViewById(R.id.layout_bingchongcaohai);
+		mDiseaseLayout = (RelativeLayout) this.findViewById(R.id.layout_disease);
+		mPestisLayout = (RelativeLayout) this.findViewById(R.id.layout_pestis);
+		mGrassLayout = (RelativeLayout) this.findViewById(R.id.layout_grass);
+		
 		mIntelligentLayout = (RelativeLayout) this.findViewById(R.id.layout_intelligent);
 		mSearchView = (ImageView) this.findViewById(R.id.imageview_search);
 		
@@ -88,9 +95,9 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 		mTopbarView.setCenterText(cropName+"病虫草害大全");
 		mTopbarView.setLeftView(true, true);
 
-		mAskforLayout.setOnClickListener(this);
-		mNongyaoLayout.setOnClickListener(this);
-		mBinghaiLayout.setOnClickListener(this);
+		mDiseaseLayout.setOnClickListener(this);
+		mPestisLayout.setOnClickListener(this);
+		mGrassLayout.setOnClickListener(this);
 		mIntelligentLayout.setOnClickListener(this);
 		
 		tv_binghai.setText(cropName+"常见病害");
@@ -138,17 +145,42 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.layout_ask_for:
-			if(beforehandSearch("病害")){
-				showToast("该作物无常见病害");
-			} else {
-				Intent intent1 = new Intent(this, SearchDiseaseResultActivity.class);
-				intent1.putExtra("type", "病害");
-				intent1.putExtra("cropId", cropId);
-				startActivity(intent1);
-			}
+		case R.id.layout_disease:
+			
+			RequestService.getInstance().browsePetDisSpecsByCropIdAndType(this, cropId, "病害", PetDisSpecsListEntity.class, new NetRequest.RequestListener() {
+				@Override
+				public void onSuccess(int requestCode, BaseEntity resultData) {
+					if(resultData.isOk()){
+						PetDisSpecsListEntity entity = (PetDisSpecsListEntity) resultData;
+						if(entity.data != null && entity.data.petDisSpecsList != null && entity.data.petDisSpecsList.size() > 0){
+							Intent intent = new Intent(EncyclopediasDiseaseActivity.this, SearchDiseaseResultActivity.class);
+							Bundle bundle = new Bundle();
+							bundle.putSerializable("data", entity.data);
+							intent.putExtras(bundle);
+							startActivity(intent);
+						} else {
+							showToast("该作物无常见病害");
+						}
+					} else {
+						showToast(resultData.getMessage());
+					}
+				}
+				@Override
+				public void onFailed(int requestCode, Exception error, String msg) {
+					showToast(msg);
+				}
+			});
+			
+//			if(beforehandSearch("病害")){
+//				showToast("该作物无常见病害");
+//			} else {
+//				Intent intent1 = new Intent(this, SearchDiseaseResultActivity.class);
+//				intent1.putExtra("type", "病害");
+//				intent1.putExtra("cropId", cropId);
+//				startActivity(intent1);
+//			}
 			break;
-		case R.id.layout_nongyao:
+		case R.id.layout_pestis:
 			if(beforehandSearch("虫害")){
 				showToast("该作物无常见虫害");
 			} else {
@@ -159,7 +191,7 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 			}
 
 			break;
-		case R.id.layout_bingchongcaohai:
+		case R.id.layout_grass:
 			if(beforehandSearch("草害")){
 				showToast("该作物无常见草害");
 			} else {

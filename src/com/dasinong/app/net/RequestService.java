@@ -36,7 +36,7 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getRegisterParams(userName, password, cellPhone, address);
 		new NetRequest(context).get(RequestCode.REGISTER_BY_PASSWORD, params, SubUrl.REGISTER_BY_PASSWORD, callBack, clazz);
 	}
-
+	
 	public void authcodeLoginReg(Context context, String cellphone, String channel,Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getRegisterLoginParams(cellphone , channel);
 		new NetRequest(context).get(RequestCode.LOGIN_REGISTER, params, SubUrl.LOGIN_REGISTER, callBack, clazz);
@@ -99,9 +99,13 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.GET_ALL_TASK, params, SubUrl.GET_All_TASK, callBack, clazz);
 	}
 
+//	public void getMyInfo(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+//		Map<String, String> params = NetConfig.getDefaultParams();
+//		new NetRequest(context).get(RequestCode.GET_MY_INFO, params, SubUrl.GET_MY_INFO, callBack, clazz);
+//	}
 	public void getMyInfo(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getDefaultParams();
-		new NetRequest(context).get(RequestCode.GET_MY_INFO, params, SubUrl.GET_MY_INFO, callBack, clazz);
+		new NetRequest(context).requestPost(RequestCode.GET_MY_INFO, params, SubUrl.GET_MY_INFO, callBack, clazz);
 	}
 
 	public void uploadInfo(Context context, String userName, String cellphone, String password, String address, String telephone,
@@ -199,6 +203,8 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getGetPetSolu(petSoluId);
 		new NetRequest(context).get(RequestCode.GET_PET_SOLU, params, SubUrl.GET_PET_SOLU, callBack, clazz);
 	}
+	
+	// TODO MING 查找此方法是否在使用了，如果没有可以删除
 	public void browsePetDisByType(Context context, String type ,Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.browsePetDisByTypeParams(type);
 		new NetRequest(context).get(RequestCode.PETDIS_BYTYPE, params, SubUrl.PETDIS_BYTYPE, callBack, clazz);
@@ -260,5 +266,9 @@ public class RequestService {
 	public void logout(Context context,Class<? extends BaseEntity> clazz, RequestListener callBack){
 		Map<String, String> params = NetConfig.getDefaultParams();
 		new NetRequest(context).get(RequestCode.LOGOUT, params, SubUrl.LOGOUT, callBack, clazz);
+	}
+	public void browsePetDisSpecsByCropIdAndType(Context context, String cropId , String type , Class<? extends BaseEntity> clazz, RequestListener callBack){
+		Map<String, String> params = NetConfig.getBrowsePetDisSpecsByCropIdAndTypeParams(cropId,type);
+		new NetRequest(context).get(RequestCode.BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE, params, SubUrl.BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE, callBack, clazz);
 	}
 }

@@ -374,9 +374,9 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			return;
 		}
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if (entity.n12h != null) {
-			for (int i = 0; i < entity.n12h.size(); i++) {
-				if (entity.n12h.get(i) == null) {
+		if (entity.data.n24h != null) {
+			for (int i = 0; i < entity.data.n24h.size(); i++) {
+				if (entity.data.n24h.get(i) == null) {
 					hourSb.append(i);
 					hourSb.append(",");
 					hourCount++;
@@ -401,9 +401,9 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 		int dayCount = 0;
 		StringBuilder daySb = new StringBuilder();
 
-		if (entity.n7d != null) {
-			for (int i = 0; i < entity.n7d.size(); i++) {
-				if (entity.n7d.get(i) == null) {
+		if (entity.data.n7d != null) {
+			for (int i = 0; i < entity.data.n7d.size(); i++) {
+				if (entity.data.n7d.get(i) == null) {
 					daySb.append(i);
 					daySb.append(",");
 					dayCount++;
@@ -424,7 +424,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			sendErrorMsg(mMotionId, msg);
 		}
 
-		if (entity.sunset == 0) {
+		if (entity.data.sunset == 0) {
 			Date date = new Date();
 			String currentDate = simpleDateFormat.format(date);
 
@@ -432,7 +432,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			sendErrorMsg(mMotionId, msg);
 		}
 
-		if (entity.sunrise == 0) {
+		if (entity.data.sunrise == 0) {
 			Date date = new Date();
 			String currentDate = simpleDateFormat.format(date);
 

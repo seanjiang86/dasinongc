@@ -88,7 +88,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 	private View mNoLogin;
 	private View mImageAddField;
-	private TextView dayToHarvest;
+//	private TextView dayToHarvest;
 
 	public CropsStateView(Context context) {
 		super(context);
@@ -117,7 +117,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 		rightStateView = (TextView) rootView.findViewById(R.id.right_state);
 		campaignView = (LinearLayout) rootView.findViewById(R.id.campaign);
 		mTaskTitle = findViewById(R.id.task_title);
-		dayToHarvest = (TextView) rootView.findViewById(R.id.day_to_harvest);
 
 		mFieldNameView.setOnClickListener(this);
 		addFieldView.setOnClickListener(this);
@@ -148,19 +147,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 				if (onAddFieldClickListener != null) {
 					onAddFieldClickListener.onDialogClick(mCurrentSubStage.subStageId);
-				}
-			}
-		});
-
-		fieldStateView.setOnStageChangeListener(new MyStageChangeListener() {
-
-			@Override
-			public void onchange(int day) {
-				if (day == 0) {
-					dayToHarvest.setVisibility(View.GONE);
-				} else {
-					dayToHarvest.setVisibility(View.VISIBLE);
-					dayToHarvest.setText("距离收获还有" + day + "天");
 				}
 			}
 		});
@@ -255,13 +241,6 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 		}
 
-		if (entity.currentField != null && entity.currentField.dayToHarvest != 0) {
-			dayToHarvest.setVisibility(View.VISIBLE);
-			dayToHarvest.setText("距离收获还有" + entity.currentField.dayToHarvest + "天");
-		} else {
-			dayToHarvest.setVisibility(View.GONE);
-		}
-
 		// 设置日期，星期几和天气
 		setDatWeekAndWeatherView(entity.date);
 
@@ -270,7 +249,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 	// 设置是否适合下地
 	public void updateWorkStage(WeatherEntity entity) {
 		if (entity != null) {
-			setWorkState(entity.workable, entity.sprayable);
+			setWorkState(entity.data.workable, entity.data.sprayable);
 		}
 
 	}

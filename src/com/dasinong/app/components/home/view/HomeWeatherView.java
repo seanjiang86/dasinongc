@@ -553,7 +553,7 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 		if (null != hours && !hours.isEmpty()) {
 			{
 				
-				mHumView.setOneDayWeatherData(hours , entity.sunrise , entity.sunset);
+				mHumView.setOneDayWeatherData(hours , entity.data.sunrise , entity.data.sunset);
 				
 				mHumView.setCurrentWeather(current.l1, getCurrentIconRes(current.l5));
 
@@ -624,11 +624,11 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 		if (entity == null) {
 			return;
 		}
-		updateHoursView(entity.n12h,entity.current, entity);
-		updateCurrentWeatherView(entity.current);
-		updateSevenDayView(entity.n7d);
+		updateHoursView(entity.data.n24h,entity.data.current, entity);
+		updateCurrentWeatherView(entity.data.current);
+		updateSevenDayView(entity.data.n7d);
 
-		updateFourSectionView(entity.POP);
+		updateFourSectionView(entity.data.POP);
 
 	}
 

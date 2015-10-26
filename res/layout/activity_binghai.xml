@@ -44,7 +44,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/layout_ask_for"
+        android:id="@+id/layout_disease"
         android:layout_width="match_parent"
         android:layout_height="70dp" 
         android:background="@drawable/button_white_bg_selector"
@@ -98,11 +98,10 @@
         android:background="@color/color_DCE3E6" />
 
     <RelativeLayout
-        android:id="@+id/layout_nongyao"
+        android:id="@+id/layout_pestis"
         android:layout_width="match_parent"
         android:layout_height="70dp" 
-        android:background="@drawable/button_white_bg_selector"
-        >
+        android:background="@drawable/button_white_bg_selector">
 
         <ImageView
             android:id="@+id/imageview2"
@@ -152,7 +151,7 @@
         android:background="@color/color_DCE3E6" />
     
     <RelativeLayout
-        android:id="@+id/layout_bingchongcaohai"
+        android:id="@+id/layout_grass"
         android:layout_width="match_parent"
         android:layout_height="70dp" 
         android:background="@drawable/button_white_bg_selector"

@@ -85,7 +85,7 @@ public class SmsSettingActivity extends BaseActivity {
 	}
 
 	private void setUpView() {
-		mTopbarView.setCenterText("免费短信订阅");
+		mTopbarView.setCenterText("免费订阅短信版今日农事");
 		mTopbarView.setLeftView(true, true);
 		mTopbarView.setRightText("编辑");
 		mTopbarView.setRightClickListener(new OnClickListener() {

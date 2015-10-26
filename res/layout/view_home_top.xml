@@ -58,16 +58,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/home_dimen_25" />
 
-    <TextView
-        android:id="@+id/day_to_harvest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/home_dimen_30"
-        android:layout_marginTop="@dimen/home_dimen_25"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        android:visibility="gone" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

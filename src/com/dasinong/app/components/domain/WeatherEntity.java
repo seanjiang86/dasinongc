@@ -7,18 +7,21 @@ import java.util.List;
  */
 public class WeatherEntity extends BaseResponse {
 
-
-    public List<SevenDay> n7d;
-    public List<Hours> n12h;
-
-    public SectionWeather POP;
-
-    public CurrentWeather current;
-    public int workable;
-    public int sprayable;
+	public Data data;
     
-    public long sunrise;
-    public long sunset;
+    public static class Data{
+        public List<SevenDay> n7d;
+        public List<Hours> n24h;
+
+        public SectionWeather POP;
+
+        public CurrentWeather current;
+        public int workable;
+        public int sprayable;
+        
+        public long sunrise;
+        public long sunset;
+    }
 
     public static class SevenDay {
 

@@ -113,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:text="免费短信订阅"
+                    android:text="免费订阅短信版今日农事"
                     android:textColor="@color/color_333333"
                     android:textSize="@dimen/sp_16" />
 

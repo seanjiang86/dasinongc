@@ -128,8 +128,11 @@ public class NetConfig {
 		public static final String SET_REF ="setRef";
 		/** 短信推荐接口 */
 		public static final String REFAPP ="refapp";
-		
+		/** 用户登出接口 */
 		public static final String LOGOUT ="logout";
+		/** 按id和type查询病虫草害 */
+		public static final String BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE ="browsePetDisSpecsByCropIdAndType";
+		
 	}
 	
 	public static String getRequestUrl(String subUrl) {
@@ -669,6 +672,11 @@ public class NetConfig {
 		paramsMap.put(Params.cellPhones, cellPhones);
 		return getBaseParams(false, paramsMap);
 	}
-
+	public static Map<String, String> getBrowsePetDisSpecsByCropIdAndTypeParams(String cropId , String type) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.cropId, cropId);
+		paramsMap.put(Params.type, type);
+		return getBaseParams(false, paramsMap);
+	}
 }
 

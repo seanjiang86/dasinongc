@@ -1,15 +1,23 @@
 package com.dasinong.app.ui;
 
+import java.text.Collator;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import org.hybridsquad.android.library.CropHelper;
 
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.database.city.dao.impl.CityDaoImpl;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.IsPassSetEntity;
+import com.dasinong.app.entity.VillageInfo;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.ui.AddFieldActivity2.MyComparator;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
@@ -17,6 +25,8 @@ import com.dasinong.app.utils.StringHelper;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
@@ -274,6 +284,10 @@ public class MyInfoSetActivity extends BaseActivity {
 				showToast("请选择镇");
 				return;
 			}
+			if (mVillageSp.getSelectedItemPosition() == 0){
+				showToast("请选择村");
+				return;
+			}
 			String editText = mEditText.getText().toString().trim();
 			if (TextUtils.isEmpty(editText)) {
 				showToast("请输入您的详细地址");
@@ -284,8 +298,9 @@ public class MyInfoSetActivity extends BaseActivity {
 			String city = (String) mCitySp.getSelectedItem();
 			String area = (String) mAreaSp.getSelectedItem();
 			String towns = (String) mTownsSp.getSelectedItem();
+			String village = (String) mVillageSp.getSelectedItem();
 
-			info = province + " " + city + " " + area + " " + towns+" "+editText;
+			info = province + " " + city + " " + area + " " + towns + " " + village + " " + editText;
 
 			address = info;
 			
@@ -387,7 +402,7 @@ public class MyInfoSetActivity extends BaseActivity {
 		});
 	}
 
-	protected void setCity(String province2) {
+	protected void setCity(final String province2) {
 		List<String> city = dao.getCity(province2);
 		city.add(0, "请选择市");
 		mCitySp.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, city));
@@ -396,12 +411,11 @@ public class MyInfoSetActivity extends BaseActivity {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String city = (String) mCitySp.getSelectedItem();
-				setArea(city);
+				setArea(province2 , city);
 			}
 
 			@Override
 			public void onNothingSelected(AdapterView<?> parent) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -410,7 +424,7 @@ public class MyInfoSetActivity extends BaseActivity {
 		// mTownsSp.setAdapter(null);
 	}
 
-	protected void setArea(String city) {
+	protected void setArea(final String province2 , final String city) {
 		List<String> county = dao.getCounty(city);
 		county.add(0, "请选择区");
 		mAreaSp.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, county));
@@ -419,7 +433,7 @@ public class MyInfoSetActivity extends BaseActivity {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String area = (String) mAreaSp.getSelectedItem();
-				setTowns(area);
+				setTowns(province2 , city , area);
 			}
 
 			@Override
@@ -430,12 +444,56 @@ public class MyInfoSetActivity extends BaseActivity {
 		// mTownsSp.setAdapter(null);
 	}
 
-	protected void setTowns(String area) {
+	protected void setTowns(final String province2 , final String city , final String area) {
 		List<String> county = dao.getDistrict(area);
 		county.add(0, "请选择镇");
 		mTownsSp.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, county));
+		mTownsSp.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+				String town = (String) mTownsSp.getSelectedItem();
+				initVillage(province2 , city , area , town);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+			}
+		});
 	}
 
+	protected void initVillage(String provices2 , String city , String area , String town) {
+		startLoadingDialog();
+		RequestService.getInstance().getLocation(DsnApplication.getContext(), provices2, city, area, town, VillageInfo.class,new RequestListener() {
+
+					@Override
+					public void onSuccess(int requestCode, BaseEntity resultData) {
+						if (resultData.isOk()) {
+							Map<String, String> villageMap = ((VillageInfo) resultData).data;
+							MyComparator mComparator = new MyComparator();
+							List<String> villageList = new ArrayList<String>(villageMap.keySet());
+							Collections.sort(villageList,mComparator);
+							setVillages(villageList);
+							
+						} else {
+							showToast(resultData.getMessage());
+						}
+						dismissLoadingDialog();
+					}
+
+					@Override
+					public void onFailed(int requestCode, Exception error, String msg) {
+						dismissLoadingDialog();
+						showToast("请求失败，请检查网络或稍候再试");
+					}
+				});
+	}
+	
+	protected void setVillages(List<String> village) {
+		village.add(0, "请选择村");
+		mVillageSp.setAdapter(new ArrayAdapter<String>(this, R.layout.textview,village));
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
@@ -453,7 +511,19 @@ public class MyInfoSetActivity extends BaseActivity {
 				break;
 			}
 		}
-
 	}
+	
+	class MyComparator implements Comparator<String> {
+		Collator cmp = Collator.getInstance(java.util.Locale.CHINA);
 
+		@Override
+		public int compare(String str1, String str2) {
+			if (cmp.compare(str1, str2) > 0) {
+				return 1;
+			} else if (cmp.compare(str1, str2) < 0) {
+				return -1;
+			}
+			return 0;
+		}
+	}
 }

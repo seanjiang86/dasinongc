@@ -62,8 +62,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
 
     private View mNoLoginView;
 
-	private MyStageChangeListener stageChangerlistener;
-
     public CropsGroupUpView(Context context) {
         super(context);
         init(context);
@@ -220,27 +218,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     int subStageId = mSubStages.get(position).subStageId;
                     long fieldId = SharedPreferencesHelper.getLong(getContext(), Field.FIELDID, 0);
                     
-                    // TODO MING 此处使用松霖网络请求接口
-                    RequestService.getInstance().changeStage(getContext(), ""+fieldId, ""+subStageId, ChangeStageEntity.class,new RequestListener() {
-						
-						@Override
-						public void onSuccess(int requestCode, BaseEntity resultData) {
-							
-							if(resultData.isOk()){
-								ChangeStageEntity entity = (ChangeStageEntity) resultData;
-								
-								if(entity != null){
-									stageChangerlistener.onchange(entity.data.dayToHarvest);
-								}
-							}
-						}
-						
-						@Override
-						public void onFailed(int requestCode, Exception error, String msg) {
-							
-						}
-					});
-                    
+                    // TODO MING 此处原来放着changeStage的回调
                     
                     normalParentView.setVisibility(VISIBLE);
                     onAddCropClickListener.onArrowViewClick(position);
@@ -261,10 +239,6 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
      */
     public void setOnAddCropClickListener(MyAddCropOnClickListener onAddCropClickListener) {
         this.onAddCropClickListener = onAddCropClickListener;
-    }
-    
-    public void setOnStageChangeListener(MyStageChangeListener stageChangerlistener){
-    	this.stageChangerlistener = stageChangerlistener;
     }
 
     public void setPositionAndList(int mPosition, List<SubStageEntity> mSubStageLists) {
