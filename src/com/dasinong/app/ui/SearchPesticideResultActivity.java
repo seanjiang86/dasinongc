@@ -106,6 +106,7 @@ public class SearchPesticideResultActivity extends BaseActivity {
 		
 		letterView = (LetterView) findViewById(R.id.letterview);
 		letterView.setOnTouchingLetterChangedListener(new letterViewListener());
+		letterView.setVisibility(View.VISIBLE);
 		alphaIndexer = new HashMap<String, Integer>();
 		mOverlayThread = new OverlayThread();
 	}

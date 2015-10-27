@@ -11,23 +11,23 @@
         android:layout_height="wrap_content" >
     </com.dasinong.app.ui.view.TopbarView>
 
-    <ListView 
+    <ListView
         android:id="@+id/list_sms_list"
         android:layout_width="match_parent"
-    	android:layout_height="match_parent"
-    	android:cacheColorHint="@android:color/transparent"
-    	android:divider="@color/color_DCE3E6"
-    	android:dividerHeight="0.5dp"
-    	android:scrollbars="none"
-    	android:layout_below="@+id/topbar"
-        ></ListView>
-    
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topbar"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@color/color_DCE3E6"
+        android:dividerHeight="0.5dp"
+        android:scrollbars="none" />
+
     <com.dasinong.app.ui.view.LetterView
         android:id="@+id/letterview"
         android:layout_width="30dp"
         android:layout_height="fill_parent"
+        android:layout_above="@+id/tv_num"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/topbar" 
-        android:layout_above="@+id/tv_num"/>
-    
+        android:layout_below="@+id/topbar"
+        android:visibility="gone" />
+
 </RelativeLayout>

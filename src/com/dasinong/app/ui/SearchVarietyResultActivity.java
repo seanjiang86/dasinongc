@@ -123,6 +123,7 @@ public class SearchVarietyResultActivity extends BaseActivity {
 		mListView = (ListView) this.findViewById(R.id.list_sms_list);
 		
 		letterView = (LetterView) findViewById(R.id.letterview);
+		letterView.setVisibility(View.VISIBLE);
 		letterView.setOnTouchingLetterChangedListener(new letterViewListener());
 		alphaIndexer = new HashMap<String, Integer>();
 		mOverlayThread = new OverlayThread();

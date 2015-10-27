@@ -4,17 +4,28 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.LayoutFocusTraversalPolicy;
 
 import com.dasinong.app.R;
+import com.dasinong.app.jstojavainteface.JsInterface;
+import com.dasinong.app.jstojavainteface.JsInterface.WebViewClientClickListener;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.Logger;
+import com.lidroid.xutils.BitmapUtils;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
 import android.os.Bundle;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup;
 import android.webkit.HttpAuthHandler;
 import android.webkit.JsResult;
 import android.webkit.SslErrorHandler;
@@ -22,8 +33,12 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class WebBrowserActivity extends BaseActivity {
 	protected static final String TAG = WebBrowserActivity.class.getSimpleName();
@@ -43,15 +58,17 @@ public class WebBrowserActivity extends BaseActivity {
 
 	private RelativeLayout rl_web_view;
 
+	private JsInterface jsInterface = new JsInterface();
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_web_browser);
 
 		mUrlStr = this.getIntent().getStringExtra(URL);
-		
+
 		System.out.println(mUrlStr);
-		
+
 		mTitleStr = this.getIntent().getStringExtra(TITLE);
 
 		mWebView = (WebView) this.findViewById(R.id.web_browser);
@@ -88,6 +105,8 @@ public class WebBrowserActivity extends BaseActivity {
 
 		settings.setBuiltInZoomControls(true);// 支持手势缩放
 		settings.setDisplayZoomControls(false);// 支持手势缩放
+
+		mWebView.addJavascriptInterface(jsInterface, "androidObj");
 		mWebView.setWebViewClient(new WebViewClient() {
 
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -118,13 +137,23 @@ public class WebBrowserActivity extends BaseActivity {
 			@Override
 			public void onPageFinished(WebView view, String url) {
 				super.onPageFinished(view, url);
-
 				dismissLoadingDialog();
+
+				jsInterface.setWebViewClientClickListener(new WebViewClientClickListener() {
+
+					@Override
+					public void webViewHasClickEnvent(final String... images) {
+						runOnUiThread(new Runnable() {
+							public void run() {
+								showPopupWindow(images);
+							}
+						});
+					}
+				});
 			}
 
 			@Override
 			public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-				// TODO Auto-generated method stub
 				super.onReceivedError(view, errorCode, description, failingUrl);
 				ll_error_page.setVisibility(View.VISIBLE);
 				rl_web_view.setVisibility(View.GONE);
@@ -132,18 +161,13 @@ public class WebBrowserActivity extends BaseActivity {
 
 			@Override
 			public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-				// TODO Auto-generated method stub
 				super.onReceivedSslError(view, handler, error);
-
 				dismissLoadingDialog();
 			}
 
 			@Override
 			public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
-				// TODO
-
 				super.onReceivedHttpAuthRequest(view, handler, host, realm);
-
 			}
 
 		});
@@ -157,6 +181,84 @@ public class WebBrowserActivity extends BaseActivity {
 		});
 
 		mWebView.loadUrl(url, mAdditionalHttpHeaders);
+	}
+
+	// 弹出窗口显示 图片
+	private void showPopupWindow(final String... images) {
+		View contentView = View.inflate(this, R.layout.popupwindow_show_pic, null);
+		ViewPager vp = (ViewPager) contentView.findViewById(R.id.vp_pic);
+		final TextView tv_count = (TextView) contentView.findViewById(R.id.tv_count);
+		final PopupWindow popupWindow = new PopupWindow(contentView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, true);
+
+		vp.setAdapter(new PagerAdapter() {
+
+			@Override
+			public int getCount() {
+				return images.length;
+			}
+
+			@Override
+			public boolean isViewFromObject(View arg0, Object arg1) {
+				return arg0 == arg1;
+			}
+
+			@Override
+			public Object instantiateItem(ViewGroup container, int position) {
+				View view = View.inflate(WebBrowserActivity.this, R.layout.pop_pic_item, null);
+				ImageView iv = (ImageView) view.findViewById(R.id.iv);
+				LinearLayout ll = (LinearLayout) view.findViewById(R.id.ll);
+				BitmapUtils bitmapUtils = new BitmapUtils(WebBrowserActivity.this);
+				bitmapUtils.display(iv, "http://120.26.208.198:8080/" + images[position].replace("../", ""));
+
+				ll.setOnClickListener(new OnClickListener() {
+
+					@Override
+					public void onClick(View v) {
+						if (popupWindow.isShowing()) {
+							popupWindow.dismiss();
+						}
+					}
+				});
+
+				container.addView(view);
+				return view;
+			}
+
+			@Override
+			public void destroyItem(ViewGroup container, int position, Object object) {
+				container.removeView((View) object);
+			}
+		});
+
+		tv_count.setText("1" + "/" + images.length);
+
+		vp.addOnPageChangeListener(new OnPageChangeListener() {
+			@Override
+			public void onPageSelected(int arg0) {
+				tv_count.setText((arg0 + 1) + "/" + images.length);
+			}
+
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			}
+		});
+
+		popupWindow.setTouchable(true);
+		popupWindow.setTouchInterceptor(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return false;
+			}
+		});
+
+		popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.test_bg));
+
+		popupWindow.showAsDropDown(View.inflate(this, R.layout.activity_web_browser, null));
 	}
 
 	@Override

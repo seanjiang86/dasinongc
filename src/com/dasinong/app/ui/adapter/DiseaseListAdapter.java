@@ -9,13 +9,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dasinong.app.R;
-import com.dasinong.app.database.encyclopedias.domain.Petdisspecbrowse;
-import com.dasinong.app.entity.DiseaseEntity;
+import com.dasinong.app.entity.PetDisSpecsListEntity.PetDisSpecs;
+import com.lidroid.xutils.BitmapUtils;
 
-public class DiseaseListAdapter extends MyBaseAdapter<Petdisspecbrowse> {
+public class DiseaseListAdapter extends MyBaseAdapter<PetDisSpecs> {
 	
-	public DiseaseListAdapter(Context ctx, List<Petdisspecbrowse> list, boolean flag) {
+	private BitmapUtils bitmapUtils;
+	
+	private static final String URL = "http://120.26.208.198:8080/pic/";
+
+	public DiseaseListAdapter(Context ctx, List<PetDisSpecs> list, boolean flag) {
 		super(ctx, list, flag);
+		bitmapUtils = new BitmapUtils(ctx);
 	}
 	
 	@Override
@@ -26,20 +31,23 @@ public class DiseaseListAdapter extends MyBaseAdapter<Petdisspecbrowse> {
 			view = View.inflate(context, R.layout.view_disease_item, null);
 			holder.nameText = (TextView) view.findViewById(R.id.textview_title);
 			holder.desText = (TextView) view.findViewById(R.id.textview_description);
+			holder.pic = (ImageView) view.findViewById(R.id.iv_pic);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
-		final Petdisspecbrowse item = list.get(pos);
+		final PetDisSpecs item = list.get(pos);
 		holder.nameText.setText(item.petDisSpecName);
-		holder.desText.setText(item.type);
-		holder.desText.setVisibility(View.GONE);
+		holder.desText.setText(item.sympthon);
+		holder.pic.setVisibility(View.VISIBLE);
+		bitmapUtils.display(holder.pic, URL+item.thumbnailId);
 		return view;
 	}
 
 	public static class ViewHolder {
 		TextView  nameText;
 		TextView  desText;
+		ImageView pic; 
 	}
 	
 }

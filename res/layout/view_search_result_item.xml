@@ -74,8 +74,7 @@
                 android:textColor="@color/color_666666"
                 android:textSize="@dimen/sp_16" 
                 android:maxLines="2"
-                android:ellipsize="end"
-                />
+                android:ellipsize="end" />
         </LinearLayout>
 
         <ImageView

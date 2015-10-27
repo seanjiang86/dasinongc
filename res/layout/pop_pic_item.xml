@@ -3,14 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    
-    <ImageView
-        android:id="@+id/iv"
+
+    <LinearLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:layout_gravity="center"
-        android:src="@drawable/test_pic" />
-    
+        android:gravity="center" >
+
+        <ImageView
+            android:id="@+id/iv"
+            android:layout_width="320dp"
+            android:layout_height="248dp" />
+    </LinearLayout>
 
 </LinearLayout>
