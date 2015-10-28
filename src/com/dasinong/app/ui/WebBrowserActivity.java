@@ -11,6 +11,7 @@ import com.dasinong.app.jstojavainteface.JsInterface;
 import com.dasinong.app.jstojavainteface.JsInterface.WebViewClientClickListener;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.Logger;
+import com.dasinong.app.utils.Logger.LogTag;
 import com.lidroid.xutils.BitmapUtils;
 
 import android.annotation.SuppressLint;
@@ -105,6 +106,8 @@ public class WebBrowserActivity extends BaseActivity {
 
 		settings.setBuiltInZoomControls(true);// 支持手势缩放
 		settings.setDisplayZoomControls(false);// 支持手势缩放
+		//指定浏览器不是用缓存
+		settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
 
 		mWebView.addJavascriptInterface(jsInterface, "androidObj");
 		mWebView.setWebViewClient(new WebViewClient() {
@@ -256,7 +259,7 @@ public class WebBrowserActivity extends BaseActivity {
 			}
 		});
 
-		popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.test_bg));
+		popupWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.pic_bg));
 
 		popupWindow.showAsDropDown(View.inflate(this, R.layout.activity_web_browser, null));
 	}

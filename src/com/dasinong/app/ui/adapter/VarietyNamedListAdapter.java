@@ -18,15 +18,15 @@ import com.dasinong.app.entity.VarietyNamedListEntity.Variety;
 import com.dasinong.app.ui.adapter.DiseaseListAdapter.ViewHolder;
 
 public class VarietyNamedListAdapter extends MyBaseAdapter<Variety> {
-	
+
 	public VarietyNamedListAdapter(Context ctx, List<Variety> list, boolean flag) {
 		super(ctx, list, flag);
 	}
-	
+
 	@Override
 	public View getView(int pos, View view, ViewGroup group) {
 		ViewHolder holder;
-		if(view == null){
+		if (view == null) {
 			holder = new ViewHolder();
 			view = View.inflate(context, R.layout.view_disease_item, null);
 			holder.nameText = (TextView) view.findViewById(R.id.textview_title);
@@ -37,11 +37,12 @@ public class VarietyNamedListAdapter extends MyBaseAdapter<Variety> {
 			holder = (ViewHolder) view.getTag();
 		}
 		final Variety item = list.get(pos);
-		holder.nameText.setText(item.getVarietyName());
+		holder.nameText.setText(item.getVarietyName() + " " +item.getSubId());
 		holder.desText.setText(item.getOwner());
-		if(TextUtils.isEmpty(item.getOwner())){
+		holder.desText.setLines(1);
+		if (TextUtils.isEmpty(item.getOwner())) {
 			holder.desText.setVisibility(View.GONE);
-		}else{
+		} else {
 			holder.desText.setVisibility(View.VISIBLE);
 		}
 		holder.moreImage.setVisibility(View.VISIBLE);
@@ -49,9 +50,9 @@ public class VarietyNamedListAdapter extends MyBaseAdapter<Variety> {
 	}
 
 	public static class ViewHolder {
-		TextView  nameText;
-		TextView  desText;
+		TextView nameText;
+		TextView desText;
 		ImageView moreImage;
 	}
-	
+
 }

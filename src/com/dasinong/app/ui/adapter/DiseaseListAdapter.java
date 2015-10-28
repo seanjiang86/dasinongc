@@ -3,6 +3,7 @@ package com.dasinong.app.ui.adapter;
 import java.util.List;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -38,6 +39,9 @@ public class DiseaseListAdapter extends MyBaseAdapter<PetDisSpecs> {
 		}
 		final PetDisSpecs item = list.get(pos);
 		holder.nameText.setText(item.petDisSpecName);
+		if(TextUtils.isEmpty(item.sympthon)){
+			holder.desText.setVisibility(View.GONE);
+		}
 		holder.desText.setText(item.sympthon);
 		holder.pic.setVisibility(View.VISIBLE);
 		bitmapUtils.display(holder.pic, URL+item.thumbnailId);

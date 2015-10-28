@@ -25,22 +25,18 @@ public class PesticideListAdapter extends MyBaseAdapter<Cpproductbrowse> {
 		ViewHolder holder;
 		if(view == null){
 			holder = new ViewHolder();
-			view = View.inflate(context, R.layout.view_disease_item, null);
+			view = View.inflate(context, R.layout.view_disease_item_small, null);
 			holder.nameText = (TextView) view.findViewById(R.id.textview_title);
-			holder.desText = (TextView) view.findViewById(R.id.textview_description);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
 		final Cpproductbrowse item = list.get(pos);
 		holder.nameText.setText(item.activeIngredient);
-		holder.desText.setVisibility(View.GONE);
 		return view;
 	}
 
 	public static class ViewHolder {
 		TextView  nameText;
-		TextView  desText;
 	}
-	
 }

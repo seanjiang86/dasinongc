@@ -144,29 +144,6 @@ public class SearchVarietyResultActivity extends BaseActivity {
 			}
 		});
 	}
-
-//	private void requestData() {
-//		startLoadingDialog();
-//		RequestService.getInstance().browseCPProductByModel(this, type, PesticideListEntity.class, new RequestListener() {
-//			
-//			@Override
-//			public void onSuccess(int requestCode, BaseEntity resultData) {
-//				dismissLoadingDialog();
-//				if(resultData.isOk()){
-//					PesticideListEntity entity = (PesticideListEntity) resultData;
-//					setAdapter(entity.getData());
-//				}else{
-//					showToast(resultData.getMessage());
-//				}
-//			}
-//			
-//			@Override
-//			public void onFailed(int requestCode, Exception error, String msg) {
-//				dismissLoadingDialog();
-//				
-//			}
-//		});
-//	}
 	
 	private void initOverlay() {
 		mHandler = new Handler();
