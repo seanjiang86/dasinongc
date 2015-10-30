@@ -1,11 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dasinong.app"
-    android:versionCode="11"
-    android:versionName="1.2.5" >
+    android:versionCode="12"
+    android:versionName="1.2.6" >
 
     <uses-sdk
         android:minSdkVersion="14"
-        android:targetSdkVersion="19" />
+        android:targetSdkVersion="16" />
 
     <application
         android:allowBackup="true"

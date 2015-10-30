@@ -284,9 +284,11 @@ public class MyInfoSetActivity extends BaseActivity {
 				showToast("请选择镇");
 				return;
 			}
-			if (mVillageSp.getSelectedItemPosition() == 0){
-				showToast("请选择村");
-				return;
+			if(mVillageSp.getVisibility() == View.VISIBLE){
+				if (mVillageSp.getSelectedItemPosition() == 0){
+					showToast("请选择村");
+					return;
+				}
 			}
 			String editText = mEditText.getText().toString().trim();
 			if (TextUtils.isEmpty(editText)) {
@@ -491,7 +493,11 @@ public class MyInfoSetActivity extends BaseActivity {
 	
 	protected void setVillages(List<String> village) {
 		village.add(0, "请选择村");
-		mVillageSp.setAdapter(new ArrayAdapter<String>(this, R.layout.textview,village));
+		if(village != null && village.size() > 0){
+			mVillageSp.setAdapter(new ArrayAdapter<String>(this, R.layout.textview,village));
+		} else {
+			mVillageSp.setVisibility(View.GONE);
+		}
 	}
 	
 	@Override

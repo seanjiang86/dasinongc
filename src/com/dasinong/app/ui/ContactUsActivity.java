@@ -1,10 +1,8 @@
 package com.dasinong.app.ui;
 
-import java.util.Date;
 
 import com.dasinong.app.R;
 import com.dasinong.app.ui.view.TopbarView;
-import com.mob.tools.utils.Data;
 
 import android.content.Intent;
 import android.net.Uri;

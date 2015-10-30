@@ -384,7 +384,9 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	 */
 	protected void qqRegLog(String qqtoken, String avater, String username) {
 		channel = AppInfoUtils.getChannelCode(this);
-		
+		if(!"TaoShi".equals(channel)){
+			channel = "";
+		}
 		RequestService.getInstance().qqAuthRegLog(this, qqtoken, avater, username, channel, LoginRegEntity.class, new RequestListener() {
 
 			@Override
@@ -410,7 +412,9 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	}
 	protected void wxRegLog(String WXToken, String avater, String username) {
 		channel = AppInfoUtils.getChannelCode(this);
-		
+		if(!"TaoShi".equals(channel)){
+			channel = "";
+		}
 		RequestService.getInstance().weixinAuthRegLog(this, WXToken, avater, username, channel, LoginRegEntity.class, new RequestListener() {
 
 			@Override

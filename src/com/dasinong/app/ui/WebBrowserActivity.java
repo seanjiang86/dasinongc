@@ -4,14 +4,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
-import javax.swing.LayoutFocusTraversalPolicy;
 
 import com.dasinong.app.R;
 import com.dasinong.app.jstojavainteface.JsInterface;
 import com.dasinong.app.jstojavainteface.JsInterface.WebViewClientClickListener;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.Logger;
-import com.dasinong.app.utils.Logger.LogTag;
 import com.lidroid.xutils.BitmapUtils;
 
 import android.annotation.SuppressLint;

@@ -570,6 +570,9 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	private void loginRegister(String cellphone) {
 		startLoadingDialog();
 		String channel = AppInfoUtils.getChannelCode(this);
+		if(!"TaoShi".equals(channel)){
+			channel = "";
+		}
 		RequestService.getInstance().authcodeLoginReg(this, cellphone, channel, LoginRegEntity.class, new RequestListener() {
 			
 			@Override

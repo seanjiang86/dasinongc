@@ -41,7 +41,7 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getRegisterLoginParams(cellphone , channel);
 		new NetRequest(context).get(RequestCode.LOGIN_REGISTER, params, SubUrl.LOGIN_REGISTER, callBack, clazz);
 	}
-
+	
 	public void loginByPwd(Context context, String userName, String password , Class<? extends BaseEntity> clazz,
 			RequestListener callBack) {
 		Map<String, String> params = NetConfig.getLoginParams(userName, password);
