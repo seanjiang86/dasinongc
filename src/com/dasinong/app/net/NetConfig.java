@@ -106,8 +106,6 @@ public class NetConfig {
 		public static final String GET_PET_DIS_SPEC_DETIAL ="getPetDisSpecDetial";
 		/**获取相关药物*/
 		public static final String GET_PET_SOLU ="getPetSolu";
-		/**百科-获取病虫草害*/
-		public static final String PETDIS_BYTYPE ="browsePetDisByType";
 		/**百科-农药*/
 		public static final String CPPRODUCT_BYMODEL ="browseCPProductByModel";
 		/**百科-同名农药*/
@@ -122,8 +120,6 @@ public class NetConfig {
 		public static final String WX_AUTH_REG_LOG ="weixinAuthRegLog";
 		/** 获取生长周期接口*/
 		public static final String GET_STAGES ="getStages";
-		/** 提交天气信息错误接口 */
-		public static final String WEATHER_ISSUE ="weatherIssue";
 		/** 提交邀请码接口 */
 		public static final String SET_REF ="setRef";
 		/** 短信推荐接口 */
@@ -609,11 +605,6 @@ public class NetConfig {
 		paramsMap.put(Params.petSoluId, strPetSoluId);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> browsePetDisByTypeParams(String type) {
-		Map<String, String> paramsMap = new HashMap<String, String>();
-		paramsMap.put(Params.type, type);
-		return getBaseParams(false, paramsMap);
-	}
 	public static Map<String, String> browseCPProductByModelParams(String model) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.model, model);
@@ -654,12 +645,6 @@ public class NetConfig {
 	public static Map<String, String> getGetStagesParams(String varietyId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.varietyId, varietyId);
-		return getBaseParams(false, paramsMap);
-	}
-	public static Map<String, String> getWeatherIssueParams( String monitorLocationId , String issue) {
-		Map<String, String> paramsMap = new HashMap<String, String>();
-		paramsMap.put(Params.monitorLocationId, monitorLocationId);
-		paramsMap.put(Params.issue, issue);
 		return getBaseParams(false, paramsMap);
 	}
 	public static Map<String, String> getSetRefParams( String refcode) {

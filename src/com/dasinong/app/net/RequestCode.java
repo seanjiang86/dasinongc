@@ -81,8 +81,7 @@ public final class RequestCode {
 	 * 获取指定病虫草害解决方案所需药物
 	 */
 	public static final int GET_PET_SOLU = GET_PET_DIS_SPEC_DETIAL + 1;
-	public static final int PETDIS_BYTYPE = GET_PET_SOLU + 1;
-	public static final int CPPRODUCT_BYMODEL = PETDIS_BYTYPE + 1;
+	public static final int CPPRODUCT_BYMODEL = GET_PET_SOLU + 1;
 	public static final int CPPRODUCT_BYMODEL_NAMED = CPPRODUCT_BYMODEL + 1;
 	public static final int CPPRODUCT_VARIETYS_NAMED = CPPRODUCT_BYMODEL_NAMED + 1;
 	/** 更换当前作物生长周期 */
@@ -93,10 +92,8 @@ public final class RequestCode {
 	public static final int WX_AUTH_REG_LOG = QQ_AUTH_REG_LOG + 1;
 	/** 获取生长周期接口*/
 	public static final int GET_STAGES = WX_AUTH_REG_LOG + 1;
-	/** 提交天气信息错误接口 */
-	public static final int WEATHER_ISSUE = GET_STAGES + 1;
 	/** 提交推荐码接口 */
-	public static final int SETREF = WEATHER_ISSUE + 1;
+	public static final int SETREF = GET_STAGES + 1;
 	/** 短信推荐接口 */
 	public static final int REFAPP = SETREF + 1;
 	/** 用户退出 */

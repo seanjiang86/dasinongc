@@ -271,8 +271,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 			WeatherEntity weatherEntity = (WeatherEntity) response;
 
-			checkData(weatherEntity);
-
 			mHomeWeatherView.setWeatherData(weatherEntity);
 
 			mCropStateView.updateWorkStage(weatherEntity);
@@ -284,24 +282,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 			BannerEntity banner = (BannerEntity) response;
 			if (banner != null) {
-
-				// BannerEntity bEntity = new BannerEntity();
-				// ItemEntity itemEntity = bEntity.new ItemEntity();
-				// itemEntity.type = 1;
-				// itemEntity.picUrl="http://a0.att.hudong.com/70/15/01300000287245125050159032413.jpg";
-				// banner.newdata.add(itemEntity);
-				//
-				// BannerEntity bEntity1 = new BannerEntity();
-				// ItemEntity itemEntity1 = bEntity1.new ItemEntity();
-				// itemEntity1.type = 1;
-				// itemEntity1.picUrl="http://img1.imgtn.bdimg.com/it/u=4290945281,3620528886&fm=21&gp=0.jpg";
-				// banner.newdata.add(itemEntity1);
-				//
-				// BannerEntity bEntity2 = new BannerEntity();
-				// ItemEntity itemEntity2 = bEntity2.new ItemEntity();
-				// itemEntity2.type = 1;
-				// itemEntity2.picUrl="http://img1.imgtn.bdimg.com/it/u=4290945281,3620528886&fm=21&gp=0.jpg";
-				// banner.newdata.add(itemEntity2);
 
 				if (banner.newdata != null && banner.newdata.size() > 1) {
 					Collections.sort(banner.newdata);
@@ -341,11 +321,11 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 
 	private void initPoint(List<ItemEntity> newdata) {
 		imageViews = new ImageView[newdata.size()];
-		
-		if(ll_view_group.getChildCount() > 0){
+
+		if (ll_view_group.getChildCount() > 0) {
 			ll_view_group.removeAllViews();
 		}
-		
+
 		for (int i = 0; i < imageViews.length; i++) {
 			ImageView imageView = new ImageView(getActivity());
 
@@ -362,107 +342,9 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			} else {
 				imageViews[i].setBackgroundResource(R.drawable.page_indicator);
 			}
-			
+
 			ll_view_group.addView(imageView);
 		}
-	}
-
-	private void checkData(WeatherEntity entity) {
-		int hourCount = 0;
-		StringBuilder hourSb = new StringBuilder();
-		if (entity == null) {
-			return;
-		}
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		if (entity.data.n24h != null) {
-			for (int i = 0; i < entity.data.n24h.size(); i++) {
-				if (entity.data.n24h.get(i) == null) {
-					hourSb.append(i);
-					hourSb.append(",");
-					hourCount++;
-				}
-			}
-		} else {
-			Date date = new Date();
-			String currentDate = simpleDateFormat.format(date);
-
-			msg = "当前时间为" + currentDate + ",这是24小时数据错误,24小时数据为空";
-			sendErrorMsg(mMotionId, msg);
-		}
-
-		if (hourCount > 1) {
-			Date date = new Date();
-			String currentDate = simpleDateFormat.format(date);
-
-			msg = "当前时间为" + currentDate + ",这是24小时数据错误,缺失" + hourCount + "条数据,错误数据的下标为" + hourSb.toString();
-			sendErrorMsg(mMotionId, msg);
-		}
-
-		int dayCount = 0;
-		StringBuilder daySb = new StringBuilder();
-
-		if (entity.data.n7d != null) {
-			for (int i = 0; i < entity.data.n7d.size(); i++) {
-				if (entity.data.n7d.get(i) == null) {
-					daySb.append(i);
-					daySb.append(",");
-					dayCount++;
-				}
-			}
-		} else {
-			Date date = new Date();
-			String currentDate = simpleDateFormat.format(date);
-			msg = "当前时间为" + currentDate + ",这是7天数据错误,七天数据为空";
-			sendErrorMsg(mMotionId, msg);
-		}
-
-		if (dayCount > 1) {
-			Date date = new Date();
-			String currentDate = simpleDateFormat.format(date);
-
-			msg = "当前时间为" + currentDate + ",这是7天数据错误,缺失" + dayCount + "条数据,错误数据的下标为" + daySb.toString();
-			sendErrorMsg(mMotionId, msg);
-		}
-
-		if (entity.data.sunset == 0) {
-			Date date = new Date();
-			String currentDate = simpleDateFormat.format(date);
-
-			msg = "当前时间为" + currentDate + ",这是日落数据空缺";
-			sendErrorMsg(mMotionId, msg);
-		}
-
-		if (entity.data.sunrise == 0) {
-			Date date = new Date();
-			String currentDate = simpleDateFormat.format(date);
-
-			msg = "当前时间为" + currentDate + ",这是日出数据空缺";
-			sendErrorMsg(mMotionId, msg);
-		}
-	}
-
-	/**
-	 * 用来上传天气中的数据错误
-	 * 
-	 * @param monitorLocationId
-	 * @param msg
-	 */
-	private void sendErrorMsg(int monitorLocationId, String msg) {
-		if (monitorLocationId < 0) {
-			return;
-		}
-
-		RequestService.getInstance().weatherIssue(getActivity(), monitorLocationId + "", msg, BaseEntity.class, new RequestListener() {
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
-
-			}
-
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
-
-			}
-		});
 	}
 
 	@Override
@@ -519,7 +401,6 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 				loadDataFromWithCache(true);
 			}
 		}
-
 	}
 
 	@Override
@@ -655,18 +536,15 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 	public void loadWeatherData(WeatherEntity.Param param) {
 		mWeatherRequest = VolleyManager.getInstance()
 				.addGetRequestWithCache(REQUEST_CODE_HOME_WEATHER, URL_WEATHER, param, WeatherEntity.class, this);
-
 	}
 
 	private void loadBanner(BannerEntity.Param param) {
 		mBannerRequest = VolleyManager.getInstance().addGetRequestWithCache(REQUEST_CODE_HOME_BANNER, URL_BANNER, param, BannerEntity.class, this);
-
 	}
 
 	private void loadDisaster() {
-		mBannerRequest = VolleyManager.getInstance().addGetRequestWithCache(REQUEST_CODE_DISASTER, URL_DISASTER, diasterParam, DisasterEntity.class,
-				this);
-
+		// addPostRequest
+		mBannerRequest = VolleyManager.getInstance().addGetRequestWithCache(REQUEST_CODE_DISASTER, URL_DISASTER, diasterParam, DisasterEntity.class, this);
 	}
 
 	private void DEBUG(String msg) {

@@ -1,6 +1,9 @@
 package com.dasinong.app.components.home.view;
 
 
+import java.util.List;
+import java.util.TreeMap;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,21 +20,12 @@ import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity.CurrentFieldEntity.SubStageEntity;
 import com.dasinong.app.components.home.view.dialog.SubStageDialog;
-import com.dasinong.app.components.net.VolleyManager;
-import com.dasinong.app.database.task.domain.SubStage;
-import com.dasinong.app.entity.BaseEntity;
-import com.dasinong.app.entity.ChangeStageEntity;
-import com.dasinong.app.net.NetRequest.RequestListener;
-import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.AddFieldActivity1;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.utils.DeviceHelper;
 import com.umeng.analytics.MobclickAgent;
-
-import java.util.List;
-import java.util.TreeMap;
 
 /**
  * 农作物成长状况View--用于首页上部绿色背景中部的显示

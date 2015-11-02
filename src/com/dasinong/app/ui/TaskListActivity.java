@@ -217,7 +217,6 @@ public class TaskListActivity extends BaseActivity {
 				}
 			}
 		}
-
 	}
 
 	private void initView() {
@@ -264,9 +263,7 @@ public class TaskListActivity extends BaseActivity {
 		// }
 
 		startLoadingDialog();
-		RequestService.getInstance().updateTask(this, "10", /*
-															 * taskIds.toString()
-															 */"4,5,6", taskStatuss.toString(), BaseEntity.class, new RequestListener() {
+		RequestService.getInstance().updateTask(this, "10", /* * taskIds.toString()*/"4,5,6", taskStatuss.toString(), BaseEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
