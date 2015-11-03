@@ -17,7 +17,6 @@ public final class SharedPreferencesHelper {
         USER_AUTH_TOKEN,
         USER_ADDRESS,
         USER_PHONE,
-        //    	SESSIONID,
         VILLAGE_ID,
         LATITUDE,
         LONGITUDE,
@@ -42,6 +41,7 @@ public final class SharedPreferencesHelper {
         REFUID,
         CURRENT_VILLAGE_ID,
         CHANNEL,
+        INSTITUTIONID,
     }
 
     ;

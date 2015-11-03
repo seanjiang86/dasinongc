@@ -7,6 +7,7 @@ import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestCode;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.AccountManager;
+import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.AppInfoUtils;
 import com.dasinong.app.utils.StringHelper;
@@ -278,10 +279,12 @@ public class RegisterPasswordActivity extends BaseActivity {
 		// Intent intent = new Intent(this,RegisterCodeActivity.class);
 		// intent.putExtra(RegisterCodeActivity.PHONE_NUMBER, phone);
 		// startActivity(intent);
-
+		String channel = AppInfoUtils.getChannelCode(this);
+		int appInstitutionId = AppInfoUtils.getInstitutionId(this);
+		
 		startLoadingDialog();
 
-		RequestService.getInstance().register(this, phone, password, phone, "", LoginRegEntity.class, new RequestListener() {
+		RequestService.getInstance().register(this, phone, password, phone, "", channel, appInstitutionId+"",LoginRegEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {

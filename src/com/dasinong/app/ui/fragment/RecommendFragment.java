@@ -37,13 +37,13 @@ public class RecommendFragment extends Fragment {
 	private Button btn_send;
 	private String refCode;
 	private LinearLayout ll_organization;
-	private int refuId;
+	private boolean isShow;
 
-	public static RecommendFragment newInstance(int position , int refuId) {
+	public static RecommendFragment newInstance(int position , boolean isShow) {
 		RecommendFragment myFragment = new RecommendFragment();
 		Bundle bundle = new Bundle();
 		bundle.putInt("position", position);
-		bundle.putInt("refuId", refuId);
+		bundle.putBoolean("isShow", isShow);
 		myFragment.setArguments(bundle);
 		return myFragment;
 	}
@@ -52,8 +52,7 @@ public class RecommendFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		fragmentPosition = getArguments() != null ? getArguments().getInt("position") : 0;
-		refuId = getArguments() != null ? getArguments().getInt("refuId") : -1;
-		
+		isShow = getArguments() != null ? true : getArguments().getBoolean("isShow"); 
 		refCode = SharedPreferencesHelper.getString(getActivity(), Field.REFCODE, "");
 		
 	}
@@ -81,6 +80,7 @@ public class RecommendFragment extends Fragment {
 									LoginRegEntity entity = (LoginRegEntity) resultData;
 									((BaseActivity) getActivity()).showToast("验证成功");
 									SharedPreferencesHelper.setInt(getActivity(), Field.REFUID, entity.getData().getRefuid());
+									SharedPreferencesHelper.setInt(getActivity(), Field.INSTITUTIONID, entity.getData().getInstitutionId());
 									getActivity().finish();
 								} else {
 									((BaseActivity) getActivity()).showToast(resultData.getMessage());
@@ -113,8 +113,7 @@ public class RecommendFragment extends Fragment {
 			et_phone = (EditText) view.findViewById(R.id.et_phone);
 			btn_send = (Button) view.findViewById(R.id.btn_send);
 			
-			if(refuId > 0){
-				
+			if(!isShow){
 				ll_organization.setVisibility(View.GONE);
 			}
 			
@@ -147,6 +146,7 @@ public class RecommendFragment extends Fragment {
 								LoginRegEntity entity = (LoginRegEntity) resultData;
 								((BaseActivity) getActivity()).showToast("验证成功");
 								SharedPreferencesHelper.setInt(getActivity(), Field.REFUID, entity.getData().getRefuid());
+								SharedPreferencesHelper.setInt(getActivity(), Field.INSTITUTIONID, entity.getData().getInstitutionId());
 								((BaseActivity) getActivity()).dismissLoadingDialog();
 								ll_organization.setVisibility(View.GONE);
 								getActivity().finish();

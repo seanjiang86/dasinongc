@@ -16,6 +16,15 @@ public class User {
 	private String refcode;
 	private int refuid;
 	private String channel;
+	private int institutionId;
+	
+	public int getInstitutionId() {
+		return institutionId;
+	}
+
+	public void setInstitutionId(int institutionId) {
+		this.institutionId = institutionId;
+	}
 
 	public String getChannel() {
 		return channel;

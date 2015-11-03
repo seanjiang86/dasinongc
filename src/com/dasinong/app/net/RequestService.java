@@ -29,14 +29,14 @@ public class RequestService {
 		return mInstance;
 	}
 	
-	public void register(Context context, String userName, String password, String cellPhone, String address,
+	public void register(Context context, String userName, String password, String cellPhone, String address, String channel, String institutionId,
 			Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getRegisterParams(userName, password, cellPhone, address);
+		Map<String, String> params = NetConfig.getRegisterParams(userName, password, cellPhone, address, channel, institutionId);
 		new NetRequest(context).requestPost(RequestCode.REGISTER_BY_PASSWORD, params, SubUrl.REGISTER_BY_PASSWORD, callBack, clazz);
 	}
 	
-	public void authcodeLoginReg(Context context, String cellphone, String channel,Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getRegisterLoginParams(cellphone , channel);
+	public void authcodeLoginReg(Context context, String cellphone, String channel, String institutionId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getRegisterLoginParams(cellphone , channel, institutionId);
 		new NetRequest(context).requestPost(RequestCode.LOGIN_REGISTER, params, SubUrl.LOGIN_REGISTER, callBack, clazz);
 	}
 	
@@ -211,8 +211,8 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getChangeStageParams(fieldId, currentStageId);
 		new NetRequest(context).requestPost(RequestCode.CHANGE_STAGE, params, SubUrl.CHANGE_STAGE, callBack, clazz);
 	}
-	public void qqAuthRegLog(Context context, String qqtoken , String avater , String username, String channel, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getQQAuthRegLogParams(qqtoken, avater , username, channel);
+	public void qqAuthRegLog(Context context, String qqtoken , String avater , String username, String channel, String institutionId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getQQAuthRegLogParams(qqtoken, avater , username, channel, institutionId);
 		new NetRequest(context).requestPost(RequestCode.QQ_AUTH_REG_LOG, params, SubUrl.QQ_AUTH_REG_LOG, callBack, clazz);
 	}
 	public void getWXAccessToken(Context context, String appid, String secret,String code,Class<? extends BaseEntity> clazz, RequestListener callBack) {
@@ -229,8 +229,8 @@ public class RequestService {
 			e.printStackTrace();
 		}
 	}
-	public void weixinAuthRegLog(Context context, String weixintoken , String avater , String username, String channel,Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getWXAuthRegLogParams(weixintoken, avater , username , channel);
+	public void weixinAuthRegLog(Context context, String weixintoken , String avater , String username, String channel, String institutionId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getWXAuthRegLogParams(weixintoken, avater , username , channel, institutionId);
 		new NetRequest(context).requestPost(RequestCode.WX_AUTH_REG_LOG, params, SubUrl.WX_AUTH_REG_LOG, callBack, clazz);
 	} 
 	public void getStages(Context context, String varietyId ,Class<? extends BaseEntity> clazz, RequestListener callBack) {

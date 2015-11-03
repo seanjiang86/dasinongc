@@ -40,7 +40,7 @@ public class AccountManager {
 		SharedPreferencesHelper.setString(context, Field.WEIXIN_TOKEN, user.getWeixintoken());
 		SharedPreferencesHelper.setString(context, Field.REFCODE, user.getRefcode());
 		SharedPreferencesHelper.setInt(context, Field.REFUID, user.getRefuid());
-		
+		SharedPreferencesHelper.setInt(context, Field.INSTITUTIONID, user.getInstitutionId());
 		SharedPreferencesHelper.setString(context, Field.CHANNEL, user.getChannel());
 		
 		SharedPreferencesHelper.setArrayString(context, Field.USER_FIELDS, user.getFields());
@@ -83,6 +83,7 @@ public class AccountManager {
 		SharedPreferencesHelper.setString(context, Field.WEIXIN_TOKEN, "");
 		SharedPreferencesHelper.setInt(context, Field.REFUID, -1);
 		SharedPreferencesHelper.setString(context, Field.CHANNEL, "");
+		SharedPreferencesHelper.setInt(context, Field.INSTITUTIONID, 0);
 	}
 	
 	public static boolean checkLogin(Context context){

@@ -5,6 +5,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.text.TextUtils;
 
 public class AppInfoUtils {
 	public static String getChannelCode(Context context) {
@@ -13,6 +14,14 @@ public class AppInfoUtils {
 			return code;
 		}
 		return "";
+	}
+	
+	public static int getInstitutionId(Context context){
+		String  strInstitutionId = getMetaData(context, "INSTITUTION_ID");
+		if(!TextUtils.isEmpty(strInstitutionId)){
+			return Integer.valueOf(strInstitutionId);
+		}
+		return 0;
 	}
 
 	private static String getMetaData(Context context, String key) {

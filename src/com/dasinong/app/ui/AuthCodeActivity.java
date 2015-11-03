@@ -35,6 +35,7 @@ import cn.smssdk.EventHandler;
 import cn.smssdk.SMSSDK;
 import cn.smssdk.gui.SMSReceiver;
 
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.IsPassSetEntity;
@@ -570,10 +571,8 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	private void loginRegister(String cellphone) {
 		startLoadingDialog();
 		String channel = AppInfoUtils.getChannelCode(this);
-		if(!"TaoShi".equals(channel)){
-			channel = "";
-		}
-		RequestService.getInstance().authcodeLoginReg(this, cellphone, channel, LoginRegEntity.class, new RequestListener() {
+		int appInstitutionId = AppInfoUtils.getInstitutionId(this);
+		RequestService.getInstance().authcodeLoginReg(this, cellphone, channel, appInstitutionId + "", LoginRegEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {

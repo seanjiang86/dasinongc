@@ -1,19 +1,15 @@
 package com.dasinong.app.ui;
 
-import android.accounts.Account;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LoginRegEntity;
@@ -24,11 +20,12 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.utils.AppInfoUtils;
 import com.umeng.message.PushAgent;
-import com.umeng.message.UmengRegistrar;
 
 public class SplashActivity extends BaseActivity {
 	private TextView tv_version;
 	private ImageView splash_iv;
+	private int serverInstitutionId;
+	private int appInstitutionId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -40,17 +37,16 @@ public class SplashActivity extends BaseActivity {
 		
 		autoLogin();
 		
-		String channelCode = AppInfoUtils.getChannelCode(this);
 		String versionName = AppInfoUtils.getVersionName(this);
-		String channel = SharedPreferencesHelper.getString(this, Field.CHANNEL, "");
+		serverInstitutionId = SharedPreferencesHelper.getInt(this, Field.INSTITUTIONID, 0);
+		appInstitutionId = AppInfoUtils.getInstitutionId(this);
 		
-		if((!TextUtils.isEmpty(channelCode) && "TaoShi".equals(channelCode)) || (!TextUtils.isEmpty(channel) && "陶氏".endsWith(channel))){
+		if(appInstitutionId == 0 && serverInstitutionId == 0){
+			setUserTag("普通");
+		} else if(appInstitutionId == 1 || serverInstitutionId == 1) {
 			splash_iv.setImageResource(R.drawable.splash_image_taoshi);
 			setUserTag("陶氏");
-		} else {
-			setUserTag("普通");
-		}
-		
+		} 
 
 		if (!TextUtils.isEmpty(versionName)) {
 			tv_version.setText("当前版本：" + versionName);
@@ -133,9 +129,11 @@ public class SplashActivity extends BaseActivity {
 		logKey = TextUtils.isEmpty(phone) ? phone : "";
 		logKey = TextUtils.isEmpty(qqToken) ? qqToken : "";
 		logKey = TextUtils.isEmpty(weixinToken) ? weixinToken : "";
-
+		
+		String channel = AppInfoUtils.getChannelCode(this);
+		
 		if (!TextUtils.isEmpty(phone)) {
-			RequestService.getInstance().authcodeLoginReg(this, phone, "",LoginRegEntity.class, new RequestListener() {
+			RequestService.getInstance().authcodeLoginReg(this, phone, channel, appInstitutionId+"", LoginRegEntity.class, new RequestListener() {
 
 				@Override
 				public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -149,7 +147,7 @@ public class SplashActivity extends BaseActivity {
 				}
 			});
 		} else if (!TextUtils.isEmpty(qqToken)) {
-			RequestService.getInstance().qqAuthRegLog(this, qqToken, "", "","",BaseEntity.class, new RequestListener() {
+			RequestService.getInstance().qqAuthRegLog(this, qqToken, "", "", channel, appInstitutionId+"", BaseEntity.class, new RequestListener() {
 
 				@Override
 				public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -164,7 +162,7 @@ public class SplashActivity extends BaseActivity {
 				}
 			});
 		} else if (!TextUtils.isEmpty(weixinToken)) {
-			RequestService.getInstance().weixinAuthRegLog(this, weixinToken, "", "", "", BaseEntity.class, new RequestListener() {
+			RequestService.getInstance().weixinAuthRegLog(this, weixinToken, "", "", channel,appInstitutionId+"", BaseEntity.class, new RequestListener() {
 				
 				@Override
 				public void onSuccess(int requestCode, BaseEntity resultData) {

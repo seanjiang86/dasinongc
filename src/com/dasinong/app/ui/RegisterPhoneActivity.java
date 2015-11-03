@@ -140,7 +140,8 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	public static IWXAPI wxApi;
 	public static boolean isWXLogin = false;
 	
-	private String channel;
+	private String channel = AppInfoUtils.getChannelCode(this);
+	private int appInstitutionId = AppInfoUtils.getInstitutionId(this);
 
 	private Handler mHandler = new Handler() {
 
@@ -383,11 +384,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	 * @param username
 	 */
 	protected void qqRegLog(String qqtoken, String avater, String username) {
-		channel = AppInfoUtils.getChannelCode(this);
-		if(!"TaoShi".equals(channel)){
-			channel = "";
-		}
-		RequestService.getInstance().qqAuthRegLog(this, qqtoken, avater, username, channel, LoginRegEntity.class, new RequestListener() {
+		RequestService.getInstance().qqAuthRegLog(this, qqtoken, avater, username, channel, appInstitutionId+"", LoginRegEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -411,11 +408,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 		});
 	}
 	protected void wxRegLog(String WXToken, String avater, String username) {
-		channel = AppInfoUtils.getChannelCode(this);
-		if(!"TaoShi".equals(channel)){
-			channel = "";
-		}
-		RequestService.getInstance().weixinAuthRegLog(this, WXToken, avater, username, channel, LoginRegEntity.class, new RequestListener() {
+		RequestService.getInstance().weixinAuthRegLog(this, WXToken, avater, username, channel, appInstitutionId+"",LoginRegEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {

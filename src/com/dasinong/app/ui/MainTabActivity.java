@@ -126,7 +126,8 @@ public class MainTabActivity extends BaseActivity {
 		if (AccountManager.isLogin(MainTabActivity.this)) {
 			return;
 		}
-		RequestService.getInstance().authcodeLoginReg(MainTabActivity.this, "13112345678", "", LoginRegEntity.class,
+		int appInstitutionId = AppInfoUtils.getInstitutionId(this);
+		RequestService.getInstance().authcodeLoginReg(MainTabActivity.this, "13112345678", "", appInstitutionId+"", LoginRegEntity.class,
 				new NetRequest.RequestListener() {
 
 					@Override

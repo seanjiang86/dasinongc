@@ -12,11 +12,12 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppV7Theme" >
-        
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="Umeng" />
-        
+        <meta-data
+            android:name="INSTITUTION_ID"
+            android:value="0" />
     </application>
 
 </manifest>

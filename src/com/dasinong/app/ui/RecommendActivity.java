@@ -6,6 +6,7 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.PagerSlidingTabStrip;
 import com.dasinong.app.ui.view.TopbarView;
+import com.dasinong.app.utils.AppInfoUtils;
 
 
 import android.support.v4.view.ViewPager;
@@ -18,6 +19,7 @@ import android.os.Bundle;
 public class RecommendActivity extends BaseActivity {
 
     private TopbarView topbar;
+    private boolean isShow = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,13 @@ public class RecommendActivity extends BaseActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
 		int refuId = SharedPreferencesHelper.getInt(this, Field.REFUID, -1);
+		int serverInstitutionId = SharedPreferencesHelper.getInt(this, Field.INSTITUTIONID, 0);
+        int appInstitutionId = AppInfoUtils.getInstitutionId(this);
         
+        if(refuId > 0 || serverInstitutionId > 0 || appInstitutionId > 0){
+        	isShow = false;
+        }
+		
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         ViewPager pagers = (ViewPager) findViewById(R.id.pager);
         topbar = (TopbarView) findViewById(R.id.topbar);
@@ -44,7 +52,7 @@ public class RecommendActivity extends BaseActivity {
         tabs.setSelectedTextSize(32);
 
 
-        RecommendFragmentPagerAdapter adapter = new RecommendFragmentPagerAdapter(getSupportFragmentManager() , refuId);
+        RecommendFragmentPagerAdapter adapter = new RecommendFragmentPagerAdapter(getSupportFragmentManager() , isShow);
         pagers.setOffscreenPageLimit(1);
         pagers.setAdapter(adapter);
 

@@ -259,9 +259,13 @@
             android:value="e7a156e7b03b945c065504dda5a4737e" >
         </meta-data>
         <!-- Umeng channel -->
-<!--         <meta-data
+        <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="Tencent" /> -->
+            android:value="Tencent" />
+        <!-- 企业标志码 -->
+        <meta-data
+            android:name="INSTITUTION_ID"
+            android:value="0" />
 
         <activity
             android:name=".ui.soil.SoilInformationActivity"

@@ -206,6 +206,7 @@ public class NetConfig {
 		public static final String time = "time";
 		public static final String cellPhones = "cellPhones";
 		public static final String version = "version";
+		public static final String institutionId = "institutionId";
 	}
 	
 	public static class ResponseCode {
@@ -221,7 +222,7 @@ public class NetConfig {
 	 * @param address
 	 * @return 注册
 	 */
-	public static Map<String, String> getRegisterParams(String userName, String password, String cellPhone, String address) {
+	public static Map<String, String> getRegisterParams(String userName, String password, String cellPhone, String address, String channel, String institutionId) {
 		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName),
 				getTokenParams(Params.password, password), getTokenParams(Params.cellphone, cellPhone),
 				getTokenParams(Params.address, address));
@@ -229,13 +230,16 @@ public class NetConfig {
 		paramsMap.put(Params.password, password);
 		paramsMap.put(Params.cellphone, cellPhone);
 		paramsMap.put(Params.address, address);
+		paramsMap.put(Params.channel, channel);
+		paramsMap.put(Params.institutionId, institutionId);
 		return paramsMap;
 	}
 
-	public static Map<String, String> getRegisterLoginParams(String cellphone,String channel) {
+	public static Map<String, String> getRegisterLoginParams(String cellphone,String channel,String institutionId) {
 		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.cellphone, cellphone));
 		paramsMap.put(Params.cellphone, cellphone);
 		paramsMap.put(Params.channel, channel);
+		paramsMap.put(Params.institutionId,institutionId);
 		return paramsMap;
 	}
 	
@@ -626,20 +630,22 @@ public class NetConfig {
 		paramsMap.put(Params.currentStageId, currentStageId);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> getQQAuthRegLogParams(String qqtoken ,String avater,String username,String channel) {
+	public static Map<String, String> getQQAuthRegLogParams(String qqtoken ,String avater,String username,String channel, String institutionId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.qqtoken, qqtoken);
 		paramsMap.put(Params.avater, avater);
 		paramsMap.put(Params.username, username);
 		paramsMap.put(Params.channel, channel);
+		paramsMap.put(Params.institutionId, institutionId);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> getWXAuthRegLogParams(String weixintoken ,String avater,String username ,String channel) {
+	public static Map<String, String> getWXAuthRegLogParams(String weixintoken, String avater,String username, String channel, String institutionId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.weixintoken, weixintoken);
 		paramsMap.put(Params.avater, avater);
 		paramsMap.put(Params.username, username);
 		paramsMap.put(Params.channel, channel);
+		paramsMap.put(Params.institutionId, institutionId);
 		return getBaseParams(false, paramsMap);
 	}
 	public static Map<String, String> getGetStagesParams(String varietyId) {
