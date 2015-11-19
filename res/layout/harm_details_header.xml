@@ -50,7 +50,7 @@
         android:layout_marginTop="20dp"
         android:background="@drawable/tabview_bg" />
 
-    <TextView
+    <com.dasinong.app.ui.view.MyTextView
         android:id="@+id/tv_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
