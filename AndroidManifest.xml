@@ -159,6 +159,8 @@
         <activity
             android:name=".ui.GuideActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.VarietyDetialActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.RegisterActivity"
             android:screenOrientation="portrait" >

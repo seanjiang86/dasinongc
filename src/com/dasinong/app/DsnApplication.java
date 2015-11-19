@@ -46,7 +46,6 @@ public class DsnApplication extends Application {
 		    	intent.putExtra(WebBrowserActivity.URL, msg.custom);
 		    	intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		    	startActivity(intent);
-		    	
 		    }
 		};
 		PushAgent.getInstance(this).setNotificationClickHandler(notificationClickHandler);

@@ -1,8 +1,10 @@
 package com.dasinong.app.entity;
 
+import java.io.Serializable;
+
 import com.dasinong.app.net.NetConfig;
 
-public class BaseEntity {
+public class BaseEntity implements Serializable{
 
 	private String respCode;
 	private String message;

@@ -253,4 +253,8 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getBrowsePetDisSpecsByCropIdAndTypeParams(cropId,type);
 		new NetRequest(context).get(RequestCode.BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE, params, SubUrl.BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE, callBack, clazz);
 	}
+	public void getVarietyBaiKeById(Context context, String id, Class<? extends BaseEntity> clazz, RequestListener callBack){
+		Map<String, String> params = NetConfig.getGetVarietyBaiKeByIdParams(id);
+		new NetRequest(context).get(RequestCode.GET_VARIETY_BAIKE_BY_ID, params, SubUrl.GET_VARIETY_BAIKE_BY_ID, callBack, clazz);
+	}
 }

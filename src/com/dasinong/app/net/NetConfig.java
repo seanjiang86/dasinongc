@@ -128,6 +128,8 @@ public class NetConfig {
 		public static final String LOGOUT ="logout";
 		/** 按id和type查询病虫草害 */
 		public static final String BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE ="browsePetDisSpecsByCropIdAndType";
+		/** 按照id搜索品种*/
+		public static final String GET_VARIETY_BAIKE_BY_ID ="getVarietyBaiKeById";
 		
 	}
 	
@@ -667,6 +669,11 @@ public class NetConfig {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.cropId, cropId);
 		paramsMap.put(Params.type, type);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getGetVarietyBaiKeByIdParams(String id) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.id, id);
 		return getBaseParams(false, paramsMap);
 	}
 }

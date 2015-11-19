@@ -100,6 +100,7 @@ public final class RequestCode {
 	public static final int LOGOUT = REFAPP + 1;
 	/** 按照类型和id搜索病虫草害 */
 	public static final int BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE = LOGOUT + 1;
-	
+	/** 按照id搜索品种*/
+	public static final int GET_VARIETY_BAIKE_BY_ID = BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE + 1;
 	
 }

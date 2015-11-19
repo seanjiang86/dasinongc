@@ -69,9 +69,10 @@ public class SearchVarietyNamedResultActivity extends BaseActivity {
 		
 		if(query!=null && query.size()==1){
 			Variety item = query.get(0);
-			Intent intent = new Intent(SearchVarietyNamedResultActivity.this, WebBrowserActivity.class);
-			intent.putExtra(WebBrowserActivity.URL, NetConfig.getBaikeUrl("variety", item.getId()+""));
-			intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getVarietyName()).toString());
+			Intent intent = new Intent(SearchVarietyNamedResultActivity.this, VarietyDetialActivity.class);
+			intent.putExtra("id", item.getId());
+			intent.putExtra("title", item.getVarietyName());
+//			intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getVarietyName()).toString());
 			startActivity(intent);
 			finish();
 			return;
@@ -97,9 +98,10 @@ public class SearchVarietyNamedResultActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Variety item = (Variety) parent.getItemAtPosition(position);
-				Intent intent = new Intent(SearchVarietyNamedResultActivity.this, WebBrowserActivity.class);
-				intent.putExtra(WebBrowserActivity.URL, NetConfig.getBaikeUrl("variety", item.getId()+""));
-				intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getVarietyName()).toString());
+				Intent intent = new Intent(SearchVarietyNamedResultActivity.this, VarietyDetialActivity.class);
+				intent.putExtra("id", item.getId());
+				intent.putExtra("title", item.getVarietyName());
+//				intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getVarietyName()).toString());
 				startActivity(intent);
 			}
 		});
