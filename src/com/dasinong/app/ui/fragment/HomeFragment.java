@@ -372,7 +372,12 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			break;
 
 		}
-
+		
+		if(error.netWorkCode == NetError.TOKENOUTTIME_ERROR){
+			loadFieldData(param);
+			loadWeatherData(weatherParam);
+			loadBanner(bannerParam);
+		}
 	}
 
 	@Override
@@ -526,9 +531,10 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 			}
 		}
 	}
-
+	
+	private int i = 0;
+	
 	public void loadFieldData(FieldEntity.Param param) {
-
 		mHomeRequest = VolleyManager.getInstance().addGetRequestWithCache(REQUEST_CODE_HOME_FIELD, URL_FIELD, param, FieldEntity.class, this);
 
 	}

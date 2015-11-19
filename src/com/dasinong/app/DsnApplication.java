@@ -20,6 +20,7 @@ import com.umeng.message.entity.UMessage;
 
 public class DsnApplication extends Application {
 	private static Context mContext;
+	public static final String APP_ID = "1";
 
 	@Override
 	public void onCreate() {

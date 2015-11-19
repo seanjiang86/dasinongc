@@ -111,7 +111,6 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				showToast(R.string.please_check_netword);
 			}
 		});
 	}
@@ -293,7 +292,6 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				showToast(msg);
 			}
 		});
 
@@ -368,7 +366,6 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 					
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
-						showToast(msg);
 						dismissLoadingDialog();
 					}
 				});
@@ -590,7 +587,6 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				showToast(R.string.please_check_netword);
 			}
 		});
 	}

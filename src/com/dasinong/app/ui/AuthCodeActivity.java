@@ -40,6 +40,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.IsPassSetEntity;
 import com.dasinong.app.entity.LoginRegEntity;
+import com.dasinong.app.entity.SecurityCodeEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.manager.AccountManager;
@@ -77,6 +78,8 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	private boolean isAuthPempPwd = false;
 	
 	private TextView mCallPhoneText;
+    
+	private int securityCode;
 	
 	private static String APPKEY = "80424b5493c0";
 	private static String APPSECRET = "3c1b73e6af8f059c2e6b25f7065d77a3";
@@ -325,7 +328,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 	private void authPempPwd(String verificationCode) {
 		startLoadingDialog();
-		RequestService.getInstance().loginWithSecCode(this, phone, verificationCode, LoginRegEntity.class, new RequestListener() {
+		RequestService.getInstance().loginWithSecCode(this, securityCode+"",phone, verificationCode, LoginRegEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -333,7 +336,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 				if(resultData.isOk()){
 					LoginRegEntity entity = (LoginRegEntity) resultData;
 					
-					AccountManager.saveAccount(AuthCodeActivity.this, entity.getData());
+					AccountManager.saveAccount(AuthCodeActivity.this, entity);
 					
 					boolean isEnterAddField = SharedPreferencesHelper.getBoolean(AuthCodeActivity.this, Field.IS_ENTER_ADDFIELD, false);
 					boolean haveField;
@@ -481,14 +484,17 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	
 	private void requestCode(){
 	    startLoadingDialog();
-	    RequestService.getInstance().requestSecurityCode(this, phone, BaseEntity.class, new RequestListener() {
+	    RequestService.getInstance().requestSecurityCode(this, phone, SecurityCodeEntity.class, new RequestListener() {
             
-            @Override
+
+			@Override
             public void onSuccess(int requestCode, BaseEntity resultData) {
                 dismissLoadingDialog();
                 if(resultData.isOk()){
                     showToast("验证码重新发送成功");
                     isAuthPempPwd = true;
+                    SecurityCodeEntity entity = (SecurityCodeEntity) resultData;
+                    securityCode = entity.data;
                     tvUnreceiveIdentify.setVisibility(View.GONE);
                     mCallPhoneText.setVisibility(View.VISIBLE);
                 }else{
@@ -499,7 +505,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
             @Override
             public void onFailed(int requestCode, Exception error, String msg) {
                 dismissLoadingDialog();
-                showToast(R.string.please_check_netword);
             }
         });
 	}
@@ -580,7 +585,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 				if(resultData.isOk()){
 					LoginRegEntity entity = (LoginRegEntity) resultData;
 					
-					AccountManager.saveAccount(AuthCodeActivity.this, entity.getData());
+					AccountManager.saveAccount(AuthCodeActivity.this, entity);
 					
 					boolean isEnterAddField = SharedPreferencesHelper.getBoolean(AuthCodeActivity.this, Field.IS_ENTER_ADDFIELD, false);
 					boolean haveField;
@@ -608,7 +613,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				showToast(R.string.please_check_netword);
 			}
 		});
 	}

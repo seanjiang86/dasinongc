@@ -135,7 +135,7 @@ public class MainTabActivity extends BaseActivity {
 
 						if (resultData.isOk()) {
 							LoginRegEntity entity = (LoginRegEntity) resultData;
-							AccountManager.saveAccount(MainTabActivity.this, entity.getData());
+							AccountManager.saveAccount(MainTabActivity.this, entity);
 							showToast("登录成功");
 						} else {
 							Logger.d("TAG", resultData.getMessage());

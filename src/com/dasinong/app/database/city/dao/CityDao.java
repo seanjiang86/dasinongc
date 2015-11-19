@@ -37,7 +37,7 @@ public interface CityDao extends DaoSupport<City> {
      * @param city 省
      * @return 根据province 得到所有城市
      */
-    public List<String> getCounty(String city);
+    public List<String> getCounty(String province, String city);
 
     /**
      * 根据county 得到所有district
@@ -46,7 +46,7 @@ public interface CityDao extends DaoSupport<City> {
      * @return
      */
 
-    public List<String> getDistrict(String county);
+    public List<String> getDistrict(String province, String city, String county);
     
 }
 

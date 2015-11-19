@@ -88,7 +88,6 @@ public class AddFieldActivity7 extends BaseActivity {
 							@Override
 							public void onFailed(int requestCode, Exception error, String msg) {
 								dismissLoadingDialog();
-								showToast("请求失败，请检查网络或稍候再试");
 							}
 						});
 			}

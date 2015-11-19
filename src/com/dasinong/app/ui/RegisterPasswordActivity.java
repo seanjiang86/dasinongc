@@ -152,7 +152,6 @@ public class RegisterPasswordActivity extends BaseActivity {
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				showToast(R.string.please_check_netword);
 			}
 		});
 	}
@@ -222,7 +221,7 @@ public class RegisterPasswordActivity extends BaseActivity {
 				if (resultData.isOk()) {
 					LoginRegEntity entity = (LoginRegEntity) resultData;
 
-					AccountManager.saveAccount(RegisterPasswordActivity.this, entity.getData());
+					AccountManager.saveAccount(RegisterPasswordActivity.this, entity);
 
 					Intent intent = new Intent(RegisterPasswordActivity.this,MainTabActivity.class);
 					startActivity(intent);
@@ -237,7 +236,6 @@ public class RegisterPasswordActivity extends BaseActivity {
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				showToast(R.string.please_check_netword);
 			}
 		});
 
@@ -292,7 +290,7 @@ public class RegisterPasswordActivity extends BaseActivity {
 
 				LoginRegEntity entity = (LoginRegEntity) resultData;
 
-				AccountManager.saveAccount(RegisterPasswordActivity.this, entity.getData());
+				AccountManager.saveAccount(RegisterPasswordActivity.this, entity);
 
 				Intent intent = new Intent(RegisterPasswordActivity.this, MainTabActivity.class);
 				startActivity(intent);
@@ -303,7 +301,6 @@ public class RegisterPasswordActivity extends BaseActivity {
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-
 			}
 		});
 

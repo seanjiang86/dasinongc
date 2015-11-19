@@ -39,46 +39,15 @@ public class StringPostRequest extends Request<String> {
 	@Override
 	protected Response<String> parseNetworkResponse(NetworkResponse response) {
 		try {
-			 String jsonString =
-			 new String(response.data,
-			 HttpHeaderParser.parseCharset(response.headers));
-//			String jsonString = new String(response.data, "UTF-8");
-			mHeader = response.headers.toString();
-			mHeader = response.headers.toString();
-			Log.w("LOG", "get headers in parseNetworkResponse " + response.headers.toString());
-			Pattern pattern = Pattern.compile("Set-Cookie.*?;");
-			Matcher m = pattern.matcher(mHeader);
-			if (m.find()) {
-				cookieFromResponse = m.group();
-				Log.w("LOG", "cookie from server " + cookieFromResponse);
-			}
-			JSONObject jsonObject = new JSONObject(jsonString);
-			if (!TextUtils.isEmpty(cookieFromResponse)) {
-				cookieFromResponse = cookieFromResponse.substring(11, cookieFromResponse.length() - 1);
-				jsonObject.put("Cookie", cookieFromResponse);
-				Logger.e1("Cookie", cookieFromResponse);
-				SharedPreferencesHelper.setString(DsnApplication.getContext(), Field.USER_AUTH_TOKEN, cookieFromResponse);
-			}
+			String jsonString = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
 			return Response.success(jsonString, HttpHeaderParser.parseCacheHeaders(response));
 		} catch (UnsupportedEncodingException e) {
 			return Response.error(new ParseError(e));
-		} catch (JSONException je) {
-			return Response.error(new ParseError(je));
-		}
+		} 
 	}
 
 	@Override
 	protected void deliverResponse(String response) {
 		mListener.onResponse(response);
-	}
-
-	@Override
-	public Map<String, String> getHeaders() throws AuthFailureError {
-		String cookie = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.USER_AUTH_TOKEN, "");
-		Logger.d1("Cookie", "--"+cookie);
-		if (!TextUtils.isEmpty(cookie)) {
-			sendHeader.put("Cookie", cookie);
-		}
-		return sendHeader;
 	}
 }

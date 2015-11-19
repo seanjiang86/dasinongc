@@ -83,7 +83,6 @@ public class SearchTypeResultActivity extends BaseActivity {
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				showToast(R.string.please_check_netword);
 			}
 		});
 	}

@@ -214,7 +214,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 
 	private void initCityList() {
 		provinceView.initSmallAreaData(cityList, cityPosition);
-		countyList = dao.getCounty(cityList.get(cityPosition));
+		countyList = dao.getCounty(province, cityList.get(cityPosition));
 		Collections.sort(countyList, mComparator);
 		// TODO MING 测试
 //		if (!TextUtils.isEmpty(mdistrict)) {
@@ -238,7 +238,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 					countyPosition = 0;
 					districtPostion = 0;
 				}
-				countyList = dao.getCounty(city);
+				countyList = dao.getCounty(province, city);
 				Collections.sort(countyList, mComparator);
 				onrefresh(provinceView, province + "-" + city);
 				
@@ -250,7 +250,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	private void initCountyList() {
 		countyView.initBigAreaData(countyList, countyPosition);
 
-		districtList = dao.getDistrict(countyList.get(countyPosition));
+		districtList = dao.getDistrict(province, city, countyList.get(countyPosition));
 		Collections.sort(districtList, mComparator);
 		initDistrict();
 
@@ -262,7 +262,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 				county = countyList.get(position);
 				countyPosition = position;
 				districtPostion = 0;
-				districtList = dao.getDistrict(county);
+				districtList = dao.getDistrict(province, city, county);
 				Collections.sort(districtList, mComparator);
 				initDistrict();
 			}
@@ -353,6 +353,8 @@ public class AddFieldActivity2 extends MyBaseActivity {
 							villageMap = ((VillageInfo) resultData).data;
 							if (villageList != null) {
 								villageList.clear();
+							} else {
+								
 							}
 							villageList = new ArrayList<String>(villageMap.keySet());
 							Collections.sort(villageList,mComparator);
@@ -367,7 +369,6 @@ public class AddFieldActivity2 extends MyBaseActivity {
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
 						dismissLoadingDialog();
-						showToast("请求失败，请检查网络或稍候再试");
 					}
 				});
 	}

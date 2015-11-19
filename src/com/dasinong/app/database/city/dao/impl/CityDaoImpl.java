@@ -57,7 +57,7 @@ public class CityDaoImpl extends DaoSupportImpl<City> implements CityDao{
      * @param city 省
      * @return 根据province 得到所有城市
      */
-    public List<String> getCounty(String city) {
+    public List<String> getCounty(String province, String city) {
 
         StringBuilder sb = new StringBuilder();
         sb.append("select DISTINCT county from ")
@@ -65,6 +65,10 @@ public class CityDaoImpl extends DaoSupportImpl<City> implements CityDao{
                 .append("where ")
                 .append("city = '")
                 .append(city)
+                .append("'")
+                .append(" and")
+                .append(" province = '")
+                .append(province)
                 .append("'");
         Logger.d(TAG,sb.toString());
         return querySingleColumn(sb.toString());
@@ -77,7 +81,7 @@ public class CityDaoImpl extends DaoSupportImpl<City> implements CityDao{
      * @return
      */
 
-    public List<String> getDistrict(String county) {
+    public List<String> getDistrict(String province, String city, String county) {
 
 
         StringBuilder sb = new StringBuilder();
@@ -86,6 +90,14 @@ public class CityDaoImpl extends DaoSupportImpl<City> implements CityDao{
                 .append("where ")
                 .append("county = '")
                 .append(county)
+                .append("'")
+                .append(" and")
+                .append(" province = '")
+                .append(province)
+                .append("'")
+                .append(" and")
+                .append(" city = '")
+                .append(city)
                 .append("'");
         Logger.d(TAG, sb.toString());
         return querySingleColumn(sb.toString());

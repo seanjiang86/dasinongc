@@ -391,7 +391,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 				dismissLoadingDialog();
 				if (resultData.isOk()) {
 					LoginRegEntity entity = (LoginRegEntity) resultData;
-					AccountManager.saveAccount(RegisterPhoneActivity.this, entity.getData());
+					AccountManager.saveAccount(RegisterPhoneActivity.this, entity);
 
 					Intent intent = new Intent(RegisterPhoneActivity.this, MainTabActivity.class);
 					startActivity(intent);
@@ -415,7 +415,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 				dismissLoadingDialog();
 				if (resultData.isOk()) {
 					LoginRegEntity entity = (LoginRegEntity) resultData;
-					AccountManager.saveAccount(RegisterPhoneActivity.this, entity.getData());
+					AccountManager.saveAccount(RegisterPhoneActivity.this, entity);
 
 					Intent intent = new Intent(RegisterPhoneActivity.this, MainTabActivity.class);
 					startActivity(intent);
@@ -666,8 +666,8 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 	 * 微信登陆获取微信端 token
 	 */
 	private void getAccessToken() {
-
-		System.out.println("获取token");
+		
+		startLoadingDialog();
 
 		RequestService.getInstance().getWXAccessToken(this, APP_ID, WX_SECRET, WX_CODE, WXAccessTokenEntity.class, new RequestListener() {
 
@@ -686,6 +686,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				showToast("获取TOKEN信息失败");
+				dismissLoadingDialog();
 			}
 		});
 	}
@@ -785,7 +786,6 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				showToast(R.string.please_check_netword);
 			}
 		});
 

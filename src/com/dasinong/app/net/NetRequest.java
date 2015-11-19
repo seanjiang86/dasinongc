@@ -37,7 +37,9 @@ import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.dasinong.app.DsnApplication;
+import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.net.NetConfig.Params;
 import com.dasinong.app.ui.RegisterPhoneActivity;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
@@ -112,6 +114,7 @@ public class NetRequest {
 
 					callback.onSuccess(requestCode, result);
 				} catch (Exception e) {
+					Toast.makeText(context, context.getResources().getString(R.string.please_check_netword), Toast.LENGTH_SHORT).show();
 					callback.onFailed(requestCode, e, e.getClass().toString());
 				}
 
@@ -122,6 +125,28 @@ public class NetRequest {
 			public void onErrorResponse(VolleyError error) {
 				Logger.e(LogTag.HTTP, Log.getStackTraceString(error));
 				error.printStackTrace();
+				Intent intent = null ;
+				if(error != null && error.networkResponse != null){
+					switch (error.networkResponse.statusCode) {
+					case 401:
+						AccountManager.logout(context);
+						Toast.makeText(context, context.getResources().getString(R.string.longin_info_outtime), Toast.LENGTH_LONG).show();
+						intent = new Intent(context ,RegisterPhoneActivity.class);
+						context.startActivity(intent);
+						break;
+					case 403:
+						AccountManager.logout(context);
+						Toast.makeText(context, context.getResources().getString(R.string.longin_info_outtime), Toast.LENGTH_LONG).show();
+						intent = new Intent(context ,RegisterPhoneActivity.class);
+						context.startActivity(intent);
+						break;
+					default:
+						Toast.makeText(context, context.getResources().getString(R.string.please_check_netword), Toast.LENGTH_SHORT).show();
+						break;
+					}
+				} else {
+					Toast.makeText(context, context.getResources().getString(R.string.please_check_netword), Toast.LENGTH_SHORT).show();
+				}
 				callback.onFailed(requestCode, error, error.getMessage());
 			}
 		}) {
@@ -235,13 +260,15 @@ public class NetRequest {
 		RequestParams params = new RequestParams();
 
 		Logger.e(LogTag.HTTP, "uploadPath:" + filePath + "\r\n" + "url:" + url);
+		
+		String token = AccountManager.getAuthToken(context);
 
 		// params.setHeader(new Header);
-		String cookie = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.USER_AUTH_TOKEN, "");
-		Logger.e(LogTag.HTTP, "--" + cookie);
-		if (!TextUtils.isEmpty(cookie)) {
-			params.addHeader("Cookie", cookie);
-		}
+//		String cookie = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.USER_AUTH_TOKEN, "");
+//		Logger.e(LogTag.HTTP, "--" + cookie);
+//		if (!TextUtils.isEmpty(cookie)) {
+//			params.addHeader("Cookie", cookie);
+//		}
 		// params.addQueryStringParameter("name", "value");
 
 		// 只包含字符串参数时默认使用BodyParamsEntity，
@@ -254,6 +281,7 @@ public class NetRequest {
 		// MultipartEntity,BodyParamsEntity,FileUploadEntity,InputStreamUploadEntity,StringEntity）。
 		// 例如发送json参数：params.setBodyEntity(new StringEntity(jsonStr,charset));
 		params.addBodyParameter("file", new File(filePath));
+		params.addBodyParameter(Params.token , token);
 		// FileUploadEntity entity = new FileUploadEntity(file, contentType)
 		// params.setBodyEntity(bodyEntity)
 		HttpUtils http = new HttpUtils();
@@ -313,11 +341,13 @@ public class NetRequest {
 
 		Logger.e(LogTag.HTTP, "uploadPath:" + paths + "\r\n" + "url:" + url);
 
-		String cookie = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.USER_AUTH_TOKEN, "");
-		Logger.e(LogTag.HTTP, "--" + cookie);
-		if (!TextUtils.isEmpty(cookie)) {
-			params.addHeader("Cookie", cookie);
-		}
+//		String cookie = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.USER_AUTH_TOKEN, "");
+//		Logger.e(LogTag.HTTP, "--" + cookie);
+//		if (!TextUtils.isEmpty(cookie)) {
+//			params.addHeader("Cookie", cookie);
+//		}
+		
+		String token = AccountManager.getAuthToken(context);
 
 		for (int i = 0; i < paths.size(); i++) {
 			params.addBodyParameter("file" + i, new File(paths.get(i)));
@@ -330,6 +360,7 @@ public class NetRequest {
 		params.addBodyParameter("disasterDist",disasterDist);
 		params.addBodyParameter("fieldOperations",fieldOperations);
 		params.addBodyParameter("fieldId",fieldId);
+		params.addBodyParameter(Params.token , token);
 		
 		HttpUtils http = new HttpUtils();
 		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
@@ -413,8 +444,6 @@ public class NetRequest {
 
 		void onFailed(int requestCode, Exception error, String msg);
 	}
-	
-//	appid=" + APP_ID + "&secret=" + WX_SECRET + "&code=" + WX_CODE + "&grant_type=authorization_code"
 
 	public <T> void getWXAccessToken(final int requestCode, String url,String appid, String secret,String code, final Class<? extends BaseEntity> clazz, final RequestListener callback) {
 		HttpUtils http = new HttpUtils();
@@ -448,7 +477,6 @@ public class NetRequest {
 		});
 	}
 	
-//	https://api.weixin.qq.com/sns/userinfo?access_token=" + accessToken + "&openid=" + openId
 	public <T> void getWXUserInfo(final int requestCode, String url,String access_token, String openid, final Class<? extends BaseEntity> clazz, final RequestListener callback) {
 		HttpUtils http = new HttpUtils();
 		

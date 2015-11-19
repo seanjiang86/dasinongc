@@ -97,6 +97,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	}
 
 	private void queryStages() {
+		startLoadingDialog();
 		RequestService.getInstance().getStages(this, varietyId, StagesEntity.class, new RequestListener() {
 
 			@Override
@@ -106,12 +107,13 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 					Message msg = handler.obtainMessage();
 					msg.obj = entity.data;
 					handler.sendMessage(msg);
+					dismissLoadingDialog();
 				}
 			}
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast("网络异常，请稍候重试");
+				dismissLoadingDialog();
 			}
 		});
 	}

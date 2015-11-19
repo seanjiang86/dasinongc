@@ -13,6 +13,7 @@ public class NetError extends Exception {
     public static final NetErrorStatus SERVER_ERROR = NetErrorStatus.SERVER_ERROR;
     public static final NetErrorStatus PARSE_ERROR = NetErrorStatus.PARSE_ERROR;
     public static final NetErrorStatus UNKNOW_ERROR = NetErrorStatus.UNKNOW_ERROR;
+    public static final NetErrorStatus TOKENOUTTIME_ERROR =NetErrorStatus.TOKENOUTTIME_ERROR;
     public NetErrorStatus netWorkCode;
 
 
@@ -29,6 +30,6 @@ public class NetError extends Exception {
 
     {
         NETWORK_UNAVAILABLEE, NET_TIMEOUT, NET_AUTHFAILURE, NET_ERROR,
-        SERVER_ERROR, PARSE_ERROR, UNKNOW_ERROR
+        SERVER_ERROR, PARSE_ERROR, UNKNOW_ERROR, TOKENOUTTIME_ERROR
     }
 }

@@ -328,7 +328,6 @@ public class ReportHarmActivity extends BaseActivity {
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
 						dismissLoadingDialog();
-						showToast("网络异常，请检测您的网络或稍后再试");
 						clearList();
 						error.printStackTrace();
 					}

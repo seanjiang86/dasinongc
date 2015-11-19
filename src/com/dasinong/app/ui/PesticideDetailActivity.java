@@ -100,7 +100,6 @@ public class PesticideDetailActivity extends BaseActivity {
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(msg);
 				dismissLoadingDialog();
 			}
 		});

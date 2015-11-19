@@ -2,7 +2,8 @@
 
     <string name="app_name">今日农事</string>
     <string name="please_wait">请稍等</string>
-    <string name="please_check_netword">请求失败,请检查网络或稍后再试</string>
+    <string name="please_check_netword">网络异常,请检查网络或稍后再试</string>
+    <string name="longin_info_outtime">登陆已过时，请重新登陆</string>
     <string name="title_activity_soil_information">SoilInformationActivity</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>

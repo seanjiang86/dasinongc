@@ -201,7 +201,6 @@ public class MyInfoSetActivity extends BaseActivity {
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				showToast(R.string.please_check_netword);
 			}
 		});
 	}
@@ -341,7 +340,6 @@ public class MyInfoSetActivity extends BaseActivity {
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				showToast(msg);
 			}
 		});
 	}
@@ -427,7 +425,7 @@ public class MyInfoSetActivity extends BaseActivity {
 	}
 
 	protected void setArea(final String province2 , final String city) {
-		List<String> county = dao.getCounty(city);
+		List<String> county = dao.getCounty(province2, city);
 		county.add(0, "请选择区");
 		mAreaSp.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, county));
 		mAreaSp.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -447,7 +445,7 @@ public class MyInfoSetActivity extends BaseActivity {
 	}
 
 	protected void setTowns(final String province2 , final String city , final String area) {
-		List<String> county = dao.getDistrict(area);
+		List<String> county = dao.getDistrict(province2, city, area);
 		county.add(0, "请选择镇");
 		mTownsSp.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, county));
 		mTownsSp.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -486,7 +484,6 @@ public class MyInfoSetActivity extends BaseActivity {
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
 						dismissLoadingDialog();
-						showToast("请求失败，请检查网络或稍候再试");
 					}
 				});
 	}

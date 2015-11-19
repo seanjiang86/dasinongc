@@ -79,7 +79,6 @@ public class VarietyDetailActivity extends BaseActivity {
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				showToast(msg);
 			}
 		});
 	}

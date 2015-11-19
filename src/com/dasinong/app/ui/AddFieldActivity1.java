@@ -151,7 +151,6 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 							@Override
 							public void onFailed(int requestCode, Exception error, String msg) {
 								dismissLoadingDialog();
-								showToast("请求失败，请检查网络或稍候再试");
 							}
 						});
 			} else {

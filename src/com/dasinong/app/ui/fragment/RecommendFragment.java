@@ -91,7 +91,6 @@ public class RecommendFragment extends Fragment {
 
 							@Override
 							public void onFailed(int requestCode, Exception error, String msg) {
-								((BaseActivity) getActivity()).showToast(msg);
 
 								((BaseActivity) getActivity()).dismissLoadingDialog();
 							}
@@ -157,7 +156,6 @@ public class RecommendFragment extends Fragment {
 						}
 						@Override
 						public void onFailed(int requestCode, Exception error, String msg) {
-							((BaseActivity) getActivity()).showToast(msg);
 							((BaseActivity)getActivity()).dismissLoadingDialog();
 						}
 					});
@@ -198,7 +196,6 @@ public class RecommendFragment extends Fragment {
 
 						@Override
 						public void onFailed(int requestCode, Exception error, String msg) {
-							((BaseActivity) getActivity()).showToast("网络连接异常，请检测网络连接");
 							((BaseActivity) getActivity()).dismissLoadingDialog();
 						}
 					});

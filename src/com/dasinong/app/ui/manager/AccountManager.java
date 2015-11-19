@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.dasinong.app.entity.LoginRegEntity;
 import com.dasinong.app.entity.User;
 import com.dasinong.app.ui.RegisterPhoneActivity;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
@@ -25,30 +26,37 @@ public class AccountManager {
 	 */
 	public static final boolean isLogin(Context context) {
 		boolean result = false;
-		if (!TextUtils.isEmpty(getUserId(context))) {
+		if (!TextUtils.isEmpty(getAuthToken(context))) {
 			result = true;
 		}
 		return result;
 	}
 	
-	public static void saveAccount(Context context, User user) {
-		SharedPreferencesHelper.setString(context, Field.USER_NAME, user.getUserName());
-		SharedPreferencesHelper.setString(context, Field.USER_ID, user.getUserId());
-		SharedPreferencesHelper.setString(context, Field.USER_PHONE, user.getCellPhone());
-		SharedPreferencesHelper.setString(context, Field.USER_ADDRESS, user.getAddress());
-		SharedPreferencesHelper.setString(context, Field.QQ_TOKEN, user.getQqtoken());
-		SharedPreferencesHelper.setString(context, Field.WEIXIN_TOKEN, user.getWeixintoken());
-		SharedPreferencesHelper.setString(context, Field.REFCODE, user.getRefcode());
-		SharedPreferencesHelper.setInt(context, Field.REFUID, user.getRefuid());
-		SharedPreferencesHelper.setInt(context, Field.INSTITUTIONID, user.getInstitutionId());
-		SharedPreferencesHelper.setString(context, Field.CHANNEL, user.getChannel());
+	public static void saveAccount(Context context, LoginRegEntity entity) {
+		SharedPreferencesHelper.setString(context, Field.USER_NAME, entity.getData().getUserName());
+		SharedPreferencesHelper.setString(context, Field.USER_ID, entity.getData().getUserId());
+		SharedPreferencesHelper.setString(context, Field.USER_PHONE, entity.getData().getCellPhone());
+		SharedPreferencesHelper.setString(context, Field.USER_ADDRESS, entity.getData().getAddress());
+		SharedPreferencesHelper.setString(context, Field.QQ_TOKEN, entity.getData().getQqtoken());
+		SharedPreferencesHelper.setString(context, Field.WEIXIN_TOKEN, entity.getData().getWeixintoken());
+		SharedPreferencesHelper.setString(context, Field.REFCODE, entity.getData().getRefcode());
+		SharedPreferencesHelper.setInt(context, Field.REFUID, entity.getData().getRefuid());
+		SharedPreferencesHelper.setInt(context, Field.INSTITUTIONID, entity.getData().getInstitutionId());
+		SharedPreferencesHelper.setString(context, Field.CHANNEL, entity.getData().getChannel());
+		SharedPreferencesHelper.setString(context, Field.USER_AUTH_TOKEN, entity.getAccessToken());
 		
-		SharedPreferencesHelper.setArrayString(context, Field.USER_FIELDS, user.getFields());
-		SharedPreferencesHelper.setArrayString(context, Field.MONITOR_LOCATION_ID, user.getMonitorLocationId());
+		SharedPreferencesHelper.setArrayString(context, Field.USER_FIELDS, entity.getData().getFields());
+		SharedPreferencesHelper.setArrayString(context, Field.MONITOR_LOCATION_ID, entity.getData().getMonitorLocationId());
+		
+	
 	}
 	
 	public static String getAuthToken(Context context){
 		return SharedPreferencesHelper.getString(context, Field.USER_AUTH_TOKEN, "");
+	}
+	
+	public static void setAuthToken(Context context, String authToken) {
+		SharedPreferencesHelper.setString(context, Field.USER_AUTH_TOKEN, authToken);
 	}
 	
 	public static String getUserId(Context context){

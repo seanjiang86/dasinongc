@@ -209,7 +209,6 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
 						dismissLoadingDialog();
-						showToast(msg);
 					}
 				});
 	}
@@ -231,7 +230,7 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 		});
 	}
 
-	protected void setCity(String province2) {
+	protected void setCity(final String province2) {
 		List<String> city = dao.getCity(province2);
 		city.add(0, "请选择市");
 		mCitySp.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, city));
@@ -240,7 +239,7 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String city = (String) mCitySp.getSelectedItem();
-				setArea(city);
+				setArea(province2, city);
 			}
 
 			@Override
@@ -254,8 +253,8 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 		// mTownsSp.setAdapter(null);
 	}
 
-	protected void setArea(String city) {
-		List<String> county = dao.getCounty(city);
+	protected void setArea(final String province2 ,final String city) {
+		List<String> county = dao.getCounty(province2, city);
 		county.add(0, "请选择区");
 		mAreaSp.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, county));
 		mAreaSp.setOnItemSelectedListener(new OnItemSelectedListener() {
@@ -263,7 +262,7 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 				String area = (String) mAreaSp.getSelectedItem();
-				setTowns(area);
+				setTowns(province2, city, area);
 
 				// setCrop(area);
 			}
@@ -282,8 +281,8 @@ public class SmsSubscribeActivity extends BaseActivity implements OnClickListene
 		spinner.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, area));
 	}
 
-	protected void setTowns(String area) {
-		List<String> county = dao.getDistrict(area);
+	protected void setTowns(String province2, String city, String area) {
+		List<String> county = dao.getDistrict(province2, city, area);
 		county.add(0, "请选择镇");
 		mTownsSp.setAdapter(new ArrayAdapter<String>(this, R.layout.textview, county));
 	}

@@ -1,12 +1,15 @@
 package com.dasinong.app.components.net;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.net.http.AndroidHttpClient;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Cache;
@@ -25,9 +28,15 @@ import com.android.volley.toolbox.HttpStack;
 import com.android.volley.toolbox.HurlStack;
 import com.dasinong.app.BuildConfig;
 import com.dasinong.app.DsnApplication;
+import com.dasinong.app.R;
 import com.dasinong.app.components.domain.BaseResponse;
 import com.dasinong.app.components.domain.WeatherEntity;
+import com.dasinong.app.components.net.NetError.NetErrorStatus;
+import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.NetConfig.Params;
+import com.dasinong.app.ui.RegisterPhoneActivity;
+import com.dasinong.app.ui.fragment.HomeFragment;
+import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.utils.AppInfoUtils;
@@ -114,46 +123,21 @@ public class VolleyManager {
 		final Response.ErrorListener errorListener = createErrorListener(requestCode, weakReference);
 		HashMap<String, String> map = FieldUtils.convertToHashMap(param);
 
-		// TODO MING: 原来的userId 是 15
-
-		String userId = SharedPreferencesHelper.getString(mContext, Field.USER_ID, "");
 		String product = android.os.Build.PRODUCT;
-		String deviceId = DeviceHelper.getDeviceId(DsnApplication.getContext());
+		String deviceId = DeviceHelper.getDeviceId(mContext);
+		String accessToken = AccountManager.getAuthToken(mContext);
 
-		Calendar cal = Calendar.getInstance();
-		int hour = cal.get(Calendar.HOUR_OF_DAY);
-		int minute = cal.get(Calendar.MINUTE);
-		String strHour = null;
-		String strMinu = null;
-
-		if (String.valueOf(hour).length() == 1) {
-			strHour = "0" + String.valueOf(hour);
-		} else {
-			strHour = String.valueOf(hour);
-		}
-
-		if (String.valueOf(minute).length() == 1) {
-			strMinu = "0" + String.valueOf(minute);
-		} else {
-			strMinu = String.valueOf(minute);
-		}
-
-		String time = strHour + strMinu;
-
-		String apiKey = StringHelper.encrypt(deviceId, time);
-		
 		int version = AppInfoUtils.getVersionCode(DsnApplication.getContext());
-		
-		if(version <= 0){
+
+		if (version <= 0) {
 			version = 1;
 		}
 
-		map.put("userId", userId);
+		map.put(Params.token, accessToken);
 		map.put(Params.deviceType, product);
 		map.put(Params.deviceId, deviceId);
-		map.put(Params.apikey, apiKey);
-		map.put(Params.time, time);
-		map.put(Params.version,String.valueOf(version));
+		map.put(Params.appId, DsnApplication.APP_ID);
+		map.put(Params.version, String.valueOf(version));
 
 		DEBUG(map.toString());
 		final GsonRequest<T> request = new GsonRequest(url, map, clazz, successListener, errorListener);
@@ -227,40 +211,31 @@ public class VolleyManager {
 
 	private String encodeParameters(Map<String, String> params) {
 		StringBuilder encodedParams = new StringBuilder("?");
+
+		String deviceType = android.os.Build.PRODUCT;
+		String deviceId = DeviceHelper.getDeviceId(mContext);
+		String accessToken = AccountManager.getAuthToken(mContext);
+		int version = AppInfoUtils.getVersionCode(mContext);
+
+		params.put(Params.token, accessToken);
+		params.put(Params.deviceId, deviceId);
+		params.put(Params.deviceType, deviceType);
+		params.put(Params.appId, DsnApplication.APP_ID);
+		params.put(Params.version, String.valueOf(version));
+
 		try {
 			for (Map.Entry<String, String> entry : params.entrySet()) {
 				encodedParams.append(URLEncoder.encode(entry.getKey(), "UTF-8"));
 				encodedParams.append('=');
 				encodedParams.append(URLEncoder.encode(entry.getValue(), "UTF-8"));
 				encodedParams.append('&');
+				
+				
+				// TODO MING : 替换构造链接方式
+//				Uri.Builder builder = new Uri.Builder();
+//				builder.appendQueryParameter(entry.getKey(), entry.getValue());
 			}
 
-			String deviceTyep = android.os.Build.PRODUCT;
-			String deviceId = DeviceHelper.getDeviceId(mContext);
-
-			Calendar cal = Calendar.getInstance();
-			int hour = cal.get(Calendar.HOUR_OF_DAY);
-			int minute = cal.get(Calendar.MINUTE);
-			String strHour = null;
-			String strMinu = null;
-
-			if (String.valueOf(hour).length() == 1) {
-				strHour = "0" + String.valueOf(hour);
-			} else {
-				strHour = String.valueOf(hour);
-			}
-
-			if (String.valueOf(minute).length() == 1) {
-				strMinu = "0" + String.valueOf(minute);
-			} else {
-				strMinu = String.valueOf(minute);
-			}
-
-			String time = strHour + strMinu;
-
-			String apikey = StringHelper.encrypt(deviceId, time);
-
-			encodedParams.append("deviceTyep=" + deviceTyep + "&deviceId=" + deviceId + "&apikey=" + apikey + "&time=" + time+"&");
 			return encodedParams.toString();
 		} catch (UnsupportedEncodingException uee) {
 			throw new RuntimeException("Encoding not supported: " + "UTF-8", uee);
@@ -279,8 +254,19 @@ public class VolleyManager {
 		return new Response.ErrorListener() {
 			@Override
 			public void onErrorResponse(VolleyError error) {
-
 				INetRequest tem = weakReference.get();
+
+				if (error != null &&  error.networkResponse != null &&  (error.networkResponse.statusCode == 401 || error.networkResponse.statusCode == 403) && requestcode == 130) {
+					Toast.makeText(mContext, mContext.getResources().getString(R.string.longin_info_outtime), Toast.LENGTH_SHORT).show();
+					AccountManager.logout(mContext);
+					Intent intent = new Intent(mContext, RegisterPhoneActivity.class);
+					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					mContext.startActivity(intent);
+					NetError netError = new NetError(NetError.TOKENOUTTIME_ERROR);
+					tem.onTaskFailedSuccess(requestcode, netError);
+					return;
+				}
+
 				if (tem != null) {
 					NetError netError;
 

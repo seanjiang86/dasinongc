@@ -79,7 +79,6 @@ public class SmsSubscribeAdapter extends MyBaseAdapter<SmsSubscribeItem> {
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				((BaseActivity)context).dismissLoadingDialog();
-				((BaseActivity)context).showToast(msg);
 			}
 		});
 	}

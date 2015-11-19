@@ -139,7 +139,7 @@ public class SplashActivity extends BaseActivity {
 				public void onSuccess(int requestCode, BaseEntity resultData) {
 					if(resultData.isOk()){
 						LoginRegEntity entity = (LoginRegEntity) resultData;
-						AccountManager.saveAccount(SplashActivity.this, entity.getData());
+						AccountManager.saveAccount(SplashActivity.this, entity);
 					}
 				}
 				@Override
@@ -153,7 +153,7 @@ public class SplashActivity extends BaseActivity {
 				public void onSuccess(int requestCode, BaseEntity resultData) {
 					if(resultData.isOk()){
 						LoginRegEntity entity = (LoginRegEntity) resultData;
-						AccountManager.saveAccount(SplashActivity.this, entity.getData());
+						AccountManager.saveAccount(SplashActivity.this, entity);
 					}
 				}
 
@@ -168,7 +168,7 @@ public class SplashActivity extends BaseActivity {
 				public void onSuccess(int requestCode, BaseEntity resultData) {
 					if(resultData.isOk()){
 						LoginRegEntity entity = (LoginRegEntity) resultData;
-						AccountManager.saveAccount(SplashActivity.this, entity.getData());
+						AccountManager.saveAccount(SplashActivity.this, entity);
 					}
 				}
 				

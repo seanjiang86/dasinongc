@@ -167,8 +167,8 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getRequestSecurityCodeParams(cellphone);
 		new NetRequest(context).requestPost(RequestCode.REQUEST_SECURITY_CODE, params, SubUrl.REQUEST_SECURITY_CODE, callBack, clazz);
 	}
-	public void loginWithSecCode(Context context, String cellphone,String seccode, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getLoginWithSecCodeParams(cellphone, seccode);
+	public void loginWithSecCode(Context context,String codeId, String cellphone,String seccode, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getLoginWithSecCodeParams(codeId, cellphone, seccode);
 		new NetRequest(context).requestPost(RequestCode.LOGIN_WITH_SECCODE, params, SubUrl.LOGIN_WITH_SECCODE, callBack, clazz);
 	}
 	public void getSteps(Context context, String fieldId,String taskSpecId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
