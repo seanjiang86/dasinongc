@@ -261,4 +261,8 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getGetCPProductByIdParams(id);
 		new NetRequest(context).get(RequestCode.GET_CPPRODUCT_BY_ID, params, SubUrl.GET_CPPRODUCT_BY_ID, callBack, clazz);
 	}
+	public void getPetDisSpecBaiKeById(Context context, String id, Class<? extends BaseEntity> clazz, RequestListener callBack){
+		Map<String, String> params = NetConfig.getGetPetDisSpecBaiKeByIdParams(id);
+		new NetRequest(context).get(RequestCode.GET_PETDISSPEC_BAIKE_BY_ID, params, SubUrl.GET_PETDISSPEC_BAIKE_BY_ID, callBack, clazz);
+	}
 }

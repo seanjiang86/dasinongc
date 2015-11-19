@@ -4,119 +4,59 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="25dp" >
-
-        <TextView
-            android:id="@+id/tv_harm_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:text="稻瘟病"
-            android:textColor="@color/color_333333"
-            android:textSize="20sp" />
-
-        <RelativeLayout
-            android:id="@+id/rl_rb"
-            android:layout_width="wrap_content"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true" >
-
-            <RatingBar
-                android:id="@+id/rb_harm_grade"
-                style="@style/CustomRatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:rating="5"
-                android:stepSize="1" />
-        </RelativeLayout>
-    </RelativeLayout>
-
-    <ImageView
-        android:id="@+id/iv_pic"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:scaleType="fitXY" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="25dp"
-        android:text="为害症状"
-        android:textColor="@color/color_333333"
-        android:textSize="@dimen/sp_16" />
-
-    <TextView
-        android:id="@+id/tv_harm_des"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="15dp"
-        android:lineSpacingExtra="11dp"
-        android:text="我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，"
-        android:textColor="@color/color_333333"
-        android:textSize="16sp" />
-
-    <!--
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp" >
+        android:layout_height="wrap_content" >
 
-             <android.support.v4.view.ViewPager
+        <android.support.v4.view.ViewPager
             android:id="@+id/vp_pic"
-            android:layout_width="fill_parent"
-            android:layout_height="match_parent" />
-
-        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="220dp" />
 
-            <LinearLayout
-                android:id="@+id/ll_point"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal" >
-            </LinearLayout>
-        </RelativeLayout>
-        
-    </FrameLayout>    -->
+        <ImageButton
+            android:id="@+id/left_button"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/color_99666666"
+            android:src="@drawable/left_arrow" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/color_DBE3E5" />
-
-    <LinearLayout
-        android:id="@+id/ll_rapid_diagnosis"
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:gravity="center" >
+        <ImageButton
+            android:id="@+id/right_button"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right|center_vertical"
+            android:background="@color/color_99666666"
+            android:src="@drawable/right_arrow" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/tv_show_position"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="快速诊断"
-            android:textColor="@color/color_1768BE"
+            android:layout_gravity="bottom"
+            android:background="@color/color_99666666"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:textColor="@color/white"
             android:textSize="16dp" />
-    </LinearLayout>
+    </FrameLayout>
+
+    <com.dasinong.app.ui.view.MyTabView
+        android:id="@+id/mtv_variety"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/tabview_bg" />
+
+    <TextView
+        android:id="@+id/tv_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="5dp"
+		android:layout_margin="20dp"
+        android:textSize="16sp" />
 
     <View
         android:layout_width="match_parent"

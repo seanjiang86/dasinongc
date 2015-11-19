@@ -4,14 +4,13 @@ import android.content.Context;
 import android.graphics.Color;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 
 import java.util.List;
 
@@ -25,11 +24,11 @@ public class MyTabView extends LinearLayout {
 
 	private Context context;
 	private int itemWidth;
+	private OnItemClickListener listener;
 	private int count;
 	private int width;
 	private int currentPositon;
 	private TextView tv;
-	private ViewPager pager;
 
 	public MyTabView(Context context) {
 		this(context, null);
@@ -67,11 +66,14 @@ public class MyTabView extends LinearLayout {
 			tv.setText(list.get(i));
 
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(itemWidth, ViewGroup.LayoutParams.MATCH_PARENT);
-			final int clickPosition = i;
 			itemView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					pager.setCurrentItem(clickPosition);
+
+					int position = MyTabView.this.indexOfChild(v);
+					
+					listener.onItemClick(position);
+
 					for (int j = 0; j < count; j++) {
 						if (MyTabView.this.getChildAt(j) == v) {
 							if (j == 0) {
@@ -102,13 +104,12 @@ public class MyTabView extends LinearLayout {
 			}
 		}
 	}
-	
-	public void setViewPager(ViewPager pager) {
-		this.pager = pager;
 
-		if (pager.getAdapter() == null) {
-			throw new IllegalStateException("ViewPager does not have adapter instance.");
-		}
-		pager.setCurrentItem(0);
+	public void setOnItemClickListener(OnItemClickListener listener) {
+		this.listener = listener;
+	}
+
+	public interface OnItemClickListener {
+		public void onItemClick(int position);
 	}
 }

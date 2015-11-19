@@ -23,6 +23,7 @@ import com.dasinong.app.entity.DrugListEntity;
 import com.dasinong.app.entity.DrugListEntity.Data;
 import com.dasinong.app.entity.DrugListEntity.Drug;
 import com.dasinong.app.entity.HarmDetailEntity.Solutions;
+import com.dasinong.app.entity.PetDisSpecEntity.PetDisSpec.Solution;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
@@ -39,7 +40,7 @@ public class CureDetailActivity extends BaseActivity {
 	private TextView tv_cure_content;
 	private TopbarView topbar;
 	private View header;
-	private Solutions solu;
+	private Solution solu;
 	private LinearLayout ll_medicine_title;
 
 	private Handler handler = new Handler() {
@@ -67,7 +68,7 @@ public class CureDetailActivity extends BaseActivity {
 
 		initTopBar();
 
-		solu = (Solutions) getIntent().getExtras().getSerializable("solu");
+		solu = (Solution) getIntent().getExtras().getSerializable("solu");
 		int position = getIntent().getExtras().getInt("position");
 		int size = getIntent().getExtras().getInt("size");
 
@@ -88,20 +89,39 @@ public class CureDetailActivity extends BaseActivity {
 		}
 	}
 
+	// 此方法在此处重载 ，以适应版本变化 ，兼容两个bean中的solution字段
+	private void initHeader(Solution solu) {
+		if (TextUtils.isEmpty(solu.subStageId) || "0".equals(solu.subStageId)) {
+			tv_cure_stage.setVisibility(View.GONE);
+		} else {
+			tv_cure_stage.setText("适宜时期：" + solu.subStageId);
+		}
+
+		if (TextUtils.isEmpty(solu.providedBy)) {
+			tv_cure_provider.setVisibility(View.GONE);
+		} else {
+			tv_cure_provider.setVisibility(View.VISIBLE);
+			tv_cure_provider.setText(solu.providedBy);
+		}
+
+		// tv_cure_provider.setText(solu.providedBy);
+		tv_cure_content.setText(solu.petSoluDes);
+	}
+
 	private void initHeader(Solutions solu) {
 		if (TextUtils.isEmpty(solu.subStageId) || "0".equals(solu.subStageId)) {
 			tv_cure_stage.setVisibility(View.GONE);
 		} else {
 			tv_cure_stage.setText("适宜时期：" + solu.subStageId);
 		}
-		
-		if(TextUtils.isEmpty(solu.providedBy)){
+
+		if (TextUtils.isEmpty(solu.providedBy)) {
 			tv_cure_provider.setVisibility(View.GONE);
 		} else {
 			tv_cure_provider.setVisibility(View.VISIBLE);
 			tv_cure_provider.setText(solu.providedBy);
 		}
-		
+
 		// tv_cure_provider.setText(solu.providedBy);
 		tv_cure_content.setText(solu.petSoluDes);
 	}
@@ -175,9 +195,8 @@ public class CureDetailActivity extends BaseActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(CureDetailActivity.this, WebBrowserActivity.class);
-				intent.putExtra(WebBrowserActivity.URL, NetConfig.BAIKE_URL + "type=pesticide&id=" + drugList.get(position - 1).id);
-				intent.putExtra("title", drugList.get(position-1).name);
+				Intent intent = new Intent(CureDetailActivity.this, PesticideDetailActivity.class);
+				intent.putExtra("id", drugList.get(position - 1).id + "");
 				startActivity(intent);
 			}
 		});

@@ -90,7 +90,7 @@ public final class RequestCode {
 	public static final int QQ_AUTH_REG_LOG = CHANGE_STAGE + 1;
 	/** 微信登陆接口 */
 	public static final int WX_AUTH_REG_LOG = QQ_AUTH_REG_LOG + 1;
-	/** 获取生长周期接口*/
+	/** 获取生长周期接口 */
 	public static final int GET_STAGES = WX_AUTH_REG_LOG + 1;
 	/** 提交推荐码接口 */
 	public static final int SETREF = GET_STAGES + 1;
@@ -100,11 +100,11 @@ public final class RequestCode {
 	public static final int LOGOUT = REFAPP + 1;
 	/** 按照类型和id搜索病虫草害 */
 	public static final int BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE = LOGOUT + 1;
-	/** 按照id搜索品种*/
+	/** 按照id搜索品种 */
 	public static final int GET_VARIETY_BAIKE_BY_ID = BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE + 1;
-	/** 按照id搜索农药*/
+	/** 按照id搜索农药 */
 	public static final int GET_CPPRODUCT_BY_ID = GET_VARIETY_BAIKE_BY_ID + 1;
-	
-	
-	
+	/** 按照id搜索病虫草害 */
+	public static final int GET_PETDISSPEC_BAIKE_BY_ID = GET_CPPRODUCT_BY_ID + 1;
+
 }

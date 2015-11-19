@@ -1,5 +1,11 @@
 package com.dasinong.app.components.home.view;
 
+import static android.util.TypedValue.COMPLEX_UNIT_DIP;
+import static android.util.TypedValue.applyDimension;
+
+import java.util.HashMap;
+import java.util.List;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,18 +27,11 @@ import android.widget.TextView;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.ui.EncyclopediasDiseaseActivity;
-import com.dasinong.app.ui.EncyclopediasVarietiesActivity;
 import com.dasinong.app.ui.HarmDetailsActivity;
 import com.dasinong.app.ui.HarmListActivity;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.umeng.analytics.MobclickAgent;
-
-import java.util.HashMap;
-import java.util.List;
-
-import static android.util.TypedValue.COMPLEX_UNIT_DIP;
-import static android.util.TypedValue.applyDimension;
 
 /**
  * disaster item view Created by lxn on 15/6/5.

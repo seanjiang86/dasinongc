@@ -5,7 +5,7 @@ import java.util.List;
 public class SearchResultEntity extends BaseEntity {
 
 	private SearchData data;
-	
+
 	public SearchData getData() {
 		return data;
 	}
@@ -21,7 +21,7 @@ public class SearchResultEntity extends BaseEntity {
 		private List<SearchItem> weeds;
 		private List<SearchItem> variety;
 
-		 private List<SearchItem> cpproduct;
+		private List<SearchItem> cpproduct;
 
 		public List<SearchItem> getDisease() {
 			return disease;
@@ -55,16 +55,14 @@ public class SearchResultEntity extends BaseEntity {
 			this.variety = variety;
 		}
 
-		 public List<SearchItem> getCpproduct() {
-		 return cpproduct;
-		 }
-		
-		 public void setCpproduct(List<SearchItem> cpproduct) {
-		 this.cpproduct = cpproduct;
-		 }
+		public List<SearchItem> getCpproduct() {
+			return cpproduct;
+		}
+
+		public void setCpproduct(List<SearchItem> cpproduct) {
+			this.cpproduct = cpproduct;
+		}
 
 	}
-
-	
 
 }

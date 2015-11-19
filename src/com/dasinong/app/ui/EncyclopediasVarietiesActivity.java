@@ -50,33 +50,33 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 
 	private ListView mFirstList;
 	private ListView mSecondList;
-	
+
 	private Handler mHandler = new Handler();
-	
+
 	private EditText mSearchEdit;
 	private ImageView mSearchView;
 	private TopbarView mTopbarView;
-	
+
 	private LetterView letterView;
 	private HashMap<String, Integer> alphaIndexer;
 	private OverlayThread mOverlayThread;
 	private WindowManager mWindowManager;
 	private TextView mOverlay;
 	protected List<Crop> query;
-	private String varietyHarm;
+	private String tyep;
 	private RelativeLayout rl_search_box;
 	private String title;
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_varieties);
-		
-		varietyHarm = getIntent().getStringExtra(EncyclopediaFragment.TYPE);
-		
+
+		tyep = getIntent().getStringExtra(EncyclopediaFragment.TYPE);
+
 		title = getIntent().getStringExtra("title");
 		title = title == null ? "品种大全" : title;
-		
+
 		initView();
 		setUpView();
 		initOverlay();
@@ -84,24 +84,24 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 	}
 
 	private void initData(final String type) {
-		
+
 		startLoadingDialog();
-		new Thread(){
+		new Thread() {
 			public void run() {
 				EncyclopediasDao dao = new EncyclopediasDao(EncyclopediasVarietiesActivity.this);
-				
+
 				query = dao.queryStageCategory(type);
-				
+
 				List<Crop> deleteList = new ArrayList<>();
-				for(Crop crop:query){
-					if(crop.cropName!=null){
-						if(crop.cropName.contains("通用") || crop.cropName.contains("重复") || crop.cropName.contains("其他")){
+				for (Crop crop : query) {
+					if (crop.cropName != null) {
+						if (crop.cropName.contains("通用") || crop.cropName.contains("重复") || crop.cropName.contains("其他")) {
 							deleteList.add(crop);
 						}
 					}
 				}
 				query.removeAll(deleteList);
-				
+
 				query = sortContactTitle(query);
 
 				alphaIndexer.clear();
@@ -111,9 +111,9 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 						alphaIndexer.put(entity.title, i);
 					}
 				}
-				
+
 				mHandler.post(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						dismissLoadingDialog();
@@ -123,24 +123,23 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 				});
 			};
 		}.start();
-		
+
 	}
 
 	private void setAdapter(List<Crop> queryStageCategory) {
 		VarietiesSecondListAdapter adapter = new VarietiesSecondListAdapter(this, queryStageCategory, false);
 		mSecondList.setAdapter(adapter);
 	}
-	
+
 	private void initView() {
 		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
-		
+
 		mFirstList = (ListView) this.findViewById(R.id.listview_type_list_first);
 		mSecondList = (ListView) this.findViewById(R.id.listview_type_list_second);
 		mSearchView = (ImageView) this.findViewById(R.id.imageview_search);
 		mSearchEdit = (EditText) this.findViewById(R.id.edittext_search);
 		rl_search_box = (RelativeLayout) this.findViewById(R.id.rl_search_box);
-		
-		
+
 		letterView = (LetterView) findViewById(R.id.letterview);
 		letterView.setOnTouchingLetterChangedListener(new letterViewListener());
 		alphaIndexer = new HashMap<String, Integer>();
@@ -148,17 +147,17 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 	}
 
 	private void setUpView() {
-		
+
 		mTopbarView.setCenterText(title);
 		mTopbarView.setLeftView(true, true);
-		
-		if(EncyclopediaFragment.DISEASE.equals(varietyHarm)){
-			rl_search_box.setVisibility(View.GONE);
+
+		if (EncyclopediaFragment.DISEASE.equals(tyep)) {
+			mSearchEdit.setHint("搜索病虫草害");
 		}
-		
+
 		final VarietiesFirstListAdapter adapter = new VarietiesFirstListAdapter(this, null, false);
 		mFirstList.setAdapter(adapter);
-		
+
 		mFirstList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -168,65 +167,66 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 				initData(type);
 			}
 		});
-		
+
 		mSecondList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Crop crop = (Crop) parent.getItemAtPosition(position);
 				Intent intent = new Intent();
-				if(EncyclopediaFragment.VARIETY.equals(varietyHarm)){
-					intent.setClass(EncyclopediasVarietiesActivity.this,SearchVarietyResultActivity.class);
-					intent.putExtra("type", crop.cropId+"");
+				if (EncyclopediaFragment.VARIETY.equals(tyep)) {
+					intent.setClass(EncyclopediasVarietiesActivity.this, SearchVarietyResultActivity.class);
+					intent.putExtra("type", crop.cropId + "");
 				} else {
-					intent.setClass(EncyclopediasVarietiesActivity.this,EncyclopediasDiseaseActivity.class);
-					intent.putExtra("cropId", crop.cropId+"");
+					intent.setClass(EncyclopediasVarietiesActivity.this, EncyclopediasDiseaseActivity.class);
+					intent.putExtra("cropId", crop.cropId + "");
 					intent.putExtra("cropName", crop.cropName);
 				}
 				startActivity(intent);
 			}
 		});
-		
-		
+
 		mSearchEdit.setOnKeyListener(new OnKeyListener() {
-			
+
 			@Override
 			public boolean onKey(View v, int keyCode, KeyEvent event) {
-				if(keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP){
-					
-//					DeviceHelper.hideIME(mSearchEdit);
-					
+				if (keyCode == KeyEvent.KEYCODE_ENTER && event.getAction() == KeyEvent.ACTION_UP) {
+
+					// DeviceHelper.hideIME(mSearchEdit);
+
 					search();
 					return true;
 				}
 				return false;
 			}
 
-			
 		});
-		
+
 		mSearchView.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				search();
 			}
 		});
 	}
-	
+
 	private void search() {
 		String keywords = mSearchEdit.getText().toString().trim();
-		if(TextUtils.isEmpty(keywords)){
+		if (TextUtils.isEmpty(keywords)) {
 			Toast.makeText(this, "请输入要搜索的内容", 0).show();
 			return;
 		}
-		
-		Intent intent = new Intent(this,SearchTypeResultActivity.class);
+		Intent intent = new Intent(this, SearchTypeResultActivity.class);
+		if (EncyclopediaFragment.DISEASE.equals(tyep)) {
+			intent.putExtra("type", EncyclopediaFragment.DISEASE);
+		} else {
+			intent.putExtra("type", EncyclopediaFragment.VARIETY);
+		}
 		intent.putExtra("keywords", keywords);
-		intent.putExtra("type", "variety");
 		this.startActivity(intent);
 	}
-	
+
 	private void initOverlay() {
 		mHandler = new Handler();
 		LayoutInflater inflater = LayoutInflater.from(this);
@@ -283,7 +283,7 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 		}
 
 	}
-	
+
 	public static List<Crop> sortContactTitle(List<Crop> data) {
 		if (data == null) {
 			return null;
@@ -307,7 +307,7 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 				int rhsascll = rhs.pinyin.charAt(0);
 
 				if (lhsascll < 97 || lhsascll > 122) {
-					lhs.pinyin = "~" ;
+					lhs.pinyin = "~";
 				}
 
 				if (rhsascll < 97 || rhsascll > 122) {
@@ -319,7 +319,7 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 		});
 
 		char mc = '*';
-//		List<Crop> newData = new ArrayList<Crop>();
+		// List<Crop> newData = new ArrayList<Crop>();
 		for (int i = 0; i < data.size(); i++) {
 			Crop friend = data.get(i);
 			friend.isTitle = false;
@@ -335,22 +335,22 @@ public class EncyclopediasVarietiesActivity extends BaseActivity {
 
 			if (mc != c) {
 				mc = c;
-//				Crop f = new Crop();
+				// Crop f = new Crop();
 				friend.isTitle = true;
 				friend.title = String.valueOf(c);
-//				newData.add(f);
+				// newData.add(f);
 			}
-//			newData.add(friend);
+			// newData.add(friend);
 		}
 		return data;
 	}
-	
+
 	private static char getFirstPy(String pinyin) {
-		if(null == pinyin || pinyin.length() == 0){
+		if (null == pinyin || pinyin.length() == 0) {
 			return '#';
-		}else{
+		} else {
 			return Character.toUpperCase(pinyin.charAt(0));
 		}
 	}
-	
+
 }

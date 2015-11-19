@@ -65,7 +65,7 @@ public class HarmFragment extends Fragment {
 				PetDisspec pet = (PetDisspec) list.get(position);
 				Bundle bundle = new Bundle();
 				bundle.putString("type", HarmDetailsActivity.FLAG_ITEM);
-				bundle.putInt("petDisSpecId", pet.petDisSpecId);
+				bundle.putString("id", pet.petDisSpecId+"");
 				intent.putExtras(bundle);
 				startActivity(intent);
 			}

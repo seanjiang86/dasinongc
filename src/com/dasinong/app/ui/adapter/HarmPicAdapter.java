@@ -18,7 +18,8 @@ public class HarmPicAdapter extends PagerAdapter {
 
 	private List<String> images;
 	private Context context;
-	public HarmPicAdapter(List<String> images , Context context) {
+
+	public HarmPicAdapter(List<String> images, Context context) {
 		super();
 		this.images = images;
 		this.context = context;
@@ -26,7 +27,7 @@ public class HarmPicAdapter extends PagerAdapter {
 
 	@Override
 	public int getCount() {
-		return images.size();
+		return Integer.MAX_VALUE;
 	}
 
 	@Override
@@ -40,7 +41,7 @@ public class HarmPicAdapter extends PagerAdapter {
 		ImageView iv = (ImageView) view.findViewById(R.id.iv);
 		LinearLayout ll = (LinearLayout) view.findViewById(R.id.ll);
 		BitmapUtils bitmapUtils = new BitmapUtils(context);
-		bitmapUtils.display(iv, "http://120.26.208.198:8080/" + images.get(position).replace("../", ""));
+		bitmapUtils.display(iv, "http://120.26.208.198:8080/pic/" + images.get(position % images.size()).replace("../pic/", ""));
 		container.addView(view);
 		return view;
 	}
@@ -49,6 +50,5 @@ public class HarmPicAdapter extends PagerAdapter {
 	public void destroyItem(ViewGroup container, int position, Object object) {
 		container.removeView((View) object);
 	}
-
 
 }

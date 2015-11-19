@@ -12,7 +12,7 @@ import com.dasinong.app.database.task.dao.impl.TaskSpecDaoImpl;
 import com.dasinong.app.database.task.domain.SubStage;
 import com.dasinong.app.database.task.domain.TaskSpec;
 import com.dasinong.app.entity.AllTaskEntity;
-import com.dasinong.app.entity.AllTaskEntity.TaskdetailEntity;
+import com.dasinong.app.entity.AllTaskEntity.TaskDetailEntity;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
@@ -134,7 +134,7 @@ public class TaskListActivity extends BaseActivity {
 					
 					for (Integer i : entity.data.keySet()) {
 
-						List<TaskdetailEntity> list = entity.data.get(i);
+						List<TaskDetailEntity> list = entity.data.get(i);
 
 						GroupItem groupItem = new GroupItem();
 

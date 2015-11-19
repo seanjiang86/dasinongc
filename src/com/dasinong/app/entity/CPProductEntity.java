@@ -19,6 +19,7 @@ public class CPProductEntity extends BaseEntity {
 		public String type;
 		public String volumn;
 		public List<UseDirection> useDirections;
+		public String telephone;
 	}
 	
 	public class UseDirection{

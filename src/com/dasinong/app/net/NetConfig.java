@@ -104,7 +104,7 @@ public class NetConfig {
 		/** 获取任务步骤 */
 		public static final String GET_STEPS = "getSteps";
 		/** 获取病虫草害详情 */
-		public static final String GET_PET_DIS_SPEC_detail = "getPetDisSpecdetail";
+		public static final String GET_PET_DIS_SPEC_detail = "getPetDisSpecdetial";
 		/** 获取相关药物 */
 		public static final String GET_PET_SOLU = "getPetSolu";
 		/** 百科-农药 */
@@ -133,15 +133,14 @@ public class NetConfig {
 		public static final String GET_VARIETY_BAIKE_BY_ID = "getVarietyBaiKeById";
 		/** 按照id搜索农药 */
 		public static final String GET_CPPRODUCT_BY_ID = "getCPProductById";
+		/** 按照id搜索病虫草害 */
+		public static final String GET_PETDISSPEC_BAIKE_BY_ID = "getPetDisSpecBaiKeById";
+		
 
 	}
 
 	public static String getRequestUrl(String subUrl) {
 		return NetConfig.BASE_URL + subUrl;
-	}
-
-	public static String getBaikeUrl(String type, String id) {
-		return NetConfig.BAIKE_URL + "type=" + type + "&id=" + id;
 	}
 
 	public static class Params {
@@ -681,6 +680,11 @@ public class NetConfig {
 	}
 
 	public static Map<String, String> getGetCPProductByIdParams(String id) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.id, id);
+		return getBaseParams(false, paramsMap);
+	}
+	public static Map<String, String> getGetPetDisSpecBaiKeByIdParams(String id) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.id, id);
 		return getBaseParams(false, paramsMap);

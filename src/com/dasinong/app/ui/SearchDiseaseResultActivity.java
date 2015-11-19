@@ -35,7 +35,7 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_disease_list);
-		
+
 		entity = (PetDisSpecsListEntity) getIntent().getExtras().getSerializable("data");
 
 		type = getIntent().getStringExtra("type");
@@ -50,7 +50,7 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
 
 		mListview = (ListView) this.findViewById(R.id.list_sms_list);
-		
+
 	}
 
 	private void setUpView() {
@@ -65,9 +65,8 @@ public class SearchDiseaseResultActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				PetDisSpecs item = (PetDisSpecs) parent.getItemAtPosition(position);
-				Intent intent = new Intent(SearchDiseaseResultActivity.this, WebBrowserActivity.class);
-				intent.putExtra(WebBrowserActivity.URL, NetConfig.getBaikeUrl("pest", item.petDisSpecId + ""));
-				intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.petDisSpecName).toString());
+				Intent intent = new Intent(SearchDiseaseResultActivity.this, HarmDetailsActivity.class);
+				intent.putExtra("id", item.petDisSpecId + "");
 				startActivity(intent);
 			}
 		});

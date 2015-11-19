@@ -5,9 +5,9 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class AllTaskEntity extends BaseEntity {
-	public TreeMap<Integer, List<TaskdetailEntity>> data;
+	public TreeMap<Integer, List<TaskDetailEntity>> data;
 
-	public class TaskdetailEntity {
+	public class TaskDetailEntity {
 		public int fieldId;
 		public String stageName;
 		public int subStageId;
@@ -17,5 +17,4 @@ public class AllTaskEntity extends BaseEntity {
 		public String taskSpecName;
 		public boolean taskStatus;
 	}
-
 }

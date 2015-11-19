@@ -13,6 +13,7 @@ import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.adapter.SearchResultAdapter;
+import com.dasinong.app.ui.fragment.EncyclopediaFragment;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.DeviceHelper;
 import com.dasinong.app.utils.ViewHelper;
@@ -48,7 +49,7 @@ public class SearchTypeResultActivity extends BaseActivity {
 	private ImageView mSearchView;
 	
 	private Handler mHandler = new Handler();
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,6 +64,9 @@ public class SearchTypeResultActivity extends BaseActivity {
 
 	private void requestData(String key) {
 		startLoadingDialog();
+		if(EncyclopediaFragment.DISEASE.equals(type)){
+			type = "petdisspec";
+		}
 		RequestService.getInstance().searchWord(this, key,type, SearchTypeResultEntity.class, new RequestListener() {
 			
 			@Override
@@ -105,7 +109,6 @@ public class SearchTypeResultActivity extends BaseActivity {
 	private void initData() {
 		keywords = getIntent().getStringExtra("keywords");
 		type = getIntent().getStringExtra("type");
-		
 	}
 
 	private void initView() {
@@ -160,13 +163,15 @@ public class SearchTypeResultActivity extends BaseActivity {
 				SearchItem item = (SearchItem) parent.getItemAtPosition(position);
 				if(item.isType()){
 				} else {
-					Intent intent = new Intent(SearchTypeResultActivity.this, WebBrowserActivity.class);
-					intent.putExtra(WebBrowserActivity.URL, NetConfig.getBaikeUrl(item.getType(), item.getId()));
-					if(TextUtils.isEmpty(item.getName())){
-						intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getSource()).toString());
-					}else{
-						intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getName()).toString());
+					Intent intent = new Intent();
+					if(EncyclopediaFragment.VARIETY.equals(type)){
+						intent.setClass(SearchTypeResultActivity.this, VarietyDetailActivity.class);
+					} else if(EncyclopediaFragment.DISEASE.endsWith(type)){
+						intent.setClass(SearchTypeResultActivity.this, HarmDetailsActivity.class);
+					} else {
+						intent.setClass(SearchTypeResultActivity.this, PesticideDetailActivity.class);
 					}
+					intent.putExtra("id", item.getId());
 					startActivity(intent);
 				}
 			}

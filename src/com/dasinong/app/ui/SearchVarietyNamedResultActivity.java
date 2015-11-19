@@ -72,7 +72,6 @@ public class SearchVarietyNamedResultActivity extends BaseActivity {
 			Intent intent = new Intent(SearchVarietyNamedResultActivity.this, VarietyDetailActivity.class);
 			intent.putExtra("id", item.getId());
 			intent.putExtra("title", item.getVarietyName());
-//			intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getVarietyName()).toString());
 			startActivity(intent);
 			finish();
 			return;
@@ -101,7 +100,6 @@ public class SearchVarietyNamedResultActivity extends BaseActivity {
 				Intent intent = new Intent(SearchVarietyNamedResultActivity.this, VarietyDetailActivity.class);
 				intent.putExtra("id", item.getId());
 				intent.putExtra("title", item.getVarietyName());
-//				intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getVarietyName()).toString());
 				startActivity(intent);
 			}
 		});
