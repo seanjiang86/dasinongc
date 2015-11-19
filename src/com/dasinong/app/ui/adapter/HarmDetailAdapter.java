@@ -11,13 +11,13 @@ import android.widget.TextView;
 
 import com.dasinong.app.R;
 import com.dasinong.app.database.disaster.domain.PetSolu;
-import com.dasinong.app.entity.HarmDetialEntity.Solutions;
+import com.dasinong.app.entity.HarmDetailEntity.Solutions;
 
-public class HarmDetialAdapter extends MyBaseAdapter<Solutions> {
+public class HarmDetailAdapter extends MyBaseAdapter<Solutions> {
 
 	private int soluSize;
 
-	public HarmDetialAdapter(Context ctx, List<Solutions> list, int soluSize, boolean flag) {
+	public HarmDetailAdapter(Context ctx, List<Solutions> list, int soluSize, boolean flag) {
 		super(ctx, list, flag);
 		this.soluSize = soluSize;
 	}

@@ -17,7 +17,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.database.disaster.domain.NatDisspec;
 import com.dasinong.app.database.disaster.domain.PetDisspec;
 import com.dasinong.app.database.disaster.service.DisasterManager;
-import com.dasinong.app.ui.HarmDetialsActivity;
+import com.dasinong.app.ui.HarmDetailsActivity;
 import com.dasinong.app.ui.adapter.HarmAdapter;
 
 /**
@@ -60,11 +60,11 @@ public class HarmFragment extends Fragment {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(getActivity(), HarmDetialsActivity.class);
+				Intent intent = new Intent(getActivity(), HarmDetailsActivity.class);
 
 				PetDisspec pet = (PetDisspec) list.get(position);
 				Bundle bundle = new Bundle();
-				bundle.putString("type", HarmDetialsActivity.FLAG_ITEM);
+				bundle.putString("type", HarmDetailsActivity.FLAG_ITEM);
 				bundle.putInt("petDisSpecId", pet.petDisSpecId);
 				intent.putExtras(bundle);
 				startActivity(intent);

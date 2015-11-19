@@ -22,7 +22,7 @@ import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.ui.EncyclopediasDiseaseActivity;
 import com.dasinong.app.ui.EncyclopediasVarietiesActivity;
-import com.dasinong.app.ui.HarmDetialsActivity;
+import com.dasinong.app.ui.HarmDetailsActivity;
 import com.dasinong.app.ui.HarmListActivity;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
@@ -188,9 +188,9 @@ public class DisasterView extends LinearLayout {
 				// 友盟统计自定义统计事件
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("name", item.petDisSpecName);
-				MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialItem", map);
+				MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmdetailItem", map);
 
-				Intent intent = HarmDetialsActivity.createIntent(item.id, HarmDetialsActivity.FLAG_ITEM, getContext());
+				Intent intent = HarmDetailsActivity.createIntent(item.id, HarmDetailsActivity.FLAG_ITEM, getContext());
 				getContext().startActivity(intent);
 
 			}
@@ -238,8 +238,8 @@ public class DisasterView extends LinearLayout {
 				// 友盟统计自定义统计事件
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("name", item.petDisSpecName);
-				MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialItem", map);
-				Intent intent = HarmDetialsActivity.createIntent(item.id, HarmDetialsActivity.FLAG_ITEM, getContext());
+				MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmdetailItem", map);
+				Intent intent = HarmDetailsActivity.createIntent(item.id, HarmDetailsActivity.FLAG_ITEM, getContext());
 				getContext().startActivity(intent);
 
 			}
@@ -303,9 +303,9 @@ public class DisasterView extends LinearLayout {
 			// 友盟统计自定义统计事件
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("name", name);
-			MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialPrevent", map);
+			MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmdetailPrevent", map);
 
-			Intent intent = HarmDetialsActivity.createIntent(id, HarmDetialsActivity.FLAG_PREVENT, getContext());
+			Intent intent = HarmDetailsActivity.createIntent(id, HarmDetailsActivity.FLAG_PREVENT, getContext());
 			v.getContext().startActivity(intent);
 
 		}
@@ -326,9 +326,9 @@ public class DisasterView extends LinearLayout {
 			// 友盟统计自定义统计事件
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("name", name);
-			MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetialCure", map);
+			MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmdetailCure", map);
 
-			Intent intent = HarmDetialsActivity.createIntent(id, HarmDetialsActivity.FLAG_CURE, getContext());
+			Intent intent = HarmDetailsActivity.createIntent(id, HarmDetailsActivity.FLAG_CURE, getContext());
 			v.getContext().startActivity(intent);
 		}
 	}

@@ -2,7 +2,7 @@ package com.dasinong.app.entity;
 
 import java.util.List;
 
-import com.dasinong.app.entity.HarmDetialEntity.Solutions;
+import com.dasinong.app.entity.HarmDetailEntity.Solutions;
 
 public class DrugListEntity extends BaseEntity {
 	public Data data;

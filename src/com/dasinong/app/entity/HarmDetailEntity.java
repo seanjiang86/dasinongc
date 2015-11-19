@@ -5,10 +5,10 @@ import java.util.List;
 
 import com.dasinong.app.database.disaster.domain.PetSolu;
 
-public class HarmDetialEntity extends BaseEntity {
-	public HarmDetial data;
+public class HarmDetailEntity extends BaseEntity {
+	public HarmDetail data;
 
-	public static class HarmDetial {
+	public static class HarmDetail {
 		public HarmInfo petDisSpec;
 		public List<Solutions> petSolutions;
 	}

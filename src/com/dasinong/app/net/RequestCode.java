@@ -76,11 +76,11 @@ public final class RequestCode {
 	/**
 	 * 获取指定的病虫草害详情
 	 */
-	public static final int GET_PET_DIS_SPEC_DETIAL = GET_STEPS + 1;
+	public static final int GET_PET_DIS_SPEC_detail = GET_STEPS + 1;
 	/**
 	 * 获取指定病虫草害解决方案所需药物
 	 */
-	public static final int GET_PET_SOLU = GET_PET_DIS_SPEC_DETIAL + 1;
+	public static final int GET_PET_SOLU = GET_PET_DIS_SPEC_detail + 1;
 	public static final int CPPRODUCT_BYMODEL = GET_PET_SOLU + 1;
 	public static final int CPPRODUCT_BYMODEL_NAMED = CPPRODUCT_BYMODEL + 1;
 	public static final int CPPRODUCT_VARIETYS_NAMED = CPPRODUCT_BYMODEL_NAMED + 1;
@@ -102,5 +102,9 @@ public final class RequestCode {
 	public static final int BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE = LOGOUT + 1;
 	/** 按照id搜索品种*/
 	public static final int GET_VARIETY_BAIKE_BY_ID = BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE + 1;
+	/** 按照id搜索农药*/
+	public static final int GET_CPPRODUCT_BY_ID = GET_VARIETY_BAIKE_BY_ID + 1;
+	
+	
 	
 }

@@ -31,11 +31,6 @@ public class HarmDescriptionFragmentPagerAdapter extends FragmentPagerAdapter {
 		return list.size();
 	}
 
-	// @Override
-	// public CharSequence getPageTitle(int position) {
-	// return TITLES[position];
-	// }
-
 	@Override
 	public Fragment getItem(int position) {
 		return HarmDescriptionFragment.newInstance(list.get(position),entity);

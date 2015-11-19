@@ -35,14 +35,14 @@ import com.dasinong.app.database.disaster.domain.PetDisspec;
 import com.dasinong.app.database.disaster.domain.PetSolu;
 import com.dasinong.app.database.disaster.service.DisasterManager;
 import com.dasinong.app.entity.BaseEntity;
-import com.dasinong.app.entity.HarmDetialEntity;
-import com.dasinong.app.entity.HarmDetialEntity.HarmDetial;
-import com.dasinong.app.entity.HarmDetialEntity.HarmInfo;
-import com.dasinong.app.entity.HarmDetialEntity.Solutions;
+import com.dasinong.app.entity.HarmDetailEntity;
+import com.dasinong.app.entity.HarmDetailEntity.HarmDetail;
+import com.dasinong.app.entity.HarmDetailEntity.HarmInfo;
+import com.dasinong.app.entity.HarmDetailEntity.Solutions;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
-import com.dasinong.app.ui.adapter.HarmDetialAdapter;
+import com.dasinong.app.ui.adapter.HarmDetailAdapter;
 import com.dasinong.app.ui.fragment.HarmFragment;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.DeviceHelper;
@@ -53,13 +53,13 @@ import com.lidroid.xutils.BitmapUtils;
  * @author Ming 此类为显示病虫草害详情的页面
  */
 
-public class HarmDetialsActivity extends BaseActivity {
+public class HarmDetailsActivity extends BaseActivity {
 
 	public static final String FLAG_PREVENT = "prevent";
 	public static final String FLAG_CURE = "cure";
 	public static final String FLAG_ITEM = "item";
 
-	private ListView lv_detial;
+	private ListView lv_detail;
 	private View header;
 	// 病害名
 	private TextView tv_harm_name;
@@ -91,9 +91,9 @@ public class HarmDetialsActivity extends BaseActivity {
 
 	private Handler handler = new Handler() {
 		public void handleMessage(Message msg) {
-			HarmDetialEntity detial = (HarmDetialEntity) msg.obj;
-			if(detial.data.petSolutions != null && !detial.data.petSolutions.isEmpty()){
-				for (Solutions solution : detial.data.petSolutions) {
+			HarmDetailEntity detail = (HarmDetailEntity) msg.obj;
+			if(detail.data.petSolutions != null && !detail.data.petSolutions.isEmpty()){
+				for (Solutions solution : detail.data.petSolutions) {
 					if (solution.isRemedy) {
 						petSoluList.add(solution);
 					} else {
@@ -103,8 +103,8 @@ public class HarmDetialsActivity extends BaseActivity {
 			}
 			dataList.addAll(petSoluList);
 			dataList.addAll(petPreventList);
-			initTopBar(detial.data.petDisSpec.petDisSpecName);
-			initHeader(detial);
+			initTopBar(detail.data.petDisSpec.petDisSpecName);
+			initHeader(detail);
 			initListView();
 		};
 	};
@@ -112,11 +112,11 @@ public class HarmDetialsActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_harm_detials);
+		setContentView(R.layout.activity_harm_details);
 
-		lv_detial = (ListView) findViewById(R.id.lv_detial);
+		lv_detail = (ListView) findViewById(R.id.lv_detail);
 		topbar = (TopbarView) findViewById(R.id.topbar);
-		header = View.inflate(DsnApplication.getContext(), R.layout.harm_detials_header, null);
+		header = View.inflate(DsnApplication.getContext(), R.layout.harm_details_header, null);
 
 		manager = DisasterManager.getInstance(this);
 
@@ -137,22 +137,22 @@ public class HarmDetialsActivity extends BaseActivity {
 	}
 
 	private void initListView() {
-		lv_detial.setAdapter(new HarmDetialAdapter(this, dataList, petSoluList.size(), true));
+		lv_detail.setAdapter(new HarmDetailAdapter(this, dataList, petSoluList.size(), true));
 
 		if (FLAG_CURE.equals(type)) {
-			lv_detial.setSelection(1);
+			lv_detail.setSelection(1);
 		} else if (FLAG_PREVENT.equals(type)) {
-			lv_detial.setSelection(petSoluList.size());
+			lv_detail.setSelection(petSoluList.size());
 		} else {
-			lv_detial.setSelection(0);
+			lv_detail.setSelection(0);
 		}
 
-		lv_detial.setOnItemClickListener(new OnItemClickListener() {
+		lv_detail.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Solutions solu = dataList.get(position - 1);
-				Intent intent = new Intent(DsnApplication.getContext(), CureDetialActivity.class);
+				Intent intent = new Intent(DsnApplication.getContext(), CureDetailActivity.class);
 
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("solu", solu);
@@ -168,18 +168,18 @@ public class HarmDetialsActivity extends BaseActivity {
 	private void initData(int petDisSpecId) {
 		PetDisspec pet = manager.getDisease(petDisSpecId);
 
-		HarmDetialEntity detial = new HarmDetialEntity();
-		detial.data = new HarmDetial();
-		detial.data.petDisSpec = new HarmInfo();
+		HarmDetailEntity detail = new HarmDetailEntity();
+		detail.data = new HarmDetail();
+		detail.data.petDisSpec = new HarmInfo();
 
-		detial.data.petDisSpec.alias = pet.alias;
-		detial.data.petDisSpec.form = pet.forms;
-		detial.data.petDisSpec.habbit = pet.habits;
-		detial.data.petDisSpec.id = pet.petDisSpecId;
-		detial.data.petDisSpec.imagePath = pet.pictureIds;
-		detial.data.petDisSpec.petDisSpecName = pet.petDisSpecName;
-		detial.data.petDisSpec.rule = pet.rules;
-		detial.data.petDisSpec.sympton = pet.sympthon.replace("[为害症状]", "");
+		detail.data.petDisSpec.alias = pet.alias;
+		detail.data.petDisSpec.form = pet.forms;
+		detail.data.petDisSpec.habbit = pet.habits;
+		detail.data.petDisSpec.id = pet.petDisSpecId;
+		detail.data.petDisSpec.imagePath = pet.pictureIds;
+		detail.data.petDisSpec.petDisSpecName = pet.petDisSpecName;
+		detail.data.petDisSpec.rule = pet.rules;
+		detail.data.petDisSpec.sympton = pet.sympthon.replace("[为害症状]", "");
 
 		// 获取治疗方案
 		locaPetSoluList = manager.getCureSolution(petDisSpecId);
@@ -231,15 +231,15 @@ public class HarmDetialsActivity extends BaseActivity {
 			dataList.addAll(petPreventList);
 		}
 
-		initHeader(detial);
-		initTopBar(detial.data.petDisSpec.petDisSpecName);
+		initHeader(detail);
+		initTopBar(detail.data.petDisSpec.petDisSpecName);
 		initListView();
 	}
 
 	/*
 	 * 填充listview的头的信息
 	 */
-	private void initHeader(final HarmDetialEntity detial) {
+	private void initHeader(final HarmDetailEntity detail) {
 		tv_harm_name = (TextView) header.findViewById(R.id.tv_harm_name);
 		rb_harm_grade = (RatingBar) header.findViewById(R.id.rb_harm_grade);
 		tv_harm_des = (TextView) header.findViewById(R.id.tv_harm_des);
@@ -247,23 +247,23 @@ public class HarmDetialsActivity extends BaseActivity {
 		ll_rapid_diagnosis = (LinearLayout) header.findViewById(R.id.ll_rapid_diagnosis);
 		RelativeLayout rl_rb = (RelativeLayout) header.findViewById(R.id.rl_rb);
 
-		tv_harm_name.setText(detial.data.petDisSpec.petDisSpecName);
-		if (detial.data.petDisSpec.severity == 0) {
+		tv_harm_name.setText(detail.data.petDisSpec.petDisSpecName);
+		if (detail.data.petDisSpec.severity == 0) {
 			rb_harm_grade.setVisibility(View.GONE);
 		} else {
-			rb_harm_grade.setRating(detial.data.petDisSpec.severity);
+			rb_harm_grade.setRating(detail.data.petDisSpec.severity);
 		}
-		rb_harm_grade.setRating(detial.data.petDisSpec.severity);
-		String sympton = detial.data.petDisSpec.sympton.replace("[为害症状]", "");
+		rb_harm_grade.setRating(detail.data.petDisSpec.severity);
+		String sympton = detail.data.petDisSpec.sympton.replace("[为害症状]", "");
 
 		tv_harm_des.setText(sympton);
 
 		String path = null;
 
-		if (detial.data.petDisSpec.imagePath.contains("\n")) {
-			path = detial.data.petDisSpec.imagePath.substring(0, detial.data.petDisSpec.imagePath.indexOf("\n"));
+		if (detail.data.petDisSpec.imagePath.contains("\n")) {
+			path = detail.data.petDisSpec.imagePath.substring(0, detail.data.petDisSpec.imagePath.indexOf("\n"));
 		} else {
-			path = detial.data.petDisSpec.imagePath;
+			path = detail.data.petDisSpec.imagePath;
 		}
 
 //		LoadUtils.getInstance().loadImage(iv_pic, NetConfig.PET_IMAGE + path);
@@ -274,7 +274,7 @@ public class HarmDetialsActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(HarmDetialsActivity.this, WebBrowserActivity.class);
+				Intent intent = new Intent(HarmDetailsActivity.this, WebBrowserActivity.class);
 				intent.putExtra(WebBrowserActivity.URL, "file:///android_asset/DisasterLevel.html");
 				intent.putExtra(WebBrowserActivity.TITLE, "危害等级介绍");
 				startActivity(intent);
@@ -284,10 +284,10 @@ public class HarmDetialsActivity extends BaseActivity {
 		ll_rapid_diagnosis.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (DeviceHelper.checkNetWork(HarmDetialsActivity.this)) {
-					Intent intent = new Intent(HarmDetialsActivity.this, WebBrowserActivity.class);
-					intent.putExtra(WebBrowserActivity.URL, NetConfig.BAIKE_URL + "type=pest&id=" + detial.data.petDisSpec.id);
-					intent.putExtra(WebBrowserActivity.TITLE, detial.data.petDisSpec.petDisSpecName);
+				if (DeviceHelper.checkNetWork(HarmDetailsActivity.this)) {
+					Intent intent = new Intent(HarmDetailsActivity.this, WebBrowserActivity.class);
+					intent.putExtra(WebBrowserActivity.URL, NetConfig.BAIKE_URL + "type=pest&id=" + detail.data.petDisSpec.id);
+					intent.putExtra(WebBrowserActivity.TITLE, detail.data.petDisSpec.petDisSpecName);
 					startActivity(intent);
 				} else {
 					showRemindDialog("呀！网络断了...", "请检查你的手机是否联网，如果只是信号不好，也许等等就好啦", "前往设置", "取消", new MyDialogClickListener() {
@@ -306,7 +306,7 @@ public class HarmDetialsActivity extends BaseActivity {
 			}
 		});
 
-		lv_detial.addHeaderView(header, null, false);
+		lv_detail.addHeaderView(header, null, false);
 
 		// TODO MING 多张图片备用
 		/*
@@ -346,14 +346,14 @@ public class HarmDetialsActivity extends BaseActivity {
 
 	private void queryDisease(final int petDisSpecId) {
 		startLoadingDialog();
-		RequestService.getInstance().getPetDisSpecDetial(this, petDisSpecId, HarmDetialEntity.class, new RequestListener() {
+		RequestService.getInstance().getPetDisSpecdetail(this, petDisSpecId, HarmDetailEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				if (resultData.isOk()) {
-					HarmDetialEntity detial = (HarmDetialEntity) resultData;
+					HarmDetailEntity detail = (HarmDetailEntity) resultData;
 					Message msg = handler.obtainMessage();
-					msg.obj = detial;
+					msg.obj = detail;
 					handler.sendMessage(msg);
 					dismissLoadingDialog();
 				}
@@ -410,7 +410,7 @@ public class HarmDetialsActivity extends BaseActivity {
 	 */
 
 	public static Intent createIntent(int petDisSpecId, String flag, Context context) {
-		Intent intent = new Intent(context, HarmDetialsActivity.class);
+		Intent intent = new Intent(context, HarmDetailsActivity.class);
 		Bundle bundle = new Bundle();
 		bundle.putInt("petDisSpecId", petDisSpecId);
 		bundle.putString("type", flag);

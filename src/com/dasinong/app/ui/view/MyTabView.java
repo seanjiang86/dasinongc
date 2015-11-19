@@ -58,7 +58,7 @@ public class MyTabView extends LinearLayout {
 	public void setData(List<String> list) {
 		initView(list.size());
 		for (int i = 0; i < list.size(); i++) {
-			View itemView = View.inflate(context, R.layout.item_tabview, null);
+			View itemView = View.inflate(context, R.layout.item_mytabview, null);
 			tv = (TextView) itemView.findViewById(R.id.tv);
 			View view = itemView.findViewById(R.id.view);
 			if (i == count - 1) {
@@ -109,5 +109,6 @@ public class MyTabView extends LinearLayout {
 		if (pager.getAdapter() == null) {
 			throw new IllegalStateException("ViewPager does not have adapter instance.");
 		}
+		pager.setCurrentItem(0);
 	}
 }

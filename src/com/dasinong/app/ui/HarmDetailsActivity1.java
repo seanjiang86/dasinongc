@@ -14,7 +14,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
-public class HarmDetialsActivity1 extends BaseActivity {
+public class HarmDetailsActivity1 extends BaseActivity {
 
 	private ViewPager vp_pic;
 	private MyTabView mtv_description;
@@ -25,10 +25,10 @@ public class HarmDetialsActivity1 extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.harm_detials_header1);
+		setContentView(R.layout.harm_details_header1);
 
 		vp_pic = (ViewPager) findViewById(R.id.vp_pic);
-		mtv_description = (MyTabView) findViewById(R.id.mtv_description);
+		mtv_description = (MyTabView) findViewById(R.id.mtv_variety);
 		pager = (ViewPager) findViewById(R.id.pager);
 
 		list.add("形态");

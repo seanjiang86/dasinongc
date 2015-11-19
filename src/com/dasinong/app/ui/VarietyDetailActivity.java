@@ -16,7 +16,7 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.widget.TextView;
 
-public class VarietyDetialActivity extends BaseActivity {
+public class VarietyDetailActivity extends BaseActivity {
 	private TopbarView topBar;
 	private TextView tv_name;
 	private TextView tv_registration_id;
@@ -34,7 +34,7 @@ public class VarietyDetialActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_variety_detial);
+		setContentView(R.layout.activity_variety_detail);
 		
 		id = getIntent().getStringExtra("id");
 		title = getIntent().getStringExtra("title");
@@ -79,7 +79,7 @@ public class VarietyDetialActivity extends BaseActivity {
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-
+				showToast(msg);
 			}
 		});
 	}
@@ -89,7 +89,7 @@ public class VarietyDetialActivity extends BaseActivity {
 		tv_registration_id.setText(entity.data.registrationId);
 		tv_owner.setText(entity.data.owner);
 		tv_suitableArea.setText(entity.data.suitableArea);
-
+		
 		mtv.setData(list);
 		HarmDescriptionFragmentPagerAdapter adapter = new HarmDescriptionFragmentPagerAdapter(getSupportFragmentManager(), list, entity);
 		pager.setAdapter(adapter);

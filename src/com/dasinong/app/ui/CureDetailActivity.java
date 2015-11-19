@@ -22,7 +22,7 @@ import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.DrugListEntity;
 import com.dasinong.app.entity.DrugListEntity.Data;
 import com.dasinong.app.entity.DrugListEntity.Drug;
-import com.dasinong.app.entity.HarmDetialEntity.Solutions;
+import com.dasinong.app.entity.HarmDetailEntity.Solutions;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestService;
@@ -30,7 +30,7 @@ import com.dasinong.app.ui.adapter.CureAdapter;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.DeviceHelper;
 
-public class CureDetialActivity extends BaseActivity {
+public class CureDetailActivity extends BaseActivity {
 
 	private ListView lv_medicine;
 	private TextView tv_cure_name;
@@ -53,11 +53,11 @@ public class CureDetialActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_cure_detials);
+		setContentView(R.layout.activity_cure_details);
 		lv_medicine = (ListView) findViewById(R.id.lv_medicine);
 		topbar = (TopbarView) findViewById(R.id.topbar);
 
-		header = View.inflate(this, R.layout.cure_detials_header, null);
+		header = View.inflate(this, R.layout.cure_details_header, null);
 
 		tv_cure_name = (TextView) header.findViewById(R.id.tv_cure_name);
 		tv_cure_stage = (TextView) header.findViewById(R.id.tv_cure_stage);
@@ -175,7 +175,7 @@ public class CureDetialActivity extends BaseActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				Intent intent = new Intent(CureDetialActivity.this, WebBrowserActivity.class);
+				Intent intent = new Intent(CureDetailActivity.this, WebBrowserActivity.class);
 				intent.putExtra(WebBrowserActivity.URL, NetConfig.BAIKE_URL + "type=pesticide&id=" + drugList.get(position - 1).id);
 				intent.putExtra("title", drugList.get(position-1).name);
 				startActivity(intent);

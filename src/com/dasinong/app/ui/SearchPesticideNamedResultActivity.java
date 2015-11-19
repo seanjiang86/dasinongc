@@ -65,9 +65,9 @@ public class SearchPesticideNamedResultActivity extends BaseActivity {
 		
 		if(query!=null && query.size()==1){
 			Pesticide item = query.get(0);
-			Intent intent = new Intent(SearchPesticideNamedResultActivity.this, WebBrowserActivity.class);
-			intent.putExtra(WebBrowserActivity.URL, NetConfig.getBaikeUrl("pesticide", item.getId()+""));
-			intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getActiveIngredient()).toString());
+			Intent intent = new Intent(SearchPesticideNamedResultActivity.this, PesticideDetailActivity.class);
+			intent.putExtra("id" , item.getId());
+			intent.putExtra("title" , item.getName());
 			startActivity(intent);
 			finish();
 			return;
@@ -94,9 +94,9 @@ public class SearchPesticideNamedResultActivity extends BaseActivity {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Pesticide item = (Pesticide) parent.getItemAtPosition(position);
-				Intent intent = new Intent(SearchPesticideNamedResultActivity.this, WebBrowserActivity.class);
-				intent.putExtra(WebBrowserActivity.URL, NetConfig.getBaikeUrl("pesticide", item.getId()+""));
-				intent.putExtra(WebBrowserActivity.TITLE, Html.fromHtml(item.getActiveIngredient()).toString());
+				Intent intent = new Intent(SearchPesticideNamedResultActivity.this, PesticideDetailActivity.class);
+				intent.putExtra("id" , item.getId());
+				intent.putExtra("title" , item.getName());
 				startActivity(intent);
 			}
 		});

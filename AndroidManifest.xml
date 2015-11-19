@@ -93,10 +93,10 @@
             android:name=".ui.HarmListActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.HarmDetialsActivity"
+            android:name=".ui.HarmDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.CureDetialActivity"
+            android:name=".ui.CureDetailActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.AddFieldActivity1"
@@ -159,7 +159,11 @@
         <activity
             android:name=".ui.GuideActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.VarietyDetialActivity"
+        <activity 
+            android:name=".ui.VarietyDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity 
+            android:name=".ui.PesticideDetailActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.RegisterActivity"

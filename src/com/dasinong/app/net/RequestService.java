@@ -187,9 +187,9 @@ public class RequestService {
 	public void uploadPetDisPic(Context context, List<String> paths ,String cropName, String disasterType,String disasterName,String affectedArea,String eruptionTime, String disasterDist,String fieldOperations,String fieldId, RequestListener callBack) {
 		new NetRequest(context).uploadImages(0,NetConfig.BASE_URL + "insertDisasterReport", paths, cropName, disasterType, disasterName, affectedArea, eruptionTime,  disasterDist, fieldOperations,fieldId,BaseEntity.class, callBack);
 	}
-	public void getPetDisSpecDetial(Context context, int petDisSpecId ,Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetPetDisSpecDetial(petDisSpecId);
-		new NetRequest(context).get(RequestCode.GET_PET_DIS_SPEC_DETIAL, params, SubUrl.GET_PET_DIS_SPEC_DETIAL, callBack, clazz);
+	public void getPetDisSpecdetail(Context context, int petDisSpecId ,Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetPetDisSpecdetail(petDisSpecId);
+		new NetRequest(context).get(RequestCode.GET_PET_DIS_SPEC_detail, params, SubUrl.GET_PET_DIS_SPEC_detail, callBack, clazz);
 	}
 	public void getPetSolu(Context context, int petSoluId ,Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getGetPetSolu(petSoluId);
@@ -256,5 +256,9 @@ public class RequestService {
 	public void getVarietyBaiKeById(Context context, String id, Class<? extends BaseEntity> clazz, RequestListener callBack){
 		Map<String, String> params = NetConfig.getGetVarietyBaiKeByIdParams(id);
 		new NetRequest(context).get(RequestCode.GET_VARIETY_BAIKE_BY_ID, params, SubUrl.GET_VARIETY_BAIKE_BY_ID, callBack, clazz);
+	}
+	public void getCPProductById(Context context, String id, Class<? extends BaseEntity> clazz, RequestListener callBack){
+		Map<String, String> params = NetConfig.getGetCPProductByIdParams(id);
+		new NetRequest(context).get(RequestCode.GET_CPPRODUCT_BY_ID, params, SubUrl.GET_CPPRODUCT_BY_ID, callBack, clazz);
 	}
 }

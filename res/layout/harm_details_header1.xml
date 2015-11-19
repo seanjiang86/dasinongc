@@ -48,7 +48,7 @@
         android:layout_marginBottom="-15dp" />
 
     <com.dasinong.app.ui.view.MyTabView
-        android:id="@+id/mtv_description"
+        android:id="@+id/mtv_variety"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_marginLeft="15dp"

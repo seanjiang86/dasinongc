@@ -32,9 +32,10 @@ import com.dasinong.app.utils.StringHelper;
  */
 public class NetConfig {
 
-//	public static final String BASE_URL = "http://115.29.111.179/ploughHelper/";
+	// public static final String BASE_URL =
+	// "http://115.29.111.179/ploughHelper/";
 	public static final String BASE_URL = "http://120.26.208.198:8080/ploughHelper/";
-	
+
 	public static final String IMAGE_URL = "http://120.26.208.198:8080/avater/";
 	public static final String PET_IMAGE = "http://120.26.208.198:8080/pic/";
 	public static final String BAIKE_URL = "http://120.26.208.198:8080/ploughHelper/baike?";
@@ -56,94 +57,93 @@ public class NetConfig {
 		public static final String SEARCH_LOCATION = "searchLocation";
 		/** 获取品种名列表 */
 		public static final String GET_VARIETY_LIST = "getVarietyList";
-		/*获取首页的的task*/
-		public static final String GET_HOME_TASK ="home";
-		/**测土的详情页*/
-		public static final String GET_SOIL_DETAIL ="";
-		/**提交测土信息*/
-		public static final String GET_SOIL_POST ="";
-		/**获取最后一级的地理信息*/
-		public static final String GET_LOCATION ="getLocation";
-		/**获取附近用户*/
-		public static final String SEARCH_NEAR_USER ="searchNearUser";
-		/**获取全部任务 */
-		public static final String GET_All_TASK ="getAllTask";
-		/**个人信息 */
-		public static final String GET_MY_INFO ="loadUserProfile";
-		/**上传个人信息 */
-		public static final String UPLOAD_MY_INFO ="updateProfile";
-		/**提交任务状态 */
-		public static final String UPLOAD_MY_TASK ="updateTask";
-		/**提交手机验证状态 */
-		public static final String UPLOAD_PHONE_AUTH_STATE ="isAuth";
-		/**短信订阅 */
-		public static final String SMS_SUBSCRIBE ="insertSubScribeList";
-		/**短信订阅列表 */
-		public static final String GET_SUBSCRIBE_LIST ="getSubScribeLists";
-		/**修改密码*/
-		public static final String UPDATE_PWSSWORD ="updatePassword";
-		/**修改密码*/
-		public static final String RESET_PWSSWORD ="resetPassword";
-		/**刪除短信訂閱*/
-		public static final String DELETE_SMS_SUBSCRIBE ="deleteSubScribeList";
-		/**更改短信訂閱*/
-		public static final String MODIFI_SMS_SUBSCRIBE ="updateSubScribeList";
-		/**获取短信订阅详情*/
-		public static final String SMS_SUBSCRIBE_DETAIL ="loadSubScribeList";
-		/**创建田地*/
-		public static final String CREATE_FIELD ="createField";
-		/**搜索*/
-		public static final String SEARCH_WORD ="searchWord";
-		/**请求验证码*/
-		public static final String REQUEST_SECURITY_CODE ="requestSecurityCode";
-		/**验证临时密码 登录*/
-		public static final String LOGIN_WITH_SECCODE ="loginWithSecCode";
-		/**是否设置过密码*/
-		public static final String IS_PWSS_SET ="isPassSet";
-		/**获取任务步骤*/
-		public static final String GET_STEPS ="getSteps";
-		/**获取病虫草害详情*/
-		public static final String GET_PET_DIS_SPEC_DETIAL ="getPetDisSpecDetial";
-		/**获取相关药物*/
-		public static final String GET_PET_SOLU ="getPetSolu";
-		/**百科-农药*/
-		public static final String CPPRODUCT_BYMODEL ="browseCPProductByModel";
-		/**百科-同名农药*/
-		public static final String CPPRODUCT_BYMODEL_NAMED ="getCPProdcutsByIngredient";
-		/**百科-同名品种*/
-		public static final String CPPRODUCT_VARIETYS_NAMED ="getVarietysByName";
-		/** 切换首页生长周期*/
-		public static final String CHANGE_STAGE ="changeStage";
+		/* 获取首页的的task */
+		public static final String GET_HOME_TASK = "home";
+		/** 测土的详情页 */
+		public static final String GET_SOIL_DETAIL = "";
+		/** 提交测土信息 */
+		public static final String GET_SOIL_POST = "";
+		/** 获取最后一级的地理信息 */
+		public static final String GET_LOCATION = "getLocation";
+		/** 获取附近用户 */
+		public static final String SEARCH_NEAR_USER = "searchNearUser";
+		/** 获取全部任务 */
+		public static final String GET_All_TASK = "getAllTask";
+		/** 个人信息 */
+		public static final String GET_MY_INFO = "loadUserProfile";
+		/** 上传个人信息 */
+		public static final String UPLOAD_MY_INFO = "updateProfile";
+		/** 提交任务状态 */
+		public static final String UPLOAD_MY_TASK = "updateTask";
+		/** 提交手机验证状态 */
+		public static final String UPLOAD_PHONE_AUTH_STATE = "isAuth";
+		/** 短信订阅 */
+		public static final String SMS_SUBSCRIBE = "insertSubScribeList";
+		/** 短信订阅列表 */
+		public static final String GET_SUBSCRIBE_LIST = "getSubScribeLists";
+		/** 修改密码 */
+		public static final String UPDATE_PWSSWORD = "updatePassword";
+		/** 修改密码 */
+		public static final String RESET_PWSSWORD = "resetPassword";
+		/** 刪除短信訂閱 */
+		public static final String DELETE_SMS_SUBSCRIBE = "deleteSubScribeList";
+		/** 更改短信訂閱 */
+		public static final String MODIFI_SMS_SUBSCRIBE = "updateSubScribeList";
+		/** 获取短信订阅详情 */
+		public static final String SMS_SUBSCRIBE_DETAIL = "loadSubScribeList";
+		/** 创建田地 */
+		public static final String CREATE_FIELD = "createField";
+		/** 搜索 */
+		public static final String SEARCH_WORD = "searchWord";
+		/** 请求验证码 */
+		public static final String REQUEST_SECURITY_CODE = "requestSecurityCode";
+		/** 验证临时密码 登录 */
+		public static final String LOGIN_WITH_SECCODE = "loginWithSecCode";
+		/** 是否设置过密码 */
+		public static final String IS_PWSS_SET = "isPassSet";
+		/** 获取任务步骤 */
+		public static final String GET_STEPS = "getSteps";
+		/** 获取病虫草害详情 */
+		public static final String GET_PET_DIS_SPEC_detail = "getPetDisSpecdetail";
+		/** 获取相关药物 */
+		public static final String GET_PET_SOLU = "getPetSolu";
+		/** 百科-农药 */
+		public static final String CPPRODUCT_BYMODEL = "browseCPProductByModel";
+		/** 百科-同名农药 */
+		public static final String CPPRODUCT_BYMODEL_NAMED = "getCPProdcutsByIngredient";
+		/** 百科-同名品种 */
+		public static final String CPPRODUCT_VARIETYS_NAMED = "getVarietysByName";
+		/** 切换首页生长周期 */
+		public static final String CHANGE_STAGE = "changeStage";
 		/** QQ登陆与注册 */
-		public static final String QQ_AUTH_REG_LOG ="qqAuthRegLog";
+		public static final String QQ_AUTH_REG_LOG = "qqAuthRegLog";
 		/** 微信登陆与注册 */
-		public static final String WX_AUTH_REG_LOG ="weixinAuthRegLog";
-		/** 获取生长周期接口*/
-		public static final String GET_STAGES ="getStages";
+		public static final String WX_AUTH_REG_LOG = "weixinAuthRegLog";
+		/** 获取生长周期接口 */
+		public static final String GET_STAGES = "getStages";
 		/** 提交邀请码接口 */
-		public static final String SET_REF ="setRef";
+		public static final String SET_REF = "setRef";
 		/** 短信推荐接口 */
-		public static final String REFAPP ="refapp";
+		public static final String REFAPP = "refapp";
 		/** 用户登出接口 */
-		public static final String LOGOUT ="logout";
+		public static final String LOGOUT = "logout";
 		/** 按id和type查询病虫草害 */
-		public static final String BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE ="browsePetDisSpecsByCropIdAndType";
-		/** 按照id搜索品种*/
-		public static final String GET_VARIETY_BAIKE_BY_ID ="getVarietyBaiKeById";
-		
+		public static final String BROWSE_PETDISSPECS_BY_CROPID_AND_TYPE = "browsePetDisSpecsByCropIdAndType";
+		/** 按照id搜索品种 */
+		public static final String GET_VARIETY_BAIKE_BY_ID = "getVarietyBaiKeById";
+		/** 按照id搜索农药 */
+		public static final String GET_CPPRODUCT_BY_ID = "getCPProductById";
+
 	}
-	
+
 	public static String getRequestUrl(String subUrl) {
 		return NetConfig.BASE_URL + subUrl;
 	}
-	
-	
-	public static String getBaikeUrl(String type,String id) {
-		return NetConfig.BAIKE_URL + "type="+type+"&id="+id;
+
+	public static String getBaikeUrl(String type, String id) {
+		return NetConfig.BAIKE_URL + "type=" + type + "&id=" + id;
 	}
-	
-	
-	
+
 	public static class Params {
 		public static final String token = "token";
 		public static final String stamp = "stamp";
@@ -210,7 +210,7 @@ public class NetConfig {
 		public static final String version = "version";
 		public static final String institutionId = "institutionId";
 	}
-	
+
 	public static class ResponseCode {
 		public static final String OK = "200";
 		public static final String CODE_100 = "100";
@@ -224,10 +224,10 @@ public class NetConfig {
 	 * @param address
 	 * @return 注册
 	 */
-	public static Map<String, String> getRegisterParams(String userName, String password, String cellPhone, String address, String channel, String institutionId) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName),
-				getTokenParams(Params.password, password), getTokenParams(Params.cellphone, cellPhone),
-				getTokenParams(Params.address, address));
+	public static Map<String, String> getRegisterParams(String userName, String password, String cellPhone, String address, String channel,
+			String institutionId) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName), getTokenParams(Params.password, password),
+				getTokenParams(Params.cellphone, cellPhone), getTokenParams(Params.address, address));
 		paramsMap.put(Params.username, userName);
 		paramsMap.put(Params.password, password);
 		paramsMap.put(Params.cellphone, cellPhone);
@@ -237,17 +237,16 @@ public class NetConfig {
 		return paramsMap;
 	}
 
-	public static Map<String, String> getRegisterLoginParams(String cellphone,String channel,String institutionId) {
+	public static Map<String, String> getRegisterLoginParams(String cellphone, String channel, String institutionId) {
 		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.cellphone, cellphone));
 		paramsMap.put(Params.cellphone, cellphone);
 		paramsMap.put(Params.channel, channel);
-		paramsMap.put(Params.institutionId,institutionId);
+		paramsMap.put(Params.institutionId, institutionId);
 		return paramsMap;
 	}
-	
-	public static Map<String, String> getLoginParams(String userName,String password ) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName)
-				, getTokenParams(Params.password, password));
+
+	public static Map<String, String> getLoginParams(String userName, String password) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName), getTokenParams(Params.password, password));
 		paramsMap.put(Params.username, userName);
 		paramsMap.put(Params.cellphone, userName);
 		paramsMap.put(Params.password, password);
@@ -260,7 +259,7 @@ public class NetConfig {
 		return paramsMap;
 	}
 
-	private static String getCheckToken(String stampToken,boolean isNeedAuthToken, String authToken, String... strs) {
+	private static String getCheckToken(String stampToken, boolean isNeedAuthToken, String authToken, String... strs) {
 		String[] array = null;
 		if (isNeedAuthToken) {
 			array = new String[strs.length + 2];
@@ -284,37 +283,37 @@ public class NetConfig {
 		Logger.d1("checkToken-toMD5", checkToken);
 		return checkToken;
 	}
-	
-	private static String getSignToken(Map<String,String> paramsMap) {
+
+	private static String getSignToken(Map<String, String> paramsMap) {
 		StringBuilder builder = null;
 		Set<String> keySet = paramsMap.keySet();
-        List<String> keyList = new ArrayList<String>();
-        for (String key : keySet) {
-            keyList.add(key);
-        }
-        Collections.sort(keyList, new Comparator<String>() {
-            @Override
-            public int compare(String lhs, String rhs) {
-                return lhs.compareTo(rhs);
-            }           
-        });
-        builder.append(KEY_REQUEST);
-        for (String key : keyList) {
-        	builder.append(key).append(paramsMap.get(key));
-        }
-        Logger.d1("checkToken", builder.toString());
+		List<String> keyList = new ArrayList<String>();
+		for (String key : keySet) {
+			keyList.add(key);
+		}
+		Collections.sort(keyList, new Comparator<String>() {
+			@Override
+			public int compare(String lhs, String rhs) {
+				return lhs.compareTo(rhs);
+			}
+		});
+		builder.append(KEY_REQUEST);
+		for (String key : keyList) {
+			builder.append(key).append(paramsMap.get(key));
+		}
+		Logger.d1("checkToken", builder.toString());
 		String sign = StringHelper.toMD5(builder.toString());
 		Logger.d1("checkToken-toMD5", sign);
 		return sign;
 	}
-	
+
 	public static Map<String, String> getBaseParams(boolean isNeedAuthToken, String... strs) {
 
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		String token = null;
 		if (isNeedAuthToken) {
 			token = AccountManager.getAuthToken(DsnApplication.getContext());
-//			paramsMap.put(Params.token, token);
+			// paramsMap.put(Params.token, token);
 		} else {
 			token = null;
 		}
@@ -323,15 +322,15 @@ public class NetConfig {
 
 		// paramsMap.put(Params.stamp, stamp);
 		// paramsMap.put(Params.sign, sign);
-		
+
 		String phone = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.USER_PHONE, "");
 		String QQToken = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.QQ_TOKEN, "");
 		String WXToken = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.WEIXIN_TOKEN, "");
-		
+
 		String product = android.os.Build.PRODUCT;
 		String deviceId = DeviceHelper.getDeviceId(DsnApplication.getContext());
 		int version = AppInfoUtils.getVersionCode(DsnApplication.getContext());
-		
+
 		Calendar cal = Calendar.getInstance();
 		int hour = cal.get(Calendar.HOUR_OF_DAY);
 		int minute = cal.get(Calendar.MINUTE);
@@ -351,53 +350,48 @@ public class NetConfig {
 		}
 
 		String time = strHour + strMinu;
-		
-		String apiKey = StringHelper.encrypt(deviceId,time);
-		
+
+		String apiKey = StringHelper.encrypt(deviceId, time);
+
 		paramsMap.put(Params.deviceType, product);
 		paramsMap.put(Params.deviceId, deviceId);
 		paramsMap.put(Params.apikey, apiKey);
 		paramsMap.put(Params.time, time);
-		if(version <= 0){
+		if (version <= 0) {
 			version = 1;
 		}
-		paramsMap.put(Params.version , String.valueOf(version));
-		
-		
-		if(phone != null){
+		paramsMap.put(Params.version, String.valueOf(version));
+
+		if (phone != null) {
 			paramsMap.put(Params.userId, phone);
 			return paramsMap;
-		} else if (QQToken != null){
+		} else if (QQToken != null) {
 			paramsMap.put(Params.userId, QQToken);
 			return paramsMap;
-		} else if (WXToken != null){
+		} else if (WXToken != null) {
 			paramsMap.put(Params.userId, QQToken);
 			return paramsMap;
 		}
 		return paramsMap;
-		
+
 	}
-	public static Map<String, String> getBaseParams(boolean isNeedAuthToken, Map<String,String> paramsMap) {
-		
+
+	public static Map<String, String> getBaseParams(boolean isNeedAuthToken, Map<String, String> paramsMap) {
+
 		String token = null;
 		if (isNeedAuthToken) {
 			token = AccountManager.getAuthToken(DsnApplication.getContext());
 			paramsMap.put(Params.token, token);
 		} else {
 		}
-		
-//		String stamp = System.currentTimeMillis() + "";
-//		paramsMap.put(Params.stamp, stamp);
-//		String sign = getCheckToken(strs);
-//		paramsMap.put(Params.sign, getSignToken(paramsMap));
-		
+
 		String phone = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.USER_PHONE, "");
 		String QQToken = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.QQ_TOKEN, "");
 		String WXToken = SharedPreferencesHelper.getString(DsnApplication.getContext(), Field.WEIXIN_TOKEN, "");
-		
+
 		String product = android.os.Build.PRODUCT;
 		String deviceId = DeviceHelper.getDeviceId(DsnApplication.getContext());
-		
+
 		Calendar cal = Calendar.getInstance();
 		int hour = cal.get(Calendar.HOUR_OF_DAY);
 		int minute = cal.get(Calendar.MINUTE);
@@ -417,29 +411,27 @@ public class NetConfig {
 		}
 
 		String time = strHour + strMinu;
-		
-		String apiKey = StringHelper.encrypt(deviceId,time);
-		
+
+		String apiKey = StringHelper.encrypt(deviceId, time);
+
 		paramsMap.put(Params.deviceType, product);
 		paramsMap.put(Params.deviceId, deviceId);
 		paramsMap.put(Params.apikey, apiKey);
 		paramsMap.put(Params.time, time);
-		
-		if(phone != null){
+
+		if (phone != null) {
 			paramsMap.put(Params.userId, phone);
 			return paramsMap;
-		} else if (QQToken != null){
+		} else if (QQToken != null) {
 			paramsMap.put(Params.userId, QQToken);
 			return paramsMap;
-		} else if (WXToken != null){
+		} else if (WXToken != null) {
 			paramsMap.put(Params.userId, QQToken);
 			return paramsMap;
 		}
-		
+
 		return paramsMap;
 	}
-	
-	
 
 	public static Map<String, String> getDefaultParams() {
 		Map<String, String> paramsMap = getBaseParams(false);
@@ -455,8 +447,9 @@ public class NetConfig {
 		return name + FLAG + value;
 	}
 
-	public static Map<String, String> getSearchLocationParams(String latitude, String longitude,String mprovince,String mcity,String mdistrict) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.latitude, latitude), getTokenParams(Params.longitude, longitude), getTokenParams(Params.mprovince, mprovince), getTokenParams(Params.mcity, mcity), getTokenParams(Params.mdistrict, mdistrict));
+	public static Map<String, String> getSearchLocationParams(String latitude, String longitude, String mprovince, String mcity, String mdistrict) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.latitude, latitude), getTokenParams(Params.longitude, longitude),
+				getTokenParams(Params.mprovince, mprovince), getTokenParams(Params.mcity, mcity), getTokenParams(Params.mdistrict, mdistrict));
 		paramsMap.put(Params.latitude, latitude);
 		paramsMap.put(Params.longitude, longitude);
 		paramsMap.put(Params.mprovince, mprovince);
@@ -464,40 +457,40 @@ public class NetConfig {
 		paramsMap.put(Params.mdistrict, mdistrict);
 		return paramsMap;
 	}
-	public static Map<String, String> getGetVarietyListParams(String cropName,String locationId) {
-		Map<String, String> paramsMap = getBaseParams(false,getTokenParams(Params.cropName , cropName),getTokenParams(Params.locationId , locationId));
+
+	public static Map<String, String> getGetVarietyListParams(String cropName, String locationId) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.cropName, cropName), getTokenParams(Params.locationId, locationId));
 		paramsMap.put(Params.cropName, cropName);
 		paramsMap.put(Params.locationId, locationId);
 		return paramsMap;
 	}
-	public static Map<String, String> getGetLocationParams(String province,String city,String county,String district) {
-		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.province, province), getTokenParams(Params.city, city),getTokenParams(Params.county, county),getTokenParams(Params.district, district));
+
+	public static Map<String, String> getGetLocationParams(String province, String city, String county, String district) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.province, province), getTokenParams(Params.city, city),
+				getTokenParams(Params.county, county), getTokenParams(Params.district, district));
 		paramsMap.put(Params.province, province);
 		paramsMap.put(Params.city, city);
 		paramsMap.put(Params.county, county);
 		paramsMap.put(Params.district, district);
 		return paramsMap;
 	}
+
 	public static Map<String, String> getSearchNearUserParams(String latitude, String longitude) {
 		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.latitude, latitude), getTokenParams(Params.longitude, longitude));
 		paramsMap.put(Params.latitude, latitude);
 		paramsMap.put(Params.longitude, longitude);
 		return paramsMap;
 	}
+
 	public static Map<String, String> getAllTaskParams(String fieldId) {
 		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.fieldId, fieldId));
 		paramsMap.put(Params.fieldId, fieldId);
 		return paramsMap;
 	}
-	public static Map<String, String> getUploadInfoParams(String userName,
-			String cellphone,String password,String address,String telephone) {
-		Map<String, String> paramsMap = getBaseParams(false, 
-				getTokenParams(Params.username, userName),
-				getTokenParams(Params.cellphone, cellphone),
-				getTokenParams(Params.address, address),
-				getTokenParams(Params.password, password),
-				getTokenParams(Params.telephone, telephone)
-				);
+
+	public static Map<String, String> getUploadInfoParams(String userName, String cellphone, String password, String address, String telephone) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.username, userName), getTokenParams(Params.cellphone, cellphone),
+				getTokenParams(Params.address, address), getTokenParams(Params.password, password), getTokenParams(Params.telephone, telephone));
 		paramsMap.put(Params.username, userName);
 		paramsMap.put(Params.cellphone, cellphone);
 		paramsMap.put(Params.password, password);
@@ -505,26 +498,20 @@ public class NetConfig {
 		paramsMap.put(Params.telephone, telephone);
 		return paramsMap;
 	}
-	
-	public static Map<String, String> getUploadTaskParams(String fieldId,String taskIds,String taskStatuss) {
-		Map<String, String> paramsMap = getBaseParams(false, 
-				getTokenParams(Params.fieldId, fieldId),
-				getTokenParams(Params.taskIds, taskIds),
-				getTokenParams(Params.taskStatuss, taskStatuss)
-				);
+
+	public static Map<String, String> getUploadTaskParams(String fieldId, String taskIds, String taskStatuss) {
+		Map<String, String> paramsMap = getBaseParams(false, getTokenParams(Params.fieldId, fieldId), getTokenParams(Params.taskIds, taskIds),
+				getTokenParams(Params.taskStatuss, taskStatuss));
 		paramsMap.put(Params.fieldId, fieldId);
 		paramsMap.put(Params.taskIds, taskIds);
 		paramsMap.put(Params.taskStatuss, taskStatuss);
 		return paramsMap;
 	}
-	
-	public static Map<String, String> getSmsSubParams(String id,
-			String targetName,String cellphone,String province
-			,String city,String country,String district
-			,String area,String cropId,Boolean isAgriWeather
-			,Boolean isNatAlter,Boolean isRiceHelper) {
+
+	public static Map<String, String> getSmsSubParams(String id, String targetName, String cellphone, String province, String city, String country,
+			String district, String area, String cropId, Boolean isAgriWeather, Boolean isNatAlter, Boolean isRiceHelper) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
-		if(!TextUtils.isEmpty(id)){
+		if (!TextUtils.isEmpty(id)) {
 			paramsMap.put(Params.id, id);
 		}
 		paramsMap.put(Params.targetName, targetName);
@@ -540,39 +527,43 @@ public class NetConfig {
 		paramsMap.put(Params.isRiceHelper, String.valueOf(isRiceHelper));
 		return getBaseParams(false, paramsMap);
 	}
-	
-	public static Map<String, String> getResetPwdParams(String oPassword,String nPassword) {
+
+	public static Map<String, String> getResetPwdParams(String oPassword, String nPassword) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
-		if(!TextUtils.isEmpty(oPassword)){
+		if (!TextUtils.isEmpty(oPassword)) {
 			paramsMap.put(Params.oPassword, oPassword);
 		}
 		paramsMap.put(Params.nPassword, nPassword);
 		return getBaseParams(false, paramsMap);
 	}
-	
+
 	public static Map<String, String> getDeleteSmsSubParams(String id) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.id, id);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> getSearchWordParams(String key,String type) {
+
+	public static Map<String, String> getSearchWordParams(String key, String type) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.key, key);
 		paramsMap.put(Params.type, type);
 		return getBaseParams(false, paramsMap);
 	}
+
 	public static Map<String, String> getRequestSecurityCodeParams(String key) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.cellphone, key);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> getLoginWithSecCodeParams(String key,String seccode) {
+
+	public static Map<String, String> getLoginWithSecCodeParams(String key, String seccode) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.cellphone, key);
 		paramsMap.put(Params.seccode, seccode);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> getStepsParams(String fieldId,String taskSpecId) {
+
+	public static Map<String, String> getStepsParams(String fieldId, String taskSpecId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.fieldId, fieldId);
 		paramsMap.put(Params.taskSpecId, taskSpecId);
@@ -584,8 +575,9 @@ public class NetConfig {
 		paramsMap.put(Params.cellphone, cellphone);
 		return getBaseParams(false, paramsMap);
 	}
-	
-	public static Map<String, String> getCreateFieldParams(String isActive,String seedingortransplant,String area,String startDate,String locationId,String varietyId,String currentStageId,String yield) {
+
+	public static Map<String, String> getCreateFieldParams(String isActive, String seedingortransplant, String area, String startDate,
+			String locationId, String varietyId, String currentStageId, String yield) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.isActive, isActive);
 		paramsMap.put(Params.seedingortransplant, seedingortransplant);
@@ -597,42 +589,47 @@ public class NetConfig {
 		paramsMap.put(Params.yield, yield);
 		return getBaseParams(false, paramsMap);
 	}
-	
-	public static Map<String, String> getGetPetDisSpecDetial(int petDisSpecId) {
+
+	public static Map<String, String> getGetPetDisSpecdetail(int petDisSpecId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		String strPetDisSpecId = String.valueOf(petDisSpecId);
 		paramsMap.put(Params.petDisSpecId, strPetDisSpecId);
 		return getBaseParams(false, paramsMap);
 	}
-	
+
 	public static Map<String, String> getGetPetSolu(int petSoluId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		String strPetSoluId = String.valueOf(petSoluId);
 		paramsMap.put(Params.petSoluId, strPetSoluId);
 		return getBaseParams(false, paramsMap);
 	}
+
 	public static Map<String, String> browseCPProductByModelParams(String model) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.model, model);
 		return getBaseParams(false, paramsMap);
 	}
+
 	public static Map<String, String> getCPProdcutsByIngredientParams(String ingredient) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.ingredient, ingredient);
 		return getBaseParams(false, paramsMap);
 	}
+
 	public static Map<String, String> getVarietysByNameParams(String name) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.name, name);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> getChangeStageParams(String fieldId ,String currentStageId) {
+
+	public static Map<String, String> getChangeStageParams(String fieldId, String currentStageId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.fieldId, fieldId);
 		paramsMap.put(Params.currentStageId, currentStageId);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> getQQAuthRegLogParams(String qqtoken ,String avater,String username,String channel, String institutionId) {
+
+	public static Map<String, String> getQQAuthRegLogParams(String qqtoken, String avater, String username, String channel, String institutionId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.qqtoken, qqtoken);
 		paramsMap.put(Params.avater, avater);
@@ -641,7 +638,8 @@ public class NetConfig {
 		paramsMap.put(Params.institutionId, institutionId);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> getWXAuthRegLogParams(String weixintoken, String avater,String username, String channel, String institutionId) {
+
+	public static Map<String, String> getWXAuthRegLogParams(String weixintoken, String avater, String username, String channel, String institutionId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.weixintoken, weixintoken);
 		paramsMap.put(Params.avater, avater);
@@ -650,31 +648,41 @@ public class NetConfig {
 		paramsMap.put(Params.institutionId, institutionId);
 		return getBaseParams(false, paramsMap);
 	}
+
 	public static Map<String, String> getGetStagesParams(String varietyId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.varietyId, varietyId);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> getSetRefParams( String refcode) {
+
+	public static Map<String, String> getSetRefParams(String refcode) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.refcode, refcode);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> getRefAppParams( String cellPhones) {
+
+	public static Map<String, String> getRefAppParams(String cellPhones) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.cellPhones, cellPhones);
 		return getBaseParams(false, paramsMap);
 	}
-	public static Map<String, String> getBrowsePetDisSpecsByCropIdAndTypeParams(String cropId , String type) {
+
+	public static Map<String, String> getBrowsePetDisSpecsByCropIdAndTypeParams(String cropId, String type) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.cropId, cropId);
 		paramsMap.put(Params.type, type);
 		return getBaseParams(false, paramsMap);
 	}
+
 	public static Map<String, String> getGetVarietyBaiKeByIdParams(String id) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.id, id);
 		return getBaseParams(false, paramsMap);
 	}
-}
 
+	public static Map<String, String> getGetCPProductByIdParams(String id) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.id, id);
+		return getBaseParams(false, paramsMap);
+	}
+}
