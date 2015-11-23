@@ -52,7 +52,7 @@ public class RecommendFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		fragmentPosition = getArguments() != null ? getArguments().getInt("position") : 0;
-		isShow = getArguments() != null ? true : getArguments().getBoolean("isShow"); 
+		isShow = getArguments() == null ? true : getArguments().getBoolean("isShow"); 
 		refCode = SharedPreferencesHelper.getString(getActivity(), Field.REFCODE, "");
 		
 	}
