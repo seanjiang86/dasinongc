@@ -20,6 +20,9 @@ import com.dasinong.app.BuildConfig;
 import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity.CurrentFieldEntity.SubStageEntity;
 import com.dasinong.app.components.home.view.dialog.SubStageDialog;
+import com.dasinong.app.entity.BaseEntity;
+import com.dasinong.app.net.NetRequest.RequestListener;
+import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.AddFieldActivity1;
 import com.dasinong.app.ui.manager.AccountManager;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
@@ -212,7 +215,15 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     int subStageId = mSubStages.get(position).subStageId;
                     long fieldId = SharedPreferencesHelper.getLong(getContext(), Field.FIELDID, 0);
                     
-                    // TODO MING 此处原来放着changeStage的回调
+                    RequestService.getInstance().changeStage(getContext(), ""+fieldId, ""+subStageId, BaseEntity.class,new RequestListener() {
+						
+ 						@Override
+ 						public void onSuccess(int requestCode, BaseEntity resultData) {
+ 						}
+ 						@Override
+ 						public void onFailed(int requestCode, Exception error, String msg) {
+ 						}
+ 					});
                     
                     normalParentView.setVisibility(VISIBLE);
                     onAddCropClickListener.onArrowViewClick(position);
