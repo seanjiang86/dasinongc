@@ -29,7 +29,7 @@ public class AddFieldActivity7 extends BaseActivity {
 	private Button btn_finish_add_field;
 	private String yield;
 	private TopbarView topbar;
-	private String seedingortransplant;
+	private boolean seedingortransplant;
 	private String area;
 	private String startDate;
 	private String locationId;
@@ -60,13 +60,12 @@ public class AddFieldActivity7 extends BaseActivity {
 				}
 				startLoadingDialog();
 				yield = et_target_production.getText().toString().trim();
-				RequestService.getInstance().createField(AddFieldActivity7.this, seedingortransplant, area, startDate, locationId, varietyId,
+				RequestService.getInstance().createField(AddFieldActivity7.this, seedingortransplant + "", area, startDate, locationId, varietyId,
 						currentStageId, yield, AddFieldEntity.class, new NetRequest.RequestListener() {
 
 							@Override
 							public void onSuccess(int requestCode, BaseEntity resultData) {
 								if (resultData.isOk()) {
-									showToast("请求成功");
 									long fieldId = ((AddFieldEntity) resultData).data.fieldId;
 									int monitorLocationId = ((AddFieldEntity) resultData).data.monitorLocationId;
 
@@ -109,7 +108,7 @@ public class AddFieldActivity7 extends BaseActivity {
 	}
 
 	private void getData() {
-		seedingortransplant = SharedPreferencesHelper.getString(this, Field.SEEDING_METHOD, "false");
+		seedingortransplant = SharedPreferencesHelper.getBoolean(this, Field.SEEDING_METHOD, false);
 		area = SharedPreferencesHelper.getString(this, Field.FIELD_SIZE, "");
 		startDate = SharedPreferencesHelper.getString(this, Field.PLANTING_DATE, "");
 

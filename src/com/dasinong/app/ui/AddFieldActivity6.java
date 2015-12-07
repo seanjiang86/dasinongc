@@ -35,7 +35,7 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 	private int mday;
 	private Calendar calendar;
 	private TextView tv_prompt;
-	private String seedingMethod;
+	private boolean seedingMethod;
 	private String strTime;
 
 	@Override
@@ -49,9 +49,10 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 		topbar = (TopbarView) findViewById(R.id.topbar);
 		tv_select_date = (TextView) findViewById(R.id.tv_select_date);
 		
-		seedingMethod = SharedPreferencesHelper.getString(this, Field.SEEDING_METHOD, "false");
+		seedingMethod = SharedPreferencesHelper.getBoolean(this, Field.SEEDING_METHOD, false);
+		String crop = SharedPreferencesHelper.getString(this, Field.NEW_CROP, "");
 		
-		if("false".equals(seedingMethod)){
+		if(!seedingMethod && "水稻".equals(crop)){
 			tv_prompt.setText("哪天移栽的？");
 		} else {
 			tv_prompt.setText("哪天播种的？");

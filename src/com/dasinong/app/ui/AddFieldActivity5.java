@@ -47,7 +47,7 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	protected String lastStage;
 	private String subStageId;
 	private TopbarView topbar;
-	private String seedingMethod;
+	private boolean seedingMethod;
 	private ExpandTabView etv;
 	private ViewMiddle viewMiddle;
 	private List<View> viewList = new ArrayList<View>();
@@ -73,14 +73,14 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 		setContentView(R.layout.activity_add_field_5);
 		etv = (ExpandTabView) findViewById(R.id.etv);
 
-		crop = getIntent().getStringExtra("crop");
+		crop = SharedPreferencesHelper.getString(this, Field.NEW_CROP, "");
 
 		btn_no_sure_substage = (Button) findViewById(R.id.btn_no_sure_substage);
 		btn_sure_substage = (Button) findViewById(R.id.btn_sure_substage);
 		topbar = (TopbarView) findViewById(R.id.topbar);
 
 		varietyId = SharedPreferencesHelper.getString(this, Field.VARIETY_ID, "");
-		seedingMethod = SharedPreferencesHelper.getString(this, Field.SEEDING_METHOD, "");
+		seedingMethod = SharedPreferencesHelper.getBoolean(this, Field.SEEDING_METHOD, false);
 
 		viewMiddle = new ViewMiddle(this);
 		viewList.add(viewMiddle);
@@ -171,9 +171,9 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 	protected void initBigSubStage() {
 
 		bigSubStageList = new ArrayList<String>(stagesMap.keySet());
-		if (!"小麦".equals(crop)) {
+		if(!TextUtils.isEmpty(crop) && "水稻".equals(crop)){
 			bigSubStageList.remove("收获后");
-			if (AddFieldActivity8.DIRECT.equals(seedingMethod)) {
+			if(seedingMethod){
 				bigSubStageList.remove("移栽");
 				bigSubStageList.remove("返青期");
 			}

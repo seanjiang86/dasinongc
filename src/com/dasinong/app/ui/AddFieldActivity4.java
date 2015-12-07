@@ -12,6 +12,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -58,7 +59,6 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	private int cropPosition;
 	private int namePosition;
 	private int numPosition;
-	private String crop;
 	private String varietyName;
 	private String varietyNum;
 	private ViewThree viewThree;
@@ -66,7 +66,8 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
-			initVarietyNameList();
+			String crop = (String)msg.obj;
+			initVarietyNameList(crop);
 		};
 	};
 
@@ -124,22 +125,6 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	}
 
 	/**
-	 * 获取作物 第一个版本不用该方法 原因：查询数据库大量耗时
-	 */
-	// private void queryCrop(String county) {
-	// // 本地查询
-	// VarietyDaoImp dao = new VarietyDaoImp(this);
-	// cropList = dao.getVariety(county);
-	//
-	// if (cropList.contains("水稻")) {
-	// cropList.remove("水稻");
-	// cropList.add(0, "水稻");
-	// } else {
-	// cropList.add(0, "水稻");
-	// }
-	// }
-
-	/**
 	 * 第一个版本临时填充 CropList 集合
 	 */
 	private void initCropList() {
@@ -148,11 +133,11 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 			cropList.add(stringArray[i]);
 		}
 		viewThree.initBigAreaData(cropList, cropPosition);
-
+		
 		viewThree.setOnBigAreaItemClickListener(new OnItemClickListener() {
-
 			@Override
 			public void onItemClick(View view, int position) {
+				String crop = null;
 				if (!cropList.get(position).equals(crop)) {
 					crop = cropList.get(position);
 					varietyName = null;
@@ -172,13 +157,13 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	/**
 	 * 获取品种信息
 	 */
-	private void queryVariety(String cropName) {
+	private void queryVariety(final String crop) {
 		if (!DeviceHelper.checkNetWork(this)) {
 			showToast("请检测您的网络连接");
 			return;
 		}
 		startLoadingDialog();
-		RequestService.getInstance().getVarietyList(DsnApplication.getContext(), cropName, villageId, VarietyInfo.class,
+		RequestService.getInstance().getVarietyList(DsnApplication.getContext(), crop, villageId, VarietyInfo.class,
 				new NetRequest.RequestListener() {
 
 					@Override
@@ -191,7 +176,9 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 								varietyNameList.remove("其他" + crop);
 								varietyNameList.add(0, ("其他" + crop));
 							}
-							handler.sendEmptyMessage(0);
+							Message msg = handler.obtainMessage();
+							msg.obj = crop;
+							handler.sendMessage(msg);
 						} else {
 							showToast(resultData.getMessage() + requestCode);
 						}
@@ -205,9 +192,9 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 				});
 	}
 
-	protected void initVarietyNameList() {
+	protected void initVarietyNameList(final String crop) {
 		viewThree.initSmallAreaData(varietyNameList, namePosition);
-		setDefaultList(namePosition);
+		setDefaultList(crop, namePosition);
 
 		viewThree.setOnSmallAreaItemClickListener(new OnItemClickListener() {
 
@@ -219,12 +206,12 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 					varietyNum = null;
 					numPosition = 0;
 				}
-				setDefaultList(position);
+				setDefaultList(crop, position);
 			}
 		});
 	}
 
-	private void setDefaultList(int position) {
+	private void setDefaultList(String crop, int position) {
 		varietyName = varietyNameList.get(position);
 
 		namePosition = position;
@@ -240,10 +227,10 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 			varietyNumList.add(varietyName);
 		}
 
-		initVarietyNumList();
+		initVarietyNumList(crop);
 	}
 
-	protected void initVarietyNumList() {
+	protected void initVarietyNumList(final String crop) {
 		
 		Collections.sort(varietyNumList);
 		
@@ -258,7 +245,7 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 				onrefresh(crop + "-" + varietyName + "-" + varietyNum);
 				varietyId = varietyNumMap.get(varietyNum);
 				
-				// TODO MING 作物最后一级为空，需要服务器来出来，临时解决方案如下
+				SharedPreferencesHelper.setString(AddFieldActivity4.this, Field.NEW_CROP, crop);
 				
 				if(TextUtils.isEmpty(varietyId)){
 					varietyId = varietyNumMap.get("");
@@ -285,24 +272,26 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		
 		SharedPreferencesHelper.setString(this, Field.VARIETY_ID, varietyId);
 		Intent intent = null;
-		if (etv.getText(0).startsWith("水稻")) {
-			intent = new Intent(this, AddFieldActivity8.class);
-		} else if(etv.getText(0).startsWith("小麦")){
-			intent = new Intent(this, AddFieldActivity5.class);
-			intent.putExtra("crop", "小麦");
-		} else if(etv.getText(0).startsWith("芒果")){
-			intent = new Intent(this, AddFieldActivity5.class);
-			intent.putExtra("crop", "芒果");
-
+		String newCrop = SharedPreferencesHelper.getString(this, Field.NEW_CROP, "");
+		if(!TextUtils.isEmpty(newCrop)){
+			if("水稻".equals(newCrop)){
+				intent = new Intent(this, AddFieldActivity8.class);
+			} else if ("小麦".equals(newCrop)){
+				intent = new Intent(this, AddFieldActivity5.class);
+//				intent.putExtra("crop", "小麦");
+			} else if ("芒果".equals(newCrop)){
+				intent = new Intent(this, AddFieldActivity5.class);
+//				intent.putExtra("crop", "芒果");
+			} else {
+				intent = new Intent(this, AddFieldActivity7.class);
+				
+				SharedPreferencesHelper.setBoolean(this, Field.SEEDING_METHOD, false);
+				SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, "");
+				SharedPreferencesHelper.setString(this, Field.PLANTING_DATE, "");
+			}
 		} else {
-			intent = new Intent(this, AddFieldActivity7.class);
-			
-			SharedPreferencesHelper.setString(this, Field.SEEDING_METHOD, "false");
-			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, "");
-			SharedPreferencesHelper.setString(this, Field.PLANTING_DATE, "");
+			showToast("请重新选择作物");
 		}
-		
-		SharedPreferencesHelper.setString(this, Field.NEW_CROP, crop);
 		
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);

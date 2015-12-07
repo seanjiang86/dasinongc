@@ -16,9 +16,6 @@ public class AddFieldActivity8 extends MyBaseActivity implements OnClickListener
 	private Button btn_direct_seeding;
 	private Button btn_transplanting;
 	private TopbarView topbar;
-	
-	public static final String DIRECT = "direct";
-	public static final String TRANSPLANTING = "transplanting";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,11 +39,11 @@ public class AddFieldActivity8 extends MyBaseActivity implements OnClickListener
 		switch (id) {
 		case R.id.btn_direct_seeding:
 			MobclickAgent.onEvent(this, "AddFieldFifth");
-			SharedPreferencesHelper.setString(this, Field.SEEDING_METHOD, "true");
+			SharedPreferencesHelper.setBoolean(this, Field.SEEDING_METHOD, true);
 			break;
 		case R.id.btn_transplanting:
 			MobclickAgent.onEvent(this, "AddFieldFifth");
-			SharedPreferencesHelper.setString(this, Field.SEEDING_METHOD, "false");
+			SharedPreferencesHelper.setBoolean(this, Field.SEEDING_METHOD, false);
 			break;
 		}
 		Intent intent = new Intent(this, AddFieldActivity5.class);
