@@ -3,6 +3,7 @@ package com.dasinong.app.ui;
 import com.dasinong.app.R;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.LoginRegEntity;
+import com.dasinong.app.entity.SecurityCodeEntity;
 import com.dasinong.app.net.NetRequest.RequestListener;
 import com.dasinong.app.net.RequestCode;
 import com.dasinong.app.net.RequestService;
@@ -11,6 +12,7 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.AppInfoUtils;
 import com.dasinong.app.utils.StringHelper;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -112,6 +114,8 @@ public class RegisterPasswordActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
+				
+				MobclickAgent.onEvent(RegisterPasswordActivity.this, "ForgetPwd");
 				requestSmsCode();
 			}
 		}); 
@@ -128,7 +132,7 @@ public class RegisterPasswordActivity extends BaseActivity {
 			return;
 		}
 		startLoadingDialog();
-		RequestService.getInstance().requestSecurityCode(this, phone, BaseEntity.class, new RequestListener() {
+		RequestService.getInstance().requestSecurityCode(this, phone, SecurityCodeEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -139,9 +143,12 @@ public class RegisterPasswordActivity extends BaseActivity {
 //						formatedPhone = getIntent().getStringExtra("formatedPhone");
 //						isAuthPhone = getIntent().getBooleanExtra("isAuthPhone", false);
 					
+					SecurityCodeEntity entity = (SecurityCodeEntity) resultData;
+					
 					Intent intent = new Intent(RegisterPasswordActivity.this,AuthCodeActivity.class);
 					intent.putExtra("phone", phone);
 					intent.putExtra("authPempPwd", true);
+					intent.putExtra("securityCode", entity.data);
 					startActivity(intent);
 					finish();
 				}else{

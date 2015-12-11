@@ -119,10 +119,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 
                 if (!AccountManager.isLogin(context)) {
                     SharedPreferencesHelper.setBoolean(context, Field.IS_ENTER_ADDFIELD, true);
-                } else {
-                	MobclickAgent.onEvent(context, "BigButtonAddField");
                 }
-
+                
                 startAddFieldActivity(context);
 
                 break;
@@ -149,6 +147,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     @Override
                     public void onCancelButtonClick() {
                         if (AccountManager.checkLogin(context)) {
+                        	MobclickAgent.onEvent(context, "BigButtonAddField");
                             Intent intent = new Intent(context, AddFieldActivity1.class);
                             context.startActivity(intent);
                         }
@@ -156,6 +155,7 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                 });
             } else {
                 if (AccountManager.checkLogin(context)) {
+                	MobclickAgent.onEvent(context, "BigButtonAddField");
                     Intent intent = new Intent(context, AddFieldActivity1.class);
                     context.startActivity(intent);
                 }
@@ -204,6 +204,8 @@ public class CropsGroupUpView extends LinearLayout implements View.OnClickListen
                     if (mCurrentPosition == position) {
                         return;
                     }
+                    
+                    MobclickAgent.onEvent(getContext(), "ChangeSubstage");
                     mCurrentPosition = position;
                     // TODO MING 区分水稻和小麦
                     String crop = SharedPreferencesHelper.getString(getContext(), Field.CROP_NAME, "");

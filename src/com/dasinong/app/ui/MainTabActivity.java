@@ -121,35 +121,7 @@ public class MainTabActivity extends BaseActivity {
 		// }
 		// }
 	}
-
-	private void login() {
-		if (AccountManager.isLogin(MainTabActivity.this)) {
-			return;
-		}
-		int appInstitutionId = AppInfoUtils.getInstitutionId(this);
-		RequestService.getInstance().authcodeLoginReg(MainTabActivity.this, "13112345678", "", appInstitutionId+"", LoginRegEntity.class,
-				new NetRequest.RequestListener() {
-
-					@Override
-					public void onSuccess(int requestCode, BaseEntity resultData) {
-
-						if (resultData.isOk()) {
-							LoginRegEntity entity = (LoginRegEntity) resultData;
-							AccountManager.saveAccount(MainTabActivity.this, entity);
-							showToast("登录成功");
-						} else {
-							Logger.d("TAG", resultData.getMessage());
-						}
-					}
-
-					@Override
-					public void onFailed(int requestCode, Exception error, String msg) {
-
-						Logger.d("TAG", "msg" + msg);
-					}
-				});
-	}
-
+	
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
@@ -200,13 +172,6 @@ public class MainTabActivity extends BaseActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		// int targetTab = getIntent().getIntExtra(TARGET_TAB, -1);
-		//
-		// System.out.println("targetTab  " + targetTab);
-		//
-		// if(targetTab > 0){
-		// mTabHost.setCurrentTab(targetTab);
-		// }
 	}
 
 	@Override

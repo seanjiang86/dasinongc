@@ -21,6 +21,7 @@ import com.dasinong.app.components.domain.BannerEntity.ItemEntity;
 import com.dasinong.app.net.NetConfig;
 import com.dasinong.app.ui.WebBrowserActivity;
 import com.lidroid.xutils.BitmapUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class BannerView extends ViewPager {
 
@@ -138,6 +139,7 @@ public class BannerView extends ViewPager {
 					@Override
 					public void onClick(View v) {
 						if (!TextUtils.isEmpty(entity.newdata.get(position).url)) {
+							MobclickAgent.onEvent(context, "ClickBanner");
 							Intent intent = new Intent(context, WebBrowserActivity.class);
 							if(entity.newdata.get(position).type == 1){
 								intent.putExtra(WebBrowserActivity.URL, "http://" + entity.newdata.get(position).url);

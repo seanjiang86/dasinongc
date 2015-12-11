@@ -37,6 +37,7 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.utils.DeviceHelper;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -564,7 +565,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 			break;
 		case R.id.add_field:
 			// 点击添加--最右上角按钮
-
+			
 			if (DeviceHelper.checkNetWork(context)) {
 
 				if (!DeviceHelper.checkGPS(context) && AccountManager.isLogin(context)) {
@@ -578,6 +579,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 						@Override
 						public void onCancelButtonClick() {
 							if (AccountManager.checkLogin(context)) {
+								MobclickAgent.onEvent(context, "LittleButtonaddField");
 								Intent intent = new Intent(context, AddFieldActivity1.class);
 								context.startActivity(intent);
 							}
@@ -585,6 +587,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 					});
 				} else {
 					if (AccountManager.checkLogin(context)) {
+						MobclickAgent.onEvent(context, "LittleButtonaddField");
 						Intent intent = new Intent(context, AddFieldActivity1.class);
 						context.startActivity(intent);
 					}
@@ -607,11 +610,13 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 			break;
 		case R.id.left_state:
+			MobclickAgent.onEvent(context, "NoFarming");
 			Intent farmIntent = new Intent(context,NotFarmWorkActivity.class);
 			farmIntent.putExtra("type", FARMWORK);
 			context.startActivity(farmIntent);
 			break;
 		case R.id.right_state:
+			MobclickAgent.onEvent(context, "NoSpray");
 			Intent pesticideIntent = new Intent(context,NotFarmWorkActivity.class);
 			pesticideIntent.putExtra("type", PESTICIDE);
 			context.startActivity(pesticideIntent);
@@ -637,7 +642,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 					return;
 				}
 				mCurrentFieldName = fieldName.toString();
-
+				MobclickAgent.onEvent(context, "ChangeField");
 				updateFieldName();
 				popWindow.disMiss();
 				if (null != onAddFieldClickListener) {
@@ -747,6 +752,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 			rightView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
+					MobclickAgent.onEvent(context, "ClickTask");
 					// done
 					Intent intent = new Intent(getContext(), TaskDetailsActivity.class);
 					intent.putExtra(TaskDetailsActivity.TASK_ID, item.taskSpecId);
@@ -763,6 +769,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 			checkedView.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					MobclickAgent.onEvent(context, "TaskCheckBoxClick");
 					checkedView.setSelected(!checkedView.isSelected());
 					TaskStatus item = (TaskStatus) view.getTag();
 					item.isCheck = checkedView.isSelected();
@@ -773,9 +780,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 						View childView = campaignView.getChildAt(i);
 						lists.add((TaskStatus) childView.getTag());
 					}
-
 					saveTaskStatus(lists);
-
 				}
 			});
 

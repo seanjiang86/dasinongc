@@ -143,6 +143,8 @@ public class AddFieldActivity5 extends MyBaseActivity implements OnClickListener
 			
 			MobclickAgent.onEvent(this, "AddFieldSixth");
 			
+			MobclickAgent.onEvent(this, "SkipSubstage");
+			
 			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, "");
 			goToNext();
 			break;

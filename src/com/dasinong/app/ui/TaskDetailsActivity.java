@@ -17,6 +17,7 @@ import com.dasinong.app.ui.adapter.TaskDetailsAdapter;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -97,6 +98,7 @@ public class TaskDetailsActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
+				MobclickAgent.onEvent(TaskDetailsActivity.this, "ClickAllTask");
 				Intent intent = new Intent(TaskDetailsActivity.this,TaskListActivity.class);
 				startActivityForResult(intent, 0);
 			}

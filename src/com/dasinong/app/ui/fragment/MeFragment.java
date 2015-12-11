@@ -133,10 +133,12 @@ public class MeFragment extends Fragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_my_info:// 个人信息
+			MobclickAgent.onEvent(getActivity(), "ClickMyInfo");
 			if (!AccountManager.isLogin(getActivity())) {
 				Intent myInfoIntent = new Intent(getActivity(), RegisterPhoneActivity.class);
 				getActivity().startActivity(myInfoIntent);
 			} else {
+				
 				Intent myInfoIntent = new Intent(getActivity(), MyInfoActivity.class);
 				getActivity().startActivity(myInfoIntent);
 			}
@@ -199,6 +201,9 @@ public class MeFragment extends Fragment implements OnClickListener {
 			// getActivity().startActivity(lIntent);
 			break;
 		case R.id.layout_contact_us:// 联系我们
+			
+			MobclickAgent.onEvent(getActivity(), "ContactUs");
+			
 			Intent contactIntent = new Intent(getActivity(), ContactUsActivity.class);
 			getActivity().startActivity(contactIntent);
 			break;

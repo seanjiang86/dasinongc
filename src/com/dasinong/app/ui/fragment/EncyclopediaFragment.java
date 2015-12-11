@@ -163,11 +163,13 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 //			showNotifyDialog();
 			break;
 		case R.id.layout_nongyao:
+			MobclickAgent.onEvent(getActivity(), "AllPesticide");
 			Intent pesticideIntent = new Intent(getActivity(),EncyclopediasPesticideActivity.class);
 			getActivity().startActivity(pesticideIntent);
 //			showNotifyDialog();
 			break;
 		case R.id.layout_bingchongcaohai:
+			MobclickAgent.onEvent(getActivity(), "AllHarm");
 			Intent diseaseIntent = new Intent(getActivity(),EncyclopediasVarietiesActivity.class);
 			diseaseIntent.putExtra(TYPE, DISEASE);
 			diseaseIntent.putExtra("title", "请选择作物");

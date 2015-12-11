@@ -48,6 +48,7 @@ import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.utils.AppInfoUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class AuthCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
 
@@ -96,6 +97,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		formatedPhone = getIntent().getStringExtra("formatedPhone");
 		isAuthPhone = getIntent().getBooleanExtra("isAuthPhone", false);
 		isAuthPempPwd = getIntent().getBooleanExtra("authPempPwd", false);
+		securityCode = getIntent().getIntExtra("securityCode", 0);
 	}
 
 	@Override
@@ -343,18 +345,18 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					Class clazz;
 					
 					if(entity.getData().getFields().length > 0){
-						haveField = false;
-					} else {
 						haveField = true;
+					} else {
+						haveField = false;
 					}
 					if(isEnterAddField && !haveField){
+						MobclickAgent.onEvent(AuthCodeActivity.this, "BigButtonAddField");
 						clazz = AddFieldActivity1.class;
 					}else{
 						clazz = MainTabActivity.class;
 					}
 					
 					Intent intent = new Intent(AuthCodeActivity.this,clazz);
-					
 					startActivity(intent);
 					
 					Intent setIntent = new Intent(AuthCodeActivity.this, MyInfoSetActivity.class);
@@ -591,11 +593,12 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					boolean haveField;
 					Class clazz;
 					if(entity.getData().getFields().length > 0){
-						haveField = false;
-					} else {
 						haveField = true;
+					} else {
+						haveField = false;
 					}
 					if(isEnterAddField && !haveField){
+						MobclickAgent.onEvent(AuthCodeActivity.this, "BigButtonAddField");
 						clazz = AddFieldActivity1.class;
 					}else{
 						clazz = MainTabActivity.class;

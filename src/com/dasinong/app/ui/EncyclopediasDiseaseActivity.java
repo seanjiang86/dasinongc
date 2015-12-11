@@ -23,6 +23,7 @@ import com.dasinong.app.entity.PetDisSpecsListEntity;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.view.TopbarView;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName EncyclopediasDiseaseActivity
@@ -150,6 +151,7 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 			queryData(cropId, "草害");
 			break;
 		case R.id.layout_intelligent:
+			MobclickAgent.onEvent(this, "AskFor");
 			Intent intent4 = new Intent(this, ReportHarmActivity.class);
 			intent4.putExtra("title", "诊断病虫草害");
 			startActivity(intent4);

@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,29 +15,22 @@ import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.dasinong.app.DsnApplication;
 import com.dasinong.app.R;
-import com.dasinong.app.database.variety.dao.impl.VarietyDaoImp;
 import com.dasinong.app.entity.BaseEntity;
 import com.dasinong.app.entity.VarietyInfo;
 import com.dasinong.app.net.NetRequest;
 import com.dasinong.app.net.RequestService;
 import com.dasinong.app.ui.adapter.TextAdapter.OnItemClickListener;
-import com.dasinong.app.ui.adapter.VarietyListAdapter;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.app.ui.view.ExpandTabView;
-import com.dasinong.app.ui.view.PPCPopMenu;
 import com.dasinong.app.ui.view.TopbarView;
 import com.dasinong.app.ui.view.ViewThree;
 import com.dasinong.app.utils.DeviceHelper;
-import com.dasinong.app.utils.GraphicUtils;
-import com.dasinong.app.utils.Logger;
 import com.umeng.analytics.MobclickAgent;
 
 public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener {
@@ -63,6 +55,12 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 	private String varietyNum;
 	private ViewThree viewThree;
 	private MyComparator comparator = new MyComparator();
+	
+	private static final String SELECT_RICE = "SelectRice";
+	private static final String SELECT_CYCLE_CROP = "SelectCycleCrop";
+	private static final String SELECT_OTHER_CROP = "SelectOtherCrop";
+	
+	private static final String SELECT_CROP = "SelectCrop";
 
 	private Handler handler = new Handler() {
 		public void handleMessage(android.os.Message msg) {
@@ -268,23 +266,29 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 			return;
 		}
 		
-		MobclickAgent.onEvent(this, "AddFieldFourth");
-		
 		SharedPreferencesHelper.setString(this, Field.VARIETY_ID, varietyId);
 		Intent intent = null;
 		String newCrop = SharedPreferencesHelper.getString(this, Field.NEW_CROP, "");
 		if(!TextUtils.isEmpty(newCrop)){
+			
+			Map <String, String > map = new HashMap<String, String>();
+			map.put("crop", newCrop);
+			MobclickAgent.onEvent(this, SELECT_CROP, map);
+			
 			if("水稻".equals(newCrop)){
 				intent = new Intent(this, AddFieldActivity8.class);
+				MobclickAgent.onEvent(this, SELECT_RICE);
 			} else if ("小麦".equals(newCrop)){
 				intent = new Intent(this, AddFieldActivity5.class);
+				MobclickAgent.onEvent(this, SELECT_CYCLE_CROP);
 //				intent.putExtra("crop", "小麦");
 			} else if ("芒果".equals(newCrop)){
 				intent = new Intent(this, AddFieldActivity5.class);
+				MobclickAgent.onEvent(this, SELECT_CYCLE_CROP);
 //				intent.putExtra("crop", "芒果");
 			} else {
 				intent = new Intent(this, AddFieldActivity7.class);
-				
+				MobclickAgent.onEvent(this, SELECT_OTHER_CROP);
 				SharedPreferencesHelper.setBoolean(this, Field.SEEDING_METHOD, false);
 				SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, "");
 				SharedPreferencesHelper.setString(this, Field.PLANTING_DATE, "");

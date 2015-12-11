@@ -75,6 +75,7 @@ public class AddFieldActivity6 extends MyBaseActivity implements OnClickListener
 			showDatePickerDialog();
 			break;
 		case R.id.btn_no_date:
+			MobclickAgent.onEvent(this, "SkipPlantDate");
 			MobclickAgent.onEvent(this, "AddFieldSeventh");
 			strTime = String.valueOf(System.currentTimeMillis());
 			goToNext();

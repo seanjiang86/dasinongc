@@ -187,7 +187,7 @@ public class DisasterView extends LinearLayout {
 				// 友盟统计自定义统计事件
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("name", item.petDisSpecName);
-				MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmdetailItem", map);
+				MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetailItem", map);
 
 				Intent intent = HarmDetailsActivity.createIntent(item.id, HarmDetailsActivity.FLAG_ITEM, getContext());
 				getContext().startActivity(intent);
@@ -237,7 +237,7 @@ public class DisasterView extends LinearLayout {
 				// 友盟统计自定义统计事件
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("name", item.petDisSpecName);
-				MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmdetailItem", map);
+				MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetailItem", map);
 				Intent intent = HarmDetailsActivity.createIntent(item.id, HarmDetailsActivity.FLAG_ITEM, getContext());
 				getContext().startActivity(intent);
 
@@ -302,7 +302,7 @@ public class DisasterView extends LinearLayout {
 			// 友盟统计自定义统计事件
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("name", name);
-			MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmdetailPrevent", map);
+			MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetailPrevent", map);
 
 			Intent intent = HarmDetailsActivity.createIntent(id, HarmDetailsActivity.FLAG_PREVENT, getContext());
 			v.getContext().startActivity(intent);
@@ -325,7 +325,7 @@ public class DisasterView extends LinearLayout {
 			// 友盟统计自定义统计事件
 			HashMap<String, String> map = new HashMap<String, String>();
 			map.put("name", name);
-			MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmdetailCure", map);
+			MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetailCure", map);
 
 			Intent intent = HarmDetailsActivity.createIntent(id, HarmDetailsActivity.FLAG_CURE, getContext());
 			v.getContext().startActivity(intent);

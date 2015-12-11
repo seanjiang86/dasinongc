@@ -50,6 +50,10 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 	private RunnableTask task = new RunnableTask();
 	private static final int MAX_DELAY_COUNT = 1;
 	private int count = 0;
+	
+	private static final String IN_FIELD_TO_TWO = "InFieldToTwo";
+	private static final String IN_FIELD_TO_THREE = "InFieldToThree";
+	private static final String NO_IN_FIELD_TO_TWO = "NoInFieldToTwo";
 
 	private Handler handler = new Handler() {
 
@@ -77,6 +81,8 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 		btn_in_field.setOnClickListener(this);
 		btn_no_in_field.setOnClickListener(this);
 		
+		MobclickAgent.onEvent(this, "InToAddField");
+		
 	}
 
 	@Override
@@ -98,11 +104,19 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 			handler.postDelayed(new RunnableTask(), 500);
 			return;
 		} else if ((latitude == 0 || longitude == 0) && count >= MAX_DELAY_COUNT) {
+			
 			handler.removeCallbacks(task);
 			Intent intent = new Intent(this, AddFieldActivity2.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 			startActivity(intent);
 			overridePendingTransition(0, 0);
+			
+			if(v.getId() == R.id.btn_in_field){
+				MobclickAgent.onEvent(this, IN_FIELD_TO_TWO);
+			} else if (v.getId() == R.id.btn_no_in_field){
+				MobclickAgent.onEvent(this, NO_IN_FIELD_TO_TWO);
+			}
+			
 			return;
 		}
 
@@ -116,11 +130,8 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 			if(!TextUtils.isEmpty(mprovince)){
 				hasCurrentLocation();
 			}
-			
-			// 友盟事件统计，在田中
-			MobclickAgent.onEvent(this, "AddFieldFirst");
-			
 			goToTwo();
+			MobclickAgent.onEvent(this, NO_IN_FIELD_TO_TWO);
 			break;
 		case R.id.btn_in_field:
 			startLoadingDialog();
@@ -128,9 +139,6 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 			if (!TextUtils.isEmpty(mprovince)) {
 				flag = hasCurrentLocation();
 			}
-			
-			// 友盟事件统计，不在田中
-			MobclickAgent.onEvent(this, "AddFieldFirst");
 			
 			if (flag) {
 				RequestService.getInstance().searchLocation(this, latitudeText, longitudeText, mprovince, mcity, mdistrict, LocationInfo.class,
@@ -142,6 +150,7 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 								if (resultData.isOk()) {
 									locationInfo = (LocationInfo) resultData;
 									goToThree();
+									MobclickAgent.onEvent(AddFieldActivity1.this, IN_FIELD_TO_THREE);
 								} else {
 									showToast(resultData.getMessage());
 								}
@@ -156,6 +165,7 @@ public class AddFieldActivity1 extends MyBaseActivity implements OnClickListener
 			} else {
 				dismissLoadingDialog();
 				goToTwo();
+				MobclickAgent.onEvent(AddFieldActivity1.this, IN_FIELD_TO_TWO);
 			}
 
 			break;
