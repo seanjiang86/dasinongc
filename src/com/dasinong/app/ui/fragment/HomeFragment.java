@@ -270,10 +270,13 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 		case REQUEST_CODE_HOME_WEATHER:
 
 			WeatherEntity weatherEntity = (WeatherEntity) response;
-
-			mHomeWeatherView.setWeatherData(weatherEntity);
-
-			mCropStateView.updateWorkStage(weatherEntity);
+			if(weatherEntity != null && 200 == weatherEntity.respCode){
+				
+				mHomeWeatherView.setWeatherData(weatherEntity);
+				
+				mCropStateView.updateWorkStage(weatherEntity);
+				
+			}
 
 			isWeatherSuccess = true;
 			break;
@@ -281,7 +284,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 		case REQUEST_CODE_HOME_BANNER:
 
 			BannerEntity banner = (BannerEntity) response;
-			if (banner != null) {
+			if (banner != null && 200 == banner.respCode) {
 
 				if (banner.newdata != null && banner.newdata.size() > 1) {
 					Collections.sort(banner.newdata);
@@ -327,7 +330,7 @@ public class HomeFragment extends Fragment implements INetRequest, BGARefreshLay
 		}
 
 		for (int i = 0; i < imageViews.length; i++) {
-			ImageView imageView = new ImageView(getActivity());
+			ImageView imageView = new ImageView(mBaseActivity);
 
 			LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(20, 20);
 			params.setMargins(10, 0, 10, 0);

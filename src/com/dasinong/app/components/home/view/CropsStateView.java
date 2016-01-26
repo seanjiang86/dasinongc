@@ -249,7 +249,7 @@ public class CropsStateView extends LinearLayout implements View.OnClickListener
 
 	// 设置是否适合下地
 	public void updateWorkStage(WeatherEntity entity) {
-		if (entity != null) {
+		if (entity != null && entity.data != null) {
 			setWorkState(entity.data.workable, entity.data.sprayable);
 		}
 

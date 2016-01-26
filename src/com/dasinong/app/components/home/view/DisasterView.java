@@ -28,7 +28,6 @@ import com.dasinong.app.R;
 import com.dasinong.app.components.domain.FieldEntity;
 import com.dasinong.app.ui.EncyclopediasDiseaseActivity;
 import com.dasinong.app.ui.HarmDetailsActivity;
-import com.dasinong.app.ui.HarmListActivity;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper;
 import com.dasinong.app.ui.manager.SharedPreferencesHelper.Field;
 import com.umeng.analytics.MobclickAgent;
@@ -272,13 +271,7 @@ public class DisasterView extends LinearLayout {
 			MobclickAgent.onEvent(DisasterView.this.getContext(), "MoreHarm");
 
 			String cropName = SharedPreferencesHelper.getString(getContext(), Field.CROP_NAME, "水稻");
-			Intent intent = null;
-			if ("水稻".equals(cropName)) {
-				intent = new Intent(v.getContext(), HarmListActivity.class);
-			} else {
-				intent = new Intent(v.getContext(), EncyclopediasDiseaseActivity.class);
-			}
-
+			Intent intent = new Intent(v.getContext(), EncyclopediasDiseaseActivity.class);
 			intent.putExtra("cropName", cropName);
 
 			v.getContext().startActivity(intent);

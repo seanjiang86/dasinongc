@@ -223,6 +223,9 @@ public class MeFragment extends Fragment implements OnClickListener {
 				public void onUpdateReturned(int updateStatus,UpdateResponse updateInfo) {
 					switch (updateStatus) {
 					case UpdateStatus.Yes: // has update
+						if(getActivity() == null){
+							return;
+						}
 						UmengUpdateAgent.showUpdateDialog(getActivity(), updateInfo);
 						UmengUpdateAgent.setDialogListener(new UmengDialogButtonListener() {
 							
@@ -235,12 +238,21 @@ public class MeFragment extends Fragment implements OnClickListener {
 						});
 						break;
 					case UpdateStatus.No: // has no update
+						if(getActivity() == null){
+							return;
+						}
 						Toast.makeText(getActivity(), "没有更新", Toast.LENGTH_SHORT).show();
 						break;
 					case UpdateStatus.NoneWifi: // none wifi
+						if(getActivity() == null){
+							return;
+						}
 						Toast.makeText(getActivity(), "没有wifi连接， 只在wifi下更新", Toast.LENGTH_SHORT).show();
 						break;
 					case UpdateStatus.Timeout: // time out
+						if(getActivity() == null){
+							return;
+						}
 						Toast.makeText(getActivity(), "超时", Toast.LENGTH_SHORT).show();
 						break;
 					}

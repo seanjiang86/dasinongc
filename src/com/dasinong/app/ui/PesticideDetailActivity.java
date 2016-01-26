@@ -119,7 +119,7 @@ public class PesticideDetailActivity extends BaseActivity {
 				public void onClick(View v) {
 					Intent intent = new Intent();
 					// 这个意图就是调用系统的拨打活动
-					intent.setAction(Intent.ACTION_CALL);
+					intent.setAction(Intent.ACTION_DIAL);
 					// 设置要拨打的电话号号码
 					// uriString的格式为“tel:电话号码”
 					intent.setData(Uri.parse("tel:" + entity.data.telephone));

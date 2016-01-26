@@ -621,15 +621,23 @@ public class HomeWeatherView extends LinearLayout implements View.OnClickListene
 	}
 
 	public void setWeatherData(WeatherEntity entity) {
-		if (entity == null) {
+		if (entity == null || entity.data == null) {
 			return;
 		}
-
-		updateHoursView(entity.data.n24h,entity.data.current, entity);
-		updateCurrentWeatherView(entity.data.current);
-		updateSevenDayView(entity.data.n7d);
-
-		updateFourSectionView(entity.data.POP);
+		
+		if(entity.data.n24h != null && entity.data.current != null){
+			updateHoursView(entity.data.n24h,entity.data.current, entity);
+		}
+		
+		if(entity.data.current != null){
+			updateCurrentWeatherView(entity.data.current);
+		}
+		if(entity.data.n7d != null){
+			updateSevenDayView(entity.data.n7d);
+		}
+		if(entity.data.POP != null){
+			updateFourSectionView(entity.data.POP);
+		}
 
 	}
 
